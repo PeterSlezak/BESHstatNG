@@ -1,6 +1,7 @@
-﻿Option Explicit On
+Option Explicit On
 
 Imports Microsoft.Office.Interop.Excel
+Imports BESHStatNG.ExcelCommon
 
 Namespace graphics
 
@@ -27,9 +28,7 @@ Namespace graphics
                                   Optional lLeft As Long = 100)
 
             If ws Is Nothing Then Throw New ArgumentNullException(NameOf(ws))
-            If survTime Is Nothing Then Throw New ArgumentNullException(NameOf(survTime))
-            If survProb Is Nothing Then Throw New ArgumentNullException(NameOf(survProb))
-            If survTime.Length <> survProb.Length Then Throw New ArgumentException("survTime and survProb must have the same length.")
+            CoxCurveGeometry36.Validate(survTime, survProb)
             If survTime.Length = 0 Then Exit Sub
 
             'subroutine adds Adjusted survival and Cumulative hazards plots
@@ -40,9 +39,9 @@ Namespace graphics
             '   lLeft           - left coordinate of the plot
 
             'compute optimal scaling
-            Dim udPlotAxisX = ChartScaling(0, survTime.Max())
-            Dim yMax As Double = 1.0
-            Dim majorUnit As Double = 0.2
+            Dim udPlotAxisX = CoxCurveGeometry36.Axis(survTime)
+            Dim yMax As Double = SurvivalChartPresentation36.MaximumProbability
+            Dim majorUnit As Double = SurvivalChartPresentation36.ProbabilityMajorUnit
 
             With ws.Shapes.AddChart(Left:=lLeft, Top:=lTop)
                 With .Chart
@@ -64,9 +63,9 @@ Namespace graphics
 
                     .SeriesCollection.NewSeries
                     With .SeriesCollection(1)
-                        .Name = "Baseline"
-                        .XValues = survTime
-                        .Values = survProb
+                        .Name = SurvivalChartPresentation36.BaselineName
+                        .XValues = CoxCurveGeometry36.Snapshot(survTime)
+                        .Values = CoxCurveGeometry36.Snapshot(survProb)
                         .Border.Color = RGB(155, 0, 0)
                         With .Format.Line
                             .Visible = True
@@ -78,13 +77,13 @@ Namespace graphics
                     Try 'add title and axis labels
                         .HasTitle = False
                         .HasTitle = True
-                        .ChartTitle.Text = "Cox - Survival plot"
+                        .ChartTitle.Text = SurvivalChartPresentation36.CoxTitle
                         .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
                         .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = "Survival Probability"
+                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = SurvivalChartPresentation36.ProbabilityTitle
                         .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = False
                         .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = True
-                        .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Text = "Time"
+                        .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Text = SurvivalChartPresentation36.CoxTimeTitle
                     Catch
                     End Try
                 End With

@@ -346,132 +346,55 @@ Namespace graphics
             Dim yBounds As AxisBounds = ComputeYAxisBounds(panel, panelData, specifications, options)
             Dim hiddenLegendEntries As New List(Of Integer)()
 
-            If IncludesBands(options.ZoneDisplay) Then
-                AddZoneBands(chart,
-                             axisContext.Categories,
-                             panelData,
-                             yBounds,
-                             options,
-                             hiddenLegendEntries)
+            Dim presentation = PreparePresentation36(panelProjection, specifications, options)
+            If presentation.IncludesBands Then
+                AddZoneBands(chart, axisContext.Categories,
+                             New SpcZoneBands36(panelProjection.Points.ToArray(), yBounds.Minimum),
+                             yBounds, options, hiddenLegendEntries)
             End If
 
-            Dim statisticSeries As Series = AddLineSeries(
-                chart,
-                panel.DisplayName,
-                axisContext.Categories,
-                panelData.StatisticValues,
-                options.StatisticColor,
-                options.StatisticLineWeight,
-                MsoLineSolid,
-                XlMarkerStyle.xlMarkerStyleCircle,
-                options.StatisticMarkerSize,
-                showLine:=True)
-
-            If options.ShowPointLabels Then
-                AddPointLabels(statisticSeries, panelProjection.PointLabels, options)
-            End If
-
-            AddReferenceLine(chart,
-                             "CL",
-                             axisContext.Categories,
-                             panelData.CenterLineValues,
-                             options.CenterLineColor,
-                             options.CenterLineWeight,
-                             MsoLineSolid,
-                             options.ShowLimitLabels,
-                             options)
-            AddReferenceLine(chart,
-                             "UCL",
-                             axisContext.Categories,
-                             panelData.UpperControlLimitValues,
-                             options.ControlLimitColor,
-                             options.ControlLimitWeight,
-                             MsoLineDash,
-                             options.ShowLimitLabels,
-                             options)
-            AddReferenceLine(chart,
-                             "LCL",
-                             axisContext.Categories,
-                             panelData.LowerControlLimitValues,
-                             options.ControlLimitColor,
-                             options.ControlLimitWeight,
-                             MsoLineDash,
-                             options.ShowLimitLabels,
-                             options)
-
-            If IncludesLines(options.ZoneDisplay) Then
-                AddZoneLine(chart, "-2 sigma", axisContext.Categories,
-                            panelData.LowerTwoSigmaValues, options, hiddenLegendEntries)
-                AddZoneLine(chart, "-1 sigma", axisContext.Categories,
-                            panelData.LowerOneSigmaValues, options, hiddenLegendEntries)
-                AddZoneLine(chart, "+1 sigma", axisContext.Categories,
-                            panelData.UpperOneSigmaValues, options, hiddenLegendEntries)
-                AddZoneLine(chart, "+2 sigma", axisContext.Categories,
-                            panelData.UpperTwoSigmaValues, options, hiddenLegendEntries)
-            End If
-
-            If PanelSupportsSpecificationLimits(panel.PanelType) Then
-                If options.ShowSpecificationLimits Then
-                    If specifications.LowerSpecificationLimit.HasValue Then
-                        AddConstantReferenceLine(chart,
-                                                 "LSL",
-                                                 axisContext.Categories,
-                                                 specifications.LowerSpecificationLimit.Value,
-                                                 options.SpecificationColor,
-                                                 options.SpecificationLineWeight,
-                                                 MsoLineLongDash,
-                                                 options)
-                    End If
-                    If specifications.UpperSpecificationLimit.HasValue Then
-                        AddConstantReferenceLine(chart,
-                                                 "USL",
-                                                 axisContext.Categories,
-                                                 specifications.UpperSpecificationLimit.Value,
-                                                 options.SpecificationColor,
-                                                 options.SpecificationLineWeight,
-                                                 MsoLineLongDash,
-                                                 options)
-                    End If
+            For Each intent In presentation.Series
+                Dim values = MarshalChartValues(intent.Values)
+                Dim series As Series
+                Dim labelColor As Integer = options.ControlLimitColor
+                Select Case intent.Role
+                    Case SpcSeriesRole36.Statistic
+                        series = AddLineSeries(chart, intent.Name, axisContext.Categories, values,
+                            options.StatisticColor, options.StatisticLineWeight, MsoLineSolid,
+                            XlMarkerStyle.xlMarkerStyleCircle, options.StatisticMarkerSize, True)
+                        If options.ShowPointLabels Then AddPointLabels(series, panelProjection.PointLabels, options)
+                    Case SpcSeriesRole36.Excluded
+                        series = AddMarkerSeries(chart, intent.Name, axisContext.Categories, values,
+                            options.ExclusionColor, XlMarkerStyle.xlMarkerStyleX, options.ExclusionMarkerSize)
+                        If options.ShowExclusionLabels Then AddExclusionLabels(series, panelProjection.ExclusionLabels, options)
+                    Case SpcSeriesRole36.Signal
+                        series = AddMarkerSeries(chart, intent.Name, axisContext.Categories, values,
+                            options.SignalColor, XlMarkerStyle.xlMarkerStyleDiamond, options.SignalMarkerSize)
+                        If options.ShowSignalLabels Then AddSignalLabels(series, panelProjection.SignalLabels, options)
+                    Case Else
+                        Dim color As Integer = options.ControlLimitColor
+                        Dim weight As Single = options.ControlLimitWeight
+                        Dim dash As Integer = MsoLineDash
+                        Select Case intent.Role
+                            Case SpcSeriesRole36.Center
+                                color = options.CenterLineColor : weight = options.CenterLineWeight : dash = MsoLineSolid
+                            Case SpcSeriesRole36.Zone
+                                color = options.ZoneLineColor : weight = options.ZoneLineWeight : dash = MsoLineRoundDot
+                            Case SpcSeriesRole36.Specification
+                                color = options.SpecificationColor : weight = options.SpecificationLineWeight : dash = MsoLineLongDash
+                            Case SpcSeriesRole36.Target
+                                color = options.TargetColor : weight = options.SpecificationLineWeight : dash = MsoLineDashDot
+                        End Select
+                        labelColor = color
+                        series = AddLineSeries(chart, intent.Name, axisContext.Categories, values, color,
+                            weight, dash, XlMarkerStyle.xlMarkerStyleNone, 2, True)
+                End Select
+                If intent.ShowLimitLabel AndAlso intent.LastValueOrdinal >= 0 Then
+                    SetPointLabel(series, intent.LastValueOrdinal, intent.Name, labelColor,
+                                  options.DataLabelFontSize, XlDataLabelPosition.xlLabelPositionRight)
                 End If
-                If options.ShowTargetLine AndAlso specifications.Target.HasValue Then
-                    AddConstantReferenceLine(chart,
-                                             "Target",
-                                             axisContext.Categories,
-                                             specifications.Target.Value,
-                                             options.TargetColor,
-                                             options.SpecificationLineWeight,
-                                             MsoLineDashDot,
-                                             options)
-                End If
-            End If
-
-            If options.ShowExcludedPoints AndAlso HasAnyValue(panelData.ExcludedValues) Then
-                Dim excludedSeries As Series = AddMarkerSeries(
-                    chart,
-                    "Excluded",
-                    axisContext.Categories,
-                    panelData.ExcludedValues,
-                    options.ExclusionColor,
-                    XlMarkerStyle.xlMarkerStyleX,
-                    options.ExclusionMarkerSize)
-                If options.ShowExclusionLabels Then
-                    AddExclusionLabels(excludedSeries, panelProjection.ExclusionLabels, options)
-                End If
-            End If
-
-            If HasAnyValue(panelData.SignalValues) Then
-                Dim signalSeries As Series = AddMarkerSeries(
-                    chart,
-                    "Signal",
-                    axisContext.Categories,
-                    panelData.SignalValues,
-                    options.SignalColor,
-                    XlMarkerStyle.xlMarkerStyleDiamond,
-                    options.SignalMarkerSize)
-                If options.ShowSignalLabels Then
-                    AddSignalLabels(signalSeries, panelProjection.SignalLabels, options)
-                End If
-            End If
+                If intent.HideLegend Then hiddenLegendEntries.Add(GetSeriesCollection(chart).Count)
+            Next
 
             ConfigureChart(chart,
                            result,
@@ -489,6 +412,15 @@ Namespace graphics
                 AddStageBoundaries(chart, axisContext, options)
             End If
         End Sub
+
+        'Same post-CopyValidated snapshot for both Ui21 and Ui22 shared-renderer paths.
+        Friend Shared Function PreparePresentation36(panel As SpcPanelSeriesProjection,
+                                                      specifications As SpcSpecificationLimits,
+                                                      options As SpcControlChartAppearanceOptions) As SpcPanelPresentation36
+            Return New SpcPanelPresentation36(panel, specifications, CInt(options.ZoneDisplay),
+                options.ShowSpecificationLimits, options.ShowTargetLine, options.ShowExcludedPoints,
+                options.ShowLimitLabels, options.ShowZoneSeriesInLegend)
+        End Function
 
         Private Shared Function MarshalAxis(projection As SpcUnivariateChartProjection) As SharedAxisContext
             Return New SharedAxisContext(MarshalChartCategories(projection), projection)
@@ -512,7 +444,7 @@ Namespace graphics
             For i As Integer = 0 To points.Length - 1
                 points(i) = projection.Points(i)
             Next
-            Return New PanelChartData(points,
+            Return New PanelChartData(projection, points,
                 MarshalChartValues(projection.Channels(CInt(SpcChartChannel.Statistic))),
                 MarshalChartValues(projection.Channels(CInt(SpcChartChannel.CenterLine))),
                 MarshalChartValues(projection.Channels(CInt(SpcChartChannel.LowerControlLimit))),
@@ -536,42 +468,19 @@ Namespace graphics
 
         Private Shared Sub AddZoneBands(chart As Chart,
                                         categories As Object(),
-                                        data As PanelChartData,
+                                        bands As SpcZoneBands36,
                                         bounds As AxisBounds,
                                         options As SpcControlChartAppearanceOptions,
                                         hiddenLegendEntries As List(Of Integer))
-            Dim baseValues(categories.Length - 1) As Object
-            Dim lowerOuter(categories.Length - 1) As Object
-            Dim lowerMiddle(categories.Length - 1) As Object
-            Dim lowerCenter(categories.Length - 1) As Object
-            Dim upperCenter(categories.Length - 1) As Object
-            Dim upperMiddle(categories.Length - 1) As Object
-            Dim upperOuter(categories.Length - 1) As Object
-            Dim validBandCount As Integer = 0
-
-            For i As Integer = 0 To categories.Length - 1
-                Dim point As SpcPointResult = data.Points(i)
-                If point IsNot Nothing AndAlso HasValidZones(point) Then
-                    baseValues(i) = point.LowerControlLimit - bounds.Minimum
-                    lowerOuter(i) = point.LowerTwoSigmaLimit - point.LowerControlLimit
-                    lowerMiddle(i) = point.LowerOneSigmaLimit - point.LowerTwoSigmaLimit
-                    lowerCenter(i) = point.CenterLine - point.LowerOneSigmaLimit
-                    upperCenter(i) = point.UpperOneSigmaLimit - point.CenterLine
-                    upperMiddle(i) = point.UpperTwoSigmaLimit - point.UpperOneSigmaLimit
-                    upperOuter(i) = point.UpperControlLimit - point.UpperTwoSigmaLimit
-                    validBandCount += 1
-                Else
-                    baseValues(i) = MissingChartValue()
-                    lowerOuter(i) = MissingChartValue()
-                    lowerMiddle(i) = MissingChartValue()
-                    lowerCenter(i) = MissingChartValue()
-                    upperCenter(i) = MissingChartValue()
-                    upperMiddle(i) = MissingChartValue()
-                    upperOuter(i) = MissingChartValue()
-                End If
-            Next
-
-            If validBandCount = 0 Then Return
+            Dim vectors = bands.Values
+            Dim baseValues = MarshalChartValues(vectors(0))
+            Dim lowerOuter = MarshalChartValues(vectors(1))
+            Dim lowerMiddle = MarshalChartValues(vectors(2))
+            Dim lowerCenter = MarshalChartValues(vectors(3))
+            Dim upperCenter = MarshalChartValues(vectors(4))
+            Dim upperMiddle = MarshalChartValues(vectors(5))
+            Dim upperOuter = MarshalChartValues(vectors(6))
+            If bands.ValidPointCount = 0 Then Return
 
             hiddenLegendEntries.Add(AddAreaSeries(
                 chart, "Zone offset", categories, baseValues, options.CenterBandColor,
@@ -679,72 +588,6 @@ Namespace graphics
                                  showLine:=False)
         End Function
 
-        Private Shared Sub AddReferenceLine(chart As Chart,
-                                            name As String,
-                                            categories As Object(),
-                                            values As Object(),
-                                            color As Integer,
-                                            lineWeight As Single,
-                                            dashStyle As Integer,
-                                            showLabel As Boolean,
-                                            options As SpcControlChartAppearanceOptions)
-            If Not HasAnyValue(values) Then Return
-            Dim series As Series = AddLineSeries(
-                chart,
-                name,
-                categories,
-                values,
-                color,
-                lineWeight,
-                dashStyle,
-                XlMarkerStyle.xlMarkerStyleNone,
-                2,
-                showLine:=True)
-            If showLabel Then AddLastValueLabel(series, values, name, color, options)
-        End Sub
-
-        Private Shared Sub AddConstantReferenceLine(
-            chart As Chart,
-            name As String,
-            categories As Object(),
-            value As Double,
-            color As Integer,
-            lineWeight As Single,
-            dashStyle As Integer,
-            options As SpcControlChartAppearanceOptions)
-
-            Dim values As Object() = SpcAxisBoundsCore.SpcConstantReference(categories.Length, value).Cast(Of Object)().ToArray()
-            AddReferenceLine(chart,
-                             name,
-                             categories,
-                             values,
-                             color,
-                             lineWeight,
-                             dashStyle,
-                             options.ShowLimitLabels,
-                             options)
-        End Sub
-
-        Private Shared Sub AddZoneLine(chart As Chart,
-                                       name As String,
-                                       categories As Object(),
-                                       values As Object(),
-                                       options As SpcControlChartAppearanceOptions,
-                                       hiddenLegendEntries As List(Of Integer))
-            If Not HasAnyValue(values) Then Return
-            AddReferenceLine(chart,
-                             name,
-                             categories,
-                             values,
-                             options.ZoneLineColor,
-                             options.ZoneLineWeight,
-                             MsoLineRoundDot,
-                             showLabel:=False,
-                             options:=options)
-            If Not options.ShowZoneSeriesInLegend Then
-                hiddenLegendEntries.Add(GetSeriesCollection(chart).Count)
-            End If
-        End Sub
 
         Private Shared Sub ConfigureChart(chart As Chart,
                                           result As SpcFitResult,
@@ -926,25 +769,6 @@ Namespace graphics
             End Try
         End Sub
 
-        Private Shared Sub AddLastValueLabel(
-            series As Series,
-            values As Object(),
-            text As String,
-            color As Integer,
-            options As SpcControlChartAppearanceOptions)
-
-            For i As Integer = values.Length - 1 To 0 Step -1
-                If IsNumericChartValue(values(i)) Then
-                    SetPointLabel(series,
-                                  i,
-                                  text,
-                                  color,
-                                  options.DataLabelFontSize,
-                                  XlDataLabelPosition.xlLabelPositionRight)
-                    Exit For
-                End If
-            Next
-        End Sub
 
         Private Shared Function ComputeYAxisBounds(
             panel As SpcPanelResult,
@@ -952,59 +776,10 @@ Namespace graphics
             specifications As SpcSpecificationLimits,
             options As SpcControlChartAppearanceOptions) As AxisBounds
 
-            Dim minimum As Double = Double.PositiveInfinity
-            Dim maximum As Double = Double.NegativeInfinity
-            Dim valueSets As Object()() = {
-                data.StatisticValues,
-                data.CenterLineValues,
-                data.LowerControlLimitValues,
-                data.UpperControlLimitValues,
-                data.LowerOneSigmaValues,
-                data.UpperOneSigmaValues,
-                data.LowerTwoSigmaValues,
-                data.UpperTwoSigmaValues
-            }
-
-            For setIndex As Integer = 0 To valueSets.Length - 1
-                IncludeValuesInBounds(valueSets(setIndex), minimum, maximum)
-            Next
-
-            If PanelSupportsSpecificationLimits(panel.PanelType) Then
-                If options.ShowSpecificationLimits Then
-                    IncludeNullableInBounds(specifications.LowerSpecificationLimit,
-                                            minimum,
-                                            maximum)
-                    IncludeNullableInBounds(specifications.UpperSpecificationLimit,
-                                            minimum,
-                                            maximum)
-                End If
-                If options.ShowTargetLine Then
-                    IncludeNullableInBounds(specifications.Target, minimum, maximum)
-                End If
-            End If
-
-            Dim bounds As ChartAxisScaleResult = SpcAxisBoundsCore.FromExtents(minimum, maximum, panel.PanelType)
-            Return New AxisBounds(bounds.Min, bounds.Max)
+            Dim bounds=SpcPanelPresentation36.AxisBounds(data.Projection,specifications,options.ShowSpecificationLimits,options.ShowTargetLine)
+            Return New AxisBounds(bounds.Min,bounds.Max)
         End Function
 
-        Private Shared Sub IncludeValuesInBounds(values As Object(),
-                                                 ByRef minimum As Double,
-                                                 ByRef maximum As Double)
-            For i As Integer = 0 To values.Length - 1
-                If IsNumericChartValue(values(i)) Then
-                    Dim value As Double = Convert.ToDouble(values(i), CultureInfo.InvariantCulture)
-                    IncludeNullableInBounds(value, minimum, maximum)
-                End If
-            Next
-        End Sub
-
-        Private Shared Sub IncludeNullableInBounds(value As Nullable(Of Double),
-                                                   ByRef minimum As Double,
-                                                   ByRef maximum As Double)
-            Dim prepared = SpcAxisBoundsCore.SpcOptionalExtent(value, minimum, maximum)
-            minimum = prepared.Min
-            maximum = prepared.Max
-        End Sub
 
         Private Shared Function PanelSupportsSpecificationLimits(
             panelType As SpcPanelType) As Boolean
@@ -1027,37 +802,14 @@ Namespace graphics
         Return ExcelCommon.Chart34.SpcChartPreparation34.ResolveValueAxisTitle(result, panel)
     End Function
 
-        Private Shared Function IncludesLines(mode As SpcZoneDisplayMode) As Boolean
-            Return mode = SpcZoneDisplayMode.Lines OrElse
-                   mode = SpcZoneDisplayMode.LinesAndShadedBands
+
+
+
+
+
+        Private Shared Function HasValidZones(point As SpcPointResult) As Boolean
+            Return SpcZoneBands36.HasValidZones(point)
         End Function
-
-        Private Shared Function IncludesBands(mode As SpcZoneDisplayMode) As Boolean
-            Return mode = SpcZoneDisplayMode.ShadedBands OrElse
-                   mode = SpcZoneDisplayMode.LinesAndShadedBands
-        End Function
-
-        Private Shared Function HasValidZones(point As SpcPointResult) As Boolean
-            If point Is Nothing Then Return False
-            Dim values As Double() = {
-                point.LowerControlLimit,
-                point.LowerTwoSigmaLimit,
-                point.LowerOneSigmaLimit,
-                point.CenterLine,
-                point.UpperOneSigmaLimit,
-                point.UpperTwoSigmaLimit,
-                point.UpperControlLimit
-            }
-            For i As Integer = 0 To values.Length - 1
-                If Not IsFinite(values(i)) Then Return False
-                If i > 0 AndAlso values(i) < values(i - 1) Then Return False
-            Next
-            Return True
-        End Function
-
-
-
-
 
         Private Shared Function MissingChartValue() As Object
             'Nothing marshals as a blank VARIANT and is accepted by Series.Values.
@@ -1065,27 +817,6 @@ Namespace graphics
             Return Nothing
         End Function
 
-        Private Shared Function HasAnyValue(values As Object()) As Boolean
-            For i As Integer = 0 To values.Length - 1
-                If IsNumericChartValue(values(i)) Then Return True
-            Next
-            Return False
-        End Function
-
-        Private Shared Function IsNumericChartValue(value As Object) As Boolean
-            If value Is Nothing OrElse Not IsNumeric(value) Then Return False
-            Dim numericValue As Double
-            Try
-                numericValue = Convert.ToDouble(value, CultureInfo.InvariantCulture)
-            Catch
-                Return False
-            End Try
-            Return IsFinite(numericValue)
-        End Function
-
-        Private Shared Function IsFinite(value As Double) As Boolean
-            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
-        End Function
 
         Private Shared Function Rgb(red As Integer,
                                     green As Integer,
@@ -1134,7 +865,7 @@ Namespace graphics
         End Class
 
         Private NotInheritable Class PanelChartData
-            Public Sub New(points As SpcPointResult(),
+            Public Sub New(projection As SpcPanelSeriesProjection, points As SpcPointResult(),
                            statisticValues As Object(),
                            centerLineValues As Object(),
                            lowerControlLimitValues As Object(),
@@ -1145,6 +876,7 @@ Namespace graphics
                            upperTwoSigmaValues As Object(),
                            signalValues As Object(),
                            excludedValues As Object())
+                Me.Projection = projection
                 Me.Points = points
                 Me.StatisticValues = statisticValues
                 Me.CenterLineValues = centerLineValues
@@ -1158,6 +890,7 @@ Namespace graphics
                 Me.ExcludedValues = excludedValues
             End Sub
 
+            Public ReadOnly Projection As SpcPanelSeriesProjection
             Public ReadOnly Points As SpcPointResult()
             Public ReadOnly StatisticValues As Object()
             Public ReadOnly CenterLineValues As Object()

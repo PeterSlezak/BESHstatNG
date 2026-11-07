@@ -1,0 +1,59 @@
+{
+  "status": "READY_FOR_OWNER_04A36_ACCEPTANCE_REVIEW",
+  "closed_holds": [
+    {
+      "id": "EXTERNAL_DOCUMENTATION_ATTRIBUTION",
+      "paths": [
+        "BESHStat.Core.Tests/README.md",
+        "BESHStat.Core/README.md",
+        "BESHStat.Excel.Common.Tests/README.md",
+        "BESHStat.Excel.Common/README.md",
+        "BESHStat.OfficeAddin/README.md",
+        "BESHStat.OfficeAddin/tests/README.md",
+        "BESHStat.WasmSmoke/README.md",
+        "BESHStatNG.Test/README.md",
+        "BESHStatNG_Help_MkDocs/README.md",
+        "BESHStatNG_Installer/README.md",
+        "BESHstatNG/README.md",
+        "README.md",
+        "docs/architecture/README.md",
+        "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+        "planning/README.md",
+        "scripts/README.md"
+      ],
+      "reason": "Concurrent Master Plan and project README updates are preserved outside36. Owner clarification remains pending.",
+      "status": "CLOSED",
+      "resolution": "Owner confirmed content provenance and separately authorized exact Plan line3 whitespace amendment; full live diff-check0 and index empty.",
+      "evidence": "closeout/v1/01-correction.json"
+    },
+    {
+      "id": "EXTERNAL_MASTER_PLAN_DIFF_CHECK",
+      "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md:3",
+      "reason": "Full git diff --check exits2 on original two-space Markdown hard break in concurrent Revision2.13. Batch-only check exits0. No authorization to amend owner plan; preserve bytes.",
+      "status": "CLOSED",
+      "resolution": "Owner confirmed content provenance and separately authorized exact Plan line3 whitespace amendment; full live diff-check0 and index empty.",
+      "evidence": "closeout/v1/01-correction.json"
+    }
+  ],
+  "production_test_build_files_unchanged": 19,
+  "validation_change": "Decision only; all counts/nonpass identities/fixtures/gates/NOT_RUN lanes unchanged.",
+  "external_files_excluded": [
+    "BESHStat.Core.Tests/README.md",
+    "BESHStat.Core/README.md",
+    "BESHStat.Excel.Common.Tests/README.md",
+    "BESHStat.Excel.Common/README.md",
+    "BESHStat.OfficeAddin/README.md",
+    "BESHStat.OfficeAddin/tests/README.md",
+    "BESHStat.WasmSmoke/README.md",
+    "BESHStatNG.Test/README.md",
+    "BESHStatNG_Help_MkDocs/README.md",
+    "BESHStatNG_Installer/README.md",
+    "BESHstatNG/README.md",
+    "README.md",
+    "docs/architecture/README.md",
+    "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "planning/README.md",
+    "scripts/README.md"
+  ],
+  "operator_attribution": "Copy/correction operators not observed; exact authorized Plan amendment already present, verified by Codex without overwrite."
+}

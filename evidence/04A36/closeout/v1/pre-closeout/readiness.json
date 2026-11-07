@@ -1,0 +1,41 @@
+{
+  "status": "NOT_READY_04A36",
+  "software_scope": "IMPLEMENTED_VALIDATED_ZERO_IN_SCOPE_OPEN",
+  "in_scope_open": 0,
+  "blockers": [
+    {
+      "id": "EXTERNAL_DOCUMENTATION_ATTRIBUTION",
+      "paths": [
+        "BESHStat.Core.Tests/README.md",
+        "BESHStat.Core/README.md",
+        "BESHStat.Excel.Common.Tests/README.md",
+        "BESHStat.Excel.Common/README.md",
+        "BESHStat.OfficeAddin/README.md",
+        "BESHStat.OfficeAddin/tests/README.md",
+        "BESHStat.WasmSmoke/README.md",
+        "BESHStatNG.Test/README.md",
+        "BESHStatNG_Help_MkDocs/README.md",
+        "BESHStatNG_Installer/README.md",
+        "BESHstatNG/README.md",
+        "README.md",
+        "docs/architecture/README.md",
+        "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+        "planning/README.md",
+        "scripts/README.md"
+      ],
+      "reason": "Concurrent Master Plan and project README updates are preserved outside36. Owner clarification remains pending."
+    },
+    {
+      "id": "EXTERNAL_MASTER_PLAN_DIFF_CHECK",
+      "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md:3",
+      "reason": "Full git diff --check exits2 on original two-space Markdown hard break in concurrent Revision2.13. Batch-only check exits0. No authorization to amend owner plan; preserve bytes."
+    }
+  ],
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED"
+  }
+}

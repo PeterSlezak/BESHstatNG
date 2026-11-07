@@ -1,0 +1,275 @@
+{
+  "runs": [
+    {
+      "label": "entry",
+      "suite": "accepted34-audits",
+      "total": 33,
+      "passed": 28,
+      "failed": 5,
+      "errors": 0,
+      "exit_code": 1,
+      "stderr_sha256": "39adeed3826af5914c9c66cc905274c02f3b74db29c24a943d4c08af18baf614",
+      "log_decoding": "utf-8-sig",
+      "identities": [
+        "test_278_pins_and_100_captures (test_audit.Publication34Tests.test_278_pins_and_100_captures)",
+        "test_absolute_path_rejected (test_audit.Publication34Tests.test_absolute_path_rejected)",
+        "test_actual_capture_matches_pre_edit (test_audit.Publication34Tests.test_actual_capture_matches_pre_edit)",
+        "test_backslash_rejected (test_audit.Publication34Tests.test_backslash_rejected)",
+        "test_both_configurations_all_frozen_corpora (test_audit.Publication34Tests.test_both_configurations_all_frozen_corpora)",
+        "test_case_alias_rejected (test_audit.Publication34Tests.test_case_alias_rejected)",
+        "test_claims_match_receipts (test_audit.Publication34Tests.test_claims_match_receipts)",
+        "test_current_members_are_not_historical_counts (test_audit.Publication34Tests.test_current_members_are_not_historical_counts)",
+        "test_disconnected_port_rejected (test_audit.Publication34Tests.test_disconnected_port_rejected)",
+        "test_dropped_historical_candidate_rejected (test_audit.Publication34Tests.test_dropped_historical_candidate_rejected)",
+        "test_duplicate_entry_rejected (test_audit.Publication34Tests.test_duplicate_entry_rejected)",
+        "test_each_candidate_has_one_disposition (test_audit.Publication34Tests.test_each_candidate_has_one_disposition)",
+        "test_exact_crosswalk_and_seven_explicit_relocations (test_audit.Publication34Tests.test_exact_crosswalk_and_seven_explicit_relocations)",
+        "test_fabricated_relocation_target_rejected (test_audit.Publication34Tests.test_fabricated_relocation_target_rejected)",
+        "test_final_identity_counts_and_inherited_failures (test_audit.Publication34Tests.test_final_identity_counts_and_inherited_failures)",
+        "test_foreign_entry_rejected (test_audit.Publication34Tests.test_foreign_entry_rejected)",
+        "test_full_independent_packet (test_audit.Publication34Tests.test_full_independent_packet)",
+        "test_lineage_source_transition_tamper_rejected (test_audit.Publication34Tests.test_lineage_source_transition_tamper_rejected)",
+        "test_missing_entry_rejected (test_audit.Publication34Tests.test_missing_entry_rejected)",
+        "test_no_false_same_file_relocation (test_audit.Publication34Tests.test_no_false_same_file_relocation)",
+        "test_open_member_disguised_as_ready_rejected (test_audit.Publication34Tests.test_open_member_disguised_as_ready_rejected)",
+        "test_original_pin_rewrite_rejected (test_audit.Publication34Tests.test_original_pin_rewrite_rejected)",
+        "test_portable_and_real_adapter_receipts (test_audit.Publication34Tests.test_portable_and_real_adapter_receipts)",
+        "test_protected_source_and_existing_engines (test_audit.Publication34Tests.test_protected_source_and_existing_engines)",
+        "test_recursive_self_rejected (test_audit.Publication34Tests.test_recursive_self_rejected)",
+        "test_renderer_boundaries_and_measurement_order (test_audit.Publication34Tests.test_renderer_boundaries_and_measurement_order)",
+        "test_same_named_method_wrong_owner_rejected (test_audit.Publication34Tests.test_same_named_method_wrong_owner_rejected)",
+        "test_seventeen_families_and_zero_open_ready_preconditions (test_audit.Publication34Tests.test_seventeen_families_and_zero_open_ready_preconditions)",
+        "test_sources_and_transitions_exact (test_audit.Publication34Tests.test_sources_and_transitions_exact)",
+        "test_traversal_rejected (test_audit.Publication34Tests.test_traversal_rejected)",
+        "test_unchanged_gates (test_audit.Publication34Tests.test_unchanged_gates)",
+        "test_wrong_hash_rejected (test_audit.Publication34Tests.test_wrong_hash_rejected)",
+        "test_wrong_size_rejected (test_audit.Publication34Tests.test_wrong_size_rejected)"
+      ],
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "identity": "test_278_pins_and_100_captures (test_audit.Publication34Tests.test_278_pins_and_100_captures)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_both_configurations_all_frozen_corpora (test_audit.Publication34Tests.test_both_configurations_all_frozen_corpora)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_crosswalk_and_seven_explicit_relocations (test_audit.Publication34Tests.test_exact_crosswalk_and_seven_explicit_relocations)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_full_independent_packet (test_audit.Publication34Tests.test_full_independent_packet)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_protected_source_and_existing_engines (test_audit.Publication34Tests.test_protected_source_and_existing_engines)",
+          "subtest": ""
+        }
+      ]
+    },
+    {
+      "label": "entry",
+      "suite": "accepted35-audits",
+      "total": 32,
+      "passed": 30,
+      "failed": 2,
+      "errors": 0,
+      "exit_code": 1,
+      "stderr_sha256": "f293d6871673eaf44df38d6899b5e94359bafcd6c54b082a6031c5296a031c4b",
+      "log_decoding": "utf-8-sig",
+      "identities": [
+        "test_278_lineage_and_100_captures (test_audit.Packet35Tests.test_278_lineage_and_100_captures)",
+        "test_absolute (test_audit.Packet35Tests.test_absolute)",
+        "test_backslash (test_audit.Packet35Tests.test_backslash)",
+        "test_both_config_captures (test_audit.Packet35Tests.test_both_config_captures)",
+        "test_case_alias (test_audit.Packet35Tests.test_case_alias)",
+        "test_disconnected_port (test_audit.Packet35Tests.test_disconnected_port)",
+        "test_drive_path (test_audit.Packet35Tests.test_drive_path)",
+        "test_duplicate (test_audit.Packet35Tests.test_duplicate)",
+        "test_fake_ported (test_audit.Packet35Tests.test_fake_ported)",
+        "test_fixed_gates_and_no_native_claim (test_audit.Packet35Tests.test_fixed_gates_and_no_native_claim)",
+        "test_foreign (test_audit.Packet35Tests.test_foreign)",
+        "test_frozen_hash_tamper_rejected (test_audit.Packet35Tests.test_frozen_hash_tamper_rejected)",
+        "test_frozen_source_and_capture (test_audit.Packet35Tests.test_frozen_source_and_capture)",
+        "test_full_independent_verifier (test_audit.Packet35Tests.test_full_independent_verifier)",
+        "test_gate_inflation_rejected (test_audit.Packet35Tests.test_gate_inflation_rejected)",
+        "test_hash (test_audit.Packet35Tests.test_hash)",
+        "test_host_free_new_sources (test_audit.Packet35Tests.test_host_free_new_sources)",
+        "test_missing (test_audit.Packet35Tests.test_missing)",
+        "test_missing_old_member (test_audit.Packet35Tests.test_missing_old_member)",
+        "test_no_historical_identity_deletion (test_audit.Packet35Tests.test_no_historical_identity_deletion)",
+        "test_open_cannot_be_ready (test_audit.Packet35Tests.test_open_cannot_be_ready)",
+        "test_ownership_source_consumption (test_audit.Packet35Tests.test_ownership_source_consumption)",
+        "test_preservation_and_metadata_bound (test_audit.Packet35Tests.test_preservation_and_metadata_bound)",
+        "test_privacy_and_claims (test_audit.Packet35Tests.test_privacy_and_claims)",
+        "test_privacy_leak_detected (test_audit.Packet35Tests.test_privacy_leak_detected)",
+        "test_real_counts_and_identity_retention (test_audit.Packet35Tests.test_real_counts_and_identity_retention)",
+        "test_recursive_self (test_audit.Packet35Tests.test_recursive_self)",
+        "test_scope_all_sources_and_transitions (test_audit.Packet35Tests.test_scope_all_sources_and_transitions)",
+        "test_size (test_audit.Packet35Tests.test_size)",
+        "test_traversal (test_audit.Packet35Tests.test_traversal)",
+        "test_unclosed_reservation (test_audit.Packet35Tests.test_unclosed_reservation)",
+        "test_windows_headers_and_native_source_boundary (test_audit.Packet35Tests.test_windows_headers_and_native_source_boundary)"
+      ],
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "identity": "test_frozen_source_and_capture (test_audit.Packet35Tests.test_frozen_source_and_capture)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_full_independent_verifier (test_audit.Packet35Tests.test_full_independent_verifier)",
+          "subtest": ""
+        }
+      ]
+    },
+    {
+      "label": "final",
+      "suite": "accepted34-audits",
+      "total": 33,
+      "passed": 28,
+      "failed": 5,
+      "errors": 0,
+      "exit_code": 1,
+      "stderr_sha256": "e14a45c414e54a2477105aa4bdaf211d805a9d218612d3a2a0743c721e7d70aa",
+      "log_decoding": "utf-8-sig",
+      "identities": [
+        "test_278_pins_and_100_captures (test_audit.Publication34Tests.test_278_pins_and_100_captures)",
+        "test_absolute_path_rejected (test_audit.Publication34Tests.test_absolute_path_rejected)",
+        "test_actual_capture_matches_pre_edit (test_audit.Publication34Tests.test_actual_capture_matches_pre_edit)",
+        "test_backslash_rejected (test_audit.Publication34Tests.test_backslash_rejected)",
+        "test_both_configurations_all_frozen_corpora (test_audit.Publication34Tests.test_both_configurations_all_frozen_corpora)",
+        "test_case_alias_rejected (test_audit.Publication34Tests.test_case_alias_rejected)",
+        "test_claims_match_receipts (test_audit.Publication34Tests.test_claims_match_receipts)",
+        "test_current_members_are_not_historical_counts (test_audit.Publication34Tests.test_current_members_are_not_historical_counts)",
+        "test_disconnected_port_rejected (test_audit.Publication34Tests.test_disconnected_port_rejected)",
+        "test_dropped_historical_candidate_rejected (test_audit.Publication34Tests.test_dropped_historical_candidate_rejected)",
+        "test_duplicate_entry_rejected (test_audit.Publication34Tests.test_duplicate_entry_rejected)",
+        "test_each_candidate_has_one_disposition (test_audit.Publication34Tests.test_each_candidate_has_one_disposition)",
+        "test_exact_crosswalk_and_seven_explicit_relocations (test_audit.Publication34Tests.test_exact_crosswalk_and_seven_explicit_relocations)",
+        "test_fabricated_relocation_target_rejected (test_audit.Publication34Tests.test_fabricated_relocation_target_rejected)",
+        "test_final_identity_counts_and_inherited_failures (test_audit.Publication34Tests.test_final_identity_counts_and_inherited_failures)",
+        "test_foreign_entry_rejected (test_audit.Publication34Tests.test_foreign_entry_rejected)",
+        "test_full_independent_packet (test_audit.Publication34Tests.test_full_independent_packet)",
+        "test_lineage_source_transition_tamper_rejected (test_audit.Publication34Tests.test_lineage_source_transition_tamper_rejected)",
+        "test_missing_entry_rejected (test_audit.Publication34Tests.test_missing_entry_rejected)",
+        "test_no_false_same_file_relocation (test_audit.Publication34Tests.test_no_false_same_file_relocation)",
+        "test_open_member_disguised_as_ready_rejected (test_audit.Publication34Tests.test_open_member_disguised_as_ready_rejected)",
+        "test_original_pin_rewrite_rejected (test_audit.Publication34Tests.test_original_pin_rewrite_rejected)",
+        "test_portable_and_real_adapter_receipts (test_audit.Publication34Tests.test_portable_and_real_adapter_receipts)",
+        "test_protected_source_and_existing_engines (test_audit.Publication34Tests.test_protected_source_and_existing_engines)",
+        "test_recursive_self_rejected (test_audit.Publication34Tests.test_recursive_self_rejected)",
+        "test_renderer_boundaries_and_measurement_order (test_audit.Publication34Tests.test_renderer_boundaries_and_measurement_order)",
+        "test_same_named_method_wrong_owner_rejected (test_audit.Publication34Tests.test_same_named_method_wrong_owner_rejected)",
+        "test_seventeen_families_and_zero_open_ready_preconditions (test_audit.Publication34Tests.test_seventeen_families_and_zero_open_ready_preconditions)",
+        "test_sources_and_transitions_exact (test_audit.Publication34Tests.test_sources_and_transitions_exact)",
+        "test_traversal_rejected (test_audit.Publication34Tests.test_traversal_rejected)",
+        "test_unchanged_gates (test_audit.Publication34Tests.test_unchanged_gates)",
+        "test_wrong_hash_rejected (test_audit.Publication34Tests.test_wrong_hash_rejected)",
+        "test_wrong_size_rejected (test_audit.Publication34Tests.test_wrong_size_rejected)"
+      ],
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "identity": "test_278_pins_and_100_captures (test_audit.Publication34Tests.test_278_pins_and_100_captures)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_both_configurations_all_frozen_corpora (test_audit.Publication34Tests.test_both_configurations_all_frozen_corpora)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_crosswalk_and_seven_explicit_relocations (test_audit.Publication34Tests.test_exact_crosswalk_and_seven_explicit_relocations)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_full_independent_packet (test_audit.Publication34Tests.test_full_independent_packet)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_protected_source_and_existing_engines (test_audit.Publication34Tests.test_protected_source_and_existing_engines)",
+          "subtest": ""
+        }
+      ]
+    },
+    {
+      "label": "final",
+      "suite": "accepted35-audits",
+      "total": 32,
+      "passed": 28,
+      "failed": 4,
+      "errors": 0,
+      "exit_code": 1,
+      "stderr_sha256": "7f6aeec48891e7129b0d74ae3e717d91c1f899e04ae8fd37cfae1e11ba5a28ee",
+      "log_decoding": "utf-8-sig",
+      "identities": [
+        "test_278_lineage_and_100_captures (test_audit.Packet35Tests.test_278_lineage_and_100_captures)",
+        "test_absolute (test_audit.Packet35Tests.test_absolute)",
+        "test_backslash (test_audit.Packet35Tests.test_backslash)",
+        "test_both_config_captures (test_audit.Packet35Tests.test_both_config_captures)",
+        "test_case_alias (test_audit.Packet35Tests.test_case_alias)",
+        "test_disconnected_port (test_audit.Packet35Tests.test_disconnected_port)",
+        "test_drive_path (test_audit.Packet35Tests.test_drive_path)",
+        "test_duplicate (test_audit.Packet35Tests.test_duplicate)",
+        "test_fake_ported (test_audit.Packet35Tests.test_fake_ported)",
+        "test_fixed_gates_and_no_native_claim (test_audit.Packet35Tests.test_fixed_gates_and_no_native_claim)",
+        "test_foreign (test_audit.Packet35Tests.test_foreign)",
+        "test_frozen_hash_tamper_rejected (test_audit.Packet35Tests.test_frozen_hash_tamper_rejected)",
+        "test_frozen_source_and_capture (test_audit.Packet35Tests.test_frozen_source_and_capture)",
+        "test_full_independent_verifier (test_audit.Packet35Tests.test_full_independent_verifier)",
+        "test_gate_inflation_rejected (test_audit.Packet35Tests.test_gate_inflation_rejected)",
+        "test_hash (test_audit.Packet35Tests.test_hash)",
+        "test_host_free_new_sources (test_audit.Packet35Tests.test_host_free_new_sources)",
+        "test_missing (test_audit.Packet35Tests.test_missing)",
+        "test_missing_old_member (test_audit.Packet35Tests.test_missing_old_member)",
+        "test_no_historical_identity_deletion (test_audit.Packet35Tests.test_no_historical_identity_deletion)",
+        "test_open_cannot_be_ready (test_audit.Packet35Tests.test_open_cannot_be_ready)",
+        "test_ownership_source_consumption (test_audit.Packet35Tests.test_ownership_source_consumption)",
+        "test_preservation_and_metadata_bound (test_audit.Packet35Tests.test_preservation_and_metadata_bound)",
+        "test_privacy_and_claims (test_audit.Packet35Tests.test_privacy_and_claims)",
+        "test_privacy_leak_detected (test_audit.Packet35Tests.test_privacy_leak_detected)",
+        "test_real_counts_and_identity_retention (test_audit.Packet35Tests.test_real_counts_and_identity_retention)",
+        "test_recursive_self (test_audit.Packet35Tests.test_recursive_self)",
+        "test_scope_all_sources_and_transitions (test_audit.Packet35Tests.test_scope_all_sources_and_transitions)",
+        "test_size (test_audit.Packet35Tests.test_size)",
+        "test_traversal (test_audit.Packet35Tests.test_traversal)",
+        "test_unclosed_reservation (test_audit.Packet35Tests.test_unclosed_reservation)",
+        "test_windows_headers_and_native_source_boundary (test_audit.Packet35Tests.test_windows_headers_and_native_source_boundary)"
+      ],
+      "nonpasses": [
+        {
+          "outcome": "FAIL",
+          "identity": "test_278_lineage_and_100_captures (test_audit.Packet35Tests.test_278_lineage_and_100_captures)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_frozen_source_and_capture (test_audit.Packet35Tests.test_frozen_source_and_capture)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_full_independent_verifier (test_audit.Packet35Tests.test_full_independent_verifier)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_scope_all_sources_and_transitions (test_audit.Packet35Tests.test_scope_all_sources_and_transitions)",
+          "subtest": ""
+        }
+      ]
+    }
+  ],
+  "qualification": "Real inherited/source-successor FAILs remain visible. Accepted35 owner filename correction aux.py -> auxilary.py is qualified independently, not by rewriting the old manifest/audit. Accepted34 manifest now sees authorized35/36 successor sources."
+}

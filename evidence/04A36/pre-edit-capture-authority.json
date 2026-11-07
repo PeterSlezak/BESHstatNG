@@ -1,0 +1,70 @@
+{
+  "files": [
+    {
+      "path": "evidence/04A36/Legacy36.vb",
+      "bytes": 9436,
+      "sha256": "70fa9cec3c03af2a3248fb83d0dbe3ed3c8ffff73ba6f470a2753fd7152b03cb"
+    },
+    {
+      "path": "evidence/04A36/LegacyPresentation36.vb",
+      "bytes": 3500,
+      "sha256": "a303eeeb7fb431a46f154a273a017a7d5ecac4cd14cb5aaf48e84f810d060d7b"
+    },
+    {
+      "path": "evidence/04A36/Cases36.vb",
+      "bytes": 3788,
+      "sha256": "da8afda429b7ecb38feb88c745a78a9303e2cf28142a3156eb44376fdf2c15c5"
+    },
+    {
+      "path": "evidence/04A36/Cases36-v1.vb.txt",
+      "bytes": 3813,
+      "sha256": "85ff0a2f00b916f47078a5aa286799058ce84bd12f8ef98052b4a111b8e4c5b2"
+    },
+    {
+      "path": "evidence/04A36/Cases36-v2.vb.txt",
+      "bytes": 3836,
+      "sha256": "fc29cb20a7bbcaa8ecc3f0c9d2a9e6c099867f5f7bd9d898b36fc00fce728ede"
+    },
+    {
+      "path": "evidence/04A36/Cases36-v3.vb.txt",
+      "bytes": 3810,
+      "sha256": "5db8df716f4397f57ac6660ee0251260fdc63bd735adec8db51a12b1f27133e8"
+    },
+    {
+      "path": "evidence/04A36/pre-edit-capture.csv",
+      "bytes": 916958,
+      "sha256": "a91d933fae456fb7b44bb66631c03978697e5d48a645474b149b52bc5aa9b7a5"
+    },
+    {
+      "path": "evidence/04A36/pre-edit-Release.csv",
+      "bytes": 916958,
+      "sha256": "a91d933fae456fb7b44bb66631c03978697e5d48a645474b149b52bc5aa9b7a5"
+    },
+    {
+      "path": "evidence/04A36/pre-edit-presentation.csv",
+      "bytes": 22747,
+      "sha256": "6100b47c0a96ba561cc0bb022076b94778a9d03b82007ccea09b01bd1d18a906"
+    }
+  ],
+  "production_unchanged": true,
+  "rows_per_configuration": 5472,
+  "presentation_rows": 384,
+  "authority": "PRE_EDIT_LEGACY_EXECUTED / ACCEPTED_CORE",
+  "scientific": "NOT_GOLDEN",
+  "fixture_corrections": [
+    {
+      "version": 1,
+      "reason": "Synthetic lower-two-sigma=0 exceeded lower-one-sigma=-1; Core constructor correctly rejected it before capture."
+    },
+    {
+      "version": 2,
+      "reason": "Synthetic Infinity statistic is rejected by Core before renderer."
+    },
+    {
+      "version": 3,
+      "reason": "Synthetic LCL=5 exceeded center=2; Core constructor correctly rejected it."
+    }
+  ],
+  "original_successful_capture": "pre-edit-capture.csv",
+  "qualification": "Failed fixture attempts produced no successful corpus; original inputs retained as versioned .txt sources. First successful outputs never overwritten."
+}

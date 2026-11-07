@@ -36,7 +36,7 @@ BESHStatNG is evolving toward a **portable statistical engine**, a common spread
 
 The independent Office.js/Blazor WebAssembly development host now has owner-accepted Excel Online workflows for One-Way ANOVA and Kruskal–Wallis, including source capture, live results, post-hoc comparisons, guarded output, readback and fresh overwrite consent. Its four-tab task pane provides **Analysis, Options, Export Chart (not implemented), and Diagnostics / Log**, alongside a capability-aware Ribbon, Help, About, global p-value settings, and read-only worksheet-based model-specification previews. Other documented methods may appear as unavailable; **this is not a production Mac or Excel Online release**.
 
-The next engineering decision is the formal **shared-host exit review**, followed by a thorough Windows source audit to migrate remaining portable functions—including calculations embedded in WinForms—without changing Windows behavior. Later development will broaden Office statistical workflows, graphics, custom-function options and cross-host validation. LibreOffice remains a portability consideration, not an implemented client.
+The comprehensive Windows source audit is complete, including forms, worksheet UDFs, graphics and infrastructure. Owner-accepted migration work now includes portable regression, survival, multivariate, SPC and PSM workflows; output semantics; ROC/Q–Q, box/histogram/violin, XYZ/scatter-matrix/3D coordinates; specialty-chart geometry; and comparison, agreement and Love-plot series preparation. **Windows continues to own native Excel charts, rendering, COM lifetimes and events.** The next planned extraction focuses on Kaplan–Meier/Cox and SPC chart payloads; it has been scoped but not yet implemented or accepted. Subsequent Office method and chart exposure requires its own handlers, UI, rendering and host validation. LibreOffice remains an architectural possibility, not an implemented client.
 
 ## Major capabilities
 
@@ -271,6 +271,8 @@ BESHStatNG includes a separate unit-test project and public validation materials
 - regression, resampling, and numerical-validation tests
 - public test-result artifacts for release transparency
 
+Development migration acceptance is separate from scientific and native-host approval. Historical test failures and errors remain recorded, and compatibility snapshots do not establish independent statistical or Excel chart equivalence.
+
 See the current public summary on the [Validation page](https://beshstat.eu/validation/).
 
 ## Installation
@@ -290,7 +292,7 @@ The source includes two portable **.NET Standard 2.0** libraries, the supported 
 
 The Office development host implements typed, bounded workbook input; a method catalog and capability-limited Ribbon; runnable **One-Way ANOVA and Kruskal–Wallis**; grouped-column, grouped-row and long-format data; guarded existing/new-worksheet result writing; settings, Help, sanitized diagnostics and a read-only model/specification builder. Excel Online owner checks have accepted these scoped capabilities; the application is **not** a generally distributed Mac, Excel Online or Office desktop product. Its Chart Export tab is currently informational, New Workbook output is unavailable, and the broader documented method catalog does not imply executable Office support.
 
-Cross-platform completion still requires formal application-layer review, extraction of remaining portable Windows logic, expansion of registered shared workflows, chart renderer/export work, possible Office Custom Functions and explicit Excel Online, Windows desktop and Mac qualification. Local builds, simulated browser tests and selected genuine Excel Online acceptance do not establish release-wide platform support.
+Cross-platform completion still requires further reusable survival/SPC chart preparation, reconciliation of deferred numerical/native issues, broader registered Office workflows, Office chart rendering/export, possible Office Custom Functions and explicit platform qualification. Portable plot calculations already extracted from Windows are **not** automatically available in the Office task pane. Local builds, simulated browser tests and selected genuine Excel Online acceptance do not establish release-wide platform support.
 
 Consult [`BESHStat.OfficeAddin/README.md`](BESHStat.OfficeAddin/README.md), the [shared application layer](BESHStat.Excel.Common/README.md) and the [roadmap](planning/README.md) for current scope and development boundaries.
 
@@ -360,7 +362,7 @@ Useful links:
 
 The **Windows Excel-DNA add-in remains the supported and distributed product**, with active updates to statistical methods, native Excel charts, documentation and numerical verification. The portable Core/Common projects and the Office.js/Blazor host form a **separate, actively validated cross-platform development path**. The Office prototype has advanced beyond connectivity demonstrations to real Excel Online acceptance of selected analysis, navigation and safe-write workflows, but **no general-availability Mac or Excel Online edition is released**.
 
-The immediate engineering priority is a formal application-layer readiness review followed by portability improvements in the Windows codebase and additional Office method implementations. Published Windows release information is in [What's New](https://beshstat.eu/beshstatng/help/latest/whats-new/) and [Releases](https://github.com/PeterSlezak/BESHstatNG/releases).
+The Windows migration audit and substantial Core/Common extraction have been accepted; the next planned implementation is reusable survival and SPC chart data, with later scientific/native reconciliation and additional Office workflows still subject to separate validation. The current [development roadmap](planning/BESHStatNG_CrossPlatform_MasterPlan.md) distinguishes accepted code from planned features and restricted release gates. Published Windows release information is in [What's New](https://beshstat.eu/beshstatng/help/latest/whats-new/) and [Releases](https://github.com/PeterSlezak/BESHstatNG/releases).
 
 ## Support and links
 

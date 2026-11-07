@@ -1,0 +1,90 @@
+{
+  "focused_audits": {
+    "total": 44,
+    "passed": 44,
+    "failed": 0,
+    "errors": 0,
+    "command": {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "evidence/04A36",
+        "-p",
+        "test_audit.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.6607506000436842,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1fb7bbb1b4c539b6eae81087e8ec3055519c24d201cea3c0f7ac587b01e30c38",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    "stderr_sha256": "1fb7bbb1b4c539b6eae81087e8ec3055519c24d201cea3c0f7ac587b01e30c38"
+  },
+  "independent_reader": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "evidence/04A36/verify_packet.py"
+    ],
+    "exit_code": 0,
+    "stdout": "PASS independent36 packet verifier; 151 entries; null self; software scope only\n",
+    "stderr": ""
+  },
+  "verified_manifest_before_appending_this_receipt": {
+    "path": "evidence/04A36/publication-manifest.json",
+    "bytes": 26899,
+    "sha256": "c33f0a19e3e528da7d067c882e1847d4faec7b6f93cdfaef2da77868721faef9"
+  },
+  "external_documents_excluded": 16,
+  "readmes_byte_preserved": 15,
+  "unchanged_production_test_build_payloads": 19,
+  "unchanged_validation_fields_except_decision": true,
+  "pre_closeout_snapshot_files_verified": 13,
+  "checks": {
+    "full_diff_check": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "status": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "status",
+        "--short"
+      ],
+      "exit_code": 0,
+      "stdout": " M BESHStat.Core.Tests/README.md\n M BESHStat.Core/README.md\n M BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj\n M BESHStat.Excel.Common.Tests/README.md\n M BESHStat.Excel.Common/README.md\n M BESHStat.Excel.Common/src/Results/SurvivalReportPolicy.vb\n M BESHStat.OfficeAddin/README.md\n M BESHStat.OfficeAddin/tests/README.md\n M BESHStat.WasmSmoke/README.md\n M BESHStatNG.Test/BESHStatNG.Tests.vbproj\n M BESHStatNG.Test/README.md\n M BESHStatNG_Help_MkDocs/README.md\n M BESHStatNG_Installer/README.md\n M BESHstatNG/README.md\n M BESHstatNG/src/Graphics/CoxSurvivalPlotExcel.vb\n M BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb\n M BESHstatNG/src/Graphics/SpcControlChartExcel.vb\n M README.md\n M docs/architecture/README.md\n M planning/BESHStatNG_CrossPlatform_MasterPlan.md\n M planning/README.md\n M scripts/README.md\n?? BESHStat.Core.Tests/src/Graphics/Cases36.vb\n?? BESHStat.Core.Tests/src/Graphics/Graphics36GeometryTests.vb\n?? BESHStat.Core.Tests/src/Graphics/Legacy36.vb\n?? BESHStat.Core/src/Graphics/CoxCurveGeometry36.vb\n?? BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb\n?? BESHStat.Core/src/Graphics/SpcZoneBands36.vb\n?? BESHStat.Excel.Common.Tests/src/Graphics36PresentationTests.vb\n?? BESHStat.Excel.Common.Tests/src/LegacyPresentation36.vb\n?? BESHStat.Excel.Common.Tests/src/LegacyPresentation36V2.vb\n?? BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb\n?? BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb\n?? BESHStat.Excel.Common/src/Results/SurvivalChartPresentation36.vb\n?? BESHStatNG.Test/src/Charts/Graphics36AdapterTests.vb\n?? docs/architecture/batch-04A-36-owner-review.md\n?? evidence/04A36/\n",
+      "stderr": ""
+    },
+    "index": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "diff",
+        "--cached",
+        "--name-only"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "full_suites": "NOT_RERUN_DOCUMENTATION_ONLY; prior actual counts/nonpasses unchanged",
+  "final_seal": "Manifest resealed after this append; final independent reader and same44 audits rerun without subsequent public mutations."
+}

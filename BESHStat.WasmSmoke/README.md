@@ -25,4 +25,4 @@ Node's built-in test runner executes `.test.cjs` tests; these do not appear in M
 
 ## Future maintenance
 
-Keep this project intentionally small: statistical/WASM compatibility, bridge regression fixtures and early interoperability experiments. The production-oriented four-tab workspace, capability-aware Ribbon, read-only model builders, persisted Options and guarded ANOVA/KW writer belong in `BESHStat.OfficeAddin`. Maintain separate manifests/ports and run both hosts during cross-platform regression work.
+Keep this project intentionally small: statistical/WASM compatibility, bridge regression fixtures and early interoperability experiments. Recent portable statistical/graphics projections can be exercised here for runtime compatibility where appropriate, but their existence does not supply an Office chart renderer or new enabled Office methods. The production-oriented four-tab workspace, capability-aware Ribbon, read-only model builders, persisted Options and guarded ANOVA/KW writer belong in `BESHStat.OfficeAddin`. Maintain separate manifests/ports and run both hosts during cross-platform regression work.

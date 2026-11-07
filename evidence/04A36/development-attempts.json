@@ -1,0 +1,336 @@
+{
+  "runs": [
+    {
+      "label": "develop3-Debug-focused-Common",
+      "suite": "Common",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 3411,
+        "Failed": 2
+      },
+      "exit_code": 1,
+      "trx_sha256": "26589204eb2e19f8ce92de111267ca659826f26d337059a3e4cbb408d4ba2a89",
+      "nonpasses": [
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.Graphics36PresentationTests",
+          "method": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels",
+          "test_name": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels (\"\")",
+          "outcome": "Failed",
+          "message": "Test method BESHStat.Excel.Common.Tests.Graphics36PresentationTests.AllFrozenSpcOptionsOrderAdmissionAndLastLabels threw exception: \r\nSystem.ArgumentException: A panel must contain at least one chart point. (Parameter 'points')"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.Graphics36PresentationTests",
+          "method": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels",
+          "test_name": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels (\"sk-SK\")",
+          "outcome": "Failed",
+          "message": "Test method BESHStat.Excel.Common.Tests.Graphics36PresentationTests.AllFrozenSpcOptionsOrderAdmissionAndLastLabels threw exception: \r\nSystem.ArgumentException: A panel must contain at least one chart point. (Parameter 'points')"
+        }
+      ]
+    },
+    {
+      "label": "develop3-Debug-focused-Core",
+      "suite": "Core",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 148
+      },
+      "exit_code": 0,
+      "trx_sha256": "ac5b0cdc094864b1bdb6adfbed94085e2b15f95e7ea7be522fb7f2775e197344",
+      "nonpasses": []
+    },
+    {
+      "label": "develop3-Debug-focused-Legacy",
+      "suite": "Legacy",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 3677,
+        "Failed": 18
+      },
+      "exit_code": 1,
+      "trx_sha256": "c7ad764be64ade4f3cf034f9ab5225f2f4f72ebf9454fbcd8c45288a3355e0d6",
+      "nonpasses": [
+        {
+          "class_name": "BESHStatNG.Test.Spc22AdapterTests",
+          "method": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource",
+          "test_name": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource (2)",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Spc22AdapterTests.RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource threw exception: \r\nSystem.NullReferenceException: Object reference not set to an instance of an object."
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc22AdapterTests",
+          "method": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource",
+          "test_name": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource (0)",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Spc22AdapterTests.RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource threw exception: \r\nSystem.NullReferenceException: Object reference not set to an instance of an object."
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (4)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (2)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc22AdapterTests",
+          "method": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource",
+          "test_name": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource (1)",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Spc22AdapterTests.RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource threw exception: \r\nSystem.NullReferenceException: Object reference not set to an instance of an object."
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc22AdapterTests",
+          "method": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource",
+          "test_name": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource (3)",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Spc22AdapterTests.RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource threw exception: \r\nSystem.NullReferenceException: Object reference not set to an instance of an object."
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics36PresentationTests",
+          "method": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels",
+          "test_name": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels ()",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Graphics36PresentationTests.AllFrozenSpcOptionsOrderAdmissionAndLastLabels threw exception: \r\nSystem.ArgumentException: A panel must contain at least one chart point.\r\nParameter name: points"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc22AdapterTests",
+          "method": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource",
+          "test_name": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource (5)",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Spc22AdapterTests.RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource threw exception: \r\nSystem.NullReferenceException: Object reference not set to an instance of an object."
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (0)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc22AdapterTests",
+          "method": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource",
+          "test_name": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource (4)",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Spc22AdapterTests.RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource threw exception: \r\nSystem.NullReferenceException: Object reference not set to an instance of an object."
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc21AdapterTests",
+          "method": "NativeHostCoercionStateFitOutputAndChartTailStayEntryBytes",
+          "test_name": "NativeHostCoercionStateFitOutputAndChartTailStayEntryBytes (WriteResultsToNewWorkbook)",
+          "outcome": "Failed",
+          "message": "Assert.AreEqual failed. Expected:<0e623c8c0c8c0907e100525e689126647c0f66484f05586561b9cd4b9e0b876c>. Actual:<2b648024ad85103748a6d657ba47025c08ed401dba1e8bc719e8989d9979519f>. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc22AdapterTests",
+          "method": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource",
+          "test_name": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource (7)",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Spc22AdapterTests.RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource threw exception: \r\nSystem.NullReferenceException: Object reference not set to an instance of an object."
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics36PresentationTests",
+          "method": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels",
+          "test_name": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels (sk-SK)",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Graphics36PresentationTests.AllFrozenSpcOptionsOrderAdmissionAndLastLabels threw exception: \r\nSystem.ArgumentException: A panel must contain at least one chart point.\r\nParameter name: points"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (3)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (5)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics36AdapterTests",
+          "method": "ActualSharedSpcPreparationAndBlankMarshalling",
+          "test_name": "ActualSharedSpcPreparationAndBlankMarshalling",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Graphics36AdapterTests.ActualSharedSpcPreparationAndBlankMarshalling threw exception: \r\nSystem.ArgumentException: A panel must contain at least one chart point.\r\nParameter name: points"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (1)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc22AdapterTests",
+          "method": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource",
+          "test_name": "RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource (6)",
+          "outcome": "Failed",
+          "message": "Test method BESHStatNG.Test.Spc22AdapterTests.RetainedNativeBoundsAndZoneEligibilityMatchFrozenSource threw exception: \r\nSystem.NullReferenceException: Object reference not set to an instance of an object."
+        }
+      ]
+    },
+    {
+      "label": "develop4-Debug-focused-Common",
+      "suite": "Common",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 3411,
+        "Failed": 2
+      },
+      "exit_code": 1,
+      "trx_sha256": "41ed268af3d4b4445052fac05f02d815c0ded9c42693ae57b4206f1010dc545c",
+      "nonpasses": [
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.Graphics36PresentationTests",
+          "method": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels",
+          "test_name": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels (\"sk-SK\")",
+          "outcome": "Failed",
+          "message": "Assert.IsFalse failed. Frozen Core empty-panel rejection"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.Graphics36PresentationTests",
+          "method": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels",
+          "test_name": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels (\"\")",
+          "outcome": "Failed",
+          "message": "Assert.IsFalse failed. Frozen Core empty-panel rejection"
+        }
+      ]
+    },
+    {
+      "label": "develop4-Debug-focused-Core",
+      "suite": "Core",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 148
+      },
+      "exit_code": 0,
+      "trx_sha256": "f292cfe16bc9ec21575c4ee8dedeffb609b6c6d5f1800c98892b6f0b03de8a0a",
+      "nonpasses": []
+    },
+    {
+      "label": "develop4-Debug-focused-Legacy",
+      "suite": "Legacy",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 3685,
+        "Failed": 10
+      },
+      "exit_code": 1,
+      "trx_sha256": "b6f53ffc98e1b235e29ddfc42cb65090663a0956e02df09258591977717f2a6e",
+      "nonpasses": [
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (4)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (2)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (3)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (1)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics36PresentationTests",
+          "method": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels",
+          "test_name": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels ()",
+          "outcome": "Failed",
+          "message": "Assert.IsFalse failed. Frozen Core empty-panel rejection"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (5)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics36PresentationTests",
+          "method": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels",
+          "test_name": "AllFrozenSpcOptionsOrderAdmissionAndLastLabels (sk-SK)",
+          "outcome": "Failed",
+          "message": "Assert.IsFalse failed. Frozen Core empty-panel rejection"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics36AdapterTests",
+          "method": "ActualSharedSpcPreparationAndBlankMarshalling",
+          "test_name": "ActualSharedSpcPreparationAndBlankMarshalling",
+          "outcome": "Failed",
+          "message": "Assert.IsFalse failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+          "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (0)",
+          "outcome": "Failed",
+          "message": "Assert.IsTrue failed. "
+        },
+        {
+          "class_name": "BESHStatNG.Test.Spc21AdapterTests",
+          "method": "NativeHostCoercionStateFitOutputAndChartTailStayEntryBytes",
+          "test_name": "NativeHostCoercionStateFitOutputAndChartTailStayEntryBytes (WriteResultsToNewWorkbook)",
+          "outcome": "Failed",
+          "message": "Assert.AreEqual failed. Expected:<0e623c8c0c8c0907e100525e689126647c0f66484f05586561b9cd4b9e0b876c>. Actual:<2b648024ad85103748a6d657ba47025c08ed401dba1e8bc719e8989d9979519f>. "
+        }
+      ]
+    },
+    {
+      "label": "develop5-new36-Common",
+      "suite": "Common",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 27
+      },
+      "exit_code": 0,
+      "trx_sha256": "6c79eed178c800e947f0c26d3dce87b6b53f13ffbc4a7758fdface3ff356de1b",
+      "nonpasses": []
+    },
+    {
+      "label": "develop5-new36-Core",
+      "suite": "Core",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 12
+      },
+      "exit_code": 0,
+      "trx_sha256": "10f759f1515155472c2946b1e50b40ff4c408e76b9778c3d158ddb598aa39832",
+      "nonpasses": []
+    },
+    {
+      "label": "develop5-new36-Legacy",
+      "suite": "Legacy",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 42
+      },
+      "exit_code": 0,
+      "trx_sha256": "02ae862527014db2a8ee777bfcce5b1705e65a4dd1a7ec01822c9981325780d9",
+      "nonpasses": []
+    }
+  ],
+  "qualification": "Every failed attempt retained; early new tests corrected to honor frozen construction rejections and the original private HasValidZones adapter test seam. V1 mostly rejected (6 valid / 378 rejected) SPC fixture corrected explicitly, never overwritten. Historical inherited source pins remain genuine failures."
+}

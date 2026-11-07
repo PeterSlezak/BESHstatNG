@@ -9,7 +9,7 @@ This project contains the source for the [published BESHStatNG help](https://bes
 - `<ExcelFunction>` attributes in `../BESHstatNG/src/ExcelUDFs/` are authoritative for actual worksheet-function exports.
 - `udf_method_links.yml` provides curated links from UDF entries to method help; method metadata should be reconciled, not duplicated in independently edited inventories.
 
-The YAML describes **documented methods**, not proof that the Office.js application exposes an executable handler for each. The generated Common method catalog is navigation/help metadata; actual execution is guarded by the typed analysis-handler registry.
+The YAML describes **documented methods**, not proof that the Office.js application exposes an executable handler for each. The generated Common method catalog is navigation/help metadata; actual execution is guarded by the typed analysis-handler registry. Recent portability extractions for Windows graphics and reports did **not** publish new Office method/plot capability or change the authoritative published Windows help on their own.
 
 ## Relevant scripts
 
@@ -53,4 +53,4 @@ For UDF updates inspect `python generate_udf_docs_v2.py --help`; use its support
 
 ## Development direction
 
-Maintain one consistent method identity across published help, Windows Ribbon behavior and Common navigation. As the Office add-in grows, clearly distinguish the Windows Chart Export guide from the Office Export Chart informational tab, and describe only supported Office UI/host features in client-specific material; do not silently portray every Windows method or UDF as already available on Mac/Excel Online. Continue generating help/UDF pages from their appropriate authorities and testing the output before publishing.
+Maintain one consistent method identity across published help, Windows Ribbon behavior and Common navigation. Portability-only changes do not require rebranding every existing Windows chart as available in Office; when a future batch changes user-facing behavior, update the method page, metadata/help route, relevant host help and examples in that same change. Clearly distinguish Windows Chart Export from the Office Export Chart informational tab, and never portray all documented Windows methods/UDFs as already available on Mac/Excel Online. Continue generating help/UDF pages from their appropriate authorities and test output before publishing.

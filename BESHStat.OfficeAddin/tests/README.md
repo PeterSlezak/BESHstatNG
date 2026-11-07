@@ -21,4 +21,4 @@ For an **authorized, genuine Edge/Excel Online** session and disposable workbook
 node BESHStat.OfficeAddin/tests/browser/live-edge-workflow.mjs my-run-label
 ```
 
-**Acceptance labels matter:** unit/component tests and synthetic browser fixtures can show safe wiring but do not prove Excel Online/desktop compatibility, writable workbook behavior or Mac support. Record manual host evidence separately.
+**Acceptance labels matter:** unit/component tests and synthetic browser fixtures can show safe wiring but do not prove Excel Online/desktop compatibility, writable workbook behavior or Mac support. Portable plot-series and chart-policy tests added to Core/Common/Windows during the current migration are not tests of an Office chart renderer; no new Office graphics or unsupported method should be marked enabled on that basis. Record manual host evidence separately.

@@ -1,6 +1,6 @@
 # BESHStatNG_Installer — Windows distribution and signing
 
-This directory contains the **WiX-based Windows installer** for the supported Excel-DNA BESHStatNG add-in. It packages Windows XLL output and Windows-only setup components. It does **not** build or distribute the Office.js/WebAssembly application, the development Office Ribbon/manifest, a Mac add-in or a LibreOffice extension.
+This directory contains the **WiX-based Windows installer** for the supported Excel-DNA BESHStatNG add-in. It packages Windows XLL output and Windows-only setup components. Accepted Core/Common refactoring and graphics portability work remain source-development milestones, **not an automatic MSI/XLL release or signing authorization**. It does **not** build or distribute the Office.js/WebAssembly application, the development Office Ribbon/manifest, a Mac add-in or a LibreOffice extension.
 
 ## Project areas
 

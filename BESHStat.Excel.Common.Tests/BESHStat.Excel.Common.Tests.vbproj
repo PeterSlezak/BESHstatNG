@@ -37,4 +37,8 @@
     <None Update="TestData\OutputLayout\*.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Legacy36.vb"><Link>Graphics36\Legacy36.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Cases36.vb"><Link>Graphics36\Cases36.vb</Link></Compile>
+  </ItemGroup>
 </Project>

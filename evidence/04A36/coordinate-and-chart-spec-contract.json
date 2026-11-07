@@ -1,0 +1,549 @@
+{
+  "public_members": [
+    {
+      "path": "BESHStat.Core/src/Graphics/CoxCurveGeometry36.vb",
+      "owner": "BESHStatNG.CoxCurveGeometry36",
+      "signature": "Public Shared Sub Validate(survTime As Double(), survProb As Double())",
+      "lines": [
+        10,
+        14
+      ],
+      "token_sha256": "b6054a7a01bb025a9a309da71b3e576fb45ac0adc780c73a7832d4398942a64c"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/CoxCurveGeometry36.vb",
+      "owner": "BESHStatNG.CoxCurveGeometry36",
+      "signature": "Public Shared Function Axis(survTime As Double()) As ChartAxisScaleResult",
+      "lines": [
+        15,
+        17
+      ],
+      "token_sha256": "e134b271e14bf2aacf153084c1ee61fbe30ef7b9b988ee2895b6c42343e30255"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/CoxCurveGeometry36.vb",
+      "owner": "BESHStatNG.CoxCurveGeometry36",
+      "signature": "Public Shared Function Snapshot(values As Double()) As Double()",
+      "lines": [
+        19,
+        21
+      ],
+      "token_sha256": "769af250744db4a2a28d267a8fe3aa44dca6eb9e0af71d4bd00f546361d705de"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeries36",
+      "signature": "Public ReadOnly Property SourceGroupOrdinal As Integer",
+      "lines": [
+        18,
+        18
+      ],
+      "token_sha256": "74d5dddd7dfd4f42f4554b15410b395b07bdb4539a114936cf666804d76af325"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeries36",
+      "signature": "Public ReadOnly Property Role As KaplanMeierSeriesRole36",
+      "lines": [
+        19,
+        19
+      ],
+      "token_sha256": "1247f86a7a35dfb2053a93611ef17dd0d2c71e5b4076042228fee830366f30ab"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeries36",
+      "signature": "Public ReadOnly Property AssignValues As Boolean",
+      "lines": [
+        20,
+        20
+      ],
+      "token_sha256": "136a1d9751a19bc20865e03fb14c5c823f42ccc7b1dcddfb4ac699f829746856"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeries36",
+      "signature": "Public ReadOnly Property XValues As Double()",
+      "lines": [
+        25,
+        29
+      ],
+      "token_sha256": "318333774e1ba2ff770cf25d6b1f8c94f704db5602fe3bedfd918ab30e619172"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeries36",
+      "signature": "Public ReadOnly Property YValues As Double()",
+      "lines": [
+        30,
+        34
+      ],
+      "token_sha256": "ce72f7464ca3e1ced6099d8866fbdd39dd85b158449bb997c6d423c21477a60e"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeries36",
+      "signature": "Public ReadOnly Property XSourceSlots As Integer()",
+      "lines": [
+        42,
+        46
+      ],
+      "token_sha256": "336c3fa59096e9bb757f1fd58117861f136cdcaa5db9e158eb73211005d799c6"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeries36",
+      "signature": "Public ReadOnly Property YSourceSlots As Integer()",
+      "lines": [
+        47,
+        51
+      ],
+      "token_sha256": "fbb97d4b34c622cc5bc1cdc992c90ed24816be064f233a37808bdf2c2c13943d"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeriesGeometry36",
+      "signature": "Public Shared Function Survival(plotData As survival.KaplanMeierPlotData, group As Integer) As KaplanMeierSeries36",
+      "lines": [
+        58,
+        81
+      ],
+      "token_sha256": "105b4b2e1aff1612031f3e247e1d290f7aa2d31d694bc5297039650650592d3f"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeriesGeometry36",
+      "signature": "Public Shared Function Censor(plotData As survival.KaplanMeierPlotData, group As Integer) As KaplanMeierSeries36",
+      "lines": [
+        82,
+        104
+      ],
+      "token_sha256": "f96d23c039d3069af620126931e900b7684f992900eaea5a99e01a731f0e9afa"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb",
+      "owner": "BESHStatNG.KaplanMeierSeriesGeometry36",
+      "signature": "Public Shared Function Confidence(plotData As survival.KaplanMeierPlotData, group As Integer, upper As Boolean) As KaplanMeierSeries36",
+      "lines": [
+        105,
+        129
+      ],
+      "token_sha256": "951b8de20bed9389f34c6fdd5eadcb67e4efc168b1db90f79910842f492bf6cf"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/SpcZoneBands36.vb",
+      "owner": "BESHStatNG.SpcZoneBands36",
+      "signature": "Public ReadOnly Property ValidPointCount As Integer",
+      "lines": [
+        10,
+        10
+      ],
+      "token_sha256": "a31392899d4c695d380d66be52c19269bf30c80c6a7334facad710e08ff21177"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/SpcZoneBands36.vb",
+      "owner": "BESHStatNG.SpcZoneBands36",
+      "signature": "Public Sub New(points As SpcPointResult(), minimum As Double)",
+      "lines": [
+        11,
+        47
+      ],
+      "token_sha256": "350778ed6c1652fe81fdfdcd47c08cf36d0b8cd1a85862c3145e87a156618a03"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/SpcZoneBands36.vb",
+      "owner": "BESHStatNG.SpcZoneBands36",
+      "signature": "Public ReadOnly Property Values As Double?()()",
+      "lines": [
+        48,
+        52
+      ],
+      "token_sha256": "73347b40b5fe534b2f90fedff6084799d7aa79adcf020451ffb0bdc9f03d9bad"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/SpcZoneBands36.vb",
+      "owner": "BESHStatNG.SpcZoneBands36",
+      "signature": "Public Shared Function HasValidZones(point As SpcPointResult) As Boolean",
+      "lines": [
+        54,
+        70
+      ],
+      "token_sha256": "4aae8d6b22680cec178c78362aa6a3c341be15cefaea007768ac441346f6d4ff"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcSeriesIntent36",
+      "signature": "Public ReadOnly Property Role As SpcSeriesRole36",
+      "lines": [
+        22,
+        22
+      ],
+      "token_sha256": "26a61c85a0cd178d1c0a85c668a9c4d9a5d4e6654099c3f9d4f9376bb2b275ea"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcSeriesIntent36",
+      "signature": "Public ReadOnly Property Name As String",
+      "lines": [
+        23,
+        23
+      ],
+      "token_sha256": "6f3497523eac5c5976c4c7946af4e71d3874c6466ed9d25d02ea50fbb25b14ea"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcSeriesIntent36",
+      "signature": "Public ReadOnly Property LastValueOrdinal As Integer",
+      "lines": [
+        24,
+        24
+      ],
+      "token_sha256": "c4d283bcf50c669431caf7232d4763526e83aa36ce7bc0ba073bf13eb1896e0f"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcSeriesIntent36",
+      "signature": "Public ReadOnly Property ShowLimitLabel As Boolean",
+      "lines": [
+        25,
+        25
+      ],
+      "token_sha256": "6b95af910ff228290a8e94f6d32de2367c4723a29cc4eb673947e6b5dfce78bb"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcSeriesIntent36",
+      "signature": "Public ReadOnly Property HideLegend As Boolean",
+      "lines": [
+        26,
+        26
+      ],
+      "token_sha256": "e7cf6853816a97439f03f81081219166c56985b8ebb237efa7aea02cc2947c59"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcSeriesIntent36",
+      "signature": "Public ReadOnly Property Values As Double?()",
+      "lines": [
+        31,
+        35
+      ],
+      "token_sha256": "67fb61ab335524f4c50afc38d74c1e3d486aeb70afe194b650535bb825ee4063"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcSeriesIntent36",
+      "signature": "Public Shared Function LastFiniteOrdinal(values As IReadOnlyList(Of Double?)) As Integer",
+      "lines": [
+        36,
+        41
+      ],
+      "token_sha256": "af8c3f35a43f22e56e46ca545c05e5068df8827baa8a1fea22995b6ef869de62"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcPanelPresentation36",
+      "signature": "Public ReadOnly Property Series As IReadOnlyList(Of SpcSeriesIntent36)",
+      "lines": [
+        46,
+        46
+      ],
+      "token_sha256": "1c5ba224ef09f014adb5acb6b8d612427923309a347a60313c0a719c127be0c3"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcPanelPresentation36",
+      "signature": "Public ReadOnly Property IncludesBands As Boolean",
+      "lines": [
+        47,
+        47
+      ],
+      "token_sha256": "eedf59b04e4db8cebb9d3a352c884c208086c3e85bc3a07676dc7afc206c8b16"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcPanelPresentation36",
+      "signature": "Public Shared Function AxisBounds(panel As SpcPanelSeriesProjection, specifications As SpcSpecificationLimits, showSpecs As Boolean, showTarget As Boolean) As ChartAxisScaleResult",
+      "lines": [
+        48,
+        69
+      ],
+      "token_sha256": "96d9da8b2f9dbf844c473dad6d3a0710952b5c7219fbf9245f3b48f16d7c79fc"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SpcPanelPresentation36",
+      "signature": "Public Sub New(panel As SpcPanelSeriesProjection, specifications As SpcSpecificationLimits, zoneMode As Integer, showSpecs As Boolean, showTarget As Boolean, showExcluded As Boolean, showLabels As Boolean, showZoneLegend As Boolean)",
+      "lines": [
+        70,
+        100
+      ],
+      "token_sha256": "2db2999ec8151e520c4e62178f368074dc60323cc360fb3bd93065e28f5a6b40"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualBlock36",
+      "signature": "Public ReadOnly Property BlockOrdinal As Integer",
+      "lines": [
+        11,
+        11
+      ],
+      "token_sha256": "b2b1c4eed71938bea07cd69565b2999d3b77865feb9e5f831e3a071638e42981"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualBlock36",
+      "signature": "Public ReadOnly Property Series As IReadOnlyList(Of CoxResidualSeries36)",
+      "lines": [
+        12,
+        12
+      ],
+      "token_sha256": "e4c68e134dd699aaf87fb888de9e1147ef34bb3bb9c84f25b64d30873208ddde"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualBlock36",
+      "signature": "Public ReadOnly Property PlotAvailability As String",
+      "lines": [
+        48,
+        52
+      ],
+      "token_sha256": "d7c3035e285d76a7a049c06561bc55a7e162c158e49cd629ae67d92eda228e55"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualBlock36",
+      "signature": "Public ReadOnly Property Reason As String",
+      "lines": [
+        53,
+        57
+      ],
+      "token_sha256": "72ce01e774be59bdae15cc30cdc013e9fde86fc6e2d317dd5faece92773fe07b"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualBlock36",
+      "signature": "Public ReadOnly Property LegacyValues As Object(,)",
+      "lines": [
+        58,
+        62
+      ],
+      "token_sha256": "626db1c720bf7fb89943205666ae0733cf156fc80747473b7a09177182626212"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualBlock36",
+      "signature": "Public ReadOnly Property NumericBody As Double?(,)",
+      "lines": [
+        83,
+        95
+      ],
+      "token_sha256": "e6f673b5b37ff4852320fb59e6219b192428fe4e8e8cec5e9561805900783bed"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualSeries36",
+      "signature": "Public ReadOnly Property BlockOrdinal As Integer",
+      "lines": [
+        99,
+        99
+      ],
+      "token_sha256": "b2b1c4eed71938bea07cd69565b2999d3b77865feb9e5f831e3a071638e42981"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualSeries36",
+      "signature": "Public ReadOnly Property ValueColumnIndex As Integer",
+      "lines": [
+        100,
+        100
+      ],
+      "token_sha256": "595f336e6df4a8c24ad26947b8e62789477ebe12129c74c9c0fdcbc510a940dd"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualSeries36",
+      "signature": "Public ReadOnly Property Name As String",
+      "lines": [
+        101,
+        101
+      ],
+      "token_sha256": "6f3497523eac5c5976c4c7946af4e71d3874c6466ed9d25d02ea50fbb25b14ea"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualSeries36",
+      "signature": "Public ReadOnly Property RowIds As Integer()",
+      "lines": [
+        107,
+        111
+      ],
+      "token_sha256": "318e5a7f3d18cafc80963d7526a5691a9aa93686f9c339b0b46d99a8c5970bba"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualSeries36",
+      "signature": "Public ReadOnly Property ObservationOrdinals As Integer()",
+      "lines": [
+        112,
+        116
+      ],
+      "token_sha256": "bb26a23ebcaa253bd52fda92e4eaa6f558b77ece5dabfe8cec1cdad74deed543"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualSeries36",
+      "signature": "Public ReadOnly Property XValues As Double()",
+      "lines": [
+        117,
+        121
+      ],
+      "token_sha256": "ad26c94c8a6f5d0e44d0b4af309d0b9b536bdab3e6210b622433d86499d01219"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualSeries36",
+      "signature": "Public ReadOnly Property YValues As Double()",
+      "lines": [
+        122,
+        126
+      ],
+      "token_sha256": "1e674ff315dfdccac1cb82fcbdc42982ff9ed6929ba67631025dcbe19940baa9"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualPlotAvailability36",
+      "signature": "Public ReadOnly Property Blocks As IReadOnlyList(Of CoxResidualBlock36)",
+      "lines": [
+        130,
+        130
+      ],
+      "token_sha256": "d1ffc9184d2c51c4b685707e435ce51c80b4500167328299cae61aa89ebc6a50"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualPlotAvailability36",
+      "signature": "Public Sub New(data As CoxResidualData)",
+      "lines": [
+        131,
+        135
+      ],
+      "token_sha256": "de05abc5e1b648d6d4fa0bb1caff8fe88f7ba8f865b8864ce5db55fa943c13e2"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualPlotAvailability36",
+      "signature": "Public ReadOnly Property NativeControlAvailable As Boolean",
+      "lines": [
+        136,
+        140
+      ],
+      "token_sha256": "9294ca029a5fc5366a0e9a60e4d2ccaa8954d5c9544185f96f1ca5d2c1dca4dd"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualPlotAvailability36",
+      "signature": "Public ReadOnly Property RowIds As Integer()",
+      "lines": [
+        141,
+        145
+      ],
+      "token_sha256": "095c7c02494f54e0c1d3c6b51af9a48bab616e270e1e2ca97c8ebc57c95c9e72"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualPlotAvailability36",
+      "signature": "Public ReadOnly Property Time As Double()",
+      "lines": [
+        146,
+        150
+      ],
+      "token_sha256": "0a4d16b25b2987c31b3144bee8f2c307f8e138391c834996a3c7d0c0f0f72955"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualPlotAvailability36",
+      "signature": "Public ReadOnly Property Status As Integer()",
+      "lines": [
+        151,
+        155
+      ],
+      "token_sha256": "f54ee4b6b88d9b136a10b069ceb74191020a2b9d35c2e185beef65e225602539"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualPlotAvailability36",
+      "signature": "Public ReadOnly Property Predictors As Double(,)",
+      "lines": [
+        156,
+        160
+      ],
+      "token_sha256": "8bd0fb462e9669df4db6ab20c42571fc014cdbe4f94e090790d3bc78e8573c8b"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualPlotAvailability36",
+      "signature": "Public ReadOnly Property Names As String()",
+      "lines": [
+        161,
+        165
+      ],
+      "token_sha256": "68ca9216b09f9f943e5476651c9fb0e0e5a70ea18c32f7b204c01b4ea0229302"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/SurvivalChartPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SurvivalChartPresentation36",
+      "signature": "Public Shared Function SeriesName(data As KaplanMeierPlotData, group As Integer, role As KaplanMeierSeriesRole36) As String",
+      "lines": [
+        19,
+        23
+      ],
+      "token_sha256": "f35589d5904bf23986ee01490d77505ddd22e3e89fcd2865e2ebdcfc1e1878f7"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/SurvivalChartPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SurvivalChartPresentation36",
+      "signature": "Public Shared Function KmTimeTitle(unit As String) As String",
+      "lines": [
+        24,
+        26
+      ],
+      "token_sha256": "4baf2db4fc528c94df81b2432b511065045b39290ca66c9c01a2e1aff3370768"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/SurvivalChartPresentation36.vb",
+      "owner": "BESHStatNG.ExcelCommon.SurvivalChartPresentation36",
+      "signature": "Public Shared Function DeleteLegend(groups As Integer, requested As Boolean) As Boolean",
+      "lines": [
+        27,
+        29
+      ],
+      "token_sha256": "6e1864e9cdc7129b8a04d3f902ff37036d7cad7e70fed24af007947fedb18aba"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/SurvivalReportPolicy.vb",
+      "owner": "BESHStatNG.ExcelCommon.CoxResidualData",
+      "signature": "Public Function ResidualPlotAvailability() As CoxResidualPlotAvailability36",
+      "lines": [
+        192,
+        194
+      ],
+      "token_sha256": "d09c09bb9e941dac1d152251b393791028da1e08ca60febc8b723c4c28fc58de"
+    }
+  ],
+  "ownership": {
+    "Core": "KM coordinates/source slots; Cox validation/scaling/late copy; SPC zone vectors",
+    "Common": "KM/Cox captions; SPC ordered admission/legend/limit-label/axis intent; Cox residual data/availability",
+    "Windows": "Chart/Series/Shape creation, VARIANT marshaling, style/pixel/font acquisition, COM indexes/catches/cleanup"
+  },
+  "source_slots": {
+    "origin": -1,
+    "unassigned": -2,
+    "other": "zero-based input array row/slot; never fabricated worksheet row"
+  },
+  "spc_identity": "Accepted PointIndex/source rows vs aligned plot ordinal vs one-based Excel point index retained; SetPointLabel alone adds one",
+  "copy_policy": "Input snapshots and independent arrays/matrices/getters; nested residual arrays cloned recursively. Accepted source models and legacy report blocks unchanged.",
+  "exceptions": "Legacy null/index/shape exceptions and native phase timing retained; malformed KM censor dimension not repaired",
+  "scientific": "NOT_GOLDEN",
+  "accepted_survival_report_member_tokens_preserved": 68
+}

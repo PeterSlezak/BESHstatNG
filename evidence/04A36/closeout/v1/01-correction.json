@@ -1,0 +1,58 @@
+{
+  "original_plan": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "bytes": 78247,
+    "sha256": "55662468c2b756cca7ea1e880b60bdc2c7f2f94db4c024d677c6cfce6eff91be"
+  },
+  "corrected_plan": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "bytes": 78245,
+    "sha256": "436b66c4307bd1571649c2604f8d90b5f0b5d843df3567b918698392fe5d6e7c"
+  },
+  "removed_bytes_hex": "2020",
+  "line": 3,
+  "all_other_bytes_and_line_endings_preserved": true,
+  "inverse_reconstruction_sha256": "55662468c2b756cca7ea1e880b60bdc2c7f2f94db4c024d677c6cfce6eff91be",
+  "readmes_unchanged": 15,
+  "applied_by_this_execution": false,
+  "correction_operator": "NOT_OBSERVED_NOT_ASSERTED; exact correction already present",
+  "checks": {
+    "full_diff_check": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "status_short": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "status",
+        "--short"
+      ],
+      "exit_code": 0,
+      "stdout": " M BESHStat.Core.Tests/README.md\n M BESHStat.Core/README.md\n M BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj\n M BESHStat.Excel.Common.Tests/README.md\n M BESHStat.Excel.Common/README.md\n M BESHStat.Excel.Common/src/Results/SurvivalReportPolicy.vb\n M BESHStat.OfficeAddin/README.md\n M BESHStat.OfficeAddin/tests/README.md\n M BESHStat.WasmSmoke/README.md\n M BESHStatNG.Test/BESHStatNG.Tests.vbproj\n M BESHStatNG.Test/README.md\n M BESHStatNG_Help_MkDocs/README.md\n M BESHStatNG_Installer/README.md\n M BESHstatNG/README.md\n M BESHstatNG/src/Graphics/CoxSurvivalPlotExcel.vb\n M BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb\n M BESHstatNG/src/Graphics/SpcControlChartExcel.vb\n M README.md\n M docs/architecture/README.md\n M planning/BESHStatNG_CrossPlatform_MasterPlan.md\n M planning/README.md\n M scripts/README.md\n?? BESHStat.Core.Tests/src/Graphics/Cases36.vb\n?? BESHStat.Core.Tests/src/Graphics/Graphics36GeometryTests.vb\n?? BESHStat.Core.Tests/src/Graphics/Legacy36.vb\n?? BESHStat.Core/src/Graphics/CoxCurveGeometry36.vb\n?? BESHStat.Core/src/Graphics/KaplanMeierSeriesGeometry36.vb\n?? BESHStat.Core/src/Graphics/SpcZoneBands36.vb\n?? BESHStat.Excel.Common.Tests/src/Graphics36PresentationTests.vb\n?? BESHStat.Excel.Common.Tests/src/LegacyPresentation36.vb\n?? BESHStat.Excel.Common.Tests/src/LegacyPresentation36V2.vb\n?? BESHStat.Excel.Common/src/Analysis/SpcPanelPresentation36.vb\n?? BESHStat.Excel.Common/src/Results/CoxResidualPlotAvailability36.vb\n?? BESHStat.Excel.Common/src/Results/SurvivalChartPresentation36.vb\n?? BESHStatNG.Test/src/Charts/Graphics36AdapterTests.vb\n?? docs/architecture/batch-04A-36-owner-review.md\n?? evidence/04A36/\n",
+      "stderr": ""
+    },
+    "index": {
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "diff",
+        "--cached",
+        "--name-only"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  }
+}

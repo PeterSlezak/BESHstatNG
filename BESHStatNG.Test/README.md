@@ -16,4 +16,6 @@ Execute from the repository root. Some older Visual Studio test discovery adviso
 
 ## Validation scope
 
+The `src/Charts/Graphics30AdapterTests.vb` through `Graphics35AdapterTests.vb` coverage, together with focused geometry/preparation tests, protects Windows consumption of the new Core/Common chart payloads. These are software-compatibility/adapter checks, not actual Excel COM chart-rendering or GUI automation results. Historical managed failures, concurrent-test timing incidents and source-identity assertions remain documented in the acceptance dossiers; do not relabel them as passing tests.
+
 Run this suite alongside Core/Common tests when migrating Windows calculation or UI-adjacent logic. Automated tests do not replace owner-operated Excel GUI, workbook lifecycle, Ribbon callback, UDF, chart-output and MSI checks. Retain historical tolerances and golden data unless a reviewed numerical change requires updating them. Validate cross-host p-value display and ANOVA/post-hoc outputs by keeping statistical numbers numeric; a passed legacy fixture alone does not establish Office native-style readback.

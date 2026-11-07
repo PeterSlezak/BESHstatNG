@@ -1,8 +1,9 @@
-﻿Option Explicit On
+Option Explicit On
 Option Strict Off
 
 Imports Microsoft.Office.Interop.Excel
 Imports System.Runtime.CompilerServices
+Imports BESHStatNG.ExcelCommon
 
 Namespace graphics
 
@@ -51,33 +52,20 @@ Namespace graphics
 
                     With .Axes(XlAxisType.xlValue)
                         .MinimumScale = 0
-                        .MaximumScale = 1
-                        .MajorUnit = 0.2
+                        .MaximumScale = SurvivalChartPresentation36.MaximumProbability
+                        .MajorUnit = SurvivalChartPresentation36.ProbabilityMajorUnit
                         .MajorGridlines.Delete
                     End With
                     .Axes(XlAxisType.xlCategory).MinimumScale = 0
 
                     For i As Integer = 0 To noGroups - 1
-                        Dim plotUpper As Integer = plotData.SurvivalProbability.GetUpperBound(0)
-                        ReDim probability(plotUpper + 1)
-                        ReDim time(plotUpper + 1)
-                        probability(0) = 1
-                        time(0) = 0
-
-                        For j As Integer = 0 To plotUpper
-                            If plotData.SurvivalTime(j) <= plotData.MaximumTimeByGroup(i) Then
-                                probability(j + 1) = plotData.SurvivalProbability(j, i)
-                                time(j + 1) = plotData.SurvivalTime(j)
-                            Else
-                                ReDim Preserve probability(j)
-                                ReDim Preserve time(j)
-                                Exit For
-                            End If
-                        Next
+                        Dim prepared = KaplanMeierSeriesGeometry36.Survival(plotData, i)
+                        time = prepared.XValues
+                        probability = prepared.YValues
 
                         .SeriesCollection.NewSeries
                         With .SeriesCollection(i + 1)
-                            .Name = plotData.GroupLabels(i)
+                            .Name = SurvivalChartPresentation36.SeriesName(plotData, i, KaplanMeierSeriesRole36.Survival)
                             .XValues = time
                             .Values = probability
                             .Border.Color = graphics.GetColor(i + 1)
@@ -92,27 +80,17 @@ Namespace graphics
 
                     For i As Integer = noGroups To 2 * noGroups - 1
                         Dim groupIndex As Integer = i - noGroups
-                        If plotData.CensoredCountByGroup(groupIndex) > 0 Then
-                            ReDim cenProbability(plotData.CensoredCountByGroup(groupIndex) - 1)
-                            ReDim cenTimes(plotData.CensoredCountByGroup(groupIndex) - 1)
-                            bCen = True
-                        Else
-                            ReDim cenProbability(0)
-                            ReDim cenTimes(0)
-                            bCen = False
-                        End If
-
-                        For j As Integer = 0 To plotData.CensoredCountByGroup(groupIndex) - 1
-                            cenProbability(j) = plotData.CensorMarkerProbability(j, groupIndex)
-                            cenTimes(j) = plotData.CensorMarkerTime(j, groupIndex)
-                        Next
+                        Dim prepared = KaplanMeierSeriesGeometry36.Censor(plotData, groupIndex)
+                        cenTimes = prepared.XValues
+                        cenProbability = prepared.YValues
+                        bCen = prepared.AssignValues
 
                         .SeriesCollection.NewSeries
                         If bCen Then
                             With .SeriesCollection(i + 1)
                                 .XValues = cenTimes
                                 .Values = cenProbability
-                                .Name = "Censored " + plotData.GroupLabels(groupIndex)
+                                .Name = SurvivalChartPresentation36.SeriesName(plotData, groupIndex, KaplanMeierSeriesRole36.Censor)
                                 With .Format.Line
                                     .Visible = True
                                     .ForeColor.TintAndShade = 0
@@ -129,26 +107,13 @@ Namespace graphics
                     If bPlotCI Then
                         For i As Integer = 2 * noGroups To 3 * noGroups - 1
                             Dim groupIndex As Integer = i - 2 * noGroups
-                            Dim plotUpper As Integer = plotData.SurvivalProbability.GetUpperBound(0)
-                            ReDim upCI(plotUpper + 1)
-                            ReDim time(plotData.SurvivalTime.Length)
-                            upCI(0) = 1
-                            time(0) = 0
+                        Dim prepared = KaplanMeierSeriesGeometry36.Confidence(plotData, groupIndex, True)
+                        time = prepared.XValues
+                            upCI = prepared.YValues
 
-                            For j As Integer = 0 To plotUpper
-                                If plotData.SurvivalTime(j) <= plotData.MaximumTimeByGroup(groupIndex) Then
-                                    upCI(j + 1) = plotData.UpperConfidenceLimit(j, groupIndex)
-                                    time(j + 1) = plotData.SurvivalTime(j)
-                                Else
-                                    ReDim Preserve upCI(j)
-                                    ReDim Preserve time(j)
-                                    Exit For
-                                End If
-                            Next
-
-                            .SeriesCollection.NewSeries
+                        .SeriesCollection.NewSeries
                             With .SeriesCollection(i + 1)
-                                .Name = $"{100.0 * (1.0 - plotData.Alpha):0.##}% CI " + plotData.GroupLabels(groupIndex)
+                                .Name = SurvivalChartPresentation36.SeriesName(plotData, groupIndex, KaplanMeierSeriesRole36.UpperConfidence)
                                 .XValues = time
                                 .Values = upCI
                                 .Border.Color = graphics.GetColor(groupIndex + 1)
@@ -164,26 +129,13 @@ Namespace graphics
 
                         For i As Integer = 3 * noGroups To 4 * noGroups - 1
                             Dim groupIndex As Integer = i - 3 * noGroups
-                            Dim plotUpper As Integer = plotData.SurvivalProbability.GetUpperBound(0)
-                            ReDim lowCI(plotUpper + 1)
-                            ReDim time(plotData.SurvivalTime.Length)
-                            lowCI(0) = 1
-                            time(0) = 0
+                        Dim prepared = KaplanMeierSeriesGeometry36.Confidence(plotData, groupIndex, False)
+                        time = prepared.XValues
+                            lowCI = prepared.YValues
 
-                            For j As Integer = 0 To plotUpper
-                                If plotData.SurvivalTime(j) <= plotData.MaximumTimeByGroup(groupIndex) Then
-                                    lowCI(j + 1) = plotData.LowerConfidenceLimit(j, groupIndex)
-                                    time(j + 1) = plotData.SurvivalTime(j)
-                                Else
-                                    ReDim Preserve lowCI(j)
-                                    ReDim Preserve time(j)
-                                    Exit For
-                                End If
-                            Next
-
-                            .SeriesCollection.NewSeries
+                        .SeriesCollection.NewSeries
                             With .SeriesCollection(i + 1)
-                                .Name = $"{100.0 * (1.0 - plotData.Alpha):0.##}% CI " + plotData.GroupLabels(groupIndex)
+                                .Name = SurvivalChartPresentation36.SeriesName(plotData, groupIndex, KaplanMeierSeriesRole36.LowerConfidence)
                                 .XValues = time
                                 .Values = lowCI
                                 .Border.Color = graphics.GetColor(groupIndex + 1)
@@ -205,10 +157,10 @@ Namespace graphics
                         If sTitle = String.Empty Then .HasTitle = False
                         .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
                         .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = "Survival Probability"
+                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = SurvivalChartPresentation36.ProbabilityTitle
                         .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = False
                         .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = True
-                        .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Text = $"Time ({sXaxisUnit})"
+                        .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Text = SurvivalChartPresentation36.KmTimeTitle(sXaxisUnit)
                     Catch
                     End Try
 
@@ -216,7 +168,7 @@ Namespace graphics
                         .Legend.LegendEntries(i).Delete
                     Next
 
-                    If noGroups = 1 OrElse Not bLegend Then
+                    If SurvivalChartPresentation36.DeleteLegend(noGroups, bLegend) Then
                         Try
                             .Legend.Delete()
                         Catch

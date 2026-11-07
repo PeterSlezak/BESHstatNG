@@ -1,0 +1,143 @@
+{
+  "status": "PASS_EXACT_SOFTWARE_COMPATIBILITY",
+  "comparisons": [
+    {
+      "configuration": "Debug",
+      "family": "KM_Cox_SPC_bands",
+      "pre_edit": {
+        "path": "evidence/04A36/pre-edit-capture.csv",
+        "bytes": 916958,
+        "sha256": "a91d933fae456fb7b44bb66631c03978697e5d48a645474b149b52bc5aa9b7a5"
+      },
+      "post_edit": {
+        "path": "evidence/04A36/post-edit-geometry-Debug.csv",
+        "bytes": 916958,
+        "sha256": "a91d933fae456fb7b44bb66631c03978697e5d48a645474b149b52bc5aa9b7a5"
+      },
+      "rows": 5472,
+      "successful_outputs": 2912,
+      "recorded_legacy_exceptions": {
+        "System.NullReferenceException:": 364,
+        "System.ArgumentNullException:survTime": 18,
+        "System.IndexOutOfRangeException:": 2086,
+        "System.ArgumentException:": 86,
+        "System.ArgumentNullException:survProb": 6
+      },
+      "byte_identical": true,
+      "mismatches": 0
+    },
+    {
+      "configuration": "Debug",
+      "family": "SPC_ordered_presentation",
+      "pre_edit": {
+        "path": "evidence/04A36/pre-edit-presentation-v2.csv",
+        "bytes": 235207,
+        "sha256": "2c590f9ab5e64278b02bef8c95e2af7fce024e9ef8faabd439606f45d661a887"
+      },
+      "post_edit": {
+        "path": "evidence/04A36/post-edit-presentation-Debug.csv",
+        "bytes": 235207,
+        "sha256": "2c590f9ab5e64278b02bef8c95e2af7fce024e9ef8faabd439606f45d661a887"
+      },
+      "rows": 384,
+      "successful_outputs": 330,
+      "recorded_legacy_exceptions": {
+        "System.ArgumentException:points": 54
+      },
+      "byte_identical": true,
+      "mismatches": 0
+    },
+    {
+      "configuration": "Debug",
+      "family": "SPC_axis",
+      "pre_edit": {
+        "path": "evidence/04A36/pre-edit-axis-v2.csv",
+        "bytes": 22497,
+        "sha256": "fee2e66af25bba67e2ef9653eabf551661d233889bea30ca3c320b553cf04d5e"
+      },
+      "post_edit": {
+        "path": "evidence/04A36/post-edit-axis-Debug.csv",
+        "bytes": 22497,
+        "sha256": "fee2e66af25bba67e2ef9653eabf551661d233889bea30ca3c320b553cf04d5e"
+      },
+      "rows": 384,
+      "successful_outputs": 330,
+      "recorded_legacy_exceptions": {
+        "System.ArgumentException:points": 54
+      },
+      "byte_identical": true,
+      "mismatches": 0
+    },
+    {
+      "configuration": "Release",
+      "family": "KM_Cox_SPC_bands",
+      "pre_edit": {
+        "path": "evidence/04A36/pre-edit-Release.csv",
+        "bytes": 916958,
+        "sha256": "a91d933fae456fb7b44bb66631c03978697e5d48a645474b149b52bc5aa9b7a5"
+      },
+      "post_edit": {
+        "path": "evidence/04A36/post-edit-geometry-Release.csv",
+        "bytes": 916958,
+        "sha256": "a91d933fae456fb7b44bb66631c03978697e5d48a645474b149b52bc5aa9b7a5"
+      },
+      "rows": 5472,
+      "successful_outputs": 2912,
+      "recorded_legacy_exceptions": {
+        "System.NullReferenceException:": 364,
+        "System.ArgumentNullException:survTime": 18,
+        "System.IndexOutOfRangeException:": 2086,
+        "System.ArgumentException:": 86,
+        "System.ArgumentNullException:survProb": 6
+      },
+      "byte_identical": true,
+      "mismatches": 0
+    },
+    {
+      "configuration": "Release",
+      "family": "SPC_ordered_presentation",
+      "pre_edit": {
+        "path": "evidence/04A36/pre-edit-presentation-v2-Release.csv",
+        "bytes": 235207,
+        "sha256": "2c590f9ab5e64278b02bef8c95e2af7fce024e9ef8faabd439606f45d661a887"
+      },
+      "post_edit": {
+        "path": "evidence/04A36/post-edit-presentation-Release.csv",
+        "bytes": 235207,
+        "sha256": "2c590f9ab5e64278b02bef8c95e2af7fce024e9ef8faabd439606f45d661a887"
+      },
+      "rows": 384,
+      "successful_outputs": 330,
+      "recorded_legacy_exceptions": {
+        "System.ArgumentException:points": 54
+      },
+      "byte_identical": true,
+      "mismatches": 0
+    },
+    {
+      "configuration": "Release",
+      "family": "SPC_axis",
+      "pre_edit": {
+        "path": "evidence/04A36/pre-edit-axis-v2-Release.csv",
+        "bytes": 22497,
+        "sha256": "fee2e66af25bba67e2ef9653eabf551661d233889bea30ca3c320b553cf04d5e"
+      },
+      "post_edit": {
+        "path": "evidence/04A36/post-edit-axis-Release.csv",
+        "bytes": 22497,
+        "sha256": "fee2e66af25bba67e2ef9653eabf551661d233889bea30ca3c320b553cf04d5e"
+      },
+      "rows": 384,
+      "successful_outputs": 330,
+      "recorded_legacy_exceptions": {
+        "System.ArgumentException:points": 54
+      },
+      "byte_identical": true,
+      "mismatches": 0
+    }
+  ],
+  "rows_per_configuration": 6240,
+  "scientific": "NOT_GOLDEN",
+  "authority": "Frozen pre-edit source slices / accepted22 legacy math; V2 correction explicitly retained with original mostly rejected (6 valid / 378 rejected) V1, links only entry assemblies.",
+  "policy": "Exact bytes/IEEE/array shape/mask/order/exception type+parameter; no relaxed tolerance or locale substitution; native visual parity NOT_RUN."
+}

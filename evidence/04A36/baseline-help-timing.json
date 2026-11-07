@@ -1,0 +1,42 @@
+{
+  "original": {
+    "total": 16,
+    "passed": 15,
+    "failed": 0,
+    "errors": 1,
+    "exit_code": 1,
+    "stderr_sha256": "586861a0cecaf774654302e80ff63aaf000f87559f737964312a09e2fd7dad80"
+  },
+  "identity": "test_mkdocs_htaccess.LatestMimeBuildTests.test_owner_wrapper_regenerates_configs_and_builds_both_targets_from_either_cwd",
+  "subtest": "invocation='repository-root'",
+  "original_error": "TimeoutExpired after original120-second child deadline",
+  "same_unchanged_source_recheck": {
+    "label": "entry",
+    "suite": "help-serial-recheck",
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "errors": 0,
+    "exit_code": 0,
+    "stderr_sha256": "916115ca7bb94add67d2e30cc12077e8f1ff8459e8c7947d3cdc1440835ed717",
+    "log_decoding": "utf-8-sig",
+    "identities": [
+      "test_direct_custom_output_has_exact_bytes_and_existing_resolver_assets (test_mkdocs_htaccess.LatestMimeBuildTests.test_direct_custom_output_has_exact_bytes_and_existing_resolver_assets)",
+      "test_owner_wrapper_regenerates_configs_and_builds_both_targets_from_either_cwd (test_mkdocs_htaccess.LatestMimeBuildTests.test_owner_wrapper_regenerates_configs_and_builds_both_targets_from_either_cwd)",
+      "test_post_build_write_failure_is_nonzero_in_direct_and_wrapper_builds (test_mkdocs_htaccess.LatestMimeBuildTests.test_post_build_write_failure_is_nonzero_in_direct_and_wrapper_builds)",
+      "test_repeated_dirty_builds_repair_deleted_and_stale_output (test_mkdocs_htaccess.LatestMimeBuildTests.test_repeated_dirty_builds_repair_deleted_and_stale_output)",
+      "test_latest_url_controls_target_independent_of_output_folder_name (test_mkdocs_htaccess.LatestMimeHookTests.test_latest_url_controls_target_independent_of_output_folder_name)",
+      "test_output_readback_failure_is_reported (test_mkdocs_htaccess.LatestMimeHookTests.test_output_readback_failure_is_reported)",
+      "test_versioned_or_other_urls_do_not_create_output_directories (test_mkdocs_htaccess.LatestMimeHookTests.test_versioned_or_other_urls_do_not_create_output_directories)"
+    ],
+    "nonpasses": []
+  },
+  "final_full": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "errors": 0,
+    "exit_code": 0
+  },
+  "disposition": "Retained real pre-edit ERROR; unchanged7-case serial recheck and final16-case full Help pass. No deadline change or timing waiver."
+}

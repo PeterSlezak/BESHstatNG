@@ -1,0 +1,67 @@
+{
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED"
+  },
+  "scientific": "NOT_GOLDEN",
+  "original_controls_released": 0,
+  "issues": [
+    {
+      "id": "C13-LOGRANK-R-01",
+      "status": "OPEN_UNCHANGED",
+      "reason": "Earliest-time censor/weighted log-rank restriction; no estimator/risk-set changes or R execution.",
+      "owner": "04A.39-41; native45-48"
+    },
+    {
+      "id": "C13-KM-CENSOR-AXIS-01",
+      "status": "OPEN_UNCHANGED",
+      "reason": "No-censor groups may be omitted in count dimension; original source-only drawing phase/index failures and upstream all-event Max failure retained.",
+      "owner": "04A.39-41; native45-48"
+    },
+    {
+      "id": "C13-RESIDUAL-PLOTS-01",
+      "status": "OPEN_UNCHANGED",
+      "reason": "Payload metadata does not activate disabled/unwired Cox residual GUI or native renderer.",
+      "owner": "04A.45-48 native approval"
+    },
+    {
+      "id": "C36-KM-CI-TIME-PADDING-01",
+      "status": "CANDIDATE_ONLY",
+      "input": "Cases36.KM(19), append extra SurvivalTime slot; CI X length6/Y length5 with original trailing zero",
+      "source": "KaplanMeierPlotExcel original confidence loops -> KaplanMeierSeriesGeometry36.Confidence",
+      "risk": "Native cardinality/coercion not independently observed; behavior preserved.",
+      "owner": "04A.39-41 /45-48"
+    },
+    {
+      "id": "C36-KM-EMPTY-CENSOR-SLOT-01",
+      "status": "CANDIDATE_ONLY",
+      "input": "CensoredCountByGroup(group)=0; native NewSeries still occurs without values/name assignment",
+      "source": "KaplanMeierPlotExcel.Plot censor phase",
+      "risk": "Native empty-series/legend behavior remains SOURCE_ONLY_NATIVE; no correction.",
+      "owner": "04A.39-41 /45-48"
+    },
+    {
+      "id": "C36-COX-LATE-ARRAY-AXIS-01",
+      "status": "CANDIDATE_ONLY",
+      "input": "Axis from times{1,2}; hypothetical native reentry mutates times before original XValues read",
+      "source": "CoxSurvivalPlotExcel.PlotCox",
+      "risk": "Original earlier scale/later vector timing retained; no native reentry executed.",
+      "owner": "04A.39-41 /45-48"
+    },
+    {
+      "id": "SPC_ORIGINAL_CONTROL_OBLIGATIONS",
+      "status": "OPEN_UNCHANGED",
+      "reason": "04A.21-24 phase/exclusion/model/native controls and stacked row-count candidate remain; no signals/limits/rules changed.",
+      "owner": "04A.39-41 /45-48"
+    },
+    {
+      "id": "G29_CANONICAL_HELPERS_171_172",
+      "status": "UNCERTAINTY_RETAINED",
+      "reason": "Canonical v2 lineage is unchanged; this batch discharges no historical cross-source uncertainty.",
+      "owner": "Existing later-batch charter"
+    }
+  ]
+}

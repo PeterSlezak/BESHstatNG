@@ -1,0 +1,63 @@
+Option Explicit On
+Option Strict On
+Option Infer On
+Imports System
+Imports System.Linq
+Imports System.Collections.Generic
+Imports System.Globalization
+Imports BESHStatNG
+Imports BESHStatNG.StatisticalProcessControl
+Namespace Global.Legacy36
+Public Module Cases36
+Public Function KM(index As Integer) As survival.KaplanMeierPlotData
+If index=0 Then Return Nothing
+Dim groups=1+index Mod 3, n=index Mod 5
+Dim p(n-1,groups-1),lo(n-1,groups-1),up(n-1,groups-1),ct(2,groups-1),cp(2,groups-1) As Double
+For i=0 To n-1
+For g=0 To groups-1
+p(i,g)=1.0/(i+g+1):lo(i,g)=p(i,g)-0.1:up(i,g)=p(i,g)+0.1
+Next:Next
+Dim counts=Enumerable.Range(0,groups).Select(Function(g) (g+index) Mod 4).ToArray()
+For i=0 To 2:For g=0 To groups-1:ct(i,g)=i+0.5:cp(i,g)=0.8/(i+1):Next:Next
+Dim time=Enumerable.Range(0,n).Select(Function(i) CDbl(i)).ToArray()
+Dim result As New survival.KaplanMeierPlotData With {.GroupLabels=Enumerable.Range(0,groups).Select(Function(g) If(g=1,"",If(g=2,"Žluťoučký","A"))).ToArray(),.Alpha=If(index Mod 2=0,0.055,0.05),.MaximumTimeByGroup=Enumerable.Range(0,groups).Select(Function(g) If(g=0,99.0,CDbl(g))).ToArray(),.SurvivalTime=time,.SurvivalProbability=p,.UpperConfidenceLimit=up,.LowerConfidenceLimit=lo,.CensoredCountByGroup=counts,.CensorMarkerTime=ct,.CensorMarkerProbability=cp}
+Select Case index Mod 19
+Case 1:result.CensoredCountByGroup=New Integer(){1}
+Case 2:result.SurvivalTime=New Double(){}
+Case 3:result.MaximumTimeByGroup=New Double(){Double.NaN}
+Case 4:result.CensoredCountByGroup=Nothing
+Case 5:result.SurvivalProbability=Nothing
+Case 6:result.CensorMarkerTime=Nothing
+Case 7:result.UpperConfidenceLimit=Nothing
+Case 8:result.LowerConfidenceLimit=Nothing
+Case 9:result.SurvivalTime=time.Concat(New Double(){99}).ToArray()
+Case 10:If time.Length>0 Then time(0)=-0.0
+Case 11:If time.Length>0 Then time(0)=Double.NaN
+Case 12:If time.Length>0 Then time(0)=Double.PositiveInfinity
+Case 13:If n>0 Then p(0,0)=Double.NegativeInfinity
+Case 14:If n>0 Then up(0,0)=Double.NaN
+Case 15:result.CensoredCountByGroup=Enumerable.Repeat(-1,groups).ToArray()
+Case 16:result.MaximumTimeByGroup=Enumerable.Repeat(-1.0,groups).ToArray()
+Case 17:result.GroupLabels=Nothing
+End Select
+Return result
+End Function
+Public Function Numbers(index As Integer) As Double()
+If index Mod 17=0 Then Return Nothing
+Return New Double(){-0.0,0,1,-1,2,2,Double.NaN,Double.PositiveInfinity,Double.NegativeInfinity,1.0E-150,1.0E150}.Skip(index Mod 11).Take(index Mod 5).ToArray()
+End Function
+Public Function Points(index As Integer) As SpcPointResult()
+Dim values=New Double(){-0.0,0,1,Double.NaN,Double.NaN,Double.NaN}
+Return Enumerable.Range(0,index Mod 8).Select(Function(i) If((i+index) Mod 7=0,Nothing,New SpcPointResult(i*2,values((i+index) Mod 6),If(index Mod 5=0,Double.NaN,2.0),If(index Mod 6=0,5.0,-1.0),5.0,label:=If(i Mod 2=0,"A","A"),stageId:=If(i<2,"Phase I","Monitoring"),lowerOneSigmaLimit:=If(index Mod 3=0,-1.0,1.0),upperOneSigmaLimit:=3.0,lowerTwoSigmaLimit:=If(index Mod 3=0,-1.0,0.0),upperTwoSigmaLimit:=4.0,sequenceValue:=If(i Mod 3=0,CType(Nothing,Double?),CDbl(i)),sourceRowIndices:=New Integer(){100+i*2},signalRuleNumbers:=If(i Mod 2=0,New Integer(){2,1},New Integer(){})))).ToArray()
+End Function
+Public Function Snapshot(value As Object) As String
+If value Is Nothing Then Return "Nothing"
+If TypeOf value Is Double Then Return BitConverter.DoubleToInt64Bits(CDbl(value)).ToString("X16",CultureInfo.InvariantCulture)
+If TypeOf value Is Array Then
+Dim a=DirectCast(value,Array)
+Return "[" & String.Join("x",Enumerable.Range(0,a.Rank).Select(Function(i) a.GetLength(i).ToString(CultureInfo.InvariantCulture))) & ":" & String.Join("|",a.Cast(Of Object).Select(Function(v) Snapshot(v))) & "]"
+End If
+Return Convert.ToString(value,CultureInfo.InvariantCulture)
+End Function
+End Module
+End Namespace

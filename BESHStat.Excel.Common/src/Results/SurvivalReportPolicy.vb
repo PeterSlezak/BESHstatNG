@@ -189,6 +189,9 @@ Namespace ExcelCommon
             End Get
         End Property
         ''' <summary>Exact original two-header-row Core blocks; no new residual plot is implied.</summary>
+        Public Function ResidualPlotAvailability() As CoxResidualPlotAvailability36
+            Return New CoxResidualPlotAvailability36(Me)
+        End Function
         Public Function LegacyBlocks() As List(Of Object(,))
             Return _blocks.Select(Function(b) DirectCast(b.Clone(), Object(,))).ToList()
         End Function

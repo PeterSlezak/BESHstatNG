@@ -1,0 +1,15 @@
+{
+  "reason": "First new audit expected zero V1 successes; actual immutable V1 has6 valid outputs and378 rejections. Descriptions/new count assertion corrected to executed corpus. No old test, fixture input, expected vector or capture bytes changed.",
+  "first_audit": {
+    "passed": 40,
+    "failed": 1,
+    "errors": 0,
+    "exit_code": 1
+  },
+  "corrected_expected": {
+    "v1_valid": 6,
+    "v1_rejected": 378,
+    "v2_valid": 330,
+    "v2_rejected": 54
+  }
+}

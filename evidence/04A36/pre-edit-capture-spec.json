@@ -1,0 +1,73 @@
+{
+  "authority": "PRE_EDIT_LEGACY_EXECUTED",
+  "scientific": "NOT_GOLDEN",
+  "slices": [
+    {
+      "id": "KM-0",
+      "source": "BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb",
+      "body": "Dim plotUpper As Integer = plotData.SurvivalProbability.GetUpperBound(0)\n                        ReDim probability(plotUpper + 1)\n                        ReDim time(plotUpper + 1)\n                        probability(0) = 1\n                        time(0) = 0\n\n                        For j As Integer = 0 To plotUpper\n                            If plotData.SurvivalTime(j) <= plotData.MaximumTimeByGroup(i) Then\n                                probability(j + 1) = plotData.SurvivalProbability(j, i)\n                                time(j + 1) = plotData.SurvivalTime(j)\n                            Else\n                                ReDim Preserve probability(j)\n                                ReDim Preserve time(j)\n                                Exit For\n                            End If\n                        Next\n\n",
+      "sha256": "907f38d56e9a29d9849354e670d466375bb2c2d569b42d03c56989533c218544"
+    },
+    {
+      "id": "KM-1",
+      "source": "BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb",
+      "body": "Dim groupIndex As Integer = i - noGroups\n                        If plotData.CensoredCountByGroup(groupIndex) > 0 Then\n                            ReDim cenProbability(plotData.CensoredCountByGroup(groupIndex) - 1)\n                            ReDim cenTimes(plotData.CensoredCountByGroup(groupIndex) - 1)\n                            bCen = True\n                        Else\n                            ReDim cenProbability(0)\n                            ReDim cenTimes(0)\n                            bCen = False\n                        End If\n\n                        For j As Integer = 0 To plotData.CensoredCountByGroup(groupIndex) - 1\n                            cenProbability(j) = plotData.CensorMarkerProbability(j, groupIndex)\n                            cenTimes(j) = plotData.CensorMarkerTime(j, groupIndex)\n                        Next\n\n",
+      "sha256": "ee1db9c598a530e3fe798a0b29b36f5c6c324844351bb83a6b5513195597d2b9"
+    },
+    {
+      "id": "KM-2",
+      "source": "BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb",
+      "body": "Dim groupIndex As Integer = i - 2 * noGroups\n                            Dim plotUpper As Integer = plotData.SurvivalProbability.GetUpperBound(0)\n                            ReDim upCI(plotUpper + 1)\n                            ReDim time(plotData.SurvivalTime.Length)\n                            upCI(0) = 1\n                            time(0) = 0\n\n                            For j As Integer = 0 To plotUpper\n                                If plotData.SurvivalTime(j) <= plotData.MaximumTimeByGroup(groupIndex) Then\n                                    upCI(j + 1) = plotData.UpperConfidenceLimit(j, groupIndex)\n                                    time(j + 1) = plotData.SurvivalTime(j)\n                                Else\n                                    ReDim Preserve upCI(j)\n                                    ReDim Preserve time(j)\n                                    Exit For\n                                End If\n                            Next\n\n    ",
+      "sha256": "69ca34de660c77fbaea19b32c2c58bbdda143a877dec918debf3cc64d164d1bf"
+    },
+    {
+      "id": "KM-3",
+      "source": "BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb",
+      "body": "Dim groupIndex As Integer = i - 3 * noGroups\n                            Dim plotUpper As Integer = plotData.SurvivalProbability.GetUpperBound(0)\n                            ReDim lowCI(plotUpper + 1)\n                            ReDim time(plotData.SurvivalTime.Length)\n                            lowCI(0) = 1\n                            time(0) = 0\n\n                            For j As Integer = 0 To plotUpper\n                                If plotData.SurvivalTime(j) <= plotData.MaximumTimeByGroup(groupIndex) Then\n                                    lowCI(j + 1) = plotData.LowerConfidenceLimit(j, groupIndex)\n                                    time(j + 1) = plotData.SurvivalTime(j)\n                                Else\n                                    ReDim Preserve lowCI(j)\n                                    ReDim Preserve time(j)\n                                    Exit For\n                                End If\n                            Next\n\n    ",
+      "sha256": "93b17d10790a16596072b7b47dc71893565363104eadf81a6501b91538786837"
+    },
+    {
+      "id": "SPC-BANDS",
+      "source": "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+      "body": "            Dim baseValues(categories.Length - 1) As Object\n            Dim lowerOuter(categories.Length - 1) As Object\n            Dim lowerMiddle(categories.Length - 1) As Object\n            Dim lowerCenter(categories.Length - 1) As Object\n            Dim upperCenter(categories.Length - 1) As Object\n            Dim upperMiddle(categories.Length - 1) As Object\n            Dim upperOuter(categories.Length - 1) As Object\n            Dim validBandCount As Integer = 0\n\n            For i As Integer = 0 To categories.Length - 1\n                Dim point As SpcPointResult = data.Points(i)\n                If point IsNot Nothing AndAlso HasValidZones(point) Then\n                    baseValues(i) = point.LowerControlLimit - bounds.Minimum\n                    lowerOuter(i) = point.LowerTwoSigmaLimit - point.LowerControlLimit\n                    lowerMiddle(i) = point.LowerOneSigmaLimit - point.LowerTwoSigmaLimit\n                    lowerCenter(i) = point.CenterLine - point.LowerOneSigmaLimit\n                    upperCenter(i) = point.UpperOneSigmaLimit - point.CenterLine\n                    upperMiddle(i) = point.UpperTwoSigmaLimit - point.UpperOneSigmaLimit\n                    upperOuter(i) = point.UpperControlLimit - point.UpperTwoSigmaLimit\n                    validBandCount += 1\n                Else\n                    baseValues(i) = MissingChartValue()\n                    lowerOuter(i) = MissingChartValue()\n                    lowerMiddle(i) = MissingChartValue()\n                    lowerCenter(i) = MissingChartValue()\n                    upperCenter(i) = MissingChartValue()\n                    upperMiddle(i) = MissingChartValue()\n                    upperOuter(i) = MissingChartValue()\n                End If\n            Next\n\n",
+      "sha256": "204d31ad71eb1a35b987180309f98d324b26785da26c5fe600df022b2a3a553a"
+    },
+    {
+      "id": "HasValidZones",
+      "source": "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+      "body": "\n        Private Shared Function HasValidZones(point As SpcPointResult) As Boolean\n            If point Is Nothing Then Return False\n            Dim values As Double() = {\n                point.LowerControlLimit,\n                point.LowerTwoSigmaLimit,\n                point.LowerOneSigmaLimit,\n                point.CenterLine,\n                point.UpperOneSigmaLimit,\n                point.UpperTwoSigmaLimit,\n                point.UpperControlLimit\n            }\n            For i As Integer = 0 To values.Length - 1\n                If Not IsFinite(values(i)) Then Return False\n                If i > 0 AndAlso values(i) < values(i - 1) Then Return False\n            Next\n            Return True\n        End Function",
+      "sha256": "c7906b183b958b324b92ce01a457a87851fa74700751b9fa2281c7c79c1e5349"
+    },
+    {
+      "id": "IsFinite",
+      "source": "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+      "body": "\n        Private Shared Function IsFinite(value As Double) As Boolean\n            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n        End Function",
+      "sha256": "ec08aac9e6e87d76dbc1bc8892abd9ef1abda85f4ca26d302b0aa098116231a5"
+    },
+    {
+      "id": "MissingChartValue",
+      "source": "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+      "body": "\n\n\n\n\n        Private Shared Function MissingChartValue() As Object\n            'Nothing marshals as a blank VARIANT and is accepted by Series.Values.\n            'Chart.DisplayBlanksAs controls whether the point is plotted.\n            Return Nothing\n        End Function",
+      "sha256": "8cdb31d3aefbef03182d79b41b2e17407f39c985210aa3b846200b1c50065296"
+    },
+    {
+      "id": "IsNumericChartValue",
+      "source": "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+      "body": "\n        Private Shared Function IsNumericChartValue(value As Object) As Boolean\n            If value Is Nothing OrElse Not IsNumeric(value) Then Return False\n            Dim numericValue As Double\n            Try\n                numericValue = Convert.ToDouble(value, CultureInfo.InvariantCulture)\n            Catch\n                Return False\n            End Try\n            Return IsFinite(numericValue)\n        End Function",
+      "sha256": "3a31b826add5cda0b268a21154597d17b59730539c150d33f246cf8eddca5665"
+    },
+    {
+      "id": "HasAnyValue",
+      "source": "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+      "body": "\n        Private Shared Function HasAnyValue(values As Object()) As Boolean\n            For i As Integer = 0 To values.Length - 1\n                If IsNumericChartValue(values(i)) Then Return True\n            Next\n            Return False\n        End Function",
+      "sha256": "ba07ef891547ca820e4f07a4ba5cead540c3c9115b3de285cb1b42ae867503a7"
+    }
+  ],
+  "adaptations": [
+    "KM numeric blocks copied before native NewSeries; only loop group binding changed; locals hoisted into independent functions. No missing-censor repair.",
+    "SPC band prefix copied until native early-return; substitutes explicit points/minimum. Validation/numeric admission/missing helpers copied verbatim. LastIndex is original reverse loop with native SetPointLabel replaced by returned ordinal.",
+    "Cox original pre-chart guard/scaling plus raw vectors and literal labels; existing accepted ChartScaling engine reused (ACCEPTED_CORE, not independent science).",
+    "All portable comparison outputs IEEE bit serialized; NaN payload bits compared exactly, signed zero retained. CurrentCulture captions separate from invariant numerical serialization.",
+    "No native calls executed. Original rendering and failure timing are separately source audited."
+  ]
+}
