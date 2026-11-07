@@ -1,0 +1,415 @@
+{
+  "status": "PASS_SOURCE_BOUNDARY",
+  "members": [
+    {
+      "member_id": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|ConstructorBlock|74ce9675914653be@479:33",
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "member": ".ctor",
+      "header_preserved": true,
+      "body_preserved": true,
+      "native_entry": [],
+      "native_final": [],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|8d8f14f37475870a@655:4619",
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "member": "AddPlot",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "ws.Shapes.AddChart()",
+        "ch.SeriesCollection(1).Delete()",
+        "ch.SeriesCollection.NewSeries()",
+        ".ErrorBar(Direction:=XlErrorBarDirection.xlX, Include:=Constants.xlBoth, Type:=XlErrorBarType.xlErrorBarTypeCustom, Amount:=plusError, MinusValues:=minusError)",
+        "ch.SeriesCollection.NewSeries()",
+        "ConfigureAxes(ch, data, xScale)"
+      ],
+      "native_final": [
+        "ws.Shapes.AddChart()",
+        "ch.SeriesCollection(1).Delete()",
+        "ch.SeriesCollection.NewSeries()",
+        ".ErrorBar(Direction:=XlErrorBarDirection.xlX, Include:=Constants.xlBoth, Type:=XlErrorBarType.xlErrorBarTypeCustom, Amount:=plusError, MinusValues:=minusError)",
+        "ch.SeriesCollection.NewSeries()",
+        "ConfigureAxes(ch, data, xScale)"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|9d77f02f05c07a1d@5284:224",
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "member": "SuggestedHeight",
+      "header_preserved": true,
+      "body_preserved": true,
+      "native_entry": [],
+      "native_final": [],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|SubBlock|eb019fbb4f175f7c@5518:1171",
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "member": "ConfigureAxes",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary)",
+        "ch.Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary)",
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).MajorGridlines.Delete()",
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary)"
+      ],
+      "native_final": [
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary)",
+        "ch.Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary)",
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).MajorGridlines.Delete()",
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary)"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|SubBlock|87cff56ef8350b73@6699:698",
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "member": "AddComparisonLabels",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "series.Points(i)"
+      ],
+      "native_final": [
+        "series.Points(i)"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|75a5fc1447d4a347@7407:608",
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "member": "BuildTitle",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [],
+      "native_final": [],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|SubBlock|0648746ef567ae81@8025:810",
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "member": "ValidatePlotData",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [],
+      "native_final": [],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|42a1ac0faac43b76@322:1705",
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "member": "AddPlot",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection.NewSeries()"
+      ],
+      "native_final": [
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection.NewSeries()"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|559227fb0c277bf7@2033:1561",
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "member": "AddPlot",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YLabel, plotData.XLabel, ws, plotData.Title)",
+        "ch.SeriesCollection.NewSeries()"
+      ],
+      "native_final": [
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YLabel, plotData.XLabel, ws, plotData.Title)",
+        "ch.SeriesCollection.NewSeries()"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|FunctionBlock|b60539ef7514782b@3600:1472",
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "member": "AddPlot",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlValue)",
+        ".Axes(XlAxisType.xlValue)",
+        ".SeriesCollection.NewSeries()"
+      ],
+      "native_final": [
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlValue)",
+        ".Axes(XlAxisType.xlValue)",
+        ".SeriesCollection.NewSeries()"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|d580bcccdcfc70d5@5078:1709",
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "member": "AddPlot",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection.NewSeries()"
+      ],
+      "native_final": [
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection.NewSeries()"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|a1ad2b67f1d9371b@6793:848",
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "member": "AddHorizontalReferenceLine",
+      "header_preserved": true,
+      "body_preserved": true,
+      "native_entry": [
+        "ch.SeriesCollection.NewSeries()"
+      ],
+      "native_final": [
+        "ch.SeriesCollection.NewSeries()"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|ConstructorBlock|74ce9675914653be@742:33",
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "member": ".ctor",
+      "header_preserved": true,
+      "body_preserved": true,
+      "native_entry": [],
+      "native_final": [],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|8e9e96f64fda14af@993:185",
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "member": "BuildPlotDataTable",
+      "header_preserved": true,
+      "body_preserved": true,
+      "native_entry": [],
+      "native_final": [],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|65ca1ce94ad86e48@1188:164",
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "member": "BuildProjectedDataTable",
+      "header_preserved": true,
+      "body_preserved": true,
+      "native_entry": [],
+      "native_final": [],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|829638a095f17c79@1627:573",
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "member": "AddChart",
+      "header_preserved": true,
+      "body_preserved": true,
+      "native_entry": [],
+      "native_final": [],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|b0d44fe7f020d498@2210:3276",
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "member": "AddProjectedChart",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "ws.Shapes.AddChart(Left:=left, Top:=top, Width:=width, Height:=height)",
+        ".SeriesCollection(1).Delete()",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlValue)",
+        ".MajorGridlines.Delete()"
+      ],
+      "native_final": [
+        "ws.Shapes.AddChart(Left:=left, Top:=top, Width:=width, Height:=height)",
+        ".SeriesCollection(1).Delete()",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlValue)",
+        ".MajorGridlines.Delete()"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|cea2e05cf220f98a@5496:996",
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "member": "AddScatterSeries",
+      "header_preserved": true,
+      "body_preserved": true,
+      "native_entry": [
+        "ch.SeriesCollection.NewSeries()"
+      ],
+      "native_final": [
+        "ch.SeriesCollection.NewSeries()"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|5411e44db47c7b9c@6502:733",
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "member": "AddThresholdSeries",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "ch.SeriesCollection.NewSeries()"
+      ],
+      "native_final": [
+        "ch.SeriesCollection.NewSeries()"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|b62a646f228fdfd1@7245:729",
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "member": "AddVariableLabels",
+      "header_preserved": true,
+      "body_preserved": false,
+      "native_entry": [
+        "series.ApplyDataLabels()",
+        "series.Points(i)"
+      ],
+      "native_final": [
+        "series.ApplyDataLabels()",
+        "series.Points(i)"
+      ],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    },
+    {
+      "member_id": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|6538e9c0bc19aa30@7984:154",
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "member": "HasAnyFinite",
+      "header_preserved": true,
+      "body_preserved": true,
+      "native_entry": [],
+      "native_final": [],
+      "native_operation_sequence_preserved": true,
+      "catches_preserved": true,
+      "native_styles_preserved": true,
+      "coordinate_or_name_argument_substitutions": "Pure35 prepared values; frozen references and actual pure adapter tests prove scalar/order parity; native visuals NOT_RUN",
+      "authority": "SOURCE_ONLY_NATIVE",
+      "native": "NATIVE_NOT_RUN"
+    }
+  ],
+  "qualification": "Native call identity/order/count, public/private entry headers, style assignments and catches checked; coordinate/name/index expressions are explicitly delegated and legacy-tested. No fake chart/native parity claim."
+}

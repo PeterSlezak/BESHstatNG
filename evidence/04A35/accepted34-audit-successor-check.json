@@ -1,0 +1,32 @@
+{
+  "baseline": {
+    "total": 33,
+    "passed": 31,
+    "failed": 2,
+    "errors": 0,
+    "nonpasses": [
+      "test_both_configurations_all_frozen_corpora \r",
+      "test_full_independent_packet (test_audit.Publication34Tests.test_full_independent_packet)\r"
+    ],
+    "log_sha256": "49ae87f11d065c3b94f25c51abd62ac6d73791bbc2b4c1c55b39a33d6c418e4e",
+    "log_decoding": "utf-16 log reader only; fixture locale unchanged",
+    "exit_code": 1
+  },
+  "final": {
+    "total": 33,
+    "passed": 28,
+    "failed": 5,
+    "errors": 0,
+    "nonpasses": [
+      "test_278_pins_and_100_captures (test_audit.Publication34Tests.test_278_pins_and_100_captures)\r",
+      "test_both_configurations_all_frozen_corpora (test_audit.Publication34Tests.test_both_configurations_all_frozen_corpora)\r",
+      "test_exact_crosswalk_and_seven_explicit_relocations (test_audit.Publication34Tests.test_exact_crosswalk_and_seven_explicit_relocations)\r",
+      "test_full_independent_packet (test_audit.Publication34Tests.test_full_independent_packet)\r",
+      "test_protected_source_and_existing_engines (test_audit.Publication34Tests.test_protected_source_and_existing_engines)\r"
+    ],
+    "log_sha256": "532aef7b7801baa2410a257d022bad361d3ec73dd70f97a776ed2aec5356e9f2",
+    "log_decoding": "utf-8-sig log reader only; fixture locale unchanged",
+    "exit_code": 1
+  },
+  "classification": "Original33 audits remain unmodified. Baseline2 FAIL: EOL-normalized corpus hash and manifest hash. Final adds3 FAIL: old34 lineage/crosswalk/transition expected-source hashes now see authorized35 successors. These are real source/evidence checks, not PASS. Independent35 successor/entry-preservation checks retain the old data and qualify new hashes."
+}

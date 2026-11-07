@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "comparisons": [
+    {
+      "configuration": "Debug",
+      "rows": 4480,
+      "bytes": 1162452,
+      "pre_sha256": "e60cc9e70e8563d8d6997f51d2cd4741c134d0d636b2e3ca3e128bad9930a759",
+      "post_sha256": "e60cc9e70e8563d8d6997f51d2cd4741c134d0d636b2e3ca3e128bad9930a759",
+      "byte_equal": true,
+      "authority": "PRE_EDIT_LEGACY_EXECUTED",
+      "scientific": "NOT_GOLDEN",
+      "post_payload": "Content identical to frozen4480-row reference; duplicate raw post payload remains ignored, reproducible with capture-post.ps1"
+    },
+    {
+      "configuration": "Release",
+      "rows": 4480,
+      "bytes": 1162452,
+      "pre_sha256": "e60cc9e70e8563d8d6997f51d2cd4741c134d0d636b2e3ca3e128bad9930a759",
+      "post_sha256": "e60cc9e70e8563d8d6997f51d2cd4741c134d0d636b2e3ca3e128bad9930a759",
+      "byte_equal": true,
+      "authority": "PRE_EDIT_LEGACY_EXECUTED",
+      "scientific": "NOT_GOLDEN",
+      "post_payload": "Content identical to frozen4480-row reference; duplicate raw post payload remains ignored, reproducible with capture-post.ps1"
+    }
+  ],
+  "original_actual_adapter_comparisons": 1120,
+  "bit_policy": "Exact CSV and IEEE finite/infinite/signed-zero/raw-NaN outputs, exceptions by full type/argument name. Managed independent fixtures additionally exercise all8 admission masks and mutation/invariant cases.",
+  "invalid_v1": "Original4480 rows retained as INVALID_FIXTURE for case-insensitive procedure matching; correct V2 compiled before production edits, confirmed against original Windows adapter.",
+  "authority": "No new35 code is used on the legacy/oracle side. Accepted34 helper engines are explicit dependencies, not independent science."
+}

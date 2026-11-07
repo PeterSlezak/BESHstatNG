@@ -11,14 +11,17 @@ Namespace ExcelCommon
     ''' are NaN; table missing values are Nothing. Ordinals are one-based plot positions, not source IDs.</summary>
     Public NotInheritable Class PsmLovePlotProjection
         Private ReadOnly rows As PsmLovePlotRow()
+        Private ReadOnly sourceIndices As Integer()
         Public Sub New(source As IList(Of PsmLovePlotRow))
-            rows = If(source, New List(Of PsmLovePlotRow)()).
-                Where(Function(r) r IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(r.VariableName)).
-                OrderByDescending(Function(r) MaxFiniteAbs(r.SmdBefore, r.SmdAfterMatching, r.SmdAfterWeighting)).
-                ThenBy(Function(r) r.VariableName, StringComparer.OrdinalIgnoreCase).
-                Select(Function(r) New PsmLovePlotRow With {.VariableName = r.VariableName, .SmdBefore = r.SmdBefore,
-                    .SmdAfterMatching = r.SmdAfterMatching, .SmdAfterWeighting = r.SmdAfterWeighting,
-                    .Threshold = r.Threshold, .Flag = r.Flag}).ToArray()
+            Dim ordered = If(source, New List(Of PsmLovePlotRow)()).
+                Select(Function(r, i) New With {.Row = r, .Ordinal = i}).
+                Where(Function(item) item.Row IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(item.Row.VariableName)).
+                OrderByDescending(Function(item) MaxFiniteAbs(item.Row.SmdBefore, item.Row.SmdAfterMatching, item.Row.SmdAfterWeighting)).
+                ThenBy(Function(item) item.Row.VariableName, StringComparer.OrdinalIgnoreCase).ToArray()
+            sourceIndices = ordered.Select(Function(item) item.Ordinal).ToArray()
+            rows = ordered.Select(Function(item) New PsmLovePlotRow With {.VariableName = item.Row.VariableName, .SmdBefore = item.Row.SmdBefore,
+                .SmdAfterMatching = item.Row.SmdAfterMatching, .SmdAfterWeighting = item.Row.SmdAfterWeighting,
+                .Threshold = item.Row.Threshold, .Flag = item.Row.Flag}).ToArray()
             Dim value = rows.Select(Function(r) r.Threshold).FirstOrDefault(Function(v) Finite(v) AndAlso v > 0)
             Threshold = If(Not Finite(value) OrElse value <= 0, 0.1R, value)
             Dim maxValue = Double.NaN
@@ -30,6 +33,11 @@ Namespace ExcelCommon
             If value < 0.25R Then value = 0.25R
             MaximumX = value
         End Sub
+        Public ReadOnly Property SourceOrdinals As Integer()
+            Get
+                Return DirectCast(sourceIndices.Clone(), Integer())
+            End Get
+        End Property
         Public ReadOnly Property Count As Integer
             Get
                 Return rows.Length

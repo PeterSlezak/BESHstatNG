@@ -1,0 +1,31 @@
+{
+  "authority": "PRE_EDIT_LEGACY_EXECUTED",
+  "scientific": "NOT_GOLDEN",
+  "source_methods": [
+    {
+      "name": "ValidatePlotData",
+      "original": "\n        Private Shared Sub ValidatePlotData(data As parametric.MultipleComparisonPlotData)\n            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))\n            If data.Labels Is Nothing OrElse data.Estimates Is Nothing OrElse\n               data.LowerLimits Is Nothing OrElse data.UpperLimits Is Nothing Then\n                Throw New ArgumentException(\"Multiple-comparison plot data are incomplete.\", NameOf(data))\n            End If\n            Dim n As Integer = data.Estimates.Length\n            If n = 0 OrElse data.Labels.Length <> n OrElse data.LowerLimits.Length <> n OrElse\n               data.UpperLimits.Length <> n Then\n                Throw New ArgumentException(\"Multiple-comparison plot arrays must have equal non-zero lengths.\", NameOf(data))\n            End If\n        End Sub",
+      "body_sha256": "cd941d5629b876df72bc4415fd66ca4e229083f88c218b98dab87ec59f323d11",
+      "adaptation": "Only Private Shared becomes Public in a test-only standalone module. Original namespace/data owner retained."
+    },
+    {
+      "name": "BuildTitle",
+      "original": "\n        Private Shared Function BuildTitle(data As parametric.MultipleComparisonPlotData) As String\n            Dim confidenceLevel As Double = (1.0 - data.Alpha) * 100.0\n            Dim qualifier As String\n            Select Case data.ProcedureName\n                Case \"Tukey-Kramer\", \"Bonferroni\", \"Games-Howell\"\n                    qualifier = \" Simultaneous \"\n                Case Else\n                    qualifier = \" \"\n            End Select\n            Return data.ProcedureName & qualifier & confidenceLevel.ToString(\"0.##\") & \"% CIs\" & vbLf &\n                   \"Differences of Means\"\n        End Function",
+      "body_sha256": "62d0d8f0bb3bc8a7939d5de9bbe7abca4decb283a44c09b466cfcfdf06925fab",
+      "adaptation": "Only Private Shared becomes Public in a test-only standalone module. Original namespace/data owner retained."
+    }
+  ],
+  "numeric_prefix": "            Dim n As Integer = data.Estimates.Length\n            Dim height As Double = ExcelCommon.Chart34.ComparisonSeries.ComparisonSeriesPreparation34.SuggestedHeight(data)\n            Dim y As Double() = ComparisonCoordinatesCore.OrdinalY(n)\n            Dim plusError(n - 1) As Double\n            Dim minusError(n - 1) As Double\n            Dim minCI As Double = data.LowerLimits(0)\n            Dim maxCI As Double = data.UpperLimits(0)\n\n            'Reverse the numeric y positions so the first comparison is shown at the top.\n            For i As Integer = 0 To n - 1\n                plusError(i) = Math.Max(0.0, data.UpperLimits(i) - data.Estimates(i))\n                minusError(i) = Math.Max(0.0, data.Estimates(i) - data.LowerLimits(i))\n                minCI = Math.Min(minCI, data.LowerLimits(i))\n                maxCI = Math.Max(maxCI, data.UpperLimits(i))\n            Next\n\n            'Always include zero in the visible range because it is the null reference.\n            Dim referenceBounds As ChartAxisScaleResult = ComparisonCoordinatesCore.IncludeZeroBounds(minCI, maxCI)\n            minCI = referenceBounds.Min\n            maxCI = referenceBounds.Max\n",
+  "numeric_prefix_sha256": "766867bffbbfdb6cf6de7f9498b19ab32981af18feece9374d6d38f5d135bb6a",
+  "love_original_source": {
+    "path": "BESHStat.Excel.Common/src/Analysis/PsmLovePlotProjection.vb",
+    "bytes": 4952,
+    "sha256": "875480459f832ad3e4f1b36818d0ca7246e1145144a2648db55a250e4ea4a557"
+  },
+  "bindings": [
+    "Accepted34 OrdinalY/IncludeZeroBounds/reference/base-span/height engines reused; not independent scientific references.",
+    "Agreement raw-input slices copy exact endpoint/order/subject-presence expressions from frozen adapter bodies; GetPlotData statistics remain accepted Core.",
+    "Love source class copied verbatim except namespace/type name; admission/order policy faithfully sliced from original adapter, no new35 implementation.",
+    "LabelMap replaces native Points.Count with explicit measured count and records the original one-based loop. Native assignment/style/error catch stays SOURCE_ONLY."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "status": "RETAINED_RESTRICTED",
+  "gates": {"P":"NO","N1":"NO GO","N2":"NO","C2":"UNMET","C3":"UNAPPROVED"},
+  "zero_control_discharges": true,
+  "inherited_unchanged": ["C25-LOVE-THRESHOLD-MISSING-01","C25-LOVE-AXIS-NOFINITE-01","C25-REENTRANT-REQUEST-SNAPSHOT-01","C25-RAW-TEXT-COVARIATE-IMPORT-01","C25-GUI-UDF-DEFAULT-INTENT-01","C26-ICC-NONFINITE-COUNT-01","C26-INDEPENDENT-PROP-DEFAULTS-01","C26-GUI-UDF-CONTRACT-01","C26-RESAMPLING-MINIMUM-01","Canonical04A29 v2 uncertain helpers171/172","C13 survival/native controls and all existing graphics/scientific/native restrictions"],
+  "reproducer_detail": [{"id":"C25-LOVE-THRESHOLD-MISSING-01","status":"CANDIDATE_ONLY","source":"PsmLovePlotProjection.BuildDataTable","input":"Valid named row with finite before SMD and Threshold=NaN; inspect threshold column5 and chart Threshold","observed":"Original VB conditional If(Finite(r.Threshold),r.Threshold,Nothing) infers Double; the nonfinite threshold table cell is numeric zero, while missing SMD table cells are Nothing and the chart threshold falls back to0.1. Original source-class and actual adapter references preserved.","change":"NONE","impact":"Table/chart threshold narrative differs; no statistical or native correction authorized","future_owner":"04A39-41 source/scientific disposition;04A45-48 native","gate":"Independent owner/scientific/native authority before changed behavior"}],
+  "native_smokes_not_run": ["Bland-Altman with subject means/limits, Deming regression/unity","Asymmetric multiple-comparison CI/error bars and labels","PSM Love with absent channels, threshold and reversed Y"],
+  "scientific":"NOT_GOLDEN",
+  "r":"R_NOT_RUN",
+  "native":"NATIVE_NOT_RUN"
+}

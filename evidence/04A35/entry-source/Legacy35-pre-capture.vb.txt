@@ -1,0 +1,98 @@
+Option Explicit On
+Option Strict On
+Option Infer On
+Imports System
+Imports System.Linq
+Imports System.Collections.Generic
+Imports BESHStatNG
+Namespace Global.Legacy35
+Public Module Original35
+
+        Public Sub ValidatePlotData(data As parametric.MultipleComparisonPlotData)
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+            If data.Labels Is Nothing OrElse data.Estimates Is Nothing OrElse
+               data.LowerLimits Is Nothing OrElse data.UpperLimits Is Nothing Then
+                Throw New ArgumentException("Multiple-comparison plot data are incomplete.", NameOf(data))
+            End If
+            Dim n As Integer = data.Estimates.Length
+            If n = 0 OrElse data.Labels.Length <> n OrElse data.LowerLimits.Length <> n OrElse
+               data.UpperLimits.Length <> n Then
+                Throw New ArgumentException("Multiple-comparison plot arrays must have equal non-zero lengths.", NameOf(data))
+            End If
+        End Sub
+
+        Public Function BuildTitle(data As parametric.MultipleComparisonPlotData) As String
+            Dim confidenceLevel As Double = (1.0 - data.Alpha) * 100.0
+            Dim qualifier As String
+            Select Case data.ProcedureName
+                Case "Tukey-Kramer", "Bonferroni", "Games-Howell"
+                    qualifier = " Simultaneous "
+                Case Else
+                    qualifier = " "
+            End Select
+            Return data.ProcedureName & qualifier & confidenceLevel.ToString("0.##") & "% CIs" & vbLf &
+                   "Differences of Means"
+        End Function
+Public Function Comparison(data As parametric.MultipleComparisonPlotData) As Object()
+ValidatePlotData(data)
+            Dim n As Integer = data.Estimates.Length
+            Dim height As Double = ExcelCommon.Chart34.ComparisonSeries.ComparisonSeriesPreparation34.SuggestedHeight(data)
+            Dim y As Double() = ComparisonCoordinatesCore.OrdinalY(n)
+            Dim plusError(n - 1) As Double
+            Dim minusError(n - 1) As Double
+            Dim minCI As Double = data.LowerLimits(0)
+            Dim maxCI As Double = data.UpperLimits(0)
+
+            'Reverse the numeric y positions so the first comparison is shown at the top.
+            For i As Integer = 0 To n - 1
+                plusError(i) = Math.Max(0.0, data.UpperLimits(i) - data.Estimates(i))
+                minusError(i) = Math.Max(0.0, data.Estimates(i) - data.LowerLimits(i))
+                minCI = Math.Min(minCI, data.LowerLimits(i))
+                maxCI = Math.Max(maxCI, data.UpperLimits(i))
+            Next
+
+            'Always include zero in the visible range because it is the null reference.
+            Dim referenceBounds As ChartAxisScaleResult = ComparisonCoordinatesCore.IncludeZeroBounds(minCI, maxCI)
+            minCI = referenceBounds.Min
+            maxCI = referenceBounds.Max
+
+Return New Object(){y,plusError,minusError,minCI,maxCI,BuildTitle(data),height}
+End Function
+Public Function LabelMap(labels As String(), pointCount As Integer) As Object()
+Dim rows As New List(Of Object)
+For i As Integer = 1 To Math.Min(pointCount,labels.Length)
+rows.Add(New Object(){i-1,i,labels(i-1)})
+Next
+Return rows.ToArray()
+End Function
+Public Function Regression(minX As Double,maxX As Double,intercept As Double,slope As Double) As Object()
+Return New Object(){New Object(){"Regression line",ChartReferenceSeries.Identity(minX,maxX).XValues,ChartReferenceSeries.Affine(minX,maxX,intercept,slope).YValues},New Object(){"Unity line (y = x)",ChartReferenceSeries.Identity(minX,maxX).XValues,ChartReferenceSeries.Identity(minX,maxX).XValues}}
+End Function
+Public Function Identity(minimum As Double, maximum As Double) As Object()
+Return New Object(){New Object(){"Identity",ChartReferenceSeries.Identity(minimum,maximum).XValues,ChartReferenceSeries.Identity(minimum,maximum).XValues}}
+End Function
+Public Function Bland(x As Double(),bias As Double,lower As Double,upper As Double,show As Boolean,sx As Double(),sy As Double()) As Object()
+Dim span=ExcelCommon.Chart34.AgreementSeries.AgreementSeriesPreparation34.BaseSpan(x)
+Dim lineX As Double()={span.Min,span.Max}
+Dim result As New List(Of Object) From {New Object(){"Bias",lineX,ChartReferenceSeries.Horizontal(lineX(0),lineX(1),bias).YValues},New Object(){"Lower LoA",lineX,ChartReferenceSeries.Horizontal(lineX(0),lineX(1),lower).YValues},New Object(){"Upper LoA",lineX,ChartReferenceSeries.Horizontal(lineX(0),lineX(1),upper).YValues}}
+If show AndAlso sx IsNot Nothing AndAlso sy IsNot Nothing Then result.Add(New Object(){"Subject means",sx,sy})
+Return result.ToArray()
+End Function
+Public Function Love(rows As IList(Of CausalInference.PsmLovePlotRow)) As Object()
+Dim projection As New LegacyLoveProjection35(rows)
+Dim y=projection.YValues,xBefore=projection.Before,xAfterMatching=projection.AfterMatching,xAfterWeighting=projection.AfterWeighting
+Dim names As New List(Of String),values As New List(Of Object)
+If xBefore.Any(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)) Then
+names.Add("Before"):values.Add(xBefore)
+End If
+If xAfterMatching.Any(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)) Then
+names.Add("After matching"):values.Add(xAfterMatching)
+End If
+If xAfterWeighting.Any(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)) Then
+names.Add("After weighting"):values.Add(xAfterWeighting)
+End If
+Return New Object(){names.ToArray(),values.ToArray(),y,projection.Labels,If(names.Count=0,-1,names.Count-1),projection.Threshold,projection.MaximumX,projection.BuildDataTable()}
+End Function
+End Module
+End Namespace
+

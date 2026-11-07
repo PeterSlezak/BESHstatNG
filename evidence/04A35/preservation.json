@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "tracked_entry": 4283,
+  "unchanged": 4278,
+  "authorized_changes": [
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/PsmLovePlotProjection.vb",
+      "entry_sha256": "875480459f832ad3e4f1b36818d0ca7246e1145144a2648db55a250e4ea4a557",
+      "final_sha256": "07d03ce55153067086fb89fa555e9f3f09029889cac378ed86f73e5edffba462",
+      "reason": "Authorized35 projection/adapter or required Framework Compile links. Existing Love projection adds original-list ordinals only; old numeric/table/getter bodies preserved.",
+      "affected_tests": "validation.json and source-and-node-validation.json; historical assertions remain real FAIL/ERROR"
+    },
+    {
+      "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+      "entry_sha256": "f39b9999158395bc9978ebd93057c40870805cb4276049ee3403e3b59aa11837",
+      "final_sha256": "59a3e9e649a2de37298ecde126a54f60ed6aafb9b610d3fc5711727f3123eb90",
+      "reason": "Authorized35 projection/adapter or required Framework Compile links. Existing Love projection adds original-list ordinals only; old numeric/table/getter bodies preserved.",
+      "affected_tests": "validation.json and source-and-node-validation.json; historical assertions remain real FAIL/ERROR"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "entry_sha256": "098dcef2fda2d2c35ea413f9d8be37c73e66ce4b79bfa78deb7b1f44b601ba1f",
+      "final_sha256": "1c51f1596e61d822b803a703cc82028f55c54b8571779b5b76c0bf932f225632",
+      "reason": "Authorized35 projection/adapter or required Framework Compile links. Existing Love projection adds original-list ordinals only; old numeric/table/getter bodies preserved.",
+      "affected_tests": "validation.json and source-and-node-validation.json; historical assertions remain real FAIL/ERROR"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "entry_sha256": "69a4afe18b20adc0afd1e5b816f7c9a8d37878407d649ec1c3bcb34da261449f",
+      "final_sha256": "7ddb507d4dc559957c1f9cbfddf9608cb31fefd21171ab0cc149930f2cd8e7a8",
+      "reason": "Authorized35 projection/adapter or required Framework Compile links. Existing Love projection adds original-list ordinals only; old numeric/table/getter bodies preserved.",
+      "affected_tests": "validation.json and source-and-node-validation.json; historical assertions remain real FAIL/ERROR"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "entry_sha256": "6042c2979b4bf11d28f2f781eee58036ded9a901da4857670ba313fb59a43e4a",
+      "final_sha256": "43ec98033c6ea1014e9543f3b7865e8657f3d1c6591a831df303940d0056edf8",
+      "reason": "Authorized35 projection/adapter or required Framework Compile links. Existing Love projection adds original-list ordinals only; old numeric/table/getter bodies preserved.",
+      "affected_tests": "validation.json and source-and-node-validation.json; historical assertions remain real FAIL/ERROR"
+    }
+  ],
+  "unrelated_changes": [],
+  "master_plan_unchanged": true,
+  "all_prior_tests_evidence_unchanged": true,
+  "all_accepted_core_statistics_unchanged": true,
+  "accepted_common_exception": "Only PsmLovePlotProjection constructor/source-ordinal metadata; unchanged old nonconstructor token bodies verified.",
+  "historical_payload": "Ignored ~138GB TestResults population NOT_REHASHED; metadata census separately verified; no cleanup/delete/relocation"
+}

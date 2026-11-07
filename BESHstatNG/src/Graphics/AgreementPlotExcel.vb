@@ -17,14 +17,15 @@ Public Module AgreementPlotExcelCompatibility
         Dim plotData As Agreement.PassingBablokPlotData = analysis.GetPlotData()
         Dim ch = graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)
 
+        Dim references = ExcelCommon.AgreementPlotPolicy35.Regression(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope)
         With ch
             .HasLegend = True
 
             .SeriesCollection.NewSeries()
             With .SeriesCollection(2)
-                .XValues = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
-                .Values = ChartReferenceSeries.Affine(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope).YValues
-                .Name = "Regression line"
+                .XValues = references(0).XValues
+                .Values = references(0).YValues
+                .Name = references(0).Name
                 .MarkerStyle = -4142
                 .Border.Color = RGB(255, 0, 0)
                 With .Format.Line
@@ -35,9 +36,9 @@ Public Module AgreementPlotExcelCompatibility
 
             .SeriesCollection.NewSeries()
             With .SeriesCollection(3)
-                .XValues = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
-                .Values = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
-                .Name = "Unity line (y = x)"
+                .XValues = references(1).XValues
+                .Values = references(1).YValues
+                .Name = references(1).Name
                 .MarkerStyle = -4142
                 .Border.Color = RGB(0, 0, 255)
                 With .Format.Line
@@ -56,21 +57,17 @@ Public Module AgreementPlotExcelCompatibility
 
         Dim plotData As Agreement.BlandAltmanPlotData = analysis.GetPlotData()
         Dim ch As Chart = graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YLabel, plotData.XLabel, ws, plotData.Title)
-        Dim span = ExcelCommon.Chart34.AgreementSeries.AgreementSeriesPreparation34.BaseSpan(plotData.XValues)
-        Dim xMin As Double = span.Min
-        Dim xMax As Double = span.Max
+        Dim references = ExcelCommon.AgreementPlotPolicy35.Bland(plotData.XValues, plotData.Bias, plotData.LowerLoA, plotData.UpperLoA, plotData.ShowSubjectMeans, plotData.SubjectMeanX, plotData.SubjectMeanY)
+        AddHorizontalReferenceLine(ch, references(0).XValues, references(0).YValues(0), references(0).Name, RGB(31, 119, 180))
+        AddHorizontalReferenceLine(ch, references(1).XValues, references(1).YValues(0), references(1).Name, RGB(214, 39, 40))
+        AddHorizontalReferenceLine(ch, references(2).XValues, references(2).YValues(0), references(2).Name, RGB(214, 39, 40))
 
-        Dim lineX As Double() = {xMin, xMax}
-        AddHorizontalReferenceLine(ch, lineX, plotData.Bias, "Bias", RGB(31, 119, 180))
-        AddHorizontalReferenceLine(ch, lineX, plotData.LowerLoA, "Lower LoA", RGB(214, 39, 40))
-        AddHorizontalReferenceLine(ch, lineX, plotData.UpperLoA, "Upper LoA", RGB(214, 39, 40))
-
-        If plotData.ShowSubjectMeans AndAlso plotData.SubjectMeanX IsNot Nothing AndAlso plotData.SubjectMeanY IsNot Nothing Then
+        If references.Count > 3 Then
             ch.SeriesCollection.NewSeries()
             With ch.SeriesCollection(ch.SeriesCollection.Count)
-                .XValues = plotData.SubjectMeanX
-                .Values = plotData.SubjectMeanY
-                .Name = "Subject means"
+                .XValues = references(3).XValues
+                .Values = references(3).YValues
+                .Name = references(3).Name
                 .MarkerStyle = XlMarkerStyle.xlMarkerStyleDiamond
                 .MarkerSize = 7
                 .Format.Line.Visible = False
@@ -88,6 +85,7 @@ Public Module AgreementPlotExcelCompatibility
         Dim plotData As Agreement.LinConcordancePlotData = analysis.GetPlotData(chartTitle)
         Dim chartObj As Chart = graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)
 
+        Dim references = ExcelCommon.AgreementPlotPolicy35.Identity(plotData.MinValue, plotData.MaxValue)
         With chartObj
             .Axes(XlAxisType.xlCategory).MinimumScale = plotData.MinValue
             .Axes(XlAxisType.xlCategory).MaximumScale = plotData.MaxValue
@@ -96,9 +94,9 @@ Public Module AgreementPlotExcelCompatibility
 
             .SeriesCollection.NewSeries()
             With .SeriesCollection(.SeriesCollection.Count)
-                .Name = "Identity"
-                .XValues = ChartReferenceSeries.Identity(plotData.MinValue, plotData.MaxValue).XValues
-                .Values = ChartReferenceSeries.Identity(plotData.MinValue, plotData.MaxValue).XValues
+                .Name = references(0).Name
+                .XValues = references(0).XValues
+                .Values = references(0).YValues
                 .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
                 .Format.Line.Visible = True
             End With
@@ -115,14 +113,15 @@ Public Module AgreementPlotExcelCompatibility
         Dim plotData As Agreement.DemingPlotData = analysis.GetPlotData()
         Dim ch = graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)
 
+        Dim references = ExcelCommon.AgreementPlotPolicy35.Regression(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope)
         With ch
             .HasLegend = True
 
             .SeriesCollection.NewSeries()
             With .SeriesCollection(2)
-                .XValues = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
-                .Values = ChartReferenceSeries.Affine(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope).YValues
-                .Name = "Regression line"
+                .XValues = references(0).XValues
+                .Values = references(0).YValues
+                .Name = references(0).Name
                 .MarkerStyle = -4142
                 .Border.Color = RGB(255, 0, 0)
                 With .Format.Line
@@ -133,9 +132,9 @@ Public Module AgreementPlotExcelCompatibility
 
             .SeriesCollection.NewSeries()
             With .SeriesCollection(3)
-                .XValues = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
-                .Values = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
-                .Name = "Unity line (y = x)"
+                .XValues = references(1).XValues
+                .Values = references(1).YValues
+                .Name = references(1).Name
                 .MarkerStyle = -4142
                 .Border.Color = RGB(0, 0, 255)
                 With .Format.Line

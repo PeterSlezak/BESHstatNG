@@ -1,0 +1,2257 @@
+{
+  "basis": "Roslyn token/spans/calls; syntax source authority, not native execution",
+  "entry": [
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|ConstructorBlock|74ce9675914653be",
+      "name": ".ctor",
+      "kind": "ConstructorBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Sub New()",
+      "header_tokens": "Private Sub New ( )",
+      "tokens": "Private Sub New ( ) End Sub",
+      "token_sha256": "e26a03f4cae3755d861cea81bf62290f60bb4b7d55aacf21eddfc7944ae34d79",
+      "span_start": 479,
+      "span_length": 33,
+      "start": 15,
+      "end": 16,
+      "calls": [],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|8d8f14f37475870a",
+      "name": "AddPlot",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Public Shared Function AddPlot(ws As Worksheet, data As parametric.MultipleComparisonPlotData, left As Double, top As Double, Optional width As Double = 560.0) As Chart",
+      "header_tokens": "Public Shared Function AddPlot ( ws As Worksheet , data As parametric . MultipleComparisonPlotData , left As Double , top As Double , Optional width As Double = 560.0 ) As Chart",
+      "tokens": "Public Shared Function AddPlot ( ws As Worksheet , data As parametric . MultipleComparisonPlotData , left As Double , top As Double , Optional width As Double = 560.0 ) As Chart If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) ValidatePlotData ( data ) Dim n As Integer = data . Estimates . Length Dim height As Double = SuggestedHeight ( data ) Dim y As Double ( ) = ComparisonCoordinatesCore . OrdinalY ( n ) Dim plusError ( n - 1 ) As Double Dim minusError ( n - 1 ) As Double Dim minCI As Double = data . LowerLimits ( 0 ) Dim maxCI As Double = data . UpperLimits ( 0 ) For i As Integer = 0 To n - 1 plusError ( i ) = Math . Max ( 0.0 , data . UpperLimits ( i ) - data . Estimates ( i ) ) minusError ( i ) = Math . Max ( 0.0 , data . Estimates ( i ) - data . LowerLimits ( i ) ) minCI = Math . Min ( minCI , data . LowerLimits ( i ) ) maxCI = Math . Max ( maxCI , data . UpperLimits ( i ) ) Next Dim referenceBounds As ChartAxisScaleResult = ComparisonCoordinatesCore . IncludeZeroBounds ( minCI , maxCI ) minCI = referenceBounds . Min maxCI = referenceBounds . Max Dim xScale As CHARTscale = ChartScaling ( minCI , maxCI ) Dim shape As Object = ws . Shapes . AddChart ( ) shape . Left = CSng ( left ) shape . Top = CSng ( top ) shape . Width = CSng ( width ) shape . Height = CSng ( height ) Dim ch As Chart = shape . Chart ch . ChartType = XlChartType . xlXYScatter Do Until ch . SeriesCollection . Count = 0 ch . SeriesCollection ( 1 ) . Delete ( ) Loop ch . SeriesCollection . NewSeries ( ) With ch . SeriesCollection ( 1 ) . Name = \u0022Difference of means\u0022 . XValues = data . Estimates . Values = y . ChartType = XlChartType . xlXYScatter . MarkerStyle = XlMarkerStyle . xlMarkerStyleCircle . MarkerSize = 7 . MarkerForegroundColor = RGB ( 31 , 78 , 121 ) . MarkerBackgroundColor = RGB ( 31 , 78 , 121 ) . Format . Line . Visible = False . ErrorBar ( Direction := XlErrorBarDirection . xlX , Include := Constants . xlBoth , Type := XlErrorBarType . xlErrorBarTypeCustom , Amount := plusError , MinusValues := minusError ) Try . ErrorBars . Format . Line . Weight = 1.25F . ErrorBars . Format . Line . ForeColor . RGB = RGB ( 31 , 78 , 121 ) Catch End Try End With ch . SeriesCollection . NewSeries ( ) With ch . SeriesCollection ( 2 ) . Name = \u0022No difference\u0022 . XValues = ChartReferenceSeries . Vertical ( 0.0R , 0.5R , n \u002B 0.5R ) . XValues . Values = ChartReferenceSeries . Vertical ( 0.0R , 0.5R , n \u002B 0.5R ) . YValues . ChartType = XlChartType . xlXYScatterLinesNoMarkers . MarkerStyle = XlMarkerStyle . xlMarkerStyleNone . Format . Line . Visible = True . Format . Line . Weight = 1.0F . Format . Line . DashStyle = 4 . Format . Line . ForeColor . RGB = RGB ( 120 , 120 , 120 ) End With ConfigureAxes ( ch , data , xScale ) AddComparisonLabels ( ch . SeriesCollection ( 1 ) , data . Labels ) ch . HasLegend = False ch . HasTitle = True ch . ChartTitle . Text = BuildTitle ( data ) ch . ChartTitle . Font . Size = 12 Return ch End Function",
+      "token_sha256": "5105befeb8546e7bb330783523193e03697e9b4d0822713e5cfa87a16744ee42",
+      "span_start": 655,
+      "span_length": 4619,
+      "start": 21,
+      "end": 117,
+      "calls": [
+        "ValidatePlotData(data)",
+        "SuggestedHeight(data)",
+        "ComparisonCoordinatesCore.OrdinalY(n)",
+        "data.LowerLimits(0)",
+        "data.UpperLimits(0)",
+        "plusError(i)",
+        "Math.Max(0.0, data.UpperLimits(i) - data.Estimates(i))",
+        "data.UpperLimits(i)",
+        "data.Estimates(i)",
+        "minusError(i)",
+        "Math.Max(0.0, data.Estimates(i) - data.LowerLimits(i))",
+        "data.Estimates(i)",
+        "data.LowerLimits(i)",
+        "Math.Min(minCI, data.LowerLimits(i))",
+        "data.LowerLimits(i)",
+        "Math.Max(maxCI, data.UpperLimits(i))",
+        "data.UpperLimits(i)",
+        "ComparisonCoordinatesCore.IncludeZeroBounds(minCI, maxCI)",
+        "ChartScaling(minCI, maxCI)",
+        "ws.Shapes.AddChart()",
+        "ch.SeriesCollection(1).Delete()",
+        "ch.SeriesCollection(1)",
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(1)",
+        "RGB(31, 78, 121)",
+        "RGB(31, 78, 121)",
+        ".ErrorBar(Direction:=XlErrorBarDirection.xlX, Include:=Constants.xlBoth, Type:=XlErrorBarType.xlErrorBarTypeCustom, Amount:=plusError, MinusValues:=minusError)",
+        "RGB(31, 78, 121)",
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(2)",
+        "ChartReferenceSeries.Vertical(0.0R, 0.5R, n \u002B 0.5R)",
+        "ChartReferenceSeries.Vertical(0.0R, 0.5R, n \u002B 0.5R)",
+        "RGB(120, 120, 120)",
+        "ConfigureAxes(ch, data, xScale)",
+        "AddComparisonLabels(ch.SeriesCollection(1), data.Labels)",
+        "ch.SeriesCollection(1)",
+        "BuildTitle(data)"
+      ],
+      "assignments": [
+        {
+          "left": "plusError ( i )",
+          "right": "Math . Max ( 0.0 , data . UpperLimits ( i ) - data . Estimates ( i ) )"
+        },
+        {
+          "left": "minusError ( i )",
+          "right": "Math . Max ( 0.0 , data . Estimates ( i ) - data . LowerLimits ( i ) )"
+        },
+        {
+          "left": "minCI",
+          "right": "Math . Min ( minCI , data . LowerLimits ( i ) )"
+        },
+        {
+          "left": "maxCI",
+          "right": "Math . Max ( maxCI , data . UpperLimits ( i ) )"
+        },
+        {
+          "left": "minCI",
+          "right": "referenceBounds . Min"
+        },
+        {
+          "left": "maxCI",
+          "right": "referenceBounds . Max"
+        },
+        {
+          "left": "shape . Left",
+          "right": "CSng ( left )"
+        },
+        {
+          "left": "shape . Top",
+          "right": "CSng ( top )"
+        },
+        {
+          "left": "shape . Width",
+          "right": "CSng ( width )"
+        },
+        {
+          "left": "shape . Height",
+          "right": "CSng ( height )"
+        },
+        {
+          "left": "ch . ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Difference of means\u0022"
+        },
+        {
+          "left": ". XValues",
+          "right": "data . Estimates"
+        },
+        {
+          "left": ". Values",
+          "right": "y"
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleCircle"
+        },
+        {
+          "left": ". MarkerSize",
+          "right": "7"
+        },
+        {
+          "left": ". MarkerForegroundColor",
+          "right": "RGB ( 31 , 78 , 121 )"
+        },
+        {
+          "left": ". MarkerBackgroundColor",
+          "right": "RGB ( 31 , 78 , 121 )"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "False"
+        },
+        {
+          "left": ". ErrorBars . Format . Line . Weight",
+          "right": "1.25F"
+        },
+        {
+          "left": ". ErrorBars . Format . Line . ForeColor . RGB",
+          "right": "RGB ( 31 , 78 , 121 )"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022No difference\u0022"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Vertical ( 0.0R , 0.5R , n \u002B 0.5R ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Vertical ( 0.0R , 0.5R , n \u002B 0.5R ) . YValues"
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatterLinesNoMarkers"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleNone"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "True"
+        },
+        {
+          "left": ". Format . Line . Weight",
+          "right": "1.0F"
+        },
+        {
+          "left": ". Format . Line . DashStyle",
+          "right": "4"
+        },
+        {
+          "left": ". Format . Line . ForeColor . RGB",
+          "right": "RGB ( 120 , 120 , 120 )"
+        },
+        {
+          "left": "ch . HasLegend",
+          "right": "False"
+        },
+        {
+          "left": "ch . HasTitle",
+          "right": "True"
+        },
+        {
+          "left": "ch . ChartTitle . Text",
+          "right": "BuildTitle ( data )"
+        },
+        {
+          "left": "ch . ChartTitle . Font . Size",
+          "right": "12"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|9d77f02f05c07a1d",
+      "name": "SuggestedHeight",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Public Shared Function SuggestedHeight(data As parametric.MultipleComparisonPlotData) As Double",
+      "header_tokens": "Public Shared Function SuggestedHeight ( data As parametric . MultipleComparisonPlotData ) As Double",
+      "tokens": "Public Shared Function SuggestedHeight ( data As parametric . MultipleComparisonPlotData ) As Double Return ExcelCommon . Chart34 . ComparisonSeries . ComparisonSeriesPreparation34 . SuggestedHeight ( data ) End Function",
+      "token_sha256": "2cf235e162b43b20ebea9f8fcc61b935ff8640270eee334175f30ffc6ff3abc1",
+      "span_start": 5284,
+      "span_length": 224,
+      "start": 119,
+      "end": 121,
+      "calls": [
+        "ExcelCommon.Chart34.ComparisonSeries.ComparisonSeriesPreparation34.SuggestedHeight(data)"
+      ],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|SubBlock|eb019fbb4f175f7c",
+      "name": "ConfigureAxes",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Shared Sub ConfigureAxes(ch As Chart, data As parametric.MultipleComparisonPlotData, xScale As CHARTscale)",
+      "header_tokens": "Private Shared Sub ConfigureAxes ( ch As Chart , data As parametric . MultipleComparisonPlotData , xScale As CHARTscale )",
+      "tokens": "Private Shared Sub ConfigureAxes ( ch As Chart , data As parametric . MultipleComparisonPlotData , xScale As CHARTscale ) With ch . Axes ( XlAxisType . xlCategory , XlAxisGroup . xlPrimary ) . MinimumScale = xScale . Min . MaximumScale = xScale . Max . MajorUnit = xScale . Scale . CrossesAt = xScale . Min . HasTitle = True . AxisTitle . Text = \u0022Difference of means\u0022 End With With ch . Axes ( XlAxisType . xlValue , XlAxisGroup . xlPrimary ) . MinimumScale = 0.5 . MaximumScale = data . Estimates . Length \u002B 0.8 . MajorUnit = 1.0 . TickLabelPosition = XlTickLabelPosition . xlTickLabelPositionNone . HasMajorGridlines = False . CrossesAt = 0.5 End With Try ch . Axes ( XlAxisType . xlCategory , XlAxisGroup . xlPrimary ) . MajorGridlines . Delete ( ) Catch End Try End Sub",
+      "token_sha256": "9574b0d910ddd752e63fb54f0093bed6248f91adaa8d7a964ee1e2d0dc54a353",
+      "span_start": 5518,
+      "span_length": 1171,
+      "start": 123,
+      "end": 149,
+      "calls": [
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary)",
+        "ch.Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary)",
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).MajorGridlines.Delete()",
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary)"
+      ],
+      "assignments": [
+        {
+          "left": ". MinimumScale",
+          "right": "xScale . Min"
+        },
+        {
+          "left": ". MaximumScale",
+          "right": "xScale . Max"
+        },
+        {
+          "left": ". MajorUnit",
+          "right": "xScale . Scale"
+        },
+        {
+          "left": ". CrossesAt",
+          "right": "xScale . Min"
+        },
+        {
+          "left": ". HasTitle",
+          "right": "True"
+        },
+        {
+          "left": ". AxisTitle . Text",
+          "right": "\u0022Difference of means\u0022"
+        },
+        {
+          "left": ". MinimumScale",
+          "right": "0.5"
+        },
+        {
+          "left": ". MaximumScale",
+          "right": "data . Estimates . Length \u002B 0.8"
+        },
+        {
+          "left": ". MajorUnit",
+          "right": "1.0"
+        },
+        {
+          "left": ". TickLabelPosition",
+          "right": "XlTickLabelPosition . xlTickLabelPositionNone"
+        },
+        {
+          "left": ". HasMajorGridlines",
+          "right": "False"
+        },
+        {
+          "left": ". CrossesAt",
+          "right": "0.5"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|SubBlock|87cff56ef8350b73",
+      "name": "AddComparisonLabels",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Shared Sub AddComparisonLabels(series As Series, labels() As String)",
+      "header_tokens": "Private Shared Sub AddComparisonLabels ( series As Series , labels ( ) As String )",
+      "tokens": "Private Shared Sub AddComparisonLabels ( series As Series , labels ( ) As String ) Try For i As Integer = 1 To Math . Min ( series . Points . Count , labels . Length ) Dim point As Point = CType ( series . Points ( i ) , Point ) point . HasDataLabel = True point . DataLabel . Text = labels ( i - 1 ) point . DataLabel . Position = XlDataLabelPosition . xlLabelPositionAbove point . DataLabel . Font . Size = 8 Next Catch End Try End Sub",
+      "token_sha256": "3081bed12b17324c8ecfd66fb7e26a41951bced0fbfc7b7682b74a0ed8e156db",
+      "span_start": 6699,
+      "span_length": 698,
+      "start": 151,
+      "end": 164,
+      "calls": [
+        "Math.Min(series.Points.Count, labels.Length)",
+        "series.Points(i)",
+        "labels(i - 1)"
+      ],
+      "assignments": [
+        {
+          "left": "point . HasDataLabel",
+          "right": "True"
+        },
+        {
+          "left": "point . DataLabel . Text",
+          "right": "labels ( i - 1 )"
+        },
+        {
+          "left": "point . DataLabel . Position",
+          "right": "XlDataLabelPosition . xlLabelPositionAbove"
+        },
+        {
+          "left": "point . DataLabel . Font . Size",
+          "right": "8"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|75a5fc1447d4a347",
+      "name": "BuildTitle",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Shared Function BuildTitle(data As parametric.MultipleComparisonPlotData) As String",
+      "header_tokens": "Private Shared Function BuildTitle ( data As parametric . MultipleComparisonPlotData ) As String",
+      "tokens": "Private Shared Function BuildTitle ( data As parametric . MultipleComparisonPlotData ) As String Dim confidenceLevel As Double = ( 1.0 - data . Alpha ) * 100.0 Dim qualifier As String Select Case data . ProcedureName Case \u0022Tukey-Kramer\u0022 , \u0022Bonferroni\u0022 , \u0022Games-Howell\u0022 qualifier = \u0022 Simultaneous \u0022 Case Else qualifier = \u0022 \u0022 End Select Return data . ProcedureName \u0026 qualifier \u0026 confidenceLevel . ToString ( \u00220.##\u0022 ) \u0026 \u0022% CIs\u0022 \u0026 vbLf \u0026 \u0022Differences of Means\u0022 End Function",
+      "token_sha256": "5c2aa4ac2cab9616096a1c11aa523ffdb65710da5d9b44d3183f9b65a09d636a",
+      "span_start": 7407,
+      "span_length": 608,
+      "start": 166,
+      "end": 177,
+      "calls": [
+        "confidenceLevel.ToString(\u00220.##\u0022)"
+      ],
+      "assignments": [
+        {
+          "left": "qualifier",
+          "right": "\u0022 Simultaneous \u0022"
+        },
+        {
+          "left": "qualifier",
+          "right": "\u0022 \u0022"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|SubBlock|0648746ef567ae81",
+      "name": "ValidatePlotData",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Shared Sub ValidatePlotData(data As parametric.MultipleComparisonPlotData)",
+      "header_tokens": "Private Shared Sub ValidatePlotData ( data As parametric . MultipleComparisonPlotData )",
+      "tokens": "Private Shared Sub ValidatePlotData ( data As parametric . MultipleComparisonPlotData ) If data Is Nothing Then Throw New ArgumentNullException ( NameOf ( data ) ) If data . Labels Is Nothing OrElse data . Estimates Is Nothing OrElse data . LowerLimits Is Nothing OrElse data . UpperLimits Is Nothing Then Throw New ArgumentException ( \u0022Multiple-comparison plot data are incomplete.\u0022 , NameOf ( data ) ) End If Dim n As Integer = data . Estimates . Length If n = 0 OrElse data . Labels . Length \u003C\u003E n OrElse data . LowerLimits . Length \u003C\u003E n OrElse data . UpperLimits . Length \u003C\u003E n Then Throw New ArgumentException ( \u0022Multiple-comparison plot arrays must have equal non-zero lengths.\u0022 , NameOf ( data ) ) End If End Sub",
+      "token_sha256": "2cff33339253d8f6a898514d0259e6590229500056fcccb2497e33e8acd63bb1",
+      "span_start": 8025,
+      "span_length": 810,
+      "start": 179,
+      "end": 190,
+      "calls": [],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|42a1ac0faac43b76",
+      "name": "AddPlot",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "\u003CExtension()\u003E Public Sub AddPlot(analysis As Agreement.PassinbBablok, ws As Worksheet)",
+      "header_tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . PassinbBablok , ws As Worksheet )",
+      "tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . PassinbBablok , ws As Worksheet ) If analysis Is Nothing Then Throw New ArgumentNullException ( NameOf ( analysis ) ) If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) Dim plotData As Agreement . PassingBablokPlotData = analysis . GetPlotData ( ) Dim ch = graphics . GeneralScatterPlot ( plotData . XValues , plotData . YValues , plotData . YName , plotData . XName , ws , plotData . Title ) With ch . HasLegend = True . SeriesCollection . NewSeries ( ) With . SeriesCollection ( 2 ) . XValues = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Values = ChartReferenceSeries . Affine ( plotData . MinX , plotData . MaxX , plotData . Intercept , plotData . Slope ) . YValues . Name = \u0022Regression line\u0022 . MarkerStyle = - 4142 . Border . Color = RGB ( 255 , 0 , 0 ) With . Format . Line . Visible = True . Weight = 1.5 End With End With . SeriesCollection . NewSeries ( ) With . SeriesCollection ( 3 ) . XValues = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Values = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Name = \u0022Unity line (y = x)\u0022 . MarkerStyle = - 4142 . Border . Color = RGB ( 0 , 0 , 255 ) With . Format . Line . Visible = True . DashStyle = 4 . Weight = 0.5 End With End With End With End Sub",
+      "token_sha256": "c5b65fcf1252cba76e66d825f801950999f31057844447970607a0bf893be039",
+      "span_start": 322,
+      "span_length": 1705,
+      "start": 12,
+      "end": 50,
+      "calls": [
+        "analysis.GetPlotData()",
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(2)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "ChartReferenceSeries.Affine(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope)",
+        "RGB(255, 0, 0)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(3)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "RGB(0, 0, 255)"
+      ],
+      "assignments": [
+        {
+          "left": ". HasLegend",
+          "right": "True"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Affine ( plotData . MinX , plotData . MaxX , plotData . Intercept , plotData . Slope ) . YValues"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Regression line\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "- 4142"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 255 , 0 , 0 )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". Weight",
+          "right": "1.5"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Unity line (y = x)\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "- 4142"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 0 , 0 , 255 )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". DashStyle",
+          "right": "4"
+        },
+        {
+          "left": ". Weight",
+          "right": "0.5"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|559227fb0c277bf7",
+      "name": "AddPlot",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "\u003CExtension()\u003E Public Sub AddPlot(analysis As Agreement.BlandAltmanAgreement, ws As Worksheet)",
+      "header_tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . BlandAltmanAgreement , ws As Worksheet )",
+      "tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . BlandAltmanAgreement , ws As Worksheet ) If analysis Is Nothing Then Throw New ArgumentNullException ( NameOf ( analysis ) ) If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) Dim plotData As Agreement . BlandAltmanPlotData = analysis . GetPlotData ( ) Dim ch As Chart = graphics . GeneralScatterPlot ( plotData . XValues , plotData . YValues , plotData . YLabel , plotData . XLabel , ws , plotData . Title ) Dim span = ExcelCommon . Chart34 . AgreementSeries . AgreementSeriesPreparation34 . BaseSpan ( plotData . XValues ) Dim xMin As Double = span . Min Dim xMax As Double = span . Max Dim lineX As Double ( ) = { xMin , xMax } AddHorizontalReferenceLine ( ch , lineX , plotData . Bias , \u0022Bias\u0022 , RGB ( 31 , 119 , 180 ) ) AddHorizontalReferenceLine ( ch , lineX , plotData . LowerLoA , \u0022Lower LoA\u0022 , RGB ( 214 , 39 , 40 ) ) AddHorizontalReferenceLine ( ch , lineX , plotData . UpperLoA , \u0022Upper LoA\u0022 , RGB ( 214 , 39 , 40 ) ) If plotData . ShowSubjectMeans AndAlso plotData . SubjectMeanX IsNot Nothing AndAlso plotData . SubjectMeanY IsNot Nothing Then ch . SeriesCollection . NewSeries ( ) With ch . SeriesCollection ( ch . SeriesCollection . Count ) . XValues = plotData . SubjectMeanX . Values = plotData . SubjectMeanY . Name = \u0022Subject means\u0022 . MarkerStyle = XlMarkerStyle . xlMarkerStyleDiamond . MarkerSize = 7 . Format . Line . Visible = False End With End If End Sub",
+      "token_sha256": "ad12b9168401b19375785d5aaca8cbfb17a725c7e91696225559c6d993af55f0",
+      "span_start": 2033,
+      "span_length": 1561,
+      "start": 52,
+      "end": 79,
+      "calls": [
+        "analysis.GetPlotData()",
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YLabel, plotData.XLabel, ws, plotData.Title)",
+        "ExcelCommon.Chart34.AgreementSeries.AgreementSeriesPreparation34.BaseSpan(plotData.XValues)",
+        "AddHorizontalReferenceLine(ch, lineX, plotData.Bias, \u0022Bias\u0022, RGB(31, 119, 180))",
+        "RGB(31, 119, 180)",
+        "AddHorizontalReferenceLine(ch, lineX, plotData.LowerLoA, \u0022Lower LoA\u0022, RGB(214, 39, 40))",
+        "RGB(214, 39, 40)",
+        "AddHorizontalReferenceLine(ch, lineX, plotData.UpperLoA, \u0022Upper LoA\u0022, RGB(214, 39, 40))",
+        "RGB(214, 39, 40)",
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(ch.SeriesCollection.Count)"
+      ],
+      "assignments": [
+        {
+          "left": ". XValues",
+          "right": "plotData . SubjectMeanX"
+        },
+        {
+          "left": ". Values",
+          "right": "plotData . SubjectMeanY"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Subject means\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleDiamond"
+        },
+        {
+          "left": ". MarkerSize",
+          "right": "7"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "False"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|FunctionBlock|b60539ef7514782b",
+      "name": "AddPlot",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "\u003CExtension()\u003E Public Function AddPlot(analysis As Agreement.LinConcordanceCorrelation, ws As Worksheet, Optional chartTitle As String = \u0022Lin concordance plot\u0022) As Chart",
+      "header_tokens": "\u003C Extension ( ) \u003E Public Function AddPlot ( analysis As Agreement . LinConcordanceCorrelation , ws As Worksheet , Optional chartTitle As String = \u0022Lin concordance plot\u0022 ) As Chart",
+      "tokens": "\u003C Extension ( ) \u003E Public Function AddPlot ( analysis As Agreement . LinConcordanceCorrelation , ws As Worksheet , Optional chartTitle As String = \u0022Lin concordance plot\u0022 ) As Chart If analysis Is Nothing Then Throw New ArgumentNullException ( NameOf ( analysis ) ) If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) Dim plotData As Agreement . LinConcordancePlotData = analysis . GetPlotData ( chartTitle ) Dim chartObj As Chart = graphics . GeneralScatterPlot ( plotData . XValues , plotData . YValues , plotData . YName , plotData . XName , ws , plotData . Title ) With chartObj . Axes ( XlAxisType . xlCategory ) . MinimumScale = plotData . MinValue . Axes ( XlAxisType . xlCategory ) . MaximumScale = plotData . MaxValue . Axes ( XlAxisType . xlValue ) . MinimumScale = plotData . MinValue . Axes ( XlAxisType . xlValue ) . MaximumScale = plotData . MaxValue . SeriesCollection . NewSeries ( ) With . SeriesCollection ( . SeriesCollection . Count ) . Name = \u0022Identity\u0022 . XValues = ChartReferenceSeries . Identity ( plotData . MinValue , plotData . MaxValue ) . XValues . Values = ChartReferenceSeries . Identity ( plotData . MinValue , plotData . MaxValue ) . XValues . MarkerStyle = XlMarkerStyle . xlMarkerStyleNone . Format . Line . Visible = True End With End With Return chartObj End Function",
+      "token_sha256": "00fd6717f2b1027f153f65a8f01c323ec68ebe4b82d3df1723bd70cb34b47afa",
+      "span_start": 3600,
+      "span_length": 1472,
+      "start": 81,
+      "end": 108,
+      "calls": [
+        "analysis.GetPlotData(chartTitle)",
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlValue)",
+        ".Axes(XlAxisType.xlValue)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(.SeriesCollection.Count)",
+        "ChartReferenceSeries.Identity(plotData.MinValue, plotData.MaxValue)",
+        "ChartReferenceSeries.Identity(plotData.MinValue, plotData.MaxValue)"
+      ],
+      "assignments": [
+        {
+          "left": ". Axes ( XlAxisType . xlCategory ) . MinimumScale",
+          "right": "plotData . MinValue"
+        },
+        {
+          "left": ". Axes ( XlAxisType . xlCategory ) . MaximumScale",
+          "right": "plotData . MaxValue"
+        },
+        {
+          "left": ". Axes ( XlAxisType . xlValue ) . MinimumScale",
+          "right": "plotData . MinValue"
+        },
+        {
+          "left": ". Axes ( XlAxisType . xlValue ) . MaximumScale",
+          "right": "plotData . MaxValue"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Identity\u0022"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinValue , plotData . MaxValue ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinValue , plotData . MaxValue ) . XValues"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleNone"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "True"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|d580bcccdcfc70d5",
+      "name": "AddPlot",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "\u003CExtension()\u003E Public Sub AddPlot(analysis As Agreement.WeightedDemingRegression, ws As Worksheet)",
+      "header_tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . WeightedDemingRegression , ws As Worksheet )",
+      "tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . WeightedDemingRegression , ws As Worksheet ) If analysis Is Nothing Then Throw New ArgumentNullException ( NameOf ( analysis ) ) If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) Dim plotData As Agreement . DemingPlotData = analysis . GetPlotData ( ) Dim ch = graphics . GeneralScatterPlot ( plotData . XValues , plotData . YValues , plotData . YName , plotData . XName , ws , plotData . Title ) With ch . HasLegend = True . SeriesCollection . NewSeries ( ) With . SeriesCollection ( 2 ) . XValues = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Values = ChartReferenceSeries . Affine ( plotData . MinX , plotData . MaxX , plotData . Intercept , plotData . Slope ) . YValues . Name = \u0022Regression line\u0022 . MarkerStyle = - 4142 . Border . Color = RGB ( 255 , 0 , 0 ) With . Format . Line . Visible = True . Weight = 1.5 End With End With . SeriesCollection . NewSeries ( ) With . SeriesCollection ( 3 ) . XValues = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Values = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Name = \u0022Unity line (y = x)\u0022 . MarkerStyle = - 4142 . Border . Color = RGB ( 0 , 0 , 255 ) With . Format . Line . Visible = True . DashStyle = 4 . Weight = 0.5 End With End With End With End Sub",
+      "token_sha256": "d6ad674324109d2c4f3ec7e729a96cf9fcde7a9d88ec6d644c0564d1a81a5ca9",
+      "span_start": 5078,
+      "span_length": 1709,
+      "start": 110,
+      "end": 148,
+      "calls": [
+        "analysis.GetPlotData()",
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(2)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "ChartReferenceSeries.Affine(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope)",
+        "RGB(255, 0, 0)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(3)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "RGB(0, 0, 255)"
+      ],
+      "assignments": [
+        {
+          "left": ". HasLegend",
+          "right": "True"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Affine ( plotData . MinX , plotData . MaxX , plotData . Intercept , plotData . Slope ) . YValues"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Regression line\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "- 4142"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 255 , 0 , 0 )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". Weight",
+          "right": "1.5"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Unity line (y = x)\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "- 4142"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 0 , 0 , 255 )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". DashStyle",
+          "right": "4"
+        },
+        {
+          "left": ". Weight",
+          "right": "0.5"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|a1ad2b67f1d9371b",
+      "name": "AddHorizontalReferenceLine",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "Private Sub AddHorizontalReferenceLine(ch As Chart, lineX As Double(), yValue As Double, seriesName As String, lineColor As Integer)",
+      "header_tokens": "Private Sub AddHorizontalReferenceLine ( ch As Chart , lineX As Double ( ) , yValue As Double , seriesName As String , lineColor As Integer )",
+      "tokens": "Private Sub AddHorizontalReferenceLine ( ch As Chart , lineX As Double ( ) , yValue As Double , seriesName As String , lineColor As Integer ) If ch Is Nothing Then Exit Sub Dim lineY As Double ( ) = ChartReferenceSeries . Horizontal ( lineX ( 0 ) , lineX ( 1 ) , yValue ) . YValues ch . SeriesCollection . NewSeries ( ) With ch . SeriesCollection ( ch . SeriesCollection . Count ) . XValues = lineX . Values = lineY . Name = seriesName . MarkerStyle = XlMarkerStyle . xlMarkerStyleNone . Format . Line . Visible = True . Format . Line . ForeColor . RGB = lineColor . Format . Line . Weight = 1.5 End With End Sub",
+      "token_sha256": "e761c6ea5adba034b1d7c8429a09bc9d155ba765cd77f7fd47cdc09be10f0472",
+      "span_start": 6793,
+      "span_length": 848,
+      "start": 150,
+      "end": 167,
+      "calls": [
+        "ChartReferenceSeries.Horizontal(lineX(0), lineX(1), yValue)",
+        "lineX(0)",
+        "lineX(1)",
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(ch.SeriesCollection.Count)"
+      ],
+      "assignments": [
+        {
+          "left": ". XValues",
+          "right": "lineX"
+        },
+        {
+          "left": ". Values",
+          "right": "lineY"
+        },
+        {
+          "left": ". Name",
+          "right": "seriesName"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleNone"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "True"
+        },
+        {
+          "left": ". Format . Line . ForeColor . RGB",
+          "right": "lineColor"
+        },
+        {
+          "left": ". Format . Line . Weight",
+          "right": "1.5"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|ConstructorBlock|74ce9675914653be",
+      "name": ".ctor",
+      "kind": "ConstructorBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Sub New()",
+      "header_tokens": "Private Sub New ( )",
+      "tokens": "Private Sub New ( ) End Sub",
+      "token_sha256": "e26a03f4cae3755d861cea81bf62290f60bb4b7d55aacf21eddfc7944ae34d79",
+      "span_start": 742,
+      "span_length": 33,
+      "start": 22,
+      "end": 23,
+      "calls": [],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|8e9e96f64fda14af",
+      "name": "BuildPlotDataTable",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Public Shared Function BuildPlotDataTable(rows As IList(Of PsmLovePlotRow)) As Object(,)",
+      "header_tokens": "Public Shared Function BuildPlotDataTable ( rows As IList ( Of PsmLovePlotRow ) ) As Object ( , )",
+      "tokens": "Public Shared Function BuildPlotDataTable ( rows As IList ( Of PsmLovePlotRow ) ) As Object ( , ) Return BuildProjectedDataTable ( New PsmLovePlotProjection ( rows ) ) End Function",
+      "token_sha256": "5e3a0bfa59dede8b963d2854310f57da40cdc1bcd4188ab8c06e59602d3ed32d",
+      "span_start": 993,
+      "span_length": 185,
+      "start": 29,
+      "end": 31,
+      "calls": [
+        "BuildProjectedDataTable(New PsmLovePlotProjection(rows))"
+      ],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|65ca1ce94ad86e48",
+      "name": "BuildProjectedDataTable",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Public Shared Function BuildProjectedDataTable(projection As PsmLovePlotProjection) As Object(,)",
+      "header_tokens": "Public Shared Function BuildProjectedDataTable ( projection As PsmLovePlotProjection ) As Object ( , )",
+      "tokens": "Public Shared Function BuildProjectedDataTable ( projection As PsmLovePlotProjection ) As Object ( , ) Return projection . BuildDataTable ( ) End Function",
+      "token_sha256": "6efa7ab3a3a0bdfb4cd49311216fc7bfae3f6fe3c043bea0150e66e82b3d1876",
+      "span_start": 1188,
+      "span_length": 164,
+      "start": 33,
+      "end": 35,
+      "calls": [
+        "projection.BuildDataTable()"
+      ],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|829638a095f17c79",
+      "name": "AddChart",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Public Shared Sub AddChart(ws As Worksheet, rows As IList(Of PsmLovePlotRow), Optional left As Double = 420, Optional top As Double = 20, Optional width As Double = 720, Optional height As Double = 420)",
+      "header_tokens": "Public Shared Sub AddChart ( ws As Worksheet , rows As IList ( Of PsmLovePlotRow ) , Optional left As Double = 420 , Optional top As Double = 20 , Optional width As Double = 720 , Optional height As Double = 420 )",
+      "tokens": "Public Shared Sub AddChart ( ws As Worksheet , rows As IList ( Of PsmLovePlotRow ) , Optional left As Double = 420 , Optional top As Double = 20 , Optional width As Double = 720 , Optional height As Double = 420 ) If ws Is Nothing OrElse rows Is Nothing OrElse rows . Count = 0 Then Return AddProjectedChart ( ws , New PsmLovePlotProjection ( rows ) , left , top , width , height ) End Sub",
+      "token_sha256": "70f6cd1714f1b231bc770a98637e41cb5301f0f8bdb190492d3d946e718c5d1f",
+      "span_start": 1627,
+      "span_length": 573,
+      "start": 42,
+      "end": 51,
+      "calls": [
+        "AddProjectedChart(ws, New PsmLovePlotProjection(rows), left, top, width, height)"
+      ],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|b0d44fe7f020d498",
+      "name": "AddProjectedChart",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Public Shared Sub AddProjectedChart(ws As Worksheet, projection As PsmLovePlotProjection, Optional left As Double = 420, Optional top As Double = 20, Optional width As Double = 720, Optional height As Double = 420)",
+      "header_tokens": "Public Shared Sub AddProjectedChart ( ws As Worksheet , projection As PsmLovePlotProjection , Optional left As Double = 420 , Optional top As Double = 20 , Optional width As Double = 720 , Optional height As Double = 420 )",
+      "tokens": "Public Shared Sub AddProjectedChart ( ws As Worksheet , projection As PsmLovePlotProjection , Optional left As Double = 420 , Optional top As Double = 20 , Optional width As Double = 720 , Optional height As Double = 420 ) If ws Is Nothing OrElse projection Is Nothing OrElse projection . Count = 0 Then Return Dim yValues = projection . YValues Dim xBefore = projection . Before Dim xAfterMatching = projection . AfterMatching Dim xAfterWeighting = projection . AfterWeighting Dim labels = projection . Labels Dim threshold = projection . Threshold Dim maxX = projection . MaximumX Dim shp As Shape = ws . Shapes . AddChart ( Left := left , Top := top , Width := width , Height := height ) Dim ch As Chart = shp . Chart With ch . ChartType = XlChartType . xlXYScatter Do Until . SeriesCollection . Count = 0 . SeriesCollection ( 1 ) . Delete ( ) Loop Dim plottedSeries As New List ( Of Integer ) ( ) If HasAnyFinite ( xBefore ) Then plottedSeries . Add ( AddScatterSeries ( ch , \u0022Before\u0022 , xBefore , yValues , RGB ( 120 , 120 , 120 ) , XlMarkerStyle . xlMarkerStyleCircle ) ) If HasAnyFinite ( xAfterMatching ) Then plottedSeries . Add ( AddScatterSeries ( ch , \u0022After matching\u0022 , xAfterMatching , yValues , RGB ( 31 , 119 , 180 ) , XlMarkerStyle . xlMarkerStyleDiamond ) ) If HasAnyFinite ( xAfterWeighting ) Then plottedSeries . Add ( AddScatterSeries ( ch , \u0022After weighting\u0022 , xAfterWeighting , yValues , RGB ( 44 , 160 , 44 ) , XlMarkerStyle . xlMarkerStyleSquare ) ) AddThresholdSeries ( ch , threshold , projection . Count ) If plottedSeries . Count \u003E 0 Then AddVariableLabels ( CType ( . SeriesCollection ( plottedSeries ( plottedSeries . Count - 1 ) ) , Series ) , labels ) End If . HasTitle = True . ChartTitle . Text = \u0022Love plot: absolute standardized mean differences\u0022 . HasLegend = True . Legend . Position = XlLegendPosition . xlLegendPositionBottom With . Axes ( XlAxisType . xlCategory ) . MinimumScale = 0 . MaximumScale = maxX . MajorUnitIsAuto = True . HasTitle = True . AxisTitle . Text = \u0022Absolute standardized mean difference\u0022 Try . MajorGridlines . Border . Color = RGB ( 230 , 230 , 230 ) Catch End Try End With With . Axes ( XlAxisType . xlValue ) . MinimumScale = 0.5R . MaximumScale = projection . Count \u002B 0.5R . MajorUnit = 1 . ReversePlotOrder = True . HasTitle = False Try . TickLabelPosition = XlTickLabelPosition . xlTickLabelPositionNone Catch End Try Try . MajorGridlines . Delete ( ) Catch End Try End With End With End Sub",
+      "token_sha256": "e81c6793be38a6ad01d1edb337dd8e3da0501a4ad403a5b51cd0caea9793bf96",
+      "span_start": 2210,
+      "span_length": 3276,
+      "start": 53,
+      "end": 118,
+      "calls": [
+        "ws.Shapes.AddChart(Left:=left, Top:=top, Width:=width, Height:=height)",
+        ".SeriesCollection(1).Delete()",
+        ".SeriesCollection(1)",
+        "HasAnyFinite(xBefore)",
+        "plottedSeries.Add(AddScatterSeries(ch, \u0022Before\u0022, xBefore, yValues, RGB(120, 120, 120), XlMarkerStyle.xlMarkerStyleCircle))",
+        "AddScatterSeries(ch, \u0022Before\u0022, xBefore, yValues, RGB(120, 120, 120), XlMarkerStyle.xlMarkerStyleCircle)",
+        "RGB(120, 120, 120)",
+        "HasAnyFinite(xAfterMatching)",
+        "plottedSeries.Add(AddScatterSeries(ch, \u0022After matching\u0022, xAfterMatching, yValues, RGB(31, 119, 180), XlMarkerStyle.xlMarkerStyleDiamond))",
+        "AddScatterSeries(ch, \u0022After matching\u0022, xAfterMatching, yValues, RGB(31, 119, 180), XlMarkerStyle.xlMarkerStyleDiamond)",
+        "RGB(31, 119, 180)",
+        "HasAnyFinite(xAfterWeighting)",
+        "plottedSeries.Add(AddScatterSeries(ch, \u0022After weighting\u0022, xAfterWeighting, yValues, RGB(44, 160, 44), XlMarkerStyle.xlMarkerStyleSquare))",
+        "AddScatterSeries(ch, \u0022After weighting\u0022, xAfterWeighting, yValues, RGB(44, 160, 44), XlMarkerStyle.xlMarkerStyleSquare)",
+        "RGB(44, 160, 44)",
+        "AddThresholdSeries(ch, threshold, projection.Count)",
+        "AddVariableLabels(CType(.SeriesCollection(plottedSeries(plottedSeries.Count - 1)), Series), labels)",
+        ".SeriesCollection(plottedSeries(plottedSeries.Count - 1))",
+        "plottedSeries(plottedSeries.Count - 1)",
+        ".Axes(XlAxisType.xlCategory)",
+        "RGB(230, 230, 230)",
+        ".Axes(XlAxisType.xlValue)",
+        ".MajorGridlines.Delete()"
+      ],
+      "assignments": [
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". HasTitle",
+          "right": "True"
+        },
+        {
+          "left": ". ChartTitle . Text",
+          "right": "\u0022Love plot: absolute standardized mean differences\u0022"
+        },
+        {
+          "left": ". HasLegend",
+          "right": "True"
+        },
+        {
+          "left": ". Legend . Position",
+          "right": "XlLegendPosition . xlLegendPositionBottom"
+        },
+        {
+          "left": ". MinimumScale",
+          "right": "0"
+        },
+        {
+          "left": ". MaximumScale",
+          "right": "maxX"
+        },
+        {
+          "left": ". MajorUnitIsAuto",
+          "right": "True"
+        },
+        {
+          "left": ". HasTitle",
+          "right": "True"
+        },
+        {
+          "left": ". AxisTitle . Text",
+          "right": "\u0022Absolute standardized mean difference\u0022"
+        },
+        {
+          "left": ". MajorGridlines . Border . Color",
+          "right": "RGB ( 230 , 230 , 230 )"
+        },
+        {
+          "left": ". MinimumScale",
+          "right": "0.5R"
+        },
+        {
+          "left": ". MaximumScale",
+          "right": "projection . Count \u002B 0.5R"
+        },
+        {
+          "left": ". MajorUnit",
+          "right": "1"
+        },
+        {
+          "left": ". ReversePlotOrder",
+          "right": "True"
+        },
+        {
+          "left": ". HasTitle",
+          "right": "False"
+        },
+        {
+          "left": ". TickLabelPosition",
+          "right": "XlTickLabelPosition . xlTickLabelPositionNone"
+        }
+      ],
+      "catches": [
+        "Catch",
+        "Catch",
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|cea2e05cf220f98a",
+      "name": "AddScatterSeries",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Shared Function AddScatterSeries(ch As Chart, name As String, xValues As Double(), yValues As Double(), color As Integer, markerStyle As XlMarkerStyle) As Integer",
+      "header_tokens": "Private Shared Function AddScatterSeries ( ch As Chart , name As String , xValues As Double ( ) , yValues As Double ( ) , color As Integer , markerStyle As XlMarkerStyle ) As Integer",
+      "tokens": "Private Shared Function AddScatterSeries ( ch As Chart , name As String , xValues As Double ( ) , yValues As Double ( ) , color As Integer , markerStyle As XlMarkerStyle ) As Integer ch . SeriesCollection . NewSeries ( ) Dim index As Integer = ch . SeriesCollection . Count With ch . SeriesCollection ( index ) . Name = name . XValues = xValues . Values = yValues . ChartType = XlChartType . xlXYScatter . MarkerStyle = markerStyle . MarkerSize = 6 . MarkerForegroundColor = color . MarkerBackgroundColor = color . Format . Line . Visible = False End With Return index End Function",
+      "token_sha256": "ff2ed8d15269604007eda872459459fad05daacf815bc7155ca86354897f1d88",
+      "span_start": 5496,
+      "span_length": 996,
+      "start": 120,
+      "end": 140,
+      "calls": [
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(index)"
+      ],
+      "assignments": [
+        {
+          "left": ". Name",
+          "right": "name"
+        },
+        {
+          "left": ". XValues",
+          "right": "xValues"
+        },
+        {
+          "left": ". Values",
+          "right": "yValues"
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "markerStyle"
+        },
+        {
+          "left": ". MarkerSize",
+          "right": "6"
+        },
+        {
+          "left": ". MarkerForegroundColor",
+          "right": "color"
+        },
+        {
+          "left": ". MarkerBackgroundColor",
+          "right": "color"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "False"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|5411e44db47c7b9c",
+      "name": "AddThresholdSeries",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Shared Sub AddThresholdSeries(ch As Chart, threshold As Double, n As Integer)",
+      "header_tokens": "Private Shared Sub AddThresholdSeries ( ch As Chart , threshold As Double , n As Integer )",
+      "tokens": "Private Shared Sub AddThresholdSeries ( ch As Chart , threshold As Double , n As Integer ) ch . SeriesCollection . NewSeries ( ) Dim s As Series = CType ( ch . SeriesCollection ( ch . SeriesCollection . Count ) , Series ) With s . Name = \u0022Threshold\u0022 . XValues = PsmLoveSeriesPolicy . ThresholdReference ( threshold , n ) . XValues . Values = PsmLoveSeriesPolicy . ThresholdReference ( threshold , n ) . YValues . ChartType = XlChartType . xlXYScatterLinesNoMarkers Try . Border . Color = RGB ( 180 , 0 , 0 ) . Border . Weight = XlBorderWeight . xlMedium Catch End Try End With End Sub",
+      "token_sha256": "79fb679db32b62bfec105a346eaaf3af68c42efe2c5785ae4345e3ad5848fcb2",
+      "span_start": 6502,
+      "span_length": 733,
+      "start": 142,
+      "end": 156,
+      "calls": [
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(ch.SeriesCollection.Count)",
+        "PsmLoveSeriesPolicy.ThresholdReference(threshold, n)",
+        "PsmLoveSeriesPolicy.ThresholdReference(threshold, n)",
+        "RGB(180, 0, 0)"
+      ],
+      "assignments": [
+        {
+          "left": ". Name",
+          "right": "\u0022Threshold\u0022"
+        },
+        {
+          "left": ". XValues",
+          "right": "PsmLoveSeriesPolicy . ThresholdReference ( threshold , n ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "PsmLoveSeriesPolicy . ThresholdReference ( threshold , n ) . YValues"
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatterLinesNoMarkers"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 180 , 0 , 0 )"
+        },
+        {
+          "left": ". Border . Weight",
+          "right": "XlBorderWeight . xlMedium"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|b62a646f228fdfd1",
+      "name": "AddVariableLabels",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Shared Sub AddVariableLabels(series As Series, labels As String())",
+      "header_tokens": "Private Shared Sub AddVariableLabels ( series As Series , labels As String ( ) )",
+      "tokens": "Private Shared Sub AddVariableLabels ( series As Series , labels As String ( ) ) If series Is Nothing OrElse labels Is Nothing OrElse labels . Length = 0 Then Return Try series . ApplyDataLabels ( ) For i As Integer = 1 To Math . Min ( labels . Length , series . Points . Count ) Dim pt As Point = CType ( series . Points ( i ) , Point ) pt . DataLabel . Text = labels ( i - 1 ) pt . DataLabel . Position = XlDataLabelPosition . xlLabelPositionRight pt . DataLabel . Font . Size = 8 Next Catch End Try End Sub",
+      "token_sha256": "8a42823c286cb141317876cd439fd4b3858e3bd3fd5eb5dc066035275d98b8bf",
+      "span_start": 7245,
+      "span_length": 729,
+      "start": 158,
+      "end": 171,
+      "calls": [
+        "series.ApplyDataLabels()",
+        "Math.Min(labels.Length, series.Points.Count)",
+        "series.Points(i)",
+        "labels(i - 1)"
+      ],
+      "assignments": [
+        {
+          "left": "pt . DataLabel . Text",
+          "right": "labels ( i - 1 )"
+        },
+        {
+          "left": "pt . DataLabel . Position",
+          "right": "XlDataLabelPosition . xlLabelPositionRight"
+        },
+        {
+          "left": "pt . DataLabel . Font . Size",
+          "right": "8"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|6538e9c0bc19aa30",
+      "name": "HasAnyFinite",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Shared Function HasAnyFinite(values As IEnumerable(Of Double)) As Boolean",
+      "header_tokens": "Private Shared Function HasAnyFinite ( values As IEnumerable ( Of Double ) ) As Boolean",
+      "tokens": "Private Shared Function HasAnyFinite ( values As IEnumerable ( Of Double ) ) As Boolean Return PsmLoveSeriesPolicy . HasAnyFinite ( values ) End Function",
+      "token_sha256": "1af90d747c84617993be218d3a89c417051eed97778c31275cab5cd50c7dfaaa",
+      "span_start": 7984,
+      "span_length": 154,
+      "start": 177,
+      "end": 179,
+      "calls": [
+        "PsmLoveSeriesPolicy.HasAnyFinite(values)"
+      ],
+      "assignments": [],
+      "catches": []
+    }
+  ],
+  "current": [
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|ConstructorBlock|74ce9675914653be",
+      "name": ".ctor",
+      "kind": "ConstructorBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Sub New()",
+      "header_tokens": "Private Sub New ( )",
+      "tokens": "Private Sub New ( ) End Sub",
+      "token_sha256": "e26a03f4cae3755d861cea81bf62290f60bb4b7d55aacf21eddfc7944ae34d79",
+      "span_start": 479,
+      "span_length": 33,
+      "start": 15,
+      "end": 16,
+      "calls": [],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|8d8f14f37475870a",
+      "name": "AddPlot",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Public Shared Function AddPlot(ws As Worksheet, data As parametric.MultipleComparisonPlotData, left As Double, top As Double, Optional width As Double = 560.0) As Chart",
+      "header_tokens": "Public Shared Function AddPlot ( ws As Worksheet , data As parametric . MultipleComparisonPlotData , left As Double , top As Double , Optional width As Double = 560.0 ) As Chart",
+      "tokens": "Public Shared Function AddPlot ( ws As Worksheet , data As parametric . MultipleComparisonPlotData , left As Double , top As Double , Optional width As Double = 560.0 ) As Chart If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) ValidatePlotData ( data ) Dim n As Integer = data . Estimates . Length Dim height As Double = SuggestedHeight ( data ) Dim y As Double ( ) = ComparisonCoordinatesCore . OrdinalY ( n ) Dim plusError ( n - 1 ) As Double Dim minusError ( n - 1 ) As Double Dim minCI As Double = data . LowerLimits ( 0 ) Dim maxCI As Double = data . UpperLimits ( 0 ) For i As Integer = 0 To n - 1 plusError ( i ) = Math . Max ( 0.0 , data . UpperLimits ( i ) - data . Estimates ( i ) ) minusError ( i ) = Math . Max ( 0.0 , data . Estimates ( i ) - data . LowerLimits ( i ) ) minCI = Math . Min ( minCI , data . LowerLimits ( i ) ) maxCI = Math . Max ( maxCI , data . UpperLimits ( i ) ) Next Dim referenceBounds As ChartAxisScaleResult = ComparisonCoordinatesCore . IncludeZeroBounds ( minCI , maxCI ) minCI = referenceBounds . Min maxCI = referenceBounds . Max Dim xScale As CHARTscale = ChartScaling ( minCI , maxCI ) Dim shape As Object = ws . Shapes . AddChart ( ) shape . Left = CSng ( left ) shape . Top = CSng ( top ) shape . Width = CSng ( width ) shape . Height = CSng ( height ) Dim ch As Chart = shape . Chart ch . ChartType = XlChartType . xlXYScatter Do Until ch . SeriesCollection . Count = 0 ch . SeriesCollection ( 1 ) . Delete ( ) Loop ch . SeriesCollection . NewSeries ( ) With ch . SeriesCollection ( 1 ) . Name = \u0022Difference of means\u0022 . XValues = data . Estimates . Values = y . ChartType = XlChartType . xlXYScatter . MarkerStyle = XlMarkerStyle . xlMarkerStyleCircle . MarkerSize = 7 . MarkerForegroundColor = RGB ( 31 , 78 , 121 ) . MarkerBackgroundColor = RGB ( 31 , 78 , 121 ) . Format . Line . Visible = False . ErrorBar ( Direction := XlErrorBarDirection . xlX , Include := Constants . xlBoth , Type := XlErrorBarType . xlErrorBarTypeCustom , Amount := plusError , MinusValues := minusError ) Try . ErrorBars . Format . Line . Weight = 1.25F . ErrorBars . Format . Line . ForeColor . RGB = RGB ( 31 , 78 , 121 ) Catch End Try End With ch . SeriesCollection . NewSeries ( ) With ch . SeriesCollection ( 2 ) . Name = \u0022No difference\u0022 . XValues = ChartReferenceSeries . Vertical ( 0.0R , 0.5R , n \u002B 0.5R ) . XValues . Values = ChartReferenceSeries . Vertical ( 0.0R , 0.5R , n \u002B 0.5R ) . YValues . ChartType = XlChartType . xlXYScatterLinesNoMarkers . MarkerStyle = XlMarkerStyle . xlMarkerStyleNone . Format . Line . Visible = True . Format . Line . Weight = 1.0F . Format . Line . DashStyle = 4 . Format . Line . ForeColor . RGB = RGB ( 120 , 120 , 120 ) End With ConfigureAxes ( ch , data , xScale ) AddComparisonLabels ( ch . SeriesCollection ( 1 ) , data . Labels ) ch . HasLegend = False ch . HasTitle = True ch . ChartTitle . Text = BuildTitle ( data ) ch . ChartTitle . Font . Size = 12 Return ch End Function",
+      "token_sha256": "5105befeb8546e7bb330783523193e03697e9b4d0822713e5cfa87a16744ee42",
+      "span_start": 655,
+      "span_length": 4619,
+      "start": 21,
+      "end": 117,
+      "calls": [
+        "ValidatePlotData(data)",
+        "SuggestedHeight(data)",
+        "ComparisonCoordinatesCore.OrdinalY(n)",
+        "data.LowerLimits(0)",
+        "data.UpperLimits(0)",
+        "plusError(i)",
+        "Math.Max(0.0, data.UpperLimits(i) - data.Estimates(i))",
+        "data.UpperLimits(i)",
+        "data.Estimates(i)",
+        "minusError(i)",
+        "Math.Max(0.0, data.Estimates(i) - data.LowerLimits(i))",
+        "data.Estimates(i)",
+        "data.LowerLimits(i)",
+        "Math.Min(minCI, data.LowerLimits(i))",
+        "data.LowerLimits(i)",
+        "Math.Max(maxCI, data.UpperLimits(i))",
+        "data.UpperLimits(i)",
+        "ComparisonCoordinatesCore.IncludeZeroBounds(minCI, maxCI)",
+        "ChartScaling(minCI, maxCI)",
+        "ws.Shapes.AddChart()",
+        "ch.SeriesCollection(1).Delete()",
+        "ch.SeriesCollection(1)",
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(1)",
+        "RGB(31, 78, 121)",
+        "RGB(31, 78, 121)",
+        ".ErrorBar(Direction:=XlErrorBarDirection.xlX, Include:=Constants.xlBoth, Type:=XlErrorBarType.xlErrorBarTypeCustom, Amount:=plusError, MinusValues:=minusError)",
+        "RGB(31, 78, 121)",
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(2)",
+        "ChartReferenceSeries.Vertical(0.0R, 0.5R, n \u002B 0.5R)",
+        "ChartReferenceSeries.Vertical(0.0R, 0.5R, n \u002B 0.5R)",
+        "RGB(120, 120, 120)",
+        "ConfigureAxes(ch, data, xScale)",
+        "AddComparisonLabels(ch.SeriesCollection(1), data.Labels)",
+        "ch.SeriesCollection(1)",
+        "BuildTitle(data)"
+      ],
+      "assignments": [
+        {
+          "left": "plusError ( i )",
+          "right": "Math . Max ( 0.0 , data . UpperLimits ( i ) - data . Estimates ( i ) )"
+        },
+        {
+          "left": "minusError ( i )",
+          "right": "Math . Max ( 0.0 , data . Estimates ( i ) - data . LowerLimits ( i ) )"
+        },
+        {
+          "left": "minCI",
+          "right": "Math . Min ( minCI , data . LowerLimits ( i ) )"
+        },
+        {
+          "left": "maxCI",
+          "right": "Math . Max ( maxCI , data . UpperLimits ( i ) )"
+        },
+        {
+          "left": "minCI",
+          "right": "referenceBounds . Min"
+        },
+        {
+          "left": "maxCI",
+          "right": "referenceBounds . Max"
+        },
+        {
+          "left": "shape . Left",
+          "right": "CSng ( left )"
+        },
+        {
+          "left": "shape . Top",
+          "right": "CSng ( top )"
+        },
+        {
+          "left": "shape . Width",
+          "right": "CSng ( width )"
+        },
+        {
+          "left": "shape . Height",
+          "right": "CSng ( height )"
+        },
+        {
+          "left": "ch . ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Difference of means\u0022"
+        },
+        {
+          "left": ". XValues",
+          "right": "data . Estimates"
+        },
+        {
+          "left": ". Values",
+          "right": "y"
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleCircle"
+        },
+        {
+          "left": ". MarkerSize",
+          "right": "7"
+        },
+        {
+          "left": ". MarkerForegroundColor",
+          "right": "RGB ( 31 , 78 , 121 )"
+        },
+        {
+          "left": ". MarkerBackgroundColor",
+          "right": "RGB ( 31 , 78 , 121 )"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "False"
+        },
+        {
+          "left": ". ErrorBars . Format . Line . Weight",
+          "right": "1.25F"
+        },
+        {
+          "left": ". ErrorBars . Format . Line . ForeColor . RGB",
+          "right": "RGB ( 31 , 78 , 121 )"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022No difference\u0022"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Vertical ( 0.0R , 0.5R , n \u002B 0.5R ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Vertical ( 0.0R , 0.5R , n \u002B 0.5R ) . YValues"
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatterLinesNoMarkers"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleNone"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "True"
+        },
+        {
+          "left": ". Format . Line . Weight",
+          "right": "1.0F"
+        },
+        {
+          "left": ". Format . Line . DashStyle",
+          "right": "4"
+        },
+        {
+          "left": ". Format . Line . ForeColor . RGB",
+          "right": "RGB ( 120 , 120 , 120 )"
+        },
+        {
+          "left": "ch . HasLegend",
+          "right": "False"
+        },
+        {
+          "left": "ch . HasTitle",
+          "right": "True"
+        },
+        {
+          "left": "ch . ChartTitle . Text",
+          "right": "BuildTitle ( data )"
+        },
+        {
+          "left": "ch . ChartTitle . Font . Size",
+          "right": "12"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|9d77f02f05c07a1d",
+      "name": "SuggestedHeight",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Public Shared Function SuggestedHeight(data As parametric.MultipleComparisonPlotData) As Double",
+      "header_tokens": "Public Shared Function SuggestedHeight ( data As parametric . MultipleComparisonPlotData ) As Double",
+      "tokens": "Public Shared Function SuggestedHeight ( data As parametric . MultipleComparisonPlotData ) As Double Return ExcelCommon . Chart34 . ComparisonSeries . ComparisonSeriesPreparation34 . SuggestedHeight ( data ) End Function",
+      "token_sha256": "2cf235e162b43b20ebea9f8fcc61b935ff8640270eee334175f30ffc6ff3abc1",
+      "span_start": 5284,
+      "span_length": 224,
+      "start": 119,
+      "end": 121,
+      "calls": [
+        "ExcelCommon.Chart34.ComparisonSeries.ComparisonSeriesPreparation34.SuggestedHeight(data)"
+      ],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|SubBlock|eb019fbb4f175f7c",
+      "name": "ConfigureAxes",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Shared Sub ConfigureAxes(ch As Chart, data As parametric.MultipleComparisonPlotData, xScale As CHARTscale)",
+      "header_tokens": "Private Shared Sub ConfigureAxes ( ch As Chart , data As parametric . MultipleComparisonPlotData , xScale As CHARTscale )",
+      "tokens": "Private Shared Sub ConfigureAxes ( ch As Chart , data As parametric . MultipleComparisonPlotData , xScale As CHARTscale ) With ch . Axes ( XlAxisType . xlCategory , XlAxisGroup . xlPrimary ) . MinimumScale = xScale . Min . MaximumScale = xScale . Max . MajorUnit = xScale . Scale . CrossesAt = xScale . Min . HasTitle = True . AxisTitle . Text = \u0022Difference of means\u0022 End With With ch . Axes ( XlAxisType . xlValue , XlAxisGroup . xlPrimary ) . MinimumScale = 0.5 . MaximumScale = data . Estimates . Length \u002B 0.8 . MajorUnit = 1.0 . TickLabelPosition = XlTickLabelPosition . xlTickLabelPositionNone . HasMajorGridlines = False . CrossesAt = 0.5 End With Try ch . Axes ( XlAxisType . xlCategory , XlAxisGroup . xlPrimary ) . MajorGridlines . Delete ( ) Catch End Try End Sub",
+      "token_sha256": "9574b0d910ddd752e63fb54f0093bed6248f91adaa8d7a964ee1e2d0dc54a353",
+      "span_start": 5518,
+      "span_length": 1171,
+      "start": 123,
+      "end": 149,
+      "calls": [
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary)",
+        "ch.Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary)",
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).MajorGridlines.Delete()",
+        "ch.Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary)"
+      ],
+      "assignments": [
+        {
+          "left": ". MinimumScale",
+          "right": "xScale . Min"
+        },
+        {
+          "left": ". MaximumScale",
+          "right": "xScale . Max"
+        },
+        {
+          "left": ". MajorUnit",
+          "right": "xScale . Scale"
+        },
+        {
+          "left": ". CrossesAt",
+          "right": "xScale . Min"
+        },
+        {
+          "left": ". HasTitle",
+          "right": "True"
+        },
+        {
+          "left": ". AxisTitle . Text",
+          "right": "\u0022Difference of means\u0022"
+        },
+        {
+          "left": ". MinimumScale",
+          "right": "0.5"
+        },
+        {
+          "left": ". MaximumScale",
+          "right": "data . Estimates . Length \u002B 0.8"
+        },
+        {
+          "left": ". MajorUnit",
+          "right": "1.0"
+        },
+        {
+          "left": ". TickLabelPosition",
+          "right": "XlTickLabelPosition . xlTickLabelPositionNone"
+        },
+        {
+          "left": ". HasMajorGridlines",
+          "right": "False"
+        },
+        {
+          "left": ". CrossesAt",
+          "right": "0.5"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|SubBlock|87cff56ef8350b73",
+      "name": "AddComparisonLabels",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Shared Sub AddComparisonLabels(series As Series, labels() As String)",
+      "header_tokens": "Private Shared Sub AddComparisonLabels ( series As Series , labels ( ) As String )",
+      "tokens": "Private Shared Sub AddComparisonLabels ( series As Series , labels ( ) As String ) Try For i As Integer = 1 To Math . Min ( series . Points . Count , labels . Length ) Dim point As Point = CType ( series . Points ( i ) , Point ) point . HasDataLabel = True point . DataLabel . Text = labels ( i - 1 ) point . DataLabel . Position = XlDataLabelPosition . xlLabelPositionAbove point . DataLabel . Font . Size = 8 Next Catch End Try End Sub",
+      "token_sha256": "3081bed12b17324c8ecfd66fb7e26a41951bced0fbfc7b7682b74a0ed8e156db",
+      "span_start": 6699,
+      "span_length": 698,
+      "start": 151,
+      "end": 164,
+      "calls": [
+        "Math.Min(series.Points.Count, labels.Length)",
+        "series.Points(i)",
+        "labels(i - 1)"
+      ],
+      "assignments": [
+        {
+          "left": "point . HasDataLabel",
+          "right": "True"
+        },
+        {
+          "left": "point . DataLabel . Text",
+          "right": "labels ( i - 1 )"
+        },
+        {
+          "left": "point . DataLabel . Position",
+          "right": "XlDataLabelPosition . xlLabelPositionAbove"
+        },
+        {
+          "left": "point . DataLabel . Font . Size",
+          "right": "8"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|75a5fc1447d4a347",
+      "name": "BuildTitle",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Shared Function BuildTitle(data As parametric.MultipleComparisonPlotData) As String",
+      "header_tokens": "Private Shared Function BuildTitle ( data As parametric . MultipleComparisonPlotData ) As String",
+      "tokens": "Private Shared Function BuildTitle ( data As parametric . MultipleComparisonPlotData ) As String Dim confidenceLevel As Double = ( 1.0 - data . Alpha ) * 100.0 Dim qualifier As String Select Case data . ProcedureName Case \u0022Tukey-Kramer\u0022 , \u0022Bonferroni\u0022 , \u0022Games-Howell\u0022 qualifier = \u0022 Simultaneous \u0022 Case Else qualifier = \u0022 \u0022 End Select Return data . ProcedureName \u0026 qualifier \u0026 confidenceLevel . ToString ( \u00220.##\u0022 ) \u0026 \u0022% CIs\u0022 \u0026 vbLf \u0026 \u0022Differences of Means\u0022 End Function",
+      "token_sha256": "5c2aa4ac2cab9616096a1c11aa523ffdb65710da5d9b44d3183f9b65a09d636a",
+      "span_start": 7407,
+      "span_length": 608,
+      "start": 166,
+      "end": 177,
+      "calls": [
+        "confidenceLevel.ToString(\u00220.##\u0022)"
+      ],
+      "assignments": [
+        {
+          "left": "qualifier",
+          "right": "\u0022 Simultaneous \u0022"
+        },
+        {
+          "left": "qualifier",
+          "right": "\u0022 \u0022"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|SubBlock|0648746ef567ae81",
+      "name": "ValidatePlotData",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.MultipleComparisonPlotExcel",
+      "signature": "Private Shared Sub ValidatePlotData(data As parametric.MultipleComparisonPlotData)",
+      "header_tokens": "Private Shared Sub ValidatePlotData ( data As parametric . MultipleComparisonPlotData )",
+      "tokens": "Private Shared Sub ValidatePlotData ( data As parametric . MultipleComparisonPlotData ) If data Is Nothing Then Throw New ArgumentNullException ( NameOf ( data ) ) If data . Labels Is Nothing OrElse data . Estimates Is Nothing OrElse data . LowerLimits Is Nothing OrElse data . UpperLimits Is Nothing Then Throw New ArgumentException ( \u0022Multiple-comparison plot data are incomplete.\u0022 , NameOf ( data ) ) End If Dim n As Integer = data . Estimates . Length If n = 0 OrElse data . Labels . Length \u003C\u003E n OrElse data . LowerLimits . Length \u003C\u003E n OrElse data . UpperLimits . Length \u003C\u003E n Then Throw New ArgumentException ( \u0022Multiple-comparison plot arrays must have equal non-zero lengths.\u0022 , NameOf ( data ) ) End If End Sub",
+      "token_sha256": "2cff33339253d8f6a898514d0259e6590229500056fcccb2497e33e8acd63bb1",
+      "span_start": 8025,
+      "span_length": 810,
+      "start": 179,
+      "end": 190,
+      "calls": [],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|42a1ac0faac43b76",
+      "name": "AddPlot",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "\u003CExtension()\u003E Public Sub AddPlot(analysis As Agreement.PassinbBablok, ws As Worksheet)",
+      "header_tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . PassinbBablok , ws As Worksheet )",
+      "tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . PassinbBablok , ws As Worksheet ) If analysis Is Nothing Then Throw New ArgumentNullException ( NameOf ( analysis ) ) If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) Dim plotData As Agreement . PassingBablokPlotData = analysis . GetPlotData ( ) Dim ch = graphics . GeneralScatterPlot ( plotData . XValues , plotData . YValues , plotData . YName , plotData . XName , ws , plotData . Title ) With ch . HasLegend = True . SeriesCollection . NewSeries ( ) With . SeriesCollection ( 2 ) . XValues = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Values = ChartReferenceSeries . Affine ( plotData . MinX , plotData . MaxX , plotData . Intercept , plotData . Slope ) . YValues . Name = \u0022Regression line\u0022 . MarkerStyle = - 4142 . Border . Color = RGB ( 255 , 0 , 0 ) With . Format . Line . Visible = True . Weight = 1.5 End With End With . SeriesCollection . NewSeries ( ) With . SeriesCollection ( 3 ) . XValues = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Values = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Name = \u0022Unity line (y = x)\u0022 . MarkerStyle = - 4142 . Border . Color = RGB ( 0 , 0 , 255 ) With . Format . Line . Visible = True . DashStyle = 4 . Weight = 0.5 End With End With End With End Sub",
+      "token_sha256": "c5b65fcf1252cba76e66d825f801950999f31057844447970607a0bf893be039",
+      "span_start": 322,
+      "span_length": 1705,
+      "start": 12,
+      "end": 50,
+      "calls": [
+        "analysis.GetPlotData()",
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(2)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "ChartReferenceSeries.Affine(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope)",
+        "RGB(255, 0, 0)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(3)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "RGB(0, 0, 255)"
+      ],
+      "assignments": [
+        {
+          "left": ". HasLegend",
+          "right": "True"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Affine ( plotData . MinX , plotData . MaxX , plotData . Intercept , plotData . Slope ) . YValues"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Regression line\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "- 4142"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 255 , 0 , 0 )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". Weight",
+          "right": "1.5"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Unity line (y = x)\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "- 4142"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 0 , 0 , 255 )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". DashStyle",
+          "right": "4"
+        },
+        {
+          "left": ". Weight",
+          "right": "0.5"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|559227fb0c277bf7",
+      "name": "AddPlot",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "\u003CExtension()\u003E Public Sub AddPlot(analysis As Agreement.BlandAltmanAgreement, ws As Worksheet)",
+      "header_tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . BlandAltmanAgreement , ws As Worksheet )",
+      "tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . BlandAltmanAgreement , ws As Worksheet ) If analysis Is Nothing Then Throw New ArgumentNullException ( NameOf ( analysis ) ) If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) Dim plotData As Agreement . BlandAltmanPlotData = analysis . GetPlotData ( ) Dim ch As Chart = graphics . GeneralScatterPlot ( plotData . XValues , plotData . YValues , plotData . YLabel , plotData . XLabel , ws , plotData . Title ) Dim span = ExcelCommon . Chart34 . AgreementSeries . AgreementSeriesPreparation34 . BaseSpan ( plotData . XValues ) Dim xMin As Double = span . Min Dim xMax As Double = span . Max Dim lineX As Double ( ) = { xMin , xMax } AddHorizontalReferenceLine ( ch , lineX , plotData . Bias , \u0022Bias\u0022 , RGB ( 31 , 119 , 180 ) ) AddHorizontalReferenceLine ( ch , lineX , plotData . LowerLoA , \u0022Lower LoA\u0022 , RGB ( 214 , 39 , 40 ) ) AddHorizontalReferenceLine ( ch , lineX , plotData . UpperLoA , \u0022Upper LoA\u0022 , RGB ( 214 , 39 , 40 ) ) If plotData . ShowSubjectMeans AndAlso plotData . SubjectMeanX IsNot Nothing AndAlso plotData . SubjectMeanY IsNot Nothing Then ch . SeriesCollection . NewSeries ( ) With ch . SeriesCollection ( ch . SeriesCollection . Count ) . XValues = plotData . SubjectMeanX . Values = plotData . SubjectMeanY . Name = \u0022Subject means\u0022 . MarkerStyle = XlMarkerStyle . xlMarkerStyleDiamond . MarkerSize = 7 . Format . Line . Visible = False End With End If End Sub",
+      "token_sha256": "ad12b9168401b19375785d5aaca8cbfb17a725c7e91696225559c6d993af55f0",
+      "span_start": 2033,
+      "span_length": 1561,
+      "start": 52,
+      "end": 79,
+      "calls": [
+        "analysis.GetPlotData()",
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YLabel, plotData.XLabel, ws, plotData.Title)",
+        "ExcelCommon.Chart34.AgreementSeries.AgreementSeriesPreparation34.BaseSpan(plotData.XValues)",
+        "AddHorizontalReferenceLine(ch, lineX, plotData.Bias, \u0022Bias\u0022, RGB(31, 119, 180))",
+        "RGB(31, 119, 180)",
+        "AddHorizontalReferenceLine(ch, lineX, plotData.LowerLoA, \u0022Lower LoA\u0022, RGB(214, 39, 40))",
+        "RGB(214, 39, 40)",
+        "AddHorizontalReferenceLine(ch, lineX, plotData.UpperLoA, \u0022Upper LoA\u0022, RGB(214, 39, 40))",
+        "RGB(214, 39, 40)",
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(ch.SeriesCollection.Count)"
+      ],
+      "assignments": [
+        {
+          "left": ". XValues",
+          "right": "plotData . SubjectMeanX"
+        },
+        {
+          "left": ". Values",
+          "right": "plotData . SubjectMeanY"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Subject means\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleDiamond"
+        },
+        {
+          "left": ". MarkerSize",
+          "right": "7"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "False"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|FunctionBlock|b60539ef7514782b",
+      "name": "AddPlot",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "\u003CExtension()\u003E Public Function AddPlot(analysis As Agreement.LinConcordanceCorrelation, ws As Worksheet, Optional chartTitle As String = \u0022Lin concordance plot\u0022) As Chart",
+      "header_tokens": "\u003C Extension ( ) \u003E Public Function AddPlot ( analysis As Agreement . LinConcordanceCorrelation , ws As Worksheet , Optional chartTitle As String = \u0022Lin concordance plot\u0022 ) As Chart",
+      "tokens": "\u003C Extension ( ) \u003E Public Function AddPlot ( analysis As Agreement . LinConcordanceCorrelation , ws As Worksheet , Optional chartTitle As String = \u0022Lin concordance plot\u0022 ) As Chart If analysis Is Nothing Then Throw New ArgumentNullException ( NameOf ( analysis ) ) If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) Dim plotData As Agreement . LinConcordancePlotData = analysis . GetPlotData ( chartTitle ) Dim chartObj As Chart = graphics . GeneralScatterPlot ( plotData . XValues , plotData . YValues , plotData . YName , plotData . XName , ws , plotData . Title ) With chartObj . Axes ( XlAxisType . xlCategory ) . MinimumScale = plotData . MinValue . Axes ( XlAxisType . xlCategory ) . MaximumScale = plotData . MaxValue . Axes ( XlAxisType . xlValue ) . MinimumScale = plotData . MinValue . Axes ( XlAxisType . xlValue ) . MaximumScale = plotData . MaxValue . SeriesCollection . NewSeries ( ) With . SeriesCollection ( . SeriesCollection . Count ) . Name = \u0022Identity\u0022 . XValues = ChartReferenceSeries . Identity ( plotData . MinValue , plotData . MaxValue ) . XValues . Values = ChartReferenceSeries . Identity ( plotData . MinValue , plotData . MaxValue ) . XValues . MarkerStyle = XlMarkerStyle . xlMarkerStyleNone . Format . Line . Visible = True End With End With Return chartObj End Function",
+      "token_sha256": "00fd6717f2b1027f153f65a8f01c323ec68ebe4b82d3df1723bd70cb34b47afa",
+      "span_start": 3600,
+      "span_length": 1472,
+      "start": 81,
+      "end": 108,
+      "calls": [
+        "analysis.GetPlotData(chartTitle)",
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlCategory)",
+        ".Axes(XlAxisType.xlValue)",
+        ".Axes(XlAxisType.xlValue)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(.SeriesCollection.Count)",
+        "ChartReferenceSeries.Identity(plotData.MinValue, plotData.MaxValue)",
+        "ChartReferenceSeries.Identity(plotData.MinValue, plotData.MaxValue)"
+      ],
+      "assignments": [
+        {
+          "left": ". Axes ( XlAxisType . xlCategory ) . MinimumScale",
+          "right": "plotData . MinValue"
+        },
+        {
+          "left": ". Axes ( XlAxisType . xlCategory ) . MaximumScale",
+          "right": "plotData . MaxValue"
+        },
+        {
+          "left": ". Axes ( XlAxisType . xlValue ) . MinimumScale",
+          "right": "plotData . MinValue"
+        },
+        {
+          "left": ". Axes ( XlAxisType . xlValue ) . MaximumScale",
+          "right": "plotData . MaxValue"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Identity\u0022"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinValue , plotData . MaxValue ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinValue , plotData . MaxValue ) . XValues"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleNone"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "True"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|d580bcccdcfc70d5",
+      "name": "AddPlot",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "\u003CExtension()\u003E Public Sub AddPlot(analysis As Agreement.WeightedDemingRegression, ws As Worksheet)",
+      "header_tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . WeightedDemingRegression , ws As Worksheet )",
+      "tokens": "\u003C Extension ( ) \u003E Public Sub AddPlot ( analysis As Agreement . WeightedDemingRegression , ws As Worksheet ) If analysis Is Nothing Then Throw New ArgumentNullException ( NameOf ( analysis ) ) If ws Is Nothing Then Throw New ArgumentNullException ( NameOf ( ws ) ) Dim plotData As Agreement . DemingPlotData = analysis . GetPlotData ( ) Dim ch = graphics . GeneralScatterPlot ( plotData . XValues , plotData . YValues , plotData . YName , plotData . XName , ws , plotData . Title ) With ch . HasLegend = True . SeriesCollection . NewSeries ( ) With . SeriesCollection ( 2 ) . XValues = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Values = ChartReferenceSeries . Affine ( plotData . MinX , plotData . MaxX , plotData . Intercept , plotData . Slope ) . YValues . Name = \u0022Regression line\u0022 . MarkerStyle = - 4142 . Border . Color = RGB ( 255 , 0 , 0 ) With . Format . Line . Visible = True . Weight = 1.5 End With End With . SeriesCollection . NewSeries ( ) With . SeriesCollection ( 3 ) . XValues = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Values = ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues . Name = \u0022Unity line (y = x)\u0022 . MarkerStyle = - 4142 . Border . Color = RGB ( 0 , 0 , 255 ) With . Format . Line . Visible = True . DashStyle = 4 . Weight = 0.5 End With End With End With End Sub",
+      "token_sha256": "d6ad674324109d2c4f3ec7e729a96cf9fcde7a9d88ec6d644c0564d1a81a5ca9",
+      "span_start": 5078,
+      "span_length": 1709,
+      "start": 110,
+      "end": 148,
+      "calls": [
+        "analysis.GetPlotData()",
+        "graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YName, plotData.XName, ws, plotData.Title)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(2)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "ChartReferenceSeries.Affine(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope)",
+        "RGB(255, 0, 0)",
+        ".SeriesCollection.NewSeries()",
+        ".SeriesCollection(3)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX)",
+        "RGB(0, 0, 255)"
+      ],
+      "assignments": [
+        {
+          "left": ". HasLegend",
+          "right": "True"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Affine ( plotData . MinX , plotData . MaxX , plotData . Intercept , plotData . Slope ) . YValues"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Regression line\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "- 4142"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 255 , 0 , 0 )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". Weight",
+          "right": "1.5"
+        },
+        {
+          "left": ". XValues",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "ChartReferenceSeries . Identity ( plotData . MinX , plotData . MaxX ) . XValues"
+        },
+        {
+          "left": ". Name",
+          "right": "\u0022Unity line (y = x)\u0022"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "- 4142"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 0 , 0 , 255 )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". DashStyle",
+          "right": "4"
+        },
+        {
+          "left": ". Weight",
+          "right": "0.5"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|a1ad2b67f1d9371b",
+      "name": "AddHorizontalReferenceLine",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.AgreementPlotExcelCompatibility",
+      "signature": "Private Sub AddHorizontalReferenceLine(ch As Chart, lineX As Double(), yValue As Double, seriesName As String, lineColor As Integer)",
+      "header_tokens": "Private Sub AddHorizontalReferenceLine ( ch As Chart , lineX As Double ( ) , yValue As Double , seriesName As String , lineColor As Integer )",
+      "tokens": "Private Sub AddHorizontalReferenceLine ( ch As Chart , lineX As Double ( ) , yValue As Double , seriesName As String , lineColor As Integer ) If ch Is Nothing Then Exit Sub Dim lineY As Double ( ) = ChartReferenceSeries . Horizontal ( lineX ( 0 ) , lineX ( 1 ) , yValue ) . YValues ch . SeriesCollection . NewSeries ( ) With ch . SeriesCollection ( ch . SeriesCollection . Count ) . XValues = lineX . Values = lineY . Name = seriesName . MarkerStyle = XlMarkerStyle . xlMarkerStyleNone . Format . Line . Visible = True . Format . Line . ForeColor . RGB = lineColor . Format . Line . Weight = 1.5 End With End Sub",
+      "token_sha256": "e761c6ea5adba034b1d7c8429a09bc9d155ba765cd77f7fd47cdc09be10f0472",
+      "span_start": 6793,
+      "span_length": 848,
+      "start": 150,
+      "end": 167,
+      "calls": [
+        "ChartReferenceSeries.Horizontal(lineX(0), lineX(1), yValue)",
+        "lineX(0)",
+        "lineX(1)",
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(ch.SeriesCollection.Count)"
+      ],
+      "assignments": [
+        {
+          "left": ". XValues",
+          "right": "lineX"
+        },
+        {
+          "left": ". Values",
+          "right": "lineY"
+        },
+        {
+          "left": ". Name",
+          "right": "seriesName"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleNone"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "True"
+        },
+        {
+          "left": ". Format . Line . ForeColor . RGB",
+          "right": "lineColor"
+        },
+        {
+          "left": ". Format . Line . Weight",
+          "right": "1.5"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|ConstructorBlock|74ce9675914653be",
+      "name": ".ctor",
+      "kind": "ConstructorBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Sub New()",
+      "header_tokens": "Private Sub New ( )",
+      "tokens": "Private Sub New ( ) End Sub",
+      "token_sha256": "e26a03f4cae3755d861cea81bf62290f60bb4b7d55aacf21eddfc7944ae34d79",
+      "span_start": 742,
+      "span_length": 33,
+      "start": 22,
+      "end": 23,
+      "calls": [],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|8e9e96f64fda14af",
+      "name": "BuildPlotDataTable",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Public Shared Function BuildPlotDataTable(rows As IList(Of PsmLovePlotRow)) As Object(,)",
+      "header_tokens": "Public Shared Function BuildPlotDataTable ( rows As IList ( Of PsmLovePlotRow ) ) As Object ( , )",
+      "tokens": "Public Shared Function BuildPlotDataTable ( rows As IList ( Of PsmLovePlotRow ) ) As Object ( , ) Return BuildProjectedDataTable ( New PsmLovePlotProjection ( rows ) ) End Function",
+      "token_sha256": "5e3a0bfa59dede8b963d2854310f57da40cdc1bcd4188ab8c06e59602d3ed32d",
+      "span_start": 993,
+      "span_length": 185,
+      "start": 29,
+      "end": 31,
+      "calls": [
+        "BuildProjectedDataTable(New PsmLovePlotProjection(rows))"
+      ],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|65ca1ce94ad86e48",
+      "name": "BuildProjectedDataTable",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Public Shared Function BuildProjectedDataTable(projection As PsmLovePlotProjection) As Object(,)",
+      "header_tokens": "Public Shared Function BuildProjectedDataTable ( projection As PsmLovePlotProjection ) As Object ( , )",
+      "tokens": "Public Shared Function BuildProjectedDataTable ( projection As PsmLovePlotProjection ) As Object ( , ) Return projection . BuildDataTable ( ) End Function",
+      "token_sha256": "6efa7ab3a3a0bdfb4cd49311216fc7bfae3f6fe3c043bea0150e66e82b3d1876",
+      "span_start": 1188,
+      "span_length": 164,
+      "start": 33,
+      "end": 35,
+      "calls": [
+        "projection.BuildDataTable()"
+      ],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|829638a095f17c79",
+      "name": "AddChart",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Public Shared Sub AddChart(ws As Worksheet, rows As IList(Of PsmLovePlotRow), Optional left As Double = 420, Optional top As Double = 20, Optional width As Double = 720, Optional height As Double = 420)",
+      "header_tokens": "Public Shared Sub AddChart ( ws As Worksheet , rows As IList ( Of PsmLovePlotRow ) , Optional left As Double = 420 , Optional top As Double = 20 , Optional width As Double = 720 , Optional height As Double = 420 )",
+      "tokens": "Public Shared Sub AddChart ( ws As Worksheet , rows As IList ( Of PsmLovePlotRow ) , Optional left As Double = 420 , Optional top As Double = 20 , Optional width As Double = 720 , Optional height As Double = 420 ) If ws Is Nothing OrElse rows Is Nothing OrElse rows . Count = 0 Then Return AddProjectedChart ( ws , New PsmLovePlotProjection ( rows ) , left , top , width , height ) End Sub",
+      "token_sha256": "70f6cd1714f1b231bc770a98637e41cb5301f0f8bdb190492d3d946e718c5d1f",
+      "span_start": 1627,
+      "span_length": 573,
+      "start": 42,
+      "end": 51,
+      "calls": [
+        "AddProjectedChart(ws, New PsmLovePlotProjection(rows), left, top, width, height)"
+      ],
+      "assignments": [],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|b0d44fe7f020d498",
+      "name": "AddProjectedChart",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Public Shared Sub AddProjectedChart(ws As Worksheet, projection As PsmLovePlotProjection, Optional left As Double = 420, Optional top As Double = 20, Optional width As Double = 720, Optional height As Double = 420)",
+      "header_tokens": "Public Shared Sub AddProjectedChart ( ws As Worksheet , projection As PsmLovePlotProjection , Optional left As Double = 420 , Optional top As Double = 20 , Optional width As Double = 720 , Optional height As Double = 420 )",
+      "tokens": "Public Shared Sub AddProjectedChart ( ws As Worksheet , projection As PsmLovePlotProjection , Optional left As Double = 420 , Optional top As Double = 20 , Optional width As Double = 720 , Optional height As Double = 420 ) If ws Is Nothing OrElse projection Is Nothing OrElse projection . Count = 0 Then Return Dim yValues = projection . YValues Dim xBefore = projection . Before Dim xAfterMatching = projection . AfterMatching Dim xAfterWeighting = projection . AfterWeighting Dim labels = projection . Labels Dim threshold = projection . Threshold Dim maxX = projection . MaximumX Dim shp As Shape = ws . Shapes . AddChart ( Left := left , Top := top , Width := width , Height := height ) Dim ch As Chart = shp . Chart With ch . ChartType = XlChartType . xlXYScatter Do Until . SeriesCollection . Count = 0 . SeriesCollection ( 1 ) . Delete ( ) Loop Dim plottedSeries As New List ( Of Integer ) ( ) If HasAnyFinite ( xBefore ) Then plottedSeries . Add ( AddScatterSeries ( ch , \u0022Before\u0022 , xBefore , yValues , RGB ( 120 , 120 , 120 ) , XlMarkerStyle . xlMarkerStyleCircle ) ) If HasAnyFinite ( xAfterMatching ) Then plottedSeries . Add ( AddScatterSeries ( ch , \u0022After matching\u0022 , xAfterMatching , yValues , RGB ( 31 , 119 , 180 ) , XlMarkerStyle . xlMarkerStyleDiamond ) ) If HasAnyFinite ( xAfterWeighting ) Then plottedSeries . Add ( AddScatterSeries ( ch , \u0022After weighting\u0022 , xAfterWeighting , yValues , RGB ( 44 , 160 , 44 ) , XlMarkerStyle . xlMarkerStyleSquare ) ) AddThresholdSeries ( ch , threshold , projection . Count ) If plottedSeries . Count \u003E 0 Then AddVariableLabels ( CType ( . SeriesCollection ( plottedSeries ( plottedSeries . Count - 1 ) ) , Series ) , labels ) End If . HasTitle = True . ChartTitle . Text = \u0022Love plot: absolute standardized mean differences\u0022 . HasLegend = True . Legend . Position = XlLegendPosition . xlLegendPositionBottom With . Axes ( XlAxisType . xlCategory ) . MinimumScale = 0 . MaximumScale = maxX . MajorUnitIsAuto = True . HasTitle = True . AxisTitle . Text = \u0022Absolute standardized mean difference\u0022 Try . MajorGridlines . Border . Color = RGB ( 230 , 230 , 230 ) Catch End Try End With With . Axes ( XlAxisType . xlValue ) . MinimumScale = 0.5R . MaximumScale = projection . Count \u002B 0.5R . MajorUnit = 1 . ReversePlotOrder = True . HasTitle = False Try . TickLabelPosition = XlTickLabelPosition . xlTickLabelPositionNone Catch End Try Try . MajorGridlines . Delete ( ) Catch End Try End With End With End Sub",
+      "token_sha256": "e81c6793be38a6ad01d1edb337dd8e3da0501a4ad403a5b51cd0caea9793bf96",
+      "span_start": 2210,
+      "span_length": 3276,
+      "start": 53,
+      "end": 118,
+      "calls": [
+        "ws.Shapes.AddChart(Left:=left, Top:=top, Width:=width, Height:=height)",
+        ".SeriesCollection(1).Delete()",
+        ".SeriesCollection(1)",
+        "HasAnyFinite(xBefore)",
+        "plottedSeries.Add(AddScatterSeries(ch, \u0022Before\u0022, xBefore, yValues, RGB(120, 120, 120), XlMarkerStyle.xlMarkerStyleCircle))",
+        "AddScatterSeries(ch, \u0022Before\u0022, xBefore, yValues, RGB(120, 120, 120), XlMarkerStyle.xlMarkerStyleCircle)",
+        "RGB(120, 120, 120)",
+        "HasAnyFinite(xAfterMatching)",
+        "plottedSeries.Add(AddScatterSeries(ch, \u0022After matching\u0022, xAfterMatching, yValues, RGB(31, 119, 180), XlMarkerStyle.xlMarkerStyleDiamond))",
+        "AddScatterSeries(ch, \u0022After matching\u0022, xAfterMatching, yValues, RGB(31, 119, 180), XlMarkerStyle.xlMarkerStyleDiamond)",
+        "RGB(31, 119, 180)",
+        "HasAnyFinite(xAfterWeighting)",
+        "plottedSeries.Add(AddScatterSeries(ch, \u0022After weighting\u0022, xAfterWeighting, yValues, RGB(44, 160, 44), XlMarkerStyle.xlMarkerStyleSquare))",
+        "AddScatterSeries(ch, \u0022After weighting\u0022, xAfterWeighting, yValues, RGB(44, 160, 44), XlMarkerStyle.xlMarkerStyleSquare)",
+        "RGB(44, 160, 44)",
+        "AddThresholdSeries(ch, threshold, projection.Count)",
+        "AddVariableLabels(CType(.SeriesCollection(plottedSeries(plottedSeries.Count - 1)), Series), labels)",
+        ".SeriesCollection(plottedSeries(plottedSeries.Count - 1))",
+        "plottedSeries(plottedSeries.Count - 1)",
+        ".Axes(XlAxisType.xlCategory)",
+        "RGB(230, 230, 230)",
+        ".Axes(XlAxisType.xlValue)",
+        ".MajorGridlines.Delete()"
+      ],
+      "assignments": [
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". HasTitle",
+          "right": "True"
+        },
+        {
+          "left": ". ChartTitle . Text",
+          "right": "\u0022Love plot: absolute standardized mean differences\u0022"
+        },
+        {
+          "left": ". HasLegend",
+          "right": "True"
+        },
+        {
+          "left": ". Legend . Position",
+          "right": "XlLegendPosition . xlLegendPositionBottom"
+        },
+        {
+          "left": ". MinimumScale",
+          "right": "0"
+        },
+        {
+          "left": ". MaximumScale",
+          "right": "maxX"
+        },
+        {
+          "left": ". MajorUnitIsAuto",
+          "right": "True"
+        },
+        {
+          "left": ". HasTitle",
+          "right": "True"
+        },
+        {
+          "left": ". AxisTitle . Text",
+          "right": "\u0022Absolute standardized mean difference\u0022"
+        },
+        {
+          "left": ". MajorGridlines . Border . Color",
+          "right": "RGB ( 230 , 230 , 230 )"
+        },
+        {
+          "left": ". MinimumScale",
+          "right": "0.5R"
+        },
+        {
+          "left": ". MaximumScale",
+          "right": "projection . Count \u002B 0.5R"
+        },
+        {
+          "left": ". MajorUnit",
+          "right": "1"
+        },
+        {
+          "left": ". ReversePlotOrder",
+          "right": "True"
+        },
+        {
+          "left": ". HasTitle",
+          "right": "False"
+        },
+        {
+          "left": ". TickLabelPosition",
+          "right": "XlTickLabelPosition . xlTickLabelPositionNone"
+        }
+      ],
+      "catches": [
+        "Catch",
+        "Catch",
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|cea2e05cf220f98a",
+      "name": "AddScatterSeries",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Shared Function AddScatterSeries(ch As Chart, name As String, xValues As Double(), yValues As Double(), color As Integer, markerStyle As XlMarkerStyle) As Integer",
+      "header_tokens": "Private Shared Function AddScatterSeries ( ch As Chart , name As String , xValues As Double ( ) , yValues As Double ( ) , color As Integer , markerStyle As XlMarkerStyle ) As Integer",
+      "tokens": "Private Shared Function AddScatterSeries ( ch As Chart , name As String , xValues As Double ( ) , yValues As Double ( ) , color As Integer , markerStyle As XlMarkerStyle ) As Integer ch . SeriesCollection . NewSeries ( ) Dim index As Integer = ch . SeriesCollection . Count With ch . SeriesCollection ( index ) . Name = name . XValues = xValues . Values = yValues . ChartType = XlChartType . xlXYScatter . MarkerStyle = markerStyle . MarkerSize = 6 . MarkerForegroundColor = color . MarkerBackgroundColor = color . Format . Line . Visible = False End With Return index End Function",
+      "token_sha256": "ff2ed8d15269604007eda872459459fad05daacf815bc7155ca86354897f1d88",
+      "span_start": 5496,
+      "span_length": 996,
+      "start": 120,
+      "end": 140,
+      "calls": [
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(index)"
+      ],
+      "assignments": [
+        {
+          "left": ". Name",
+          "right": "name"
+        },
+        {
+          "left": ". XValues",
+          "right": "xValues"
+        },
+        {
+          "left": ". Values",
+          "right": "yValues"
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "markerStyle"
+        },
+        {
+          "left": ". MarkerSize",
+          "right": "6"
+        },
+        {
+          "left": ". MarkerForegroundColor",
+          "right": "color"
+        },
+        {
+          "left": ". MarkerBackgroundColor",
+          "right": "color"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "False"
+        }
+      ],
+      "catches": []
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|5411e44db47c7b9c",
+      "name": "AddThresholdSeries",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Shared Sub AddThresholdSeries(ch As Chart, threshold As Double, n As Integer)",
+      "header_tokens": "Private Shared Sub AddThresholdSeries ( ch As Chart , threshold As Double , n As Integer )",
+      "tokens": "Private Shared Sub AddThresholdSeries ( ch As Chart , threshold As Double , n As Integer ) ch . SeriesCollection . NewSeries ( ) Dim s As Series = CType ( ch . SeriesCollection ( ch . SeriesCollection . Count ) , Series ) With s . Name = \u0022Threshold\u0022 . XValues = PsmLoveSeriesPolicy . ThresholdReference ( threshold , n ) . XValues . Values = PsmLoveSeriesPolicy . ThresholdReference ( threshold , n ) . YValues . ChartType = XlChartType . xlXYScatterLinesNoMarkers Try . Border . Color = RGB ( 180 , 0 , 0 ) . Border . Weight = XlBorderWeight . xlMedium Catch End Try End With End Sub",
+      "token_sha256": "79fb679db32b62bfec105a346eaaf3af68c42efe2c5785ae4345e3ad5848fcb2",
+      "span_start": 6502,
+      "span_length": 733,
+      "start": 142,
+      "end": 156,
+      "calls": [
+        "ch.SeriesCollection.NewSeries()",
+        "ch.SeriesCollection(ch.SeriesCollection.Count)",
+        "PsmLoveSeriesPolicy.ThresholdReference(threshold, n)",
+        "PsmLoveSeriesPolicy.ThresholdReference(threshold, n)",
+        "RGB(180, 0, 0)"
+      ],
+      "assignments": [
+        {
+          "left": ". Name",
+          "right": "\u0022Threshold\u0022"
+        },
+        {
+          "left": ". XValues",
+          "right": "PsmLoveSeriesPolicy . ThresholdReference ( threshold , n ) . XValues"
+        },
+        {
+          "left": ". Values",
+          "right": "PsmLoveSeriesPolicy . ThresholdReference ( threshold , n ) . YValues"
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatterLinesNoMarkers"
+        },
+        {
+          "left": ". Border . Color",
+          "right": "RGB ( 180 , 0 , 0 )"
+        },
+        {
+          "left": ". Border . Weight",
+          "right": "XlBorderWeight . xlMedium"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|b62a646f228fdfd1",
+      "name": "AddVariableLabels",
+      "kind": "SubBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Shared Sub AddVariableLabels(series As Series, labels As String())",
+      "header_tokens": "Private Shared Sub AddVariableLabels ( series As Series , labels As String ( ) )",
+      "tokens": "Private Shared Sub AddVariableLabels ( series As Series , labels As String ( ) ) If series Is Nothing OrElse labels Is Nothing OrElse labels . Length = 0 Then Return Try series . ApplyDataLabels ( ) For i As Integer = 1 To Math . Min ( labels . Length , series . Points . Count ) Dim pt As Point = CType ( series . Points ( i ) , Point ) pt . DataLabel . Text = labels ( i - 1 ) pt . DataLabel . Position = XlDataLabelPosition . xlLabelPositionRight pt . DataLabel . Font . Size = 8 Next Catch End Try End Sub",
+      "token_sha256": "8a42823c286cb141317876cd439fd4b3858e3bd3fd5eb5dc066035275d98b8bf",
+      "span_start": 7245,
+      "span_length": 729,
+      "start": 158,
+      "end": 171,
+      "calls": [
+        "series.ApplyDataLabels()",
+        "Math.Min(labels.Length, series.Points.Count)",
+        "series.Points(i)",
+        "labels(i - 1)"
+      ],
+      "assignments": [
+        {
+          "left": "pt . DataLabel . Text",
+          "right": "labels ( i - 1 )"
+        },
+        {
+          "left": "pt . DataLabel . Position",
+          "right": "XlDataLabelPosition . xlLabelPositionRight"
+        },
+        {
+          "left": "pt . DataLabel . Font . Size",
+          "right": "8"
+        }
+      ],
+      "catches": [
+        "Catch"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+      "key": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|6538e9c0bc19aa30",
+      "name": "HasAnyFinite",
+      "kind": "FunctionBlock",
+      "owner": "BESHStatNG.graphics.PsmLovePlotExcel",
+      "signature": "Private Shared Function HasAnyFinite(values As IEnumerable(Of Double)) As Boolean",
+      "header_tokens": "Private Shared Function HasAnyFinite ( values As IEnumerable ( Of Double ) ) As Boolean",
+      "tokens": "Private Shared Function HasAnyFinite ( values As IEnumerable ( Of Double ) ) As Boolean Return PsmLoveSeriesPolicy . HasAnyFinite ( values ) End Function",
+      "token_sha256": "1af90d747c84617993be218d3a89c417051eed97778c31275cab5cd50c7dfaaa",
+      "span_start": 7984,
+      "span_length": 154,
+      "start": 177,
+      "end": 179,
+      "calls": [
+        "PsmLoveSeriesPolicy.HasAnyFinite(values)"
+      ],
+      "assignments": [],
+      "catches": []
+    }
+  ]
+}

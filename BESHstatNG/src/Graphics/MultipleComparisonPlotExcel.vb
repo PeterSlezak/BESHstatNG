@@ -28,24 +28,12 @@ Namespace graphics
 
             Dim n As Integer = data.Estimates.Length
             Dim height As Double = SuggestedHeight(data)
-            Dim y As Double() = ComparisonCoordinatesCore.OrdinalY(n)
-            Dim plusError(n - 1) As Double
-            Dim minusError(n - 1) As Double
-            Dim minCI As Double = data.LowerLimits(0)
-            Dim maxCI As Double = data.UpperLimits(0)
-
-            'Reverse the numeric y positions so the first comparison is shown at the top.
-            For i As Integer = 0 To n - 1
-                plusError(i) = Math.Max(0.0, data.UpperLimits(i) - data.Estimates(i))
-                minusError(i) = Math.Max(0.0, data.Estimates(i) - data.LowerLimits(i))
-                minCI = Math.Min(minCI, data.LowerLimits(i))
-                maxCI = Math.Max(maxCI, data.UpperLimits(i))
-            Next
-
-            'Always include zero in the visible range because it is the null reference.
-            Dim referenceBounds As ChartAxisScaleResult = ComparisonCoordinatesCore.IncludeZeroBounds(minCI, maxCI)
-            minCI = referenceBounds.Min
-            maxCI = referenceBounds.Max
+            Dim prepared As New MultipleComparisonGeometry35(data.Estimates, data.LowerLimits, data.UpperLimits)
+            Dim y As Double() = prepared.YValues
+            Dim plusError As Double() = prepared.PlusError
+            Dim minusError As Double() = prepared.MinusError
+            Dim minCI As Double = prepared.MinimumX
+            Dim maxCI As Double = prepared.MaximumX
             Dim xScale As CHARTscale = ChartScaling(minCI, maxCI)
 
             Dim shape As Object = ws.Shapes.AddChart()
@@ -92,8 +80,8 @@ Namespace graphics
             ch.SeriesCollection.NewSeries()
             With ch.SeriesCollection(2)
                 .Name = "No difference"
-                .XValues = ChartReferenceSeries.Vertical(0.0R, 0.5R, n + 0.5R).XValues
-                .Values = ChartReferenceSeries.Vertical(0.0R, 0.5R, n + 0.5R).YValues
+                .XValues = prepared.ZeroReference.XValues
+                .Values = prepared.ZeroReference.YValues
                 .ChartType = XlChartType.xlXYScatterLinesNoMarkers
                 .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
                 .Format.Line.Visible = True
@@ -135,7 +123,7 @@ Namespace graphics
             With ch.Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary)
                 .MinimumScale = 0.5
                 'Leave a little extra room above the first point for its data label.
-                .MaximumScale = data.Estimates.Length + 0.8
+                .MaximumScale = ExcelCommon.ComparisonChartPolicy35.ValueAxisMaximum(data.Estimates.Length)
                 .MajorUnit = 1.0
                 .TickLabelPosition = XlTickLabelPosition.xlTickLabelPositionNone
                 .HasMajorGridlines = False
@@ -150,10 +138,11 @@ Namespace graphics
 
         Private Shared Sub AddComparisonLabels(series As Series, labels() As String)
             Try
-                For i As Integer = 1 To Math.Min(series.Points.Count, labels.Length)
+                For Each ordinal As Integer In ExcelCommon.ComparisonChartPolicy35.LabelOrdinals(series.Points.Count, labels.Length)
+                    Dim i As Integer = ExcelCommon.ComparisonChartPolicy35.PointIndex(ordinal)
                     Dim point As Point = CType(series.Points(i), Point)
                     point.HasDataLabel = True
-                    point.DataLabel.Text = labels(i - 1)
+                    point.DataLabel.Text = ExcelCommon.ComparisonChartPolicy35.LabelAt(labels, ordinal).Text
                     point.DataLabel.Position = XlDataLabelPosition.xlLabelPositionAbove
                     point.DataLabel.Font.Size = 8
                 Next
@@ -162,31 +151,11 @@ Namespace graphics
                 'individual data-label positioning.
             End Try
         End Sub
-
         Private Shared Function BuildTitle(data As parametric.MultipleComparisonPlotData) As String
-            Dim confidenceLevel As Double = (1.0 - data.Alpha) * 100.0
-            Dim qualifier As String
-            Select Case data.ProcedureName
-                Case "Tukey-Kramer", "Bonferroni", "Games-Howell"
-                    qualifier = " Simultaneous "
-                Case Else
-                    qualifier = " "
-            End Select
-            Return data.ProcedureName & qualifier & confidenceLevel.ToString("0.##") & "% CIs" & vbLf &
-                   "Differences of Means"
+            Return ExcelCommon.ComparisonChartPolicy35.BuildTitle(data)
         End Function
-
         Private Shared Sub ValidatePlotData(data As parametric.MultipleComparisonPlotData)
-            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
-            If data.Labels Is Nothing OrElse data.Estimates Is Nothing OrElse
-               data.LowerLimits Is Nothing OrElse data.UpperLimits Is Nothing Then
-                Throw New ArgumentException("Multiple-comparison plot data are incomplete.", NameOf(data))
-            End If
-            Dim n As Integer = data.Estimates.Length
-            If n = 0 OrElse data.Labels.Length <> n OrElse data.LowerLimits.Length <> n OrElse
-               data.UpperLimits.Length <> n Then
-                Throw New ArgumentException("Multiple-comparison plot arrays must have equal non-zero lengths.", NameOf(data))
-            End If
+            ExcelCommon.ComparisonChartPolicy35.ValidatePlotData(data)
         End Sub
 
     End Class

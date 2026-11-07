@@ -1,0 +1,47 @@
+{
+  "authority": "PRE_EDIT_LEGACY_EXECUTED",
+  "scientific": "NOT_GOLDEN",
+  "capture": {
+    "path": "evidence/04A35/pre-edit-capture-v2.csv",
+    "bytes": 1162452,
+    "sha256": "e60cc9e70e8563d8d6997f51d2cd4741c134d0d636b2e3ca3e128bad9930a759"
+  },
+  "rows": 4480,
+  "invalid_earlier_capture": {
+    "path": "evidence/04A35/pre-edit-capture.csv",
+    "bytes": 1160788,
+    "sha256": "560673d933307bbaee0a2b2f38d544744c30ae8e2dc4c68aa07543590891df9e"
+  },
+  "qualification": "V1 is preserved as an invalid fixture for procedure text comparisons: standalone VBC default Binary differed from actual Windows project OptionCompare Text. V2 compiles the same frozen original bodies with /optioncompare:text, before any production edit. No old expected rows, old tests or old accepted evidence were changed.",
+  "original_windows_project": {
+    "path": "BESHstatNG/BESHstatNG.vbproj",
+    "bytes": 30519,
+    "sha256": "b60d19153a8539240b1562abc0055d2cb0de8217838d4579d0bf2874962a0383"
+  },
+  "compiler_options": [
+    "/target:library",
+    "/optioncompare:text"
+  ],
+  "fixtures": [
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/Legacy35.vb",
+      "bytes": 5640,
+      "sha256": "bd3a4830485b7fa43d207e724b99667a47607562210e52b9abb5772c82ed0f9d"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/LegacyLoveProjection35.vb",
+      "bytes": 4957,
+      "sha256": "a45400e13d77de416886f04a39c9cf5c13f6d74376c60c34a743b44d60888479"
+    },
+    {
+      "path": "evidence/04A35/Cases35.vb",
+      "bytes": 2793,
+      "sha256": "ce61b0b861fe58bf44becf0d7cee6391375515ef2b44ea40a9aa6eac59fb78a0"
+    }
+  ],
+  "inputs": {
+    "path": "evidence/04A35/pre-edit-inputs.json",
+    "bytes": 694402,
+    "sha256": "43c123f55095a37d758a59479209759d351b15c8c8d4475a7ccd1d37a15556b3"
+  }
+}

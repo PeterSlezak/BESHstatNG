@@ -54,13 +54,14 @@ Namespace graphics
                                             Optional left As Double = 420, Optional top As Double = 20,
                                             Optional width As Double = 720, Optional height As Double = 420)
             If ws Is Nothing OrElse projection Is Nothing OrElse projection.Count = 0 Then Return
-            Dim yValues = projection.YValues
-            Dim xBefore = projection.Before
-            Dim xAfterMatching = projection.AfterMatching
-            Dim xAfterWeighting = projection.AfterWeighting
-            Dim labels = projection.Labels
-            Dim threshold = projection.Threshold
-            Dim maxX = projection.MaximumX
+            Dim spec As New PsmLoveChartSpec35(projection)
+            Dim yValues = spec.YValues
+            Dim xBefore = spec.Before
+            Dim xAfterMatching = spec.AfterMatching
+            Dim xAfterWeighting = spec.AfterWeighting
+            Dim labels = spec.Labels
+            Dim threshold = spec.Threshold
+            Dim maxX = spec.MaximumX
 
             Dim shp As Shape = ws.Shapes.AddChart(Left:=left, Top:=top, Width:=width, Height:=height)
             Dim ch As Chart = shp.Chart
@@ -72,27 +73,27 @@ Namespace graphics
                 Loop
 
                 Dim plottedSeries As New List(Of Integer)()
-                If HasAnyFinite(xBefore) Then plottedSeries.Add(AddScatterSeries(ch, "Before", xBefore, yValues, RGB(120, 120, 120), XlMarkerStyle.xlMarkerStyleCircle))
-                If HasAnyFinite(xAfterMatching) Then plottedSeries.Add(AddScatterSeries(ch, "After matching", xAfterMatching, yValues, RGB(31, 119, 180), XlMarkerStyle.xlMarkerStyleDiamond))
-                If HasAnyFinite(xAfterWeighting) Then plottedSeries.Add(AddScatterSeries(ch, "After weighting", xAfterWeighting, yValues, RGB(44, 160, 44), XlMarkerStyle.xlMarkerStyleSquare))
+                If spec.IncludesChannel(0) Then plottedSeries.Add(AddScatterSeries(ch, spec.NameForChannel(0), xBefore, yValues, RGB(120, 120, 120), XlMarkerStyle.xlMarkerStyleCircle))
+                If spec.IncludesChannel(1) Then plottedSeries.Add(AddScatterSeries(ch, spec.NameForChannel(1), xAfterMatching, yValues, RGB(31, 119, 180), XlMarkerStyle.xlMarkerStyleDiamond))
+                If spec.IncludesChannel(2) Then plottedSeries.Add(AddScatterSeries(ch, spec.NameForChannel(2), xAfterWeighting, yValues, RGB(44, 160, 44), XlMarkerStyle.xlMarkerStyleSquare))
 
                 AddThresholdSeries(ch, threshold, projection.Count)
 
                 If plottedSeries.Count > 0 Then
-                    AddVariableLabels(CType(.SeriesCollection(plottedSeries(plottedSeries.Count - 1)), Series), labels)
+                    AddVariableLabels(CType(.SeriesCollection(plottedSeries(spec.LabelSeriesOrdinal)), Series), labels)
                 End If
 
                 .HasTitle = True
-                .ChartTitle.Text = "Love plot: absolute standardized mean differences"
+                .ChartTitle.Text = spec.Title
                 .HasLegend = True
                 .Legend.Position = XlLegendPosition.xlLegendPositionBottom
 
                 With .Axes(XlAxisType.xlCategory)
-                    .MinimumScale = 0
+                    .MinimumScale = spec.MinimumX
                     .MaximumScale = maxX
                     .MajorUnitIsAuto = True
                     .HasTitle = True
-                    .AxisTitle.Text = "Absolute standardized mean difference"
+                    .AxisTitle.Text = spec.XAxisTitle
                     Try
                         .MajorGridlines.Border.Color = RGB(230, 230, 230)
                     Catch
@@ -100,10 +101,10 @@ Namespace graphics
                 End With
 
                 With .Axes(XlAxisType.xlValue)
-                    .MinimumScale = 0.5R
-                    .MaximumScale = projection.Count + 0.5R
+                    .MinimumScale = spec.MinimumY
+                    .MaximumScale = spec.MaximumY
                     .MajorUnit = 1
-                    .ReversePlotOrder = True
+                    .ReversePlotOrder = spec.ReverseY
                     .HasTitle = False
                     Try
                         .TickLabelPosition = XlTickLabelPosition.xlTickLabelPositionNone
@@ -143,7 +144,7 @@ Namespace graphics
             ch.SeriesCollection.NewSeries()
             Dim s As Series = CType(ch.SeriesCollection(ch.SeriesCollection.Count), Series)
             With s
-                .Name = "Threshold"
+                .Name = PsmLoveChartSpec35.ThresholdSeriesName
                 .XValues = PsmLoveSeriesPolicy.ThresholdReference(threshold, n).XValues
                 .Values = PsmLoveSeriesPolicy.ThresholdReference(threshold, n).YValues
                 .ChartType = XlChartType.xlXYScatterLinesNoMarkers
@@ -159,9 +160,10 @@ Namespace graphics
             If series Is Nothing OrElse labels Is Nothing OrElse labels.Length = 0 Then Return
             Try
                 series.ApplyDataLabels()
-                For i As Integer = 1 To Math.Min(labels.Length, series.Points.Count)
+                For Each ordinal As Integer In ComparisonChartPolicy35.LabelOrdinals(labels.Length, series.Points.Count)
+                    Dim i As Integer = ComparisonChartPolicy35.PointIndex(ordinal)
                     Dim pt As Point = CType(series.Points(i), Point)
-                    pt.DataLabel.Text = labels(i - 1)
+                    pt.DataLabel.Text = ComparisonChartPolicy35.LabelAt(labels, ordinal).Text
                     pt.DataLabel.Position = XlDataLabelPosition.xlLabelPositionRight
                     pt.DataLabel.Font.Size = 8
                 Next

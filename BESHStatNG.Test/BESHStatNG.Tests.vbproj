@@ -454,4 +454,12 @@
   </ItemGroup>
   <ItemGroup><Compile Include="src\Charts\LegacyCompletionNativeState34.vb" /></ItemGroup>
   <ItemGroup><Compile Include="src\Charts\Graphics34CompletionNativeStateTests.vb" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Legacy35.vb"><Link>Charts35\Legacy35.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\LegacyLoveProjection35.vb"><Link>Charts35\LegacyLoveProjection35.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Cases35.vb"><Link>Charts35\Cases35.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics35Tests.vb"><Link>Charts35\Graphics35Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics35GeometryTests.vb"><Link>Charts35\Graphics35GeometryTests.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics35AdapterTests.vb"/>
+  </ItemGroup>
 </Project>

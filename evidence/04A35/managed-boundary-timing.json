@@ -1,0 +1,58 @@
+{
+  "status": "REPRODUCER_PASSES_UNCHANGED_DEADLINE_AND_SERIAL_FULL_LANE",
+  "runs": [
+    {
+      "configuration": "Debug",
+      "concurrent_outcomes": {
+        "Passed": 9504,
+        "Failed": 10
+      },
+      "concurrent_exit_code": 1,
+      "actual_failure": {
+        "class_name": "BESHStatNG.Test.MigrationRefEditBoundary10Tests",
+        "method": "ActualFocusEnterContainsThrowingClearAndPreservesAddress",
+        "test_name": "ActualFocusEnterContainsThrowingClearAndPreservesAddress",
+        "outcome": "Failed",
+        "message": "Assert.IsTrue failed. Managed boundary test exceeded deadline",
+        "duration": "00:02:35.8224707"
+      },
+      "targeted_unchanged_deadline": {
+        "Passed": 1
+      },
+      "serial_full_outcomes": {
+        "Passed": 9505,
+        "Failed": 9
+      },
+      "concurrent_trx_sha256": "a87cdcc7c2ec7d5bd8eea0b3a4e1efef37bea9342648cacadce69e14565b6484",
+      "targeted_trx_sha256": "ca1b9e064818ec63aa720ca405a0542e3774e9199adeb85ff7af2111152933a9",
+      "serial_trx_sha256": "71f328f7f0338f136c061593c1aa3dd0728f57fc0b74e4a1c7e88d88e1485cf8"
+    },
+    {
+      "configuration": "Release",
+      "concurrent_outcomes": {
+        "Passed": 9504,
+        "Failed": 10
+      },
+      "concurrent_exit_code": 1,
+      "actual_failure": {
+        "class_name": "BESHStatNG.Test.MigrationRefEditBoundary10Tests",
+        "method": "ActualFocusEnterContainsThrowingClearAndPreservesAddress",
+        "test_name": "ActualFocusEnterContainsThrowingClearAndPreservesAddress",
+        "outcome": "Failed",
+        "message": "Assert.IsTrue failed. Managed boundary test exceeded deadline",
+        "duration": "00:02:32.1712727"
+      },
+      "targeted_unchanged_deadline": {
+        "Passed": 1
+      },
+      "serial_full_outcomes": {
+        "Passed": 9505,
+        "Failed": 9
+      },
+      "concurrent_trx_sha256": "9ba6f5ce0105e393a4971f35a53a04217e610e40b0446204e557f3524cff0591",
+      "targeted_trx_sha256": "c77fa9715849719b81784e28441fd7f30f349cb0de355c47b3a810a046a84bd0",
+      "serial_trx_sha256": "0f2916f37cee3f936d97d0223663ac13746cc807e2ec6ea69b86a3f395c8801c"
+    }
+  ],
+  "classification": "Parallel-run managed thread deadline failures are retained real FAILs. Unchanged source/10-second assertion passes isolated and complete serial Framework rerun; no timing waiver, native/scientific gate discharge or history rewrite. Exact environmental cause is not established; concurrent broad latency is observed."
+}
