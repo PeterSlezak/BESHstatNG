@@ -1,0 +1,575 @@
+{
+  "schema": "04A34-validation-v1",
+  "decision": "READY_FOR_OWNER_04A34_ACCEPTANCE_REVIEW",
+  "managed": [
+    {
+      "configuration": "Debug",
+      "suite": "Core",
+      "outcomes": {
+        "Passed": 1232
+      },
+      "counters": {
+        "total": "1232",
+        "executed": "1232",
+        "passed": "1232",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 1177
+      },
+      "exit_code": 0,
+      "trx_sha256": "57bbc4a8fa3bb9822e36d227198b79ebcd409e51929152806f929ddf800a1ba2",
+      "raw_receipt_sha256": "b5ba487944a36bf10bedbd91c2267336958fadf2d081236547e9a383d426397f"
+    },
+    {
+      "configuration": "Release",
+      "suite": "Core",
+      "outcomes": {
+        "Passed": 1232
+      },
+      "counters": {
+        "total": "1232",
+        "executed": "1232",
+        "passed": "1232",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 1177
+      },
+      "exit_code": 0,
+      "trx_sha256": "67486187450bcf75b79c30d23c6878076941bcf49abb4ec5b043d9fad62aa08b",
+      "raw_receipt_sha256": "99d73b556c7334e80645d738f8c94709abe233d6ed3d952f0f54c23311d8eb62"
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Common",
+      "outcomes": {
+        "Passed": 9001,
+        "Failed": 5
+      },
+      "counters": {
+        "total": "9006",
+        "executed": "9006",
+        "passed": "9001",
+        "failed": "5",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 8984,
+        "Failed": 5
+      },
+      "exit_code": 1,
+      "trx_sha256": "e138400bbe6f4179844541cd0409d8fac651f892fc1007cf105c6397097b54d2",
+      "raw_receipt_sha256": "76c96ec9fea109401816615c443b12772701250175e1012d554b8824e8c4876e"
+    },
+    {
+      "configuration": "Release",
+      "suite": "Common",
+      "outcomes": {
+        "Passed": 9001,
+        "Failed": 5
+      },
+      "counters": {
+        "total": "9006",
+        "executed": "9006",
+        "passed": "9001",
+        "failed": "5",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 8984,
+        "Failed": 5
+      },
+      "exit_code": 1,
+      "trx_sha256": "5f9bb9564e2080168cf595b0dd02bb1cdd441a43cfdd24f60c0459154000f098",
+      "raw_receipt_sha256": "d186edacc8b9b7c46ad8c8886f6b495e4093e7e46cb1798b3420e1bde107036e"
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Legacy",
+      "outcomes": {
+        "Passed": 9479,
+        "Failed": 9
+      },
+      "counters": {
+        "total": "9488",
+        "executed": "9488",
+        "passed": "9479",
+        "failed": "9",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 9370,
+        "Failed": 9
+      },
+      "exit_code": 1,
+      "trx_sha256": "81fea92042a9f4cc373d60d896f8214b5b9f2af6dfccc47ae4a0a89ab9e8a332",
+      "raw_receipt_sha256": "fa8dc1f5794184ab537af9ae966c4aa12be13e05d3d1ecf294cc4fb1485abdd4"
+    },
+    {
+      "configuration": "Release",
+      "suite": "Legacy",
+      "outcomes": {
+        "Passed": 9479,
+        "Failed": 9
+      },
+      "counters": {
+        "total": "9488",
+        "executed": "9488",
+        "passed": "9479",
+        "failed": "9",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 9370,
+        "Failed": 9
+      },
+      "exit_code": 1,
+      "trx_sha256": "983605488a9ecdc376db5b05310d64f92328d3c79d135606841a5fa3258ff558",
+      "raw_receipt_sha256": "ff767a25ca46adb4868ea25ff9af4b260b10b55be0aad6db5ec0edc2e5e998e8"
+    },
+    {
+      "configuration": "Debug",
+      "suite": "OfficeAddin",
+      "outcomes": {
+        "Passed": 508
+      },
+      "counters": {
+        "total": "508",
+        "executed": "508",
+        "passed": "508",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 508
+      },
+      "exit_code": 0,
+      "trx_sha256": "71878f41e47356ab879616e4a4d19d71fe01d85dda84d1145c77b73acc82cf09",
+      "raw_receipt_sha256": "4839a9ad1e96344d54804887a083b381a5d97ed3eed5769067d9eab7e8dc28b0"
+    },
+    {
+      "configuration": "Release",
+      "suite": "OfficeAddin",
+      "outcomes": {
+        "Passed": 508
+      },
+      "counters": {
+        "total": "508",
+        "executed": "508",
+        "passed": "508",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 508
+      },
+      "exit_code": 0,
+      "trx_sha256": "55b11fc2803e60e1647644907543a09d548e64d37e52b6e8cdf4e48c3bda595e",
+      "raw_receipt_sha256": "6d54f748c510124d654b2dd4faa75255c694f97f92e78dc27fc81ac264bb2f6c"
+    },
+    {
+      "configuration": "Debug",
+      "suite": "OfficeExecution",
+      "outcomes": {
+        "Passed": 45
+      },
+      "counters": {
+        "total": "45",
+        "executed": "45",
+        "passed": "45",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 45
+      },
+      "exit_code": 0,
+      "trx_sha256": "326912fa7c201efe338f8d437d0285892b7a596466af01975752a78c411ea0a3",
+      "raw_receipt_sha256": "a6bfb18307ae86eb0e9ddf954dc17d7a79473c1099986bb389c34519b180f7a2"
+    },
+    {
+      "configuration": "Release",
+      "suite": "OfficeExecution",
+      "outcomes": {
+        "Passed": 45
+      },
+      "counters": {
+        "total": "45",
+        "executed": "45",
+        "passed": "45",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 45
+      },
+      "exit_code": 0,
+      "trx_sha256": "b1620a86efd6ca3b3c8185d75496e3ad2a16c815320619081095a65c53a9b67c",
+      "raw_receipt_sha256": "06bd7b3fa87d387f935c0b1422086697b64586419de8ea628b15994b86edd870"
+    },
+    {
+      "configuration": "Debug",
+      "suite": "ControlMitigation",
+      "outcomes": {
+        "Passed": 61
+      },
+      "counters": {
+        "total": "61",
+        "executed": "61",
+        "passed": "61",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 61
+      },
+      "exit_code": 0,
+      "trx_sha256": "190a067686e1d53f643000c8eca9bd3c60595e97dcf1d6992c2c13657748b1ea",
+      "raw_receipt_sha256": "279f816e49c3a781753523900407d9f482786345a88dd48274352573e1f0b941"
+    },
+    {
+      "configuration": "Release",
+      "suite": "ControlMitigation",
+      "outcomes": {
+        "Passed": 61
+      },
+      "counters": {
+        "total": "61",
+        "executed": "61",
+        "passed": "61",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "baseline_debug": {
+        "Passed": 61
+      },
+      "exit_code": 0,
+      "trx_sha256": "bc0944ebc20f6952424b020b8336234e9efe932df00b5ebf408561be629c77ae",
+      "raw_receipt_sha256": "f1a7cea6ca5899ee9e1bf8e78cad6f4065ba3ebad1b5c62516e7ce4d71e36307"
+    }
+  ],
+  "managed_totals": {
+    "Debug": {
+      "Passed": 20326,
+      "Failed": 14
+    },
+    "Release": {
+      "Passed": 20326,
+      "Failed": 14
+    }
+  },
+  "identity_deltas": [
+    {
+      "configuration": "Debug",
+      "suite": "Core",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 55
+    },
+    {
+      "configuration": "Release",
+      "suite": "Core",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 55
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Common",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 17
+    },
+    {
+      "configuration": "Release",
+      "suite": "Common",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 17
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Legacy",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 109
+    },
+    {
+      "configuration": "Release",
+      "suite": "Legacy",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 109
+    },
+    {
+      "configuration": "Debug",
+      "suite": "OfficeAddin",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 0
+    },
+    {
+      "configuration": "Release",
+      "suite": "OfficeAddin",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 0
+    },
+    {
+      "configuration": "Debug",
+      "suite": "OfficeExecution",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 0
+    },
+    {
+      "configuration": "Release",
+      "suite": "OfficeExecution",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 0
+    },
+    {
+      "configuration": "Debug",
+      "suite": "ControlMitigation",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 0
+    },
+    {
+      "configuration": "Release",
+      "suite": "ControlMitigation",
+      "removed": 0,
+      "changed_baseline_outcomes": 0,
+      "new_04A34_raw_cases": 0
+    }
+  ],
+  "new_managed_cases_per_configuration": 181,
+  "unclassified_new_managed_nonpasses": [],
+  "focused": [
+    {
+      "configuration": "Debug",
+      "suite": "Core",
+      "outcomes": {
+        "Passed": 174
+      },
+      "exit_code": 0,
+      "trx_sha256": "3c6809cdce745197cc563168311b65d9b3dcfd821c2664837a8d07f792f47c7d",
+      "identity_sha256": "b1a071e11283481e8493fffcad9887887f833b6b2abd87032012db5dc6bf39cc"
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Common",
+      "outcomes": {
+        "Passed": 20
+      },
+      "exit_code": 0,
+      "trx_sha256": "d08f942876603624d5448c080e54dc74cb3450076f3039f9f2de8ccf930dc215",
+      "identity_sha256": "dbdc84a8de27e17c6c31d61e61eed04ac8d9f862e7420220f04394f072fa33de"
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Legacy",
+      "outcomes": {
+        "Passed": 264
+      },
+      "exit_code": 0,
+      "trx_sha256": "79eb050966d63e09f5180ce04eba140489e0f8c7b06e5e5ceaa877154cfd949e",
+      "identity_sha256": "5abe54d9d722e76889c814e0eca391ca56a3093e9d5ce8eacc3a2818af47afe6"
+    },
+    {
+      "configuration": "Release",
+      "suite": "Core",
+      "outcomes": {
+        "Passed": 174
+      },
+      "exit_code": 0,
+      "trx_sha256": "c5cccd7f4c06b7c1d0bbab4ca67e3f09b653d510e0b7bd58afbbc6a5f191000c",
+      "identity_sha256": "b1a071e11283481e8493fffcad9887887f833b6b2abd87032012db5dc6bf39cc"
+    },
+    {
+      "configuration": "Release",
+      "suite": "Common",
+      "outcomes": {
+        "Passed": 20
+      },
+      "exit_code": 0,
+      "trx_sha256": "837bb67b5d58e520c1f197fac44c40f1fcabc0da60653140d4a2152893922651",
+      "identity_sha256": "dbdc84a8de27e17c6c31d61e61eed04ac8d9f862e7420220f04394f072fa33de"
+    },
+    {
+      "configuration": "Release",
+      "suite": "Legacy",
+      "outcomes": {
+        "Passed": 264
+      },
+      "exit_code": 0,
+      "trx_sha256": "209e25e540f45e156c449e66e538310b8514b03a15c85d28ba122032e535a9e4",
+      "identity_sha256": "5abe54d9d722e76889c814e0eca391ca56a3093e9d5ce8eacc3a2818af47afe6"
+    }
+  ],
+  "python": {
+    "total": 956,
+    "passed": 814,
+    "failed": 131,
+    "errors": 11
+  },
+  "node": {
+    "total": 916,
+    "passed": 916,
+    "failed": 0
+  },
+  "new_python_nonpasses": 18,
+  "unclassified_new_python_nonpasses": [],
+  "strict_profile_mkdocs": {
+    "strict": 1,
+    "profile": 1,
+    "docs": 0
+  },
+  "scientific": "NOT_GOLDEN",
+  "native": "NATIVE_NOT_RUN",
+  "r": "R_NOT_RUN",
+  "entry_full_release": "NOT_RUN; fresh entryDebug plus accepted33 historicalRelease only; finalRelease executed",
+  "wrappers": "NOT_RUN; isolated equivalent lanes executed; shared-output/Legacy packaging avoided",
+  "open_blockers": 0,
+  "final_full_managed_label": "review3",
+  "focused_label": "review3",
+  "node_and_python_matrix_label": "completed",
+  "final_python_scripts_label": "review",
+  "publication": "Local proposed packet only; no upload, Git publication or native approval"
+}

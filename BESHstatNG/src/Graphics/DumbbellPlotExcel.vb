@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 Option Strict Off
 Option Infer On
 
@@ -332,25 +332,17 @@ Public NotInheritable Class DumbbellPlotExcel
     ''' override this and pass an explicit height to <see cref="AddChart"/>.
     ''' </summary>
     Public Shared Function SuggestedHeight(result As DumbbellPlotResult) As Double
-        If result Is Nothing OrElse result.CategoryCount < 1 Then Return 360.0R
-        Return Math.Max(340.0R, Math.Min(1400.0R, 145.0R + 22.0R * result.CategoryCount))
+        Return ExcelCommon.Chart34.DumbbellChartPreparation34.SuggestedHeight(result)
     End Function
 
     Private Shared Sub AddConnectorSeries(seriesCollection As SeriesCollection,
                                           categories As DumbbellPlotCategory(),
                                           appearance As DumbbellPlotAppearance)
-        Dim n As Integer = categories.Length
-        Dim xStarts(n - 1) As Double
-        Dim yValues(n - 1) As Double
-        Dim connectorLengths(n - 1) As Double
-        Dim hasVisibleConnector As Boolean = False
-
-        For i As Integer = 0 To n - 1
-            xStarts(i) = categories(i).ConnectorStart
-            yValues(i) = categories(i).YPosition
-            connectorLengths(i) = categories(i).ConnectorLength
-            If connectorLengths(i) > 0.0R Then hasVisibleConnector = True
-        Next
+        Dim preparedConnectors = ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34.Connectors(categories)
+        Dim hasVisibleConnector As Boolean = preparedConnectors.Visible
+        Dim xStarts As Double() = preparedConnectors.XValues
+        Dim yValues As Double() = preparedConnectors.YValues
+        Dim connectorLengths As Double() = preparedConnectors.Amounts
 
         'If every pair is identical there is no connector geometry to draw.
         If Not hasVisibleConnector Then Return
@@ -393,14 +385,9 @@ Public NotInheritable Class DumbbellPlotExcel
                                               markerStyle As XlMarkerStyle,
                                               markerSize As Integer,
                                               markerColor As Integer) As Series
-        Dim n As Integer = categories.Length
-        Dim xValues(n - 1) As Double
-        Dim yValues(n - 1) As Double
-
-        For i As Integer = 0 To n - 1
-            xValues(i) = If(useFirstEndpoint, categories(i).FirstValue, categories(i).SecondValue)
-            yValues(i) = categories(i).YPosition
-        Next
+        Dim preparedEndpoints = ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34.Endpoints(categories, useFirstEndpoint)
+        Dim xValues As Double() = preparedEndpoints.XValues
+        Dim yValues As Double() = preparedEndpoints.YValues
 
         Dim series As Object = seriesCollection.NewSeries()
         With series
@@ -421,14 +408,10 @@ Public NotInheritable Class DumbbellPlotExcel
                                                observations As DumbbellAuxiliaryObservation(),
                                                seriesName As String,
                                                appearance As DumbbellPlotAppearance) As Series
-        If observations Is Nothing OrElse observations.Length = 0 Then Return Nothing
-
-        Dim xValues(observations.Length - 1) As Double
-        Dim yValues(observations.Length - 1) As Double
-        For i As Integer = 0 To observations.Length - 1
-            xValues(i) = observations(i).Value
-            yValues(i) = observations(i).YPosition
-        Next
+        Dim preparedAuxiliary = ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34.Auxiliary(observations)
+        If preparedAuxiliary Is Nothing Then Return Nothing
+        Dim xValues As Double() = preparedAuxiliary.XValues
+        Dim yValues As Double() = preparedAuxiliary.YValues
 
         Dim series As Object = seriesCollection.NewSeries()
         With series
@@ -447,14 +430,11 @@ Public NotInheritable Class DumbbellPlotExcel
                                                    categories As DumbbellPlotCategory(),
                                                    axisContext As AxisContext,
                                                    appearance As DumbbellPlotAppearance) As Series
+        Dim preparedCategoryLabels = ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34.CategoryLabels(categories, axisContext.XMinimum)
         Dim n As Integer = categories.Length
-        Dim xValues(n - 1) As Double
-        Dim yValues(n - 1) As Double
-
-        For i As Integer = 0 To n - 1
-            xValues(i) = axisContext.XMinimum
-            yValues(i) = categories(i).YPosition
-        Next
+        Dim xValues As Double() = preparedCategoryLabels.XValues
+        Dim yValues As Double() = preparedCategoryLabels.YValues
+        Dim categoryLabels As String() = preparedCategoryLabels.Labels
 
         Dim series As Object = seriesCollection.NewSeries()
         With series
@@ -479,7 +459,7 @@ Public NotInheritable Class DumbbellPlotExcel
                 Dim point As Point = DirectCast(series.Points(i + 1), Point)
                 point.HasDataLabel = True
                 With point.DataLabel
-                    .Text = categories(i).CategoryLabel
+                    .Text = categoryLabels(i)
                     .Position = XlDataLabelPosition.xlLabelPositionLeft
                     .Font.Size = appearance.CategoryLabelFontSize
                     .Font.Color = appearance.TextColor
@@ -690,82 +670,14 @@ Public NotInheritable Class DumbbellPlotExcel
 
     Private Shared Function ResolveAxisContext(result As DumbbellPlotResult,
                                                appearance As DumbbellPlotAppearance) As AxisContext
-        Dim dataMinimum As Double = result.MinimumValue
-        Dim dataMaximum As Double = result.MaximumValue
-        If Not IsFinite(dataMinimum) OrElse Not IsFinite(dataMaximum) Then
-            Throw New ArgumentException("The dumbbell result does not contain a finite X range.", NameOf(result))
-        End If
-
-        Dim span As Double = dataMaximum - dataMinimum
-        Dim fallbackSpan As Double
-        If span > 0.0R Then
-            fallbackSpan = span
-        ElseIf result.AxisValueKind = DumbbellAxisValueKind.DateValue Then
-            fallbackSpan = 2.0R
-        Else
-            fallbackSpan = Math.Max(1.0R, Math.Abs(dataMinimum) * 0.1R)
-        End If
-
-        Dim padding As Double = fallbackSpan * appearance.XAxisPaddingFraction
-        If result.AxisValueKind = DumbbellAxisValueKind.DateValue Then
-            padding = Math.Max(padding, 0.5R)
-        End If
-
-        Dim paddedMinimum As Double = dataMinimum - padding
-        Dim paddedMaximum As Double = dataMaximum + padding
-        If paddedMinimum >= paddedMaximum Then
-            paddedMinimum = dataMinimum - 0.5R * fallbackSpan
-            paddedMaximum = dataMaximum + 0.5R * fallbackSpan
-        End If
-
-        'Use a 1-2-5 "nice" step, mirroring the histogram bin-step logic, so the
-        'automatic gridlines land on human-friendly values instead of starting at
-        'an arbitrary padded minimum such as 13.012. Aim for about five intervals.
-        Dim majorUnit As Double
-        If appearance.XAxisMajorUnit.HasValue Then
-            majorUnit = appearance.XAxisMajorUnit.Value
-        Else
-            majorUnit = NiceStep125((paddedMaximum - paddedMinimum) / 5.0R)
-            If result.AxisValueKind = DumbbellAxisValueKind.DateValue Then
-                'The default date tick format displays days, so sub-day automatic
-                'ticks would only create repeated date labels.
-                majorUnit = Math.Max(1.0R, majorUnit)
-            End If
-        End If
-
-        If Not IsFinitePositive(majorUnit) Then majorUnit = 1.0R
-
-        Dim xMinimum As Double
-        If appearance.XAxisMinimum.HasValue Then
-            xMinimum = appearance.XAxisMinimum.Value
-        Else
-            xMinimum = FloorToStep(paddedMinimum, majorUnit)
-        End If
-
-        Dim xMaximum As Double
-        If appearance.XAxisMaximum.HasValue Then
-            xMaximum = appearance.XAxisMaximum.Value
-        Else
-            xMaximum = CeilingToStep(paddedMaximum, majorUnit)
-        End If
-
-        If xMinimum >= xMaximum Then
-            If Not appearance.XAxisMinimum.HasValue AndAlso Not appearance.XAxisMaximum.HasValue Then
-                xMinimum = FloorToStep(dataMinimum - 0.5R * fallbackSpan, majorUnit)
-                xMaximum = CeilingToStep(dataMaximum + 0.5R * fallbackSpan, majorUnit)
-                If xMinimum >= xMaximum Then xMaximum = xMinimum + majorUnit
-            Else
-                Throw New ArgumentException("The resolved X-axis minimum must be smaller than the X-axis maximum.", NameOf(appearance))
-            End If
-        End If
-
+        Dim geometry = ExcelCommon.Chart34.DumbbellChartPreparation34.ResolveAxisContext(result, SnapshotDumbbellSettings34(appearance))
         Return New AxisContext With {
-            .XMinimum = xMinimum,
-            .XMaximum = xMaximum,
-            .XMajorUnit = majorUnit,
-            .YMinimum = 0.0R,
-            .YMaximum = result.CategoryCount + 1.0R,
-            .XNumberFormat = ResolveXAxisNumberFormat(result.AxisValueKind, appearance.XAxisNumberFormat)
+            .XMinimum = geometry.XMinimum,
+            .XMaximum = geometry.XMaximum,
+            .XMajorUnit = geometry.XMajorUnit,
+            .YMinimum = geometry.YMinimum,
+            .YMaximum = geometry.YMaximum,
+            .XNumberFormat = geometry.XNumberFormat
         }
     End Function
 
@@ -774,46 +686,20 @@ Public NotInheritable Class DumbbellPlotExcel
     ''' raw interval. This mirrors the rule already used by the histogram bin logic.
     ''' </summary>
     Private Shared Function NiceStep125(rawStep As Double) As Double
-        If Not IsFinitePositive(rawStep) Then Return 1.0R
-
-        Dim exponent As Double = Math.Floor(Math.Log10(rawStep))
-        Dim scale As Double = Math.Pow(10.0R, exponent)
-        Dim fraction As Double = rawStep / scale
-        Dim niceFraction As Double
-
-        If fraction <= 1.0R Then
-            niceFraction = 1.0R
-        ElseIf fraction <= 2.0R Then
-            niceFraction = 2.0R
-        ElseIf fraction <= 5.0R Then
-            niceFraction = 5.0R
-        Else
-            niceFraction = 10.0R
-        End If
-
-        Return niceFraction * scale
+        Return ExcelCommon.Chart34.DumbbellChartPreparation34.NiceStep125(rawStep)
     End Function
 
     Private Shared Function FloorToStep(value As Double, stepSize As Double) As Double
-        Return Math.Floor(value / stepSize) * stepSize
+        Return ExcelCommon.Chart34.DumbbellChartPreparation34.FloorToStep(value, stepSize)
     End Function
 
     Private Shared Function CeilingToStep(value As Double, stepSize As Double) As Double
-        Return Math.Ceiling(value / stepSize) * stepSize
+        Return ExcelCommon.Chart34.DumbbellChartPreparation34.CeilingToStep(value, stepSize)
     End Function
 
     Private Shared Function ResolveXAxisNumberFormat(axisValueKind As DumbbellAxisValueKind,
                                                      requestedFormat As String) As String
-        If Not String.IsNullOrWhiteSpace(requestedFormat) Then Return requestedFormat.Trim()
-
-        Select Case axisValueKind
-            Case DumbbellAxisValueKind.DateValue
-                Return "dd-mmm"
-            Case DumbbellAxisValueKind.Numeric
-                Return "0.###"
-            Case Else
-                Return "General"
-        End Select
+        Return ExcelCommon.Chart34.DumbbellChartPreparation34.ResolveXAxisNumberFormat(axisValueKind, requestedFormat)
     End Function
 
     Private Shared Function FormatEndpointValue(value As Double,
@@ -829,13 +715,7 @@ Public NotInheritable Class DumbbellPlotExcel
             End Try
         End If
 
-        If Not String.IsNullOrWhiteSpace(requestedFormat) Then
-            Try
-                Return value.ToString(requestedFormat.Trim(), CultureInfo.CurrentCulture)
-            Catch
-            End Try
-        End If
-        Return value.ToString("0.###", CultureInfo.CurrentCulture)
+        Return ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34.NumericEndpoint(value, requestedFormat)
     End Function
 
     ''' <summary>
@@ -954,8 +834,7 @@ Public NotInheritable Class DumbbellPlotExcel
     End Function
 
     Private Shared Function ResolveSeriesName(value As String, fallback As String) As String
-        If String.IsNullOrWhiteSpace(value) Then Return fallback
-        Return value.Trim()
+        Return ExcelCommon.Chart34.DumbbellChartPreparation34.ResolveSeriesName(value, fallback)
     End Function
 
     Private Shared Sub ValidateAppearance(appearance As DumbbellPlotAppearance)
@@ -1045,5 +924,10 @@ Public NotInheritable Class DumbbellPlotExcel
 
     Private Shared Function IsFiniteUnitInterval(value As Single) As Boolean
         Return Not Single.IsNaN(value) AndAlso Not Single.IsInfinity(value) AndAlso value >= 0.0F AndAlso value <= 1.0F
+    End Function
+
+    Private Shared Function SnapshotDumbbellSettings34(appearance As DumbbellPlotAppearance) As ExcelCommon.Chart34.DumbbellChartSettings34
+        If appearance Is Nothing Then Return Nothing
+        Return New ExcelCommon.Chart34.DumbbellChartSettings34(appearance.XAxisPaddingFraction, appearance.XAxisMajorUnit, appearance.XAxisMinimum, appearance.XAxisMaximum, appearance.XAxisNumberFormat)
     End Function
 End Class

@@ -75,14 +75,10 @@ Namespace graphics
             If ws Is Nothing Then Return Nothing
             If Me.pRows Is Nothing OrElse Me.pRows.Count = 0 Then Return Nothing
 
-            Dim xs As New List(Of Double)()
-            Dim ys As New List(Of Double)()
-            For Each r As regression.CalibrationBinSummary In Me.pRows
-                If Double.IsNaN(r.MeanPredicted) OrElse Double.IsNaN(r.ObservedRate) Then Continue For
-                xs.Add(r.MeanPredicted)
-                ys.Add(r.ObservedRate)
-            Next
-            If xs.Count = 0 Then Return Nothing
+            Dim projection As New CalibrationSeriesData(Me.pRows)
+            If projection.Count = 0 Then Return Nothing
+            Dim reference As ChartReferenceSeries = projection.Reference
+            Dim axis As ChartAxisScaleResult = projection.Axis
 
             Dim shp = ws.Shapes.AddChart(Left:=left, Top:=top, Width:=width, Height:=height)
             With shp.Chart
@@ -96,8 +92,8 @@ Namespace graphics
                 .SeriesCollection.NewSeries()
                 With .SeriesCollection(1)
                     .Name = "Calibration"
-                    .XValues = xs.ToArray()
-                    .Values = ys.ToArray()
+                    .XValues = projection.XValues
+                    .Values = projection.YValues
                     .ChartType = XlChartType.xlXYScatter
                     .MarkerStyle = 8
                     .MarkerSize = 6
@@ -110,8 +106,8 @@ Namespace graphics
                 .SeriesCollection.NewSeries()
                 With .SeriesCollection(2)
                     .Name = "Reference line"
-                    .XValues = New Double() {0.0R, 1.0R}
-                    .Values = New Double() {0.0R, 1.0R}
+                    .XValues = reference.XValues
+                    .Values = reference.YValues
                     .ChartType = XlChartType.xlXYScatterLinesNoMarkers
                     .Border.Color = RGB(0, 0, 0)
                     With .Format.Line
@@ -121,10 +117,10 @@ Namespace graphics
                 End With
 
                 With .Axes(XlAxisType.xlCategory)
-                    .MinimumScale = 0
-                    .MaximumScale = 1
+                    .MinimumScale = axis.Min
+                    .MaximumScale = axis.Max
                     .CrossesAt = 0
-                    .MajorUnit = 0.2
+                    .MajorUnit = axis.Scale
                     .HasTitle = False
                     .HasTitle = True
                     .AxisTitle.Text = "Mean predicted probability"
@@ -135,10 +131,10 @@ Namespace graphics
                 End With
 
                 With .Axes(XlAxisType.xlValue)
-                    .MinimumScale = 0
-                    .MaximumScale = 1
+                    .MinimumScale = axis.Min
+                    .MaximumScale = axis.Max
                     .CrossesAt = 0
-                    .MajorUnit = 0.2
+                    .MajorUnit = axis.Scale
                     .HasTitle = False
                     .HasTitle = True
                     .AxisTitle.Text = "Observed event rate"

@@ -613,13 +613,7 @@ Public NotInheritable Class PolarPlotExcel
                                               groupIndex As Integer,
                                               result As PolarPlotResult,
                                               appearance As PolarPlotAppearance) As String
-        If result.HasGrouping Then
-            If Not String.IsNullOrWhiteSpace(group.Name) Then Return group.Name
-            Return "Group " & (groupIndex + 1).ToString(Globalization.CultureInfo.CurrentCulture)
-        End If
-        Return If(String.IsNullOrWhiteSpace(appearance.SeriesName),
-                  "Data",
-                  appearance.SeriesName.Trim())
+        Return ExcelCommon.Chart34.PolarChartPreparation34.ResolveSeriesName(group, groupIndex, result, SnapshotPolarSettings34(appearance))
     End Function
 
     ''' <summary>
@@ -735,9 +729,10 @@ Public NotInheritable Class PolarPlotExcel
             Dim plotArea As PlotArea = chart.PlotArea
             Dim currentWidth As Double = plotArea.InsideWidth
             Dim currentHeight As Double = plotArea.InsideHeight
-            Dim side As Double = Math.Min(currentWidth, currentHeight)
-            Dim adjustedLeft As Double = plotArea.InsideLeft + (currentWidth - side) / 2.0R
-            Dim adjustedTop As Double = plotArea.InsideTop + (currentHeight - side) / 2.0R
+            Dim prepared = PolarMeasuredLayoutCore.PolarSquare(currentWidth, currentHeight, plotArea.InsideLeft, plotArea.InsideTop)
+            Dim side As Double = prepared.Side
+            Dim adjustedLeft As Double = prepared.Left
+            Dim adjustedTop As Double = prepared.Top
 
             plotArea.InsideLeft = adjustedLeft
             plotArea.InsideTop = adjustedTop
@@ -773,5 +768,10 @@ Public NotInheritable Class PolarPlotExcel
     ''' <returns><see langword="True"/> when the number is finite and greater than zero.</returns>
     Private Shared Function IsFinitePositive(value As Single) As Boolean
         Return Not Single.IsNaN(value) AndAlso Not Single.IsInfinity(value) AndAlso value > 0.0F
+    End Function
+
+    Private Shared Function SnapshotPolarSettings34(appearance As PolarPlotAppearance) As ExcelCommon.Chart34.PolarChartSettings34
+        If appearance Is Nothing Then Return Nothing
+        Return New ExcelCommon.Chart34.PolarChartSettings34(appearance.SeriesName)
     End Function
 End Class

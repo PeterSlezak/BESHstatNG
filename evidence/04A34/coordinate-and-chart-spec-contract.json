@@ -1,0 +1,961 @@
+{
+  "schema": "04A34-contract-v2",
+  "status": "COMPLETE_04A34_FOUNDATION",
+  "contracts": [
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/AnimationFrameTimingCore.vb",
+        "bytes": 348,
+        "sha256": "1801c44434ebbfc38e6c9fa1b373c973803b276949012551ccf9d74b0d8b2eac"
+      },
+      "public_headers": [
+        "Public Function MsToCentiseconds(ms As Integer) As Integer"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/GifAnimator.vb|BESHStatNG.GifAnimator|FunctionBlock|18a72abe7e8865b7@6116:137"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/AnimationFrameTimingCore.vb|BESHStatNG.AnimationFrameTimingCore|FunctionBlock|a29452baf74c3423@162:174"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb",
+        "bytes": 17630,
+        "sha256": "061351fd3ae94321b6e46492cbc0987bd6c0fb671e3ae49a2da33f01dce89f88"
+      },
+      "public_headers": [
+        "Public Function BulletActual(actualNormalized As Double, bandHeight As Double, barHeightFraction As Double, bandCentreY As Double, plotWidth As Double) As BulletActualGeometry",
+        "Public Function BulletActualLabel(actualNormalized As Double, plotLeft As Double, plotWidth As Double, valueLabelWidth As Double, valueLabelGap As Double) As BulletActualLabelGeometry",
+        "Public Function BulletBand(normalizedStart As Double, normalizedEnd As Double, plotLeft As Double, plotWidth As Double) As BulletBandGeometry",
+        "Public Function BulletCenteredLabel(centreY As Double, height As Double) As BulletCenteredLabelGeometry",
+        "Public Function BulletLeftArea(padding As Double, plotLeft As Double, labelGap As Double) As BulletLeftAreaGeometry",
+        "Public Function BulletPairedLabels(bandCentreY As Double, mainFontSize As Double, subtitleFontSize As Double) As BulletPairedLabelsGeometry",
+        "Public Function BulletPaletteIndex(rank As Integer, rangeCount As Integer, paletteLength As Integer) As BulletPaletteIndexGeometry",
+        "Public Function BulletScaleLabel(tickIndex As Integer, tickCount As Integer, x As Double, plotLeft As Double, plotWidth As Double, nominalWidth As Double) As BulletScaleLabelGeometry",
+        "Public Function BulletScaleWidth(tickCount As Integer, plotWidth As Double) As BulletScaleWidthGeometry",
+        "Public Function BulletSingleLabel(bandCentreY As Double, fontSize As Double) As BulletSingleLabelGeometry",
+        "Public Function BulletTarget(targetNormalized As Double, plotLeft As Double, plotWidth As Double, bandHeight As Double, heightFraction As Double, bandCentreY As Double) As BulletTargetGeometry",
+        "Public Function BulletTargetLabel(targetNormalized As Double, plotLeft As Double, plotWidth As Double, valueLabelWidth As Double) As BulletTargetLabelGeometry",
+        "Public Function BulletTick(tickValue As Double, scaleMaximum As Double, plotLeft As Double, plotWidth As Double, bandBottom As Double, tickLength As Double) As BulletTickGeometry",
+        "Public Function BulletTitle(chartWidth As Double, padding As Double) As BulletTitleGeometry",
+        "Public Function Clip01(value As Double) As Double",
+        "Public Function ComputeLayout(chartWidth As Double, chartHeight As Double, itemCount As Integer, hasSubtitles As Boolean, ChartPadding As Double, ChartTitle As String, ChartTitleHeight As Double, ShowMeasureLabels As Boolean, ShowSubtitles As Boolean, LabelAreaWidth As Double, LabelGap As Double, ShowScaleLabels As Boolean, ShowScaleTickMarks As Boolean, ScaleLabelGap As Double, ScaleTickLength As Double, ScaleLabelHeight As Double, ShowTargetValueLabels As Boolean, ValueLabelHeight As Double, ValueLabelGap As Double, RowGap As Double, QualitativeBandHeight As Double) As BulletDrawingLayout",
+        "Public Function ComputeRow(layout As BulletDrawingLayout, rowIndex As Integer, ShowScaleLabels As Boolean, ShowScaleTickMarks As Boolean, ScaleLabelGap As Double, ScaleTickLength As Double, ScaleLabelHeight As Double, ShowTargetValueLabels As Boolean, ValueLabelHeight As Double, ValueLabelGap As Double) As BulletRowLayout",
+        "Public Function MapX(value As Double, plotLeft As Double, plotWidth As Double) As Double",
+        "Public ReadOnly Property BandBottom As Double",
+        "Public ReadOnly Property BandCentreY As Double",
+        "Public ReadOnly Property BandHeight As Double",
+        "Public ReadOnly Property BandTop As Double",
+        "Public ReadOnly Property Bottom As Double",
+        "Public ReadOnly Property ChartHeight As Double",
+        "Public ReadOnly Property ChartWidth As Double",
+        "Public ReadOnly Property Height As Double",
+        "Public ReadOnly Property Index As Integer",
+        "Public ReadOnly Property Left As Double",
+        "Public ReadOnly Property LeftLabelsVisible As Boolean",
+        "Public ReadOnly Property MainHeight As Double",
+        "Public ReadOnly Property PlotHeight As Double",
+        "Public ReadOnly Property PlotLeft As Double",
+        "Public ReadOnly Property PlotTop As Double",
+        "Public ReadOnly Property PlotWidth As Double",
+        "Public ReadOnly Property RightAligned As Boolean",
+        "Public ReadOnly Property RowBottom As Double",
+        "Public ReadOnly Property RowHeight As Double",
+        "Public ReadOnly Property RowTop As Double",
+        "Public ReadOnly Property ScaleLabelTop As Double",
+        "Public ReadOnly Property SubtitleHeight As Double",
+        "Public ReadOnly Property SubtitleTop As Double",
+        "Public ReadOnly Property TargetValueLabelTop As Double",
+        "Public ReadOnly Property Top As Double",
+        "Public ReadOnly Property Width As Double",
+        "Public ReadOnly Property X As Double",
+        "Public ReadOnly Property X1 As Double",
+        "Public ReadOnly Property X2 As Double",
+        "Public ReadOnly Property Y1 As Double",
+        "Public ReadOnly Property Y2 As Double",
+        "Public Sub New(inputHeight As Double, inputTop As Double)",
+        "Public Sub New(inputHeight As Double, inputTop As Double, inputWidth As Double)",
+        "Public Sub New(inputIndex As Integer)",
+        "Public Sub New(inputLeft As Double)",
+        "Public Sub New(inputLeft As Double, inputWidth As Double)",
+        "Public Sub New(inputLeft As Double, inputWidth As Double, inputRightAligned As Boolean)",
+        "Public Sub New(inputMainHeight As Double, inputSubtitleHeight As Double, inputTop As Double)",
+        "Public Sub New(inputTop As Double)",
+        "Public Sub New(inputWidth As Double)",
+        "Public Sub New(inputX As Double, inputBottom As Double)",
+        "Public Sub New(inputX As Double, inputY1 As Double, inputY2 As Double)",
+        "Public Sub New(inputX1 As Double, inputX2 As Double, inputWidth As Double)",
+        "Public Sub New(valueChartWidth As Double, valueChartHeight As Double, valuePlotLeft As Double, valuePlotTop As Double, valuePlotWidth As Double, valuePlotHeight As Double, valueRowHeight As Double, valueBandHeight As Double, valueLeftLabelsVisible As Boolean)",
+        "Public Sub New(valueRowTop As Double, valueRowBottom As Double, valueBandTop As Double, valueBandBottom As Double, valueBandCentreY As Double, valueScaleLabelTop As Double, valueTargetValueLabelTop As Double)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|FunctionBlock|12d398e92572f3c1@44458:247",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|FunctionBlock|727ffd1f654be2c9@31343:459",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|FunctionBlock|7e745fd7ce44acb0@24662:1086",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|FunctionBlock|9e14c8c0a6009534@23194:1462",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|FunctionBlock|c91d3aab93dd6692@44711:130",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|SubBlock|037d52d56e317cbf@31808:1781",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|SubBlock|1d0c38d5b3ac92ba@43029:1423",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|SubBlock|20c54702bd04c302@38259:3159",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|SubBlock|4ca090f5e5086384@33595:1148",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|SubBlock|513ad5cfab67b1ec@34749:3504",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|SubBlock|63dce448187dbd68@29175:2162",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|SubBlock|997979d53c71c2fd@28294:875",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|SubBlock|a8a547fbdf6fe364@41424:1599"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletDrawingLayout|ConstructorBlock|ddcd27b829679830@11929:633",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|1c50eae7053b476a@2463:181",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|213ea041d7d1bcf0@2646:181",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|2719a867114967b1@922:525",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|27dceb4e20d41a8b@11092:153",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|27df7e37bbfc2251@4975:764",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|47288429ab58d985@164:338",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|58bb1e41ce85488c@4390:579",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|597f49435c6e0202@2829:536",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|69dc8c67f2000a07@3797:587",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|70b5d1651271a685@504:416",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|7b53175f5df66bce@1449:256",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|84a50b1701de6758@8080:3010",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|9273f1fc567f2dca@3371:420",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|9a15767d94f79eae@6304:1610",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|aaf474ef103f6868@5745:553",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|b14e9a4e76839144@2179:282",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|d6836d55c79846b7@1707:470",
+        "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb|BESHStatNG.BulletMeasuredGeometryCore|FunctionBlock|f2ee86d23c4d05e7@11247:165"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/CalibrationSeriesData.vb",
+        "bytes": 2200,
+        "sha256": "321f80c0f270fd694b378ae071b2674d0bc9fbe1ae102d4bcedf4f6e047c226f"
+      },
+      "public_headers": [
+        "Public ReadOnly Property Axis As ChartAxisScaleResult",
+        "Public ReadOnly Property Count As Integer",
+        "Public ReadOnly Property Reference As ChartReferenceSeries",
+        "Public ReadOnly Property SourceOrdinals As Integer()",
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public Sub New(rows As IList(Of CalibrationBinSummary))"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/CalibrationPlot.vb|BESHStatNG.graphics.CalibrationPlot|FunctionBlock|22f2bf8951ef8161@3411:3545"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/CalibrationSeriesData.vb|BESHStatNG.CalibrationSeriesData|ConstructorBlock|e7309e8ca3cbafe1@437:752"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/ChartReferenceSeries.vb",
+        "bytes": 1623,
+        "sha256": "bfaedc5f5a2d5b136a94af1f567c8b15900465cf547e4e72080d353559f125b1"
+      },
+      "public_headers": [
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public Shared Function Affine(minimum As Double, maximum As Double, intercept As Double, slope As Double) As ChartReferenceSeries",
+        "Public Shared Function Horizontal(x0 As Double, x1 As Double, value As Double) As ChartReferenceSeries",
+        "Public Shared Function Identity(minimum As Double, maximum As Double) As ChartReferenceSeries",
+        "Public Shared Function Vertical(value As Double, y0 As Double, y1 As Double) As ChartReferenceSeries"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|FunctionBlock|b60539ef7514782b@3600:1472",
+        "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|42a1ac0faac43b76@322:1705",
+        "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|a1ad2b67f1d9371b@6793:848",
+        "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|d580bcccdcfc70d5@5078:1709",
+        "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|8d8f14f37475870a@655:4619"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/ChartReferenceSeries.vb|BESHStatNG.ChartReferenceSeries|FunctionBlock|d6bfde61d8666865@989:259",
+        "BESHStat.Core/src/Graphics/ChartReferenceSeries.vb|BESHStatNG.ChartReferenceSeries|FunctionBlock|d705fd9fa8d4307f@1436:176",
+        "BESHStat.Core/src/Graphics/ChartReferenceSeries.vb|BESHStatNG.ChartReferenceSeries|FunctionBlock|dab5c792cdce1e45@1253:178",
+        "BESHStat.Core/src/Graphics/ChartReferenceSeries.vb|BESHStatNG.ChartReferenceSeries|FunctionBlock|ea96c5212cb3f506@801:183"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/ComparisonCoordinatesCore.vb",
+        "bytes": 600,
+        "sha256": "a3bc6a95beb995738c670a6ec6eed986fbc14dd7c081a58ce424887fc7261c40"
+      },
+      "public_headers": [
+        "Public Function IncludeZeroBounds(minimum As Double, maximum As Double) As ChartAxisScaleResult",
+        "Public Function OrdinalY(count As Integer) As Double()"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|8d8f14f37475870a@655:4619"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/ComparisonCoordinatesCore.vb|BESHStatNG.ComparisonCoordinatesCore|FunctionBlock|cf67056365b4f7ac@168:207",
+        "BESHStat.Core/src/Graphics/ComparisonCoordinatesCore.vb|BESHStatNG.ComparisonCoordinatesCore|FunctionBlock|f21d41b78f43e084@380:208"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/CumulativeStepSeriesData.vb",
+        "bytes": 2529,
+        "sha256": "6913393d8b4843a19c78b438443e1139a2504265dbc003f2ef0c4400f40725d0"
+      },
+      "public_headers": [
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public Sub New(sourceX As Double(), sourceY As Double(), minimum As Double, maximum As Double)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|SubBlock|250fc01c83d6c0b9@29619:756"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/CumulativeStepSeriesData.vb|BESHStatNG.CumulativeStepSeriesData|ConstructorBlock|c7120ab2966e2b06@253:367"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/LadderLabelGeometryCore.vb",
+        "bytes": 3702,
+        "sha256": "f4a32652953bd08a04f371561142109be446ace454ee12ab3212db1e0e65dd8a"
+      },
+      "public_headers": [
+        "Public Function SpreadLabelPositions(values As Double(), minimum As Double, maximum As Double, requestedSeparation As Double) As Double()"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|0c4eab69267bc612@27486:269"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/LadderLabelGeometryCore.vb|BESHStatNG.LadderLabelGeometryCore|FunctionBlock|ced33b608cef92ce@3191:219",
+        "BESHStat.Core/src/Graphics/LadderLabelGeometryCore.vb|BESHStatNG.LadderLabelGeometryCore|FunctionBlock|eded4d27c32eabce@161:3028",
+        "BESHStat.Core/src/Graphics/LadderLabelGeometryCore.vb|BESHStatNG.LadderLabelGeometryCore|SingleLineFunctionLambdaExpression|c2396206bed850c5@856:21",
+        "BESHStat.Core/src/Graphics/LadderLabelGeometryCore.vb|BESHStatNG.LadderLabelGeometryCore|SingleLineFunctionLambdaExpression|c2396206bed850c5@938:13"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/PolarMeasuredLayoutCore.vb",
+        "bytes": 934,
+        "sha256": "e539e3013e4fe13c48cbb67cc273fc7620c054f280c95b8309bc849c8ccb2cf3"
+      },
+      "public_headers": [
+        "Public Function PolarSquare(width As Double, height As Double, left As Double, top As Double) As PolarSquareLayout34",
+        "Public ReadOnly Property Left As Double",
+        "Public ReadOnly Property Side As Double",
+        "Public ReadOnly Property Top As Double",
+        "Public Sub New(inputLeft As Double, inputTop As Double, inputSide As Double)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/PolarPlot.vb|BESHStatNG.PolarPlotExcel|SubBlock|193770af153147f3@34589:824"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/PolarMeasuredLayoutCore.vb|BESHStatNG.PolarMeasuredLayoutCore|FunctionBlock|09a9c3384769db96@208:350"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb",
+        "bytes": 15195,
+        "sha256": "70dd0de3f24c8de1759053f50941482bb225126b8ad347cf43ff49fd8b93abb4"
+      },
+      "public_headers": [
+        "Public Function ComputeLayout(chartWidth As Double, chartHeight As Double, stageCount As Integer, legendItemCount As Integer, ChartPadding As Double, ChartTitle As String, ChartTitleHeight As Double, ShowStageLabels As Boolean, inputStageLabelHeight As Double, ShowLegend As Boolean, LegendTitle As String, LegendRowHeight As Double, LegendGap As Double, LegendColumnWidth As Double, ShowNodeLabels As Boolean, NodeLabelGap As Double, NodeLabelWidth As Double, NodeWidth As Double) As SankeyDrawingLayout",
+        "Public Function MapX(value As Double, stageLeft As Double, stageRight As Double) As Double",
+        "Public Function MapY(value As Double, plotTop As Double, plotHeight As Double) As Double",
+        "Public Function SankeyLegendItem(itemIndex As Integer, rowsPerColumn As Integer, legendLeft As Double, legendTop As Double, titleOffset As Double, columnWidth As Double, rowHeight As Double, swatchSize As Double) As SankeyLegendItemGeometry",
+        "Public Function SankeyLegendText(itemLeft As Double, swatchSize As Double, columnWidth As Double) As SankeyLegendTextGeometry",
+        "Public Function SankeyNode(nodeX As Double, nodeY As Double, nodeHeightValue As Double, nodeWidth As Double, stageLeft As Double, stageRight As Double, plotTop As Double, plotHeight As Double) As SankeyNodeGeometry",
+        "Public Function SankeyNodeLabel(nodeX As Double, nodeY As Double, nodeHeightValue As Double, nodeStageIndex As Integer, stageX As Double(), nodeWidth As Double, labelGap As Double, labelWidthValue As Double, fontSize As Double, stageLeft As Double, stageRight As Double, plotTop As Double, plotHeight As Double) As SankeyNodeLabelGeometry",
+        "Public Function SankeyRibbon(sourceNodeX As Double, targetNodeX As Double, nodeWidth As Double, sourceTopValue As Double, targetTopValue As Double, thickness As Double, curvature As Double, stageLeft As Double, stageRight As Double, plotTop As Double, plotHeight As Double) As SankeyRibbonGeometry",
+        "Public Function SankeyStageLabel(stageCount As Integer, plotWidth As Double, stageLeft As Double, stageRight As Double, plotTop As Double, plotHeight As Double) As SankeyStageLabelGeometry",
+        "Public Function SankeyStageLabelLeft(centre As Double, width As Double) As SankeyStageLabelLeftGeometry",
+        "Public Function SankeyTitle(chartWidth As Double, padding As Double, legendWidth As Double, legendLeft As Double) As SankeyTitleGeometry",
+        "Public Function StageCentres(stageCount As Integer, stageLeft As Double, stageRight As Double) As Double()",
+        "Public ReadOnly Property C1X As Double",
+        "Public ReadOnly Property C2X As Double",
+        "Public ReadOnly Property ChartHeight As Double",
+        "Public ReadOnly Property ChartWidth As Double",
+        "Public ReadOnly Property FinalLabelReserve As Double",
+        "Public ReadOnly Property Height As Double",
+        "Public ReadOnly Property Left As Double",
+        "Public ReadOnly Property LegendColumns As Integer",
+        "Public ReadOnly Property LegendHeight As Double",
+        "Public ReadOnly Property LegendLeft As Double",
+        "Public ReadOnly Property LegendRowsPerColumn As Integer",
+        "Public ReadOnly Property LegendTop As Double",
+        "Public ReadOnly Property LegendWidth As Double",
+        "Public ReadOnly Property PlotHeight As Double",
+        "Public ReadOnly Property PlotLeft As Double",
+        "Public ReadOnly Property PlotTop As Double",
+        "Public ReadOnly Property PlotWidth As Double",
+        "Public ReadOnly Property SourceBottom As Double",
+        "Public ReadOnly Property SourceTop As Double",
+        "Public ReadOnly Property SourceX As Double",
+        "Public ReadOnly Property StageCentreLeft As Double",
+        "Public ReadOnly Property StageCentreRight As Double",
+        "Public ReadOnly Property SwatchTop As Double",
+        "Public ReadOnly Property TargetBottom As Double",
+        "Public ReadOnly Property TargetTop As Double",
+        "Public ReadOnly Property TargetX As Double",
+        "Public ReadOnly Property Top As Double",
+        "Public ReadOnly Property Width As Double",
+        "Public Sub New(inputLeft As Double)",
+        "Public Sub New(inputLeft As Double, inputTop As Double, inputHeight As Double)",
+        "Public Sub New(inputLeft As Double, inputTop As Double, inputSwatchTop As Double)",
+        "Public Sub New(inputLeft As Double, inputTop As Double, inputWidth As Double, inputHeight As Double)",
+        "Public Sub New(inputLeft As Double, inputWidth As Double)",
+        "Public Sub New(inputSourceX As Double, inputTargetX As Double, inputSourceTop As Double, inputSourceBottom As Double, inputTargetTop As Double, inputTargetBottom As Double, inputC1X As Double, inputC2X As Double)",
+        "Public Sub New(inputWidth As Double)",
+        "Public Sub New(inputWidth As Double, inputTop As Double)",
+        "Public Sub New(valueChartWidth As Double, valueChartHeight As Double, valuePlotLeft As Double, valuePlotTop As Double, valuePlotWidth As Double, valuePlotHeight As Double, valueStageCentreLeft As Double, valueStageCentreRight As Double, valueLegendLeft As Double, valueLegendTop As Double, valueLegendWidth As Double, valueLegendHeight As Double, valueLegendColumns As Integer, valueLegendRowsPerColumn As Integer, valueFinalLabelReserve As Double)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|FunctionBlock|18de1bdfe22893b4@44627:280",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|FunctionBlock|70a00c5d3768f159@44913:263",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|FunctionBlock|7ef2a1c1ebebcbb7@45182:249",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|FunctionBlock|c55677448a8601dc@23629:1773",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|SubBlock|0e7dca77fcc49573@41492:3129",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|SubBlock|4f4933402135317c@40084:1402",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|SubBlock|76d520cf75e4469c@31836:909",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|SubBlock|9ca5beb38e8bfe00@36656:1581",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|SubBlock|c097aa8490998a33@32751:3899",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|SubBlock|c52bc420456cd948@38243:1463"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|209983a37c547961@1162:611",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|23139b61661458ae@9573:517",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|3b9d001a5d5a1c89@9354:217",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|400fca171ba22fc5@1775:324",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|58a21e6c8b0ef3bf@164:325",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|59be0521474b8a19@3602:573",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|6095b3f726b84a6a@9117:235",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|68e5a443c9233f14@491:487",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|75b8a28b23e4806c@980:180",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|8be27dff3bd95dff@5799:3316",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|b45b7afe83d5f110@2105:1491",
+        "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb|BESHStatNG.SankeyMeasuredGeometryCore|FunctionBlock|b9aeedb84121c55c@4181:1611"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/SpcAxisBoundsCore.vb",
+        "bytes": 3204,
+        "sha256": "3e7156d0f8f942850b6646099cb8ab8a2d3a768754f719de339aa5fc7b391445"
+      },
+      "public_headers": [
+        "Public Function FromExtents(minimum As Double, maximum As Double, panelType As SpcPanelType) As ChartAxisScaleResult",
+        "Public Function SpcConstantReference(count As Integer, value As Double) As Double()",
+        "Public Function SpcOptionalExtent(value As Nullable(Of Double), minimum As Double, maximum As Double) As ChartAxisScaleResult",
+        "Public Function SpcPanelTop(top As Double, panelIndex As Integer, panelHeight As Double, panelSpacing As Double) As Double"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartExcel|FunctionBlock|b9684240b7703651@13099:3044",
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartExcel|FunctionBlock|e35d7a4be5fc8aa5@46797:1813",
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartExcel|SubBlock|5d478cdeefef90c7@35333:825",
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartExcel|SubBlock|77c364e04cc6626c@49172:398"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/SpcAxisBoundsCore.vb|BESHStatNG.SpcAxisBoundsCore|FunctionBlock|87c601bffc36a1ac@786:190",
+        "BESHStat.Core/src/Graphics/SpcAxisBoundsCore.vb|BESHStatNG.SpcAxisBoundsCore|FunctionBlock|ac8e247ff64bd011@578:207",
+        "BESHStat.Core/src/Graphics/SpcAxisBoundsCore.vb|BESHStatNG.SpcAxisBoundsCore|FunctionBlock|bc70557514a34612@982:1145",
+        "BESHStat.Core/src/Graphics/SpcAxisBoundsCore.vb|BESHStatNG.SpcAxisBoundsCore|FunctionBlock|d302c3d332891b87@2128:1064",
+        "BESHStat.Core/src/Graphics/SpcAxisBoundsCore.vb|BESHStatNG.SpcAxisBoundsCore|FunctionBlock|f3a02dd34966f72d@200:377"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/SymmetrySeriesData.vb",
+        "bytes": 2760,
+        "sha256": "ab2e3a1ad784ea14fbcc6896d6ba91c2757daf9ec5c7a9b13cc1d6196e05347b"
+      },
+      "public_headers": [
+        "Public ReadOnly Property Axis As ChartAxisScaleResult",
+        "Public ReadOnly Property ReferenceX As Double()",
+        "Public ReadOnly Property ReferenceY As Double()",
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public Shared Function FromSorted(values As Double(), medianValue As Double) As SymmetrySeriesData"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/SymetryPlot.vb|BESHStatNG.graphics.SymetryPlot|SubBlock|089b255deb48adc7@4352:4923"
+      ],
+      "call_targets": [
+        "BESHStat.Core/src/Graphics/SymmetrySeriesData.vb|BESHStatNG.SymmetrySeriesData|FunctionBlock|d82df9b125a780cd@855:1300"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/AgreementSeriesPreparation34.vb",
+        "bytes": 534,
+        "sha256": "a84bb0c51cef350b14109eed6db81fe950edce7173234d9a796586e6867b53ff"
+      },
+      "public_headers": [
+        "Public Function BaseSpan(values As Double()) As ChartAxisScaleResult"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/AgreementPlotExcel.vb|BESHStatNG.AgreementPlotExcelCompatibility|SubBlock|559227fb0c277bf7@2033:1561"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/AgreementSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.AgreementSeries.AgreementSeriesPreparation34|FunctionBlock|57d6cb15b9060e7c@259:248"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/BulletChartPreparation34.vb",
+        "bytes": 2752,
+        "sha256": "c86cd5dea763b6dc8b05951bfdd4fe56253d221227ca4d18d2d20a33be5e2b2f"
+      },
+      "public_headers": [
+        "Public Function BuildAutomaticNumberFormat(stepValue As Double, scaleMaximum As Double, additionalValue As Nullable(Of Double)) As String",
+        "Public Function FormatNumeric(value As Double, format As String) As String",
+        "Public Function RequiredDecimalPlaces(value As Double) As Integer",
+        "Public Function ResolveNumberFormat(item As BulletChartItem, requestedFormat As String, Optional additionalValue As Nullable(Of Double) = Nothing) As String"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|FunctionBlock|76987ba5cb62c208@45842:230",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|FunctionBlock|a490cdbb067f8436@44847:397",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|FunctionBlock|b64225ea5637ef0a@45657:179",
+        "BESHstatNG/src/Graphics/BulletChartExcel.vb|BESHStatNG.BulletChartExcel|FunctionBlock|b9fbc24a77aff5e5@45250:401"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/BulletChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.BulletChartPreparation34|FunctionBlock|52a69f8cc00cd70a@1803:456",
+        "BESHStat.Excel.Common/src/Analysis/BulletChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.BulletChartPreparation34|FunctionBlock|6029799a089a816e@755:1043",
+        "BESHStat.Excel.Common/src/Analysis/BulletChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.BulletChartPreparation34|FunctionBlock|90bee3a37a57b79a@290:460",
+        "BESHStat.Excel.Common/src/Analysis/BulletChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.BulletChartPreparation34|FunctionBlock|ff63436fc65edd60@2264:311"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb",
+        "bytes": 12905,
+        "sha256": "ef86f54810ae40650cd5fcb62e0176ea98f32ab1d3917f55847f9638af415ea7"
+      },
+      "public_headers": [
+        "Public Function AutomaticNumberFormat(majorUnit As Double) As String",
+        "Public Function DistributionShortName(kind As CumulativeDistributionKind) As String",
+        "Public Function FormatPercentileLabel(percentile As CumulativeDistributionPercentile, seriesName As String, appearance As CdfChartSettings34, isMultiSeries As Boolean) As String",
+        "Public Function ResolveAxisContext(results() As CumulativeDistributionPlotResult, appearance As CdfChartSettings34) As AxisContext",
+        "Public Function ResolveChartTitle(results() As CumulativeDistributionPlotResult, appearance As CdfChartSettings34, isOverlay As Boolean) As String",
+        "Public Function ResolveEmpiricalSeriesName(result As CumulativeDistributionPlotResult, appearance As CdfChartSettings34, resultCount As Integer) As String",
+        "Public Function ResolveFittedSeriesName(result As CumulativeDistributionPlotResult, appearance As CdfChartSettings34, resultCount As Integer) As String",
+        "Public Function ResolveGroupLegendName(result As CumulativeDistributionPlotResult) As String",
+        "Public Property XMajorUnit As Double",
+        "Public Property XMaximum As Double",
+        "Public Property XMinimum As Double",
+        "Public Property XNumberFormat As String",
+        "Public Property YAxisTitle As String",
+        "Public Property YMajorUnit As Double",
+        "Public Property YMaximum As Double",
+        "Public Property YMinimum As Double",
+        "Public Property YNumberFormat As String",
+        "Public ReadOnly Property ChartTitle As String",
+        "Public ReadOnly Property IncludeSeriesNameInPercentileLabels As Boolean",
+        "Public ReadOnly Property LegendMode As CumulativeDistributionLegendMode",
+        "Public ReadOnly Property PercentileValueFormat As String",
+        "Public ReadOnly Property XAxisMajorUnit As Nullable(Of Double)",
+        "Public ReadOnly Property XAxisNumberFormat As String",
+        "Public Sub New(Optional inputXAxisMajorUnit As Nullable(Of Double) = Nothing, Optional inputXAxisNumberFormat As String = \"\", Optional inputPercentileValueFormat As String = \"0.###\", Optional inputIncludeSeriesNameInPercentileLabels As Boolean = True, Optional inputChartTitle As String = \"\", Optional inputLegendMode As CumulativeDistributionLegendMode = CumulativeDistributionLegendMode.GroupsOnly)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|1f1eb19a9f0ac4b2@48454:519",
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|234899385db9387b@37215:814",
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|2cd5117af5684501@39041:447",
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|52ebd573a0d5bd3e@38035:411",
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|72136fa06213f650@40146:193",
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|7cfbb7f159d114f8@27613:523",
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|ad8342587db060e8@40345:183",
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|c4d2d6087b8bf636@39935:205",
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|cc18845c787ede93@39494:435",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|6a6a6d7e290f2a19@31568:645",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|c71557c1aa2f030a@30173:637"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartPreparation34.AxisContext|ConstructorBlock|54e8907791438a0a@1839:24",
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartPreparation34|FunctionBlock|30b6cb3e347ef2f6@3374:3170",
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartPreparation34|FunctionBlock|4118e9877389500d@10280:249",
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartPreparation34|FunctionBlock|42ccbd13b60ed61f@10534:1609",
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartPreparation34|FunctionBlock|72cb4c0c51168ef0@6549:1323",
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartPreparation34|FunctionBlock|95914f8347d04d0f@9054:484",
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartPreparation34|FunctionBlock|9cf589cd8295d8d9@12148:445",
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartPreparation34|FunctionBlock|a199734bf0fb9add@7877:1172",
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartPreparation34|FunctionBlock|f80f9a05106a8cd6@9543:732",
+        "BESHStat.Excel.Common/src/Analysis/CdfChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfChartSettings34|ConstructorBlock|086f43fcf5a84164@1057:694"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/CdfSeriesPreparation34.vb",
+        "bytes": 2083,
+        "sha256": "a95214cd4ff22b0164888343f3f95914a1af094d2598088af1fe411d2d8db88a"
+      },
+      "public_headers": [
+        "Public Function PercentileReference(xCorner As Double, yCorner As Double, minimumX As Double, minimumY As Double) As SeriesPayload34",
+        "Public ReadOnly Property Amounts As Double()",
+        "Public ReadOnly Property Labels As String()",
+        "Public ReadOnly Property SourceOrdinals As Integer()",
+        "Public ReadOnly Property Visible As Boolean",
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public Sub New(x As Double(), y As Double(), Optional amounts As Double() = Nothing, Optional labels As String() = Nothing, Optional source As Integer() = Nothing, Optional isVisible As Boolean = True)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|SubBlock|fca1309870d9fd40@23811:2230"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/CdfSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.CdfSeries.CdfSeriesPreparation34|FunctionBlock|69d38259d079b17f@1615:441"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/ComparisonSeriesPreparation34.vb",
+        "bytes": 576,
+        "sha256": "dffbbf5b56b24b7640626b35224def2fc0c88859b546e4916c5a0330f72d31d8"
+      },
+      "public_headers": [
+        "Public Function SuggestedHeight(data As parametric.MultipleComparisonPlotData) As Double"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb|BESHStatNG.graphics.MultipleComparisonPlotExcel|FunctionBlock|9d77f02f05c07a1d@5284:224"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/ComparisonSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.ComparisonSeries.ComparisonSeriesPreparation34|FunctionBlock|e588bfe1ddc42952@269:281"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb",
+        "bytes": 8089,
+        "sha256": "e268ec5372c6bfadf2154f14e733327c8def3011eb31f674815a6668e219cf97"
+      },
+      "public_headers": [
+        "Public Function CeilingToStep(value As Double, stepSize As Double) As Double",
+        "Public Function FloorToStep(value As Double, stepSize As Double) As Double",
+        "Public Function NiceStep125(rawStep As Double) As Double",
+        "Public Function ResolveAxisContext(result As DumbbellPlotResult, appearance As DumbbellChartSettings34) As AxisContext",
+        "Public Function ResolveSeriesName(value As String, fallback As String) As String",
+        "Public Function ResolveXAxisNumberFormat(axisValueKind As DumbbellAxisValueKind, requestedFormat As String) As String",
+        "Public Function SuggestedHeight(result As DumbbellPlotResult) As Double",
+        "Public Property XMajorUnit As Double",
+        "Public Property XMaximum As Double",
+        "Public Property XMinimum As Double",
+        "Public Property XNumberFormat As String",
+        "Public Property YMaximum As Double",
+        "Public Property YMinimum As Double",
+        "Public ReadOnly Property XAxisMajorUnit As Nullable(Of Double)",
+        "Public ReadOnly Property XAxisMaximum As Nullable(Of Double)",
+        "Public ReadOnly Property XAxisMinimum As Nullable(Of Double)",
+        "Public ReadOnly Property XAxisNumberFormat As String",
+        "Public ReadOnly Property XAxisPaddingFraction As Double",
+        "Public Sub New(Optional inputXAxisPaddingFraction As Double = 0.04R, Optional inputXAxisMajorUnit As Nullable(Of Double) = Nothing, Optional inputXAxisMinimum As Nullable(Of Double) = Nothing, Optional inputXAxisMaximum As Nullable(Of Double) = Nothing, Optional inputXAxisNumberFormat As String = \"\")"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|234899385db9387b@37215:814",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|1624885c667b37d2@32594:190",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|209f08e74b0531c4@39204:202",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|21f151680fbe69ab@32424:164",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|6a6a6d7e290f2a19@31568:645",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|76cd62c3166371af@32790:194",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|7adddf2fa746e159@45156:408",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|de9cc6329fae3906@15669:181",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|ee542dc8ac16e9c4@32990:314",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|c71557c1aa2f030a@30173:637"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellChartPreparation34.AxisContext|ConstructorBlock|54e8907791438a0a@1203:24",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellChartPreparation34|FunctionBlock|282829e7608d34f2@2225:3591",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellChartPreparation34|FunctionBlock|604a343ac83684db@5821:639",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellChartPreparation34|FunctionBlock|70a14c62963c37ab@6465:146",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellChartPreparation34|FunctionBlock|9affdc3a15d5f9b3@7324:190",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellChartPreparation34|FunctionBlock|9efd09ee40480e38@6616:150",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellChartPreparation34|FunctionBlock|a20602907b056ba5@7519:258",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellChartPreparation34|FunctionBlock|ab0d1e63c1b8a79d@6771:548",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellChartSettings34|ConstructorBlock|331d592e0a7447d3@591:519"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/DumbbellSeriesPreparation34.vb",
+        "bytes": 4495,
+        "sha256": "43a5e35ae27415194faad4eef2334fd9975a909816258c1d5f63f5a4f7b20f95"
+      },
+      "public_headers": [
+        "Public Function Auxiliary(observations As DumbbellAuxiliaryObservation()) As SeriesPayload34",
+        "Public Function CategoryLabels(categories As DumbbellPlotCategory(), minimum As Double) As SeriesPayload34",
+        "Public Function Connectors(categories As DumbbellPlotCategory()) As SeriesPayload34",
+        "Public Function Endpoints(categories As DumbbellPlotCategory(), useFirstEndpoint As Boolean) As SeriesPayload34",
+        "Public Function NumericEndpoint(value As Double, requestedFormat As String) As String",
+        "Public ReadOnly Property Amounts As Double()",
+        "Public ReadOnly Property Labels As String()",
+        "Public ReadOnly Property SourceOrdinals As Integer()",
+        "Public ReadOnly Property Visible As Boolean",
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public Sub New(x As Double(), y As Double(), Optional amounts As Double() = Nothing, Optional labels As String() = Nothing, Optional source As Integer() = Nothing, Optional isVisible As Boolean = True)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|0c4ab7b88caec01b@17920:1279",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|989e3d85079d2c5c@20228:2244",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|a3d10234f6295328@33310:827",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|fc025294f9e869a8@19205:1017",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|SubBlock|4ef00e0789ea4140@15856:2058"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/DumbbellSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34|FunctionBlock|3bf16b34b967e70b@2947:581",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34|FunctionBlock|8255ed2ddac169fa@1625:765",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34|FunctionBlock|8e9a5be763f0c055@4080:388",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34|FunctionBlock|9bd56a44ef9aa34f@3530:548",
+        "BESHStat.Excel.Common/src/Analysis/DumbbellSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.DumbbellSeries.DumbbellSeriesPreparation34|FunctionBlock|ba0db5385e4197f2@2392:553"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/HullChartPreparation34.vb",
+        "bytes": 1141,
+        "sha256": "d92913afd091f0ba117a87136eb843e7d097dde743c6bb4be11e567f9808ef15"
+      },
+      "public_headers": [
+        "Public Function ResolveSeriesName(group As ConvexHullPlotGroup, groupIndex As Integer, hasGrouping As Boolean, appearance As HullChartSettings34) As String",
+        "Public ReadOnly Property SeriesName As String",
+        "Public Sub New(Optional inputSeriesName As String = \"Data\")"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/ConvexHullPlot.vb|BESHStatNG.ConvexHullPlotExcel|FunctionBlock|00df16ac7b01200a@25227:281",
+        "BESHstatNG/src/Graphics/ConvexHullPlot.vb|BESHStatNG.ConvexHullPlotExcel|FunctionBlock|5d5adaef8dbdb6a7@20972:467"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/HullChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.HullChartPreparation34|FunctionBlock|1c28322338f53ce0@492:623",
+        "BESHStat.Excel.Common/src/Analysis/HullChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.HullChartSettings34|ConstructorBlock|da97150a16a095a0@339:99"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb",
+        "bytes": 12212,
+        "sha256": "d2f62606082514fcaf9721e87ea411b9bcf3a2276a2fe98d44ee720a3ba92e6c"
+      },
+      "public_headers": [
+        "Public Function BuildEndpointLabel(observation As LadderPlotObservation, useFirstSide As Boolean, appearance As LadderChartSettings34) As String",
+        "Public Function CeilingToStep(value As Double, stepSize As Double) As Double",
+        "Public Function FloorToStep(value As Double, stepSize As Double) As Double",
+        "Public Function FormatEndpointValue(value As Double, requestedFormat As String) As String",
+        "Public Function NiceStep125(rawStep As Double) As Double",
+        "Public Function ResolveAxisContext(result As LadderPlotResult, appearance As LadderChartSettings34) As AxisContext",
+        "Public Function ResolveObservationSeriesName(observation As LadderPlotObservation, appearance As LadderChartSettings34) As String",
+        "Public Function ResolveYAxisNumberFormat(requestedFormat As String) As String",
+        "Public Function SuggestedHeight(result As LadderPlotResult, Optional appearance As LadderChartSettings34 = Nothing) As Double",
+        "Public Function SuggestedWidth(result As LadderPlotResult, Optional appearance As LadderChartSettings34 = Nothing) As Double",
+        "Public Property XMaximum As Double",
+        "Public Property XMinimum As Double",
+        "Public Property YMajorUnit As Double",
+        "Public Property YMaximum As Double",
+        "Public Property YMinimum As Double",
+        "Public Property YNumberFormat As String",
+        "Public ReadOnly Property ColorMode As LadderColorMode",
+        "Public ReadOnly Property EndpointLabelContent As LadderEndpointLabelContent",
+        "Public ReadOnly Property EndpointLabelSeparator As String",
+        "Public ReadOnly Property EndpointValueDisplayFormat As String",
+        "Public ReadOnly Property SeriesName As String",
+        "Public ReadOnly Property ShowFirstEndpointLabels As Boolean",
+        "Public ReadOnly Property ShowSecondEndpointLabels As Boolean",
+        "Public ReadOnly Property YAxisIncludeZero As Boolean",
+        "Public ReadOnly Property YAxisMajorUnit As Nullable(Of Double)",
+        "Public ReadOnly Property YAxisMaximum As Nullable(Of Double)",
+        "Public ReadOnly Property YAxisMinimum As Nullable(Of Double)",
+        "Public ReadOnly Property YAxisNumberFormat As String",
+        "Public ReadOnly Property YAxisPaddingFraction As Double",
+        "Public Sub New(Optional inputYAxisPaddingFraction As Double = 0.04R, Optional inputYAxisMajorUnit As Nullable(Of Double) = Nothing, Optional inputYAxisMinimum As Nullable(Of Double) = Nothing, Optional inputYAxisIncludeZero As Boolean = False, Optional inputYAxisMaximum As Nullable(Of Double) = Nothing, Optional inputYAxisNumberFormat As String = \"\", Optional inputEndpointValueDisplayFormat As String = \"\", Optional inputEndpointLabelContent As LadderEndpointLabelContent = LadderEndpointLabelContent.RecordLabelAndValue, Optional inputEndpointLabelSeparator As String = \", \", Optional inputColorMode As LadderColorMode = LadderColorMode.SingleColor, Optional inputSeriesName As String = \"Data\", Optional inputShowFirstEndpointLabels As Boolean = False, Optional inputShowSecondEndpointLabels As Boolean = False)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|FunctionBlock|234899385db9387b@37215:814",
+        "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb|BESHStatNG.DumbbellPlotExcel|FunctionBlock|6a6a6d7e290f2a19@31568:645",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|0974cfdaeab37428@17205:313",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|1624885c667b37d2@36482:188",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|21f151680fbe69ab@36314:162",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|76cd62c3166371af@36676:192",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|9bd622a7ba15af72@30816:204",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|b37ed8d2cf1e9509@44705:765",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|c71557c1aa2f030a@30173:637",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|dba8100f80604aaf@29134:350",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|e72cb1adc1826be1@27761:406",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|f2fc12448b8d85da@16763:310",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|fb1c6c072a6f7260@28173:218"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34.AxisContext|ConstructorBlock|54e8907791438a0a@3117:24",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|32e5aecdf8a03e6c@7205:206",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|5f6dde4bec18b0e0@10910:401",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|604a343ac83684db@7416:639",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|644e72e93c394f18@11316:584",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|6d80bd744dc423db@9962:943",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|70a14c62963c37ab@8060:146",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|830a029d0595ad48@8366:1026",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|9efd09ee40480e38@8211:150",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|fbc09a6dcaa6476e@9397:560",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartPreparation34|FunctionBlock|fee87e8c3752efba@4139:3061",
+        "BESHStat.Excel.Common/src/Analysis/LadderChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderChartSettings34|ConstructorBlock|e72d9250a2dffcfd@1502:1429"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/LadderSeriesPreparation34.vb",
+        "bytes": 5044,
+        "sha256": "6f2e49e51dd6558c81c4045f984c7a1aae5032d6c08910de994279f70b786fbe"
+      },
+      "public_headers": [
+        "Public Function EndpointAnchors(observations As LadderPlotObservation(), useFirstSide As Boolean, minimum As Double, maximum As Double, gap As Double) As SeriesPayload34",
+        "Public Function EndpointValues(observations As LadderPlotObservation(), useFirstSide As Boolean) As SeriesPayload34",
+        "Public Function MinimumSeparation(plotHeight As Double, requestedChartHeight As Double, minimum As Double, maximum As Double, minimumPoints As Double, fontSize As Double) As Double",
+        "Public Function ObservationCoordinates(observation As LadderPlotObservation) As SeriesPayload34",
+        "Public Function SideLabels(minimum As Double, firstLabel As String, secondLabel As String) As SeriesPayload34",
+        "Public ReadOnly Property Amounts As Double()",
+        "Public ReadOnly Property Labels As String()",
+        "Public ReadOnly Property SourceOrdinals As Integer()",
+        "Public ReadOnly Property Visible As Boolean",
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public Sub New(x As Double(), y As Double(), Optional amounts As Double() = Nothing, Optional labels As String() = Nothing, Optional source As Integer() = Nothing, Optional isVisible As Boolean = True)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|12d3ae180292ed59@17524:1092",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|d1457fa2ac6b47d5@26436:760",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|SubBlock|341b36a6e3adbf30@20439:2011",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|SubBlock|c0e4ffec3b362183@22456:3759"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/LadderSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34|FunctionBlock|077a4695176733c8@3758:472",
+        "BESHStat.Excel.Common/src/Analysis/LadderSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34|FunctionBlock|4e063f8f05d08c81@1621:402",
+        "BESHStat.Excel.Common/src/Analysis/LadderSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34|FunctionBlock|67333bccaaa0a98d@2512:1244",
+        "BESHStat.Excel.Common/src/Analysis/LadderSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34|FunctionBlock|8a8298951d4acbb6@4232:621",
+        "BESHStat.Excel.Common/src/Analysis/LadderSeriesPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34|FunctionBlock|8ec50f1f7e5c6e5f@2025:485"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/PolarChartPreparation34.vb",
+        "bytes": 1205,
+        "sha256": "f792c8cd696c1c10c0feb958d9daeb6067bcbd12704b451c00efc5847ee349dc"
+      },
+      "public_headers": [
+        "Public Function ResolveSeriesName(group As PolarPlotGroupSeries, groupIndex As Integer, result As PolarPlotResult, appearance As PolarChartSettings34) As String",
+        "Public ReadOnly Property SeriesName As String",
+        "Public Sub New(Optional inputSeriesName As String = \"Data\")"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/PolarPlot.vb|BESHStatNG.PolarPlotExcel|FunctionBlock|50f14223761f799c@36656:279",
+        "BESHstatNG/src/Graphics/PolarPlot.vb|BESHStatNG.PolarPlotExcel|FunctionBlock|cc6b41171e23f09c@28301:463"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/PolarChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.PolarChartPreparation34|FunctionBlock|0913f991b78e2d25@494:685",
+        "BESHStat.Excel.Common/src/Analysis/PolarChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.PolarChartSettings34|ConstructorBlock|da97150a16a095a0@340:99"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/PsmLoveSeriesPolicy.vb",
+        "bytes": 641,
+        "sha256": "8d65281da43112ca521a01c6e45e71d8156df464bc5d4cddda29b22663774f43"
+      },
+      "public_headers": [
+        "Public Function HasAnyFinite(values As IEnumerable(Of Double)) As Boolean",
+        "Public Function ThresholdReference(threshold As Double, count As Integer) As ChartReferenceSeries"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|FunctionBlock|6538e9c0bc19aa30@7984:154",
+        "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|5411e44db47c7b9c@6502:733"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/PsmLoveSeriesPolicy.vb|BESHStatNG.ExcelCommon.PsmLoveSeriesPolicy|FunctionBlock|5221317bcb28c55c@179:241",
+        "BESHStat.Excel.Common/src/Analysis/PsmLoveSeriesPolicy.vb|BESHStatNG.ExcelCommon.PsmLoveSeriesPolicy|FunctionBlock|d9bb39abe0324097@425:190",
+        "BESHStat.Excel.Common/src/Analysis/PsmLoveSeriesPolicy.vb|BESHStatNG.ExcelCommon.PsmLoveSeriesPolicy|SingleLineFunctionLambdaExpression|53143a2ee7cb7aa2@334:64"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/SankeyChartPreparation34.vb",
+        "bytes": 3212,
+        "sha256": "c76bf148edb238b096d16cc42e9dcb20ff9fa3c54e460a3eb6413f22fcc06fc6"
+      },
+      "public_headers": [
+        "Public Function FormatNodeLabel(node As SankeyNode, result As SankeyPlotResult, appearance As SankeyChartSettings34) As String",
+        "Public ReadOnly Property NodeLabelMode As SankeyNodeLabelMode",
+        "Public ReadOnly Property PercentageBasis As SankeyPercentageBasis",
+        "Public ReadOnly Property PercentageNumberFormat As String",
+        "Public ReadOnly Property ValueNumberFormat As String",
+        "Public Sub New(Optional inputValueNumberFormat As String = \"0.###\", Optional inputPercentageBasis As SankeyPercentageBasis = SankeyPercentageBasis.ReferenceTotal, Optional inputPercentageNumberFormat As String = \"0%\", Optional inputNodeLabelMode As SankeyNodeLabelMode = SankeyNodeLabelMode.NameOnly)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|FunctionBlock|368ee12a57425fda@39712:366",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|FunctionBlock|fb1eb81bccb9e5e4@52572:489"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/SankeyChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.SankeyChartPreparation34|FunctionBlock|309751f351aac079@1583:1603",
+        "BESHStat.Excel.Common/src/Analysis/SankeyChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.SankeyChartSettings34|ConstructorBlock|49ea9e4ae5195f6a@1037:490"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/SpcChartPreparation34.vb",
+        "bytes": 2218,
+        "sha256": "b9f5075c5fec799df63ae416901ff0f9010c09e799eb568a7edffc2c95676176"
+      },
+      "public_headers": [
+        "Public Function NormalizeNumberFormat(value As String) As String",
+        "Public Function NormalizeText(value As String) As String",
+        "Public Function PanelSupportsSpecificationLimits( panelType As SpcPanelType) As Boolean",
+        "Public Function ResolveChartTitle( result As SpcFitResult, panel As SpcPanelResult, options As SpcChartSettings34, panelCount As Integer) As String",
+        "Public Function ResolveValueAxisTitle( result As SpcFitResult, panel As SpcPanelResult) As String",
+        "Public ReadOnly Property ChartTitle As String",
+        "Public Sub New(Optional inputChartTitle As String = \"\")"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartAppearanceOptions|FunctionBlock|7c73aadd4723a6d4@9280:159",
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartAppearanceOptions|FunctionBlock|91085b180b543916@9449:175",
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartExcel|FunctionBlock|598605e42695bf29@50195:240",
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartExcel|FunctionBlock|89dcae42812e7397@49817:368",
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartExcel|FunctionBlock|a12447e8ce88732e@49580:225",
+        "BESHstatNG/src/Graphics/SpcControlChartExcel.vb|BESHStatNG.graphics.SpcControlChartExcel|FunctionBlock|d3802b298d12438e@57148:286"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/SpcChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.SpcChartPreparation34|FunctionBlock|07bdbda2eac24bff@1332:357",
+        "BESHStat.Excel.Common/src/Analysis/SpcChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.SpcChartPreparation34|FunctionBlock|0aa5bf968b6eb51f@626:233",
+        "BESHStat.Excel.Common/src/Analysis/SpcChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.SpcChartPreparation34|FunctionBlock|46a5932a967cc09e@490:127",
+        "BESHStat.Excel.Common/src/Analysis/SpcChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.SpcChartPreparation34|FunctionBlock|7d3503dc37ba011c@868:455",
+        "BESHStat.Excel.Common/src/Analysis/SpcChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.SpcChartPreparation34|FunctionBlock|eeb0d45529bd18ba@1698:494",
+        "BESHStat.Excel.Common/src/Analysis/SpcChartPreparation34.vb|BESHStatNG.ExcelCommon.Chart34.SpcChartSettings34|ConstructorBlock|0c7ab57dacbfb8d9@338:95"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/SpecialtyLegendPolicy34.vb",
+        "bytes": 2293,
+        "sha256": "0f36ac9c00c91aa249dc2b67617da23813f3a2609e60ba9929730d80995c0da5"
+      },
+      "public_headers": [
+        "Public Function CdfLegendChoice(showLegend As Boolean, allCurves As Boolean, hasEmpirical As Boolean, hasFitted As Boolean) As CdfLegendChoice34",
+        "Public Function LadderLegendChoice(showLegend As Boolean, mode As Integer, observationIndex As Integer) As LadderLegendChoice34",
+        "Public Function SankeyLegendOrder(firstIndices As Integer()) As Integer()",
+        "Public Function SankeyNodeOrder(nodes As SankeyNode()) As SankeyNode()",
+        "Public ReadOnly Property Keep As Boolean",
+        "Public ReadOnly Property KeepEmpirical As Boolean",
+        "Public ReadOnly Property KeepFitted As Boolean",
+        "Public ReadOnly Property RecordGroup As Boolean",
+        "Public ReadOnly Property RenameRepresentative As Boolean",
+        "Public Sub New(inputKeep As Boolean, inputRecordGroup As Boolean)",
+        "Public Sub New(inputKeepEmpirical As Boolean, inputKeepFitted As Boolean, inputRenameRepresentative As Boolean)"
+      ],
+      "windows_consumption": [
+        "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb|BESHStatNG.CumulativeDistributionPlotExcel|SubBlock|a5493796d267133b@28142:1471",
+        "BESHstatNG/src/Graphics/LadderPlotExcel.vb|BESHStatNG.LadderPlotExcel|FunctionBlock|98e024e24b20088b@29490:677",
+        "BESHstatNG/src/Graphics/SankeyPlotExcel.vb|BESHStatNG.SankeyPlotExcel|FunctionBlock|cbcc92fd489e96e1@26283:2195"
+      ],
+      "call_targets": [
+        "BESHStat.Excel.Common/src/Analysis/SpecialtyLegendPolicy34.vb|BESHStatNG.ExcelCommon.Chart34.SpecialtyLegendPolicy34|FunctionBlock|0b149709abdd0566@389:180",
+        "BESHStat.Excel.Common/src/Analysis/SpecialtyLegendPolicy34.vb|BESHStatNG.ExcelCommon.Chart34.SpecialtyLegendPolicy34|FunctionBlock|1df88899e7861188@1055:408",
+        "BESHStat.Excel.Common/src/Analysis/SpecialtyLegendPolicy34.vb|BESHStatNG.ExcelCommon.Chart34.SpecialtyLegendPolicy34|FunctionBlock|e22830dbcccd98c2@570:484",
+        "BESHStat.Excel.Common/src/Analysis/SpecialtyLegendPolicy34.vb|BESHStatNG.ExcelCommon.Chart34.SpecialtyLegendPolicy34|FunctionBlock|f7891947f1c89ec8@238:150",
+        "BESHStat.Excel.Common/src/Analysis/SpecialtyLegendPolicy34.vb|BESHStatNG.ExcelCommon.Chart34.SpecialtyLegendPolicy34|SingleLineFunctionLambdaExpression|4c891a8403daa8e1@330:34",
+        "BESHStat.Excel.Common/src/Analysis/SpecialtyLegendPolicy34.vb|BESHStatNG.ExcelCommon.Chart34.SpecialtyLegendPolicy34|SingleLineFunctionLambdaExpression|c2396206bed850c5@518:27"
+      ],
+      "authority": "PRE_EDIT_LEGACY and accepted engines; same-Core identity vectors labelled separately; HAND_DERIVED_INVARIANT where analytical; NOT_GOLDEN",
+      "shape": "Readonly scalar/axis/label/legend intent or defensive-copy vectors; input/source ordinals are zero-based and independent of one-based Excel Points. No physical worksheet row invented.",
+      "native": "SOURCE_ONLY for mixed COM/shape path; actual pure Windows preparation invoked in Framework tests; native measurements/format/lifetime remain host"
+    }
+  ],
+  "shape_and_identity": {
+    "calibration": "n admitted bins in original enumeration order; zero-based SourceOrdinals. NaN pairs skipped, infinities retained; identity two points, axes[0,1],unit.2.",
+    "symmetry": "floor(n/2) upper-tail X/lower-tail Y, descending paired sorted slots; two-point historical reference; Core axis engine reused. Windows still sorts original aliased input at the original time. No worksheet row is invented.",
+    "ecdf": "Input length plus zero/one/two constant-Y extension endpoints. Invalid/null/mismatched source retains original array values; public payload snapshots. Private Windows no-extension/invalid aliases preserved.",
+    "ladder": "Stable source/input ordinal and tie order, endpoint/side/label vectors and text; explicit acquired plot height/separation; original spreading/clamping reused. HashSet group legend state and physical acquisition stay Windows.",
+    "bullet": "Explicit-size scale/band/bar/target rectangles, labels, tick geometry and palette-index/format intent; original clip/admission/defaults; RGB/font/shape ownership remains Windows.",
+    "sankey": "Existing flow solver unchanged. Explicit-size ordered node/ribbon cubic anchors, stage/legend/label geometry; existing basis/culture formatting; native text measurement, RGB/freeform/resize/cleanup remain Windows.",
+    "references": "Exactly two ordered endpoints; affine uses intercept+slope*x without refitting; identity/horizontal/vertical copy-safe arrays.",
+    "spc": "Post-extents empty[0,1], constant10%/other7% padding and existing natural-zero/proportion clamp; accepted ten-channel/mask/stage projection unchanged. Detailed series and annotations reserved36.",
+    "love": "Existing accepted projection retains order/absolute-SMD/masks/threshold/maxX; new finite-series predicate and two-point threshold only. No guard correction.",
+    "timing": "Integer milliseconds to centiseconds using original max(1, CInt(Math.Round(max(0,ms)/10))). Encoding/file/GDI+ stays Windows.",
+    "dumbbell": "Accepted paired categories/auxiliary SourceIndex vectors; connectors preserve orientation and empty admission, axis125/tick rules and numeric labels; native date interpretation/pixel offset/styles unchanged.",
+    "cdf": "Accepted empirical/fitted/percentile vectors and defaults; portable axes/formats/legend branch intent and three-point L references. Invalid/no-extension alias behavior preserved in the Windows private wrapper."
+  },
+  "scientific": "NOT_GOLDEN",
+  "physical_worksheet_rows": "NOT_AVAILABLE for values-only arrays",
+  "public_windows_api": "Merged-main public headers preserved; only explicitly mapped private duplicate/relocated helpers removed; see source-ownership.json",
+  "exclusions": [
+    "No new Office/WASM UI",
+    "No new statistics/refits/matching/flow solver",
+    "No 04A35/36/37 specialized implementation",
+    "No 04A33 XYZ/wire change"
+  ]
+}

@@ -1,0 +1,300 @@
+{
+  "scientific": "NOT_GOLDEN",
+  "bit_policy": "Exact IEEE finite/infinite/signed-zero values; algorithmic NaN compared by classification in managed tests; frozen CSV also retains raw NaN bits.",
+  "captures": [
+    {
+      "path": "evidence/04A34/pre-edit-compatibility-capture.csv",
+      "bytes": 145473,
+      "sha256": "d9325b18ee6499fc8b0b8d3b562304d793e1be1c08cf84f62f946a8951be2a9b",
+      "rows": 544
+    },
+    {
+      "path": "evidence/04A34/pre-edit-layout-capture.csv",
+      "bytes": 130757,
+      "sha256": "5b583ada443a90348e16ee814079b355f402e0c89963fabf674f6e23b104a94d",
+      "rows": 512
+    },
+    {
+      "path": "evidence/04A34/pre-edit-reference-capture.csv",
+      "bytes": 228431,
+      "sha256": "5e9f675aa9aab0e6ba9c8cf0ffb137d706d76a463cead0c3593ba4a0a7e34e3a",
+      "rows": 1752
+    }
+  ],
+  "actual_adapter_capture_equal": true,
+  "post_capture": {
+    "path": "evidence/04A34/post-edit-compatibility-capture.csv",
+    "bytes": 145473,
+    "sha256": "d9325b18ee6499fc8b0b8d3b562304d793e1be1c08cf84f62f946a8951be2a9b"
+  },
+  "authorities": [
+    "PRE_EDIT_LEGACY",
+    "ACCEPTED_CORE",
+    "HAND_DERIVED_INVARIANT",
+    "SAME_CORE_WIRING",
+    "SOURCE_ONLY"
+  ],
+  "limitations": [
+    "Host-free calculations and real Windows pure adapters only; no native chart/shape execution or fake chart proof.",
+    "Accepted Core factories provide typed fixture inputs/source identities; they do not supply an independent scientific oracle. Source slices are compiled separately and do not call new methods.",
+    "Native error/measurement/lifetime source fingerprints and option policies supplement numerical parity; native visual equivalence remains NOT_RUN.",
+    "Original invalid/no-extension ECDF aliases and symmetry input sorting remain explicit host exceptions to copy-safe payloads."
+  ],
+  "supplemental": {
+    "status": "PASS",
+    "comparisons": [
+      {
+        "configuration": "Debug",
+        "family_capture": "geometry",
+        "pre_edit": "evidence/04A34/completion/pre-edit-geometry.csv",
+        "pre_sha256": "4683e51b9be75da7d8e455424117d62cce9b29371dc95b01d2a96a27bc0a3dd2",
+        "post_sha256": "4683e51b9be75da7d8e455424117d62cce9b29371dc95b01d2a96a27bc0a3dd2",
+        "bytes": 255393,
+        "rows": 912,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Debug"
+      },
+      {
+        "configuration": "Debug",
+        "family_capture": "extra-geometry",
+        "pre_edit": "evidence/04A34/completion/pre-edit-extra-geometry.csv",
+        "pre_sha256": "04fcdc574a6c8f0c126d3f91d7fe177477bf6522cbc19f01e7f55092802d12e1",
+        "post_sha256": "04fcdc574a6c8f0c126d3f91d7fe177477bf6522cbc19f01e7f55092802d12e1",
+        "bytes": 131319,
+        "rows": 860,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Debug"
+      },
+      {
+        "configuration": "Debug",
+        "family_capture": "preparation",
+        "pre_edit": "evidence/04A34/completion/pre-edit-preparation.csv",
+        "pre_sha256": "e04f504fc41328aa071944847a7354b3e70d3a65bb18e67c511e160b18836f92",
+        "post_sha256": "e04f504fc41328aa071944847a7354b3e70d3a65bb18e67c511e160b18836f92",
+        "bytes": 857191,
+        "rows": 11840,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Debug"
+      },
+      {
+        "configuration": "Debug",
+        "family_capture": "series",
+        "pre_edit": "evidence/04A34/completion/pre-edit-series.csv",
+        "pre_sha256": "cb6887cf626a27bdfbed80607fab5ce5eeab1c879106d7f20f6559f1764b3dab",
+        "post_sha256": "cb6887cf626a27bdfbed80607fab5ce5eeab1c879106d7f20f6559f1764b3dab",
+        "bytes": 639711,
+        "rows": 4160,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Debug"
+      },
+      {
+        "configuration": "Debug",
+        "family_capture": "policies",
+        "pre_edit": "evidence/04A34/completion/pre-edit-policies.csv",
+        "pre_sha256": "77e6965a5493068f6020496c6ffc084ede36a340858be821c25fe2e0d1b213df",
+        "post_sha256": "77e6965a5493068f6020496c6ffc084ede36a340858be821c25fe2e0d1b213df",
+        "bytes": 146878,
+        "rows": 800,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Debug"
+      },
+      {
+        "configuration": "Debug",
+        "family_capture": "spc-basis",
+        "pre_edit": "evidence/04A34/completion/pre-edit-spc-basis.csv",
+        "pre_sha256": "1e8cb5f579db2ba5b6edbe62dd504d46ff679a7561f82f81d6c4fe277ff29887",
+        "post_sha256": "1e8cb5f579db2ba5b6edbe62dd504d46ff679a7561f82f81d6c4fe277ff29887",
+        "bytes": 7720,
+        "rows": 120,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Debug"
+      },
+      {
+        "configuration": "Debug",
+        "family_capture": "compatibility",
+        "pre_edit": "evidence/04A34/pre-edit-compatibility-capture.csv",
+        "pre_sha256": "d9325b18ee6499fc8b0b8d3b562304d793e1be1c08cf84f62f946a8951be2a9b",
+        "post_sha256": "d9325b18ee6499fc8b0b8d3b562304d793e1be1c08cf84f62f946a8951be2a9b",
+        "bytes": 145473,
+        "rows": 544,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Debug"
+      },
+      {
+        "configuration": "Release",
+        "family_capture": "geometry",
+        "pre_edit": "evidence/04A34/completion/pre-edit-geometry.csv",
+        "pre_sha256": "4683e51b9be75da7d8e455424117d62cce9b29371dc95b01d2a96a27bc0a3dd2",
+        "post_sha256": "4683e51b9be75da7d8e455424117d62cce9b29371dc95b01d2a96a27bc0a3dd2",
+        "bytes": 255393,
+        "rows": 912,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Release"
+      },
+      {
+        "configuration": "Release",
+        "family_capture": "extra-geometry",
+        "pre_edit": "evidence/04A34/completion/pre-edit-extra-geometry.csv",
+        "pre_sha256": "04fcdc574a6c8f0c126d3f91d7fe177477bf6522cbc19f01e7f55092802d12e1",
+        "post_sha256": "04fcdc574a6c8f0c126d3f91d7fe177477bf6522cbc19f01e7f55092802d12e1",
+        "bytes": 131319,
+        "rows": 860,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Release"
+      },
+      {
+        "configuration": "Release",
+        "family_capture": "preparation",
+        "pre_edit": "evidence/04A34/completion/pre-edit-preparation.csv",
+        "pre_sha256": "e04f504fc41328aa071944847a7354b3e70d3a65bb18e67c511e160b18836f92",
+        "post_sha256": "e04f504fc41328aa071944847a7354b3e70d3a65bb18e67c511e160b18836f92",
+        "bytes": 857191,
+        "rows": 11840,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Release"
+      },
+      {
+        "configuration": "Release",
+        "family_capture": "series",
+        "pre_edit": "evidence/04A34/completion/pre-edit-series.csv",
+        "pre_sha256": "cb6887cf626a27bdfbed80607fab5ce5eeab1c879106d7f20f6559f1764b3dab",
+        "post_sha256": "cb6887cf626a27bdfbed80607fab5ce5eeab1c879106d7f20f6559f1764b3dab",
+        "bytes": 639711,
+        "rows": 4160,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Release"
+      },
+      {
+        "configuration": "Release",
+        "family_capture": "policies",
+        "pre_edit": "evidence/04A34/completion/pre-edit-policies.csv",
+        "pre_sha256": "77e6965a5493068f6020496c6ffc084ede36a340858be821c25fe2e0d1b213df",
+        "post_sha256": "77e6965a5493068f6020496c6ffc084ede36a340858be821c25fe2e0d1b213df",
+        "bytes": 146878,
+        "rows": 800,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Release"
+      },
+      {
+        "configuration": "Release",
+        "family_capture": "spc-basis",
+        "pre_edit": "evidence/04A34/completion/pre-edit-spc-basis.csv",
+        "pre_sha256": "1e8cb5f579db2ba5b6edbe62dd504d46ff679a7561f82f81d6c4fe277ff29887",
+        "post_sha256": "1e8cb5f579db2ba5b6edbe62dd504d46ff679a7561f82f81d6c4fe277ff29887",
+        "bytes": 7720,
+        "rows": 120,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Release"
+      },
+      {
+        "configuration": "Release",
+        "family_capture": "compatibility",
+        "pre_edit": "evidence/04A34/pre-edit-compatibility-capture.csv",
+        "pre_sha256": "d9325b18ee6499fc8b0b8d3b562304d793e1be1c08cf84f62f946a8951be2a9b",
+        "post_sha256": "d9325b18ee6499fc8b0b8d3b562304d793e1be1c08cf84f62f946a8951be2a9b",
+        "bytes": 145473,
+        "rows": 544,
+        "byte_equal": true,
+        "authority": "PRE_EDIT_LEGACY",
+        "scientific": "NOT_GOLDEN",
+        "post_payload": "Exact duplicate remains ignored; reference bytes are authoritative. Reproduce with capture-final/capture-final-spc against review3 build.",
+        "final_build": "review3/Release"
+      }
+    ],
+    "bit_policy": "Exact CSV bytes and IEEE finite/infinite/signed-zero/raw-NaN bits. Managed tests additionally compare algorithmic NaN by classification. Geometry snapshot projects original properties; added derived SubtitleTop is tested independently."
+  },
+  "frozen_original_corpus": {
+    "status": "PASS",
+    "files": [
+      {
+        "path": "evidence/04A34/pre-edit-compatibility-capture.csv",
+        "bytes": 145473,
+        "sha256": "d9325b18ee6499fc8b0b8d3b562304d793e1be1c08cf84f62f946a8951be2a9b"
+      },
+      {
+        "path": "evidence/04A34/pre-edit-fixture-specification.json",
+        "bytes": 18780,
+        "sha256": "a14d8b1e3ad6924f0421b41617fc601372b6f9f1ea0fda905925b6183747f173"
+      },
+      {
+        "path": "evidence/04A34/pre-edit-layout-capture.csv",
+        "bytes": 130757,
+        "sha256": "5b583ada443a90348e16ee814079b355f402e0c89963fabf674f6e23b104a94d"
+      },
+      {
+        "path": "evidence/04A34/pre-edit-layout-specification.json",
+        "bytes": 8735,
+        "sha256": "c2417feba5a6225345bdcef8a5160abe6a227cf5f52f20a95da7d98fedc0b81d"
+      },
+      {
+        "path": "evidence/04A34/pre-edit-reference-capture.csv",
+        "bytes": 228431,
+        "sha256": "5e9f675aa9aab0e6ba9c8cf0ffb137d706d76a463cead0c3593ba4a0a7e34e3a"
+      },
+      {
+        "path": "evidence/04A34/pre-edit-reference-source.json",
+        "bytes": 87049,
+        "sha256": "8cf44d04081b004df2f284131d155ab9dd35e1061a33ad52518d106104844ef9"
+      },
+      {
+        "path": "evidence/04A34/pre-edit-reference-specification.json",
+        "bytes": 473,
+        "sha256": "88d8b7d5810b53892c86960dc8d8cac6615e76cb4fe30e94d22bb36f94bbbe41"
+      },
+      {
+        "path": "evidence/04A34/post-edit-compatibility-capture.csv",
+        "bytes": 145473,
+        "sha256": "d9325b18ee6499fc8b0b8d3b562304d793e1be1c08cf84f62f946a8951be2a9b"
+      }
+    ],
+    "root_corpora_unchanged": true,
+    "qualification": "Exact bytes and digests from continuation entry; original numerical body/source hashes retained. Supplemental continuation goldens were executed before corresponding new methods were installed."
+  },
+  "source_slices": [
+    "completion/geometry-spec.json",
+    "completion/extra-geometry-spec.json",
+    "completion/preparation-spec.json",
+    "completion/series-spec.json",
+    "completion/policy-spec.json",
+    "completion/spc-basis-spec.json"
+  ]
+}

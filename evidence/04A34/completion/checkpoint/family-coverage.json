@@ -1,0 +1,396 @@
+{
+  "schema": "04A34-family-coverage-v1",
+  "status": "NOT_READY_04A34",
+  "families": [
+    {
+      "family": "3D wire objects",
+      "historical_candidates": 34,
+      "current_distinct_candidate_members": 34,
+      "historical_dispositions": {
+        "HOST_ONLY": 30,
+        "ALREADY_PORTABLE_REUSED": 4
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 30,
+        "ALREADY_PORTABLE_REUSED": 4
+      },
+      "target_type": "WireObjectGeometryCore;XyzProjectionContext",
+      "windows_consumption": "3Dobjects.vb:Draw/GetRawBounds",
+      "implementation_outcome": "ALREADY_PORTABLE_REUSED",
+      "complete": true,
+      "actually_changed": false,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "AgreementPlot",
+      "historical_candidates": 4,
+      "current_distinct_candidate_members": 4,
+      "historical_dispositions": {
+        "OPEN_BLOCKER": 4
+      },
+      "current_dispositions": {
+        "OPEN_BLOCKER": 4
+      },
+      "target_type": "ChartReferenceSeries",
+      "windows_consumption": "AgreementPlotExcel.vb:AddPlot/AddHorizontalReferenceLine",
+      "implementation_outcome": "PARTIAL",
+      "complete": false,
+      "actually_changed": true,
+      "minimum_remaining_members": [
+        "AddPlot"
+      ]
+    },
+    {
+      "family": "BulletChart",
+      "historical_candidates": 103,
+      "current_distinct_candidate_members": 103,
+      "historical_dispositions": {
+        "HOST_ONLY": 82,
+        "OPEN_BLOCKER": 17,
+        "PORTED_AND_CONSUMED": 4
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 82,
+        "OPEN_BLOCKER": 17,
+        "PORTED_AND_CONSUMED": 4
+      },
+      "target_type": "BulletMeasuredGeometryCore;BulletDrawingLayout;BulletRowLayout",
+      "windows_consumption": "BulletChartExcel.vb:BuildDrawingLayout/BuildRowLayout/NormalizedToChartX/Clip01",
+      "implementation_outcome": "PARTIAL",
+      "complete": false,
+      "actually_changed": true,
+      "minimum_remaining_members": [
+        "BuildAutomaticNumberFormat",
+        "DrawActualBar",
+        "DrawActualValueLabel",
+        "DrawQualitativeBands",
+        "DrawScale",
+        "DrawTargetMarker",
+        "DrawTargetValueLabel",
+        "FormatNumeric",
+        "RequiredDecimalPlaces",
+        "ResolveBandColor"
+      ]
+    },
+    {
+      "family": "CalibrationPlot",
+      "historical_candidates": 3,
+      "current_distinct_candidate_members": 3,
+      "historical_dispositions": {
+        "HOST_ONLY": 2,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 2,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "target_type": "CalibrationSeriesData;ChartReferenceSeries",
+      "windows_consumption": "CalibrationPlot.vb:addCalibrationPlot",
+      "implementation_outcome": "PORTED_AND_CONSUMED",
+      "complete": true,
+      "actually_changed": true,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "ConvexHullPlot",
+      "historical_candidates": 62,
+      "current_distinct_candidate_members": 62,
+      "historical_dispositions": {
+        "HOST_ONLY": 52,
+        "ALREADY_PORTABLE_REUSED": 2,
+        "OPEN_BLOCKER": 8
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 52,
+        "ALREADY_PORTABLE_REUSED": 2,
+        "OPEN_BLOCKER": 8
+      },
+      "target_type": "ConvexHullPlotCore;ConvexHullPlotGroup",
+      "windows_consumption": "ConvexHullPlot.vb:Compute/AddChart/AddMarkerSeries/AddHullSeries",
+      "implementation_outcome": "ALREADY_PORTABLE_REUSED",
+      "complete": false,
+      "actually_changed": false,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "CumulativeDistributionPlot",
+      "historical_candidates": 78,
+      "current_distinct_candidate_members": 78,
+      "historical_dispositions": {
+        "HOST_ONLY": 63,
+        "OPEN_BLOCKER": 14,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 63,
+        "OPEN_BLOCKER": 14,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "target_type": "CumulativeDistributionPlotCore;CumulativeStepSeriesData",
+      "windows_consumption": "CumulativeDistributionPlotExcel.vb:ExtendStepToAxisBounds",
+      "implementation_outcome": "PARTIAL",
+      "complete": false,
+      "actually_changed": true,
+      "minimum_remaining_members": [
+        "AutomaticNumberFormat",
+        "FormatPercentileLabel",
+        "ResolveAxisContext",
+        "ResolveChartTitle",
+        "ResolveEmpiricalSeriesName",
+        "ResolveFittedSeriesName",
+        "ResolveGroupLegendName"
+      ]
+    },
+    {
+      "family": "DumbbellPlot",
+      "historical_candidates": 74,
+      "current_distinct_candidate_members": 74,
+      "historical_dispositions": {
+        "HOST_ONLY": 59,
+        "OPEN_BLOCKER": 15
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 59,
+        "OPEN_BLOCKER": 15
+      },
+      "target_type": "DumbbellPlotCore;DumbbellPlotCategory",
+      "windows_consumption": "DumbbellPlot.vb:Compute;DumbbellPlotExcel.vb:AddConnectorSeries/AddEndpointSeries",
+      "implementation_outcome": "PARTIAL",
+      "complete": false,
+      "actually_changed": false,
+      "minimum_remaining_members": [
+        "CeilingToStep",
+        "FloorToStep",
+        "FormatEndpointValue",
+        "NiceStep125",
+        "ResolveAxisContext",
+        "ResolveXAxisNumberFormat"
+      ]
+    },
+    {
+      "family": "GifAnimator",
+      "historical_candidates": 1,
+      "current_distinct_candidate_members": 1,
+      "historical_dispositions": {
+        "PORTED_AND_CONSUMED": 1
+      },
+      "current_dispositions": {
+        "PORTED_AND_CONSUMED": 1
+      },
+      "target_type": "AnimationFrameTimingCore",
+      "windows_consumption": "GifAnimator.vb:MsToCentiseconds",
+      "implementation_outcome": "PARTIAL_HOST_BOUNDARY",
+      "complete": true,
+      "actually_changed": true,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "KiteChart",
+      "historical_candidates": 48,
+      "current_distinct_candidate_members": 48,
+      "historical_dispositions": {
+        "HOST_ONLY": 41,
+        "ALREADY_PORTABLE_REUSED": 1,
+        "OPEN_BLOCKER": 6
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 41,
+        "ALREADY_PORTABLE_REUSED": 1,
+        "OPEN_BLOCKER": 6
+      },
+      "target_type": "KiteChartCore;KiteChartSeries",
+      "windows_consumption": "KiteChart.vb:Compute/AddChart/AddCenterLineSeries",
+      "implementation_outcome": "ALREADY_PORTABLE_REUSED",
+      "complete": false,
+      "actually_changed": false,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "LadderPlot",
+      "historical_candidates": 99,
+      "current_distinct_candidate_members": 97,
+      "historical_dispositions": {
+        "HOST_ONLY": 78,
+        "OPEN_BLOCKER": 20,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 78,
+        "OPEN_BLOCKER": 18,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "target_type": "LadderPlotCore;LadderLabelGeometryCore",
+      "windows_consumption": "LadderPlotExcel.vb:SpreadLabelPositions",
+      "implementation_outcome": "PARTIAL",
+      "complete": false,
+      "actually_changed": true,
+      "minimum_remaining_members": [
+        "AddEndpointLabelSeries",
+        "BuildEndpointLabelText",
+        "CeilingToStep",
+        "FloorToStep",
+        "NiceStep125",
+        "ResolveAxisContext",
+        "ResolveMinimumLabelSeparation",
+        "ResolveYAxisNumberFormat"
+      ]
+    },
+    {
+      "family": "MultipleComparisonPlot",
+      "historical_candidates": 5,
+      "current_distinct_candidate_members": 5,
+      "historical_dispositions": {
+        "PORTED_AND_CONSUMED": 1,
+        "OPEN_BLOCKER": 1,
+        "LATER_BATCH_RESERVED": 3
+      },
+      "current_dispositions": {
+        "PORTED_AND_CONSUMED": 1,
+        "OPEN_BLOCKER": 1,
+        "LATER_BATCH_RESERVED": 3
+      },
+      "target_type": "ComparisonCoordinatesCore;ChartReferenceSeries",
+      "windows_consumption": "MultipleComparisonPlotExcel.vb:AddPlot",
+      "implementation_outcome": "FOUNDATION_PORTED_DETAILED_35_RESERVED",
+      "complete": false,
+      "actually_changed": true,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "PolarPlot",
+      "historical_candidates": 36,
+      "current_distinct_candidate_members": 36,
+      "historical_dispositions": {
+        "HOST_ONLY": 27,
+        "ALREADY_PORTABLE_REUSED": 2,
+        "OPEN_BLOCKER": 7
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 27,
+        "ALREADY_PORTABLE_REUSED": 2,
+        "OPEN_BLOCKER": 7
+      },
+      "target_type": "PolarPlotCore;PolarPlotResult",
+      "windows_consumption": "PolarPlot.vb:Compute/AddChart/ConfigureAxes",
+      "implementation_outcome": "ALREADY_PORTABLE_REUSED",
+      "complete": false,
+      "actually_changed": false,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "PsmLovePlot",
+      "historical_candidates": 5,
+      "current_distinct_candidate_members": 4,
+      "historical_dispositions": {
+        "OPEN_BLOCKER": 4,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "current_dispositions": {
+        "OPEN_BLOCKER": 3,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "target_type": "PsmLovePlotProjection;PsmLoveSeriesPolicy",
+      "windows_consumption": "PsmLovePlotExcel.vb:HasAnyFinite/AddThresholdSeries",
+      "implementation_outcome": "FOUNDATION_PORTED_DETAILED_35_RESERVED",
+      "complete": false,
+      "actually_changed": true,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "SankeyPlot",
+      "historical_candidates": 110,
+      "current_distinct_candidate_members": 110,
+      "historical_dispositions": {
+        "HOST_ONLY": 87,
+        "OPEN_BLOCKER": 19,
+        "PORTED_AND_CONSUMED": 4
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 87,
+        "OPEN_BLOCKER": 19,
+        "PORTED_AND_CONSUMED": 4
+      },
+      "target_type": "SankeyPlotCore;SankeyMeasuredGeometryCore;SankeyDrawingLayout",
+      "windows_consumption": "SankeyPlotExcel.vb:BuildDrawingLayout/BuildStageCentres/NormalizedXToChartX/NormalizedYToChartY",
+      "implementation_outcome": "PARTIAL",
+      "complete": false,
+      "actually_changed": true,
+      "minimum_remaining_members": [
+        "DrawLegend",
+        "DrawNode",
+        "DrawNodeLabel",
+        "DrawRibbon",
+        "DrawStageLabels",
+        "FormatNodeLabel"
+      ]
+    },
+    {
+      "family": "SpcControlChart",
+      "historical_candidates": 102,
+      "current_distinct_candidate_members": 101,
+      "historical_dispositions": {
+        "HOST_ONLY": 83,
+        "OPEN_BLOCKER": 14,
+        "LATER_BATCH_RESERVED": 3,
+        "PORTED_AND_CONSUMED": 2
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 83,
+        "OPEN_BLOCKER": 14,
+        "LATER_BATCH_RESERVED": 3,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "target_type": "SpcUnivariateChartProjectionPolicy;SpcAxisBoundsCore",
+      "windows_consumption": "SpcControlChartExcel.vb:ComputeYAxisBounds",
+      "implementation_outcome": "FOUNDATION_PARTIAL_DETAILED_36_RESERVED",
+      "complete": false,
+      "actually_changed": true,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "Symmetry",
+      "historical_candidates": 3,
+      "current_distinct_candidate_members": 3,
+      "historical_dispositions": {
+        "HOST_ONLY": 2,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "current_dispositions": {
+        "HOST_ONLY": 2,
+        "PORTED_AND_CONSUMED": 1
+      },
+      "target_type": "SymmetrySeriesData",
+      "windows_consumption": "SymetryPlot.vb:AsymmetryPlot",
+      "implementation_outcome": "PORTED_AND_CONSUMED",
+      "complete": true,
+      "actually_changed": true,
+      "minimum_remaining_members": []
+    },
+    {
+      "family": "TheilSenPlot",
+      "historical_candidates": 1,
+      "current_distinct_candidate_members": 1,
+      "historical_dispositions": {
+        "ALREADY_PORTABLE_REUSED": 1
+      },
+      "current_dispositions": {
+        "ALREADY_PORTABLE_REUSED": 1
+      },
+      "target_type": "TheilSenPlotData;TheilSen.GetPlotData",
+      "windows_consumption": "TheilSenPlotExcel.vb:AddPlot",
+      "implementation_outcome": "ALREADY_PORTABLE_REUSED",
+      "complete": true,
+      "actually_changed": false,
+      "minimum_remaining_members": []
+    }
+  ],
+  "historical_candidate_count": 768,
+  "current_distinct_candidate_count": 764,
+  "current_entire_22_file_census": 950,
+  "scope": "Current family candidate members are deduplicated by current Roslyn identity. Historical 768 declarations are leads, not 768 rewrites. Other members in the 22 source files are inventory context, not automatically assigned34.",
+  "open_blockers": 126,
+  "historical_open_blockers": 129,
+  "unmatched_historical": 4,
+  "native": "NATIVE_NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

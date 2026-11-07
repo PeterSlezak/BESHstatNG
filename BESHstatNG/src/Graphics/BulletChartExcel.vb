@@ -501,92 +501,31 @@ Public NotInheritable Class BulletChartExcel
         Dim chartWidth As Double
         Dim chartHeight As Double
         GetChartSize(chart, chartWidth, chartHeight)
-
-        Dim padding As Double = appearance.ChartPadding
-        Dim titleHeight As Double = If(String.IsNullOrWhiteSpace(appearance.ChartTitle), 0.0R, appearance.ChartTitleHeight)
-        Dim leftLabelsVisible As Boolean = appearance.ShowMeasureLabels OrElse
-                                           (appearance.ShowSubtitles AndAlso result.HasSubtitles)
-        Dim labelReserve As Double = If(leftLabelsVisible,
-                                        appearance.LabelAreaWidth + appearance.LabelGap,
-                                        0.0R)
-
-        Dim plotLeft As Double = padding + labelReserve
-        Dim plotTop As Double = padding + titleHeight
-        Dim plotWidth As Double = chartWidth - padding - plotLeft
-        Dim plotHeight As Double = chartHeight - padding - plotTop
-
-        If plotWidth < MinimumPlotWidth Then
-            Throw New InvalidOperationException("The embedded chart is too narrow to draw the bullet chart. Increase its width or reduce the label area.")
-        End If
-        If plotHeight <= 0.0R Then
-            Throw New InvalidOperationException("The embedded chart is too short to draw the bullet chart. Increase its height.")
-        End If
-
-        Dim rowHeight As Double = plotHeight / CDbl(result.ItemCount)
-        If rowHeight < MinimumRowHeight Then
-            Throw New InvalidOperationException("The embedded chart is too short for the number of bullet-chart items. Increase its height.")
-        End If
-
-        Dim scaleReserve As Double = 0.0R
-        If appearance.ShowScaleLabels OrElse appearance.ShowScaleTickMarks Then
-            scaleReserve = appearance.ScaleLabelGap
-            If appearance.ShowScaleTickMarks Then scaleReserve += appearance.ScaleTickLength
-            If appearance.ShowScaleLabels Then scaleReserve += appearance.ScaleLabelHeight
-        End If
-        Dim targetLabelReserve As Double = If(appearance.ShowTargetValueLabels,
-                                              appearance.ValueLabelHeight + appearance.ValueLabelGap,
-                                              0.0R)
-
-        Dim bandAvailable As Double = rowHeight - appearance.RowGap - scaleReserve - targetLabelReserve
-        If bandAvailable < MinimumBandHeight Then
-            Throw New InvalidOperationException("The embedded chart is too short for the selected bullet-chart labels and spacing. Increase its height or hide value/scale labels.")
-        End If
-
+        Dim geometry As BulletDrawingLayout = BulletMeasuredGeometryCore.ComputeLayout(chartWidth, chartHeight, result.ItemCount, result.HasSubtitles, appearance.ChartPadding, appearance.ChartTitle, appearance.ChartTitleHeight, appearance.ShowMeasureLabels, appearance.ShowSubtitles, appearance.LabelAreaWidth, appearance.LabelGap, appearance.ShowScaleLabels, appearance.ShowScaleTickMarks, appearance.ScaleLabelGap, appearance.ScaleTickLength, appearance.ScaleLabelHeight, appearance.ShowTargetValueLabels, appearance.ValueLabelHeight, appearance.ValueLabelGap, appearance.RowGap, appearance.QualitativeBandHeight)
         Return New DrawingLayout With {
-            .ChartWidth = chartWidth,
-            .ChartHeight = chartHeight,
-            .PlotLeft = plotLeft,
-            .PlotTop = plotTop,
-            .PlotWidth = plotWidth,
-            .PlotHeight = plotHeight,
-            .RowHeight = rowHeight,
-            .BandHeight = Math.Min(appearance.QualitativeBandHeight, bandAvailable),
-            .LeftLabelsVisible = leftLabelsVisible
+            .ChartWidth = geometry.ChartWidth,
+            .ChartHeight = geometry.ChartHeight,
+            .PlotLeft = geometry.PlotLeft,
+            .PlotTop = geometry.PlotTop,
+            .PlotWidth = geometry.PlotWidth,
+            .PlotHeight = geometry.PlotHeight,
+            .RowHeight = geometry.RowHeight,
+            .BandHeight = geometry.BandHeight,
+            .LeftLabelsVisible = geometry.LeftLabelsVisible
         }
     End Function
 
-    Private Shared Function BuildRowLayout(layout As DrawingLayout,
-                                           appearance As BulletChartAppearance,
-                                           rowIndex As Integer) As RowLayout
-        Dim rowTop As Double = layout.PlotTop + CDbl(rowIndex) * layout.RowHeight
-        Dim rowBottom As Double = rowTop + layout.RowHeight
-
-        Dim scaleReserve As Double = 0.0R
-        If appearance.ShowScaleLabels OrElse appearance.ShowScaleTickMarks Then
-            scaleReserve = appearance.ScaleLabelGap
-            If appearance.ShowScaleTickMarks Then scaleReserve += appearance.ScaleTickLength
-            If appearance.ShowScaleLabels Then scaleReserve += appearance.ScaleLabelHeight
-        End If
-        Dim targetLabelReserve As Double = If(appearance.ShowTargetValueLabels,
-                                              appearance.ValueLabelHeight + appearance.ValueLabelGap,
-                                              0.0R)
-        Dim contentHeight As Double = targetLabelReserve + layout.BandHeight + scaleReserve
-        Dim contentTop As Double = rowTop + (layout.RowHeight - contentHeight) / 2.0R
-
-        Dim targetValueTop As Double = contentTop
-        Dim bandTop As Double = contentTop + targetLabelReserve
-        Dim bandBottom As Double = bandTop + layout.BandHeight
-        Dim scaleTop As Double = bandBottom + appearance.ScaleLabelGap +
-                                 If(appearance.ShowScaleTickMarks, appearance.ScaleTickLength, 0.0R)
-
+    Private Shared Function BuildRowLayout(layout As DrawingLayout, appearance As BulletChartAppearance, rowIndex As Integer) As RowLayout
+        Dim measured As New BulletDrawingLayout(layout.ChartWidth, layout.ChartHeight, layout.PlotLeft, layout.PlotTop, layout.PlotWidth, layout.PlotHeight, layout.RowHeight, layout.BandHeight, layout.LeftLabelsVisible)
+        Dim geometry As BulletRowLayout = BulletMeasuredGeometryCore.ComputeRow(measured, rowIndex, appearance.ShowScaleLabels, appearance.ShowScaleTickMarks, appearance.ScaleLabelGap, appearance.ScaleTickLength, appearance.ScaleLabelHeight, appearance.ShowTargetValueLabels, appearance.ValueLabelHeight, appearance.ValueLabelGap)
         Return New RowLayout With {
-            .RowTop = rowTop,
-            .RowBottom = rowBottom,
-            .BandTop = bandTop,
-            .BandBottom = bandBottom,
-            .BandCentreY = (bandTop + bandBottom) / 2.0R,
-            .ScaleLabelTop = scaleTop,
-            .TargetValueLabelTop = targetValueTop
+            .RowTop = geometry.RowTop,
+            .RowBottom = geometry.RowBottom,
+            .BandTop = geometry.BandTop,
+            .BandBottom = geometry.BandBottom,
+            .BandCentreY = geometry.BandCentreY,
+            .ScaleLabelTop = geometry.ScaleLabelTop,
+            .TargetValueLabelTop = geometry.TargetValueLabelTop
         }
     End Function
 
@@ -661,7 +600,7 @@ Public NotInheritable Class BulletChartExcel
                      appearance.ChartTitle.Trim(),
                      appearance.ChartPadding,
                      appearance.ChartPadding,
-                     Math.Max(1.0R, layout.ChartWidth - 2.0R * appearance.ChartPadding),
+                     BulletMeasuredGeometryCore.BulletTitle(layout.ChartWidth, appearance.ChartPadding).Width,
                      appearance.ChartTitleHeight,
                      appearance.TextColor,
                      appearance.ChartTitleFontSize,
@@ -681,9 +620,10 @@ Public NotInheritable Class BulletChartExcel
 
         For bandIndex As Integer = 0 To bands.Length - 1
             Dim band As BulletChartBand = bands(bandIndex)
-            Dim x1 As Double = NormalizedToChartX(band.NormalizedStart, layout)
-            Dim x2 As Double = NormalizedToChartX(band.NormalizedEnd, layout)
-            Dim bandWidth As Double = Math.Max(0.5R, x2 - x1)
+            Dim geometry As BulletBandGeometry = BulletMeasuredGeometryCore.BulletBand(band.NormalizedStart, band.NormalizedEnd, layout.PlotLeft, layout.PlotWidth)
+        Dim x1 As Double = geometry.X1
+        Dim x2 As Double = geometry.X2
+        Dim bandWidth As Double = geometry.Width
 
             Dim bandShape As Object = chartShapes.AddShape(MsoShapeRectangle,
                                                            CSng(x1),
@@ -718,14 +658,7 @@ Public NotInheritable Class BulletChartExcel
                                              item As BulletChartItem,
                                              appearance As BulletChartAppearance) As Integer
         Dim palette As Integer() = appearance.BandColorsByDesirability
-        If palette.Length = 1 OrElse item.QualitativeRangeCount <= 1 Then Return palette(0)
-
-        Dim fraction As Double = CDbl(band.DesirabilityRank) /
-                                 CDbl(item.QualitativeRangeCount - 1)
-        Dim paletteIndex As Integer = CInt(Math.Round(fraction * CDbl(palette.Length - 1),
-                                                      MidpointRounding.AwayFromZero))
-        paletteIndex = Math.Max(0, Math.Min(palette.Length - 1, paletteIndex))
-        Return palette(paletteIndex)
+        Return palette(BulletMeasuredGeometryCore.BulletPaletteIndex(band.DesirabilityRank, item.QualitativeRangeCount, palette.Length).Index)
     End Function
 
     Private Shared Sub DrawActualBar(chartShapes As Object,
@@ -734,12 +667,11 @@ Public NotInheritable Class BulletChartExcel
                                      layout As DrawingLayout,
                                      rowLayout As RowLayout,
                                      rowIndex As Integer)
-        Dim normalized As Double = Clip01(item.ActualNormalized)
-        If normalized <= 0.0R Then Return
-
-        Dim barHeight As Double = Math.Max(1.0R, layout.BandHeight * appearance.ActualBarHeightFraction)
-        Dim barTop As Double = rowLayout.BandCentreY - barHeight / 2.0R
-        Dim barWidth As Double = Math.Max(0.5R, normalized * layout.PlotWidth)
+        Dim geometry As BulletActualGeometry = BulletMeasuredGeometryCore.BulletActual(item.ActualNormalized, layout.BandHeight, appearance.ActualBarHeightFraction, rowLayout.BandCentreY, layout.PlotWidth)
+        If geometry Is Nothing Then Return
+        Dim barHeight As Double = geometry.Height
+        Dim barTop As Double = geometry.Top
+        Dim barWidth As Double = geometry.Width
 
         Dim barShape As Object = chartShapes.AddShape(MsoShapeRectangle,
                                                       CSng(layout.PlotLeft),
@@ -772,11 +704,10 @@ Public NotInheritable Class BulletChartExcel
                                         layout As DrawingLayout,
                                         rowLayout As RowLayout,
                                         rowIndex As Integer)
-        Dim x As Double = NormalizedToChartX(item.TargetNormalized, layout)
-        Dim markerHeight As Double = Math.Max(2.0R,
-                                             layout.BandHeight * appearance.TargetMarkerHeightFraction)
-        Dim y1 As Double = rowLayout.BandCentreY - markerHeight / 2.0R
-        Dim y2 As Double = rowLayout.BandCentreY + markerHeight / 2.0R
+        Dim geometry As BulletTargetGeometry = BulletMeasuredGeometryCore.BulletTarget(item.TargetNormalized, layout.PlotLeft, layout.PlotWidth, layout.BandHeight, appearance.TargetMarkerHeightFraction, rowLayout.BandCentreY)
+        Dim x As Double = geometry.X
+        Dim y1 As Double = geometry.Y1
+        Dim y2 As Double = geometry.Y2
 
         Dim marker As Object = chartShapes.AddLine(CSng(x), CSng(y1), CSng(x), CSng(y2))
         marker.Name = ShapePrefix & "Target_" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture)
@@ -801,14 +732,14 @@ Public NotInheritable Class BulletChartExcel
 
         If Not showMain AndAlso Not showSubtitle Then Return
 
-        Dim labelRight As Double = layout.PlotLeft - appearance.LabelGap
-        width = Math.Max(1.0R, labelRight - left)
+        Dim labelArea = BulletMeasuredGeometryCore.BulletLeftArea(appearance.ChartPadding, layout.PlotLeft, appearance.LabelGap)
+        width = labelArea.Width
 
         If showMain AndAlso showSubtitle Then
-            Dim mainHeight As Double = Math.Max(12.0R, appearance.MeasureLabelFontSize * 1.35R)
-            Dim subtitleHeight As Double = Math.Max(10.0R, appearance.SubtitleFontSize * 1.35R)
-            Dim totalHeight As Double = mainHeight + subtitleHeight
-            Dim top As Double = rowLayout.BandCentreY - totalHeight / 2.0R
+            Dim paired = BulletMeasuredGeometryCore.BulletPairedLabels(rowLayout.BandCentreY, appearance.MeasureLabelFontSize, appearance.SubtitleFontSize)
+            Dim mainHeight As Double = paired.MainHeight
+            Dim subtitleHeight As Double = paired.SubtitleHeight
+            Dim top As Double = paired.Top
 
             AddTextShape(chartShapes,
                          ShapePrefix & "Measure_" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),
@@ -828,7 +759,7 @@ Public NotInheritable Class BulletChartExcel
                          ShapePrefix & "Subtitle_" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),
                          item.Subtitle,
                          left,
-                         top + mainHeight,
+                         paired.SubtitleTop,
                          width,
                          subtitleHeight,
                          appearance.TextColor,
@@ -842,8 +773,9 @@ Public NotInheritable Class BulletChartExcel
                                         appearance.MeasureLabelFontSize,
                                         appearance.SubtitleFontSize)
             Dim text As String = If(showMain, item.MeasureLabel, item.Subtitle)
-            Dim boxHeight As Double = Math.Max(12.0R, fontSize * 1.45R)
-            Dim top As Double = rowLayout.BandCentreY - boxHeight / 2.0R
+            Dim singleLabel = BulletMeasuredGeometryCore.BulletSingleLabel(rowLayout.BandCentreY, fontSize)
+            Dim boxHeight As Double = singleLabel.Height
+            Dim top As Double = singleLabel.Top
 
             AddTextShape(chartShapes,
                          ShapePrefix & If(showMain, "Measure_", "Subtitle_") &
@@ -872,27 +804,18 @@ Public NotInheritable Class BulletChartExcel
         If ticks Is Nothing OrElse ticks.Length = 0 Then Return
 
         Dim numberFormat As String = ResolveNumberFormat(item, appearance.ScaleNumberFormat)
-        Dim nominalWidth As Double
-        If ticks.Length <= 1 Then
-            nominalWidth = 48.0R
-        Else
-            nominalWidth = Math.Max(24.0R,
-                                    Math.Min(64.0R,
-                                             layout.PlotWidth / CDbl(ticks.Length - 1) * 0.92R))
-        End If
+        Dim nominalWidth As Double = BulletMeasuredGeometryCore.BulletScaleWidth(ticks.Length, layout.PlotWidth).Width
 
         For tickIndex As Integer = 0 To ticks.Length - 1
             Dim tickValue As Double = ticks(tickIndex)
-            Dim normalized As Double = If(item.ScaleMaximum <= 0.0R,
-                                          0.0R,
-                                          tickValue / item.ScaleMaximum)
-            Dim x As Double = NormalizedToChartX(normalized, layout)
+            Dim tickGeometry = BulletMeasuredGeometryCore.BulletTick(tickValue, item.ScaleMaximum, layout.PlotLeft, layout.PlotWidth, rowLayout.BandBottom, appearance.ScaleTickLength)
+            Dim x As Double = tickGeometry.X
 
             If appearance.ShowScaleTickMarks AndAlso appearance.ScaleTickLength > 0.0R Then
                 Dim tickShape As Object = chartShapes.AddLine(CSng(x),
                                                               CSng(rowLayout.BandBottom),
                                                               CSng(x),
-                                                              CSng(rowLayout.BandBottom + appearance.ScaleTickLength))
+                                                              CSng(tickGeometry.Bottom))
                 tickShape.Name = ShapePrefix & "ScaleTick_" &
                                  (rowIndex + 1).ToString(CultureInfo.InvariantCulture) & "_" &
                                  (tickIndex + 1).ToString(CultureInfo.InvariantCulture)
@@ -905,22 +828,8 @@ Public NotInheritable Class BulletChartExcel
             End If
 
             If appearance.ShowScaleLabels Then
-                Dim textLeft As Double
-                Dim alignment As Integer
-
-                If tickIndex = 0 Then
-                    textLeft = layout.PlotLeft
-                    alignment = MsoAlignLeft
-                ElseIf tickIndex = ticks.Length - 1 Then
-                    textLeft = layout.PlotLeft + layout.PlotWidth - nominalWidth
-                    alignment = MsoAlignRight
-                Else
-                    textLeft = x - nominalWidth / 2.0R
-                    alignment = MsoAlignCenter
-                End If
-
-                textLeft = Math.Max(layout.PlotLeft,
-                                    Math.Min(layout.PlotLeft + layout.PlotWidth - nominalWidth, textLeft))
+                Dim textLeft As Double = BulletMeasuredGeometryCore.BulletScaleLabel(tickIndex, ticks.Length, x, layout.PlotLeft, layout.PlotWidth, nominalWidth).Left
+                Dim alignment As Integer = If(tickIndex = 0, MsoAlignLeft, If(tickIndex = ticks.Length - 1, MsoAlignRight, MsoAlignCenter))
 
                 AddTextShape(chartShapes,
                              ShapePrefix & "ScaleLabel_" &
@@ -947,25 +856,17 @@ Public NotInheritable Class BulletChartExcel
                                             layout As DrawingLayout,
                                             rowLayout As RowLayout,
                                             rowIndex As Integer)
-        Dim actualX As Double = NormalizedToChartX(item.ActualNormalized, layout)
-        Dim labelWidth As Double = Math.Min(appearance.ValueLabelWidth, layout.PlotWidth)
-        Dim left As Double
-        Dim alignment As Integer
-
-        If actualX + appearance.ValueLabelGap + labelWidth <= layout.PlotLeft + layout.PlotWidth Then
-            left = actualX + appearance.ValueLabelGap
-            alignment = MsoAlignLeft
-        Else
-            left = Math.Max(layout.PlotLeft, actualX - appearance.ValueLabelGap - labelWidth)
-            alignment = MsoAlignRight
-        End If
+        Dim geometry As BulletActualLabelGeometry = BulletMeasuredGeometryCore.BulletActualLabel(item.ActualNormalized, layout.PlotLeft, layout.PlotWidth, appearance.ValueLabelWidth, appearance.ValueLabelGap)
+        Dim left As Double = geometry.Left
+        Dim labelWidth As Double = geometry.Width
+        Dim alignment As Integer = If(geometry.RightAligned, MsoAlignRight, MsoAlignLeft)
 
         Dim numberFormat As String = ResolveNumberFormat(item, appearance.ValueNumberFormat, item.ActualValue)
         AddTextShape(chartShapes,
                      ShapePrefix & "ActualValue_" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),
                      FormatNumeric(item.ActualValue, numberFormat),
                      left,
-                     rowLayout.BandCentreY - appearance.ValueLabelHeight / 2.0R,
+                     BulletMeasuredGeometryCore.BulletCenteredLabel(rowLayout.BandCentreY, appearance.ValueLabelHeight).Top,
                      labelWidth,
                      appearance.ValueLabelHeight,
                      appearance.TextColor,
@@ -982,11 +883,9 @@ Public NotInheritable Class BulletChartExcel
                                             layout As DrawingLayout,
                                             rowLayout As RowLayout,
                                             rowIndex As Integer)
-        Dim targetX As Double = NormalizedToChartX(item.TargetNormalized, layout)
-        Dim labelWidth As Double = Math.Min(appearance.ValueLabelWidth, layout.PlotWidth)
-        Dim left As Double = targetX - labelWidth / 2.0R
-        left = Math.Max(layout.PlotLeft,
-                        Math.Min(layout.PlotLeft + layout.PlotWidth - labelWidth, left))
+        Dim geometry As BulletTargetLabelGeometry = BulletMeasuredGeometryCore.BulletTargetLabel(item.TargetNormalized, layout.PlotLeft, layout.PlotWidth, appearance.ValueLabelWidth)
+        Dim left As Double = geometry.Left
+        Dim labelWidth As Double = geometry.Width
 
         Dim numberFormat As String = ResolveNumberFormat(item, appearance.ValueNumberFormat, item.TargetValue)
         AddTextShape(chartShapes,
@@ -1006,63 +905,32 @@ Public NotInheritable Class BulletChartExcel
 
     Private Shared Function NormalizedToChartX(value As Double,
                                                layout As DrawingLayout) As Double
-        Return layout.PlotLeft + Clip01(value) * layout.PlotWidth
+        Return BulletMeasuredGeometryCore.MapX(value, layout.PlotLeft, layout.PlotWidth)
     End Function
 
     Private Shared Function Clip01(value As Double) As Double
-        If value < 0.0R Then Return 0.0R
-        If value > 1.0R Then Return 1.0R
-        Return value
+        Return BulletMeasuredGeometryCore.Clip01(value)
     End Function
 
     Private Shared Function ResolveNumberFormat(item As BulletChartItem,
                                                 requestedFormat As String,
                                                 Optional additionalValue As Nullable(Of Double) = Nothing) As String
-        If Not String.IsNullOrWhiteSpace(requestedFormat) Then Return requestedFormat.Trim()
-        Return BuildAutomaticNumberFormat(item.MajorInterval, item.ScaleMaximum, additionalValue)
+        Return ExcelCommon.Chart34.BulletChartPreparation34.ResolveNumberFormat(item, requestedFormat, additionalValue)
     End Function
 
     Private Shared Function BuildAutomaticNumberFormat(stepValue As Double,
                                                        scaleMaximum As Double,
                                                        additionalValue As Nullable(Of Double)) As String
-        Dim values As New List(Of Double) From {Math.Abs(stepValue), Math.Abs(scaleMaximum)}
-        If additionalValue.HasValue Then values.Add(Math.Abs(additionalValue.Value))
-
-        For Each value As Double In values
-            If Not IsFinite(value) Then Return "0.###"
-            If value > 0.0R AndAlso (value >= 1.0E8R OrElse value < 1.0E-6R) Then
-                Return "0.###E+0"
-            End If
-        Next
-
-        Dim requiredDecimals As Integer = 0
-        For Each value As Double In values
-            requiredDecimals = Math.Max(requiredDecimals, RequiredDecimalPlaces(value))
-        Next
-
-        If requiredDecimals <= 0 Then Return "0"
-        If requiredDecimals <= 8 Then Return "0." & New String("0"c, requiredDecimals)
-        Return "0.########"
+        Return ExcelCommon.Chart34.BulletChartPreparation34.BuildAutomaticNumberFormat(stepValue, scaleMaximum, additionalValue)
     End Function
 
     Private Shared Function RequiredDecimalPlaces(value As Double) As Integer
-        If value = 0.0R Then Return 0
-
-        For decimals As Integer = 0 To 8
-            Dim scale As Double = Math.Pow(10.0R, decimals)
-            Dim scaled As Double = value * scale
-            If Math.Abs(scaled - Math.Round(scaled)) <= 1.0E-9R * Math.Max(1.0R, Math.Abs(scaled)) Then
-                Return decimals
-            End If
-        Next
-        Return 8
+        Return ExcelCommon.Chart34.BulletChartPreparation34.RequiredDecimalPlaces(value)
     End Function
 
     Private Shared Function FormatNumeric(value As Double,
                                           format As String) As String
-        Dim cleanValue As Double = value
-        If Math.Abs(cleanValue) < 1.0E-14R Then cleanValue = 0.0R
-        Return cleanValue.ToString(format, CultureInfo.CurrentCulture)
+        Return ExcelCommon.Chart34.BulletChartPreparation34.FormatNumeric(value, format)
     End Function
 
     Private Shared Function AddTextShape(chartShapes As Object,

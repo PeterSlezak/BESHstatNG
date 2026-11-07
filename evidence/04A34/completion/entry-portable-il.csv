@@ -1,0 +1,77 @@
+type,member,status
+AnimationFrameTimingCore,"Int32 MsToCentiseconds(Int32)",MATCH_NORMALIZED_IL
+BulletMeasuredGeometryCore,"BESHStatNG.BulletRowLayout ComputeRow(BESHStatNG.BulletDrawingLayout, Int32, Boolean, Boolean, Double, Double, Double, Boolean, Double, Double)",MATCH_NORMALIZED_IL
+BulletMeasuredGeometryCore,"BESHStatNG.BulletDrawingLayout ComputeLayout(Double, Double, Int32, Boolean, Double, System.String, Double, Boolean, Boolean, Double, Double, Boolean, Boolean, Double, Double, Double, Boolean, Double, Double, Double, Double)",MATCH_NORMALIZED_IL
+BulletMeasuredGeometryCore,"Double MapX(Double, Double, Double)",MATCH_NORMALIZED_IL
+BulletMeasuredGeometryCore,"Double Clip01(Double)",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Double get_ChartWidth()",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Double get_ChartHeight()",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Double get_PlotLeft()",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Double get_PlotTop()",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Double get_PlotWidth()",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Double get_PlotHeight()",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Double get_RowHeight()",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Double get_BandHeight()",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Boolean get_LeftLabelsVisible()",MATCH_NORMALIZED_IL
+BulletDrawingLayout,"Void .ctor(Double, Double, Double, Double, Double, Double, Double, Double, Boolean)",MATCH_NORMALIZED_IL
+BulletRowLayout,"Double get_RowTop()",MATCH_NORMALIZED_IL
+BulletRowLayout,"Double get_RowBottom()",MATCH_NORMALIZED_IL
+BulletRowLayout,"Double get_BandTop()",MATCH_NORMALIZED_IL
+BulletRowLayout,"Double get_BandBottom()",MATCH_NORMALIZED_IL
+BulletRowLayout,"Double get_BandCentreY()",MATCH_NORMALIZED_IL
+BulletRowLayout,"Double get_ScaleLabelTop()",MATCH_NORMALIZED_IL
+BulletRowLayout,"Double get_TargetValueLabelTop()",MATCH_NORMALIZED_IL
+BulletRowLayout,"Void .ctor(Double, Double, Double, Double, Double, Double, Double)",MATCH_NORMALIZED_IL
+CalibrationSeriesData,"Double[] get_XValues()",MATCH_NORMALIZED_IL
+CalibrationSeriesData,"Double[] get_YValues()",MATCH_NORMALIZED_IL
+CalibrationSeriesData,"Int32[] get_SourceOrdinals()",MATCH_NORMALIZED_IL
+CalibrationSeriesData,"Int32 get_Count()",MATCH_NORMALIZED_IL
+CalibrationSeriesData,"BESHStatNG.ChartReferenceSeries get_Reference()",MATCH_NORMALIZED_IL
+CalibrationSeriesData,"BESHStatNG.ChartAxisScaleResult get_Axis()",MATCH_NORMALIZED_IL
+CalibrationSeriesData,"Void .ctor(System.Collections.Generic.IList`1[BESHStatNG.regression.CalibrationBinSummary])",MATCH_NORMALIZED_IL
+ChartReferenceSeries,"Double[] get_XValues()",MATCH_NORMALIZED_IL
+ChartReferenceSeries,"Double[] get_YValues()",MATCH_NORMALIZED_IL
+ChartReferenceSeries,"BESHStatNG.ChartReferenceSeries Identity(Double, Double)",MATCH_NORMALIZED_IL
+ChartReferenceSeries,"BESHStatNG.ChartReferenceSeries Affine(Double, Double, Double, Double)",MATCH_NORMALIZED_IL
+ChartReferenceSeries,"BESHStatNG.ChartReferenceSeries Horizontal(Double, Double, Double)",MATCH_NORMALIZED_IL
+ChartReferenceSeries,"BESHStatNG.ChartReferenceSeries Vertical(Double, Double, Double)",MATCH_NORMALIZED_IL
+ChartReferenceSeries,"Void .ctor(Double, Double, Double, Double)",MATCH_NORMALIZED_IL
+ComparisonCoordinatesCore,"Double[] OrdinalY(Int32)",MATCH_NORMALIZED_IL
+ComparisonCoordinatesCore,"BESHStatNG.ChartAxisScaleResult IncludeZeroBounds(Double, Double)",MATCH_NORMALIZED_IL
+CumulativeStepSeriesData,"Double[] get_XValues()",MATCH_NORMALIZED_IL
+CumulativeStepSeriesData,"Double[] get_YValues()",MATCH_NORMALIZED_IL
+CumulativeStepSeriesData,"Void ExtendStepToAxisBounds(Double[], Double[], Double, Double, Double[] ByRef, Double[] ByRef)",MATCH_NORMALIZED_IL
+CumulativeStepSeriesData,"Void .ctor(Double[], Double[], Double, Double)",MATCH_NORMALIZED_IL
+LadderLabelGeometryCore,"Double[] SpreadLabelPositions(Double[], Double, Double, Double)",MATCH_NORMALIZED_IL
+LadderLabelGeometryCore,"Double Clamp(Double, Double, Double)",MATCH_NORMALIZED_IL
+LadderLabelGeometryCore,"Boolean IsFinite(Double)",MATCH_NORMALIZED_IL
+LadderLabelGeometryCore,"Boolean IsFinitePositive(Double)",MATCH_NORMALIZED_IL
+SankeyMeasuredGeometryCore,"BESHStatNG.SankeyDrawingLayout ComputeLayout(Double, Double, Int32, Int32, Double, System.String, Double, Boolean, Double, Boolean, System.String, Double, Double, Double, Boolean, Double, Double, Double)",MATCH_NORMALIZED_IL
+SankeyMeasuredGeometryCore,"Double MapX(Double, Double, Double)",MATCH_NORMALIZED_IL
+SankeyMeasuredGeometryCore,"Double MapY(Double, Double, Double)",MATCH_NORMALIZED_IL
+SankeyMeasuredGeometryCore,"Double[] StageCentres(Int32, Double, Double)",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_ChartWidth()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_ChartHeight()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_PlotLeft()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_PlotTop()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_PlotWidth()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_PlotHeight()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_StageCentreLeft()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_StageCentreRight()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_LegendLeft()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_LegendTop()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_LegendWidth()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_LegendHeight()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Int32 get_LegendColumns()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Int32 get_LegendRowsPerColumn()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Double get_FinalLabelReserve()",MATCH_NORMALIZED_IL
+SankeyDrawingLayout,"Void .ctor(Double, Double, Double, Double, Double, Double, Double, Double, Double, Double, Double, Double, Int32, Int32, Double)",MATCH_NORMALIZED_IL
+SpcAxisBoundsCore,"BESHStatNG.ChartAxisScaleResult FromExtents(Double, Double, BESHStatNG.StatisticalProcessControl.SpcPanelType)",MATCH_NORMALIZED_IL
+SpcAxisBoundsCore,"Boolean HasNaturalZero(BESHStatNG.StatisticalProcessControl.SpcPanelType)",MATCH_NORMALIZED_IL
+SymmetrySeriesData,"BESHStatNG.ChartAxisScaleResult get_Axis()",MATCH_NORMALIZED_IL
+SymmetrySeriesData,"BESHStatNG.SymmetrySeriesData FromSorted(Double[], Double)",MATCH_NORMALIZED_IL
+SymmetrySeriesData,"Double[] get_XValues()",MATCH_NORMALIZED_IL
+SymmetrySeriesData,"Double[] get_YValues()",MATCH_NORMALIZED_IL
+SymmetrySeriesData,"Double[] get_ReferenceX()",MATCH_NORMALIZED_IL
+SymmetrySeriesData,"Double[] get_ReferenceY()",MATCH_NORMALIZED_IL
+SymmetrySeriesData,"Void .ctor(Double[], Double[], Double[], BESHStatNG.ChartAxisScaleResult)",MATCH_NORMALIZED_IL

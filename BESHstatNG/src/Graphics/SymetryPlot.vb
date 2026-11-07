@@ -1,4 +1,4 @@
-﻿Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Namespace graphics
@@ -101,40 +101,15 @@ Namespace graphics
             'appeared below the comparison line.
             'Lovie S. Symmetry Plot. In Encyclopedia of Statistics in Behavioral Science, John Wiley & Sons, 2005, Vol 4, 1989–1990
 
-            Dim Xref() As Double, Yref() As Double
-
-            'prepare data for plotting
-            'compute differences below and above median
+            'Retain the historical caller-array sort and its evaluation timing.
             Dim Medn As Double = Median(Me.pData)
             Array.Sort(Me.pData)
-            Dim x(n - 1) As Double
-            For i = 0 To n - 1
-                If pData(i) <= Medn Then
-                    x(i) = Medn - pData(i)
-                Else
-                    x(i) = pData(i) - Medn
-                End If
-            Next
-
-            'prepare arrays for plotting
-            Dim ii As Integer = RoundDown(n / 2, 0)
-            Dim Xs(ii - 1) As Double, Ys(ii - 1) As Double
-            For i = 0 To ii - 1
-                Xs(i) = x(n - 1 - i)
-                Ys(i) = x(i)
-            Next
-
-            'reference line data
-            If x(0) >= x(n - 1) Then
-                Xref = {x(0), x(ii - 1)}
-                Yref = Xref
-            Else
-                Xref = {x(n - 1), x(n - 1 - ii)}
-                Yref = Xref
-            End If
-
-            'compute optimal scaling
-            Dim udPlotAxis = ChartScaling(0, x.Max())
+            Dim projection As SymmetrySeriesData = SymmetrySeriesData.FromSorted(Me.pData, Medn)
+            Dim Xs As Double() = projection.XValues
+            Dim Ys As Double() = projection.YValues
+            Dim Xref As Double() = projection.ReferenceX
+            Dim Yref As Double() = projection.ReferenceY
+            Dim udPlotAxis As ChartAxisScaleResult = projection.Axis
 
             If lLeft = -1 Then lLeft = 100
             If lTop = -1 Then lTop = 100

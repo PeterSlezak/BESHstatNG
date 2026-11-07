@@ -1,0 +1,38 @@
+{
+  "status": "RETAINED_RESTRICTED",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED"
+  },
+  "inherited": [
+    "G29-SYMMETRY-AXIS-CAPTION",
+    "C25-LOVE-THRESHOLD-MISSING-01",
+    "C25-LOVE-AXIS-NOFINITE-01",
+    "Existing SPC/native readiness and C13 survival restrictions",
+    "Historical regression/report/axis candidates; canonical04A29 v2 uncertainties171/172"
+  ],
+  "new_candidates": [
+    {
+      "id": "G34-CALIBRATION-INFINITY-ADMISSION",
+      "source": "CalibrationPlot.vb:addCalibrationPlot",
+      "input": "One bin MeanPredicted=+Infinity,ObservedRate=.5",
+      "retained": "NaN-only predicate admits infinity under fixed[0,1]axes; no new finite filter.",
+      "risk": "Native rendering/interpretation of nonfinite probability is unverified",
+      "future_owner": "04A39-41 numerical/source disposition;04A45-48 native",
+      "gate": "Separate owner/scientific/native authority before changed behavior"
+    },
+    {
+      "id": "G34-SYMMETRY-SHORT-VECTOR",
+      "source": "SymetryPlot.vb:AsymmetryPlot",
+      "input": "Empty vector or singleton{1}",
+      "retained": "Original median/tail/reference indexing exceptions retained; tested exact exception type.",
+      "risk": "No usable chart; no synthetic coordinates substituted",
+      "future_owner": "04A41;04A47 native",
+      "gate": "Separate correction authorization"
+    }
+  ],
+  "open_batch_work": "No unresolved04A34 candidate; specialized35/36/37 reservations and existing defect/native/scientific gates remain. Canonical29 uncertainties171/172 unchanged."
+}

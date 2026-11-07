@@ -1,0 +1,2949 @@
+{
+  "commands": [
+    {
+      "name": "before-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.183890999993309,
+      "stdout_sha256": "787eeae7f72f67d2d2f11435531a98609ec7b1b66f7bd879170e3323432f2834",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\obj\\1\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.7756918999366462,
+      "stdout_sha256": "edd74607064b7c6b858cd8a8c7e9cd9286bd39871cae1e76b8ccded999308635",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\obj\\2\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.34453839994967,
+      "stdout_sha256": "b87eb57ac718d588e28c6d97851770b93752071eccb159b2a7e50f53702e3705",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\obj\\3\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.6270556000526994,
+      "stdout_sha256": "72a3fc0c6a2a95d04f0c7bc21c3aa4777e8e4d404b4750eee162655fac52d3c0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\obj\\4\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 6.015418800059706,
+      "stdout_sha256": "eefc1262f7554ee035ded89ad8de43e6636d8666a698f8b19be00d4e85e194c2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\obj\\5\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.1555643000174314,
+      "stdout_sha256": "fb7f5c40c35d2618e26cfc34a4a037060538ae123555c40a8ca2567c9d35fe33",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-build-host",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 4.405416199937463,
+      "stdout_sha256": "3b6ada4c7fdb9b36c7b61c1b4191e32f8423805e570920026c7bcd3e25b9f7f9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-build-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\obj\\Legacy\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.2399114000145346,
+      "stdout_sha256": "d969bfb7289d5d49fe678ef836e3d649a175c8037db06a98cd37d6df7dcc2cee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-build-mitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<ISOLATED_RUN>\\builds\\before\\Debug\\projection",
+        "/p:ReferencePath=<ISOLATED_RUN>\\builds\\before\\Debug\\legacy",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\mitigation\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\before\\Debug\\obj\\mitigation\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6233041000086814,
+      "stdout_sha256": "689e782353adf9fed67b22466ac0c846aceaa4cc69045421ffe3099ef425ef6b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-catalog",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/validate_methods_catalog.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.7011053999885917,
+      "stdout_sha256": "a70bfb0b64c4f6c04f35aa5c750548cb66686d91b481ae1351aea79f72332e99",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\before-Debug-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\before-Debug-Common\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\before-Debug-Common\\results",
+        "/Logger:trx;LogFileName=Common.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 122.65888830006588,
+      "stdout_sha256": "5a7e3a5920bf7bdce1deaa095e27d958e43aeeeb57a2fda24f7b1fd677d93288",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-common-python",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 3.4787662000162527,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "853d7ba8f2c0019980d97dfd40bf3a971d8de2567a8c866751bc6fbb938b9b2b",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-ControlMitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\before-Debug-ControlMitigation\\sandbox\\ControlMitigation\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\before-Debug-ControlMitigation\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\before-Debug-ControlMitigation\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=ControlMitigation.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 9.253535199910402,
+      "stdout_sha256": "aef4a5032362ec3d8961b7ab2a9f200917ec78c917b2c6b121c9c954e59d0506",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\before-Debug-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\before-Debug-Core\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\before-Debug-Core\\results",
+        "/Logger:trx;LogFileName=Core.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 8.123155300039798,
+      "stdout_sha256": "07d953ff9d261483fdc4be6425a80df102687d107cf305f003aaca3b7db6e90c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-help-check",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/generate_help_links.py",
+        "--methods-yml",
+        "BESHStatNG_Help_MkDocs/docs/_meta/methods.yml",
+        "--project-dir",
+        "BESHstatNG",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6998833999969065,
+      "stdout_sha256": "888fd08f3679d5a3f594309557bd4e65c931234fb73da7ba1300fb02fd0c0c4b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-inventory",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "tools/verify_stage304_inventory.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.3676825000438839,
+      "stdout_sha256": "7788d50af2e9176560a1785ef60c018e111cd2bd58b07e1e3dacf67d839a6e6d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\before-Debug-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\before-Debug-Legacy\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\before-Debug-Legacy\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=Legacy.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 177.08364550000988,
+      "stdout_sha256": "9a8c6df14fecbdaa12e405c6875bae4f9cf90bcf18470949943e8dca569d2569",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-metadata",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/generate_analysis_metadata.py",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6878711000317708,
+      "stdout_sha256": "333ca83ca13676f083b5aa452bc3fa627abcd2430e65fa17ec3bcb7f845f9fe6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-office-audit",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/audit_transitional_officejs.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 193.89526180003304,
+      "stdout_sha256": "38527431c305bca83b15e0f2b5c72637010e2c9fed9a3132779c5ba15ca82df2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-office-check",
+      "command": [
+        "node",
+        "--check",
+        "wwwroot/js/officeHost.mjs"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.OfficeAddin",
+      "exit_code": 0,
+      "seconds": 0.10212860000319779,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-office-node",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/*.test.mjs"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.OfficeAddin",
+      "exit_code": 0,
+      "seconds": 14.007018900010735,
+      "stdout_sha256": "5a7a17e0d5ba3bdf6549cef5138eb93381acdeafa4ea6fcd23c842af30428f44",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-OfficeAddin",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\before-Debug-OfficeAddin\\sandbox\\tests\\bin\\Debug\\net10.0\\OfficeAddin.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\before-Debug-OfficeAddin\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\before-Debug-OfficeAddin\\results",
+        "/Logger:trx;LogFileName=OfficeAddin.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 36.525700800004415,
+      "stdout_sha256": "9e40fa31d05cdde1bf139bffd2a997d69dc22c382707ea6ccf63eaf8676f70e7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-OfficeExecution",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\before-Debug-OfficeExecution\\sandbox\\Execution\\bin\\Debug\\net10.0\\Execution.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\before-Debug-OfficeExecution\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\before-Debug-OfficeExecution\\results",
+        "/Logger:trx;LogFileName=OfficeExecution.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.0870542000047863,
+      "stdout_sha256": "4f37fc93b71321301e30fbb5e57e3df94d2220f4b8546da1be06c66d2ed94738",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-python-help",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStatNG_Help_MkDocs/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 83.71729980001692,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "58806d181f6a8afb79f23ec19159a60a28a7f14d3de9e822f6bf693a4af07231",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-python-scripts",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 85.90009110001847,
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "ce13d674c89d8a4dde29ce10bd60de2341b776026cbe87eefa8f2740f594be75",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-python-tools",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHstatNG/tools/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 116.09790839999914,
+      "stdout_sha256": "2d0d9b4d24b1e320b2a52ba0399868b2b92d3cb341676290765cd92890e36ebb",
+      "stderr_sha256": "01c55d8b41370f52e0dab93f67d470b36881d97f7d03f922646f646ada4f6629",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-resolver",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "BESHStatNG_Help_MkDocs/tests/help-resolver.test.mjs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.36737130000256,
+      "stdout_sha256": "670acb1894a28eae185bdf3568ddf18bd07e596f4e93ddc5bf75d00fc42dd43b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-resolver-check",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHStatNG_Help_MkDocs/generate_help_resolver_routes.py",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5959751999471337,
+      "stdout_sha256": "253249fab444837d44ba1da5eefc73c3e9849bd773253dcf9b47847b882ad8b4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-semantic",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\before-Debug-semantic\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\before-Debug-semantic\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\before-Debug-semantic\\results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.2914731999626383,
+      "stdout_sha256": "3b04218a64a7be986e179e3dbabfd6e16ae0b9a7c76daef7de6f7116fa11d357",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-wasm-check",
+      "command": [
+        "node",
+        "--check",
+        "wwwroot/js/officeBridge.js"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.WasmSmoke",
+      "exit_code": 0,
+      "seconds": 0.1055099000222981,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "before-Debug-wasm-node",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.WasmSmoke",
+      "exit_code": 0,
+      "seconds": 3.611540299956687,
+      "stdout_sha256": "87a03a58e466bbd6b5ceab65675c24042a3bc7623111c0937919234ab3ff71c1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction1-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.8481370999943465,
+      "stdout_sha256": "4d5d7480705f4383e26d3ab3b94dfea88a5f1ded440e9c33bd3006527bca08fd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction1-Debug-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\obj\\1\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.6774280000245199,
+      "stdout_sha256": "f6ec6ab294f3ad2c9f1e0cf4f5e528af24ac060e67039188a9db51bad06a74b8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction1-Debug-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\obj\\2\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.035350800026208,
+      "stdout_sha256": "8ac73e306595f1471ba31693d89d7eaf74388dfc89507de945397ce4f5bf12fa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction1-Debug-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\obj\\3\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.171746400068514,
+      "stdout_sha256": "e0ae8439af4935bf948130b75815658c4bf01542100acf58193710b09dedd956",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction1-Debug-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\obj\\4\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 4.65585509990342,
+      "stdout_sha256": "66b7b9421952e25a6d1a9d711661ff6cbe20ca21637f29bf1e9eeac4282456cf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction1-Debug-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\obj\\5\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.2953338000224903,
+      "stdout_sha256": "12e47b350b2283d8848dd0dc9501066fef4cb181edbd7f31223af93c5d264320",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction1-Debug-build-host",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.7416400000220165,
+      "stdout_sha256": "823833bf1d96aa40dad5a0f2a9c23891d8d9c251a55c2ce9870eec3a533d6710",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction1-Debug-build-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\obj\\Legacy\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.0515485999640077,
+      "stdout_sha256": "f8c857607eeefddeb95898569c667c409bbdc4b3c26664999a71fa982a7b9eda",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction1-Debug-build-mitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\projection",
+        "/p:ReferencePath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\legacy",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\mitigation\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction1\\Debug\\obj\\mitigation\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6098222000291571,
+      "stdout_sha256": "2252ebd174c1af4eba9783d35d887686e16d0fb623f0c8bd01ac7c7264d9b7a8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction2-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.6829009000211954,
+      "stdout_sha256": "a50384e8b1245f59155501bc5363f6f2b972b834b701e084c57245566ebc9536",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction2-Debug-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\obj\\1\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.7221847000764683,
+      "stdout_sha256": "da2f6b0b9e90e29a68662eafe529e5cc987eef82b3354a8f983ddd9d5ee2ce5d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction2-Debug-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\obj\\2\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.9864733000285923,
+      "stdout_sha256": "9248c47e129e0ef8f2321cec5ccbb88fa19beaba47bf2373b355784836bf5ad3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction2-Debug-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\obj\\3\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.9090066000353545,
+      "stdout_sha256": "c422bf18a955ce18da8c70915f7aa90318496cab9518fe9c81b7c9093f574969",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction2-Debug-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\obj\\4\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.9053202000213787,
+      "stdout_sha256": "bb05c22dbfeb00b2d857806c24905fe4556627a505077f52afb22bdfbb7dcc8a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction2-Debug-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\obj\\5\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.2839120000135154,
+      "stdout_sha256": "8800759e2254eaa6e5f493aaad6d52172d983d0c436bb58a4b9e66e19924cc5c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction2-Debug-build-host",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction2\\Debug\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 1.3068342000478879,
+      "stdout_sha256": "7b61b29c0fe4faaf9c1948d2ecfa1a2dbabe3b36ad3495319818e3786b7c505f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction3-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction3\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction3\\Debug\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 1.6099059000844136,
+      "stdout_sha256": "fba684554e182f20b9298a760caaf7fd7449398397983045f515d916d8f5463e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction4-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.6649842000333592,
+      "stdout_sha256": "254c0e7c548c41aab2fbd04e69550a485aef1bb1d4c5862d16dcdbfa77811433",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction4-Debug-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\obj\\1\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.5932683000573888,
+      "stdout_sha256": "3983e5a32d59397d9dd10f17912f78b1ca7ca5886656ffed0616d8e7957ea3ad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction4-Debug-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\obj\\2\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.922431500046514,
+      "stdout_sha256": "4b32e00b94c642ea8c4ebe677dab4ff7aa644f2d73dfb39237d46bb3e9f51534",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction4-Debug-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\obj\\3\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.9674606999615207,
+      "stdout_sha256": "53bd2bebbee58d1cd8ed9da21288777160ae3b4bc6684675a948b29d271c0a4a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction4-Debug-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\obj\\4\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.4506514000240713,
+      "stdout_sha256": "c9ae83a723c264061c5949a6110ee308108dc1adcd14d1aefafd38695d4aa12f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction4-Debug-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\obj\\5\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.987287100055255,
+      "stdout_sha256": "5c53037a7cb1cceed5a74ba4f0de86a6b1c463e72065392f4a4a83687060fe4d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction4-Debug-build-host",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.459463999955915,
+      "stdout_sha256": "8934709297b1b549baac8f373f48257152932be330599127f85942b441449b88",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction4-Debug-build-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\obj\\Legacy\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.1497085000155494,
+      "stdout_sha256": "c111823adf86cc70492ec4d0ee7d2df1a195b799b5c35f4d3a427ef6c43cbd5f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "extraction4-Debug-build-mitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\projection",
+        "/p:ReferencePath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\legacy",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\mitigation\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\extraction4\\Debug\\obj\\mitigation\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5800422000465915,
+      "stdout_sha256": "e077614e90ce4dd5d8026dc9686e9a950114bf842d4afeaacce4542190b05e4d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.622880500042811,
+      "stdout_sha256": "cdcce0f56a0cb6d793bb4c13f3d89a3c0b1cd3a8955aca88e2a6669621f05c89",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\obj\\1\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.4572061999933794,
+      "stdout_sha256": "e0fe80076661ce2efbd7b97ec13d8aa02b5ebf9e203e5f5e9e743e1bbb7d191b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\obj\\2\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.0320839000632986,
+      "stdout_sha256": "de2bc5251e0e54ac5f9a029b097f7501f63b569f4eb53b1cc29ecbf7bbcbbfe1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\obj\\3\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.964046800043434,
+      "stdout_sha256": "6eeb64e606f10b1ff981de64be7020da5690140580cebf8a229efac7033ae97b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\obj\\4\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.4908081999747083,
+      "stdout_sha256": "d13671c23d53967ad7a570598fb8109a63aaba961afa84fa60404ab656b1e9da",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\obj\\5\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.999732100055553,
+      "stdout_sha256": "1d6daf2d470a29d4cb55f412eef84d87a758c82b4c56ca4312aedb8cd0e57188",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-build-host",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.3810091000050306,
+      "stdout_sha256": "c9a707deb7cc3262e6137f78baac6d980cf3b8b6eac3123e2450c0c5ca3cf33c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-build-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\obj\\Legacy\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.2960587000707164,
+      "stdout_sha256": "dc529f5c7039bdbe1a8d69f47a6147259b737f9e0680f286d5e2a002cc84add1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-build-mitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<ISOLATED_RUN>\\builds\\final\\Debug\\projection",
+        "/p:ReferencePath=<ISOLATED_RUN>\\builds\\final\\Debug\\legacy",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\mitigation\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Debug\\obj\\mitigation\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5937895000679418,
+      "stdout_sha256": "2ebf020cb616940bdcb300a29539ffec6fd8fba5f8b432269800b6ae18f4e319",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-catalog",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/validate_methods_catalog.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6081942999735475,
+      "stdout_sha256": "a70bfb0b64c4f6c04f35aa5c750548cb66686d91b481ae1351aea79f72332e99",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Debug-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-Common\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-Common\\results",
+        "/Logger:trx;LogFileName=Common.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 107.82641779992264,
+      "stdout_sha256": "c03d1674ccb72b43c9f1c6e6f7a0d331c52f75b420753ac764c8e4c4050c406b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-common-python",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 2.55103880004026,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "c7b45eaf3d7ea651263646b537c09ff272742eefdfb14b4db55c2d67e940433d",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-ControlMitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\final-Debug-ControlMitigation\\sandbox\\ControlMitigation\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-ControlMitigation\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-ControlMitigation\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=ControlMitigation.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 9.110400400008075,
+      "stdout_sha256": "291570a3c07a096efa7c61bd6828546c914a3bec5d74e222511d5194b5bb2128",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Debug-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-Core\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-Core\\results",
+        "/Logger:trx;LogFileName=Core.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 6.767399300006218,
+      "stdout_sha256": "8362a65a969d6d3d42afd8d395499df22fc9de907d9b79ff2e828b1944944ddf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-focused-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Debug-focused-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-focused-Common\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-focused-Common\\results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.242317899945192,
+      "stdout_sha256": "bef0434bbc1158c0bf5775dcb16bbfcaae489d753c87a428ab089c9c130b8709",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-focused-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Debug-focused-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-focused-Core\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-focused-Core\\results",
+        "/Logger:trx;LogFileName=Core.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.9356998999137431,
+      "stdout_sha256": "b477f7344c32ec6996985ae6a66437bf872602e546c35ad889aa3895f8fb28c9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-focused-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\final-Debug-focused-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-focused-Legacy\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-focused-Legacy\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.2032232999335974,
+      "stdout_sha256": "7b509d934daf0c0f38d3a3c5cf8ae2a29b2045cfc759024b998535067528e931",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-help-check",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/generate_help_links.py",
+        "--methods-yml",
+        "BESHStatNG_Help_MkDocs/docs/_meta/methods.yml",
+        "--project-dir",
+        "BESHstatNG",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6780261000385508,
+      "stdout_sha256": "888fd08f3679d5a3f594309557bd4e65c931234fb73da7ba1300fb02fd0c0c4b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-inventory",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "tools/verify_stage304_inventory.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.34367590001784265,
+      "stdout_sha256": "7788d50af2e9176560a1785ef60c018e111cd2bd58b07e1e3dacf67d839a6e6d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\final-Debug-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-Legacy\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-Legacy\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=Legacy.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 155.8601608000463,
+      "stdout_sha256": "315685afab7272f1e383fdf13a3d5b637f55deda5572f88588e8dd498a4f29a0",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-metadata",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/generate_analysis_metadata.py",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6187802999047562,
+      "stdout_sha256": "333ca83ca13676f083b5aa452bc3fa627abcd2430e65fa17ec3bcb7f845f9fe6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-office-audit",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/audit_transitional_officejs.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 130.22961869998835,
+      "stdout_sha256": "38527431c305bca83b15e0f2b5c72637010e2c9fed9a3132779c5ba15ca82df2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-office-check",
+      "command": [
+        "node",
+        "--check",
+        "wwwroot/js/officeHost.mjs"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.OfficeAddin",
+      "exit_code": 0,
+      "seconds": 0.8384631000226364,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-office-node",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/*.test.mjs"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.OfficeAddin",
+      "exit_code": 0,
+      "seconds": 13.594862199970521,
+      "stdout_sha256": "d3475c12e066544330f7559ad9a23396b5534b2397adaf4203d0d49d18ed05c0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-OfficeAddin",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Debug-OfficeAddin\\sandbox\\tests\\bin\\Debug\\net10.0\\OfficeAddin.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-OfficeAddin\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-OfficeAddin\\results",
+        "/Logger:trx;LogFileName=OfficeAddin.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 35.90697779995389,
+      "stdout_sha256": "f4c1a87e000c5e681833d1b6ea20058959a1f5590733cca5b3b488fc00ac7e12",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-OfficeExecution",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Debug-OfficeExecution\\sandbox\\Execution\\bin\\Debug\\net10.0\\Execution.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-OfficeExecution\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-OfficeExecution\\results",
+        "/Logger:trx;LogFileName=OfficeExecution.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.052256499999203,
+      "stdout_sha256": "7544c3e52b9d47175c4d99a08e3a7bbf3ba2bd8dee9c70c2b487830e555361af",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-python-help",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStatNG_Help_MkDocs/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 81.62186080007814,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "29a8bc1abee0467f5ba2e578bbc604626fec3be0308f7022d2f609ce6b46a8fe",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-python-scripts",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 78.9647981999442,
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "f5db847423833f1a854d06fa11211768a45fadde32283d0c839917f8d363c95c",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-python-tools",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHstatNG/tools/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 114.47769039997365,
+      "stdout_sha256": "2d33a81615f746273b045a0f000e7b2b4003662ae3ece9bca03c7b48a4562760",
+      "stderr_sha256": "5bf519a4ead8644ed4344a3a4c8e1101ae439f753da7d996526e1ea2bb072372",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-resolver",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "BESHStatNG_Help_MkDocs/tests/help-resolver.test.mjs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.3220143000362441,
+      "stdout_sha256": "12e591badb6f0d79b0559fdd0332d40330b195a2411ae187cd742eb9f7a36577",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-resolver-check",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHStatNG_Help_MkDocs/generate_help_resolver_routes.py",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5690708999754861,
+      "stdout_sha256": "253249fab444837d44ba1da5eefc73c3e9849bd773253dcf9b47847b882ad8b4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-semantic",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Debug-semantic\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Debug-semantic\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Debug-semantic\\results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.234398000058718,
+      "stdout_sha256": "c538cf70ce5e3fe901d4362ef3ea2c6b02fbd5d29e354d4e66f7cd4a4bf9d9fc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-wasm-check",
+      "command": [
+        "node",
+        "--check",
+        "wwwroot/js/officeBridge.js"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.WasmSmoke",
+      "exit_code": 0,
+      "seconds": 0.10723269998561591,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Debug-wasm-node",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.WasmSmoke",
+      "exit_code": 0,
+      "seconds": 3.570129800005816,
+      "stdout_sha256": "7a1a03866bc2eec54718866cd0aa32d567769708fb1b523e3094f8611c197778",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-docs",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--config-file",
+        "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+        "--site-dir",
+        "<ISOLATED_RUN>\\final\\site",
+        "--strict"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 6.282467899960466,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "5d4f5137691d5c61d00c4fd043d976379e6cbd9a2e5addd169e32b9a5cfeb241",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-packet-audits",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "evidence/04A34",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6132864999817684,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "c41e8d7421a6d8d4d679000dd1121bd6cf3ce29415f0cf6ef160506c2c2e9ee3",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-profile",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "scripts/windows-migration-audit/owner_closeout.py",
+        "--profile",
+        "inventory-complete-with-approved-deferrals"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 53.16771619999781,
+      "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.7060866000829265,
+      "stdout_sha256": "44ff1900fd78ed8ca8d32fb69a5d50a655b73ce871d7237282e5dbd29117d021",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\obj\\1\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.623866599984467,
+      "stdout_sha256": "b2cf35d346035b752a5973ff9abb70b48aaadfcc1d41dfa09108e059afc4f0d5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\obj\\2\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.9745077000698075,
+      "stdout_sha256": "be6c675d46ce3274e293a7cfe54c1f3db1e363f03fbeac76b3041de82eee448c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\obj\\3\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.940099300001748,
+      "stdout_sha256": "92304899398d4e590d77eab814834b80d306c5902a494e266b69a53619c6936a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\obj\\4\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.6818580999970436,
+      "stdout_sha256": "a7ac9b3faff49a96229a801f35b7ee81c94f4d29434af5223339d0005a13f14f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\obj\\5\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.9800599999725819,
+      "stdout_sha256": "7c78033e1dfe5c7c710ae452a77b328e93df94a987f552d2d85f59175293d317",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-build-host",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.552968099946156,
+      "stdout_sha256": "dbdb8e80e3f6806f4de5eaca83c7f22a9ab0e3f4ff06b7e9e6e23b7b7604d54b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-build-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\obj\\Legacy\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.311250100028701,
+      "stdout_sha256": "4dff17c7e32a29f72d5fe64c7a81e5f498b77338ebb47be4b74d80223574c478",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-build-mitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:ProjectionSourceDir=<ISOLATED_RUN>\\builds\\final\\Release\\projection",
+        "/p:ReferencePath=<ISOLATED_RUN>\\builds\\final\\Release\\legacy",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\mitigation\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\final\\Release\\obj\\mitigation\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6033579000504687,
+      "stdout_sha256": "ef99a63a937787a1419d6f403130493124a2660b9182a3482ca1ad7fea529d1f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Release-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Release-Common\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Release-Common\\results",
+        "/Logger:trx;LogFileName=Common.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 99.59760720003396,
+      "stdout_sha256": "0c960633bbd067871af228bfaecd4ff0f1320a83c92a7c328a5e828371081bcd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-ControlMitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\final-Release-ControlMitigation\\sandbox\\ControlMitigation\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Release-ControlMitigation\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Release-ControlMitigation\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=ControlMitigation.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 6.175419099978171,
+      "stdout_sha256": "789cb15ed8f58362b6ab261ef755575a77fc4868cbca7f36c58aa3a85b1bef81",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Release-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Release\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Release-Core\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Release-Core\\results",
+        "/Logger:trx;LogFileName=Core.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 7.158425500034355,
+      "stdout_sha256": "8e233a9e9d8a906353d83411bf823e6b13fa95ce4f996ac8d59888d57e83b9da",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-focused-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Release-focused-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Release-focused-Common\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Release-focused-Common\\results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.1710410000523552,
+      "stdout_sha256": "08528212ebeb97f1c837921135a14e22590d288f0bc3e9cdd51a42ffd1d556ae",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-focused-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Release-focused-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Release\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Release-focused-Core\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Release-focused-Core\\results",
+        "/Logger:trx;LogFileName=Core.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.0121485999552533,
+      "stdout_sha256": "c96cd0873dac8553317bf80627c37331c846c1ab935f6a1a4dd3667dec0c5a0c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-focused-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\final-Release-focused-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Release-focused-Legacy\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Release-focused-Legacy\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.573055600048974,
+      "stdout_sha256": "7ba0352d322b023bcebb178d6e3621262c719ad1cbeeb49c19f4d684847616e6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\final-Release-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Release-Legacy\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Release-Legacy\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=Legacy.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 136.57294830004685,
+      "stdout_sha256": "fc60f0806fea51c307efc882c8a661c6db56b3ebbb7df676ea412e424ed71f41",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-OfficeAddin",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Release-OfficeAddin\\sandbox\\tests\\bin\\Release\\net10.0\\OfficeAddin.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Release-OfficeAddin\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Release-OfficeAddin\\results",
+        "/Logger:trx;LogFileName=OfficeAddin.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 35.61587759992108,
+      "stdout_sha256": "a643479fb07403116674c80cac9ef778a6b8d2ade9b63320d349a8781b77acb5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-Release-OfficeExecution",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\final-Release-OfficeExecution\\sandbox\\Execution\\bin\\Release\\net10.0\\Execution.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\final-Release-OfficeExecution\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\final-Release-OfficeExecution\\results",
+        "/Logger:trx;LogFileName=OfficeExecution.trx"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.0946836000075564,
+      "stdout_sha256": "cff031bd51ace4fc304afa684eca063e5fed066c6a566d6766522002b44601ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-strict",
+      "command": [
+        "dotnet",
+        "<REPO_ROOT>\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+        "--check",
+        "--strict"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 11.82673790003173,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-version-dotnet",
+      "command": [
+        "dotnet",
+        "--version"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.1467261000070721,
+      "stdout_sha256": "e4e6a678725873a4192c048849cd64d852983991bfcb210a40c3b80cc8fcf2eb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-version-framework",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-Command",
+        "[Environment]::Version.ToString()"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.26330290001351386,
+      "stdout_sha256": "6d18de0c30f767da11f6ef355996df82f7a98afca0e00383b3435542a97f5c3a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-version-msbuild",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "/version",
+        "/nologo"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.11687389994040132,
+      "stdout_sha256": "4ba5f9f90faf22b04646c58336c4c6458db0b0bd3c1375728cab215b09c91fb0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-version-node",
+      "command": [
+        "node",
+        "--version"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.04225709999445826,
+      "stdout_sha256": "a18ba454716b5449eabf6c34a4418c2678b600d8c81c01d5ca876f529ea4d626",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-version-python",
+      "command": [
+        "<PYTHON>",
+        "--version"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.030429799924604595,
+      "stdout_sha256": "9fc9968e3ae8d82284d7426a87e1426e07246027c7706b0803a1c8d9c60c7a4d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "final-wasm-cjs",
+      "command": [
+        "node",
+        "--test",
+        "BESHStat.WasmSmoke/tests/*.test.cjs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6574505999451503,
+      "stdout_sha256": "1bf18211bba0d530927bac9cda6343a0235b435f27134a720f3e607b145bcb86",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "sealed-Debug-python-scripts",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 59.78072989999782,
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "69752c9635db1d710edcc770cfc57b5a73daf9f4c98e647fa53285efea4ee2bd",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "sealed-packet-audits",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "evidence/04A34",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5912333999294788,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a2b5967c8231d7f24cdf106bb7ece8645449ae83c91b3b4997571f726dcc6dd7",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests1-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests1\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests1\\Debug\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.6866316000232473,
+      "stdout_sha256": "6e7f1a3bd0197860672801a4a459a775d03bbcd7d0e4d2a5076cf455de4c64a8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests1-Debug-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests1\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests1\\Debug\\obj\\1\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.4247644999995828,
+      "stdout_sha256": "695cdd2e731ee189ee44154a26bc7ab5ee086d60256f9a8aabb822880f0d84e7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests1-Debug-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests1\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests1\\Debug\\obj\\2\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 1.7637030999176204,
+      "stdout_sha256": "4a1d33f0f8fa5edf3caa9a6e4edb1e0a95a3006efa3b72c64357cb2cb4bc95b8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.6687996999826282,
+      "stdout_sha256": "baea640764569ed7ea5f7cbef6d962b9b4c462f89a43c8554d26c541bbfa32c4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\obj\\1\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.4587501999922097,
+      "stdout_sha256": "57ba6b6088873dcae0b1fe0efc55c7f2aad3c37c6858303294b22cfb03d12b70",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\obj\\2\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.2083090000087395,
+      "stdout_sha256": "518045de2357cc85f024be576670525a7399181d274c38adfb1dcdebb95aa5fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\obj\\3\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.7836593000683933,
+      "stdout_sha256": "7552a038b5671ae8ee31b2b3784afcc0ad8f6debcfe009e8bd0c04f1b5c71a1e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\obj\\4\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.3645386999705806,
+      "stdout_sha256": "314e5c13769f2c122f15a24602321177ac562a3ee4c0c72e29f5546cc6c07ce1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\obj\\5\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.9480587999569252,
+      "stdout_sha256": "29e1ca6daea378ba26b4a8283e4d7a5b83db33dd212fcbfabfcaa0b2fb867955",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-build-host",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.5821545999497175,
+      "stdout_sha256": "322f34c49320f8bb0a0ae7625e053cc803955a647074628abe80b521cedc7085",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-build-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\obj\\Legacy\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.014937400002964,
+      "stdout_sha256": "f05cb30bd398c6808e744238fc426c6c47e16dfca4edb872083965e55de42961",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-build-mitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<ISOLATED_RUN>\\builds\\tests2\\Debug\\projection",
+        "/p:ReferencePath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\legacy",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\mitigation\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests2\\Debug\\obj\\mitigation\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5956106999656186,
+      "stdout_sha256": "fcb363744970449201fc5fc0a95e22e8ef57fce39e80848b17ad9c5e03b8cce1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-focused-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\tests2-Debug-focused-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\tests2-Debug-focused-Common\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\tests2-Debug-focused-Common\\results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.9475440999958664,
+      "stdout_sha256": "4f09bf96160822ab589a12bff4195142e3133a370a2aff541cedc792f38b1502",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-focused-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\tests2-Debug-focused-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\tests2-Debug-focused-Core\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\tests2-Debug-focused-Core\\results",
+        "/Logger:trx;LogFileName=Core.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 1.8387692000251263,
+      "stdout_sha256": "f359e34795aca58e44e22e3baebb2fc00130892fc9d9082c331a8f677df4a47e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests2-Debug-focused-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\tests2-Debug-focused-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\tests2-Debug-focused-Legacy\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\tests2-Debug-focused-Legacy\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 4.576546799973585,
+      "stdout_sha256": "1340672cd3201147e3529ded13e6f622822678e44827155e5c56a0fe87cf8091",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\obj\\0\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.5892611999297515,
+      "stdout_sha256": "c15451ba176a3d096956c2a38b82006a49844ad972246b8f83fe817b50604914",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\obj\\1\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.6030124999815598,
+      "stdout_sha256": "29e5a2327b0ba6fc7e81f1f6b8ecb29af7e974f14f4aa112a8a90e0a2a5eb79c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\obj\\2\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.8702354000415653,
+      "stdout_sha256": "b734933cdf199fc4e3f444acc2bab705eb8503f049f87ffc1f3e8411bd2744c1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\obj\\3\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.9307930000359192,
+      "stdout_sha256": "f4ac48add855e9b9f3925f18f60c17c22f68532dd150716bc06609be274d601a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\obj\\4\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.4457079999847338,
+      "stdout_sha256": "c8f0eb228f80460f22bd6150b15aefbf6d70aa7eb2dfb7024273d971bd2cdfb1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\portable\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\obj\\5\\"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.9308993000304326,
+      "stdout_sha256": "28ab340a6a05414f43f74fb18d35dc169cd7fa3f5e56868334c252a6dba8d5f5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-build-host",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.3746513000223786,
+      "stdout_sha256": "4a4902c8011473e183e9cb006020d6ba315f1594316931c3f18c61cfe8dc3e2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-build-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\obj\\Legacy\\",
+        "/p:PythonExe=<PYTHON>"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.1312612999463454,
+      "stdout_sha256": "e815cc8a15beca2c5546092b184b0f3b8d78fa8ccd4b8d3f7727473b660df15e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-build-mitigation",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<ISOLATED_RUN>\\builds\\tests3\\Debug\\projection",
+        "/p:ReferencePath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\legacy",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\mitigation\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\tests3\\Debug\\obj\\mitigation\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6375335999764502,
+      "stdout_sha256": "a777fba96979d7ef94a7ba658ce3a090da0290161886f5cf255cb7ddd6fb1645",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-focused-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\tests3-Debug-focused-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\tests3-Debug-focused-Common\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\tests3-Debug-focused-Common\\results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.923415399971418,
+      "stdout_sha256": "5054838a1cf1cd924a610fd4c55ac0c017b011706cf86cafa2b1ee71f34fc0b6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-focused-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\tests3-Debug-focused-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\tests3-Debug-focused-Core\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\tests3-Debug-focused-Core\\results",
+        "/Logger:trx;LogFileName=Core.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.8749070999911055,
+      "stdout_sha256": "769d90fb262517fbb613618183d977c07b37daf26727e4d383a787fe64580232",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "name": "tests3-Debug-focused-Legacy",
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\tests3-Debug-focused-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\tests3-Debug-focused-Legacy\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\tests3-Debug-focused-Legacy\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~Graphics34|FullyQualifiedName~Graphics33|FullyQualifiedName~Graphics32|FullyQualifiedName~Graphics31|FullyQualifiedName~Graphics30"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 4.318955300026573,
+      "stdout_sha256": "0718afc0cd224ca9a0fec2bd0bbd3eab3a386197ff635b334f64d75473a0fe0c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "qualification": "Actual subprocess exit codes retained, including intermediate harness/build failures. Unchanged wrappers NOT_RUN: shared TestResults/bin/obj and Legacy packaging hooks. Compiled-source capture and Roslyn guard commands are additionally described in the dossier; no native host launched."
+}

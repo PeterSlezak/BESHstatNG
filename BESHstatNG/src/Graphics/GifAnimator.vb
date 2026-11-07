@@ -1,4 +1,4 @@
-﻿Imports System.Drawing
+Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Linq
@@ -134,8 +134,7 @@ Public Module GifAnimator
     End Sub
 
     Private Function MsToCentiseconds(ms As Integer) As Integer
-        Dim safeMs = If(ms < 0, 0, ms)
-        Return Math.Max(1, CInt(Math.Round(safeMs / 10.0)))
+        Return AnimationFrameTimingCore.MsToCentiseconds(ms)
     End Function
 
     Private Function GetEncoder(fmt As ImageFormat) As ImageCodecInfo

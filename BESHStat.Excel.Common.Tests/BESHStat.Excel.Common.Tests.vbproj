@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\BESHStatNG.Test\src\Charts\LegacyCompletionSeries34.vb"><Link>Graphics34\LegacyCompletionSeries34.vb</Link></Compile>
+    <Compile Include="..\BESHStatNG.Test\src\Charts\CompletionSeriesCases34.vb"><Link>Graphics34\CompletionSeriesCases34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyCompletionPolicies34.vb"><Link>Graphics34\LegacyCompletionPolicies34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\CompletionPolicyCases34.vb"><Link>Graphics34\CompletionPolicyCases34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Completion34Cases.vb"><Link>Graphics34\Completion34Cases.vb</Link></Compile>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
     <Compile Include="..\BESHStat.Core.Tests\src\StatTests\Completion05References.vb" Link="TestSupport\Completion05References.vb" />
     <None Include="..\BESHStat.Core.Tests\TestData\04A05Completion\*.csv" Link="TestData\04A05Completion\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />

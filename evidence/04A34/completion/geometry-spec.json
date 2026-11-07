@@ -1,0 +1,504 @@
+{
+  "authority": "PRE_EDIT_LEGACY",
+  "scientific": "NOT_GOLDEN",
+  "functions": [
+    {
+      "family": "Bullet",
+      "member": "DrawQualitativeBands",
+      "name": "Band",
+      "args": [
+        [
+          "normalizedStart",
+          "Double"
+        ],
+        [
+          "normalizedEnd",
+          "Double"
+        ],
+        [
+          "plotLeft",
+          "Double"
+        ],
+        [
+          "plotWidth",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "X1",
+          "Double"
+        ],
+        [
+          "X2",
+          "Double"
+        ],
+        [
+          "Width",
+          "Double"
+        ]
+      ],
+      "returns": [
+        "x1",
+        "x2",
+        "bandWidth"
+      ],
+      "type": "BulletBandGeometry",
+      "function": "    Public Function Band(normalizedStart As Double, normalizedEnd As Double, plotLeft As Double, plotWidth As Double) As BulletBandGeometry\n        Dim x1 As Double = MapX(normalizedStart, plotLeft, plotWidth)\n            Dim x2 As Double = MapX(normalizedEnd, plotLeft, plotWidth)\n            Dim bandWidth As Double = Math.Max(0.5R, x2 - x1)\n\n        Return New BulletBandGeometry(x1, x2, bandWidth)\n    End Function\n",
+      "original_fragment": "        Dim x1 As Double = NormalizedToChartX(band.NormalizedStart, layout)\n            Dim x2 As Double = NormalizedToChartX(band.NormalizedEnd, layout)\n            Dim bandWidth As Double = Math.Max(0.5R, x2 - x1)\n\n",
+      "original_lf_sha256": "bd35decfb073056eb56802476fd8df84150362bb8dad0cc284be37e098ed91e7",
+      "adapter_original_prefix": "        Dim x1 As Double = NormalizedToChartX(band.NormalizedStart, layout)\n            Dim x2 As Double = NormalizedToChartX(band.NormalizedEnd, layout)\n            Dim bandWidth As Double = Math.Max(0.5R, x2 - x1)\n\n"
+    },
+    {
+      "family": "Bullet",
+      "member": "DrawActualBar",
+      "name": "Actual",
+      "args": [
+        [
+          "actualNormalized",
+          "Double"
+        ],
+        [
+          "bandHeight",
+          "Double"
+        ],
+        [
+          "barHeightFraction",
+          "Double"
+        ],
+        [
+          "bandCentreY",
+          "Double"
+        ],
+        [
+          "plotWidth",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Height",
+          "Double"
+        ],
+        [
+          "Top",
+          "Double"
+        ],
+        [
+          "Width",
+          "Double"
+        ]
+      ],
+      "returns": [
+        "barHeight",
+        "barTop",
+        "barWidth"
+      ],
+      "type": "BulletActualGeometry",
+      "function": "    Public Function Actual(actualNormalized As Double, bandHeight As Double, barHeightFraction As Double, bandCentreY As Double, plotWidth As Double) As BulletActualGeometry\n        Dim normalized As Double = Clip01(actualNormalized)\n        If normalized <= 0.0R Then Return Nothing\n        Dim barHeight As Double = Math.Max(1.0R, bandHeight * barHeightFraction)\n        Dim barTop As Double = bandCentreY - barHeight / 2.0R\n        Dim barWidth As Double = Math.Max(0.5R, normalized * plotWidth)\n\n        Return New BulletActualGeometry(barHeight, barTop, barWidth)\n    End Function\n",
+      "original_fragment": "        Dim normalized As Double = Clip01(item.ActualNormalized)\n        If normalized <= 0.0R Then Return\n\n        Dim barHeight As Double = Math.Max(1.0R, layout.BandHeight * appearance.ActualBarHeightFraction)\n        Dim barTop As Double = rowLayout.BandCentreY - barHeight / 2.0R\n        Dim barWidth As Double = Math.Max(0.5R, normalized * layout.PlotWidth)\n\n",
+      "original_lf_sha256": "968085c2f9ea0639352dced2ec0583aadbefc4e3ee01bea9b74e22923a10c249",
+      "adapter_original_prefix": "        Dim normalized As Double = Clip01(item.ActualNormalized)\n        If normalized <= 0.0R Then Return\n\n        Dim barHeight As Double = Math.Max(1.0R, layout.BandHeight * appearance.ActualBarHeightFraction)\n        Dim barTop As Double = rowLayout.BandCentreY - barHeight / 2.0R\n        Dim barWidth As Double = Math.Max(0.5R, normalized * layout.PlotWidth)\n\n"
+    },
+    {
+      "family": "Bullet",
+      "member": "DrawTargetMarker",
+      "name": "Target",
+      "args": [
+        [
+          "targetNormalized",
+          "Double"
+        ],
+        [
+          "plotLeft",
+          "Double"
+        ],
+        [
+          "plotWidth",
+          "Double"
+        ],
+        [
+          "bandHeight",
+          "Double"
+        ],
+        [
+          "heightFraction",
+          "Double"
+        ],
+        [
+          "bandCentreY",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "X",
+          "Double"
+        ],
+        [
+          "Y1",
+          "Double"
+        ],
+        [
+          "Y2",
+          "Double"
+        ]
+      ],
+      "returns": [
+        "x",
+        "y1",
+        "y2"
+      ],
+      "type": "BulletTargetGeometry",
+      "function": "    Public Function Target(targetNormalized As Double, plotLeft As Double, plotWidth As Double, bandHeight As Double, heightFraction As Double, bandCentreY As Double) As BulletTargetGeometry\n        Dim x As Double = MapX(targetNormalized, plotLeft, plotWidth)\n        Dim markerHeight As Double = Math.Max(2.0R,\n                                             bandHeight * heightFraction)\n        Dim y1 As Double = bandCentreY - markerHeight / 2.0R\n        Dim y2 As Double = bandCentreY + markerHeight / 2.0R\n\n        Return New BulletTargetGeometry(x, y1, y2)\n    End Function\n",
+      "original_fragment": "        Dim x As Double = NormalizedToChartX(item.TargetNormalized, layout)\n        Dim markerHeight As Double = Math.Max(2.0R,\n                                             layout.BandHeight * appearance.TargetMarkerHeightFraction)\n        Dim y1 As Double = rowLayout.BandCentreY - markerHeight / 2.0R\n        Dim y2 As Double = rowLayout.BandCentreY + markerHeight / 2.0R\n\n",
+      "original_lf_sha256": "eb3a34a4a77afe22c0d60078367a328508e4d26a2d6d211587de42c6e4badea1",
+      "adapter_original_prefix": "        Dim x As Double = NormalizedToChartX(item.TargetNormalized, layout)\n        Dim markerHeight As Double = Math.Max(2.0R,\n                                             layout.BandHeight * appearance.TargetMarkerHeightFraction)\n        Dim y1 As Double = rowLayout.BandCentreY - markerHeight / 2.0R\n        Dim y2 As Double = rowLayout.BandCentreY + markerHeight / 2.0R\n\n"
+    },
+    {
+      "family": "Bullet",
+      "member": "DrawActualValueLabel",
+      "name": "ActualLabel",
+      "args": [
+        [
+          "actualNormalized",
+          "Double"
+        ],
+        [
+          "plotLeft",
+          "Double"
+        ],
+        [
+          "plotWidth",
+          "Double"
+        ],
+        [
+          "valueLabelWidth",
+          "Double"
+        ],
+        [
+          "valueLabelGap",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Left",
+          "Double"
+        ],
+        [
+          "Width",
+          "Double"
+        ],
+        [
+          "RightAligned",
+          "Boolean"
+        ]
+      ],
+      "returns": [
+        "left",
+        "labelWidth",
+        "alignment = 1"
+      ],
+      "type": "BulletActualLabelGeometry",
+      "function": "    Public Function ActualLabel(actualNormalized As Double, plotLeft As Double, plotWidth As Double, valueLabelWidth As Double, valueLabelGap As Double) As BulletActualLabelGeometry\n        Dim actualX As Double = MapX(actualNormalized, plotLeft, plotWidth)\n        Dim labelWidth As Double = Math.Min(valueLabelWidth, plotWidth)\n        Dim left As Double\n        Dim alignment As Integer\n\n        If actualX + valueLabelGap + labelWidth <= plotLeft + plotWidth Then\n            left = actualX + valueLabelGap\n            alignment = 0\n        Else\n            left = Math.Max(plotLeft, actualX - valueLabelGap - labelWidth)\n            alignment = 1\n        End If\n\n        Return New BulletActualLabelGeometry(left, labelWidth, alignment = 1)\n    End Function\n",
+      "original_fragment": "        Dim actualX As Double = NormalizedToChartX(item.ActualNormalized, layout)\n        Dim labelWidth As Double = Math.Min(appearance.ValueLabelWidth, layout.PlotWidth)\n        Dim left As Double\n        Dim alignment As Integer\n\n        If actualX + appearance.ValueLabelGap + labelWidth <= layout.PlotLeft + layout.PlotWidth Then\n            left = actualX + appearance.ValueLabelGap\n            alignment = MsoAlignLeft\n        Else\n            left = Math.Max(layout.PlotLeft, actualX - appearance.ValueLabelGap - labelWidth)\n            alignment = MsoAlignRight\n        End If\n\n",
+      "original_lf_sha256": "55460ca328c203ea8c42acfbe8cdad20f5a57632760f87747601331d6f462513",
+      "adapter_original_prefix": "        Dim actualX As Double = NormalizedToChartX(item.ActualNormalized, layout)\n        Dim labelWidth As Double = Math.Min(appearance.ValueLabelWidth, layout.PlotWidth)\n        Dim left As Double\n        Dim alignment As Integer\n\n        If actualX + appearance.ValueLabelGap + labelWidth <= layout.PlotLeft + layout.PlotWidth Then\n            left = actualX + appearance.ValueLabelGap\n            alignment = MsoAlignLeft\n        Else\n            left = Math.Max(layout.PlotLeft, actualX - appearance.ValueLabelGap - labelWidth)\n            alignment = MsoAlignRight\n        End If\n\n"
+    },
+    {
+      "family": "Bullet",
+      "member": "DrawTargetValueLabel",
+      "name": "TargetLabel",
+      "args": [
+        [
+          "targetNormalized",
+          "Double"
+        ],
+        [
+          "plotLeft",
+          "Double"
+        ],
+        [
+          "plotWidth",
+          "Double"
+        ],
+        [
+          "valueLabelWidth",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Left",
+          "Double"
+        ],
+        [
+          "Width",
+          "Double"
+        ]
+      ],
+      "returns": [
+        "left",
+        "labelWidth"
+      ],
+      "type": "BulletTargetLabelGeometry",
+      "function": "    Public Function TargetLabel(targetNormalized As Double, plotLeft As Double, plotWidth As Double, valueLabelWidth As Double) As BulletTargetLabelGeometry\n        Dim targetX As Double = MapX(targetNormalized, plotLeft, plotWidth)\n        Dim labelWidth As Double = Math.Min(valueLabelWidth, plotWidth)\n        Dim left As Double = targetX - labelWidth / 2.0R\n        left = Math.Max(plotLeft,\n                        Math.Min(plotLeft + plotWidth - labelWidth, left))\n\n        Return New BulletTargetLabelGeometry(left, labelWidth)\n    End Function\n",
+      "original_fragment": "        Dim targetX As Double = NormalizedToChartX(item.TargetNormalized, layout)\n        Dim labelWidth As Double = Math.Min(appearance.ValueLabelWidth, layout.PlotWidth)\n        Dim left As Double = targetX - labelWidth / 2.0R\n        left = Math.Max(layout.PlotLeft,\n                        Math.Min(layout.PlotLeft + layout.PlotWidth - labelWidth, left))\n\n",
+      "original_lf_sha256": "1594e3dfbc0fbc2acac7b486b30bec8c72a783a547f3acc0915e4da90e533c1e",
+      "adapter_original_prefix": "        Dim targetX As Double = NormalizedToChartX(item.TargetNormalized, layout)\n        Dim labelWidth As Double = Math.Min(appearance.ValueLabelWidth, layout.PlotWidth)\n        Dim left As Double = targetX - labelWidth / 2.0R\n        left = Math.Max(layout.PlotLeft,\n                        Math.Min(layout.PlotLeft + layout.PlotWidth - labelWidth, left))\n\n"
+    },
+    {
+      "family": "Sankey",
+      "member": "DrawRibbon",
+      "name": "Ribbon",
+      "args": [
+        [
+          "sourceNodeX",
+          "Double"
+        ],
+        [
+          "targetNodeX",
+          "Double"
+        ],
+        [
+          "nodeWidth",
+          "Double"
+        ],
+        [
+          "sourceTopValue",
+          "Double"
+        ],
+        [
+          "targetTopValue",
+          "Double"
+        ],
+        [
+          "thickness",
+          "Double"
+        ],
+        [
+          "curvature",
+          "Double"
+        ],
+        [
+          "stageLeft",
+          "Double"
+        ],
+        [
+          "stageRight",
+          "Double"
+        ],
+        [
+          "plotTop",
+          "Double"
+        ],
+        [
+          "plotHeight",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "SourceX",
+          "Double"
+        ],
+        [
+          "TargetX",
+          "Double"
+        ],
+        [
+          "SourceTop",
+          "Double"
+        ],
+        [
+          "SourceBottom",
+          "Double"
+        ],
+        [
+          "TargetTop",
+          "Double"
+        ],
+        [
+          "TargetBottom",
+          "Double"
+        ],
+        [
+          "C1X",
+          "Double"
+        ],
+        [
+          "C2X",
+          "Double"
+        ]
+      ],
+      "returns": [
+        "sourceX",
+        "targetX",
+        "sourceTop",
+        "sourceBottom",
+        "targetTop",
+        "targetBottom",
+        "c1x",
+        "c2x"
+      ],
+      "type": "SankeyRibbonGeometry",
+      "function": "    Public Function Ribbon(sourceNodeX As Double, targetNodeX As Double, nodeWidth As Double, sourceTopValue As Double, targetTopValue As Double, thickness As Double, curvature As Double, stageLeft As Double, stageRight As Double, plotTop As Double, plotHeight As Double) As SankeyRibbonGeometry\n        Dim sourceCentreX As Double = MapX(sourceNodeX, stageLeft, stageRight)\n        Dim targetCentreX As Double = MapX(targetNodeX, stageLeft, stageRight)\n        Dim sourceX As Double = sourceCentreX + nodeWidth / 2.0R\n        Dim targetX As Double = targetCentreX - nodeWidth / 2.0R\n\n        If targetX <= sourceX Then\n            'The backend guarantees forward stages; this guard protects against an\n            'impossibly narrow chart after aggressive manual resizing.\n            Return Nothing\n        End If\n\n        Dim sourceTop As Double = MapY(sourceTopValue, plotTop, plotHeight)\n        Dim sourceBottom As Double = MapY(sourceTopValue + thickness, plotTop, plotHeight)\n        Dim targetTop As Double = MapY(targetTopValue, plotTop, plotHeight)\n        Dim targetBottom As Double = MapY(targetTopValue + thickness, plotTop, plotHeight)\n\n        Dim dx As Double = targetX - sourceX\n        Dim controlOffset As Double = dx * curvature\n        Dim c1x As Double = sourceX + controlOffset\n        Dim c2x As Double = targetX - controlOffset\n\n        Return New SankeyRibbonGeometry(sourceX, targetX, sourceTop, sourceBottom, targetTop, targetBottom, c1x, c2x)\n    End Function\n",
+      "original_fragment": "        Dim sourceCentreX As Double = NormalizedXToChartX(sourceNode.X, layout)\n        Dim targetCentreX As Double = NormalizedXToChartX(targetNode.X, layout)\n        Dim sourceX As Double = sourceCentreX + appearance.NodeWidth / 2.0R\n        Dim targetX As Double = targetCentreX - appearance.NodeWidth / 2.0R\n\n        If targetX <= sourceX Then\n            'The backend guarantees forward stages; this guard protects against an\n            'impossibly narrow chart after aggressive manual resizing.\n            Return\n        End If\n\n        Dim sourceTop As Double = NormalizedYToChartY(link.SourceTop, layout)\n        Dim sourceBottom As Double = NormalizedYToChartY(link.SourceTop + link.Thickness, layout)\n        Dim targetTop As Double = NormalizedYToChartY(link.TargetTop, layout)\n        Dim targetBottom As Double = NormalizedYToChartY(link.TargetTop + link.Thickness, layout)\n\n        Dim dx As Double = targetX - sourceX\n        Dim controlOffset As Double = dx * appearance.RibbonCurvature\n        Dim c1x As Double = sourceX + controlOffset\n        Dim c2x As Double = targetX - controlOffset\n\n",
+      "original_lf_sha256": "e079feef4bea38d200f2069810a74b2fb769091aaf69ece29e1cfa2e54d76d2e",
+      "adapter_original_prefix": "        Dim sourceCentreX As Double = NormalizedXToChartX(sourceNode.X, layout)\n        Dim targetCentreX As Double = NormalizedXToChartX(targetNode.X, layout)\n        Dim sourceX As Double = sourceCentreX + appearance.NodeWidth / 2.0R\n        Dim targetX As Double = targetCentreX - appearance.NodeWidth / 2.0R\n\n        If targetX <= sourceX Then\n            'The backend guarantees forward stages; this guard protects against an\n            'impossibly narrow chart after aggressive manual resizing.\n            Return\n        End If\n\n        Dim sourceTop As Double = NormalizedYToChartY(link.SourceTop, layout)\n        Dim sourceBottom As Double = NormalizedYToChartY(link.SourceTop + link.Thickness, layout)\n        Dim targetTop As Double = NormalizedYToChartY(link.TargetTop, layout)\n        Dim targetBottom As Double = NormalizedYToChartY(link.TargetTop + link.Thickness, layout)\n\n        Dim dx As Double = targetX - sourceX\n        Dim controlOffset As Double = dx * appearance.RibbonCurvature\n        Dim c1x As Double = sourceX + controlOffset\n        Dim c2x As Double = targetX - controlOffset\n\n"
+    },
+    {
+      "family": "Sankey",
+      "member": "DrawNode",
+      "name": "Node",
+      "args": [
+        [
+          "nodeX",
+          "Double"
+        ],
+        [
+          "nodeY",
+          "Double"
+        ],
+        [
+          "nodeHeightValue",
+          "Double"
+        ],
+        [
+          "nodeWidth",
+          "Double"
+        ],
+        [
+          "stageLeft",
+          "Double"
+        ],
+        [
+          "stageRight",
+          "Double"
+        ],
+        [
+          "plotTop",
+          "Double"
+        ],
+        [
+          "plotHeight",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Left",
+          "Double"
+        ],
+        [
+          "Top",
+          "Double"
+        ],
+        [
+          "Height",
+          "Double"
+        ]
+      ],
+      "returns": [
+        "nodeLeft",
+        "nodeTop",
+        "nodeHeight"
+      ],
+      "type": "SankeyNodeGeometry",
+      "function": "    Public Function Node(nodeX As Double, nodeY As Double, nodeHeightValue As Double, nodeWidth As Double, stageLeft As Double, stageRight As Double, plotTop As Double, plotHeight As Double) As SankeyNodeGeometry\n        Dim centreX As Double = MapX(nodeX, stageLeft, stageRight)\n        Dim nodeTop As Double = MapY(nodeY, plotTop, plotHeight)\n        Dim nodeHeight As Double = Math.Max(0.5R, nodeHeightValue * plotHeight)\n        Dim nodeLeft As Double = centreX - nodeWidth / 2.0R\n\n        Return New SankeyNodeGeometry(nodeLeft, nodeTop, nodeHeight)\n    End Function\n",
+      "original_fragment": "        Dim centreX As Double = NormalizedXToChartX(node.X, layout)\n        Dim nodeTop As Double = NormalizedYToChartY(node.Y, layout)\n        Dim nodeHeight As Double = Math.Max(0.5R, node.Height * layout.PlotHeight)\n        Dim nodeLeft As Double = centreX - appearance.NodeWidth / 2.0R\n\n",
+      "original_lf_sha256": "d85e6ccb13d12106e758414fe6fd45398c9b01c6aeec30c887529d7a725990a1",
+      "adapter_original_prefix": "        Dim centreX As Double = NormalizedXToChartX(node.X, layout)\n        Dim nodeTop As Double = NormalizedYToChartY(node.Y, layout)\n        Dim nodeHeight As Double = Math.Max(0.5R, node.Height * layout.PlotHeight)\n        Dim nodeLeft As Double = centreX - appearance.NodeWidth / 2.0R\n\n"
+    },
+    {
+      "family": "Sankey",
+      "member": "DrawNodeLabel",
+      "name": "NodeLabel",
+      "args": [
+        [
+          "nodeX",
+          "Double"
+        ],
+        [
+          "nodeY",
+          "Double"
+        ],
+        [
+          "nodeHeightValue",
+          "Double"
+        ],
+        [
+          "nodeStageIndex",
+          "Integer"
+        ],
+        [
+          "stageX",
+          "Double()"
+        ],
+        [
+          "nodeWidth",
+          "Double"
+        ],
+        [
+          "labelGap",
+          "Double"
+        ],
+        [
+          "labelWidthValue",
+          "Double"
+        ],
+        [
+          "fontSize",
+          "Double"
+        ],
+        [
+          "stageLeft",
+          "Double"
+        ],
+        [
+          "stageRight",
+          "Double"
+        ],
+        [
+          "plotTop",
+          "Double"
+        ],
+        [
+          "plotHeight",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Left",
+          "Double"
+        ],
+        [
+          "Top",
+          "Double"
+        ],
+        [
+          "Width",
+          "Double"
+        ],
+        [
+          "Height",
+          "Double"
+        ]
+      ],
+      "returns": [
+        "labelLeft",
+        "labelTop",
+        "labelWidth",
+        "labelHeight"
+      ],
+      "type": "SankeyNodeLabelGeometry",
+      "function": "    Public Function NodeLabel(nodeX As Double, nodeY As Double, nodeHeightValue As Double, nodeStageIndex As Integer, stageX As Double(), nodeWidth As Double, labelGap As Double, labelWidthValue As Double, fontSize As Double, stageLeft As Double, stageRight As Double, plotTop As Double, plotHeight As Double) As SankeyNodeLabelGeometry\n        Dim centreX As Double = MapX(nodeX, stageLeft, stageRight)\n        Dim nodeRight As Double = centreX + nodeWidth / 2.0R\n        Dim labelLeft As Double = nodeRight + labelGap\n        Dim labelWidth As Double = labelWidthValue\n\n        If nodeStageIndex < stageX.Length - 1 Then\n            Dim nextNodeLeft As Double = stageX(nodeStageIndex + 1) - nodeWidth / 2.0R\n            Dim interStageWidth As Double = nextNodeLeft - labelLeft - 3.0R\n            If interStageWidth > 20.0R Then\n                labelWidth = Math.Min(labelWidth, interStageWidth)\n            Else\n                labelWidth = Math.Max(20.0R, interStageWidth)\n            End If\n        End If\n\n        Dim nodeTop As Double = MapY(nodeY, plotTop, plotHeight)\n        Dim nodeHeight As Double = Math.Max(0.5R, nodeHeightValue * plotHeight)\n        Dim centreY As Double = nodeTop + nodeHeight / 2.0R\n        Dim labelHeight As Double = Math.Max(18.0R, fontSize * 2.5R)\n        Dim labelTop As Double = Math.Max(plotTop,\n                                         Math.Min(plotTop + plotHeight - labelHeight,\n                                                  centreY - labelHeight / 2.0R))\n\n        Return New SankeyNodeLabelGeometry(labelLeft, labelTop, labelWidth, labelHeight)\n    End Function\n",
+      "original_fragment": "        Dim centreX As Double = NormalizedXToChartX(node.X, layout)\n        Dim nodeRight As Double = centreX + appearance.NodeWidth / 2.0R\n        Dim labelLeft As Double = nodeRight + appearance.NodeLabelGap\n        Dim labelWidth As Double = appearance.NodeLabelWidth\n\n        If node.StageIndex < stageX.Length - 1 Then\n            Dim nextNodeLeft As Double = stageX(node.StageIndex + 1) - appearance.NodeWidth / 2.0R\n            Dim interStageWidth As Double = nextNodeLeft - labelLeft - 3.0R\n            If interStageWidth > 20.0R Then\n                labelWidth = Math.Min(labelWidth, interStageWidth)\n            Else\n                labelWidth = Math.Max(20.0R, interStageWidth)\n            End If\n        End If\n\n        Dim nodeTop As Double = NormalizedYToChartY(node.Y, layout)\n        Dim nodeHeight As Double = Math.Max(0.5R, node.Height * layout.PlotHeight)\n        Dim centreY As Double = nodeTop + nodeHeight / 2.0R\n        Dim labelHeight As Double = Math.Max(18.0R, appearance.NodeLabelFontSize * 2.5R)\n        Dim labelTop As Double = Math.Max(layout.PlotTop,\n                                         Math.Min(layout.PlotTop + layout.PlotHeight - labelHeight,\n                                                  centreY - labelHeight / 2.0R))\n\n",
+      "original_lf_sha256": "5412661c47e43af39688f273e248a59ccfb2fa7d91f5cb62426c4675993ed8f5",
+      "adapter_original_prefix": "        Dim centreX As Double = NormalizedXToChartX(node.X, layout)\n        Dim nodeRight As Double = centreX + appearance.NodeWidth / 2.0R\n        Dim labelLeft As Double = nodeRight + appearance.NodeLabelGap\n        Dim labelWidth As Double = appearance.NodeLabelWidth\n\n        If node.StageIndex < stageX.Length - 1 Then\n            Dim nextNodeLeft As Double = stageX(node.StageIndex + 1) - appearance.NodeWidth / 2.0R\n            Dim interStageWidth As Double = nextNodeLeft - labelLeft - 3.0R\n            If interStageWidth > 20.0R Then\n                labelWidth = Math.Min(labelWidth, interStageWidth)\n            Else\n                labelWidth = Math.Max(20.0R, interStageWidth)\n            End If\n        End If\n\n        Dim nodeTop As Double = NormalizedYToChartY(node.Y, layout)\n        Dim nodeHeight As Double = Math.Max(0.5R, node.Height * layout.PlotHeight)\n        Dim centreY As Double = nodeTop + nodeHeight / 2.0R\n        Dim labelHeight As Double = Math.Max(18.0R, appearance.NodeLabelFontSize * 2.5R)\n        Dim labelTop As Double = Math.Max(layout.PlotTop,\n                                         Math.Min(layout.PlotTop + layout.PlotHeight - labelHeight,\n                                                  centreY - labelHeight / 2.0R))\n\n"
+    }
+  ],
+  "adapter_prefixes": "Copied verbatim; only parameter bindings, explicit measurements, Sub Return->Nothing and test namespace adapted. Existing accepted MapX/MapY/Clip01 dependencies retained."
+}

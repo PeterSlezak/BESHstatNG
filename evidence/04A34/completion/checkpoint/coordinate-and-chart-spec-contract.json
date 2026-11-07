@@ -1,0 +1,255 @@
+{
+  "schema": "04A34-contract-v1",
+  "status": "PARTIAL_NOT_READY",
+  "contracts": [
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/AnimationFrameTimingCore.vb",
+        "bytes": 348,
+        "sha256": "1801c44434ebbfc38e6c9fa1b373c973803b276949012551ccf9d74b0d8b2eac"
+      },
+      "public_headers": [
+        "Public Module AnimationFrameTimingCore",
+        "Public Function MsToCentiseconds(ms As Integer) As Integer"
+      ],
+      "windows_consumption": "GifAnimator.vb:MsToCentiseconds",
+      "tests": "Graphics34Tests.FrameDelayFrozenRounding;Graphics34AdapterTests.ActualTimingAndLoveAdmissionDelegates",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/BulletMeasuredGeometryCore.vb",
+        "bytes": 7361,
+        "sha256": "1353d34b676535f0c498a4aaa530ec172dd4bbb74f7ae3aeddfee85a9199aba9"
+      },
+      "public_headers": [
+        "Public Module BulletMeasuredGeometryCore",
+        "Public Function ComputeRow(layout As BulletDrawingLayout, rowIndex As Integer, ShowScaleLabels As Boolean, ShowScaleTickMarks As Boolean, ScaleLabelGap As Double, ScaleTickLength As Double, ScaleLabelHeight As Double, ShowTargetValueLabels As Boolean, ValueLabelHeight As Double, ValueLabelGap As Double) As BulletRowLayout",
+        "Public Function ComputeLayout(chartWidth As Double, chartHeight As Double, itemCount As Integer, hasSubtitles As Boolean, ChartPadding As Double, ChartTitle As String, ChartTitleHeight As Double, ShowMeasureLabels As Boolean, ShowSubtitles As Boolean, LabelAreaWidth As Double, LabelGap As Double, ShowScaleLabels As Boolean, ShowScaleTickMarks As Boolean, ScaleLabelGap As Double, ScaleTickLength As Double, ScaleLabelHeight As Double, ShowTargetValueLabels As Boolean, ValueLabelHeight As Double, ValueLabelGap As Double, RowGap As Double, QualitativeBandHeight As Double) As BulletDrawingLayout",
+        "Public Function MapX(value As Double, plotLeft As Double, plotWidth As Double) As Double",
+        "Public Function Clip01(value As Double) As Double",
+        "Public NotInheritable Class BulletDrawingLayout",
+        "Public ReadOnly Property ChartWidth As Double",
+        "Public ReadOnly Property ChartHeight As Double",
+        "Public ReadOnly Property PlotLeft As Double",
+        "Public ReadOnly Property PlotTop As Double",
+        "Public ReadOnly Property PlotWidth As Double",
+        "Public ReadOnly Property PlotHeight As Double",
+        "Public ReadOnly Property RowHeight As Double",
+        "Public ReadOnly Property BandHeight As Double",
+        "Public ReadOnly Property LeftLabelsVisible As Boolean",
+        "Public Sub New(valueChartWidth As Double, valueChartHeight As Double, valuePlotLeft As Double, valuePlotTop As Double, valuePlotWidth As Double, valuePlotHeight As Double, valueRowHeight As Double, valueBandHeight As Double, valueLeftLabelsVisible As Boolean)",
+        "Public NotInheritable Class BulletRowLayout",
+        "Public ReadOnly Property RowTop As Double",
+        "Public ReadOnly Property RowBottom As Double",
+        "Public ReadOnly Property BandTop As Double",
+        "Public ReadOnly Property BandBottom As Double",
+        "Public ReadOnly Property BandCentreY As Double",
+        "Public ReadOnly Property ScaleLabelTop As Double",
+        "Public ReadOnly Property TargetValueLabelTop As Double",
+        "Public Sub New(valueRowTop As Double, valueRowBottom As Double, valueBandTop As Double, valueBandBottom As Double, valueBandCentreY As Double, valueScaleLabelTop As Double, valueTargetValueLabelTop As Double)"
+      ],
+      "windows_consumption": "BulletChartExcel.vb:BuildDrawingLayout/BuildRowLayout/NormalizedToChartX/Clip01",
+      "tests": "Graphics34AdapterTests.MeasuredLayoutsMatchExecutedPreEditSlices;Graphics34Tests.ExplicitMeasuredMapsRetainDistinctClippingRules",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/CalibrationSeriesData.vb",
+        "bytes": 2200,
+        "sha256": "321f80c0f270fd694b378ae071b2674d0bc9fbe1ae102d4bcedf4f6e047c226f"
+      },
+      "public_headers": [
+        "Public NotInheritable Class CalibrationSeriesData",
+        "Public Sub New(rows As IList(Of CalibrationBinSummary))",
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public ReadOnly Property SourceOrdinals As Integer()",
+        "Public ReadOnly Property Count As Integer",
+        "Public ReadOnly Property Reference As ChartReferenceSeries",
+        "Public ReadOnly Property Axis As ChartAxisScaleResult"
+      ],
+      "windows_consumption": "CalibrationPlot.vb:addCalibrationPlot",
+      "tests": "Graphics34Tests.CalibrationBinAdmissionOrderAndSnapshots",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/ChartReferenceSeries.vb",
+        "bytes": 1623,
+        "sha256": "bfaedc5f5a2d5b136a94af1f567c8b15900465cf547e4e72080d353559f125b1"
+      },
+      "public_headers": [
+        "Public NotInheritable Class ChartReferenceSeries",
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public Shared Function Identity(minimum As Double, maximum As Double) As ChartReferenceSeries",
+        "Public Shared Function Affine(minimum As Double, maximum As Double, intercept As Double, slope As Double) As ChartReferenceSeries",
+        "Public Shared Function Horizontal(x0 As Double, x1 As Double, value As Double) As ChartReferenceSeries",
+        "Public Shared Function Vertical(value As Double, y0 As Double, y1 As Double) As ChartReferenceSeries"
+      ],
+      "windows_consumption": "CalibrationPlot.vb:addCalibrationPlot;AgreementPlotExcel.vb:AddPlot/AddHorizontalReferenceLine;MultipleComparisonPlotExcel.vb:AddPlot",
+      "tests": "Graphics34Tests.ReferenceEndpointBitsAndIndependentInvariants",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/ComparisonCoordinatesCore.vb",
+        "bytes": 600,
+        "sha256": "a3bc6a95beb995738c670a6ec6eed986fbc14dd7c081a58ce424887fc7261c40"
+      },
+      "public_headers": [
+        "Public Module ComparisonCoordinatesCore",
+        "Public Function OrdinalY(count As Integer) As Double()",
+        "Public Function IncludeZeroBounds(minimum As Double, maximum As Double) As ChartAxisScaleResult"
+      ],
+      "windows_consumption": "MultipleComparisonPlotExcel.vb:AddPlot",
+      "tests": "Graphics34Tests.ReferenceEndpointBitsAndIndependentInvariants",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/CumulativeStepSeriesData.vb",
+        "bytes": 2529,
+        "sha256": "6913393d8b4843a19c78b438443e1139a2504265dbc003f2ef0c4400f40725d0"
+      },
+      "public_headers": [
+        "Public NotInheritable Class CumulativeStepSeriesData",
+        "Public Sub New(sourceX As Double(), sourceY As Double(), minimum As Double, maximum As Double)",
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()"
+      ],
+      "windows_consumption": "CumulativeDistributionPlotExcel.vb:ExtendStepToAxisBounds",
+      "tests": "Graphics34Tests.EcdfFrozenExtensionsAndCopyBoundaries;Graphics34AdapterTests.ActualNumericWrappersPreserveLegacyExceptionsAndArrays",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/LadderLabelGeometryCore.vb",
+        "bytes": 3702,
+        "sha256": "f4a32652953bd08a04f371561142109be446ace454ee12ab3212db1e0e65dd8a"
+      },
+      "public_headers": [
+        "Public Module LadderLabelGeometryCore",
+        "Public Function SpreadLabelPositions(values As Double(), minimum As Double, maximum As Double, requestedSeparation As Double) As Double()"
+      ],
+      "windows_consumption": "LadderPlotExcel.vb:SpreadLabelPositions",
+      "tests": "Graphics34Tests.LadderFrozenLabels;Graphics34AdapterTests.ActualNumericWrappersPreserveLegacyExceptionsAndArrays",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/SankeyMeasuredGeometryCore.vb",
+        "bytes": 6429,
+        "sha256": "ec212b3d5345c36554efa0555ed2ead8ef639cc018ec825110ae406c12ffc439"
+      },
+      "public_headers": [
+        "Public Module SankeyMeasuredGeometryCore",
+        "Public Function ComputeLayout(chartWidth As Double, chartHeight As Double, stageCount As Integer, legendItemCount As Integer, ChartPadding As Double, ChartTitle As String, ChartTitleHeight As Double, ShowStageLabels As Boolean, inputStageLabelHeight As Double, ShowLegend As Boolean, LegendTitle As String, LegendRowHeight As Double, LegendGap As Double, LegendColumnWidth As Double, ShowNodeLabels As Boolean, NodeLabelGap As Double, NodeLabelWidth As Double, NodeWidth As Double) As SankeyDrawingLayout",
+        "Public Function MapX(value As Double, stageLeft As Double, stageRight As Double) As Double",
+        "Public Function MapY(value As Double, plotTop As Double, plotHeight As Double) As Double",
+        "Public Function StageCentres(stageCount As Integer, stageLeft As Double, stageRight As Double) As Double()",
+        "Public NotInheritable Class SankeyDrawingLayout",
+        "Public ReadOnly Property ChartWidth As Double",
+        "Public ReadOnly Property ChartHeight As Double",
+        "Public ReadOnly Property PlotLeft As Double",
+        "Public ReadOnly Property PlotTop As Double",
+        "Public ReadOnly Property PlotWidth As Double",
+        "Public ReadOnly Property PlotHeight As Double",
+        "Public ReadOnly Property StageCentreLeft As Double",
+        "Public ReadOnly Property StageCentreRight As Double",
+        "Public ReadOnly Property LegendLeft As Double",
+        "Public ReadOnly Property LegendTop As Double",
+        "Public ReadOnly Property LegendWidth As Double",
+        "Public ReadOnly Property LegendHeight As Double",
+        "Public ReadOnly Property LegendColumns As Integer",
+        "Public ReadOnly Property LegendRowsPerColumn As Integer",
+        "Public ReadOnly Property FinalLabelReserve As Double",
+        "Public Sub New(valueChartWidth As Double, valueChartHeight As Double, valuePlotLeft As Double, valuePlotTop As Double, valuePlotWidth As Double, valuePlotHeight As Double, valueStageCentreLeft As Double, valueStageCentreRight As Double, valueLegendLeft As Double, valueLegendTop As Double, valueLegendWidth As Double, valueLegendHeight As Double, valueLegendColumns As Integer, valueLegendRowsPerColumn As Integer, valueFinalLabelReserve As Double)"
+      ],
+      "windows_consumption": "SankeyPlotExcel.vb:BuildDrawingLayout/BuildStageCentres/NormalizedXToChartX/NormalizedYToChartY",
+      "tests": "Graphics34AdapterTests.MeasuredLayoutsMatchExecutedPreEditSlices;Graphics34Tests.ExplicitMeasuredMapsRetainDistinctClippingRules",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/SpcAxisBoundsCore.vb",
+        "bytes": 2426,
+        "sha256": "5e04d3a07bf5e556a10eec99078a2077c71eac6a66f7022bad3c9a56b4e2203b"
+      },
+      "public_headers": [
+        "Public Module SpcAxisBoundsCore",
+        "Public Function FromExtents(minimum As Double, maximum As Double, panelType As SpcPanelType) As ChartAxisScaleResult"
+      ],
+      "windows_consumption": "SpcControlChartExcel.vb:ComputeYAxisBounds",
+      "tests": "Graphics34Tests.SpcFrozenPaddingClampsAndAllMissing",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Core/src/Graphics/SymmetrySeriesData.vb",
+        "bytes": 2760,
+        "sha256": "ab2e3a1ad784ea14fbcc6896d6ba91c2757daf9ec5c7a9b13cc1d6196e05347b"
+      },
+      "public_headers": [
+        "Public NotInheritable Class SymmetrySeriesData",
+        "Public ReadOnly Property Axis As ChartAxisScaleResult",
+        "Public Shared Function FromSorted(values As Double(), medianValue As Double) As SymmetrySeriesData",
+        "Public ReadOnly Property XValues As Double()",
+        "Public ReadOnly Property YValues As Double()",
+        "Public ReadOnly Property ReferenceX As Double()",
+        "Public ReadOnly Property ReferenceY As Double()"
+      ],
+      "windows_consumption": "SymetryPlot.vb:AsymmetryPlot",
+      "tests": "Graphics34Tests.SymmetryFrozenOrientationAndErrors",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/PsmLoveSeriesPolicy.vb",
+        "bytes": 641,
+        "sha256": "8d65281da43112ca521a01c6e45e71d8156df464bc5d4cddda29b22663774f43"
+      },
+      "public_headers": [
+        "Public Module PsmLoveSeriesPolicy",
+        "Public Function HasAnyFinite(values As IEnumerable(Of Double)) As Boolean",
+        "Public Function ThresholdReference(threshold As Double, count As Integer) As ChartReferenceSeries"
+      ],
+      "windows_consumption": "PsmLovePlotExcel.vb:HasAnyFinite/AddThresholdSeries",
+      "tests": "Graphics34LoveTests.FiniteAdmissionThresholdAndAcceptedOrdering;Graphics34AdapterTests.ActualTimingAndLoveAdmissionDelegates",
+      "authority": "PRE_EDIT_LEGACY; accepted dependencies explicitly reused",
+      "native": "SOURCE_ONLY for Chart creation/mixed rendering tails; numeric wrappers compiled/executed where receipt identifies them"
+    }
+  ],
+  "shape_and_identity": {
+    "calibration": "n admitted bins in original enumeration order; zero-based SourceOrdinals. NaN pairs skipped, infinities retained; identity two points, axes[0,1],unit.2.",
+    "symmetry": "floor(n/2) upper-tail X/lower-tail Y, descending paired sorted slots; two-point historical reference; Core axis engine reused. Windows still sorts original aliased input at the original time. No worksheet row is invented.",
+    "ecdf": "Input length plus zero/one/two constant-Y extension endpoints. Invalid/null/mismatched source retains original array values; public payload snapshots. Private Windows no-extension/invalid aliases preserved.",
+    "ladder": "Label anchors returned in original input order after stable value/index spreading; explicit numeric bounds/separation. Host obtains physical measurements.",
+    "bullet": "Explicit chart width/height plus current numerical appearance values; immutable drawing/row layout scalars; historical clip and min-size errors retained. Band/bar/target arithmetic remains OPEN.",
+    "sankey": "Explicit chart size and stage/legend counts, immutable measured layout, clipped maps and ordered stage centres. Original flow solver unchanged; ribbon/node anchors and label preparation remain OPEN.",
+    "references": "Exactly two ordered endpoints; affine uses intercept+slope*x without refitting; identity/horizontal/vertical copy-safe arrays.",
+    "spc": "Post-extents empty[0,1], constant10%/other7% padding and existing natural-zero/proportion clamp; accepted ten-channel/mask/stage projection unchanged. Detailed series and annotations reserved36.",
+    "love": "Existing accepted projection retains order/absolute-SMD/masks/threshold/maxX; new finite-series predicate and two-point threshold only. No guard correction.",
+    "timing": "Integer milliseconds to centiseconds using original max(1, CInt(Math.Round(max(0,ms)/10))). Encoding/file/GDI+ stays Windows."
+  },
+  "scientific": "NOT_GOLDEN",
+  "physical_worksheet_rows": "NOT_AVAILABLE for values-only arrays",
+  "public_windows_api": "Existing headers preserved by Roslyn comparison; no native visual equivalence claimed",
+  "exclusions": [
+    "No new Office/WASM UI",
+    "No new statistics/refits/matching/flow solver",
+    "No 04A35/36/37 specialized implementation",
+    "No 04A33 XYZ/wire change"
+  ]
+}

@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 
 Imports System
 Imports System.Collections.Generic
@@ -144,8 +144,8 @@ Namespace graphics
             Dim s As Series = CType(ch.SeriesCollection(ch.SeriesCollection.Count), Series)
             With s
                 .Name = "Threshold"
-                .XValues = New Double() {threshold, threshold}
-                .Values = New Double() {0.5R, n + 0.5R}
+                .XValues = PsmLoveSeriesPolicy.ThresholdReference(threshold, n).XValues
+                .Values = PsmLoveSeriesPolicy.ThresholdReference(threshold, n).YValues
                 .ChartType = XlChartType.xlXYScatterLinesNoMarkers
                 Try
                     .Border.Color = RGB(180, 0, 0)
@@ -174,10 +174,9 @@ Namespace graphics
 
 
 
-        Private Shared Function HasAnyFinite(values As IEnumerable(Of Double)) As Boolean
-            If values Is Nothing Then Return False
-            Return values.Any(Function(v) AppInfrastructure.IsFinite(v))
-        End Function
+    Private Shared Function HasAnyFinite(values As IEnumerable(Of Double)) As Boolean
+        Return PsmLoveSeriesPolicy.HasAnyFinite(values)
+    End Function
 
     End Class
 

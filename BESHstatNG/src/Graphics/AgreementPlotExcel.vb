@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 
 Imports System.Runtime.CompilerServices
 Imports System.Linq
@@ -22,9 +22,8 @@ Public Module AgreementPlotExcelCompatibility
 
             .SeriesCollection.NewSeries()
             With .SeriesCollection(2)
-                .XValues = {plotData.MinX, plotData.MaxX}
-                .Values = {plotData.Intercept + plotData.Slope * plotData.MinX,
-                           plotData.Intercept + plotData.Slope * plotData.MaxX}
+                .XValues = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
+                .Values = ChartReferenceSeries.Affine(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope).YValues
                 .Name = "Regression line"
                 .MarkerStyle = -4142
                 .Border.Color = RGB(255, 0, 0)
@@ -36,8 +35,8 @@ Public Module AgreementPlotExcelCompatibility
 
             .SeriesCollection.NewSeries()
             With .SeriesCollection(3)
-                .XValues = {plotData.MinX, plotData.MaxX}
-                .Values = {plotData.MinX, plotData.MaxX}
+                .XValues = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
+                .Values = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
                 .Name = "Unity line (y = x)"
                 .MarkerStyle = -4142
                 .Border.Color = RGB(0, 0, 255)
@@ -57,12 +56,9 @@ Public Module AgreementPlotExcelCompatibility
 
         Dim plotData As Agreement.BlandAltmanPlotData = analysis.GetPlotData()
         Dim ch As Chart = graphics.GeneralScatterPlot(plotData.XValues, plotData.YValues, plotData.YLabel, plotData.XLabel, ws, plotData.Title)
-        Dim xMin As Double = plotData.XValues.Min()
-        Dim xMax As Double = plotData.XValues.Max()
-        If xMin = xMax Then
-            xMin -= 0.5
-            xMax += 0.5
-        End If
+        Dim span = ExcelCommon.Chart34.AgreementSeries.AgreementSeriesPreparation34.BaseSpan(plotData.XValues)
+        Dim xMin As Double = span.Min
+        Dim xMax As Double = span.Max
 
         Dim lineX As Double() = {xMin, xMax}
         AddHorizontalReferenceLine(ch, lineX, plotData.Bias, "Bias", RGB(31, 119, 180))
@@ -101,8 +97,8 @@ Public Module AgreementPlotExcelCompatibility
             .SeriesCollection.NewSeries()
             With .SeriesCollection(.SeriesCollection.Count)
                 .Name = "Identity"
-                .XValues = New Double() {plotData.MinValue, plotData.MaxValue}
-                .Values = New Double() {plotData.MinValue, plotData.MaxValue}
+                .XValues = ChartReferenceSeries.Identity(plotData.MinValue, plotData.MaxValue).XValues
+                .Values = ChartReferenceSeries.Identity(plotData.MinValue, plotData.MaxValue).XValues
                 .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
                 .Format.Line.Visible = True
             End With
@@ -124,9 +120,8 @@ Public Module AgreementPlotExcelCompatibility
 
             .SeriesCollection.NewSeries()
             With .SeriesCollection(2)
-                .XValues = {plotData.MinX, plotData.MaxX}
-                .Values = {plotData.Intercept + plotData.Slope * plotData.MinX,
-                           plotData.Intercept + plotData.Slope * plotData.MaxX}
+                .XValues = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
+                .Values = ChartReferenceSeries.Affine(plotData.MinX, plotData.MaxX, plotData.Intercept, plotData.Slope).YValues
                 .Name = "Regression line"
                 .MarkerStyle = -4142
                 .Border.Color = RGB(255, 0, 0)
@@ -138,8 +133,8 @@ Public Module AgreementPlotExcelCompatibility
 
             .SeriesCollection.NewSeries()
             With .SeriesCollection(3)
-                .XValues = {plotData.MinX, plotData.MaxX}
-                .Values = {plotData.MinX, plotData.MaxX}
+                .XValues = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
+                .Values = ChartReferenceSeries.Identity(plotData.MinX, plotData.MaxX).XValues
                 .Name = "Unity line (y = x)"
                 .MarkerStyle = -4142
                 .Border.Color = RGB(0, 0, 255)
@@ -158,7 +153,7 @@ Public Module AgreementPlotExcelCompatibility
                                            seriesName As String,
                                            lineColor As Integer)
         If ch Is Nothing Then Exit Sub
-        Dim lineY As Double() = {yValue, yValue}
+        Dim lineY As Double() = ChartReferenceSeries.Horizontal(lineX(0), lineX(1), yValue).YValues
         ch.SeriesCollection.NewSeries()
         With ch.SeriesCollection(ch.SeriesCollection.Count)
             .XValues = lineX

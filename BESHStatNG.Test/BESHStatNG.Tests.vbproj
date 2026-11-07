@@ -394,6 +394,27 @@
     <Error Condition="!Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets'))" />
   </Target>
   <ItemGroup>
+    <Compile Include="src\Charts\Graphics34AdapterTests.vb" />
+    <Compile Include="src\Charts\LegacyCompletionShapes34.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyCompletionExtras34.vb"><Link>Graphics34\LegacyCompletionExtras34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyCompletionPolicies34.vb"><Link>Graphics34\LegacyCompletionPolicies34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\CompletionPolicyCases34.vb"><Link>Graphics34\CompletionPolicyCases34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacySpcBasis34.vb"><Link>Graphics34\LegacySpcBasis34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics34CompletionBoundsTests.vb"><Link>Graphics34\Graphics34CompletionBoundsTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics34CompletionLegendTests.vb"><Link>Graphics34\Graphics34CompletionLegendTests.vb</Link></Compile>
+    <Compile Include="src\Charts\LegacyCompletionPreparation34.vb" />
+    <Compile Include="src\Charts\CompletionPreparationCases34.vb" />
+    <Compile Include="src\Charts\LegacyCompletionSeries34.vb" />
+    <Compile Include="src\Charts\CompletionSeriesCases34.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics34CompletionSeriesTests.vb"><Link>Graphics34\Graphics34CompletionSeriesTests.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics34CompletionPreparationTests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Completion34Cases.vb"><Link>Graphics34\Completion34Cases.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics34CompletionGeometryTests.vb"><Link>Graphics34\Graphics34CompletionGeometryTests.vb</Link></Compile>
+    <Compile Include="src\Charts\LegacyLayouts34.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics34Tests.vb"><Link>Graphics34\Graphics34Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacySpecialty34.vb"><Link>Graphics34\LegacySpecialty34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyReference34.vb"><Link>Graphics34\LegacyReference34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics34LoveTests.vb"><Link>Graphics34\Graphics34LoveTests.vb</Link></Compile>
     <Compile Include="src\Charts\Graphics32AdapterTests.vb" />
     <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics32Tests.vb"><Link>Graphics32\Graphics32Tests.vb</Link></Compile>
     <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics32ViolinTests.vb"><Link>Graphics32\Graphics32ViolinTests.vb</Link></Compile>
@@ -431,4 +452,6 @@
     <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics33Tests.vb"><Link>Graphics33\Graphics33Tests.vb</Link></Compile>
     <Compile Include="src\Charts\Graphics33AdapterTests.vb" />
   </ItemGroup>
+  <ItemGroup><Compile Include="src\Charts\LegacyCompletionNativeState34.vb" /></ItemGroup>
+  <ItemGroup><Compile Include="src\Charts\Graphics34CompletionNativeStateTests.vb" /></ItemGroup>
 </Project>

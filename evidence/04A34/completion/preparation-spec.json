@@ -1,0 +1,660 @@
+{
+  "authority": "PRE_EDIT_LEGACY",
+  "scientific": "NOT_GOLDEN",
+  "families": [
+    {
+      "family": "Bullet",
+      "config": {
+        "file": "BulletChartExcel",
+        "appearance": "BulletChartAppearance",
+        "methods": [
+          "ResolveNumberFormat",
+          "BuildAutomaticNumberFormat",
+          "RequiredDecimalPlaces",
+          "FormatNumeric"
+        ],
+        "helpers": [
+          "IsFinite"
+        ]
+      },
+      "settings_fields": [],
+      "enums": {},
+      "axis_fields": [],
+      "constants": "",
+      "members": [
+        {
+          "name": "ResolveNumberFormat",
+          "original": "    Private Shared Function ResolveNumberFormat(item As BulletChartItem,\n                                                requestedFormat As String,\n                                                Optional additionalValue As Nullable(Of Double) = Nothing) As String\n        If Not String.IsNullOrWhiteSpace(requestedFormat) Then Return requestedFormat.Trim()\n        Return BuildAutomaticNumberFormat(item.MajorInterval, item.ScaleMaximum, additionalValue)\n    End Function",
+          "original_sha256": "cbd114aafa07c707b19abfe0f343036bfab2e248992d90e0e7493188ab8d9a87"
+        },
+        {
+          "name": "BuildAutomaticNumberFormat",
+          "original": "    Private Shared Function BuildAutomaticNumberFormat(stepValue As Double,\n                                                       scaleMaximum As Double,\n                                                       additionalValue As Nullable(Of Double)) As String\n        Dim values As New List(Of Double) From {Math.Abs(stepValue), Math.Abs(scaleMaximum)}\n        If additionalValue.HasValue Then values.Add(Math.Abs(additionalValue.Value))\n\n        For Each value As Double In values\n            If Not IsFinite(value) Then Return \"0.###\"\n            If value > 0.0R AndAlso (value >= 1.0E8R OrElse value < 1.0E-6R) Then\n                Return \"0.###E+0\"\n            End If\n        Next\n\n        Dim requiredDecimals As Integer = 0\n        For Each value As Double In values\n            requiredDecimals = Math.Max(requiredDecimals, RequiredDecimalPlaces(value))\n        Next\n\n        If requiredDecimals <= 0 Then Return \"0\"\n        If requiredDecimals <= 8 Then Return \"0.\" & New String(\"0\"c, requiredDecimals)\n        Return \"0.########\"\n    End Function",
+          "original_sha256": "3255af00258d28c4edc05a689cd17eaab5aef43f4a7abe60fccf6b01cffedfd0"
+        },
+        {
+          "name": "RequiredDecimalPlaces",
+          "original": "    Private Shared Function RequiredDecimalPlaces(value As Double) As Integer\n        If value = 0.0R Then Return 0\n\n        For decimals As Integer = 0 To 8\n            Dim scale As Double = Math.Pow(10.0R, decimals)\n            Dim scaled As Double = value * scale\n            If Math.Abs(scaled - Math.Round(scaled)) <= 1.0E-9R * Math.Max(1.0R, Math.Abs(scaled)) Then\n                Return decimals\n            End If\n        Next\n        Return 8\n    End Function",
+          "original_sha256": "93a557ad61bb73a17bd7f869cc266e7a3ab05b1bb15555eb3dd3084a0bc7760d"
+        },
+        {
+          "name": "FormatNumeric",
+          "original": "    Private Shared Function FormatNumeric(value As Double,\n                                          format As String) As String\n        Dim cleanValue As Double = value\n        If Math.Abs(cleanValue) < 1.0E-14R Then cleanValue = 0.0R\n        Return cleanValue.ToString(format, CultureInfo.CurrentCulture)\n    End Function",
+          "original_sha256": "0d4dd7a3ae0a420f32c06690273431d3c59063b48fe54fb5eb5aadc1b6a65dbb"
+        },
+        {
+          "name": "IsFinite",
+          "original": "    Private Shared Function IsFinite(value As Double) As Boolean\n        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n    End Function",
+          "original_sha256": "60caa48d586ebe120a641d748bb614cbcb755ba7eb2dfc16faa8171e001e3960"
+        }
+      ]
+    },
+    {
+      "family": "Sankey",
+      "config": {
+        "file": "SankeyPlotExcel",
+        "appearance": "SankeyPlotAppearance",
+        "methods": [
+          "FormatNodeLabel"
+        ],
+        "helpers": []
+      },
+      "settings_fields": [
+        [
+          "ValueNumberFormat",
+          "String",
+          "\"0.###\""
+        ],
+        [
+          "PercentageBasis",
+          "SankeyPercentageBasis",
+          "SankeyPercentageBasis.ReferenceTotal"
+        ],
+        [
+          "PercentageNumberFormat",
+          "String",
+          "\"0%\""
+        ],
+        [
+          "NodeLabelMode",
+          "SankeyNodeLabelMode",
+          "SankeyNodeLabelMode.NameOnly"
+        ]
+      ],
+      "enums": {
+        "SankeyPercentageBasis": "Public Enum SankeyPercentageBasis\n    ''' <summary>\n    ''' Uses <see cref=\"SankeyPlotResult.ReferenceTotal\"/>, i.e. the largest stage total.\n    ''' This is useful when the chart represents one common overall population.\n    ''' </summary>\n    ReferenceTotal\n\n    ''' <summary>\n    ''' Uses the sum of node values in the node's own stage.\n    ''' </summary>\n    StageTotal\nEnd Enum",
+        "SankeyNodeLabelMode": "Public Enum SankeyNodeLabelMode\n    NameOnly\n    NameAndValue\n    NameAndPercentage\n    NamePercentageAndValue\nEnd Enum"
+      },
+      "axis_fields": [],
+      "constants": "",
+      "members": [
+        {
+          "name": "FormatNodeLabel",
+          "original": "    Private Shared Function FormatNodeLabel(node As SankeyNode,\n                                            result As SankeyPlotResult,\n                                            appearance As SankeyPlotAppearance) As String\n        Dim valueText As String = node.Value.ToString(appearance.ValueNumberFormat, CultureInfo.CurrentCulture)\n        Dim denominator As Double\n\n        Select Case appearance.PercentageBasis\n            Case SankeyPercentageBasis.ReferenceTotal\n                denominator = result.ReferenceTotal\n            Case SankeyPercentageBasis.StageTotal\n                Dim totals As Double() = result.StageTotals\n                If node.StageIndex >= 0 AndAlso node.StageIndex < totals.Length Then\n                    denominator = totals(node.StageIndex)\n                End If\n        End Select\n\n        Dim percentage As Double = If(denominator > 0.0R, node.Value / denominator, 0.0R)\n        Dim percentageText As String = percentage.ToString(appearance.PercentageNumberFormat, CultureInfo.CurrentCulture)\n\n        Select Case appearance.NodeLabelMode\n            Case SankeyNodeLabelMode.NameOnly\n                Return node.Label\n            Case SankeyNodeLabelMode.NameAndValue\n                Return node.Label & \" (\" & valueText & \")\"\n            Case SankeyNodeLabelMode.NameAndPercentage\n                Return node.Label & \" \" & percentageText\n            Case SankeyNodeLabelMode.NamePercentageAndValue\n                Return node.Label & \" \" & percentageText & \" (\" & valueText & \")\"\n            Case Else\n                Return node.Label\n        End Select\n    End Function",
+          "original_sha256": "49bc964a682f05acbd3643a0bbc6757b724adc4d43827a805bb850f172f9a882"
+        }
+      ]
+    },
+    {
+      "family": "Cdf",
+      "config": {
+        "file": "CumulativeDistributionPlotExcel",
+        "appearance": "CumulativeDistributionPlotAppearance",
+        "methods": [
+          "ResolveAxisContext",
+          "FormatPercentileLabel",
+          "ResolveChartTitle",
+          "ResolveEmpiricalSeriesName",
+          "ResolveFittedSeriesName",
+          "ResolveGroupLegendName",
+          "DistributionShortName",
+          "AutomaticNumberFormat"
+        ],
+        "helpers": [
+          "IsFinite",
+          "IsFinitePositive"
+        ]
+      },
+      "settings_fields": [
+        [
+          "XAxisMajorUnit",
+          "Nullable(Of Double)",
+          "Nothing"
+        ],
+        [
+          "XAxisNumberFormat",
+          "String",
+          "\"\""
+        ],
+        [
+          "PercentileValueFormat",
+          "String",
+          "\"0.###\""
+        ],
+        [
+          "IncludeSeriesNameInPercentileLabels",
+          "Boolean",
+          "True"
+        ],
+        [
+          "ChartTitle",
+          "String",
+          "\"\""
+        ],
+        [
+          "LegendMode",
+          "CumulativeDistributionLegendMode",
+          "CumulativeDistributionLegendMode.GroupsOnly"
+        ]
+      ],
+      "enums": {
+        "CumulativeDistributionLegendMode": "Public Enum CumulativeDistributionLegendMode\n    ''' <summary>\n    ''' Keep one legend entry per sample/group. The step and fitted line share the\n    ''' same colour, so the legend identifies samples rather than curve types.\n    ''' </summary>\n    GroupsOnly = 0\n\n    ''' <summary>\n    ''' Keep separate legend entries for the empirical and fitted curves.\n    ''' </summary>\n    AllCurves = 1\nEnd Enum"
+      },
+      "axis_fields": [
+        [
+          "XMinimum",
+          "Double"
+        ],
+        [
+          "XMaximum",
+          "Double"
+        ],
+        [
+          "XMajorUnit",
+          "Double"
+        ],
+        [
+          "XNumberFormat",
+          "String"
+        ],
+        [
+          "YMinimum",
+          "Double"
+        ],
+        [
+          "YMaximum",
+          "Double"
+        ],
+        [
+          "YMajorUnit",
+          "Double"
+        ],
+        [
+          "YNumberFormat",
+          "String"
+        ],
+        [
+          "YAxisTitle",
+          "String"
+        ]
+      ],
+      "constants": "",
+      "members": [
+        {
+          "name": "ResolveAxisContext",
+          "original": "    Private Shared Function ResolveAxisContext(results() As CumulativeDistributionPlotResult,\n                                               appearance As CumulativeDistributionPlotAppearance) As AxisContext\n        Dim xMinimum As Double = Double.PositiveInfinity\n        Dim xMaximum As Double = Double.NegativeInfinity\n        Dim explicitMinimum As Nullable(Of Double) = Nothing\n        Dim explicitMaximum As Nullable(Of Double) = Nothing\n        Dim yScale As CumulativeDistributionYScale = results(0).Options.YScale\n\n        For Each result As CumulativeDistributionPlotResult In results\n            xMinimum = Math.Min(xMinimum, result.XMinimum)\n            xMaximum = Math.Max(xMaximum, result.XMaximum)\n\n            Dim options As CumulativeDistributionPlotOptions = result.Options\n            If options.XMinimum.HasValue Then explicitMinimum = options.XMinimum.Value\n            If options.XMaximum.HasValue Then explicitMaximum = options.XMaximum.Value\n        Next\n\n        If Not IsFinite(xMinimum) OrElse Not IsFinite(xMaximum) OrElse xMaximum <= xMinimum Then\n            Throw New ArgumentException(\"The cumulative-distribution result does not contain a finite X range.\", NameOf(results))\n        End If\n\n        Dim scale As graphics.CHARTscale = graphics.ChartingFunc.ChartScaling(xMinimum, xMaximum)\n        Dim resolvedMinimum As Double = If(explicitMinimum.HasValue, explicitMinimum.Value, scale.Min)\n        Dim resolvedMaximum As Double = If(explicitMaximum.HasValue, explicitMaximum.Value, scale.Max)\n\n        If resolvedMaximum <= resolvedMinimum Then\n            Throw New ArgumentException(\"The resolved CDF X-axis maximum must be larger than its minimum.\", NameOf(results))\n        End If\n\n        Dim majorUnit As Double\n        If appearance.XAxisMajorUnit.HasValue Then\n            majorUnit = appearance.XAxisMajorUnit.Value\n        Else\n            Dim resolvedScale As graphics.CHARTscale = graphics.ChartingFunc.ChartScaling(resolvedMinimum, resolvedMaximum)\n            majorUnit = resolvedScale.Scale\n        End If\n\n        If Not IsFinitePositive(majorUnit) Then\n            majorUnit = Math.Max((resolvedMaximum - resolvedMinimum) / 5.0R, 1.0R)\n        End If\n\n        Dim xNumberFormat As String = If(String.IsNullOrWhiteSpace(appearance.XAxisNumberFormat),\n                                         AutomaticNumberFormat(majorUnit),\n                                         appearance.XAxisNumberFormat.Trim())\n\n        Dim context As New AxisContext With {\n            .XMinimum = resolvedMinimum,\n            .XMaximum = resolvedMaximum,\n            .XMajorUnit = majorUnit,\n            .XNumberFormat = xNumberFormat\n        }\n\n        If yScale = CumulativeDistributionYScale.Percent Then\n            context.YMinimum = 0.0R\n            context.YMaximum = 100.0R\n            context.YMajorUnit = 20.0R\n            context.YNumberFormat = \"0\"\n            context.YAxisTitle = \"Percent\"\n        Else\n            context.YMinimum = 0.0R\n            context.YMaximum = 1.0R\n            context.YMajorUnit = 0.2R\n            context.YNumberFormat = \"0.0\"\n            context.YAxisTitle = \"Cumulative probability\"\n        End If\n\n        Return context\n    End Function",
+          "original_sha256": "e850832ea316faabb2bd7baeab02128dfb6db5e3f4547ff76018edd60da7f253"
+        },
+        {
+          "name": "FormatPercentileLabel",
+          "original": "    Private Shared Function FormatPercentileLabel(percentile As CumulativeDistributionPercentile,\n                                                  seriesName As String,\n                                                  appearance As CumulativeDistributionPlotAppearance,\n                                                  isMultiSeries As Boolean) As String\n        Dim percentText As String\n        If Math.Abs(percentile.Percent - Math.Round(percentile.Percent)) < 1.0E-10R Then\n            percentText = Math.Round(percentile.Percent).ToString(\"0\", CultureInfo.CurrentCulture) & \"%\"\n        Else\n            percentText = percentile.Percent.ToString(\"0.###\", CultureInfo.CurrentCulture) & \"%\"\n        End If\n\n        Dim valueFormat As String = If(String.IsNullOrWhiteSpace(appearance.PercentileValueFormat),\n                                       \"0.###\",\n                                       appearance.PercentileValueFormat.Trim())\n        Dim valueText As String = percentile.XValue.ToString(valueFormat, CultureInfo.CurrentCulture)\n        Dim body As String = percentText & \" = \" & valueText\n\n        If isMultiSeries AndAlso appearance.IncludeSeriesNameInPercentileLabels AndAlso\n           Not String.IsNullOrWhiteSpace(seriesName) Then\n            Return seriesName.Trim() & \": \" & body\n        End If\n\n        Return body\n    End Function",
+          "original_sha256": "28bf70b6ad7cc5cf09df4e87eaba637ca7dd9627073cf08e9d5c1cd70163ce42"
+        },
+        {
+          "name": "ResolveChartTitle",
+          "original": "    Private Shared Function ResolveChartTitle(results() As CumulativeDistributionPlotResult,\n                                              appearance As CumulativeDistributionPlotAppearance,\n                                              isOverlay As Boolean) As String\n        If Not String.IsNullOrWhiteSpace(appearance.ChartTitle) Then Return appearance.ChartTitle.Trim()\n\n        Dim options As CumulativeDistributionPlotOptions = results(0).Options\n        Dim baseTitle As String\n\n        Select Case options.Mode\n            Case CumulativeDistributionPlotMode.EmpiricalOnly\n                baseTitle = \"Empirical cumulative distribution\"\n            Case CumulativeDistributionPlotMode.FittedDistributionOnly\n                baseTitle = DistributionShortName(options.Distribution) & \" cumulative distribution\"\n            Case Else\n                baseTitle = \"Empirical CDF with \" & DistributionShortName(options.Distribution) & \" fit\"\n        End Select\n\n        If Not isOverlay AndAlso results.Length = 1 AndAlso Not String.IsNullOrWhiteSpace(results(0).SeriesName) Then\n            baseTitle &= \" of \" & results(0).SeriesName.Trim()\n        End If\n\n        Return baseTitle\n    End Function",
+          "original_sha256": "dad1d902ad6eddd628797dc888243ccb4e94c9a1a0cafafab85c365266bbccff"
+        },
+        {
+          "name": "ResolveEmpiricalSeriesName",
+          "original": "    Private Shared Function ResolveEmpiricalSeriesName(result As CumulativeDistributionPlotResult,\n                                                       appearance As CumulativeDistributionPlotAppearance,\n                                                       resultCount As Integer) As String\n        Dim groupName As String = ResolveGroupLegendName(result)\n        If appearance.LegendMode = CumulativeDistributionLegendMode.GroupsOnly Then Return groupName\n        Return groupName & \" - ECDF\"\n    End Function",
+          "original_sha256": "629ce006db5e68891c73add283061bdde89779db5073f92e34414228fac6ca31"
+        },
+        {
+          "name": "ResolveFittedSeriesName",
+          "original": "    Private Shared Function ResolveFittedSeriesName(result As CumulativeDistributionPlotResult,\n                                                    appearance As CumulativeDistributionPlotAppearance,\n                                                    resultCount As Integer) As String\n        Dim groupName As String = ResolveGroupLegendName(result)\n        If appearance.LegendMode = CumulativeDistributionLegendMode.GroupsOnly Then Return groupName\n\n        Dim fitName As String\n        If result.Fit IsNot Nothing Then\n            fitName = DistributionShortName(result.Fit.Distribution)\n        Else\n            fitName = DistributionShortName(result.Options.Distribution)\n        End If\n        Return groupName & \" - \" & fitName & \" fit\"\n    End Function",
+          "original_sha256": "023439b8932b9379bf3190c8baf4269bbcfc10e1df8d7cd65f2c9c536613934c"
+        },
+        {
+          "name": "ResolveGroupLegendName",
+          "original": "    Private Shared Function ResolveGroupLegendName(result As CumulativeDistributionPlotResult) As String\n        If result Is Nothing OrElse String.IsNullOrWhiteSpace(result.SeriesName) Then Return \"Data\"\n        Return result.SeriesName.Trim()\n    End Function",
+          "original_sha256": "d134ebc10d029c861d3b60566d178c16c5f622132f29008e35f545eb10711eff"
+        },
+        {
+          "name": "DistributionShortName",
+          "original": "    Private Shared Function DistributionShortName(kind As CumulativeDistributionKind) As String\n        Select Case kind\n            Case CumulativeDistributionKind.Normal\n                Return \"Normal\"\n            Case CumulativeDistributionKind.Lognormal\n                Return \"Lognormal\"\n            Case CumulativeDistributionKind.ThreeParameterLognormal\n                Return \"3-parameter lognormal\"\n            Case CumulativeDistributionKind.Gamma\n                Return \"Gamma\"\n            Case CumulativeDistributionKind.ThreeParameterGamma\n                Return \"3-parameter gamma\"\n            Case CumulativeDistributionKind.Exponential\n                Return \"Exponential\"\n            Case CumulativeDistributionKind.TwoParameterExponential\n                Return \"2-parameter exponential\"\n            Case CumulativeDistributionKind.SmallestExtremeValue\n                Return \"Smallest extreme value\"\n            Case CumulativeDistributionKind.Weibull\n                Return \"Weibull\"\n            Case CumulativeDistributionKind.ThreeParameterWeibull\n                Return \"3-parameter Weibull\"\n            Case CumulativeDistributionKind.LargestExtremeValue\n                Return \"Largest extreme value\"\n            Case CumulativeDistributionKind.Logistic\n                Return \"Logistic\"\n            Case CumulativeDistributionKind.Loglogistic\n                Return \"Loglogistic\"\n            Case CumulativeDistributionKind.ThreeParameterLoglogistic\n                Return \"3-parameter loglogistic\"\n            Case Else\n                Return kind.ToString()\n        End Select\n    End Function",
+          "original_sha256": "2cda10f5b06609f507db284992d37c39927bf02e507be39f71655c801d07853c"
+        },
+        {
+          "name": "AutomaticNumberFormat",
+          "original": "    Private Shared Function AutomaticNumberFormat(majorUnit As Double) As String\n        If Not IsFinitePositive(majorUnit) Then Return \"0.###\"\n\n        Dim absoluteUnit As Double = Math.Abs(majorUnit)\n        If absoluteUnit >= 1.0R Then Return \"0.###\"\n        If absoluteUnit >= 0.1R Then Return \"0.0##\"\n        If absoluteUnit >= 0.01R Then Return \"0.00##\"\n        If absoluteUnit >= 0.001R Then Return \"0.000##\"\n        Return \"0.#####\"\n    End Function",
+          "original_sha256": "8e1cb156a5565d762e27df8172f4554dd9c8d2e7d69135977cd145685cdb0e00"
+        },
+        {
+          "name": "IsFinite",
+          "original": "    Private Shared Function IsFinite(value As Double) As Boolean\n        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n    End Function",
+          "original_sha256": "60caa48d586ebe120a641d748bb614cbcb755ba7eb2dfc16faa8171e001e3960"
+        },
+        {
+          "name": "IsFinitePositive",
+          "original": "    Private Shared Function IsFinitePositive(value As Double) As Boolean\n        Return IsFinite(value) AndAlso value > 0.0R\n    End Function",
+          "original_sha256": "3015b526f924347cb71e983cdbc76a312a93b6752024971de9d87085730d643c"
+        }
+      ]
+    },
+    {
+      "family": "Dumbbell",
+      "config": {
+        "file": "DumbbellPlotExcel",
+        "appearance": "DumbbellPlotAppearance",
+        "methods": [
+          "ResolveAxisContext",
+          "NiceStep125",
+          "FloorToStep",
+          "CeilingToStep",
+          "ResolveXAxisNumberFormat",
+          "ResolveSeriesName",
+          "SuggestedHeight"
+        ],
+        "helpers": [
+          "IsFinite",
+          "IsFinitePositive"
+        ]
+      },
+      "settings_fields": [
+        [
+          "XAxisPaddingFraction",
+          "Double",
+          "0.04R"
+        ],
+        [
+          "XAxisMajorUnit",
+          "Nullable(Of Double)",
+          "Nothing"
+        ],
+        [
+          "XAxisMinimum",
+          "Nullable(Of Double)",
+          "Nothing"
+        ],
+        [
+          "XAxisMaximum",
+          "Nullable(Of Double)",
+          "Nothing"
+        ],
+        [
+          "XAxisNumberFormat",
+          "String",
+          "\"\""
+        ]
+      ],
+      "enums": {},
+      "axis_fields": [
+        [
+          "XMinimum",
+          "Double"
+        ],
+        [
+          "XMaximum",
+          "Double"
+        ],
+        [
+          "XMajorUnit",
+          "Double"
+        ],
+        [
+          "YMinimum",
+          "Double"
+        ],
+        [
+          "YMaximum",
+          "Double"
+        ],
+        [
+          "XNumberFormat",
+          "String"
+        ]
+      ],
+      "constants": "",
+      "members": [
+        {
+          "name": "ResolveAxisContext",
+          "original": "    Private Shared Function ResolveAxisContext(result As DumbbellPlotResult,\n                                               appearance As DumbbellPlotAppearance) As AxisContext\n        Dim dataMinimum As Double = result.MinimumValue\n        Dim dataMaximum As Double = result.MaximumValue\n        If Not IsFinite(dataMinimum) OrElse Not IsFinite(dataMaximum) Then\n            Throw New ArgumentException(\"The dumbbell result does not contain a finite X range.\", NameOf(result))\n        End If\n\n        Dim span As Double = dataMaximum - dataMinimum\n        Dim fallbackSpan As Double\n        If span > 0.0R Then\n            fallbackSpan = span\n        ElseIf result.AxisValueKind = DumbbellAxisValueKind.DateValue Then\n            fallbackSpan = 2.0R\n        Else\n            fallbackSpan = Math.Max(1.0R, Math.Abs(dataMinimum) * 0.1R)\n        End If\n\n        Dim padding As Double = fallbackSpan * appearance.XAxisPaddingFraction\n        If result.AxisValueKind = DumbbellAxisValueKind.DateValue Then\n            padding = Math.Max(padding, 0.5R)\n        End If\n\n        Dim paddedMinimum As Double = dataMinimum - padding\n        Dim paddedMaximum As Double = dataMaximum + padding\n        If paddedMinimum >= paddedMaximum Then\n            paddedMinimum = dataMinimum - 0.5R * fallbackSpan\n            paddedMaximum = dataMaximum + 0.5R * fallbackSpan\n        End If\n\n        'Use a 1-2-5 \"nice\" step, mirroring the histogram bin-step logic, so the\n        'automatic gridlines land on human-friendly values instead of starting at\n        'an arbitrary padded minimum such as 13.012. Aim for about five intervals.\n        Dim majorUnit As Double\n        If appearance.XAxisMajorUnit.HasValue Then\n            majorUnit = appearance.XAxisMajorUnit.Value\n        Else\n            majorUnit = NiceStep125((paddedMaximum - paddedMinimum) / 5.0R)\n            If result.AxisValueKind = DumbbellAxisValueKind.DateValue Then\n                'The default date tick format displays days, so sub-day automatic\n                'ticks would only create repeated date labels.\n                majorUnit = Math.Max(1.0R, majorUnit)\n            End If\n        End If\n\n        If Not IsFinitePositive(majorUnit) Then majorUnit = 1.0R\n\n        Dim xMinimum As Double\n        If appearance.XAxisMinimum.HasValue Then\n            xMinimum = appearance.XAxisMinimum.Value\n        Else\n            xMinimum = FloorToStep(paddedMinimum, majorUnit)\n        End If\n\n        Dim xMaximum As Double\n        If appearance.XAxisMaximum.HasValue Then\n            xMaximum = appearance.XAxisMaximum.Value\n        Else\n            xMaximum = CeilingToStep(paddedMaximum, majorUnit)\n        End If\n\n        If xMinimum >= xMaximum Then\n            If Not appearance.XAxisMinimum.HasValue AndAlso Not appearance.XAxisMaximum.HasValue Then\n                xMinimum = FloorToStep(dataMinimum - 0.5R * fallbackSpan, majorUnit)\n                xMaximum = CeilingToStep(dataMaximum + 0.5R * fallbackSpan, majorUnit)\n                If xMinimum >= xMaximum Then xMaximum = xMinimum + majorUnit\n            Else\n                Throw New ArgumentException(\"The resolved X-axis minimum must be smaller than the X-axis maximum.\", NameOf(appearance))\n            End If\n        End If\n\n        Return New AxisContext With {\n            .XMinimum = xMinimum,\n            .XMaximum = xMaximum,\n            .XMajorUnit = majorUnit,\n            .YMinimum = 0.0R,\n            .YMaximum = result.CategoryCount + 1.0R,\n            .XNumberFormat = ResolveXAxisNumberFormat(result.AxisValueKind, appearance.XAxisNumberFormat)\n        }\n    End Function",
+          "original_sha256": "17d9e4eccd5ec7d3cc8bbb4fd00f28eb979cd784847d4f060b7c9b7e6fc937fc"
+        },
+        {
+          "name": "NiceStep125",
+          "original": "    Private Shared Function NiceStep125(rawStep As Double) As Double\n        If Not IsFinitePositive(rawStep) Then Return 1.0R\n\n        Dim exponent As Double = Math.Floor(Math.Log10(rawStep))\n        Dim scale As Double = Math.Pow(10.0R, exponent)\n        Dim fraction As Double = rawStep / scale\n        Dim niceFraction As Double\n\n        If fraction <= 1.0R Then\n            niceFraction = 1.0R\n        ElseIf fraction <= 2.0R Then\n            niceFraction = 2.0R\n        ElseIf fraction <= 5.0R Then\n            niceFraction = 5.0R\n        Else\n            niceFraction = 10.0R\n        End If\n\n        Return niceFraction * scale\n    End Function",
+          "original_sha256": "557fa5a16ee7b4d70af83bbb4d715f4fcffba1240740c75b1daecfb9a3b178ba"
+        },
+        {
+          "name": "FloorToStep",
+          "original": "    Private Shared Function FloorToStep(value As Double, stepSize As Double) As Double\n        Return Math.Floor(value / stepSize) * stepSize\n    End Function",
+          "original_sha256": "3f1b084ee64e70d9c9c7522566ed18a6e55079e53ce63ee9e18975e89b3614c4"
+        },
+        {
+          "name": "CeilingToStep",
+          "original": "    Private Shared Function CeilingToStep(value As Double, stepSize As Double) As Double\n        Return Math.Ceiling(value / stepSize) * stepSize\n    End Function",
+          "original_sha256": "1826634d98364adb20cc777f38fcc20d8b6ad55066dcc8c81bc5417e51883772"
+        },
+        {
+          "name": "ResolveXAxisNumberFormat",
+          "original": "    Private Shared Function ResolveXAxisNumberFormat(axisValueKind As DumbbellAxisValueKind,\n                                                     requestedFormat As String) As String\n        If Not String.IsNullOrWhiteSpace(requestedFormat) Then Return requestedFormat.Trim()\n\n        Select Case axisValueKind\n            Case DumbbellAxisValueKind.DateValue\n                Return \"dd-mmm\"\n            Case DumbbellAxisValueKind.Numeric\n                Return \"0.###\"\n            Case Else\n                Return \"General\"\n        End Select\n    End Function",
+          "original_sha256": "1ff1c521ac2442b3d5fcc5ace0d7a6ad03517ee652910266292885673948661b"
+        },
+        {
+          "name": "ResolveSeriesName",
+          "original": "    Private Shared Function ResolveSeriesName(value As String, fallback As String) As String\n        If String.IsNullOrWhiteSpace(value) Then Return fallback\n        Return value.Trim()\n    End Function",
+          "original_sha256": "5cb4fbcf56073f2231c8d57ad1dbae20dccfcb05e9145f905aa29717c5ceaf7b"
+        },
+        {
+          "name": "SuggestedHeight",
+          "original": "    Public Shared Function SuggestedHeight(result As DumbbellPlotResult) As Double\n        If result Is Nothing OrElse result.CategoryCount < 1 Then Return 360.0R\n        Return Math.Max(340.0R, Math.Min(1400.0R, 145.0R + 22.0R * result.CategoryCount))\n    End Function",
+          "original_sha256": "9b461c2bc6fa7b321f8f5f6495ba5f0dc405c5a1972c9edbe1cecbd9df07eb2d"
+        },
+        {
+          "name": "IsFinite",
+          "original": "    Private Shared Function IsFinite(value As Double) As Boolean\n        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n    End Function",
+          "original_sha256": "60caa48d586ebe120a641d748bb614cbcb755ba7eb2dfc16faa8171e001e3960"
+        },
+        {
+          "name": "IsFinitePositive",
+          "original": "    Private Shared Function IsFinitePositive(value As Double) As Boolean\n        Return IsFinite(value) AndAlso value > 0.0R\n    End Function",
+          "original_sha256": "3015b526f924347cb71e983cdbc76a312a93b6752024971de9d87085730d643c"
+        }
+      ]
+    },
+    {
+      "family": "Ladder",
+      "config": {
+        "file": "LadderPlotExcel",
+        "appearance": "LadderPlotAppearance",
+        "methods": [
+          "ResolveAxisContext",
+          "ResolveYAxisNumberFormat",
+          "NiceStep125",
+          "FloorToStep",
+          "CeilingToStep",
+          "BuildEndpointLabel",
+          "FormatEndpointValue",
+          "ResolveObservationSeriesName",
+          "SuggestedWidth",
+          "SuggestedHeight"
+        ],
+        "helpers": [
+          "IsFinite",
+          "IsFinitePositive"
+        ]
+      },
+      "settings_fields": [
+        [
+          "YAxisPaddingFraction",
+          "Double",
+          "0.04R"
+        ],
+        [
+          "YAxisMajorUnit",
+          "Nullable(Of Double)",
+          "Nothing"
+        ],
+        [
+          "YAxisMinimum",
+          "Nullable(Of Double)",
+          "Nothing"
+        ],
+        [
+          "YAxisIncludeZero",
+          "Boolean",
+          "False"
+        ],
+        [
+          "YAxisMaximum",
+          "Nullable(Of Double)",
+          "Nothing"
+        ],
+        [
+          "YAxisNumberFormat",
+          "String",
+          "\"\""
+        ],
+        [
+          "EndpointValueDisplayFormat",
+          "String",
+          "\"\""
+        ],
+        [
+          "EndpointLabelContent",
+          "LadderEndpointLabelContent",
+          "LadderEndpointLabelContent.RecordLabelAndValue"
+        ],
+        [
+          "EndpointLabelSeparator",
+          "String",
+          "\", \""
+        ],
+        [
+          "ColorMode",
+          "LadderColorMode",
+          "LadderColorMode.SingleColor"
+        ],
+        [
+          "SeriesName",
+          "String",
+          "\"Data\""
+        ],
+        [
+          "ShowFirstEndpointLabels",
+          "Boolean",
+          "False"
+        ],
+        [
+          "ShowSecondEndpointLabels",
+          "Boolean",
+          "False"
+        ]
+      ],
+      "enums": {
+        "LadderEndpointLabelContent": "Public Enum LadderEndpointLabelContent\n    Value\n    RecordLabel\n    RecordLabelAndValue\nEnd Enum",
+        "LadderColorMode": "Public Enum LadderColorMode\n    ''' <summary>Every paired observation uses the same colour.</summary>\n    SingleColor\n\n    ''' <summary>Each paired observation cycles through the configured colour palette.</summary>\n    ByObservation\n\n    ''' <summary>Observations use the colour assigned to their grouping level.</summary>\n    ByGroup\nEnd Enum"
+      },
+      "axis_fields": [
+        [
+          "XMinimum",
+          "Double"
+        ],
+        [
+          "XMaximum",
+          "Double"
+        ],
+        [
+          "YMinimum",
+          "Double"
+        ],
+        [
+          "YMaximum",
+          "Double"
+        ],
+        [
+          "YMajorUnit",
+          "Double"
+        ],
+        [
+          "YNumberFormat",
+          "String"
+        ]
+      ],
+      "constants": "    Private Const PlotXMinimum As Double = 0.5R\n    Private Const PlotXMaximum As Double = 2.5R",
+      "members": [
+        {
+          "name": "ResolveAxisContext",
+          "original": "    Private Shared Function ResolveAxisContext(result As LadderPlotResult,\n                                               appearance As LadderPlotAppearance) As AxisContext\n        Dim dataMinimum As Double = result.MinimumValue\n        Dim dataMaximum As Double = result.MaximumValue\n        If Not IsFinite(dataMinimum) OrElse Not IsFinite(dataMaximum) Then\n            Throw New ArgumentException(\"The ladder result does not contain a finite Y range.\", NameOf(result))\n        End If\n\n        Dim span As Double = dataMaximum - dataMinimum\n        Dim fallbackSpan As Double = If(span > 0.0R,\n                                        span,\n                                        Math.Max(1.0R, Math.Abs(dataMinimum) * 0.1R))\n        If Not IsFinitePositive(fallbackSpan) Then fallbackSpan = 1.0R\n\n        Dim padding As Double = fallbackSpan * appearance.YAxisPaddingFraction\n        Dim paddedMinimum As Double = dataMinimum - padding\n        Dim paddedMaximum As Double = dataMaximum + padding\n        If paddedMinimum >= paddedMaximum Then\n            paddedMinimum = dataMinimum - 0.5R * fallbackSpan\n            paddedMaximum = dataMaximum + 0.5R * fallbackSpan\n        End If\n\n        Dim majorUnit As Double\n        If appearance.YAxisMajorUnit.HasValue Then\n            majorUnit = appearance.YAxisMajorUnit.Value\n        Else\n            majorUnit = NiceStep125((paddedMaximum - paddedMinimum) / 5.0R)\n        End If\n        If Not IsFinitePositive(majorUnit) Then majorUnit = 1.0R\n\n        Dim yMinimum As Double\n        If appearance.YAxisMinimum.HasValue Then\n            yMinimum = appearance.YAxisMinimum.Value\n        Else\n            yMinimum = FloorToStep(paddedMinimum, majorUnit)\n            If appearance.YAxisIncludeZero AndAlso dataMinimum >= 0.0R Then yMinimum = Math.Min(0.0R, yMinimum)\n        End If\n\n        Dim yMaximum As Double\n        If appearance.YAxisMaximum.HasValue Then\n            yMaximum = appearance.YAxisMaximum.Value\n        Else\n            yMaximum = CeilingToStep(paddedMaximum, majorUnit)\n            If appearance.YAxisIncludeZero AndAlso dataMaximum <= 0.0R Then yMaximum = Math.Max(0.0R, yMaximum)\n        End If\n\n        If yMinimum >= yMaximum Then\n            If Not appearance.YAxisMinimum.HasValue AndAlso Not appearance.YAxisMaximum.HasValue Then\n                yMinimum = FloorToStep(dataMinimum - 0.5R * fallbackSpan, majorUnit)\n                yMaximum = CeilingToStep(dataMaximum + 0.5R * fallbackSpan, majorUnit)\n                If yMinimum >= yMaximum Then yMaximum = yMinimum + majorUnit\n            Else\n                Throw New ArgumentException(\"The resolved Y-axis minimum must be smaller than the Y-axis maximum.\", NameOf(appearance))\n            End If\n        End If\n\n        Return New AxisContext With {\n            .XMinimum = PlotXMinimum,\n            .XMaximum = PlotXMaximum,\n            .YMinimum = yMinimum,\n            .YMaximum = yMaximum,\n            .YMajorUnit = majorUnit,\n            .YNumberFormat = ResolveYAxisNumberFormat(appearance.YAxisNumberFormat)\n        }\n    End Function",
+          "original_sha256": "ad8009c654bbc52f270782b5444ec2d0b8a2df210d173a6fc74a44111f3b2f8f"
+        },
+        {
+          "name": "ResolveYAxisNumberFormat",
+          "original": "    Private Shared Function ResolveYAxisNumberFormat(requestedFormat As String) As String\n        If String.IsNullOrWhiteSpace(requestedFormat) Then Return \"0.###\"\n        Return requestedFormat.Trim()\n    End Function",
+          "original_sha256": "a4dfc50d0b13ebe4a0501c9002f5b190f578b2ca4d626f0c70c7a162e0fd5498"
+        },
+        {
+          "name": "NiceStep125",
+          "original": "    Private Shared Function NiceStep125(rawStep As Double) As Double\n        If Not IsFinitePositive(rawStep) Then Return 1.0R\n\n        Dim exponent As Double = Math.Floor(Math.Log10(rawStep))\n        Dim scale As Double = Math.Pow(10.0R, exponent)\n        Dim fraction As Double = rawStep / scale\n        Dim niceFraction As Double\n\n        If fraction <= 1.0R Then\n            niceFraction = 1.0R\n        ElseIf fraction <= 2.0R Then\n            niceFraction = 2.0R\n        ElseIf fraction <= 5.0R Then\n            niceFraction = 5.0R\n        Else\n            niceFraction = 10.0R\n        End If\n\n        Return niceFraction * scale\n    End Function",
+          "original_sha256": "557fa5a16ee7b4d70af83bbb4d715f4fcffba1240740c75b1daecfb9a3b178ba"
+        },
+        {
+          "name": "FloorToStep",
+          "original": "    Private Shared Function FloorToStep(value As Double, stepSize As Double) As Double\n        Return Math.Floor(value / stepSize) * stepSize\n    End Function",
+          "original_sha256": "3f1b084ee64e70d9c9c7522566ed18a6e55079e53ce63ee9e18975e89b3614c4"
+        },
+        {
+          "name": "CeilingToStep",
+          "original": "    Private Shared Function CeilingToStep(value As Double, stepSize As Double) As Double\n        Return Math.Ceiling(value / stepSize) * stepSize\n    End Function",
+          "original_sha256": "1826634d98364adb20cc777f38fcc20d8b6ad55066dcc8c81bc5417e51883772"
+        },
+        {
+          "name": "BuildEndpointLabel",
+          "original": "    Private Shared Function BuildEndpointLabel(observation As LadderPlotObservation,\n                                               useFirstSide As Boolean,\n                                               appearance As LadderPlotAppearance) As String\n        Dim value As Double = If(useFirstSide, observation.FirstValue, observation.SecondValue)\n        Dim valueText As String = FormatEndpointValue(value, appearance.EndpointValueDisplayFormat)\n\n        Select Case appearance.EndpointLabelContent\n            Case LadderEndpointLabelContent.Value\n                Return valueText\n            Case LadderEndpointLabelContent.RecordLabel\n                Return observation.RecordLabel\n            Case LadderEndpointLabelContent.RecordLabelAndValue\n                Dim separator As String = If(appearance.EndpointLabelSeparator, String.Empty)\n                Return observation.RecordLabel & separator & valueText\n            Case Else\n                Return observation.RecordLabel & \", \" & valueText\n        End Select\n    End Function",
+          "original_sha256": "5f484edd01914007b90a8fa5e98a5302883bb4a742f983a8622f664ea8b18088"
+        },
+        {
+          "name": "FormatEndpointValue",
+          "original": "    Private Shared Function FormatEndpointValue(value As Double, requestedFormat As String) As String\n        If Not String.IsNullOrWhiteSpace(requestedFormat) Then\n            Try\n                Return value.ToString(requestedFormat.Trim(), CultureInfo.CurrentCulture)\n            Catch ex As FormatException\n                'Fall through to a compact default rather than failing chart creation for\n                'an invalid cosmetic display format.\n            End Try\n        End If\n        Return value.ToString(\"0.###\", CultureInfo.CurrentCulture)\n    End Function",
+          "original_sha256": "4f4d51bb5150ed45d68eed3f072c69e9a308df0d43b469e50f318861f86dd6e7"
+        },
+        {
+          "name": "ResolveObservationSeriesName",
+          "original": "    Private Shared Function ResolveObservationSeriesName(observation As LadderPlotObservation,\n                                                         appearance As LadderPlotAppearance) As String\n        Select Case appearance.ColorMode\n            Case LadderColorMode.ByObservation\n                If Not String.IsNullOrWhiteSpace(observation.RecordLabel) Then Return observation.RecordLabel\n                Return \"Observation \" & (observation.DisplayIndex + 1).ToString(CultureInfo.CurrentCulture)\n            Case LadderColorMode.ByGroup\n                If Not String.IsNullOrWhiteSpace(observation.GroupLabel) Then Return observation.GroupLabel\n                Return \"Group \" & (observation.GroupLevelIndex + 1).ToString(CultureInfo.CurrentCulture)\n            Case Else\n                If String.IsNullOrWhiteSpace(appearance.SeriesName) Then Return \"Data\"\n                Return appearance.SeriesName.Trim()\n        End Select\n    End Function",
+          "original_sha256": "7e81ba4335b77e0bce2ee0b8491e4a2c022141b5df32a894c7ad57a30970b1a0"
+        },
+        {
+          "name": "SuggestedWidth",
+          "original": "    Public Shared Function SuggestedWidth(result As LadderPlotResult,\n                                          Optional appearance As LadderPlotAppearance = Nothing) As Double\n        Dim resolved As LadderPlotAppearance = If(appearance, New LadderPlotAppearance())\n        If resolved.ShowFirstEndpointLabels OrElse resolved.ShowSecondEndpointLabels Then Return 820.0R\n        Return 620.0R\n    End Function",
+          "original_sha256": "5c0483ffdfdfb9580566c43843d130559792d8a4b5dcfc7439631cf3ace9c246"
+        },
+        {
+          "name": "SuggestedHeight",
+          "original": "    Public Shared Function SuggestedHeight(result As LadderPlotResult,\n                                           Optional appearance As LadderPlotAppearance = Nothing) As Double\n        If result Is Nothing OrElse result.ObservationCount < 1 Then Return 420.0R\n        Dim resolved As LadderPlotAppearance = If(appearance, New LadderPlotAppearance())\n        If resolved.ShowFirstEndpointLabels OrElse resolved.ShowSecondEndpointLabels Then\n            Return Math.Max(420.0R, Math.Min(1200.0R, 210.0R + 17.0R * result.ObservationCount))\n        End If\n        Return 440.0R\n    End Function",
+          "original_sha256": "0279bcdf4104d1345ca66124b5c3b4318cf12ba414bcce053d6aa78517d0052f"
+        },
+        {
+          "name": "IsFinite",
+          "original": "    Private Shared Function IsFinite(value As Double) As Boolean\n        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n    End Function",
+          "original_sha256": "60caa48d586ebe120a641d748bb614cbcb755ba7eb2dfc16faa8171e001e3960"
+        },
+        {
+          "name": "IsFinitePositive",
+          "original": "    Private Shared Function IsFinitePositive(value As Double) As Boolean\n        Return IsFinite(value) AndAlso value > 0.0R\n    End Function",
+          "original_sha256": "3015b526f924347cb71e983cdbc76a312a93b6752024971de9d87085730d643c"
+        }
+      ]
+    },
+    {
+      "family": "Hull",
+      "config": {
+        "file": "ConvexHullPlot",
+        "appearance": "ConvexHullPlotAppearance",
+        "methods": [
+          "ResolveSeriesName"
+        ],
+        "helpers": []
+      },
+      "settings_fields": [
+        [
+          "SeriesName",
+          "String",
+          "\"Data\""
+        ]
+      ],
+      "enums": {},
+      "axis_fields": [],
+      "constants": "",
+      "members": [
+        {
+          "name": "ResolveSeriesName",
+          "original": "    Private Shared Function ResolveSeriesName(group As ConvexHullPlotGroup,\n                                              groupIndex As Integer,\n                                              hasGrouping As Boolean,\n                                              appearance As ConvexHullPlotAppearance) As String\n        If hasGrouping Then\n            If Not String.IsNullOrWhiteSpace(group.Name) Then Return group.Name\n            Return \"Group \" & (groupIndex + 1).ToString(CultureInfo.CurrentCulture)\n        End If\n        Return If(String.IsNullOrWhiteSpace(appearance.SeriesName), \"Data\", appearance.SeriesName.Trim())\n    End Function",
+          "original_sha256": "25e127aa67a8d5537e3ef4c873cc3561dfca682ca69244e6f0cc2bfa2e995bd7"
+        }
+      ]
+    },
+    {
+      "family": "Polar",
+      "config": {
+        "file": "PolarPlot",
+        "appearance": "PolarPlotAppearance",
+        "methods": [
+          "ResolveSeriesName"
+        ],
+        "helpers": []
+      },
+      "settings_fields": [
+        [
+          "SeriesName",
+          "String",
+          "\"Data\""
+        ]
+      ],
+      "enums": {},
+      "axis_fields": [],
+      "constants": "",
+      "members": [
+        {
+          "name": "ResolveSeriesName",
+          "original": "    Private Shared Function ResolveSeriesName(group As PolarPlotGroupSeries,\n                                              groupIndex As Integer,\n                                              result As PolarPlotResult,\n                                              appearance As PolarPlotAppearance) As String\n        If result.HasGrouping Then\n            If Not String.IsNullOrWhiteSpace(group.Name) Then Return group.Name\n            Return \"Group \" & (groupIndex + 1).ToString(Globalization.CultureInfo.CurrentCulture)\n        End If\n        Return If(String.IsNullOrWhiteSpace(appearance.SeriesName),\n                  \"Data\",\n                  appearance.SeriesName.Trim())\n    End Function",
+          "original_sha256": "c08508688ef1109928529c51ffc40b30ebfad525dbfa1d4f7ff148b9b41db203"
+        }
+      ]
+    },
+    {
+      "family": "Spc",
+      "config": {
+        "file": "SpcControlChartExcel",
+        "appearance": "SpcControlChartAppearanceOptions",
+        "methods": [
+          "NormalizeText",
+          "NormalizeNumberFormat",
+          "ResolveChartTitle",
+          "ResolveValueAxisTitle",
+          "PanelSupportsSpecificationLimits"
+        ],
+        "helpers": []
+      },
+      "settings_fields": [
+        [
+          "ChartTitle",
+          "String",
+          "\"\""
+        ]
+      ],
+      "enums": {},
+      "axis_fields": [],
+      "constants": "",
+      "members": [
+        {
+          "name": "NormalizeText",
+          "original": "        Private Shared Function NormalizeText(value As String) As String\n            Return If(value, String.Empty).Trim()\n        End Function",
+          "original_sha256": "fe3b387ce7e488f7e5b5d1cdc081efb67185b4fb824e354092f152e6a0a1fea5"
+        },
+        {
+          "name": "NormalizeNumberFormat",
+          "original": "        Private Shared Function NormalizeNumberFormat(value As String) As String\n            Dim normalized As String = NormalizeText(value)\n            If normalized.Length = 0 Then Return \"0.####\"\n            Return normalized\n        End Function",
+          "original_sha256": "787f35c2efe52b9a9e73b8c041d1434132c676d0f706da06648e7e53e80be8e1"
+        },
+        {
+          "name": "ResolveChartTitle",
+          "original": "        Private Shared Function ResolveChartTitle(\n            result As SpcFitResult,\n            panel As SpcPanelResult,\n            options As SpcControlChartAppearanceOptions,\n            panelCount As Integer) As String\n\n            Dim baseTitle As String = options.ChartTitle\n            If baseTitle.Length = 0 Then baseTitle = result.ChartTitle\n            If panelCount <= 1 Then Return baseTitle\n            Return baseTitle & \" - \" & panel.DisplayName\n        End Function",
+          "original_sha256": "988f8614a0c24dbe965fa58acf8dc7d96a9c15395e27ea394552224cb942a336"
+        },
+        {
+          "name": "ResolveValueAxisTitle",
+          "original": "        Private Shared Function ResolveValueAxisTitle(\n            result As SpcFitResult,\n            panel As SpcPanelResult) As String\n            If panel.ValueAxisTitle.Length > 0 Then Return panel.ValueAxisTitle\n            If result.Request.ValueAxisTitle.Length > 0 Then Return result.Request.ValueAxisTitle\n            Return panel.DisplayName\n        End Function",
+          "original_sha256": "9d691f62b33ad2db30b33a7a52e0fdfef982c369482d63afd43276cbe85ffa84"
+        },
+        {
+          "name": "PanelSupportsSpecificationLimits",
+          "original": "        Private Shared Function PanelSupportsSpecificationLimits(\n            panelType As SpcPanelType) As Boolean\n            Select Case panelType\n                Case SpcPanelType.Run,\n                     SpcPanelType.IndividualValue,\n                     SpcPanelType.SubgroupMean,\n                     SpcPanelType.Ewma,\n                     SpcPanelType.MovingAverage\n                    Return True\n                Case Else\n                    Return False\n            End Select\n        End Function",
+          "original_sha256": "7712ea502d678e929dd6271040c55af71a58579fc62969638b54cb70f2bd49d0"
+        }
+      ]
+    }
+  ],
+  "qualification": "Exact original member bodies, original Windows appearance/result types and namespace binding; no new portable preparation used as oracle. Accepted Core engines remain dependencies."
+}

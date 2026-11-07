@@ -522,13 +522,10 @@ Public NotInheritable Class CumulativeDistributionPlotExcel
         Dim percentiles() As CumulativeDistributionPercentile = result.Percentiles
 
         For Each percentile As CumulativeDistributionPercentile In percentiles
-            Dim xCorner As Double = percentile.XValue
-            Dim yCorner As Double = percentile.YValue
-
-            If Not IsFinite(xCorner) OrElse Not IsFinite(yCorner) Then Continue For
-
-            Dim xValues() As Double = {axisContext.XMinimum, xCorner, xCorner}
-            Dim yValues() As Double = {yCorner, yCorner, axisContext.YMinimum}
+            Dim prepared = ExcelCommon.Chart34.CdfSeries.CdfSeriesPreparation34.PercentileReference(percentile.XValue, percentile.YValue, axisContext.XMinimum, axisContext.YMinimum)
+            If prepared Is Nothing Then Continue For
+            Dim xValues() As Double = prepared.XValues
+            Dim yValues() As Double = prepared.YValues
 
             Dim series As Object = seriesCollection.NewSeries()
             With series
@@ -598,25 +595,7 @@ Public NotInheritable Class CumulativeDistributionPlotExcel
                                                   seriesName As String,
                                                   appearance As CumulativeDistributionPlotAppearance,
                                                   isMultiSeries As Boolean) As String
-        Dim percentText As String
-        If Math.Abs(percentile.Percent - Math.Round(percentile.Percent)) < 1.0E-10R Then
-            percentText = Math.Round(percentile.Percent).ToString("0", CultureInfo.CurrentCulture) & "%"
-        Else
-            percentText = percentile.Percent.ToString("0.###", CultureInfo.CurrentCulture) & "%"
-        End If
-
-        Dim valueFormat As String = If(String.IsNullOrWhiteSpace(appearance.PercentileValueFormat),
-                                       "0.###",
-                                       appearance.PercentileValueFormat.Trim())
-        Dim valueText As String = percentile.XValue.ToString(valueFormat, CultureInfo.CurrentCulture)
-        Dim body As String = percentText & " = " & valueText
-
-        If isMultiSeries AndAlso appearance.IncludeSeriesNameInPercentileLabels AndAlso
-           Not String.IsNullOrWhiteSpace(seriesName) Then
-            Return seriesName.Trim() & ": " & body
-        End If
-
-        Return body
+        Return ExcelCommon.Chart34.CdfChartPreparation34.FormatPercentileLabel(percentile, seriesName, SnapshotCdfSettings34(appearance), isMultiSeries)
     End Function
 
     Private Shared Sub RegisterLegendSeries(seriesCollection As SeriesCollection,
@@ -627,31 +606,22 @@ Public NotInheritable Class CumulativeDistributionPlotExcel
                                             appearance As CumulativeDistributionPlotAppearance,
                                             legendSeriesIndices As IList(Of Integer))
         If Not appearance.ShowLegend Then Return
-
-        If appearance.LegendMode = CumulativeDistributionLegendMode.AllCurves Then
-            If empiricalSeries IsNot Nothing Then legendSeriesIndices.Add(empiricalSeries.PlotOrder)
-            If fittedSeries IsNot Nothing Then legendSeriesIndices.Add(fittedSeries.PlotOrder)
-            Return
-        End If
-
-        'GroupsOnly: when both curves are present, the fitted curve is the legend
-        'representative because it carries the fully opaque group colour. For ECDF-only
-        'or fitted-only charts, keep whichever curve exists.
-        If fittedSeries IsNot Nothing Then
-            fittedSeries.Name = ResolveGroupLegendName(result)
-            legendSeriesIndices.Add(fittedSeries.PlotOrder)
-        ElseIf empiricalSeries IsNot Nothing Then
-            empiricalSeries.Name = ResolveGroupLegendName(result)
-            legendSeriesIndices.Add(empiricalSeries.PlotOrder)
+        Dim intent = ExcelCommon.Chart34.SpecialtyLegendPolicy34.CdfLegendChoice(True, appearance.LegendMode = CumulativeDistributionLegendMode.AllCurves, empiricalSeries IsNot Nothing, fittedSeries IsNot Nothing)
+        If intent.RenameRepresentative Then
+            If intent.KeepFitted Then
+                fittedSeries.Name = ResolveGroupLegendName(result)
+                legendSeriesIndices.Add(fittedSeries.PlotOrder)
+            ElseIf intent.KeepEmpirical Then
+                empiricalSeries.Name = ResolveGroupLegendName(result)
+                legendSeriesIndices.Add(empiricalSeries.PlotOrder)
+            End If
+        Else
+            If intent.KeepEmpirical Then legendSeriesIndices.Add(empiricalSeries.PlotOrder)
+            If intent.KeepFitted Then legendSeriesIndices.Add(fittedSeries.PlotOrder)
         End If
     End Sub
 
-    Private Shared Sub ExtendStepToAxisBounds(sourceX() As Double,
-                                              sourceY() As Double,
-                                              xMinimum As Double,
-                                              xMaximum As Double,
-                                              ByRef xOut() As Double,
-                                              ByRef yOut() As Double)
+    Private Shared Sub ExtendStepToAxisBounds(sourceX() As Double, sourceY() As Double, xMinimum As Double, xMaximum As Double, ByRef xOut() As Double, ByRef yOut() As Double)
         If sourceX Is Nothing OrElse sourceY Is Nothing OrElse sourceX.Length = 0 OrElse
            sourceX.Length <> sourceY.Length Then
             xOut = sourceX
@@ -659,36 +629,14 @@ Public NotInheritable Class CumulativeDistributionPlotExcel
             Return
         End If
 
-        Dim prepend As Boolean = xMinimum < sourceX(0)
-        Dim append As Boolean = xMaximum > sourceX(sourceX.Length - 1)
-        Dim extra As Integer = If(prepend, 1, 0) + If(append, 1, 0)
-
-        If extra = 0 Then
+        If Not (xMinimum < sourceX(0)) AndAlso Not (xMaximum > sourceX(sourceX.Length - 1)) Then
             xOut = sourceX
             yOut = sourceY
             Return
         End If
-
-        ReDim xOut(sourceX.Length + extra - 1)
-        ReDim yOut(sourceY.Length + extra - 1)
-
-        Dim targetIndex As Integer = 0
-        If prepend Then
-            xOut(targetIndex) = xMinimum
-            yOut(targetIndex) = sourceY(0)
-            targetIndex += 1
-        End If
-
-        For i As Integer = 0 To sourceX.Length - 1
-            xOut(targetIndex) = sourceX(i)
-            yOut(targetIndex) = sourceY(i)
-            targetIndex += 1
-        Next
-
-        If append Then
-            xOut(targetIndex) = xMaximum
-            yOut(targetIndex) = sourceY(sourceY.Length - 1)
-        End If
+        Dim projection As New CumulativeStepSeriesData(sourceX, sourceY, xMinimum, xMaximum)
+        xOut = projection.XValues
+        yOut = projection.YValues
     End Sub
 
     Private Shared Sub ConfigureAxes(chart As Chart,
@@ -855,95 +803,24 @@ Public NotInheritable Class CumulativeDistributionPlotExcel
 
     Private Shared Function ResolveAxisContext(results() As CumulativeDistributionPlotResult,
                                                appearance As CumulativeDistributionPlotAppearance) As AxisContext
-        Dim xMinimum As Double = Double.PositiveInfinity
-        Dim xMaximum As Double = Double.NegativeInfinity
-        Dim explicitMinimum As Nullable(Of Double) = Nothing
-        Dim explicitMaximum As Nullable(Of Double) = Nothing
-        Dim yScale As CumulativeDistributionYScale = results(0).Options.YScale
-
-        For Each result As CumulativeDistributionPlotResult In results
-            xMinimum = Math.Min(xMinimum, result.XMinimum)
-            xMaximum = Math.Max(xMaximum, result.XMaximum)
-
-            Dim options As CumulativeDistributionPlotOptions = result.Options
-            If options.XMinimum.HasValue Then explicitMinimum = options.XMinimum.Value
-            If options.XMaximum.HasValue Then explicitMaximum = options.XMaximum.Value
-        Next
-
-        If Not IsFinite(xMinimum) OrElse Not IsFinite(xMaximum) OrElse xMaximum <= xMinimum Then
-            Throw New ArgumentException("The cumulative-distribution result does not contain a finite X range.", NameOf(results))
-        End If
-
-        Dim scale As graphics.CHARTscale = graphics.ChartingFunc.ChartScaling(xMinimum, xMaximum)
-        Dim resolvedMinimum As Double = If(explicitMinimum.HasValue, explicitMinimum.Value, scale.Min)
-        Dim resolvedMaximum As Double = If(explicitMaximum.HasValue, explicitMaximum.Value, scale.Max)
-
-        If resolvedMaximum <= resolvedMinimum Then
-            Throw New ArgumentException("The resolved CDF X-axis maximum must be larger than its minimum.", NameOf(results))
-        End If
-
-        Dim majorUnit As Double
-        If appearance.XAxisMajorUnit.HasValue Then
-            majorUnit = appearance.XAxisMajorUnit.Value
-        Else
-            Dim resolvedScale As graphics.CHARTscale = graphics.ChartingFunc.ChartScaling(resolvedMinimum, resolvedMaximum)
-            majorUnit = resolvedScale.Scale
-        End If
-
-        If Not IsFinitePositive(majorUnit) Then
-            majorUnit = Math.Max((resolvedMaximum - resolvedMinimum) / 5.0R, 1.0R)
-        End If
-
-        Dim xNumberFormat As String = If(String.IsNullOrWhiteSpace(appearance.XAxisNumberFormat),
-                                         AutomaticNumberFormat(majorUnit),
-                                         appearance.XAxisNumberFormat.Trim())
-
-        Dim context As New AxisContext With {
-            .XMinimum = resolvedMinimum,
-            .XMaximum = resolvedMaximum,
-            .XMajorUnit = majorUnit,
-            .XNumberFormat = xNumberFormat
+        Dim geometry = ExcelCommon.Chart34.CdfChartPreparation34.ResolveAxisContext(results, SnapshotCdfSettings34(appearance))
+        Return New AxisContext With {
+            .XMinimum = geometry.XMinimum,
+            .XMaximum = geometry.XMaximum,
+            .XMajorUnit = geometry.XMajorUnit,
+            .XNumberFormat = geometry.XNumberFormat,
+            .YMinimum = geometry.YMinimum,
+            .YMaximum = geometry.YMaximum,
+            .YMajorUnit = geometry.YMajorUnit,
+            .YNumberFormat = geometry.YNumberFormat,
+            .YAxisTitle = geometry.YAxisTitle
         }
-
-        If yScale = CumulativeDistributionYScale.Percent Then
-            context.YMinimum = 0.0R
-            context.YMaximum = 100.0R
-            context.YMajorUnit = 20.0R
-            context.YNumberFormat = "0"
-            context.YAxisTitle = "Percent"
-        Else
-            context.YMinimum = 0.0R
-            context.YMaximum = 1.0R
-            context.YMajorUnit = 0.2R
-            context.YNumberFormat = "0.0"
-            context.YAxisTitle = "Cumulative probability"
-        End If
-
-        Return context
     End Function
 
     Private Shared Function ResolveChartTitle(results() As CumulativeDistributionPlotResult,
                                               appearance As CumulativeDistributionPlotAppearance,
                                               isOverlay As Boolean) As String
-        If Not String.IsNullOrWhiteSpace(appearance.ChartTitle) Then Return appearance.ChartTitle.Trim()
-
-        Dim options As CumulativeDistributionPlotOptions = results(0).Options
-        Dim baseTitle As String
-
-        Select Case options.Mode
-            Case CumulativeDistributionPlotMode.EmpiricalOnly
-                baseTitle = "Empirical cumulative distribution"
-            Case CumulativeDistributionPlotMode.FittedDistributionOnly
-                baseTitle = DistributionShortName(options.Distribution) & " cumulative distribution"
-            Case Else
-                baseTitle = "Empirical CDF with " & DistributionShortName(options.Distribution) & " fit"
-        End Select
-
-        If Not isOverlay AndAlso results.Length = 1 AndAlso Not String.IsNullOrWhiteSpace(results(0).SeriesName) Then
-            baseTitle &= " of " & results(0).SeriesName.Trim()
-        End If
-
-        Return baseTitle
+        Return ExcelCommon.Chart34.CdfChartPreparation34.ResolveChartTitle(results, SnapshotCdfSettings34(appearance), isOverlay)
     End Function
 
     Private Shared Function ResolveSeriesColor(index As Integer,
@@ -961,75 +838,25 @@ Public NotInheritable Class CumulativeDistributionPlotExcel
     Private Shared Function ResolveEmpiricalSeriesName(result As CumulativeDistributionPlotResult,
                                                        appearance As CumulativeDistributionPlotAppearance,
                                                        resultCount As Integer) As String
-        Dim groupName As String = ResolveGroupLegendName(result)
-        If appearance.LegendMode = CumulativeDistributionLegendMode.GroupsOnly Then Return groupName
-        Return groupName & " - ECDF"
+        Return ExcelCommon.Chart34.CdfChartPreparation34.ResolveEmpiricalSeriesName(result, SnapshotCdfSettings34(appearance), resultCount)
     End Function
 
     Private Shared Function ResolveFittedSeriesName(result As CumulativeDistributionPlotResult,
                                                     appearance As CumulativeDistributionPlotAppearance,
                                                     resultCount As Integer) As String
-        Dim groupName As String = ResolveGroupLegendName(result)
-        If appearance.LegendMode = CumulativeDistributionLegendMode.GroupsOnly Then Return groupName
-
-        Dim fitName As String
-        If result.Fit IsNot Nothing Then
-            fitName = DistributionShortName(result.Fit.Distribution)
-        Else
-            fitName = DistributionShortName(result.Options.Distribution)
-        End If
-        Return groupName & " - " & fitName & " fit"
+        Return ExcelCommon.Chart34.CdfChartPreparation34.ResolveFittedSeriesName(result, SnapshotCdfSettings34(appearance), resultCount)
     End Function
 
     Private Shared Function ResolveGroupLegendName(result As CumulativeDistributionPlotResult) As String
-        If result Is Nothing OrElse String.IsNullOrWhiteSpace(result.SeriesName) Then Return "Data"
-        Return result.SeriesName.Trim()
+        Return ExcelCommon.Chart34.CdfChartPreparation34.ResolveGroupLegendName(result)
     End Function
 
     Private Shared Function DistributionShortName(kind As CumulativeDistributionKind) As String
-        Select Case kind
-            Case CumulativeDistributionKind.Normal
-                Return "Normal"
-            Case CumulativeDistributionKind.Lognormal
-                Return "Lognormal"
-            Case CumulativeDistributionKind.ThreeParameterLognormal
-                Return "3-parameter lognormal"
-            Case CumulativeDistributionKind.Gamma
-                Return "Gamma"
-            Case CumulativeDistributionKind.ThreeParameterGamma
-                Return "3-parameter gamma"
-            Case CumulativeDistributionKind.Exponential
-                Return "Exponential"
-            Case CumulativeDistributionKind.TwoParameterExponential
-                Return "2-parameter exponential"
-            Case CumulativeDistributionKind.SmallestExtremeValue
-                Return "Smallest extreme value"
-            Case CumulativeDistributionKind.Weibull
-                Return "Weibull"
-            Case CumulativeDistributionKind.ThreeParameterWeibull
-                Return "3-parameter Weibull"
-            Case CumulativeDistributionKind.LargestExtremeValue
-                Return "Largest extreme value"
-            Case CumulativeDistributionKind.Logistic
-                Return "Logistic"
-            Case CumulativeDistributionKind.Loglogistic
-                Return "Loglogistic"
-            Case CumulativeDistributionKind.ThreeParameterLoglogistic
-                Return "3-parameter loglogistic"
-            Case Else
-                Return kind.ToString()
-        End Select
+        Return ExcelCommon.Chart34.CdfChartPreparation34.DistributionShortName(kind)
     End Function
 
     Private Shared Function AutomaticNumberFormat(majorUnit As Double) As String
-        If Not IsFinitePositive(majorUnit) Then Return "0.###"
-
-        Dim absoluteUnit As Double = Math.Abs(majorUnit)
-        If absoluteUnit >= 1.0R Then Return "0.###"
-        If absoluteUnit >= 0.1R Then Return "0.0##"
-        If absoluteUnit >= 0.01R Then Return "0.00##"
-        If absoluteUnit >= 0.001R Then Return "0.000##"
-        Return "0.#####"
+        Return ExcelCommon.Chart34.CdfChartPreparation34.AutomaticNumberFormat(majorUnit)
     End Function
 
     Private Shared Sub ValidateResults(results() As CumulativeDistributionPlotResult)
@@ -1177,5 +1004,10 @@ Public NotInheritable Class CumulativeDistributionPlotExcel
 
     Private Shared Function IsFinitePositive(value As Double) As Boolean
         Return IsFinite(value) AndAlso value > 0.0R
+    End Function
+
+    Private Shared Function SnapshotCdfSettings34(appearance As CumulativeDistributionPlotAppearance) As ExcelCommon.Chart34.CdfChartSettings34
+        If appearance Is Nothing Then Return Nothing
+        Return New ExcelCommon.Chart34.CdfChartSettings34(appearance.XAxisMajorUnit, appearance.XAxisNumberFormat, appearance.PercentileValueFormat, appearance.IncludeSeriesNameInPercentileLabels, appearance.ChartTitle, CType(CInt(appearance.LegendMode), ExcelCommon.Chart34.CumulativeDistributionLegendMode))
     End Function
 End Class

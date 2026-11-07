@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 
 Imports Microsoft.Office.Interop.Excel
 
@@ -28,7 +28,7 @@ Namespace graphics
 
             Dim n As Integer = data.Estimates.Length
             Dim height As Double = SuggestedHeight(data)
-            Dim y(n - 1) As Double
+            Dim y As Double() = ComparisonCoordinatesCore.OrdinalY(n)
             Dim plusError(n - 1) As Double
             Dim minusError(n - 1) As Double
             Dim minCI As Double = data.LowerLimits(0)
@@ -36,7 +36,6 @@ Namespace graphics
 
             'Reverse the numeric y positions so the first comparison is shown at the top.
             For i As Integer = 0 To n - 1
-                y(i) = n - i
                 plusError(i) = Math.Max(0.0, data.UpperLimits(i) - data.Estimates(i))
                 minusError(i) = Math.Max(0.0, data.Estimates(i) - data.LowerLimits(i))
                 minCI = Math.Min(minCI, data.LowerLimits(i))
@@ -44,8 +43,9 @@ Namespace graphics
             Next
 
             'Always include zero in the visible range because it is the null reference.
-            minCI = Math.Min(minCI, 0.0)
-            maxCI = Math.Max(maxCI, 0.0)
+            Dim referenceBounds As ChartAxisScaleResult = ComparisonCoordinatesCore.IncludeZeroBounds(minCI, maxCI)
+            minCI = referenceBounds.Min
+            maxCI = referenceBounds.Max
             Dim xScale As CHARTscale = ChartScaling(minCI, maxCI)
 
             Dim shape As Object = ws.Shapes.AddChart()
@@ -92,8 +92,8 @@ Namespace graphics
             ch.SeriesCollection.NewSeries()
             With ch.SeriesCollection(2)
                 .Name = "No difference"
-                .XValues = New Double() {0.0, 0.0}
-                .Values = New Double() {0.5, n + 0.5}
+                .XValues = ChartReferenceSeries.Vertical(0.0R, 0.5R, n + 0.5R).XValues
+                .Values = ChartReferenceSeries.Vertical(0.0R, 0.5R, n + 0.5R).YValues
                 .ChartType = XlChartType.xlXYScatterLinesNoMarkers
                 .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
                 .Format.Line.Visible = True
@@ -117,8 +117,7 @@ Namespace graphics
         End Function
 
         Public Shared Function SuggestedHeight(data As parametric.MultipleComparisonPlotData) As Double
-            If data Is Nothing OrElse data.Estimates Is Nothing Then Return 320.0
-            Return Math.Max(320.0, Math.Min(720.0, 150.0 + 32.0 * data.Estimates.Length))
+            Return ExcelCommon.Chart34.ComparisonSeries.ComparisonSeriesPreparation34.SuggestedHeight(data)
         End Function
 
         Private Shared Sub ConfigureAxes(ch As Chart,

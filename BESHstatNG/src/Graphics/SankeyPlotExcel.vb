@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 Option Strict Off
 Option Infer On
 
@@ -546,67 +546,24 @@ Public NotInheritable Class SankeyPlotExcel
         Dim chartWidth As Double
         Dim chartHeight As Double
         GetChartSize(chart, chartWidth, chartHeight)
-
-        Dim padding As Double = appearance.ChartPadding
-        Dim titleHeight As Double = If(String.IsNullOrWhiteSpace(appearance.ChartTitle), 0.0R, appearance.ChartTitleHeight)
-        Dim stageLabelHeight As Double = If(appearance.ShowStageLabels, appearance.StageLabelHeight, 0.0R)
-
-        Dim provisionalPlotHeight As Double = chartHeight - 2.0R * padding - titleHeight - stageLabelHeight
-        If provisionalPlotHeight < 60.0R Then
-            Throw New InvalidOperationException("The embedded chart is too short to draw the Sankey diagram. Increase its height.")
-        End If
-
-        Dim legendColumns As Integer = 0
-        Dim legendRowsPerColumn As Integer = 0
-        Dim legendWidth As Double = 0.0R
-        If appearance.ShowLegend AndAlso legendItems.Count > 0 Then
-            Dim legendTitleRows As Integer = If(String.IsNullOrWhiteSpace(appearance.LegendTitle), 0, 1)
-            Dim availableRowsHeight As Double = provisionalPlotHeight - legendTitleRows * appearance.LegendRowHeight
-            legendRowsPerColumn = Math.Max(1, CInt(Math.Floor(availableRowsHeight / appearance.LegendRowHeight)))
-            legendColumns = CInt(Math.Ceiling(CDbl(legendItems.Count) / CDbl(legendRowsPerColumn)))
-            legendWidth = appearance.LegendGap + legendColumns * appearance.LegendColumnWidth
-        End If
-
-        Dim finalLabelReserve As Double = If(appearance.ShowNodeLabels,
-                                              appearance.NodeLabelGap + appearance.NodeLabelWidth,
-                                              0.0R)
-
-        Dim plotLeft As Double = padding
-        Dim plotTop As Double = padding + titleHeight
-        Dim plotRight As Double = chartWidth - padding - legendWidth - finalLabelReserve
-        Dim plotBottom As Double = chartHeight - padding - stageLabelHeight
-        Dim plotWidth As Double = plotRight - plotLeft
-        Dim plotHeight As Double = plotBottom - plotTop
-
-        If plotWidth < Math.Max(100.0R, appearance.NodeWidth * result.StageCount * 1.5R) Then
-            Throw New InvalidOperationException("The embedded chart is too narrow to draw this Sankey diagram. Increase its width or hide node labels/legend.")
-        End If
-        If plotHeight < 60.0R Then
-            Throw New InvalidOperationException("The embedded chart is too short to draw this Sankey diagram. Increase its height.")
-        End If
-
-        Dim layout As New DrawingLayout With {
-            .ChartWidth = chartWidth,
-            .ChartHeight = chartHeight,
-            .PlotLeft = plotLeft,
-            .PlotTop = plotTop,
-            .PlotWidth = plotWidth,
-            .PlotHeight = plotHeight,
-            .StageCentreLeft = plotLeft + appearance.NodeWidth / 2.0R,
-            .StageCentreRight = plotRight - appearance.NodeWidth / 2.0R,
-            .LegendLeft = chartWidth - padding - legendWidth + appearance.LegendGap,
-            .LegendTop = plotTop,
-            .LegendWidth = Math.Max(0.0R, legendWidth - appearance.LegendGap),
-            .LegendHeight = plotHeight,
-            .LegendColumns = legendColumns,
-            .LegendRowsPerColumn = legendRowsPerColumn,
-            .FinalLabelReserve = finalLabelReserve
+        Dim geometry As SankeyDrawingLayout = SankeyMeasuredGeometryCore.ComputeLayout(chartWidth, chartHeight, result.StageCount, legendItems.Count, appearance.ChartPadding, appearance.ChartTitle, appearance.ChartTitleHeight, appearance.ShowStageLabels, appearance.StageLabelHeight, appearance.ShowLegend, appearance.LegendTitle, appearance.LegendRowHeight, appearance.LegendGap, appearance.LegendColumnWidth, appearance.ShowNodeLabels, appearance.NodeLabelGap, appearance.NodeLabelWidth, appearance.NodeWidth)
+        Return New DrawingLayout With {
+            .ChartWidth = geometry.ChartWidth,
+            .ChartHeight = geometry.ChartHeight,
+            .PlotLeft = geometry.PlotLeft,
+            .PlotTop = geometry.PlotTop,
+            .PlotWidth = geometry.PlotWidth,
+            .PlotHeight = geometry.PlotHeight,
+            .StageCentreLeft = geometry.StageCentreLeft,
+            .StageCentreRight = geometry.StageCentreRight,
+            .LegendLeft = geometry.LegendLeft,
+            .LegendTop = geometry.LegendTop,
+            .LegendWidth = geometry.LegendWidth,
+            .LegendHeight = geometry.LegendHeight,
+            .LegendColumns = geometry.LegendColumns,
+            .LegendRowsPerColumn = geometry.LegendRowsPerColumn,
+            .FinalLabelReserve = geometry.FinalLabelReserve
         }
-
-        If layout.StageCentreRight <= layout.StageCentreLeft Then
-            Throw New InvalidOperationException("The chart does not have enough horizontal space for the Sankey nodes.")
-        End If
-        Return layout
     End Function
 
     Private Shared Sub GetChartSize(chart As Chart,
@@ -641,7 +598,7 @@ Public NotInheritable Class SankeyPlotExcel
         Dim styles As New Dictionary(Of String, ResolvedCategoryStyle)(StringComparer.Ordinal)
         legendItems = New List(Of LegendItem)()
 
-        Dim nodes As SankeyNode() = result.Nodes.OrderBy(Function(n) n.FirstAppearanceIndex).ToArray()
+        Dim nodes As SankeyNode() = ExcelCommon.Chart34.SpecialtyLegendPolicy34.SankeyNodeOrder(result.Nodes)
         Dim paletteIndex As Integer = 0
 
         For Each node As SankeyNode In nodes
@@ -675,7 +632,8 @@ Public NotInheritable Class SankeyPlotExcel
             })
         Next
 
-        legendItems = legendItems.OrderBy(Function(x) x.FirstAppearanceIndex).ToList()
+        Dim legendSource As List(Of LegendItem) = legendItems
+        legendItems = ExcelCommon.Chart34.SpecialtyLegendPolicy34.SankeyLegendOrder(legendItems.Select(Function(x) x.FirstAppearanceIndex).ToArray()).Select(Function(i) legendSource(i)).ToList()
         Return styles
     End Function
 
@@ -764,10 +722,7 @@ Public NotInheritable Class SankeyPlotExcel
                                  layout As DrawingLayout)
         If String.IsNullOrWhiteSpace(appearance.ChartTitle) OrElse appearance.ChartTitleHeight <= 0.0R Then Return
 
-        Dim titleWidth As Double = layout.ChartWidth - 2.0R * appearance.ChartPadding
-        If layout.LegendWidth > 0.0R Then
-            titleWidth = Math.Max(30.0R, layout.LegendLeft - appearance.ChartPadding)
-        End If
+        Dim titleWidth As Double = SankeyMeasuredGeometryCore.SankeyTitle(layout.ChartWidth, appearance.ChartPadding, layout.LegendWidth, layout.LegendLeft).Width
 
         AddTextShape(chartShapes,
                      ShapePrefix & "Title",
@@ -790,26 +745,16 @@ Public NotInheritable Class SankeyPlotExcel
                                   appearance As SankeyPlotAppearance,
                                   layout As DrawingLayout,
                                   linkIndex As Integer)
-        Dim sourceCentreX As Double = NormalizedXToChartX(sourceNode.X, layout)
-        Dim targetCentreX As Double = NormalizedXToChartX(targetNode.X, layout)
-        Dim sourceX As Double = sourceCentreX + appearance.NodeWidth / 2.0R
-        Dim targetX As Double = targetCentreX - appearance.NodeWidth / 2.0R
-
-        If targetX <= sourceX Then
-            'The backend guarantees forward stages; this guard protects against an
-            'impossibly narrow chart after aggressive manual resizing.
-            Return
-        End If
-
-        Dim sourceTop As Double = NormalizedYToChartY(link.SourceTop, layout)
-        Dim sourceBottom As Double = NormalizedYToChartY(link.SourceTop + link.Thickness, layout)
-        Dim targetTop As Double = NormalizedYToChartY(link.TargetTop, layout)
-        Dim targetBottom As Double = NormalizedYToChartY(link.TargetTop + link.Thickness, layout)
-
-        Dim dx As Double = targetX - sourceX
-        Dim controlOffset As Double = dx * appearance.RibbonCurvature
-        Dim c1x As Double = sourceX + controlOffset
-        Dim c2x As Double = targetX - controlOffset
+        Dim geometry As SankeyRibbonGeometry = SankeyMeasuredGeometryCore.SankeyRibbon(sourceNode.X, targetNode.X, appearance.NodeWidth, link.SourceTop, link.TargetTop, link.Thickness, appearance.RibbonCurvature, layout.StageCentreLeft, layout.StageCentreRight, layout.PlotTop, layout.PlotHeight)
+        If geometry Is Nothing Then Return
+        Dim sourceX As Double = geometry.SourceX
+        Dim targetX As Double = geometry.TargetX
+        Dim sourceTop As Double = geometry.SourceTop
+        Dim sourceBottom As Double = geometry.SourceBottom
+        Dim targetTop As Double = geometry.TargetTop
+        Dim targetBottom As Double = geometry.TargetBottom
+        Dim c1x As Double = geometry.C1x
+        Dim c2x As Double = geometry.C2x
 
         Dim builder As Object = chartShapes.BuildFreeform(MsoEditingCorner,
                                                            CSng(sourceX),
@@ -882,10 +827,10 @@ Public NotInheritable Class SankeyPlotExcel
                                 appearance As SankeyPlotAppearance,
                                 layout As DrawingLayout,
                                 nodeIndex As Integer)
-        Dim centreX As Double = NormalizedXToChartX(node.X, layout)
-        Dim nodeTop As Double = NormalizedYToChartY(node.Y, layout)
-        Dim nodeHeight As Double = Math.Max(0.5R, node.Height * layout.PlotHeight)
-        Dim nodeLeft As Double = centreX - appearance.NodeWidth / 2.0R
+        Dim geometry As SankeyNodeGeometry = SankeyMeasuredGeometryCore.SankeyNode(node.X, node.Y, node.Height, appearance.NodeWidth, layout.StageCentreLeft, layout.StageCentreRight, layout.PlotTop, layout.PlotHeight)
+        Dim nodeLeft As Double = geometry.Left
+        Dim nodeTop As Double = geometry.Top
+        Dim nodeHeight As Double = geometry.Height
 
         Dim nodeShape As Object = chartShapes.AddShape(MsoShapeRectangle,
                                                        CSng(nodeLeft),
@@ -915,28 +860,11 @@ Public NotInheritable Class SankeyPlotExcel
                                      layout As DrawingLayout,
                                      stageX As Double(),
                                      nodeIndex As Integer)
-        Dim centreX As Double = NormalizedXToChartX(node.X, layout)
-        Dim nodeRight As Double = centreX + appearance.NodeWidth / 2.0R
-        Dim labelLeft As Double = nodeRight + appearance.NodeLabelGap
-        Dim labelWidth As Double = appearance.NodeLabelWidth
-
-        If node.StageIndex < stageX.Length - 1 Then
-            Dim nextNodeLeft As Double = stageX(node.StageIndex + 1) - appearance.NodeWidth / 2.0R
-            Dim interStageWidth As Double = nextNodeLeft - labelLeft - 3.0R
-            If interStageWidth > 20.0R Then
-                labelWidth = Math.Min(labelWidth, interStageWidth)
-            Else
-                labelWidth = Math.Max(20.0R, interStageWidth)
-            End If
-        End If
-
-        Dim nodeTop As Double = NormalizedYToChartY(node.Y, layout)
-        Dim nodeHeight As Double = Math.Max(0.5R, node.Height * layout.PlotHeight)
-        Dim centreY As Double = nodeTop + nodeHeight / 2.0R
-        Dim labelHeight As Double = Math.Max(18.0R, appearance.NodeLabelFontSize * 2.5R)
-        Dim labelTop As Double = Math.Max(layout.PlotTop,
-                                         Math.Min(layout.PlotTop + layout.PlotHeight - labelHeight,
-                                                  centreY - labelHeight / 2.0R))
+        Dim geometry As SankeyNodeLabelGeometry = SankeyMeasuredGeometryCore.SankeyNodeLabel(node.X, node.Y, node.Height, node.StageIndex, stageX, appearance.NodeWidth, appearance.NodeLabelGap, appearance.NodeLabelWidth, appearance.NodeLabelFontSize, layout.StageCentreLeft, layout.StageCentreRight, layout.PlotTop, layout.PlotHeight)
+        Dim labelLeft As Double = geometry.Left
+        Dim labelTop As Double = geometry.Top
+        Dim labelWidth As Double = geometry.Width
+        Dim labelHeight As Double = geometry.Height
 
         AddTextShape(chartShapes,
                      ShapePrefix & "NodeLabel_" & (nodeIndex + 1).ToString(CultureInfo.InvariantCulture),
@@ -954,34 +882,7 @@ Public NotInheritable Class SankeyPlotExcel
     Private Shared Function FormatNodeLabel(node As SankeyNode,
                                             result As SankeyPlotResult,
                                             appearance As SankeyPlotAppearance) As String
-        Dim valueText As String = node.Value.ToString(appearance.ValueNumberFormat, CultureInfo.CurrentCulture)
-        Dim denominator As Double
-
-        Select Case appearance.PercentageBasis
-            Case SankeyPercentageBasis.ReferenceTotal
-                denominator = result.ReferenceTotal
-            Case SankeyPercentageBasis.StageTotal
-                Dim totals As Double() = result.StageTotals
-                If node.StageIndex >= 0 AndAlso node.StageIndex < totals.Length Then
-                    denominator = totals(node.StageIndex)
-                End If
-        End Select
-
-        Dim percentage As Double = If(denominator > 0.0R, node.Value / denominator, 0.0R)
-        Dim percentageText As String = percentage.ToString(appearance.PercentageNumberFormat, CultureInfo.CurrentCulture)
-
-        Select Case appearance.NodeLabelMode
-            Case SankeyNodeLabelMode.NameOnly
-                Return node.Label
-            Case SankeyNodeLabelMode.NameAndValue
-                Return node.Label & " (" & valueText & ")"
-            Case SankeyNodeLabelMode.NameAndPercentage
-                Return node.Label & " " & percentageText
-            Case SankeyNodeLabelMode.NamePercentageAndValue
-                Return node.Label & " " & percentageText & " (" & valueText & ")"
-            Case Else
-                Return node.Label
-        End Select
+        Return ExcelCommon.Chart34.SankeyChartPreparation34.FormatNodeLabel(node, result, SnapshotSankeySettings34(appearance))
     End Function
 
     Private Shared Sub DrawStageLabels(chartShapes As Object,
@@ -990,11 +891,9 @@ Public NotInheritable Class SankeyPlotExcel
                                        layout As DrawingLayout)
         Dim names As String() = result.StageNames
         Dim stageX As Double() = BuildStageCentres(result.StageCount, layout)
-        Dim stepWidth As Double = If(result.StageCount <= 1,
-                                     layout.PlotWidth,
-                                     (layout.StageCentreRight - layout.StageCentreLeft) / CDbl(result.StageCount - 1))
-        Dim labelWidth As Double = Math.Max(50.0R, Math.Min(150.0R, stepWidth * 0.9R))
-        Dim top As Double = layout.PlotTop + layout.PlotHeight + 1.0R
+        Dim stageLabel = SankeyMeasuredGeometryCore.SankeyStageLabel(result.StageCount, layout.PlotWidth, layout.StageCentreLeft, layout.StageCentreRight, layout.PlotTop, layout.PlotHeight)
+        Dim labelWidth As Double = stageLabel.Width
+        Dim top As Double = stageLabel.Top
 
         For i As Integer = 0 To names.Length - 1
             If String.IsNullOrWhiteSpace(names(i)) Then Continue For
@@ -1002,7 +901,7 @@ Public NotInheritable Class SankeyPlotExcel
             AddTextShape(chartShapes,
                          ShapePrefix & "StageLabel_" & (i + 1).ToString(CultureInfo.InvariantCulture),
                          names(i).Trim(),
-                         stageX(i) - labelWidth / 2.0R,
+                         SankeyMeasuredGeometryCore.SankeyStageLabelLeft(stageX(i), labelWidth).Left,
                          top,
                          labelWidth,
                          appearance.StageLabelHeight,
@@ -1036,11 +935,10 @@ Public NotInheritable Class SankeyPlotExcel
         End If
 
         For i As Integer = 0 To items.Count - 1
-            Dim column As Integer = i \ layout.LegendRowsPerColumn
-            Dim row As Integer = i Mod layout.LegendRowsPerColumn
-            Dim itemLeft As Double = layout.LegendLeft + column * appearance.LegendColumnWidth
-            Dim itemTop As Double = layout.LegendTop + titleOffset + row * appearance.LegendRowHeight
-            Dim swatchTop As Double = itemTop + (appearance.LegendRowHeight - appearance.LegendSwatchSize) / 2.0R
+            Dim legendItem = SankeyMeasuredGeometryCore.SankeyLegendItem(i, layout.LegendRowsPerColumn, layout.LegendLeft, layout.LegendTop, titleOffset, appearance.LegendColumnWidth, appearance.LegendRowHeight, appearance.LegendSwatchSize)
+            Dim itemLeft As Double = legendItem.Left
+            Dim itemTop As Double = legendItem.Top
+            Dim swatchTop As Double = legendItem.SwatchTop
 
             Dim swatch As Object = chartShapes.AddShape(MsoShapeRectangle,
                                                         CSng(itemLeft),
@@ -1060,9 +958,9 @@ Public NotInheritable Class SankeyPlotExcel
                 .Weight = 0.5F
             End With
 
-            Dim textLeft As Double = itemLeft + appearance.LegendSwatchSize + 4.0R
-            Dim textWidth As Double = Math.Max(20.0R,
-                                               appearance.LegendColumnWidth - appearance.LegendSwatchSize - 6.0R)
+            Dim legendText = SankeyMeasuredGeometryCore.SankeyLegendText(itemLeft, appearance.LegendSwatchSize, appearance.LegendColumnWidth)
+            Dim textLeft As Double = legendText.Left
+            Dim textWidth As Double = legendText.Width
             AddTextShape(chartShapes,
                          ShapePrefix & "LegendLabel_" & (i + 1).ToString(CultureInfo.InvariantCulture),
                          items(i).Label,
@@ -1079,30 +977,17 @@ Public NotInheritable Class SankeyPlotExcel
 
     Private Shared Function BuildStageCentres(stageCount As Integer,
                                               layout As DrawingLayout) As Double()
-        Dim result(stageCount - 1) As Double
-        If stageCount = 1 Then
-            result(0) = (layout.StageCentreLeft + layout.StageCentreRight) / 2.0R
-            Return result
-        End If
-
-        For i As Integer = 0 To stageCount - 1
-            result(i) = layout.StageCentreLeft +
-                        CDbl(i) / CDbl(stageCount - 1) *
-                        (layout.StageCentreRight - layout.StageCentreLeft)
-        Next
-        Return result
+        Return SankeyMeasuredGeometryCore.StageCentres(stageCount, layout.StageCentreLeft, layout.StageCentreRight)
     End Function
 
     Private Shared Function NormalizedXToChartX(value As Double,
                                                 layout As DrawingLayout) As Double
-        Dim clipped As Double = Math.Max(0.0R, Math.Min(1.0R, value))
-        Return layout.StageCentreLeft + clipped * (layout.StageCentreRight - layout.StageCentreLeft)
+        Return SankeyMeasuredGeometryCore.MapX(value, layout.StageCentreLeft, layout.StageCentreRight)
     End Function
 
     Private Shared Function NormalizedYToChartY(value As Double,
                                                 layout As DrawingLayout) As Double
-        Dim clipped As Double = Math.Max(0.0R, Math.Min(1.0R, value))
-        Return layout.PlotTop + clipped * layout.PlotHeight
+        Return SankeyMeasuredGeometryCore.MapY(value, layout.PlotTop, layout.PlotHeight)
     End Function
 
     Private Shared Function AddTextShape(chartShapes As Object,
@@ -1280,4 +1165,9 @@ Public NotInheritable Class SankeyPlotExcel
             End Try
         End Sub
     End Class
+
+    Private Shared Function SnapshotSankeySettings34(appearance As SankeyPlotAppearance) As ExcelCommon.Chart34.SankeyChartSettings34
+        If appearance Is Nothing Then Return Nothing
+        Return New ExcelCommon.Chart34.SankeyChartSettings34(appearance.ValueNumberFormat, CType(CInt(appearance.PercentageBasis), ExcelCommon.Chart34.SankeyPercentageBasis), appearance.PercentageNumberFormat, CType(CInt(appearance.NodeLabelMode), ExcelCommon.Chart34.SankeyNodeLabelMode))
+    End Function
 End Class

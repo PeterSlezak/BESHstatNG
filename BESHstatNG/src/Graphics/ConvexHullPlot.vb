@@ -405,11 +405,7 @@ Public NotInheritable Class ConvexHullPlotExcel
                                               groupIndex As Integer,
                                               hasGrouping As Boolean,
                                               appearance As ConvexHullPlotAppearance) As String
-        If hasGrouping Then
-            If Not String.IsNullOrWhiteSpace(group.Name) Then Return group.Name
-            Return "Group " & (groupIndex + 1).ToString(CultureInfo.CurrentCulture)
-        End If
-        Return If(String.IsNullOrWhiteSpace(appearance.SeriesName), "Data", appearance.SeriesName.Trim())
+        Return ExcelCommon.Chart34.HullChartPreparation34.ResolveSeriesName(group, groupIndex, hasGrouping, SnapshotHullSettings34(appearance))
     End Function
 
     Private Shared Sub ConfigureTitle(chart As Chart, title As String)
@@ -501,5 +497,10 @@ Public NotInheritable Class ConvexHullPlotExcel
 
     Private Shared Function IsFinitePositive(value As Single) As Boolean
         Return Not Single.IsNaN(value) AndAlso Not Single.IsInfinity(value) AndAlso value > 0.0F
+    End Function
+
+    Private Shared Function SnapshotHullSettings34(appearance As ConvexHullPlotAppearance) As ExcelCommon.Chart34.HullChartSettings34
+        If appearance Is Nothing Then Return Nothing
+        Return New ExcelCommon.Chart34.HullChartSettings34(appearance.SeriesName)
     End Function
 End Class

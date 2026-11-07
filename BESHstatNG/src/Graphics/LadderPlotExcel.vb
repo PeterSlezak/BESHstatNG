@@ -381,9 +381,7 @@ Public NotInheritable Class LadderPlotExcel
     ''' </summary>
     Public Shared Function SuggestedWidth(result As LadderPlotResult,
                                           Optional appearance As LadderPlotAppearance = Nothing) As Double
-        Dim resolved As LadderPlotAppearance = If(appearance, New LadderPlotAppearance())
-        If resolved.ShowFirstEndpointLabels OrElse resolved.ShowSecondEndpointLabels Then Return 820.0R
-        Return 620.0R
+        Return ExcelCommon.Chart34.LadderChartPreparation34.SuggestedWidth(result, SnapshotLadderSettings34(appearance))
     End Function
 
     ''' <summary>
@@ -391,12 +389,7 @@ Public NotInheritable Class LadderPlotExcel
     ''' </summary>
     Public Shared Function SuggestedHeight(result As LadderPlotResult,
                                            Optional appearance As LadderPlotAppearance = Nothing) As Double
-        If result Is Nothing OrElse result.ObservationCount < 1 Then Return 420.0R
-        Dim resolved As LadderPlotAppearance = If(appearance, New LadderPlotAppearance())
-        If resolved.ShowFirstEndpointLabels OrElse resolved.ShowSecondEndpointLabels Then
-            Return Math.Max(420.0R, Math.Min(1200.0R, 210.0R + 17.0R * result.ObservationCount))
-        End If
-        Return 440.0R
+        Return ExcelCommon.Chart34.LadderChartPreparation34.SuggestedHeight(result, SnapshotLadderSettings34(appearance))
     End Function
 
     Private Shared Function AddObservationSeries(seriesCollection As SeriesCollection,
@@ -404,8 +397,9 @@ Public NotInheritable Class LadderPlotExcel
                                                  seriesName As String,
                                                  seriesColor As Integer,
                                                  appearance As LadderPlotAppearance) As Series
-        Dim xValues() As Double = {observation.FirstXPosition, observation.SecondXPosition}
-        Dim yValues() As Double = {observation.FirstValue, observation.SecondValue}
+        Dim preparedObservationCoordinates = ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34.ObservationCoordinates(observation)
+        Dim xValues As Double() = preparedObservationCoordinates.XValues
+        Dim yValues As Double() = preparedObservationCoordinates.YValues
 
         Dim series As Object = seriesCollection.NewSeries()
         With series
@@ -479,12 +473,10 @@ Public NotInheritable Class LadderPlotExcel
         If String.IsNullOrWhiteSpace(appearance.FirstAxisLabel) AndAlso
            String.IsNullOrWhiteSpace(appearance.SecondAxisLabel) Then Return
 
-        Dim xValues() As Double = {LadderPlot.FirstBaseXPosition, LadderPlot.SecondBaseXPosition}
-        Dim yValues() As Double = {axisContext.YMinimum, axisContext.YMinimum}
-        Dim labels() As String = {
-            If(appearance.FirstAxisLabel, String.Empty),
-            If(appearance.SecondAxisLabel, String.Empty)
-        }
+        Dim preparedSideLabels = ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34.SideLabels(axisContext.YMinimum, appearance.FirstAxisLabel, appearance.SecondAxisLabel)
+        Dim xValues As Double() = preparedSideLabels.XValues
+        Dim yValues As Double() = preparedSideLabels.YValues
+        Dim labels As String() = preparedSideLabels.Labels
 
         Dim series As Object = seriesCollection.NewSeries()
         With series
@@ -528,10 +520,8 @@ Public NotInheritable Class LadderPlotExcel
                                              requestedChartHeight As Double)
         If observations Is Nothing OrElse observations.Length = 0 Then Return
 
-        Dim actualValues(observations.Length - 1) As Double
-        For i As Integer = 0 To observations.Length - 1
-            actualValues(i) = If(useFirstSide, observations(i).FirstValue, observations(i).SecondValue)
-        Next
+        Dim preparedEndpointValues = ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34.EndpointValues(observations, useFirstSide)
+        Dim actualValues As Double() = preparedEndpointValues.YValues
 
         Dim labelValues As Double() = DirectCast(actualValues.Clone(), Double())
         If appearance.AvoidEndpointLabelOverlap AndAlso observations.Length > 1 Then
@@ -545,27 +535,8 @@ Public NotInheritable Class LadderPlotExcel
                                                separation)
         End If
 
-        Dim maximumObservedJitter As Double = 0.0R
-        For i As Integer = 0 To observations.Length - 1
-            Dim offset As Double = If(useFirstSide,
-                                      Math.Abs(observations(i).FirstJitterOffset),
-                                      Math.Abs(observations(i).SecondJitterOffset))
-            maximumObservedJitter = Math.Max(maximumObservedJitter, offset)
-        Next
-
-        Dim anchorX As Double
-        If useFirstSide Then
-            anchorX = LadderPlot.FirstBaseXPosition - maximumObservedJitter - appearance.EndpointLabelAnchorGap
-            anchorX = Math.Max(axisContext.XMinimum + 0.02R, anchorX)
-        Else
-            anchorX = LadderPlot.SecondBaseXPosition + maximumObservedJitter + appearance.EndpointLabelAnchorGap
-            anchorX = Math.Min(axisContext.XMaximum - 0.02R, anchorX)
-        End If
-
-        Dim xValues(observations.Length - 1) As Double
-        For i As Integer = 0 To xValues.Length - 1
-            xValues(i) = anchorX
-        Next
+        Dim preparedEndpointAnchors = ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34.EndpointAnchors(observations, useFirstSide, axisContext.XMinimum, axisContext.XMaximum, appearance.EndpointLabelAnchorGap)
+        Dim xValues As Double() = preparedEndpointAnchors.XValues
 
         Dim series As Object = seriesCollection.NewSeries()
         With series
@@ -618,16 +589,7 @@ Public NotInheritable Class LadderPlotExcel
             plotHeight = CDbl(chart.PlotArea.InsideHeight)
         Catch
         End Try
-        If Not IsFinitePositive(plotHeight) Then
-            plotHeight = Math.Max(120.0R, requestedChartHeight * 0.7R)
-        End If
-
-        Dim desiredPoints As Double = Math.Max(appearance.EndpointLabelMinimumSeparationPoints,
-                                               appearance.EndpointLabelFontSize * 1.25R)
-        Dim axisSpan As Double = axisContext.YMaximum - axisContext.YMinimum
-        If Not IsFinitePositive(axisSpan) Then Return 0.0R
-
-        Return axisSpan * desiredPoints / plotHeight
+        Return ExcelCommon.Chart34.LadderSeries.LadderSeriesPreparation34.MinimumSeparation(plotHeight, requestedChartHeight, axisContext.YMinimum, axisContext.YMaximum, appearance.EndpointLabelMinimumSeparationPoints, appearance.EndpointLabelFontSize)
     End Function
 
     ''' <summary>
@@ -635,101 +597,18 @@ Public NotInheritable Class LadderPlotExcel
     ''' them inside the visible Y range. Values that already have sufficient separation are
     ''' left at their original coordinates whenever possible.
     ''' </summary>
-    Private Shared Function SpreadLabelPositions(values As Double(),
-                                                 minimum As Double,
-                                                 maximum As Double,
-                                                 requestedSeparation As Double) As Double()
-        Dim result As Double() = DirectCast(values.Clone(), Double())
-        If values.Length < 2 OrElse Not IsFinitePositive(requestedSeparation) Then Return result
-
-        Dim span As Double = maximum - minimum
-        If Not IsFinitePositive(span) Then Return result
-
-        Dim orderedIndices As Integer() = Enumerable.Range(0, values.Length).
-                                                   OrderBy(Function(i) values(i)).
-                                                   ThenBy(Function(i) i).
-                                                   ToArray()
-
-        'If the requested physical spacing cannot fit all labels, use the largest feasible
-        'spacing instead of forcing anchors outside the plot.
-        Dim separation As Double = requestedSeparation
-        If values.Length > 1 Then
-            separation = Math.Min(separation, span / CDbl(values.Length - 1))
-        End If
-        If separation <= 0.0R Then Return result
-
-        Dim lowerBound As Double = minimum
-        Dim upperBound As Double = maximum
-        If separation < span Then
-            lowerBound = minimum + 0.5R * separation
-            upperBound = maximum - 0.5R * separation
-        End If
-
-        Dim adjusted(values.Length - 1) As Double
-        adjusted(0) = Clamp(values(orderedIndices(0)), lowerBound, upperBound)
-        For j As Integer = 1 To orderedIndices.Length - 1
-            Dim desired As Double = Clamp(values(orderedIndices(j)), lowerBound, upperBound)
-            adjusted(j) = Math.Max(desired, adjusted(j - 1) + separation)
-        Next
-
-        If adjusted(adjusted.Length - 1) > upperBound Then
-            adjusted(adjusted.Length - 1) = upperBound
-            For j As Integer = adjusted.Length - 2 To 0 Step -1
-                Dim desired As Double = Clamp(values(orderedIndices(j)), lowerBound, upperBound)
-                adjusted(j) = Math.Min(desired, adjusted(j + 1) - separation)
-            Next
-        End If
-
-        If adjusted(0) < lowerBound Then
-            Dim shift As Double = lowerBound - adjusted(0)
-            For j As Integer = 0 To adjusted.Length - 1
-                adjusted(j) += shift
-            Next
-        End If
-
-        'One last backward pass protects the upper edge after a possible bottom shift.
-        If adjusted(adjusted.Length - 1) > upperBound Then
-            adjusted(adjusted.Length - 1) = upperBound
-            For j As Integer = adjusted.Length - 2 To 0 Step -1
-                adjusted(j) = Math.Min(adjusted(j), adjusted(j + 1) - separation)
-            Next
-        End If
-
-        For j As Integer = 0 To orderedIndices.Length - 1
-            result(orderedIndices(j)) = Clamp(adjusted(j), minimum, maximum)
-        Next
-        Return result
+    Private Shared Function SpreadLabelPositions(values As Double(), minimum As Double, maximum As Double, requestedSeparation As Double) As Double()
+        Return LadderLabelGeometryCore.SpreadLabelPositions(values, minimum, maximum, requestedSeparation)
     End Function
 
     Private Shared Function BuildEndpointLabel(observation As LadderPlotObservation,
                                                useFirstSide As Boolean,
                                                appearance As LadderPlotAppearance) As String
-        Dim value As Double = If(useFirstSide, observation.FirstValue, observation.SecondValue)
-        Dim valueText As String = FormatEndpointValue(value, appearance.EndpointValueDisplayFormat)
-
-        Select Case appearance.EndpointLabelContent
-            Case LadderEndpointLabelContent.Value
-                Return valueText
-            Case LadderEndpointLabelContent.RecordLabel
-                Return observation.RecordLabel
-            Case LadderEndpointLabelContent.RecordLabelAndValue
-                Dim separator As String = If(appearance.EndpointLabelSeparator, String.Empty)
-                Return observation.RecordLabel & separator & valueText
-            Case Else
-                Return observation.RecordLabel & ", " & valueText
-        End Select
+        Return ExcelCommon.Chart34.LadderChartPreparation34.BuildEndpointLabel(observation, useFirstSide, SnapshotLadderSettings34(appearance))
     End Function
 
     Private Shared Function FormatEndpointValue(value As Double, requestedFormat As String) As String
-        If Not String.IsNullOrWhiteSpace(requestedFormat) Then
-            Try
-                Return value.ToString(requestedFormat.Trim(), CultureInfo.CurrentCulture)
-            Catch ex As FormatException
-                'Fall through to a compact default rather than failing chart creation for
-                'an invalid cosmetic display format.
-            End Try
-        End If
-        Return value.ToString("0.###", CultureInfo.CurrentCulture)
+        Return ExcelCommon.Chart34.LadderChartPreparation34.FormatEndpointValue(value, requestedFormat)
     End Function
 
     Private Shared Function ResolveObservationColor(observation As LadderPlotObservation,
@@ -748,17 +627,7 @@ Public NotInheritable Class LadderPlotExcel
 
     Private Shared Function ResolveObservationSeriesName(observation As LadderPlotObservation,
                                                          appearance As LadderPlotAppearance) As String
-        Select Case appearance.ColorMode
-            Case LadderColorMode.ByObservation
-                If Not String.IsNullOrWhiteSpace(observation.RecordLabel) Then Return observation.RecordLabel
-                Return "Observation " & (observation.DisplayIndex + 1).ToString(CultureInfo.CurrentCulture)
-            Case LadderColorMode.ByGroup
-                If Not String.IsNullOrWhiteSpace(observation.GroupLabel) Then Return observation.GroupLabel
-                Return "Group " & (observation.GroupLevelIndex + 1).ToString(CultureInfo.CurrentCulture)
-            Case Else
-                If String.IsNullOrWhiteSpace(appearance.SeriesName) Then Return "Data"
-                Return appearance.SeriesName.Trim()
-        End Select
+        Return ExcelCommon.Chart34.LadderChartPreparation34.ResolveObservationSeriesName(observation, SnapshotLadderSettings34(appearance))
     End Function
 
     Private Shared Function ShouldKeepLegendEntry(observation As LadderPlotObservation,
@@ -766,89 +635,26 @@ Public NotInheritable Class LadderPlotExcel
                                                   appearance As LadderPlotAppearance,
                                                   seenLegendGroups As HashSet(Of Integer)) As Boolean
         If Not appearance.ShowLegend Then Return False
-
-        Select Case appearance.ColorMode
-            Case LadderColorMode.SingleColor
-                Return observationIndex = 0
-            Case LadderColorMode.ByObservation
-                Return True
-            Case LadderColorMode.ByGroup
-                If seenLegendGroups.Add(observation.GroupLevelIndex) Then Return True
-                Return False
-            Case Else
-                Return observationIndex = 0
-        End Select
+        Dim intent = ExcelCommon.Chart34.SpecialtyLegendPolicy34.LadderLegendChoice(True, CInt(appearance.ColorMode), observationIndex)
+        If intent.RecordGroup Then Return seenLegendGroups.Add(observation.GroupLevelIndex)
+        Return intent.Keep
     End Function
 
     Private Shared Function ResolveAxisContext(result As LadderPlotResult,
                                                appearance As LadderPlotAppearance) As AxisContext
-        Dim dataMinimum As Double = result.MinimumValue
-        Dim dataMaximum As Double = result.MaximumValue
-        If Not IsFinite(dataMinimum) OrElse Not IsFinite(dataMaximum) Then
-            Throw New ArgumentException("The ladder result does not contain a finite Y range.", NameOf(result))
-        End If
-
-        Dim span As Double = dataMaximum - dataMinimum
-        Dim fallbackSpan As Double = If(span > 0.0R,
-                                        span,
-                                        Math.Max(1.0R, Math.Abs(dataMinimum) * 0.1R))
-        If Not IsFinitePositive(fallbackSpan) Then fallbackSpan = 1.0R
-
-        Dim padding As Double = fallbackSpan * appearance.YAxisPaddingFraction
-        Dim paddedMinimum As Double = dataMinimum - padding
-        Dim paddedMaximum As Double = dataMaximum + padding
-        If paddedMinimum >= paddedMaximum Then
-            paddedMinimum = dataMinimum - 0.5R * fallbackSpan
-            paddedMaximum = dataMaximum + 0.5R * fallbackSpan
-        End If
-
-        Dim majorUnit As Double
-        If appearance.YAxisMajorUnit.HasValue Then
-            majorUnit = appearance.YAxisMajorUnit.Value
-        Else
-            majorUnit = NiceStep125((paddedMaximum - paddedMinimum) / 5.0R)
-        End If
-        If Not IsFinitePositive(majorUnit) Then majorUnit = 1.0R
-
-        Dim yMinimum As Double
-        If appearance.YAxisMinimum.HasValue Then
-            yMinimum = appearance.YAxisMinimum.Value
-        Else
-            yMinimum = FloorToStep(paddedMinimum, majorUnit)
-            If appearance.YAxisIncludeZero AndAlso dataMinimum >= 0.0R Then yMinimum = Math.Min(0.0R, yMinimum)
-        End If
-
-        Dim yMaximum As Double
-        If appearance.YAxisMaximum.HasValue Then
-            yMaximum = appearance.YAxisMaximum.Value
-        Else
-            yMaximum = CeilingToStep(paddedMaximum, majorUnit)
-            If appearance.YAxisIncludeZero AndAlso dataMaximum <= 0.0R Then yMaximum = Math.Max(0.0R, yMaximum)
-        End If
-
-        If yMinimum >= yMaximum Then
-            If Not appearance.YAxisMinimum.HasValue AndAlso Not appearance.YAxisMaximum.HasValue Then
-                yMinimum = FloorToStep(dataMinimum - 0.5R * fallbackSpan, majorUnit)
-                yMaximum = CeilingToStep(dataMaximum + 0.5R * fallbackSpan, majorUnit)
-                If yMinimum >= yMaximum Then yMaximum = yMinimum + majorUnit
-            Else
-                Throw New ArgumentException("The resolved Y-axis minimum must be smaller than the Y-axis maximum.", NameOf(appearance))
-            End If
-        End If
-
+        Dim geometry = ExcelCommon.Chart34.LadderChartPreparation34.ResolveAxisContext(result, SnapshotLadderSettings34(appearance))
         Return New AxisContext With {
-            .XMinimum = PlotXMinimum,
-            .XMaximum = PlotXMaximum,
-            .YMinimum = yMinimum,
-            .YMaximum = yMaximum,
-            .YMajorUnit = majorUnit,
-            .YNumberFormat = ResolveYAxisNumberFormat(appearance.YAxisNumberFormat)
+            .XMinimum = geometry.XMinimum,
+            .XMaximum = geometry.XMaximum,
+            .YMinimum = geometry.YMinimum,
+            .YMaximum = geometry.YMaximum,
+            .YMajorUnit = geometry.YMajorUnit,
+            .YNumberFormat = geometry.YNumberFormat
         }
     End Function
 
     Private Shared Function ResolveYAxisNumberFormat(requestedFormat As String) As String
-        If String.IsNullOrWhiteSpace(requestedFormat) Then Return "0.###"
-        Return requestedFormat.Trim()
+        Return ExcelCommon.Chart34.LadderChartPreparation34.ResolveYAxisNumberFormat(requestedFormat)
     End Function
 
     Private Shared Sub ConfigureAxes(chart As Chart,
@@ -981,39 +787,17 @@ Public NotInheritable Class LadderPlotExcel
     End Sub
 
     Private Shared Function NiceStep125(rawStep As Double) As Double
-        If Not IsFinitePositive(rawStep) Then Return 1.0R
-
-        Dim exponent As Double = Math.Floor(Math.Log10(rawStep))
-        Dim scale As Double = Math.Pow(10.0R, exponent)
-        Dim fraction As Double = rawStep / scale
-        Dim niceFraction As Double
-
-        If fraction <= 1.0R Then
-            niceFraction = 1.0R
-        ElseIf fraction <= 2.0R Then
-            niceFraction = 2.0R
-        ElseIf fraction <= 5.0R Then
-            niceFraction = 5.0R
-        Else
-            niceFraction = 10.0R
-        End If
-
-        Return niceFraction * scale
+        Return ExcelCommon.Chart34.LadderChartPreparation34.NiceStep125(rawStep)
     End Function
 
     Private Shared Function FloorToStep(value As Double, stepSize As Double) As Double
-        Return Math.Floor(value / stepSize) * stepSize
+        Return ExcelCommon.Chart34.LadderChartPreparation34.FloorToStep(value, stepSize)
     End Function
 
     Private Shared Function CeilingToStep(value As Double, stepSize As Double) As Double
-        Return Math.Ceiling(value / stepSize) * stepSize
+        Return ExcelCommon.Chart34.LadderChartPreparation34.CeilingToStep(value, stepSize)
     End Function
 
-    Private Shared Function Clamp(value As Double, minimum As Double, maximum As Double) As Double
-        If value < minimum Then Return minimum
-        If value > maximum Then Return maximum
-        Return value
-    End Function
 
     Private Shared Function ToMsoDashStyle(style As LadderLineStyle) As Integer
         Select Case style
@@ -1144,5 +928,10 @@ Public NotInheritable Class LadderPlotExcel
 
     Private Shared Function IsFiniteUnitInterval(value As Single) As Boolean
         Return Not Single.IsNaN(value) AndAlso Not Single.IsInfinity(value) AndAlso value >= 0.0F AndAlso value <= 1.0F
+    End Function
+
+    Private Shared Function SnapshotLadderSettings34(appearance As LadderPlotAppearance) As ExcelCommon.Chart34.LadderChartSettings34
+        If appearance Is Nothing Then Return Nothing
+        Return New ExcelCommon.Chart34.LadderChartSettings34(appearance.YAxisPaddingFraction, appearance.YAxisMajorUnit, appearance.YAxisMinimum, appearance.YAxisIncludeZero, appearance.YAxisMaximum, appearance.YAxisNumberFormat, appearance.EndpointValueDisplayFormat, CType(CInt(appearance.EndpointLabelContent), ExcelCommon.Chart34.LadderEndpointLabelContent), appearance.EndpointLabelSeparator, CType(CInt(appearance.ColorMode), ExcelCommon.Chart34.LadderColorMode), appearance.SeriesName, appearance.ShowFirstEndpointLabels, appearance.ShowSecondEndpointLabels)
     End Function
 End Class

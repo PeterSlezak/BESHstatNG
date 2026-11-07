@@ -1,0 +1,502 @@
+{
+  "authority": "PRE_EDIT_LEGACY",
+  "scientific": "NOT_GOLDEN",
+  "functions": [
+    {
+      "family": "Bullet",
+      "name": "ScaleWidth",
+      "member": "DrawScale",
+      "args": [
+        [
+          "tickCount",
+          "Integer"
+        ],
+        [
+          "plotWidth",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Width",
+          "Double"
+        ]
+      ],
+      "type": "BulletScaleWidthGeometry",
+      "function": "Public Function ScaleWidth(tickCount As Integer, plotWidth As Double) As BulletScaleWidthGeometry\nDim nominalWidth As Double\nIf tickCount <= 1 Then\nnominalWidth = 48.0R\nElse\nnominalWidth = Math.Max(24.0R, Math.Min(64.0R, plotWidth / CDbl(tickCount - 1) * 0.92R))\nEnd If\nReturn New BulletScaleWidthGeometry(nominalWidth)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawScale(chartShapes As Object,\n                                 item As BulletChartItem,\n                                 appearance As BulletChartAppearance,\n                                 layout As DrawingLayout,\n                                 rowLayout As RowLayout,\n                                 rowIndex As Integer)\n        Dim ticks As Double() = item.ScaleTicks\n        If ticks Is Nothing OrElse ticks.Length = 0 Then Return\n\n        Dim numberFormat As String = ResolveNumberFormat(item, appearance.ScaleNumberFormat)\n        Dim nominalWidth As Double\n        If ticks.Length <= 1 Then\n            nominalWidth = 48.0R\n        Else\n            nominalWidth = Math.Max(24.0R,\n                                    Math.Min(64.0R,\n                                             layout.PlotWidth / CDbl(ticks.Length - 1) * 0.92R))\n        End If\n\n        For tickIndex As Integer = 0 To ticks.Length - 1\n            Dim tickValue As Double = ticks(tickIndex)\n            Dim normalized As Double = If(item.ScaleMaximum <= 0.0R,\n                                          0.0R,\n                                          tickValue / item.ScaleMaximum)\n            Dim x As Double = NormalizedToChartX(normalized, layout)\n\n            If appearance.ShowScaleTickMarks AndAlso appearance.ScaleTickLength > 0.0R Then\n                Dim tickShape As Object = chartShapes.AddLine(CSng(x),\n                                                              CSng(rowLayout.BandBottom),\n                                                              CSng(x),\n                                                              CSng(rowLayout.BandBottom + appearance.ScaleTickLength))\n                tickShape.Name = ShapePrefix & \"ScaleTick_\" &\n                                 (rowIndex + 1).ToString(CultureInfo.InvariantCulture) & \"_\" &\n                                 (tickIndex + 1).ToString(CultureInfo.InvariantCulture)\n                With tickShape.Line\n                    .Visible = True\n                    .ForeColor.RGB = appearance.TextColor\n                    .Transparency = 0.0F\n                    .Weight = appearance.ScaleTickWeight\n                End With\n            End If\n\n            If appearance.ShowScaleLabels Then\n                Dim textLeft As Double\n                Dim alignment As Integer\n\n                If tickIndex = 0 Then\n                    textLeft = layout.PlotLeft\n                    alignment = MsoAlignLeft\n                ElseIf tickIndex = ticks.Length - 1 Then\n                    textLeft = layout.PlotLeft + layout.PlotWidth - nominalWidth\n                    alignment = MsoAlignRight\n                Else\n                    textLeft = x - nominalWidth / 2.0R\n                    alignment = MsoAlignCenter\n                End If\n\n                textLeft = Math.Max(layout.PlotLeft,\n                                    Math.Min(layout.PlotLeft + layout.PlotWidth - nominalWidth, textLeft))\n\n                AddTextShape(chartShapes,\n                             ShapePrefix & \"ScaleLabel_\" &\n                             (rowIndex + 1).ToString(CultureInfo.InvariantCulture) & \"_\" &\n                             (tickIndex + 1).ToString(CultureInfo.InvariantCulture),\n                             FormatNumeric(tickValue, numberFormat),\n                             textLeft,\n                             rowLayout.ScaleLabelTop,\n                             nominalWidth,\n                             appearance.ScaleLabelHeight,\n                             appearance.TextColor,\n                             appearance.ScaleLabelFontSize,\n                             False,\n                             alignment,\n                             appearance.FontName,\n                             False)\n            End If\n        Next\n    End Sub",
+      "original_sha256": "ccd2da7a6d15c15720072fd4fe4aa60a2dc58857db7385f73a12633016a1c97d",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Bullet",
+      "name": "Tick",
+      "member": "DrawScale",
+      "args": [
+        [
+          "tickValue",
+          "Double"
+        ],
+        [
+          "scaleMaximum",
+          "Double"
+        ],
+        [
+          "plotLeft",
+          "Double"
+        ],
+        [
+          "plotWidth",
+          "Double"
+        ],
+        [
+          "bandBottom",
+          "Double"
+        ],
+        [
+          "tickLength",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "X",
+          "Double"
+        ],
+        [
+          "Bottom",
+          "Double"
+        ]
+      ],
+      "type": "BulletTickGeometry",
+      "function": "Public Function Tick(tickValue As Double, scaleMaximum As Double, plotLeft As Double, plotWidth As Double, bandBottom As Double, tickLength As Double) As BulletTickGeometry\nDim normalized As Double = If(scaleMaximum <= 0.0R, 0.0R, tickValue / scaleMaximum)\nDim x As Double = BulletMeasuredGeometryCore.MapX(normalized, plotLeft, plotWidth)\nReturn New BulletTickGeometry(x, bandBottom + tickLength)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawScale(chartShapes As Object,\n                                 item As BulletChartItem,\n                                 appearance As BulletChartAppearance,\n                                 layout As DrawingLayout,\n                                 rowLayout As RowLayout,\n                                 rowIndex As Integer)\n        Dim ticks As Double() = item.ScaleTicks\n        If ticks Is Nothing OrElse ticks.Length = 0 Then Return\n\n        Dim numberFormat As String = ResolveNumberFormat(item, appearance.ScaleNumberFormat)\n        Dim nominalWidth As Double\n        If ticks.Length <= 1 Then\n            nominalWidth = 48.0R\n        Else\n            nominalWidth = Math.Max(24.0R,\n                                    Math.Min(64.0R,\n                                             layout.PlotWidth / CDbl(ticks.Length - 1) * 0.92R))\n        End If\n\n        For tickIndex As Integer = 0 To ticks.Length - 1\n            Dim tickValue As Double = ticks(tickIndex)\n            Dim normalized As Double = If(item.ScaleMaximum <= 0.0R,\n                                          0.0R,\n                                          tickValue / item.ScaleMaximum)\n            Dim x As Double = NormalizedToChartX(normalized, layout)\n\n            If appearance.ShowScaleTickMarks AndAlso appearance.ScaleTickLength > 0.0R Then\n                Dim tickShape As Object = chartShapes.AddLine(CSng(x),\n                                                              CSng(rowLayout.BandBottom),\n                                                              CSng(x),\n                                                              CSng(rowLayout.BandBottom + appearance.ScaleTickLength))\n                tickShape.Name = ShapePrefix & \"ScaleTick_\" &\n                                 (rowIndex + 1).ToString(CultureInfo.InvariantCulture) & \"_\" &\n                                 (tickIndex + 1).ToString(CultureInfo.InvariantCulture)\n                With tickShape.Line\n                    .Visible = True\n                    .ForeColor.RGB = appearance.TextColor\n                    .Transparency = 0.0F\n                    .Weight = appearance.ScaleTickWeight\n                End With\n            End If\n\n            If appearance.ShowScaleLabels Then\n                Dim textLeft As Double\n                Dim alignment As Integer\n\n                If tickIndex = 0 Then\n                    textLeft = layout.PlotLeft\n                    alignment = MsoAlignLeft\n                ElseIf tickIndex = ticks.Length - 1 Then\n                    textLeft = layout.PlotLeft + layout.PlotWidth - nominalWidth\n                    alignment = MsoAlignRight\n                Else\n                    textLeft = x - nominalWidth / 2.0R\n                    alignment = MsoAlignCenter\n                End If\n\n                textLeft = Math.Max(layout.PlotLeft,\n                                    Math.Min(layout.PlotLeft + layout.PlotWidth - nominalWidth, textLeft))\n\n                AddTextShape(chartShapes,\n                             ShapePrefix & \"ScaleLabel_\" &\n                             (rowIndex + 1).ToString(CultureInfo.InvariantCulture) & \"_\" &\n                             (tickIndex + 1).ToString(CultureInfo.InvariantCulture),\n                             FormatNumeric(tickValue, numberFormat),\n                             textLeft,\n                             rowLayout.ScaleLabelTop,\n                             nominalWidth,\n                             appearance.ScaleLabelHeight,\n                             appearance.TextColor,\n                             appearance.ScaleLabelFontSize,\n                             False,\n                             alignment,\n                             appearance.FontName,\n                             False)\n            End If\n        Next\n    End Sub",
+      "original_sha256": "ccd2da7a6d15c15720072fd4fe4aa60a2dc58857db7385f73a12633016a1c97d",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Bullet",
+      "name": "ScaleLabel",
+      "member": "DrawScale",
+      "args": [
+        [
+          "tickIndex",
+          "Integer"
+        ],
+        [
+          "tickCount",
+          "Integer"
+        ],
+        [
+          "x",
+          "Double"
+        ],
+        [
+          "plotLeft",
+          "Double"
+        ],
+        [
+          "plotWidth",
+          "Double"
+        ],
+        [
+          "nominalWidth",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Left",
+          "Double"
+        ]
+      ],
+      "type": "BulletScaleLabelGeometry",
+      "function": "Public Function ScaleLabel(tickIndex As Integer, tickCount As Integer, x As Double, plotLeft As Double, plotWidth As Double, nominalWidth As Double) As BulletScaleLabelGeometry\nDim textLeft As Double\nIf tickIndex = 0 Then\ntextLeft = plotLeft\nElseIf tickIndex = tickCount - 1 Then\ntextLeft = plotLeft + plotWidth - nominalWidth\nElse\ntextLeft = x - nominalWidth / 2.0R\nEnd If\ntextLeft = Math.Max(plotLeft, Math.Min(plotLeft + plotWidth - nominalWidth, textLeft))\nReturn New BulletScaleLabelGeometry(textLeft)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawScale(chartShapes As Object,\n                                 item As BulletChartItem,\n                                 appearance As BulletChartAppearance,\n                                 layout As DrawingLayout,\n                                 rowLayout As RowLayout,\n                                 rowIndex As Integer)\n        Dim ticks As Double() = item.ScaleTicks\n        If ticks Is Nothing OrElse ticks.Length = 0 Then Return\n\n        Dim numberFormat As String = ResolveNumberFormat(item, appearance.ScaleNumberFormat)\n        Dim nominalWidth As Double\n        If ticks.Length <= 1 Then\n            nominalWidth = 48.0R\n        Else\n            nominalWidth = Math.Max(24.0R,\n                                    Math.Min(64.0R,\n                                             layout.PlotWidth / CDbl(ticks.Length - 1) * 0.92R))\n        End If\n\n        For tickIndex As Integer = 0 To ticks.Length - 1\n            Dim tickValue As Double = ticks(tickIndex)\n            Dim normalized As Double = If(item.ScaleMaximum <= 0.0R,\n                                          0.0R,\n                                          tickValue / item.ScaleMaximum)\n            Dim x As Double = NormalizedToChartX(normalized, layout)\n\n            If appearance.ShowScaleTickMarks AndAlso appearance.ScaleTickLength > 0.0R Then\n                Dim tickShape As Object = chartShapes.AddLine(CSng(x),\n                                                              CSng(rowLayout.BandBottom),\n                                                              CSng(x),\n                                                              CSng(rowLayout.BandBottom + appearance.ScaleTickLength))\n                tickShape.Name = ShapePrefix & \"ScaleTick_\" &\n                                 (rowIndex + 1).ToString(CultureInfo.InvariantCulture) & \"_\" &\n                                 (tickIndex + 1).ToString(CultureInfo.InvariantCulture)\n                With tickShape.Line\n                    .Visible = True\n                    .ForeColor.RGB = appearance.TextColor\n                    .Transparency = 0.0F\n                    .Weight = appearance.ScaleTickWeight\n                End With\n            End If\n\n            If appearance.ShowScaleLabels Then\n                Dim textLeft As Double\n                Dim alignment As Integer\n\n                If tickIndex = 0 Then\n                    textLeft = layout.PlotLeft\n                    alignment = MsoAlignLeft\n                ElseIf tickIndex = ticks.Length - 1 Then\n                    textLeft = layout.PlotLeft + layout.PlotWidth - nominalWidth\n                    alignment = MsoAlignRight\n                Else\n                    textLeft = x - nominalWidth / 2.0R\n                    alignment = MsoAlignCenter\n                End If\n\n                textLeft = Math.Max(layout.PlotLeft,\n                                    Math.Min(layout.PlotLeft + layout.PlotWidth - nominalWidth, textLeft))\n\n                AddTextShape(chartShapes,\n                             ShapePrefix & \"ScaleLabel_\" &\n                             (rowIndex + 1).ToString(CultureInfo.InvariantCulture) & \"_\" &\n                             (tickIndex + 1).ToString(CultureInfo.InvariantCulture),\n                             FormatNumeric(tickValue, numberFormat),\n                             textLeft,\n                             rowLayout.ScaleLabelTop,\n                             nominalWidth,\n                             appearance.ScaleLabelHeight,\n                             appearance.TextColor,\n                             appearance.ScaleLabelFontSize,\n                             False,\n                             alignment,\n                             appearance.FontName,\n                             False)\n            End If\n        Next\n    End Sub",
+      "original_sha256": "ccd2da7a6d15c15720072fd4fe4aa60a2dc58857db7385f73a12633016a1c97d",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Bullet",
+      "name": "LeftArea",
+      "member": "DrawLeftLabels",
+      "args": [
+        [
+          "padding",
+          "Double"
+        ],
+        [
+          "plotLeft",
+          "Double"
+        ],
+        [
+          "labelGap",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Left",
+          "Double"
+        ],
+        [
+          "Width",
+          "Double"
+        ]
+      ],
+      "type": "BulletLeftAreaGeometry",
+      "function": "Public Function LeftArea(padding As Double, plotLeft As Double, labelGap As Double) As BulletLeftAreaGeometry\nDim labelRight As Double = plotLeft - labelGap\nReturn New BulletLeftAreaGeometry(padding, Math.Max(1.0R, labelRight - padding))\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawLeftLabels(chartShapes As Object,\n                                      item As BulletChartItem,\n                                      appearance As BulletChartAppearance,\n                                      layout As DrawingLayout,\n                                      rowLayout As RowLayout,\n                                      rowIndex As Integer)\n        Dim left As Double = appearance.ChartPadding\n        Dim width As Double = appearance.LabelAreaWidth\n        Dim showMain As Boolean = appearance.ShowMeasureLabels\n        Dim showSubtitle As Boolean = appearance.ShowSubtitles AndAlso item.HasSubtitle\n\n        If Not showMain AndAlso Not showSubtitle Then Return\n\n        Dim labelRight As Double = layout.PlotLeft - appearance.LabelGap\n        width = Math.Max(1.0R, labelRight - left)\n\n        If showMain AndAlso showSubtitle Then\n            Dim mainHeight As Double = Math.Max(12.0R, appearance.MeasureLabelFontSize * 1.35R)\n            Dim subtitleHeight As Double = Math.Max(10.0R, appearance.SubtitleFontSize * 1.35R)\n            Dim totalHeight As Double = mainHeight + subtitleHeight\n            Dim top As Double = rowLayout.BandCentreY - totalHeight / 2.0R\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"Measure_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                         item.MeasureLabel,\n                         left,\n                         top,\n                         width,\n                         mainHeight,\n                         appearance.TextColor,\n                         appearance.MeasureLabelFontSize,\n                         False,\n                         MsoAlignRight,\n                         appearance.FontName,\n                         True)\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"Subtitle_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                         item.Subtitle,\n                         left,\n                         top + mainHeight,\n                         width,\n                         subtitleHeight,\n                         appearance.TextColor,\n                         appearance.SubtitleFontSize,\n                         False,\n                         MsoAlignRight,\n                         appearance.FontName,\n                         True)\n        Else\n            Dim fontSize As Double = If(showMain,\n                                        appearance.MeasureLabelFontSize,\n                                        appearance.SubtitleFontSize)\n            Dim text As String = If(showMain, item.MeasureLabel, item.Subtitle)\n            Dim boxHeight As Double = Math.Max(12.0R, fontSize * 1.45R)\n            Dim top As Double = rowLayout.BandCentreY - boxHeight / 2.0R\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & If(showMain, \"Measure_\", \"Subtitle_\") &\n                         (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                         text,\n                         left,\n                         top,\n                         width,\n                         boxHeight,\n                         appearance.TextColor,\n                         fontSize,\n                         False,\n                         MsoAlignRight,\n                         appearance.FontName,\n                         True)\n        End If\n    End Sub",
+      "original_sha256": "ef1ab9085554b5f5f19b0392107cf3a7baf87b6b8cfa954e1adad7174f812c23",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Bullet",
+      "name": "PairedLabels",
+      "member": "DrawLeftLabels",
+      "args": [
+        [
+          "bandCentreY",
+          "Double"
+        ],
+        [
+          "mainFontSize",
+          "Double"
+        ],
+        [
+          "subtitleFontSize",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "MainHeight",
+          "Double"
+        ],
+        [
+          "SubtitleHeight",
+          "Double"
+        ],
+        [
+          "Top",
+          "Double"
+        ]
+      ],
+      "type": "BulletPairedLabelsGeometry",
+      "function": "Public Function PairedLabels(bandCentreY As Double, mainFontSize As Double, subtitleFontSize As Double) As BulletPairedLabelsGeometry\nDim mainHeight As Double = Math.Max(12.0R, mainFontSize * 1.35R)\nDim subtitleHeight As Double = Math.Max(10.0R, subtitleFontSize * 1.35R)\nDim totalHeight As Double = mainHeight + subtitleHeight\nDim top As Double = bandCentreY - totalHeight / 2.0R\nReturn New BulletPairedLabelsGeometry(mainHeight, subtitleHeight, top)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawLeftLabels(chartShapes As Object,\n                                      item As BulletChartItem,\n                                      appearance As BulletChartAppearance,\n                                      layout As DrawingLayout,\n                                      rowLayout As RowLayout,\n                                      rowIndex As Integer)\n        Dim left As Double = appearance.ChartPadding\n        Dim width As Double = appearance.LabelAreaWidth\n        Dim showMain As Boolean = appearance.ShowMeasureLabels\n        Dim showSubtitle As Boolean = appearance.ShowSubtitles AndAlso item.HasSubtitle\n\n        If Not showMain AndAlso Not showSubtitle Then Return\n\n        Dim labelRight As Double = layout.PlotLeft - appearance.LabelGap\n        width = Math.Max(1.0R, labelRight - left)\n\n        If showMain AndAlso showSubtitle Then\n            Dim mainHeight As Double = Math.Max(12.0R, appearance.MeasureLabelFontSize * 1.35R)\n            Dim subtitleHeight As Double = Math.Max(10.0R, appearance.SubtitleFontSize * 1.35R)\n            Dim totalHeight As Double = mainHeight + subtitleHeight\n            Dim top As Double = rowLayout.BandCentreY - totalHeight / 2.0R\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"Measure_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                         item.MeasureLabel,\n                         left,\n                         top,\n                         width,\n                         mainHeight,\n                         appearance.TextColor,\n                         appearance.MeasureLabelFontSize,\n                         False,\n                         MsoAlignRight,\n                         appearance.FontName,\n                         True)\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"Subtitle_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                         item.Subtitle,\n                         left,\n                         top + mainHeight,\n                         width,\n                         subtitleHeight,\n                         appearance.TextColor,\n                         appearance.SubtitleFontSize,\n                         False,\n                         MsoAlignRight,\n                         appearance.FontName,\n                         True)\n        Else\n            Dim fontSize As Double = If(showMain,\n                                        appearance.MeasureLabelFontSize,\n                                        appearance.SubtitleFontSize)\n            Dim text As String = If(showMain, item.MeasureLabel, item.Subtitle)\n            Dim boxHeight As Double = Math.Max(12.0R, fontSize * 1.45R)\n            Dim top As Double = rowLayout.BandCentreY - boxHeight / 2.0R\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & If(showMain, \"Measure_\", \"Subtitle_\") &\n                         (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                         text,\n                         left,\n                         top,\n                         width,\n                         boxHeight,\n                         appearance.TextColor,\n                         fontSize,\n                         False,\n                         MsoAlignRight,\n                         appearance.FontName,\n                         True)\n        End If\n    End Sub",
+      "original_sha256": "ef1ab9085554b5f5f19b0392107cf3a7baf87b6b8cfa954e1adad7174f812c23",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Bullet",
+      "name": "SingleLabel",
+      "member": "DrawLeftLabels",
+      "args": [
+        [
+          "bandCentreY",
+          "Double"
+        ],
+        [
+          "fontSize",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Height",
+          "Double"
+        ],
+        [
+          "Top",
+          "Double"
+        ]
+      ],
+      "type": "BulletSingleLabelGeometry",
+      "function": "Public Function SingleLabel(bandCentreY As Double, fontSize As Double) As BulletSingleLabelGeometry\nDim boxHeight As Double = Math.Max(12.0R, fontSize * 1.45R)\nDim top As Double = bandCentreY - boxHeight / 2.0R\nReturn New BulletSingleLabelGeometry(boxHeight, top)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawLeftLabels(chartShapes As Object,\n                                      item As BulletChartItem,\n                                      appearance As BulletChartAppearance,\n                                      layout As DrawingLayout,\n                                      rowLayout As RowLayout,\n                                      rowIndex As Integer)\n        Dim left As Double = appearance.ChartPadding\n        Dim width As Double = appearance.LabelAreaWidth\n        Dim showMain As Boolean = appearance.ShowMeasureLabels\n        Dim showSubtitle As Boolean = appearance.ShowSubtitles AndAlso item.HasSubtitle\n\n        If Not showMain AndAlso Not showSubtitle Then Return\n\n        Dim labelRight As Double = layout.PlotLeft - appearance.LabelGap\n        width = Math.Max(1.0R, labelRight - left)\n\n        If showMain AndAlso showSubtitle Then\n            Dim mainHeight As Double = Math.Max(12.0R, appearance.MeasureLabelFontSize * 1.35R)\n            Dim subtitleHeight As Double = Math.Max(10.0R, appearance.SubtitleFontSize * 1.35R)\n            Dim totalHeight As Double = mainHeight + subtitleHeight\n            Dim top As Double = rowLayout.BandCentreY - totalHeight / 2.0R\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"Measure_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                         item.MeasureLabel,\n                         left,\n                         top,\n                         width,\n                         mainHeight,\n                         appearance.TextColor,\n                         appearance.MeasureLabelFontSize,\n                         False,\n                         MsoAlignRight,\n                         appearance.FontName,\n                         True)\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"Subtitle_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                         item.Subtitle,\n                         left,\n                         top + mainHeight,\n                         width,\n                         subtitleHeight,\n                         appearance.TextColor,\n                         appearance.SubtitleFontSize,\n                         False,\n                         MsoAlignRight,\n                         appearance.FontName,\n                         True)\n        Else\n            Dim fontSize As Double = If(showMain,\n                                        appearance.MeasureLabelFontSize,\n                                        appearance.SubtitleFontSize)\n            Dim text As String = If(showMain, item.MeasureLabel, item.Subtitle)\n            Dim boxHeight As Double = Math.Max(12.0R, fontSize * 1.45R)\n            Dim top As Double = rowLayout.BandCentreY - boxHeight / 2.0R\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & If(showMain, \"Measure_\", \"Subtitle_\") &\n                         (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                         text,\n                         left,\n                         top,\n                         width,\n                         boxHeight,\n                         appearance.TextColor,\n                         fontSize,\n                         False,\n                         MsoAlignRight,\n                         appearance.FontName,\n                         True)\n        End If\n    End Sub",
+      "original_sha256": "ef1ab9085554b5f5f19b0392107cf3a7baf87b6b8cfa954e1adad7174f812c23",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Bullet",
+      "name": "CenteredLabel",
+      "member": "DrawActualValueLabel",
+      "args": [
+        [
+          "centreY",
+          "Double"
+        ],
+        [
+          "height",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Top",
+          "Double"
+        ]
+      ],
+      "type": "BulletCenteredLabelGeometry",
+      "function": "Public Function CenteredLabel(centreY As Double, height As Double) As BulletCenteredLabelGeometry\n\nReturn New BulletCenteredLabelGeometry(centreY - height / 2.0R)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawActualValueLabel(chartShapes As Object,\n                                            item As BulletChartItem,\n                                            appearance As BulletChartAppearance,\n                                            layout As DrawingLayout,\n                                            rowLayout As RowLayout,\n                                            rowIndex As Integer)\n        Dim actualX As Double = NormalizedToChartX(item.ActualNormalized, layout)\n        Dim labelWidth As Double = Math.Min(appearance.ValueLabelWidth, layout.PlotWidth)\n        Dim left As Double\n        Dim alignment As Integer\n\n        If actualX + appearance.ValueLabelGap + labelWidth <= layout.PlotLeft + layout.PlotWidth Then\n            left = actualX + appearance.ValueLabelGap\n            alignment = MsoAlignLeft\n        Else\n            left = Math.Max(layout.PlotLeft, actualX - appearance.ValueLabelGap - labelWidth)\n            alignment = MsoAlignRight\n        End If\n\n        Dim numberFormat As String = ResolveNumberFormat(item, appearance.ValueNumberFormat, item.ActualValue)\n        AddTextShape(chartShapes,\n                     ShapePrefix & \"ActualValue_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture),\n                     FormatNumeric(item.ActualValue, numberFormat),\n                     left,\n                     rowLayout.BandCentreY - appearance.ValueLabelHeight / 2.0R,\n                     labelWidth,\n                     appearance.ValueLabelHeight,\n                     appearance.TextColor,\n                     appearance.ValueLabelFontSize,\n                     False,\n                     alignment,\n                     appearance.FontName,\n                     False)\n    End Sub",
+      "original_sha256": "b0001b5153bcabec2cee2526297edb6715337f25576ec2bb217d6028342ea4db",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Bullet",
+      "name": "Title",
+      "member": "DrawTitle",
+      "args": [
+        [
+          "chartWidth",
+          "Double"
+        ],
+        [
+          "padding",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Width",
+          "Double"
+        ]
+      ],
+      "type": "BulletTitleGeometry",
+      "function": "Public Function Title(chartWidth As Double, padding As Double) As BulletTitleGeometry\n\nReturn New BulletTitleGeometry(Math.Max(1.0R, chartWidth - 2.0R * padding))\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawTitle(chartShapes As Object,\n                                 appearance As BulletChartAppearance,\n                                 layout As DrawingLayout)\n        If String.IsNullOrWhiteSpace(appearance.ChartTitle) Then Return\n\n        AddTextShape(chartShapes,\n                     ShapePrefix & \"Title\",\n                     appearance.ChartTitle.Trim(),\n                     appearance.ChartPadding,\n                     appearance.ChartPadding,\n                     Math.Max(1.0R, layout.ChartWidth - 2.0R * appearance.ChartPadding),\n                     appearance.ChartTitleHeight,\n                     appearance.TextColor,\n                     appearance.ChartTitleFontSize,\n                     True,\n                     MsoAlignCenter,\n                     appearance.FontName,\n                     False)\n    End Sub",
+      "original_sha256": "c8813b67567a6745ca8da2ba0d741c9c948f948c2e9a79c59c2fe0e4da79c7f3",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Bullet",
+      "name": "PaletteIndex",
+      "member": "ResolveBandColor",
+      "args": [
+        [
+          "rank",
+          "Integer"
+        ],
+        [
+          "rangeCount",
+          "Integer"
+        ],
+        [
+          "paletteLength",
+          "Integer"
+        ]
+      ],
+      "fields": [
+        [
+          "Index",
+          "Integer"
+        ]
+      ],
+      "type": "BulletPaletteIndexGeometry",
+      "function": "Public Function PaletteIndex(rank As Integer, rangeCount As Integer, paletteLength As Integer) As BulletPaletteIndexGeometry\nIf paletteLength = 1 OrElse rangeCount <= 1 Then Return New BulletPaletteIndexGeometry(0)\nDim fraction As Double = CDbl(rank) / CDbl(rangeCount - 1)\nDim selectionIndex As Integer = CInt(Math.Round(fraction * CDbl(paletteLength - 1), MidpointRounding.AwayFromZero))\nselectionIndex = Math.Max(0, Math.Min(paletteLength - 1, selectionIndex))\nReturn New BulletPaletteIndexGeometry(selectionIndex)\nEnd Function\n",
+      "original_member": "    Private Shared Function ResolveBandColor(band As BulletChartBand,\n                                             item As BulletChartItem,\n                                             appearance As BulletChartAppearance) As Integer\n        Dim palette As Integer() = appearance.BandColorsByDesirability\n        If palette.Length = 1 OrElse item.QualitativeRangeCount <= 1 Then Return palette(0)\n\n        Dim fraction As Double = CDbl(band.DesirabilityRank) /\n                                 CDbl(item.QualitativeRangeCount - 1)\n        Dim paletteIndex As Integer = CInt(Math.Round(fraction * CDbl(palette.Length - 1),\n                                                      MidpointRounding.AwayFromZero))\n        paletteIndex = Math.Max(0, Math.Min(palette.Length - 1, paletteIndex))\n        Return palette(paletteIndex)\n    End Function",
+      "original_sha256": "051f704bcd9a7af565eb47b12202ebb82aa876796022f60cee1a1f916b8fceac",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Sankey",
+      "name": "Title",
+      "member": "DrawTitle",
+      "args": [
+        [
+          "chartWidth",
+          "Double"
+        ],
+        [
+          "padding",
+          "Double"
+        ],
+        [
+          "legendWidth",
+          "Double"
+        ],
+        [
+          "legendLeft",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Width",
+          "Double"
+        ]
+      ],
+      "type": "SankeyTitleGeometry",
+      "function": "Public Function Title(chartWidth As Double, padding As Double, legendWidth As Double, legendLeft As Double) As SankeyTitleGeometry\nDim titleWidth As Double = chartWidth - 2.0R * padding\nIf legendWidth > 0.0R Then titleWidth = Math.Max(30.0R, legendLeft - padding)\nReturn New SankeyTitleGeometry(titleWidth)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawTitle(chartShapes As Object,\n                                 appearance As SankeyPlotAppearance,\n                                 layout As DrawingLayout)\n        If String.IsNullOrWhiteSpace(appearance.ChartTitle) OrElse appearance.ChartTitleHeight <= 0.0R Then Return\n\n        Dim titleWidth As Double = layout.ChartWidth - 2.0R * appearance.ChartPadding\n        If layout.LegendWidth > 0.0R Then\n            titleWidth = Math.Max(30.0R, layout.LegendLeft - appearance.ChartPadding)\n        End If\n\n        AddTextShape(chartShapes,\n                     ShapePrefix & \"Title\",\n                     appearance.ChartTitle.Trim(),\n                     appearance.ChartPadding,\n                     appearance.ChartPadding,\n                     titleWidth,\n                     appearance.ChartTitleHeight,\n                     appearance.TextColor,\n                     13.0R,\n                     True,\n                     MsoAlignCenter)\n    End Sub",
+      "original_sha256": "994192fb2e80b79b28abd37735b47ea4faf3a22b8bd17ad085909cfb1641eadb",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Sankey",
+      "name": "StageLabel",
+      "member": "DrawStageLabels",
+      "args": [
+        [
+          "stageCount",
+          "Integer"
+        ],
+        [
+          "plotWidth",
+          "Double"
+        ],
+        [
+          "stageLeft",
+          "Double"
+        ],
+        [
+          "stageRight",
+          "Double"
+        ],
+        [
+          "plotTop",
+          "Double"
+        ],
+        [
+          "plotHeight",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Width",
+          "Double"
+        ],
+        [
+          "Top",
+          "Double"
+        ]
+      ],
+      "type": "SankeyStageLabelGeometry",
+      "function": "Public Function StageLabel(stageCount As Integer, plotWidth As Double, stageLeft As Double, stageRight As Double, plotTop As Double, plotHeight As Double) As SankeyStageLabelGeometry\nDim stepWidth As Double = If(stageCount <= 1, plotWidth, (stageRight - stageLeft) / CDbl(stageCount - 1))\nDim labelWidth As Double = Math.Max(50.0R, Math.Min(150.0R, stepWidth * 0.9R))\nDim top As Double = plotTop + plotHeight + 1.0R\nReturn New SankeyStageLabelGeometry(labelWidth, top)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawStageLabels(chartShapes As Object,\n                                       result As SankeyPlotResult,\n                                       appearance As SankeyPlotAppearance,\n                                       layout As DrawingLayout)\n        Dim names As String() = result.StageNames\n        Dim stageX As Double() = BuildStageCentres(result.StageCount, layout)\n        Dim stepWidth As Double = If(result.StageCount <= 1,\n                                     layout.PlotWidth,\n                                     (layout.StageCentreRight - layout.StageCentreLeft) / CDbl(result.StageCount - 1))\n        Dim labelWidth As Double = Math.Max(50.0R, Math.Min(150.0R, stepWidth * 0.9R))\n        Dim top As Double = layout.PlotTop + layout.PlotHeight + 1.0R\n\n        For i As Integer = 0 To names.Length - 1\n            If String.IsNullOrWhiteSpace(names(i)) Then Continue For\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"StageLabel_\" & (i + 1).ToString(CultureInfo.InvariantCulture),\n                         names(i).Trim(),\n                         stageX(i) - labelWidth / 2.0R,\n                         top,\n                         labelWidth,\n                         appearance.StageLabelHeight,\n                         appearance.TextColor,\n                         appearance.StageLabelFontSize,\n                         True,\n                         MsoAlignCenter)\n        Next\n    End Sub",
+      "original_sha256": "e12ef962b3bc36ed42f1efeb864b0363162b323adade56f6ae8b8adb7a46a8c8",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Sankey",
+      "name": "StageLabelLeft",
+      "member": "DrawStageLabels",
+      "args": [
+        [
+          "centre",
+          "Double"
+        ],
+        [
+          "width",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Left",
+          "Double"
+        ]
+      ],
+      "type": "SankeyStageLabelLeftGeometry",
+      "function": "Public Function StageLabelLeft(centre As Double, width As Double) As SankeyStageLabelLeftGeometry\n\nReturn New SankeyStageLabelLeftGeometry(centre - width / 2.0R)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawStageLabels(chartShapes As Object,\n                                       result As SankeyPlotResult,\n                                       appearance As SankeyPlotAppearance,\n                                       layout As DrawingLayout)\n        Dim names As String() = result.StageNames\n        Dim stageX As Double() = BuildStageCentres(result.StageCount, layout)\n        Dim stepWidth As Double = If(result.StageCount <= 1,\n                                     layout.PlotWidth,\n                                     (layout.StageCentreRight - layout.StageCentreLeft) / CDbl(result.StageCount - 1))\n        Dim labelWidth As Double = Math.Max(50.0R, Math.Min(150.0R, stepWidth * 0.9R))\n        Dim top As Double = layout.PlotTop + layout.PlotHeight + 1.0R\n\n        For i As Integer = 0 To names.Length - 1\n            If String.IsNullOrWhiteSpace(names(i)) Then Continue For\n\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"StageLabel_\" & (i + 1).ToString(CultureInfo.InvariantCulture),\n                         names(i).Trim(),\n                         stageX(i) - labelWidth / 2.0R,\n                         top,\n                         labelWidth,\n                         appearance.StageLabelHeight,\n                         appearance.TextColor,\n                         appearance.StageLabelFontSize,\n                         True,\n                         MsoAlignCenter)\n        Next\n    End Sub",
+      "original_sha256": "e12ef962b3bc36ed42f1efeb864b0363162b323adade56f6ae8b8adb7a46a8c8",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Sankey",
+      "name": "LegendItem",
+      "member": "DrawLegend",
+      "args": [
+        [
+          "itemIndex",
+          "Integer"
+        ],
+        [
+          "rowsPerColumn",
+          "Integer"
+        ],
+        [
+          "legendLeft",
+          "Double"
+        ],
+        [
+          "legendTop",
+          "Double"
+        ],
+        [
+          "titleOffset",
+          "Double"
+        ],
+        [
+          "columnWidth",
+          "Double"
+        ],
+        [
+          "rowHeight",
+          "Double"
+        ],
+        [
+          "swatchSize",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Left",
+          "Double"
+        ],
+        [
+          "Top",
+          "Double"
+        ],
+        [
+          "SwatchTop",
+          "Double"
+        ]
+      ],
+      "type": "SankeyLegendItemGeometry",
+      "function": "Public Function LegendItem(itemIndex As Integer, rowsPerColumn As Integer, legendLeft As Double, legendTop As Double, titleOffset As Double, columnWidth As Double, rowHeight As Double, swatchSize As Double) As SankeyLegendItemGeometry\nDim column As Integer = itemIndex \\ rowsPerColumn\nDim row As Integer = itemIndex Mod rowsPerColumn\nDim itemLeft As Double = legendLeft + column * columnWidth\nDim itemTop As Double = legendTop + titleOffset + row * rowHeight\nDim swatchTop As Double = itemTop + (rowHeight - swatchSize) / 2.0R\nReturn New SankeyLegendItemGeometry(itemLeft, itemTop, swatchTop)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawLegend(chartShapes As Object,\n                                  items As List(Of LegendItem),\n                                  appearance As SankeyPlotAppearance,\n                                  layout As DrawingLayout)\n        If layout.LegendColumns <= 0 OrElse layout.LegendRowsPerColumn <= 0 Then Return\n\n        Dim titleOffset As Double = 0.0R\n        If Not String.IsNullOrWhiteSpace(appearance.LegendTitle) Then\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"LegendTitle\",\n                         appearance.LegendTitle.Trim(),\n                         layout.LegendLeft,\n                         layout.LegendTop,\n                         layout.LegendWidth,\n                         appearance.LegendRowHeight,\n                         appearance.TextColor,\n                         appearance.LegendFontSize,\n                         True,\n                         MsoAlignLeft)\n            titleOffset = appearance.LegendRowHeight\n        End If\n\n        For i As Integer = 0 To items.Count - 1\n            Dim column As Integer = i \\ layout.LegendRowsPerColumn\n            Dim row As Integer = i Mod layout.LegendRowsPerColumn\n            Dim itemLeft As Double = layout.LegendLeft + column * appearance.LegendColumnWidth\n            Dim itemTop As Double = layout.LegendTop + titleOffset + row * appearance.LegendRowHeight\n            Dim swatchTop As Double = itemTop + (appearance.LegendRowHeight - appearance.LegendSwatchSize) / 2.0R\n\n            Dim swatch As Object = chartShapes.AddShape(MsoShapeRectangle,\n                                                        CSng(itemLeft),\n                                                        CSng(swatchTop),\n                                                        CSng(appearance.LegendSwatchSize),\n                                                        CSng(appearance.LegendSwatchSize))\n            swatch.Name = ShapePrefix & \"LegendSwatch_\" & (i + 1).ToString(CultureInfo.InvariantCulture)\n            With swatch.Fill\n                .Visible = True\n                .Solid()\n                .ForeColor.RGB = items(i).Color\n                .Transparency = 0.0F\n            End With\n            With swatch.Line\n                .Visible = True\n                .ForeColor.RGB = appearance.NodeOutlineColor\n                .Weight = 0.5F\n            End With\n\n            Dim textLeft As Double = itemLeft + appearance.LegendSwatchSize + 4.0R\n            Dim textWidth As Double = Math.Max(20.0R,\n                                               appearance.LegendColumnWidth - appearance.LegendSwatchSize - 6.0R)\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"LegendLabel_\" & (i + 1).ToString(CultureInfo.InvariantCulture),\n                         items(i).Label,\n                         textLeft,\n                         itemTop,\n                         textWidth,\n                         appearance.LegendRowHeight,\n                         appearance.TextColor,\n                         appearance.LegendFontSize,\n                         False,\n                         MsoAlignLeft)\n        Next\n    End Sub",
+      "original_sha256": "6efd669528eba13c98d5967af00b178553ae7841e7879c12a926597290e289ba",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    },
+    {
+      "family": "Sankey",
+      "name": "LegendText",
+      "member": "DrawLegend",
+      "args": [
+        [
+          "itemLeft",
+          "Double"
+        ],
+        [
+          "swatchSize",
+          "Double"
+        ],
+        [
+          "columnWidth",
+          "Double"
+        ]
+      ],
+      "fields": [
+        [
+          "Left",
+          "Double"
+        ],
+        [
+          "Width",
+          "Double"
+        ]
+      ],
+      "type": "SankeyLegendTextGeometry",
+      "function": "Public Function LegendText(itemLeft As Double, swatchSize As Double, columnWidth As Double) As SankeyLegendTextGeometry\nDim textLeft As Double = itemLeft + swatchSize + 4.0R\nDim textWidth As Double = Math.Max(20.0R, columnWidth - swatchSize - 6.0R)\nReturn New SankeyLegendTextGeometry(textLeft, textWidth)\nEnd Function\n",
+      "original_member": "    Private Shared Sub DrawLegend(chartShapes As Object,\n                                  items As List(Of LegendItem),\n                                  appearance As SankeyPlotAppearance,\n                                  layout As DrawingLayout)\n        If layout.LegendColumns <= 0 OrElse layout.LegendRowsPerColumn <= 0 Then Return\n\n        Dim titleOffset As Double = 0.0R\n        If Not String.IsNullOrWhiteSpace(appearance.LegendTitle) Then\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"LegendTitle\",\n                         appearance.LegendTitle.Trim(),\n                         layout.LegendLeft,\n                         layout.LegendTop,\n                         layout.LegendWidth,\n                         appearance.LegendRowHeight,\n                         appearance.TextColor,\n                         appearance.LegendFontSize,\n                         True,\n                         MsoAlignLeft)\n            titleOffset = appearance.LegendRowHeight\n        End If\n\n        For i As Integer = 0 To items.Count - 1\n            Dim column As Integer = i \\ layout.LegendRowsPerColumn\n            Dim row As Integer = i Mod layout.LegendRowsPerColumn\n            Dim itemLeft As Double = layout.LegendLeft + column * appearance.LegendColumnWidth\n            Dim itemTop As Double = layout.LegendTop + titleOffset + row * appearance.LegendRowHeight\n            Dim swatchTop As Double = itemTop + (appearance.LegendRowHeight - appearance.LegendSwatchSize) / 2.0R\n\n            Dim swatch As Object = chartShapes.AddShape(MsoShapeRectangle,\n                                                        CSng(itemLeft),\n                                                        CSng(swatchTop),\n                                                        CSng(appearance.LegendSwatchSize),\n                                                        CSng(appearance.LegendSwatchSize))\n            swatch.Name = ShapePrefix & \"LegendSwatch_\" & (i + 1).ToString(CultureInfo.InvariantCulture)\n            With swatch.Fill\n                .Visible = True\n                .Solid()\n                .ForeColor.RGB = items(i).Color\n                .Transparency = 0.0F\n            End With\n            With swatch.Line\n                .Visible = True\n                .ForeColor.RGB = appearance.NodeOutlineColor\n                .Weight = 0.5F\n            End With\n\n            Dim textLeft As Double = itemLeft + appearance.LegendSwatchSize + 4.0R\n            Dim textWidth As Double = Math.Max(20.0R,\n                                               appearance.LegendColumnWidth - appearance.LegendSwatchSize - 6.0R)\n            AddTextShape(chartShapes,\n                         ShapePrefix & \"LegendLabel_\" & (i + 1).ToString(CultureInfo.InvariantCulture),\n                         items(i).Label,\n                         textLeft,\n                         itemTop,\n                         textWidth,\n                         appearance.LegendRowHeight,\n                         appearance.TextColor,\n                         appearance.LegendFontSize,\n                         False,\n                         MsoAlignLeft)\n        Next\n    End Sub",
+      "original_sha256": "6efd669528eba13c98d5967af00b178553ae7841e7879c12a926597290e289ba",
+      "adaptation": "Source numerical expressions with explicit scalar measurements; native enums/objects omitted. Exact statement/order and rounding retained."
+    }
+  ]
+}

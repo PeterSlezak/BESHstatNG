@@ -1,0 +1,196 @@
+{
+  "schema": "04A34-slices-v1",
+  "scientific": "NOT_GOLDEN",
+  "entry": "b162a6ac801d7784fc5e27974fbf91aa57a2aee1",
+  "slices": [
+    {
+      "file": "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+      "member": "SpreadLabelPositions",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+        "bytes": 54735,
+        "sha256": "420c3021db0373900d7013bf66894ade03e3f0f61bc0ada1752c6c6fe1100385"
+      },
+      "original_lf_sha256": "97c2b1d21e6fa0ca8eddc0b5d6351e0e819c15470d5f34720154fce3b71650c9",
+      "original_lf": "Private Shared Function SpreadLabelPositions(values As Double(),\n                                                 minimum As Double,\n                                                 maximum As Double,\n                                                 requestedSeparation As Double) As Double()\n        Dim result As Double() = DirectCast(values.Clone(), Double())\n        If values.Length < 2 OrElse Not IsFinitePositive(requestedSeparation) Then Return result\n\n        Dim span As Double = maximum - minimum\n        If Not IsFinitePositive(span) Then Return result\n\n        Dim orderedIndices As Integer() = Enumerable.Range(0, values.Length).\n                                                   OrderBy(Function(i) values(i)).\n                                                   ThenBy(Function(i) i).\n                                                   ToArray()\n\n        'If the requested physical spacing cannot fit all labels, use the largest feasible\n        'spacing instead of forcing anchors outside the plot.\n        Dim separation As Double = requestedSeparation\n        If values.Length > 1 Then\n            separation = Math.Min(separation, span / CDbl(values.Length - 1))\n        End If\n        If separation <= 0.0R Then Return result\n\n        Dim lowerBound As Double = minimum\n        Dim upperBound As Double = maximum\n        If separation < span Then\n            lowerBound = minimum + 0.5R * separation\n            upperBound = maximum - 0.5R * separation\n        End If\n\n        Dim adjusted(values.Length - 1) As Double\n        adjusted(0) = Clamp(values(orderedIndices(0)), lowerBound, upperBound)\n        For j As Integer = 1 To orderedIndices.Length - 1\n            Dim desired As Double = Clamp(values(orderedIndices(j)), lowerBound, upperBound)\n            adjusted(j) = Math.Max(desired, adjusted(j - 1) + separation)\n        Next\n\n        If adjusted(adjusted.Length - 1) > upperBound Then\n            adjusted(adjusted.Length - 1) = upperBound\n            For j As Integer = adjusted.Length - 2 To 0 Step -1\n                Dim desired As Double = Clamp(values(orderedIndices(j)), lowerBound, upperBound)\n                adjusted(j) = Math.Min(desired, adjusted(j + 1) - separation)\n            Next\n        End If\n\n        If adjusted(0) < lowerBound Then\n            Dim shift As Double = lowerBound - adjusted(0)\n            For j As Integer = 0 To adjusted.Length - 1\n                adjusted(j) += shift\n            Next\n        End If\n\n        'One last backward pass protects the upper edge after a possible bottom shift.\n        If adjusted(adjusted.Length - 1) > upperBound Then\n            adjusted(adjusted.Length - 1) = upperBound\n            For j As Integer = adjusted.Length - 2 To 0 Step -1\n                adjusted(j) = Math.Min(adjusted(j), adjusted(j + 1) - separation)\n            Next\n        End If\n\n        For j As Integer = 0 To orderedIndices.Length - 1\n            result(orderedIndices(j)) = Clamp(adjusted(j), minimum, maximum)\n        Next\n        Return result\n    End Function\n",
+      "adapted_lf_sha256": "aa1cbf872105cf85130a81139dcd5d372267acfd4bef259af86765324e44b685",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+      "member": "Clamp",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+        "bytes": 54735,
+        "sha256": "420c3021db0373900d7013bf66894ade03e3f0f61bc0ada1752c6c6fe1100385"
+      },
+      "original_lf_sha256": "d5e22bd324d67b3d2a51e04703f3138d394d76e895f6761bde0cddb69f8673a7",
+      "original_lf": "Private Shared Function Clamp(value As Double, minimum As Double, maximum As Double) As Double\n        If value < minimum Then Return minimum\n        If value > maximum Then Return maximum\n        Return value\n    End Function\n",
+      "adapted_lf_sha256": "c7e8e59a1709bab88204344983db48e542aa8ff4d7a84a62d372522313fa190e",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+      "member": "IsFinite",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+        "bytes": 54735,
+        "sha256": "420c3021db0373900d7013bf66894ade03e3f0f61bc0ada1752c6c6fe1100385"
+      },
+      "original_lf_sha256": "d8d653af238425cf06e0f4effab6656bec28d20e037b1f8b0ecabb035bc072b4",
+      "original_lf": "Private Shared Function IsFinite(value As Double) As Boolean\n        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n    End Function\n",
+      "adapted_lf_sha256": "61ff052ff2effb2416a6bfac0a527511ca321be2589ae301a6e648d5288ac7f3",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+      "member": "IsFinitePositive",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+        "bytes": 54735,
+        "sha256": "420c3021db0373900d7013bf66894ade03e3f0f61bc0ada1752c6c6fe1100385"
+      },
+      "original_lf_sha256": "1d5b3a44f76f9f884cc41cbbba94e256024cb68d9ec921916a0d9c2b8771953b",
+      "original_lf": "Private Shared Function IsFinitePositive(value As Double) As Boolean\n        Return IsFinite(value) AndAlso value > 0.0R\n    End Function\n",
+      "adapted_lf_sha256": "901ed570083c2214ee359c5d76819a83146e2f8533b33d0ac8a76c0ebff33921",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb",
+      "member": "ExtendStepToAxisBounds",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb",
+        "bytes": 56656,
+        "sha256": "b657c347709b31a15bcaae3246e908f55f17e7cbcebf9ca3a4307dfbd03e8e99"
+      },
+      "original_lf_sha256": "0bcc78e0893e88759615521aee419df6e74822b30e04f481a517cdc85ecc5670",
+      "original_lf": "Private Shared Sub ExtendStepToAxisBounds(sourceX() As Double,\n                                              sourceY() As Double,\n                                              xMinimum As Double,\n                                              xMaximum As Double,\n                                              ByRef xOut() As Double,\n                                              ByRef yOut() As Double)\n        If sourceX Is Nothing OrElse sourceY Is Nothing OrElse sourceX.Length = 0 OrElse\n           sourceX.Length <> sourceY.Length Then\n            xOut = sourceX\n            yOut = sourceY\n            Return\n        End If\n\n        Dim prepend As Boolean = xMinimum < sourceX(0)\n        Dim append As Boolean = xMaximum > sourceX(sourceX.Length - 1)\n        Dim extra As Integer = If(prepend, 1, 0) + If(append, 1, 0)\n\n        If extra = 0 Then\n            xOut = sourceX\n            yOut = sourceY\n            Return\n        End If\n\n        ReDim xOut(sourceX.Length + extra - 1)\n        ReDim yOut(sourceY.Length + extra - 1)\n\n        Dim targetIndex As Integer = 0\n        If prepend Then\n            xOut(targetIndex) = xMinimum\n            yOut(targetIndex) = sourceY(0)\n            targetIndex += 1\n        End If\n\n        For i As Integer = 0 To sourceX.Length - 1\n            xOut(targetIndex) = sourceX(i)\n            yOut(targetIndex) = sourceY(i)\n            targetIndex += 1\n        Next\n\n        If append Then\n            xOut(targetIndex) = xMaximum\n            yOut(targetIndex) = sourceY(sourceY.Length - 1)\n        End If\n    End Sub\n",
+      "adapted_lf_sha256": "4c3bc59cddaae29ccd98ef2839aae8112eaad944816face80666a8299b955f1b",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/GifAnimator.vb",
+      "member": "MsToCentiseconds",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/GifAnimator.vb",
+        "bytes": 7697,
+        "sha256": "b468c902191b785deba1704ea3950cb97002491484ef5c16fc4cc9d5d1dc4841"
+      },
+      "original_lf_sha256": "6109fa6cefefa1b3697d93daaa89e3ce4887f525b32d91fa3f3c9bf0ca74226d",
+      "original_lf": "Private Function MsToCentiseconds(ms As Integer) As Integer\n        Dim safeMs = If(ms < 0, 0, ms)\n        Return Math.Max(1, CInt(Math.Round(safeMs / 10.0)))\n    End Function\n",
+      "adapted_lf_sha256": "b36c992f0b3355696f86002372871b9e9d1a3a1c28167954e3381d161b237f6a",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+      "member": "NormalizedToChartX",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+        "bytes": 59228,
+        "sha256": "43dce328ba9b6c3aa3e2c2efe2e6ed3a8572fcc16d5d3fb8f3db5ee9a6a23f0a"
+      },
+      "original_lf_sha256": "b27520a2c32c01fba3955112209349c465281810826643f9c8a3180fafc3b59f",
+      "original_lf": "Private Shared Function NormalizedToChartX(value As Double,\n                                               layout As DrawingLayout) As Double\n        Return layout.PlotLeft + Clip01(value) * layout.PlotWidth\n    End Function\n",
+      "adapted_lf_sha256": "a1220dc074712be4aaac3e1b17f95a1eeb13d82b70b294a62c8f03491f2a6b79",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+      "member": "Clip01",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+        "bytes": 59228,
+        "sha256": "43dce328ba9b6c3aa3e2c2efe2e6ed3a8572fcc16d5d3fb8f3db5ee9a6a23f0a"
+      },
+      "original_lf_sha256": "858dc78d2b2203adb3f751a8953759d8c6983a1adf668d9a43af3cf5778504a5",
+      "original_lf": "Private Shared Function Clip01(value As Double) As Double\n        If value < 0.0R Then Return 0.0R\n        If value > 1.0R Then Return 1.0R\n        Return value\n    End Function\n",
+      "adapted_lf_sha256": "c7f3b98bcff2226eff24d4f62f4c18106a984d06db9700ed1b5423f781cd8f1e",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+      "member": "NormalizedXToChartX",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+        "bytes": 58676,
+        "sha256": "bd51546674cf614af4c4bd3df8202f96bc2e170048090fabbdaf8bfe7acd9931"
+      },
+      "original_lf_sha256": "0dc2c766d05d2b713255531a4dcd3eedc5766eff9fb00fae443be6f23c66d9bd",
+      "original_lf": "Private Shared Function NormalizedXToChartX(value As Double,\n                                                layout As DrawingLayout) As Double\n        Dim clipped As Double = Math.Max(0.0R, Math.Min(1.0R, value))\n        Return layout.StageCentreLeft + clipped * (layout.StageCentreRight - layout.StageCentreLeft)\n    End Function\n",
+      "adapted_lf_sha256": "6aa5693d81c655f5a3596b7ebecfe14cef4bb71c7aacc0f7687859fb54245bfe",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+      "member": "NormalizedYToChartY",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+        "bytes": 58676,
+        "sha256": "bd51546674cf614af4c4bd3df8202f96bc2e170048090fabbdaf8bfe7acd9931"
+      },
+      "original_lf_sha256": "3383f5dfbc7d4e9bb3c506c25d2a4e0a1b3a25dae157ccc6e8917e1ffdb88c5e",
+      "original_lf": "Private Shared Function NormalizedYToChartY(value As Double,\n                                                layout As DrawingLayout) As Double\n        Dim clipped As Double = Math.Max(0.0R, Math.Min(1.0R, value))\n        Return layout.PlotTop + clipped * layout.PlotHeight\n    End Function\n",
+      "adapted_lf_sha256": "9e7ad3017a31eceb339ecb2e85055bfcc5e1900c6b016ae43584e8ca04e7206f",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+      "member": "BuildStageCentres",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+        "bytes": 58676,
+        "sha256": "bd51546674cf614af4c4bd3df8202f96bc2e170048090fabbdaf8bfe7acd9931"
+      },
+      "original_lf_sha256": "28de98a0e864e0b06c235c91b7942672affbdff82259efad2ecc3b346ad4cd7b",
+      "original_lf": "Private Shared Function BuildStageCentres(stageCount As Integer,\n                                              layout As DrawingLayout) As Double()\n        Dim result(stageCount - 1) As Double\n        If stageCount = 1 Then\n            result(0) = (layout.StageCentreLeft + layout.StageCentreRight) / 2.0R\n            Return result\n        End If\n\n        For i As Integer = 0 To stageCount - 1\n            result(i) = layout.StageCentreLeft +\n                        CDbl(i) / CDbl(stageCount - 1) *\n                        (layout.StageCentreRight - layout.StageCentreLeft)\n        Next\n        Return result\n    End Function\n",
+      "adapted_lf_sha256": "5933806920f0da4f7f4234e2c058d3f9bd55c6fc62ede9a32b1e59f87ce5bfcf",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/CalibrationPlot.vb",
+      "member": "addCalibrationPlot.numeric-slice",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/CalibrationPlot.vb",
+        "bytes": 7263,
+        "sha256": "e6b711ba75ecc64c05549f537976ca37acb5a31925de7cf0b94b25850ca67afb"
+      },
+      "original_lf_sha256": "3dea24f7d7241044da727c5b41fdc7efdcefbb6f92a3f975ada944b91527d49b",
+      "original_lf": "            Dim xs As New List(Of Double)()\n            Dim ys As New List(Of Double)()\n            For Each r As regression.CalibrationBinSummary In Me.pRows\n                If Double.IsNaN(r.MeanPredicted) OrElse Double.IsNaN(r.ObservedRate) Then Continue For\n                xs.Add(r.MeanPredicted)\n                ys.Add(r.ObservedRate)\n            Next\n            If xs.Count = 0 Then Return Nothing\n\n",
+      "adapted_lf_sha256": "a624e0326a4cdce22b504f01f30e882cad985e7720470a6850fbd7ea0a11f6d8",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    },
+    {
+      "file": "BESHstatNG/src/Graphics/SymetryPlot.vb",
+      "member": "AsymmetryPlot.numeric-slice",
+      "source": {
+        "path": "BESHstatNG/src/Graphics/SymetryPlot.vb",
+        "bytes": 10101,
+        "sha256": "5bc5578787f2d8709fd084a444bb208c83c209681c0f82151cc90526aabddcfb"
+      },
+      "original_lf_sha256": "01f14513944032350e362d383a3dcb08f27486219de40ff157a85374d577d2d8",
+      "original_lf": "            Dim Xref() As Double, Yref() As Double\n\n            'prepare data for plotting\n            'compute differences below and above median\n            Dim Medn As Double = Median(Me.pData)\n            Array.Sort(Me.pData)\n            Dim x(n - 1) As Double\n            For i = 0 To n - 1\n                If pData(i) <= Medn Then\n                    x(i) = Medn - pData(i)\n                Else\n                    x(i) = pData(i) - Medn\n                End If\n            Next\n\n            'prepare arrays for plotting\n            Dim ii As Integer = RoundDown(n / 2, 0)\n            Dim Xs(ii - 1) As Double, Ys(ii - 1) As Double\n            For i = 0 To ii - 1\n                Xs(i) = x(n - 1 - i)\n                Ys(i) = x(i)\n            Next\n\n            'reference line data\n            If x(0) >= x(n - 1) Then\n                Xref = {x(0), x(ii - 1)}\n                Yref = Xref\n            Else\n                Xref = {x(n - 1), x(n - 1 - ii)}\n                Yref = Xref\n            End If\n\n            'compute optimal scaling\n            Dim udPlotAxis = ChartScaling(0, x.Max())\n\n",
+      "adapted_lf_sha256": "4520080db0b86e46d3fc8e38242c1a3657a3155c85fd636a86d3b1964e87b29f",
+      "authority": "PRE_EDIT_LEGACY",
+      "adaptation": "Test-only signature/enclosing-state/explicit-measurement substitution; original numeric statement order retained. Accepted StatFunc remains a dependency; NOT_GOLDEN."
+    }
+  ],
+  "fixture": {
+    "path": "evidence/04A34/LegacySpecialty34.vb",
+    "bytes": 8710,
+    "sha256": "36aa5efc2f06aeb33eb6d01513d86f6408e2620e605f9c71a6491506d2117967"
+  },
+  "native": "NATIVE_NOT_RUN",
+  "r": "R_NOT_RUN"
+}

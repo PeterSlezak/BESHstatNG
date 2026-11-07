@@ -1,0 +1,548 @@
+{
+  "deltas": [
+    {
+      "path": "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+      "member": "DrawTitle",
+      "entry_calls": [
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"Title\"",
+            "appearance.ChartTitle.Trim()",
+            "appearance.ChartPadding",
+            "appearance.ChartPadding",
+            "Math.Max(1.0R, layout.ChartWidth - 2.0R * appearance.ChartPadding)",
+            "appearance.ChartTitleHeight",
+            "appearance.TextColor",
+            "appearance.ChartTitleFontSize",
+            "True",
+            "MsoAlignCenter",
+            "appearance.FontName",
+            "False"
+          ]
+        }
+      ],
+      "final_calls": [
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"Title\"",
+            "appearance.ChartTitle.Trim()",
+            "appearance.ChartPadding",
+            "appearance.ChartPadding",
+            "BulletMeasuredGeometryCore.BulletTitle(layout.ChartWidth, appearance.ChartPadding).Width",
+            "appearance.ChartTitleHeight",
+            "appearance.TextColor",
+            "appearance.ChartTitleFontSize",
+            "True",
+            "MsoAlignCenter",
+            "appearance.FontName",
+            "False"
+          ]
+        }
+      ],
+      "entry_styles": [],
+      "final_styles": [],
+      "qualified": [
+        [
+          "Math.Max(1.0R, layout.ChartWidth - 2.0R * appearance.ChartPadding)",
+          "BulletMeasuredGeometryCore.BulletTitle(layout.ChartWidth, appearance.ChartPadding).Width",
+          "BulletTitle width"
+        ]
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+      "member": "DrawLeftLabels",
+      "entry_calls": [
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"Measure_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "item.MeasureLabel",
+            "left",
+            "top",
+            "width",
+            "mainHeight",
+            "appearance.TextColor",
+            "appearance.MeasureLabelFontSize",
+            "False",
+            "MsoAlignRight",
+            "appearance.FontName",
+            "True"
+          ]
+        },
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"Subtitle_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "item.Subtitle",
+            "left",
+            "top + mainHeight",
+            "width",
+            "subtitleHeight",
+            "appearance.TextColor",
+            "appearance.SubtitleFontSize",
+            "False",
+            "MsoAlignRight",
+            "appearance.FontName",
+            "True"
+          ]
+        },
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & If(showMain, \"Measure_\", \"Subtitle_\") & (rowIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "text",
+            "left",
+            "top",
+            "width",
+            "boxHeight",
+            "appearance.TextColor",
+            "fontSize",
+            "False",
+            "MsoAlignRight",
+            "appearance.FontName",
+            "True"
+          ]
+        }
+      ],
+      "final_calls": [
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"Measure_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "item.MeasureLabel",
+            "left",
+            "top",
+            "width",
+            "mainHeight",
+            "appearance.TextColor",
+            "appearance.MeasureLabelFontSize",
+            "False",
+            "MsoAlignRight",
+            "appearance.FontName",
+            "True"
+          ]
+        },
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"Subtitle_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "item.Subtitle",
+            "left",
+            "paired.SubtitleTop",
+            "width",
+            "subtitleHeight",
+            "appearance.TextColor",
+            "appearance.SubtitleFontSize",
+            "False",
+            "MsoAlignRight",
+            "appearance.FontName",
+            "True"
+          ]
+        },
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & If(showMain, \"Measure_\", \"Subtitle_\") & (rowIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "text",
+            "left",
+            "top",
+            "width",
+            "boxHeight",
+            "appearance.TextColor",
+            "fontSize",
+            "False",
+            "MsoAlignRight",
+            "appearance.FontName",
+            "True"
+          ]
+        }
+      ],
+      "entry_styles": [],
+      "final_styles": [],
+      "qualified": [
+        [
+          "top + mainHeight",
+          "paired.SubtitleTop",
+          "BulletPairedLabels subtitle offset"
+        ]
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+      "member": "DrawScale",
+      "entry_calls": [
+        {
+          "expression": "chartShapes.AddLine",
+          "arguments": [
+            "CSng(x)",
+            "CSng(rowLayout.BandBottom)",
+            "CSng(x)",
+            "CSng(rowLayout.BandBottom + appearance.ScaleTickLength)"
+          ]
+        },
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"ScaleLabel_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture) & \"_\" & (tickIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "FormatNumeric(tickValue, numberFormat)",
+            "textLeft",
+            "rowLayout.ScaleLabelTop",
+            "nominalWidth",
+            "appearance.ScaleLabelHeight",
+            "appearance.TextColor",
+            "appearance.ScaleLabelFontSize",
+            "False",
+            "alignment",
+            "appearance.FontName",
+            "False"
+          ]
+        }
+      ],
+      "final_calls": [
+        {
+          "expression": "chartShapes.AddLine",
+          "arguments": [
+            "CSng(x)",
+            "CSng(rowLayout.BandBottom)",
+            "CSng(x)",
+            "CSng(tickGeometry.Bottom)"
+          ]
+        },
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"ScaleLabel_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture) & \"_\" & (tickIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "FormatNumeric(tickValue, numberFormat)",
+            "textLeft",
+            "rowLayout.ScaleLabelTop",
+            "nominalWidth",
+            "appearance.ScaleLabelHeight",
+            "appearance.TextColor",
+            "appearance.ScaleLabelFontSize",
+            "False",
+            "alignment",
+            "appearance.FontName",
+            "False"
+          ]
+        }
+      ],
+      "entry_styles": [
+        {
+          "left": "tickShape . Name",
+          "right": "ShapePrefix & \"ScaleTick_\" & ( rowIndex + 1 ) . ToString ( CultureInfo . InvariantCulture ) & \"_\" & ( tickIndex + 1 ) . ToString ( CultureInfo . InvariantCulture )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". ForeColor . RGB",
+          "right": "appearance . TextColor"
+        },
+        {
+          "left": ". Transparency",
+          "right": "0.0F"
+        },
+        {
+          "left": ". Weight",
+          "right": "appearance . ScaleTickWeight"
+        }
+      ],
+      "final_styles": [
+        {
+          "left": "tickShape . Name",
+          "right": "ShapePrefix & \"ScaleTick_\" & ( rowIndex + 1 ) . ToString ( CultureInfo . InvariantCulture ) & \"_\" & ( tickIndex + 1 ) . ToString ( CultureInfo . InvariantCulture )"
+        },
+        {
+          "left": ". Visible",
+          "right": "True"
+        },
+        {
+          "left": ". ForeColor . RGB",
+          "right": "appearance . TextColor"
+        },
+        {
+          "left": ". Transparency",
+          "right": "0.0F"
+        },
+        {
+          "left": ". Weight",
+          "right": "appearance . ScaleTickWeight"
+        }
+      ],
+      "qualified": [
+        [
+          "CSng(rowLayout.BandBottom + appearance.ScaleTickLength)",
+          "CSng(tickGeometry.Bottom)",
+          "BulletTick bottom; Single conversion remains native"
+        ]
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+      "member": "DrawActualValueLabel",
+      "entry_calls": [
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"ActualValue_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "FormatNumeric(item.ActualValue, numberFormat)",
+            "left",
+            "rowLayout.BandCentreY - appearance.ValueLabelHeight / 2.0R",
+            "labelWidth",
+            "appearance.ValueLabelHeight",
+            "appearance.TextColor",
+            "appearance.ValueLabelFontSize",
+            "False",
+            "alignment",
+            "appearance.FontName",
+            "False"
+          ]
+        }
+      ],
+      "final_calls": [
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"ActualValue_\" & (rowIndex + 1).ToString(CultureInfo.InvariantCulture)",
+            "FormatNumeric(item.ActualValue, numberFormat)",
+            "left",
+            "BulletMeasuredGeometryCore.BulletCenteredLabel(rowLayout.BandCentreY, appearance.ValueLabelHeight).Top",
+            "labelWidth",
+            "appearance.ValueLabelHeight",
+            "appearance.TextColor",
+            "appearance.ValueLabelFontSize",
+            "False",
+            "alignment",
+            "appearance.FontName",
+            "False"
+          ]
+        }
+      ],
+      "entry_styles": [],
+      "final_styles": [],
+      "qualified": [
+        [
+          "rowLayout.BandCentreY - appearance.ValueLabelHeight / 2.0R",
+          "BulletMeasuredGeometryCore.BulletCenteredLabel(rowLayout.BandCentreY, appearance.ValueLabelHeight).Top",
+          "BulletCenteredLabel measured height"
+        ]
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb",
+      "member": "AddCategoryLabelSeries",
+      "entry_calls": [
+        {
+          "expression": "seriesCollection.NewSeries",
+          "arguments": []
+        },
+        {
+          "expression": "series.Points",
+          "arguments": [
+            "i + 1"
+          ]
+        }
+      ],
+      "final_calls": [
+        {
+          "expression": "seriesCollection.NewSeries",
+          "arguments": []
+        },
+        {
+          "expression": "series.Points",
+          "arguments": [
+            "i + 1"
+          ]
+        }
+      ],
+      "entry_styles": [
+        {
+          "left": ". Name",
+          "right": "\"Category labels\""
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". XValues",
+          "right": "xValues"
+        },
+        {
+          "left": ". Values",
+          "right": "yValues"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleCircle"
+        },
+        {
+          "left": ". MarkerSize",
+          "right": "2"
+        },
+        {
+          "left": ". MarkerForegroundColor",
+          "right": "appearance . BackgroundColor"
+        },
+        {
+          "left": ". MarkerBackgroundColor",
+          "right": "appearance . BackgroundColor"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "False"
+        },
+        {
+          "left": "point . HasDataLabel",
+          "right": "True"
+        },
+        {
+          "left": ". Text",
+          "right": "categories ( i ) . CategoryLabel"
+        },
+        {
+          "left": ". Position",
+          "right": "XlDataLabelPosition . xlLabelPositionLeft"
+        },
+        {
+          "left": ". Font . Size",
+          "right": "appearance . CategoryLabelFontSize"
+        },
+        {
+          "left": ". Font . Color",
+          "right": "appearance . TextColor"
+        }
+      ],
+      "final_styles": [
+        {
+          "left": ". Name",
+          "right": "\"Category labels\""
+        },
+        {
+          "left": ". ChartType",
+          "right": "XlChartType . xlXYScatter"
+        },
+        {
+          "left": ". XValues",
+          "right": "xValues"
+        },
+        {
+          "left": ". Values",
+          "right": "yValues"
+        },
+        {
+          "left": ". MarkerStyle",
+          "right": "XlMarkerStyle . xlMarkerStyleCircle"
+        },
+        {
+          "left": ". MarkerSize",
+          "right": "2"
+        },
+        {
+          "left": ". MarkerForegroundColor",
+          "right": "appearance . BackgroundColor"
+        },
+        {
+          "left": ". MarkerBackgroundColor",
+          "right": "appearance . BackgroundColor"
+        },
+        {
+          "left": ". Format . Line . Visible",
+          "right": "False"
+        },
+        {
+          "left": "point . HasDataLabel",
+          "right": "True"
+        },
+        {
+          "left": ". Text",
+          "right": "categoryLabels ( i )"
+        },
+        {
+          "left": ". Position",
+          "right": "XlDataLabelPosition . xlLabelPositionLeft"
+        },
+        {
+          "left": ". Font . Size",
+          "right": "appearance . CategoryLabelFontSize"
+        },
+        {
+          "left": ". Font . Color",
+          "right": "appearance . TextColor"
+        }
+      ],
+      "qualified": [
+        [
+          "categories ( i ) . CategoryLabel",
+          "categoryLabels ( i )",
+          "Copied label vector; same zero-based category / one-based Excel point"
+        ]
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+      "member": "DrawStageLabels",
+      "entry_calls": [
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"StageLabel_\" & (i + 1).ToString(CultureInfo.InvariantCulture)",
+            "names(i).Trim()",
+            "stageX(i) - labelWidth / 2.0R",
+            "top",
+            "labelWidth",
+            "appearance.StageLabelHeight",
+            "appearance.TextColor",
+            "appearance.StageLabelFontSize",
+            "True",
+            "MsoAlignCenter"
+          ]
+        }
+      ],
+      "final_calls": [
+        {
+          "expression": "AddTextShape",
+          "arguments": [
+            "chartShapes",
+            "ShapePrefix & \"StageLabel_\" & (i + 1).ToString(CultureInfo.InvariantCulture)",
+            "names(i).Trim()",
+            "SankeyMeasuredGeometryCore.SankeyStageLabelLeft(stageX(i), labelWidth).Left",
+            "top",
+            "labelWidth",
+            "appearance.StageLabelHeight",
+            "appearance.TextColor",
+            "appearance.StageLabelFontSize",
+            "True",
+            "MsoAlignCenter"
+          ]
+        }
+      ],
+      "entry_styles": [],
+      "final_styles": [],
+      "qualified": [
+        [
+          "stageX(i) - labelWidth / 2.0R",
+          "SankeyMeasuredGeometryCore.SankeyStageLabelLeft(stageX(i), labelWidth).Left",
+          "SankeyStageLabelLeft explicit width"
+        ]
+      ]
+    }
+  ]
+}

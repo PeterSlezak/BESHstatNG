@@ -3,6 +3,7 @@ Option Strict Off
 Option Infer On
 
 Imports System
+Imports System.Linq
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports BESHStatNG.ExcelCommon
@@ -175,14 +176,12 @@ Namespace graphics
         End Function
 
         Private Shared Function NormalizeText(value As String) As String
-            Return If(value, String.Empty).Trim()
-        End Function
+        Return ExcelCommon.Chart34.SpcChartPreparation34.NormalizeText(value)
+    End Function
 
         Private Shared Function NormalizeNumberFormat(value As String) As String
-            Dim normalized As String = NormalizeText(value)
-            If normalized.Length = 0 Then Return "0.####"
-            Return normalized
-        End Function
+        Return ExcelCommon.Chart34.SpcChartPreparation34.NormalizeNumberFormat(value)
+    End Function
 
         Private Shared Sub ValidateFinitePositive(value As Double,
                                                   parameterName As String)
@@ -295,8 +294,7 @@ Namespace graphics
 
             Try
                 For panelIndex As Integer = 0 To panels.Length - 1
-                    Dim chartTop As Double = options.Top +
-                        panelIndex * (options.PanelHeight + options.PanelSpacing)
+                    Dim chartTop As Double = SpcAxisBoundsCore.SpcPanelTop(options.Top, panelIndex, options.PanelHeight, options.PanelSpacing)
 
                     Dim chartShape = worksheet.Shapes.AddChart(
                         Left:=options.Left,
@@ -715,10 +713,7 @@ Namespace graphics
             dashStyle As Integer,
             options As SpcControlChartAppearanceOptions)
 
-            Dim values(categories.Length - 1) As Object
-            For i As Integer = 0 To values.Length - 1
-                values(i) = value
-            Next
+            Dim values As Object() = SpcAxisBoundsCore.SpcConstantReference(categories.Length, value).Cast(Of Object)().ToArray()
             AddReferenceLine(chart,
                              name,
                              categories,
@@ -988,31 +983,8 @@ Namespace graphics
                 End If
             End If
 
-            If Double.IsPositiveInfinity(minimum) OrElse
-               Double.IsNegativeInfinity(maximum) Then
-                Return New AxisBounds(0.0R, 1.0R)
-            End If
-
-            If minimum = maximum Then
-                Dim scale As Double = Math.Max(1.0R, Math.Abs(minimum))
-                minimum -= 0.1R * scale
-                maximum += 0.1R * scale
-            Else
-                Dim padding As Double = 0.07R * (maximum - minimum)
-                minimum -= padding
-                maximum += padding
-            End If
-
-            If HasNaturalZero(panel.PanelType) AndAlso minimum >= -0.15R * Math.Max(1.0R, maximum) Then
-                minimum = 0.0R
-            End If
-            If panel.PanelType = SpcPanelType.Proportion AndAlso
-               maximum > 1.0R AndAlso maximum <= 1.1R Then
-                maximum = 1.0R
-            End If
-            If maximum <= minimum Then maximum = minimum + 1.0R
-
-            Return New AxisBounds(minimum, maximum)
+            Dim bounds As ChartAxisScaleResult = SpcAxisBoundsCore.FromExtents(minimum, maximum, panel.PanelType)
+            Return New AxisBounds(bounds.Min, bounds.Max)
         End Function
 
         Private Shared Sub IncludeValuesInBounds(values As Object(),
@@ -1021,8 +993,7 @@ Namespace graphics
             For i As Integer = 0 To values.Length - 1
                 If IsNumericChartValue(values(i)) Then
                     Dim value As Double = Convert.ToDouble(values(i), CultureInfo.InvariantCulture)
-                    If value < minimum Then minimum = value
-                    If value > maximum Then maximum = value
+                    IncludeNullableInBounds(value, minimum, maximum)
                 End If
             Next
         End Sub
@@ -1030,69 +1001,31 @@ Namespace graphics
         Private Shared Sub IncludeNullableInBounds(value As Nullable(Of Double),
                                                    ByRef minimum As Double,
                                                    ByRef maximum As Double)
-            If Not value.HasValue Then Return
-            If value.Value < minimum Then minimum = value.Value
-            If value.Value > maximum Then maximum = value.Value
+            Dim prepared = SpcAxisBoundsCore.SpcOptionalExtent(value, minimum, maximum)
+            minimum = prepared.Min
+            maximum = prepared.Max
         End Sub
 
         Private Shared Function PanelSupportsSpecificationLimits(
             panelType As SpcPanelType) As Boolean
-            Select Case panelType
-                Case SpcPanelType.Run,
-                     SpcPanelType.IndividualValue,
-                     SpcPanelType.SubgroupMean,
-                     SpcPanelType.Ewma,
-                     SpcPanelType.MovingAverage
-                    Return True
-                Case Else
-                    Return False
-            End Select
-        End Function
+        Return ExcelCommon.Chart34.SpcChartPreparation34.PanelSupportsSpecificationLimits(panelType)
+    End Function
 
-        Private Shared Function HasNaturalZero(panelType As SpcPanelType) As Boolean
-            Select Case panelType
-                Case SpcPanelType.MovingRange,
-                     SpcPanelType.SubgroupRange,
-                     SpcPanelType.SubgroupStandardDeviation,
-                     SpcPanelType.Proportion,
-                     SpcPanelType.NumberNonconforming,
-                     SpcPanelType.DefectCount,
-                     SpcPanelType.DefectRate,
-                     SpcPanelType.EventsBetweenOccurrences,
-                     SpcPanelType.TimeBetweenOccurrences,
-                     SpcPanelType.UpperCusum,
-                     SpcPanelType.LowerCusum,
-                     SpcPanelType.HotellingT2,
-                     SpcPanelType.GeneralizedVariance,
-                     SpcPanelType.PcaT2,
-                     SpcPanelType.PcaQ,
-                     SpcPanelType.Mewma,
-                     SpcPanelType.Mcusum
-                    Return True
-                Case Else
-                    Return False
-            End Select
-        End Function
+
 
         Private Shared Function ResolveChartTitle(
             result As SpcFitResult,
             panel As SpcPanelResult,
             options As SpcControlChartAppearanceOptions,
             panelCount As Integer) As String
-
-            Dim baseTitle As String = options.ChartTitle
-            If baseTitle.Length = 0 Then baseTitle = result.ChartTitle
-            If panelCount <= 1 Then Return baseTitle
-            Return baseTitle & " - " & panel.DisplayName
-        End Function
+        Return ExcelCommon.Chart34.SpcChartPreparation34.ResolveChartTitle(result, panel, SnapshotSpcSettings34(options), panelCount)
+    End Function
 
         Private Shared Function ResolveValueAxisTitle(
             result As SpcFitResult,
             panel As SpcPanelResult) As String
-            If panel.ValueAxisTitle.Length > 0 Then Return panel.ValueAxisTitle
-            If result.Request.ValueAxisTitle.Length > 0 Then Return result.Request.ValueAxisTitle
-            Return panel.DisplayName
-        End Function
+        Return ExcelCommon.Chart34.SpcChartPreparation34.ResolveValueAxisTitle(result, panel)
+    End Function
 
         Private Shared Function IncludesLines(mode As SpcZoneDisplayMode) As Boolean
             Return mode = SpcZoneDisplayMode.Lines OrElse
@@ -1247,6 +1180,11 @@ Namespace graphics
             Public ReadOnly Minimum As Double
             Public ReadOnly Maximum As Double
         End Class
-    End Class
+
+    Private Shared Function SnapshotSpcSettings34(appearance As SpcControlChartAppearanceOptions) As ExcelCommon.Chart34.SpcChartSettings34
+        If appearance Is Nothing Then Return Nothing
+        Return New ExcelCommon.Chart34.SpcChartSettings34(appearance.ChartTitle)
+    End Function
+End Class
 
 End Namespace
