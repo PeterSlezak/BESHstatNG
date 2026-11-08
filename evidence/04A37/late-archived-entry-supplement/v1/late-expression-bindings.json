@@ -1,0 +1,113 @@
+{
+  "bindings": [
+    {
+      "family": "Pca",
+      "role": "loading/biplot-component-0",
+      "expression": "$\"1st Component Scores [{ Format$(pct(0), \"#0.0#\") }%]\"",
+      "sha256": "acaae66fea90520acf69f115b547cd71e23572e552b067a932353908092d7fcf"
+    },
+    {
+      "family": "Pca",
+      "role": "score-component-0",
+      "expression": "$\"1St Component Scores [{ Format$(pct(0), \"#0.0#\") }%]\"",
+      "sha256": "2113cce683e6f4a342666beea5c1354dc9c6ca34abd6f0269474029c47965aec"
+    },
+    {
+      "family": "Pca",
+      "role": "loading/biplot-component-1",
+      "expression": "$\"2nd Component Scores [{ Format$(pct(1), \"#0.0#\") }%]\"",
+      "sha256": "c7f779195886028a44ec5b8f2fba2910f0630d680e8af8f12b0c97ee26621bbe"
+    },
+    {
+      "family": "Pca",
+      "role": "loading/biplot-component-2",
+      "expression": "$\"3rd Component Scores [{ Format$(pct(2), \"#0.0#\") }%]\"",
+      "sha256": "e0fa3aa6be4c7a29eedcba513f8d820114fb3d135dfbc02188af2fadc1a3ca82"
+    },
+    {
+      "family": "Pca",
+      "role": "score-component-2",
+      "expression": "$\"3Rd Component Scores [{ Format$(pct(2), \"#0.0#\") }%]\"",
+      "sha256": "4349dbf9aaebbc499195d8f12ccebc84533752b9531d9881db347776239146fd"
+    },
+    {
+      "family": "FactorAnalysis",
+      "role": "factor-caption-0",
+      "expression": "$\"{factorNames(0)} [{Format$(factorPct(0), \"#0.0#\")}%]\"",
+      "sha256": "97be1d5a09ff693b2696520021931d00d235adc9a59d00d61e61758efac59dbe"
+    },
+    {
+      "family": "FactorAnalysis",
+      "role": "factor-caption-1",
+      "expression": "$\"{factorNames(1)} [{Format$(factorPct(1), \"#0.0#\")}%]\"",
+      "sha256": "c55d3c67dd47f0efd00db54bab6a81ce208109c0434fb38433cbd270664cbbb6"
+    },
+    {
+      "family": "FactorAnalysis",
+      "role": "factor-caption-2",
+      "expression": "$\"{factorNames(2)} [{Format$(factorPct(2), \"#0.0#\")}%]\"",
+      "sha256": "c4da0ec71ecdaf20eded1f1a9d53b3e6d5778f5da40dd0630644f9158f1fc5a6"
+    },
+    {
+      "family": "CorrespondenceAnalysis",
+      "role": "CA-percent-index-1",
+      "expression": "$\"Factor 1 [{ Format$(pct(1, 1), \"#0.0#\") }%]\"",
+      "sha256": "1b14fd67582b305cca79e46615bce25836a493d5d08346207972bac5354466e6"
+    },
+    {
+      "family": "CorrespondenceAnalysis",
+      "role": "CA-percent-index-2",
+      "expression": "$\"Factor 2 [{ Format$(pct(2, 1), \"#0.0#\") }%]\"",
+      "sha256": "dc60b6db44bcadfcd9c0679273607d34adb40c2d80b7d13cdc2744d9787d8c1c"
+    },
+    {
+      "family": "Pca",
+      "role": "scree-number-expression",
+      "expression": "Format$(pct(i), \"#0.0#\")",
+      "sha256": "3049e6b1bcd83740f18c91dcfe00e0141418f37f8066412bccb240bf9bc212c6"
+    },
+    {
+      "family": "Pca",
+      "role": "biplot-chart-name",
+      "expression": "\"Biplot scale=\" & CStr(c)",
+      "sha256": "43493872bdfd79c2d0c90e149b44da90494236a773c3a68665d8b8d23f637671"
+    },
+    {
+      "family": "Pca",
+      "role": "loading-series-name",
+      "expression": "\"Loading_\" & CStr(id)",
+      "sha256": "2e3f0049a6d2a53804acb30a73cede142f637407845e64ff081841a95df8b7dd"
+    },
+    {
+      "family": "Pca",
+      "role": "variable-label",
+      "expression": "CStr(varNames(id))",
+      "sha256": "5de45029e2f36d0cc51b16fe2f36d993e8314f0aca5c430c86df4b978486e1a6"
+    },
+    {
+      "family": "CorrespondenceAnalysis",
+      "role": "contribution-chart-name",
+      "expression": "\"Contribution\" & CStr(lAxis + 1)",
+      "sha256": "4dc414271fc02c0935e77cd0128bd135202061937694fe371b9ba2bfd28d86eb"
+    },
+    {
+      "family": "CorrespondenceAnalysis",
+      "role": "contribution-title",
+      "expression": "\"Contribution Plot: Axis \" & CStr(lAxis + 1)",
+      "sha256": "9ade412fe76debaeb7fb73b0a94af2b532833083ed9e3d7c21ee470fbec47847"
+    },
+    {
+      "family": "Pca",
+      "role": "group-membership-predicate",
+      "expression": "If groupLabels(i) = groupIds(g) Then",
+      "sha256": "e1bdc75809cdd9d80080b3baa7108b8e59abfcd86669fd818448b20da035ebbf"
+    },
+    {
+      "family": "Pca",
+      "role": "group-name-discovery-comparer",
+      "expression": "Dim seen As New HashSet(Of String)(StringComparer.Ordinal)",
+      "sha256": "a4d7f699ad078bf07824e66d6e9e29d70a981d069628abd9800637399fd99ee5"
+    }
+  ],
+  "qualification": "Expression bytes are extracted verbatim. Named parameters bind the same original pct/factorNames/varNames/lAxis variables. Group ordinal metadata repeats exact original discovery and text-membership predicates; native point mapping remains source-only."
+}

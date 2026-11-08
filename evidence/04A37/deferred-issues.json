@@ -1,0 +1,48 @@
+{
+  "status": "REGISTERED_NOT_CORRECTED",
+  "charter": "planning/BESHStatNG_CrossPlatform_MasterPlan.md section5; approved04A39-48 investigations, not part37",
+  "issues": [
+    {
+      "id": "G37-PCA-BIPLOT-LEGACY-01",
+      "candidate": "Original sqrt(eigenvalue)*sqrt(n) exponent, score/loadings orientation and PercentExpl/threshold behavior; NaN c passes legacy range predicate.",
+      "disposition": "PRESERVED_NOT_GOLDEN; scientific investigation39-41"
+    },
+    {
+      "id": "G37-PCA-GROUP-IDENTITY-01",
+      "candidate": "Ordinal distinct group names but culture/text membership can overlap A/a and width variants; actual Core RowIds fallback and model order preserved.",
+      "disposition": "PRESERVED; no source-row or grouping cleanup"
+    },
+    {
+      "id": "G37-FACTOR-PERCENT-01",
+      "candidate": "Pattern*structure column sum divided by WorkingMatrix trace, <=0 yields zero; extraction/rotation/sign/format semantics remain authoritative.",
+      "disposition": "PRESERVED; no factor estimator/rotation correction"
+    },
+    {
+      "id": "G37-CA-PERCENT-SYMMETRY-01",
+      "candidate": "Percents(2,1)/(1,1), late caught short-percent access, MCA omitted rows still in axes; row/column label asymmetries.",
+      "disposition": "PRESERVED; original CA/MCA engine and labels unchanged"
+    },
+    {
+      "id": "G37-DENDROGRAM-BOUNDS-01",
+      "candidate": "NaN/separator bounds, degenerate/one-element cut arrays influence bounds even when cut not drawn, source leaf order versus physical rows.",
+      "disposition": "PRESERVED; base paths/cuts/membership untouched"
+    },
+    {
+      "id": "G37-NATIVE-GUI-UDF-01",
+      "candidate": "COM creation/errors/events/reentrancy, measured native labels/axes and GUI/UDF reconciliation require later authorized native/scientific work.",
+      "disposition": "NOT_RUN; no original controls discharged"
+    },
+    {
+      "id": "G29-HISTORICAL-LINEAGE-171-172",
+      "candidate": "Retain earlier graphics-audit helper uncertainties and 04A33/34/35/36 native candidates.",
+      "disposition": "UNCHANGED; this extraction closes no original scientific/native obligation"
+    }
+  ],
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED"
+  }
+}

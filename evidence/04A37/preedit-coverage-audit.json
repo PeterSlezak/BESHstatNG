@@ -1,0 +1,117 @@
+{
+  "status": "BLOCKED_REQUIRED_PREEDIT_MATRIX_INCOMPLETE",
+  "audited_utc": "2026-11-08T08:10:56.261975+00:00",
+  "observed": {
+    "eligible": false,
+    "scales": {
+      "0.0": {
+        "rows": 32,
+        "guard_returns": 30,
+        "geometries": 0,
+        "exceptions": 2,
+        "geometry_by_culture": {
+          "": 0,
+          "sk-SK": 0
+        }
+      },
+      "0.5": {
+        "rows": 32,
+        "guard_returns": 32,
+        "geometries": 0,
+        "exceptions": 0,
+        "geometry_by_culture": {
+          "": 0,
+          "sk-SK": 0
+        }
+      },
+      "1.0": {
+        "rows": 32,
+        "guard_returns": 0,
+        "geometries": 14,
+        "exceptions": 18,
+        "geometry_by_culture": {
+          "": 7,
+          "sk-SK": 7
+        }
+      },
+      "0.25": {
+        "rows": 32,
+        "guard_returns": 0,
+        "geometries": 20,
+        "exceptions": 12,
+        "geometry_by_culture": {
+          "": 10,
+          "sk-SK": 10
+        }
+      },
+      "0.75": {
+        "rows": 32,
+        "guard_returns": 32,
+        "geometries": 0,
+        "exceptions": 0,
+        "geometry_by_culture": {
+          "": 0,
+          "sk-SK": 0
+        }
+      },
+      "-0.1": {
+        "rows": 32,
+        "guard_returns": 32,
+        "geometries": 0,
+        "exceptions": 0,
+        "geometry_by_culture": {
+          "": 0,
+          "sk-SK": 0
+        }
+      },
+      "1.1": {
+        "rows": 32,
+        "guard_returns": 0,
+        "geometries": 0,
+        "exceptions": 32,
+        "geometry_by_culture": {
+          "": 0,
+          "sk-SK": 0
+        }
+      },
+      "NaN": {
+        "rows": 32,
+        "guard_returns": 0,
+        "geometries": 22,
+        "exceptions": 10,
+        "geometry_by_culture": {
+          "": 11,
+          "sk-SK": 11
+        }
+      }
+    },
+    "required_metric_modes": {
+      "0.0": false,
+      "0.5": false,
+      "1.0": true
+    },
+    "negative_scale_range_rejections": {
+      "": 0,
+      "sk-SK": 0
+    },
+    "finite_valid_scale_eigen_edge_executions": {
+      "zero": 0,
+      "negative": 0,
+      "NaN": 0,
+      "positive_infinity": 0
+    },
+    "cause": "Original scale(id) uses id Mod8 while retained components use id Mod4. Required GH/SQ cases and several eigen/range cases are stopped by dimensional guards or paired with a nonfinite/out-of-range scale."
+  },
+  "source_commit": "a0680f546c5130fa5143c0b0c7136f852d650cc5",
+  "frozen_factory_sha256": "13800219a23874f69d0769472bd8c30e9dd3b2cb5796c0167bdcfdbf8e21e7c7",
+  "frozen_references_unchanged": true,
+  "scope": "Audit generated after production edits; no new pre-edit receipt, replacement capture, backdating or rebaseline.",
+  "additional_matrix_limits": [
+    "MCA IsMultiple follows id Mod2 while factor count follows id Mod4, so no three-or-more-factor MCA caption case exists.",
+    "Factor nonfinite-trace IDs8/9 always have0/1 retained factors, bypassing loading-plot percentages.",
+    "Missing PCA model RowIds case13 always has one retained component, bypassing score-plot label fallback/error paths."
+  ],
+  "later_tests": "Post-edit Core c0/c0.5/etc unit comparisons pass, but cannot retroactively replace mandatory pre-edit frozen outputs.",
+  "remaining_action": "Owner must authorize a clearly labeled post-edit archived-entry supplemental-oracle exception, or a new authorized entry workflow. Then use independent cross products of dimensions, c, eigenvalue states, labels, rotations and CA/MCA factor counts. Preserve existing captures and prior-candidate history.",
+  "recommendation": "NOT_READY_04A37"
+}

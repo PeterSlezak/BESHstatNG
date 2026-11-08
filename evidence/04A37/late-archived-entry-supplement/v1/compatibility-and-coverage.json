@@ -1,0 +1,2163 @@
+{
+  "status": "PASS",
+  "eligible": true,
+  "route": "A",
+  "entry_commit": "a0680f546c5130fa5143c0b0c7136f852d650cc5",
+  "provenance": "CAPTURED_AFTER_INITIAL_IMPLEMENTATION_FROM_PINNED_ARCHIVED_ENTRY",
+  "old_preedit_coverage_eligible": false,
+  "supplemental_rows_per_configuration": 22050,
+  "outcomes_per_configuration": {
+    "GUARD": 9180,
+    "EXCEPTION": 8212,
+    "GEOMETRY": 4658
+  },
+  "finite_numeric_prefix_geometry": 3374,
+  "corpora": [
+    {
+      "corpus": "main-v1",
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "rows": 18466,
+          "bytes": 8801900,
+          "sha256": "02a28a5ae7eae6c5297517edc90f8ebf0d10671aebe54527e33a6b19248b69eb",
+          "mismatches": 0,
+          "outcomes": {
+            "GUARD": 7260,
+            "EXCEPTION": 7120,
+            "GEOMETRY": 4086
+          },
+          "finite_numeric_prefix_geometry": 2802,
+          "reference_execution": {
+            "started_utc": "2026-11-08T08:52:54.3745185Z",
+            "completed_utc": "2026-11-08T08:52:57.6290217Z",
+            "count": 18466,
+            "guards": 7260,
+            "geometries": 4086,
+            "exceptions": 7120,
+            "core_name": "BESHStat.Core",
+            "core_mvid": "ba26cd12-462d-4c85-b135-3ed53646095e",
+            "provenance": "CAPTURED_AFTER_INITIAL_IMPLEMENTATION_FROM_PINNED_ARCHIVED_ENTRY",
+            "native": "NOT_RUN",
+            "scientific": "NOT_GOLDEN"
+          },
+          "current_execution": {
+            "started_utc": "2026-11-08T08:54:27.5035845Z",
+            "completed_utc": "2026-11-08T08:54:30.9421460Z",
+            "count": 18466,
+            "guards": 7260,
+            "geometries": 4086,
+            "exceptions": 7120,
+            "core_name": "BESHStat.Core",
+            "core_mvid": "28fa4894-2e2e-4565-a04c-21954e87b61d",
+            "provenance": "CAPTURED_AFTER_INITIAL_IMPLEMENTATION_FROM_PINNED_ARCHIVED_ENTRY",
+            "native": "NOT_RUN",
+            "scientific": "NOT_GOLDEN"
+          }
+        },
+        {
+          "configuration": "Release",
+          "rows": 18466,
+          "bytes": 8801900,
+          "sha256": "02a28a5ae7eae6c5297517edc90f8ebf0d10671aebe54527e33a6b19248b69eb",
+          "mismatches": 0,
+          "outcomes": {
+            "GUARD": 7260,
+            "EXCEPTION": 7120,
+            "GEOMETRY": 4086
+          },
+          "finite_numeric_prefix_geometry": 2802,
+          "reference_execution": {
+            "started_utc": "2026-11-08T08:54:22.8452163Z",
+            "completed_utc": "2026-11-08T08:54:25.8739196Z",
+            "count": 18466,
+            "guards": 7260,
+            "geometries": 4086,
+            "exceptions": 7120,
+            "core_name": "BESHStat.Core",
+            "core_mvid": "eb254b98-09b7-4b2c-80ad-44d2248b4ac8",
+            "provenance": "CAPTURED_AFTER_INITIAL_IMPLEMENTATION_FROM_PINNED_ARCHIVED_ENTRY",
+            "native": "NOT_RUN",
+            "scientific": "NOT_GOLDEN"
+          },
+          "current_execution": {
+            "started_utc": "2026-11-08T08:57:49.7599593Z",
+            "completed_utc": "2026-11-08T08:57:52.9286060Z",
+            "count": 18466,
+            "guards": 7260,
+            "geometries": 4086,
+            "exceptions": 7120,
+            "core_name": "BESHStat.Core",
+            "core_mvid": "6e2948d6-933d-498b-8a7e-ae10697418f9",
+            "provenance": "CAPTURED_AFTER_INITIAL_IMPLEMENTATION_FROM_PINNED_ARCHIVED_ENTRY",
+            "native": "NOT_RUN",
+            "scientific": "NOT_GOLDEN"
+          }
+        }
+      ]
+    },
+    {
+      "corpus": "explicit-label-extension-v1",
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "rows": 3584,
+          "bytes": 2637140,
+          "sha256": "e01ba86f158b565b8f71a68ed7d28dc4a7cfdc30e8d41e3e4a27e0fde9563dcd",
+          "mismatches": 0,
+          "outcomes": {
+            "GUARD": 1920,
+            "GEOMETRY": 572,
+            "EXCEPTION": 1092
+          },
+          "finite_numeric_prefix_geometry": 572,
+          "reference_execution": {
+            "started_utc": "2026-11-08T09:00:22.1919589Z",
+            "completed_utc": "2026-11-08T09:00:23.0434018Z",
+            "count": 3584,
+            "guards": 1920,
+            "geometries": 572,
+            "exceptions": 1092,
+            "core_name": "BESHStat.Core",
+            "core_mvid": "ba26cd12-462d-4c85-b135-3ed53646095e",
+            "provenance": "CAPTURED_AFTER_INITIAL_IMPLEMENTATION_FROM_PINNED_ARCHIVED_ENTRY",
+            "native": "NOT_RUN",
+            "scientific": "NOT_GOLDEN"
+          },
+          "current_execution": {
+            "started_utc": "2026-11-08T09:00:26.2230436Z",
+            "completed_utc": "2026-11-08T09:00:27.1864058Z",
+            "count": 3584,
+            "guards": 1920,
+            "geometries": 572,
+            "exceptions": 1092,
+            "core_name": "BESHStat.Core",
+            "core_mvid": "28fa4894-2e2e-4565-a04c-21954e87b61d",
+            "provenance": "CAPTURED_AFTER_INITIAL_IMPLEMENTATION_FROM_PINNED_ARCHIVED_ENTRY",
+            "native": "NOT_RUN",
+            "scientific": "NOT_GOLDEN"
+          }
+        },
+        {
+          "configuration": "Release",
+          "rows": 3584,
+          "bytes": 2637140,
+          "sha256": "e01ba86f158b565b8f71a68ed7d28dc4a7cfdc30e8d41e3e4a27e0fde9563dcd",
+          "mismatches": 0,
+          "outcomes": {
+            "GUARD": 1920,
+            "GEOMETRY": 572,
+            "EXCEPTION": 1092
+          },
+          "finite_numeric_prefix_geometry": 572,
+          "reference_execution": {
+            "started_utc": "2026-11-08T09:00:24.1410286Z",
+            "completed_utc": "2026-11-08T09:00:24.9477131Z",
+            "count": 3584,
+            "guards": 1920,
+            "geometries": 572,
+            "exceptions": 1092,
+            "core_name": "BESHStat.Core",
+            "core_mvid": "eb254b98-09b7-4b2c-80ad-44d2248b4ac8",
+            "provenance": "CAPTURED_AFTER_INITIAL_IMPLEMENTATION_FROM_PINNED_ARCHIVED_ENTRY",
+            "native": "NOT_RUN",
+            "scientific": "NOT_GOLDEN"
+          },
+          "current_execution": {
+            "started_utc": "2026-11-08T09:00:28.2946633Z",
+            "completed_utc": "2026-11-08T09:00:29.3773577Z",
+            "count": 3584,
+            "guards": 1920,
+            "geometries": 572,
+            "exceptions": 1092,
+            "core_name": "BESHStat.Core",
+            "core_mvid": "6e2948d6-933d-498b-8a7e-ae10697418f9",
+            "provenance": "CAPTURED_AFTER_INITIAL_IMPLEMENTATION_FROM_PINNED_ARCHIVED_ENTRY",
+            "native": "NOT_RUN",
+            "scientific": "NOT_GOLDEN"
+          }
+        }
+      ]
+    }
+  ],
+  "witnesses": [
+    {
+      "name": "biplot-finite//2/0",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.501b020d4784af849901b530"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.501b020d4784af849901b530"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.e20eddc6b3990b036f964544"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.6a0266bc97b3b2a873dea4b6"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.2969be0cc6d7826a7fc50715"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f296749af9109e05bd7ee6b2"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.37353bcaa423133853010ee3"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.745f8bd9af3fe23f8b3a47f8"
+      ]
+    },
+    {
+      "name": "biplot-finite//2/0.25",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.0ec77cf202256bd3065a15e8"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.25/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.0ec77cf202256bd3065a15e8"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.25/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.3f6086f44b33b1fbc56a51f9"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.25/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.bcf034aa377347583a56bce6"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.25/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.d251931efe17aebec323554d"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.25/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f61875159910373ef3feb1db"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.25/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.aa1cbb67344dc7da325c8ac6"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.25/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.5ffd9cfe99a542e5276cc62d"
+      ]
+    },
+    {
+      "name": "biplot-finite//2/0.5",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.9704a11af46a72fdec70c32f"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.5/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.9704a11af46a72fdec70c32f"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.5/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.08dad84bfa06e8419f5eb0f7"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.5/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.e783b066bcfe9c9eb71c9f2a"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.5/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.89f138034f9acfcd255773fa"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.5/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.afb1deb686284cdefeb4921a"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.5/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.227d568471f9772b09fcca7f"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.5/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.2520eceaf8370eb92485366a"
+      ]
+    },
+    {
+      "name": "biplot-finite//2/0.75",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.6fb318b7bd7023b276096587"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.75/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.6fb318b7bd7023b276096587"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.75/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.230ccb471abaf414ce9a3654"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.75/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.7fbf3a46d90700bc07fb3abe"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.75/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.bb46b4cfb4961b116266e16b"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.75/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.457d1852042e5d7c1fa2dcd0"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.75/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.5f843a0c008e8147a63cbc22"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/0.75/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.26ad811bf38ec1c0e269a55d"
+      ]
+    },
+    {
+      "name": "biplot-finite//2/1",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.542ec1b66097d7f3cbc42c83"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/1/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.542ec1b66097d7f3cbc42c83"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/1/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.c447b0c94c82a651bf1a69fd"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/1/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.0ca6780627c09fe0786834c8"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/1/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.6add1bf015376bc46bb65182"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/1/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.977fae875f787a7d4f2348ed"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/1/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.9afd159f5381e1ada12483a6"
+      ]
+    },
+    {
+      "name": "biplot-eigen//2/1/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.568a5bb41c1096eb3deaca53"
+      ]
+    },
+    {
+      "name": "biplot-finite//3/0",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.2c5840c36734d6cd110719ba"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.2c5840c36734d6cd110719ba"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.a6fe58c8bb7ab2d7b0b62b96"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.18c6243db4408de201377649"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.e49448f0f28405a84ee984d1"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f87b4bfb244d358abf5bd6c4"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.007222721089a01d7278485a"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.6522b76f19dd777d85da8876"
+      ]
+    },
+    {
+      "name": "biplot-finite//3/0.25",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.9991f2bf69967fa7c86809a0"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.25/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.9991f2bf69967fa7c86809a0"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.25/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.a8145ec00b3aab0d8bc1c390"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.25/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f9b639aa5e365db99767e324"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.25/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.68aec89d252d956250e5fa87"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.25/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.ae4fa40f408f82f131ffccff"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.25/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.a86b0af47a70782d73e6930a"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.25/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.ea0661a480d0310c1d494dc4"
+      ]
+    },
+    {
+      "name": "biplot-finite//3/0.5",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.d558ab2badc9bb9eeb025cde"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.5/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.d558ab2badc9bb9eeb025cde"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.5/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.ef6379562b8015d9d294ad57"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.5/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.2ee1baa1ce9c26f79afb4c7a"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.5/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.b068f93d81c317c543edeb41"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.5/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.930b11af5660090221b23a3f"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.5/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.810ccdaea7698524e7096e18"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.5/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.87fc4b97ec10fed3fa7646d9"
+      ]
+    },
+    {
+      "name": "biplot-finite//3/0.75",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.a76a45a0cb0f8ef81789384b"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.75/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.a76a45a0cb0f8ef81789384b"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.75/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.13cd9bff6b5b4ffa744e7d1e"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.75/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.8a3a800c472668e9895635bf"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.75/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.8ff3f7f18e39d4c5d2298453"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.75/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.1cb909320c5e1e762f88e389"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.75/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.40b7eed21792b7a33b4548d1"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/0.75/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.0dda2fbf92aa3e77b02e988f"
+      ]
+    },
+    {
+      "name": "biplot-finite//3/1",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.c4303e14e8977cdcd9ca82a1"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/1/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.c4303e14e8977cdcd9ca82a1"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/1/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.33ab665cd7e3431252ceeab4"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/1/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.690087c1760e780dd7623ad0"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/1/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.ba0862cc3c315c86d8228b9f"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/1/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.828393d1b3fb943ecae1f985"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/1/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.7281ef26253a67a1fa0c4521"
+      ]
+    },
+    {
+      "name": "biplot-eigen//3/1/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.3204117fee785fef4cab135f"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/2/0",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.61592c78c92847278985c1e8"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.61592c78c92847278985c1e8"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.3af26f5abc93a16557a297e0"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.469c593888d72880505ad065"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.d9f8194e4d6e172c305f6acc"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.e7f0104ac60049bd04bec207"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.e754e67a3d5aeed8bee9cfcf"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.fe441e55fdaa63e813e66668"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/2/0.25",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.97c8bd6b69c6ef323c254623"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.25/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.97c8bd6b69c6ef323c254623"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.25/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.ab33f30e6e14df12f66569e2"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.25/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.079cf9eb96baf36e4af97ec6"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.25/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.9e36371f6991cac71029723b"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.25/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.2aa3700779db3f130aa27e6f"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.25/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.98c9b83c956d023ded2f506e"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.25/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.68e041b15847d3fc47d07450"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/2/0.5",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.d38f2070e5dc210984401fe3"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.5/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.d38f2070e5dc210984401fe3"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.5/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.9c28614ba1764acf59819918"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.5/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.dd8ad96bdf715c8a94c038a5"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.5/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.39313a7012c7982eb14a9cf6"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.5/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.5eb37c547422f58742a62ca7"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.5/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.7bbe8dace231e0f663e63245"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.5/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.23059a0a6a0b26e51955262b"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/2/0.75",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.9c1aef3fd653118fcee7eccc"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.75/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.9c1aef3fd653118fcee7eccc"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.75/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.12d74f72fecc5c24f07fc4c8"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.75/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.e12b60553b009acc635c7bfc"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.75/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f554a3fe7540586f9dcbeb0a"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.75/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.fd9189c6b18447d96e167266"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.75/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.64b01b701ea9d467f99fc44b"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/0.75/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.57df9be2343d8ad7f98663a5"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/2/1",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.7a44c019f402121f3f3c9775"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/1/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.7a44c019f402121f3f3c9775"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/1/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.1a7aad720377a71774e0dca9"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/1/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.49b903e2b408174ce7bf4628"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/1/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.42659997552252010f916c4e"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/1/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.3d7beb7ddc9e8c22f9139d21"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/1/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.3e936f3d7171af6e8efb8881"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/2/1/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.3184d37d307240add7c6ef53"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/3/0",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.95e634e8cdfffe7bef0c7a24"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.95e634e8cdfffe7bef0c7a24"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f0d9c84c7cdd0a1b2957c79e"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.1ad21f55034574067d9b17a8"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.eb166c8a9b34f19fce10275c"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.94694b6bb393a90f451685e9"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.3e16e614d503c9ced76b8819"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.ce7ef0f262e9dd39ca25512d"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/3/0.25",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f9ab385008bea18fa3ee9e06"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.25/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f9ab385008bea18fa3ee9e06"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.25/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.71ecd9729beb2cab496c5d4f"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.25/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.8039003cdc2c0d365ce6536d"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.25/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.4c250dd6dd13ca689b7582d2"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.25/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.e006da285e30b56e62f98964"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.25/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.7596e61238947bbf8f0ab8f2"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.25/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.e9979f52b1d25d615caf0a9a"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/3/0.5",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.47881dd328080234489d6e65"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.5/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.47881dd328080234489d6e65"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.5/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.089d3239b4a329c63ccebfb4"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.5/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.396da181eade818d2b4ea07c"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.5/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.991ea1bae743fb997642b350"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.5/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.8b8bbe9d6ea9bdfb573a16e1"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.5/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.53e2906ae49494c1d8b98ecd"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.5/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.c102486751b2329ec05610fe"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/3/0.75",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f346eaacac9831c142703dd8"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.75/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.f346eaacac9831c142703dd8"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.75/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.5c92d17cade0252575e918e6"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.75/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.e2bcb2cafccb07370ead9aa4"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.75/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.be250d08571c4a4103dffad4"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.75/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.733817fc18e5448de9fd2cc8"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.75/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.45824b79eadde089e4fa36c3"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/0.75/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.b423ac30f3b6fef74b9cd508"
+      ]
+    },
+    {
+      "name": "biplot-finite/sk-SK/3/1",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.56a4059dc48c4e97d29e5d6f"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/1/positive_unequal",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.56a4059dc48c4e97d29e5d6f"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/1/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.d0bb43b6a7fb3aaa4f0c188f"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/1/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.42cd04b8bdd26c871de9a305"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/1/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.2c58d61af3c10f10efdd9845"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/1/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.7664359cf31af89dbf084146"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/1/missing",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.6e1ce2742f78dd4f52f5a726"
+      ]
+    },
+    {
+      "name": "biplot-eigen/sk-SK/3/1/too_short",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.91740b29c28372261faa1cf6"
+      ]
+    },
+    {
+      "name": "biplot-range//2/-0.1",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.ba75484c934bff4a08215675"
+      ]
+    },
+    {
+      "name": "biplot-range//2/1.1",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.ceb02cb048bcf6a169ba7720"
+      ]
+    },
+    {
+      "name": "biplot-range//2/+Inf",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.b3d488e2923057a490fe58a5"
+      ]
+    },
+    {
+      "name": "biplot-range//2/-Inf",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.11eb409bf8113dcd071a9332"
+      ]
+    },
+    {
+      "name": "biplot-range//3/-0.1",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.3ea2861ad5e749068a2a4a7d"
+      ]
+    },
+    {
+      "name": "biplot-range//3/1.1",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.505dcdd4f7be6464dbd44bc9"
+      ]
+    },
+    {
+      "name": "biplot-range//3/+Inf",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.45b426a14f3d72c71b2f3974"
+      ]
+    },
+    {
+      "name": "biplot-range//3/-Inf",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.fd1b08b02a59df3833e3043b"
+      ]
+    },
+    {
+      "name": "biplot-range/sk-SK/2/-0.1",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.9292e4f73c412412d1185363"
+      ]
+    },
+    {
+      "name": "biplot-range/sk-SK/2/1.1",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.767b1ad67e39724db641d676"
+      ]
+    },
+    {
+      "name": "biplot-range/sk-SK/2/+Inf",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.d14fb2989287c57cf83a41b8"
+      ]
+    },
+    {
+      "name": "biplot-range/sk-SK/2/-Inf",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.10abea9425aef7021f704732"
+      ]
+    },
+    {
+      "name": "biplot-range/sk-SK/3/-0.1",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.6fc1a7e6601562f543092949"
+      ]
+    },
+    {
+      "name": "biplot-range/sk-SK/3/1.1",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.63e703c862ae9ad3cac6eaac"
+      ]
+    },
+    {
+      "name": "biplot-range/sk-SK/3/+Inf",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.3592afe4e677f64fb088ab5b"
+      ]
+    },
+    {
+      "name": "biplot-range/sk-SK/3/-Inf",
+      "count": 1,
+      "dispatch": "EXCEPTION",
+      "case_ids": [
+        "PCA.Biplot.e66a3e9608eec6a85e074964"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/2/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.ad658c8594f1bbba0c272c58"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/2/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.ad8345f2778ce72d404d1887"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/2/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.0dccf009bacd2dd480a72b5b"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/2/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.28a699b6bee330980b2614da"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/2/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.f4a7f54c990e3f880fcbb1cb"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/3/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.6e1129190fb55d6ce5290cff"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/3/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.03fb45dda6739a2cb209ab8b"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/3/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.d9d4da3762c62ea45b9c27b9"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/3/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.b6af71f7d7de48e061bb1244"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/3/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.956f963f363ddd8d21014367"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/4/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.b54bd0414d150ea0e77464ce"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/4/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.0d4a6a85dee26d5142de340b"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/4/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.8c6cf8bc8bb1a1ff44c871fc"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/4/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.2a081a53b5a95b7eadd63bff"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot2D/4/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.25d98f380a6b626026126375"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/3/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.6ca193c3d379740112a5adbe"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/3/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.8b5ff116d733b6503eb49311"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/3/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.9d83a97c1cb0928194a922a8"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/3/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.7df75f1e69b5d769164b6ccd"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/3/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.6fe90d441e9bf5a85e3e0ac8"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/4/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.299f1edd6f3533248223aa15"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/4/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.67382ad1363832462ae60416"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/4/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.a8a07d23d784002a4800a03e"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/4/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.15313332fcde43cb309f0331"
+      ]
+    },
+    {
+      "name": "factor-trace//LoadingPlot3D/4/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.2b3645f17824c5bfa9c3b707"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/2/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.fe78f80341bb020d6cbf63f5"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/2/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.41ae7a48a31e4d35b5796dbd"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/2/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.bbbac0278c913520b530b893"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/2/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.8c9f492d2afe0d669d3dd270"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/2/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.161f66b0519bfcb921e8015f"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/3/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.1533088938afbe13f18ad843"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/3/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.54ef6380f28252ea39e4e70e"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/3/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.2d6ffcb7d74779df4aab3df4"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/3/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.127e5866338908f89623b46b"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/3/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.2d526b79f2068807a393aca3"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/4/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.56fa80aa8979677336dc01c1"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/4/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.39d1b1e24739e8283a20de68"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/4/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.886f213c3e1bbbad0f7018b2"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/4/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.fb088c24acdbbf6880b0d7e0"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot2D/4/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot2D.b4431205ea316c6bf6a78dd0"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/3/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.0aadbc9d0706ba07839ef44e"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/3/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.dda29e0d014d01c12470cbff"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/3/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.53d72918132382a087f92a90"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/3/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.c6256f520bfb83c6f613db02"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/3/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.752b4b2600d599758173d8dc"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/4/positive",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.89fbb33d46e0a7dc9d0e4869"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/4/zero",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.c64c8406b16a1386c6559f38"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/4/negative",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.0e57072d5bfadbf4362403f8"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/4/NaN",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.f05179311628ba0bf2579b68"
+      ]
+    },
+    {
+      "name": "factor-trace/sk-SK/LoadingPlot3D/4/+Inf",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "FACTOR.LoadingPlot3D.88f48145d5a4fc323c0fa044"
+      ]
+    },
+    {
+      "name": "ca-map//False/2",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.0440acdea1f8ae9080cd88ab"
+      ]
+    },
+    {
+      "name": "ca-map//False/3",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.665c2081e1ab8223c4f7d272"
+      ]
+    },
+    {
+      "name": "ca-map//False/4",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.aea8240b8418c9bc3753e02e"
+      ]
+    },
+    {
+      "name": "ca-map//True/2",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.bfd55cb559eac845f6c1f4ec"
+      ]
+    },
+    {
+      "name": "ca-map//True/3",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.c32d028eb5cd7d40ff03c68e"
+      ]
+    },
+    {
+      "name": "ca-map//True/4",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.27c9e3464ec812eaed1ba683"
+      ]
+    },
+    {
+      "name": "ca-map/sk-SK/False/2",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.2af50e88cc7929a0bbb6a920"
+      ]
+    },
+    {
+      "name": "ca-map/sk-SK/False/3",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.8fab44fbb31b5ae160cd16f4"
+      ]
+    },
+    {
+      "name": "ca-map/sk-SK/False/4",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.90941d9d4fcd032745ffc542"
+      ]
+    },
+    {
+      "name": "ca-map/sk-SK/True/2",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.dcdb7cdbe0c20e48ff974bd2"
+      ]
+    },
+    {
+      "name": "ca-map/sk-SK/True/3",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.e4cb747e6103de187aeaa8ce"
+      ]
+    },
+    {
+      "name": "ca-map/sk-SK/True/4",
+      "count": 1,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "CA.CorrespondencePlot.08b60e0e2dde61770b1f9cef"
+      ]
+    },
+    {
+      "name": "custom-label-missing-rowids//ScorePlot2D",
+      "count": 2,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.ScorePlot2D.45e632e4b22c22d40029ce9e",
+        "PCA.ScorePlot2D.b6cbdd863a4399425e23dbf5"
+      ]
+    },
+    {
+      "name": "custom-label-missing-rowids//ScorePlot3D",
+      "count": 2,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.ScorePlot3D.041f309adaebd92ed27388d5",
+        "PCA.ScorePlot3D.7e9f587bc6eaac1800246f59"
+      ]
+    },
+    {
+      "name": "custom-label-missing-rowids//Biplot",
+      "count": 10,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.6e5acb67ced064f46e79bfac",
+        "PCA.Biplot.51dfb97f6f54daf58792b375",
+        "PCA.Biplot.248a90acf4c46c6dbbf06483",
+        "PCA.Biplot.2e6d2bf2498ef84af4c65125",
+        "PCA.Biplot.db28850462a1979514737bf2",
+        "PCA.Biplot.735dc2895bb065e71002c0a9",
+        "PCA.Biplot.01f85a785511b1a3c3019c7a",
+        "PCA.Biplot.277311199c4010c3fe176466",
+        "PCA.Biplot.f87e27fb4ceff0cf57f8c32a",
+        "PCA.Biplot.a0c69a71f55769ac210ded21"
+      ]
+    },
+    {
+      "name": "custom-label-missing-rowids/sk-SK/ScorePlot2D",
+      "count": 2,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.ScorePlot2D.b623a405fb649ee8e462fc2e",
+        "PCA.ScorePlot2D.d071eb97c604a5e7a21580fa"
+      ]
+    },
+    {
+      "name": "custom-label-missing-rowids/sk-SK/ScorePlot3D",
+      "count": 2,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.ScorePlot3D.bb986eb98fc587604347ac1c",
+        "PCA.ScorePlot3D.39d702ab3a51dc1e72284e18"
+      ]
+    },
+    {
+      "name": "custom-label-missing-rowids/sk-SK/Biplot",
+      "count": 10,
+      "dispatch": "GEOMETRY",
+      "case_ids": [
+        "PCA.Biplot.d2634fbd6e706ce77ecc83be",
+        "PCA.Biplot.97015f232754da553ce40916",
+        "PCA.Biplot.b09009d826f27095c431267b",
+        "PCA.Biplot.bc182ea94f22aca5dd362e52",
+        "PCA.Biplot.02ab009a7c722c8ffd295221",
+        "PCA.Biplot.0e834f4a4bc95c3ba8162e23",
+        "PCA.Biplot.959cb032648b325f01314456",
+        "PCA.Biplot.4045c9aa9f24906c75a6a8e3",
+        "PCA.Biplot.bfad25c8a5da610b7cce02f6",
+        "PCA.Biplot.920d4bc5e7887d62c501976f"
+      ]
+    }
+  ],
+  "open_cases": [],
+  "mismatches": [],
+  "scientific": "NOT_GOLDEN",
+  "native": "NOT_RUN"
+}

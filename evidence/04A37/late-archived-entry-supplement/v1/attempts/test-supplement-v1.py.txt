@@ -1,0 +1,217 @@
+"""Independent positive/adverse audits; mutate copies, never frozen evidence."""
+from pathlib import Path
+import copy
+import csv
+import io
+import json
+import tempfile
+import unittest
+from unittest.mock import patch
+import verify_supplement as v
+
+
+class Supplement37Audit(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.result,cls.cases,cls.rows=v.verify()
+        cls.main=cls.cases[:18466];cls.ext=cls.cases[18466:]
+        cls.reference=(v.HERE/'original-Debug.tsv').read_bytes()
+
+    def altered(self, fn):
+        cases=copy.deepcopy(self.main);fn(cases)
+        with self.assertRaises(AssertionError):v.inventory(cases)
+
+    def test_independent_all_cases(self):
+        self.assertEqual(22050,self.result['supplemental_rows_per_configuration'])
+        self.assertEqual(dict(GUARD=9180,EXCEPTION=8212,GEOMETRY=4658),self.result['outcomes_per_configuration'])
+        self.assertFalse(self.result['old_preedit_coverage_eligible'])
+
+    def test_exact_owner_quote(self):
+        a=v.load(v.HERE/'supplemental-approval.json');a['owner_quote']='Approval inferred'
+        with self.assertRaises(AssertionError):v.approval(a)
+
+    def test_exact_owner_date(self):
+        a=v.load(v.HERE/'supplemental-approval.json');a['owner_decision_date']='2026-11-07'
+        with self.assertRaises(AssertionError):v.approval(a)
+
+    def test_route_b_rejected(self):
+        a=v.load(v.HERE/'supplemental-approval.json');a['route']='B'
+        with self.assertRaises(AssertionError):v.approval(a)
+
+    def test_next_batch_rejected(self):
+        a=v.load(v.HERE/'supplemental-approval.json');a['batch']='04A.38'
+        with self.assertRaises(AssertionError):v.approval(a)
+
+    def test_preedit_mislabel_rejected(self):
+        a=v.load(v.HERE/'supplemental-approval.json');a['capture_provenance']='PRE_EDIT_FROZEN'
+        with self.assertRaises(AssertionError):v.approval(a)
+
+    def test_gate_relaxation_rejected(self):
+        for key in v.GATES:
+            a=v.load(v.HERE/'supplemental-approval.json');a['gates'][key]='APPROVED'
+            with self.subTest(key=key),self.assertRaises(AssertionError):v.approval(a)
+
+    def test_native_permission_invention_rejected(self):
+        a=v.load(v.HERE/'supplemental-approval.json');a['excludes'].remove('native/R/manual execution')
+        with self.assertRaises(AssertionError):v.approval(a)
+
+    def test_missing_approval_rejected(self):
+        a=v.load(v.HERE/'supplemental-approval.json');del a['owner_quote']
+        with self.assertRaises(KeyError):v.approval(a)
+
+    def test_missing_case_rejected(self):self.altered(lambda c:c.pop())
+    def test_duplicate_case_rejected(self):self.altered(lambda c:c.__setitem__(0,copy.deepcopy(c[1])))
+    def test_foreign_case_id_rejected(self):self.altered(lambda c:c[0].__setitem__('case_id','foreign'))
+    def test_tampered_parameter_rejected(self):self.altered(lambda c:c[0].__setitem__('components',17))
+
+    def test_missing_finite_scale_cell_rejected(self):
+        part=[c for c in self.main if not (c['cohort']=='biplot_full_cross_product' and c['scale']=='0.5')]
+        with self.assertRaises(AssertionError):v.inventory(part)
+
+    def test_missing_eigen_cell_rejected(self):
+        part=[c for c in self.main if not (c['cohort']=='biplot_full_cross_product' and c['eigen']=='NaN')]
+        with self.assertRaises(AssertionError):v.inventory(part)
+
+    def test_missing_factor_nonfinite_cell_rejected(self):
+        part=[c for c in self.main if not (c['family']=='FACTOR' and c['trace']=='+Inf')]
+        with self.assertRaises(AssertionError):v.inventory(part)
+
+    def test_missing_mca_three_factors_rejected(self):
+        part=[c for c in self.main if not (c['family']=='CA' and c['multiple'] and c['factors']==3)]
+        with self.assertRaises(AssertionError):v.inventory(part)
+
+    def test_missing_explicit_label_witness_rejected(self):
+        with self.assertRaises(AssertionError):v.inventory(self.ext[:-1],True)
+
+    def test_guard_only_gh_rejected(self):
+        rows=copy.deepcopy(self.rows[:18466])
+        for c,r in zip(self.main,rows):
+            if c['operation']=='Biplot' and c['scale']=='0':r['dispatch']='GUARD'
+        with self.assertRaises(AssertionError):v.reachability(self.main,rows)
+
+    def test_guard_only_sq_rejected(self):
+        rows=copy.deepcopy(self.rows[:18466])
+        for c,r in zip(self.main,rows):
+            if c['operation']=='Biplot' and c['scale']=='0.5':r['dispatch']='GUARD'
+        with self.assertRaises(AssertionError):v.reachability(self.main,rows)
+
+    def test_native_phase_exception_not_filtered(self):
+        rows=copy.deepcopy(self.rows[:18466]);next(r for r in rows if r['dispatch']=='EXCEPTION')['phase']='PRE_CHART_INVENTED'
+        output=io.StringIO();w=csv.DictWriter(output,fieldnames=rows[0],delimiter='\t',lineterminator='\n');w.writeheader();w.writerows(rows)
+        with self.assertRaises(AssertionError):v.comparison(self.main,self.reference,output.getvalue().encode())
+
+    def test_input_hash_mismatch_rejected(self):
+        changed=self.reference.replace(self.rows[0]['input_sha256'].encode(),b'0'*64,1)
+        with self.assertRaises(AssertionError):v.comparison(self.main,self.reference,changed)
+
+    def test_result_bit_change_rejected(self):
+        changed=self.reference.replace(b'D0000000000000000',b'D8000000000000000',1)
+        self.assertNotEqual(changed,self.reference)
+        with self.assertRaises(AssertionError):v.comparison(self.main,self.reference,changed)
+
+    def test_reordered_rows_rejected(self):
+        lines=self.reference.splitlines(keepends=True);lines[1],lines[2]=lines[2],lines[1];b=b''.join(lines)
+        with self.assertRaises(AssertionError):v.comparison(self.main,b,b)
+
+    def test_repeated_rows_rejected(self):
+        lines=self.reference.splitlines(keepends=True);lines[1]=lines[2];b=b''.join(lines)
+        with self.assertRaises(AssertionError):v.comparison(self.main,b,b)
+
+    def test_missing_rows_rejected(self):
+        b=b''.join(self.reference.splitlines(keepends=True)[:-1])
+        with self.assertRaises(AssertionError):v.comparison(self.main,b,b)
+
+    def test_wrong_original_core_pin_rejected(self):
+        real=v.load
+        def altered(p):
+            a=real(p)
+            if Path(p).name=='source-authenticity.json':a['unchanged_helper_sources'][0]['entry_raw_sha256']='0'*64
+            return a
+        with patch.object(v,'load',altered),self.assertRaises(AssertionError):v.source_authority()
+
+    def test_wrong_archive_source_rejected(self):
+        with patch.dict(v.ADAPTER_HASHES,{'Pca':'0'*64}),self.assertRaises(AssertionError):v.source_authority()
+
+    def test_wrong_source_commit_rejected(self):
+        real=v.load
+        def altered(p):
+            a=real(p)
+            if Path(p).name=='source-authenticity.json':a['entry_commit']='0'*40
+            return a
+        with patch.object(v,'load',altered),self.assertRaises(AssertionError):v.source_authority()
+
+    def test_invented_original_expression_rejected(self):
+        real=v.load
+        def altered(p):
+            a=real(p)
+            if Path(p).name=='late-expression-bindings.json':
+                a['bindings'][0]['expression']='invented-source-expression';a['bindings'][0]['sha256']=v.digest(b'invented-source-expression')
+            return a
+        with patch.object(v,'load',altered),self.assertRaises(AssertionError):v.source_authority()
+
+    def test_historical_not_ready_decision_cannot_be_rewritten(self):
+        real=v.load
+        def altered(p):
+            a=real(p)
+            if Path(p).parent.name=='entry-not-ready' and Path(p).name=='publication-manifest.json':a['decision']='READY_FOR_OWNER_04A37_ACCEPTANCE_REVIEW'
+            return a
+        with patch.object(v,'load',altered),self.assertRaises(AssertionError):v.preserved_packet()
+
+    def test_original_preedit_cannot_be_repaired_retroactively(self):
+        real=v.load
+        def altered(p):
+            a=real(p)
+            if Path(p).name=='preedit-coverage-audit.json':a['observed']['eligible']=True
+            return a
+        with patch.object(v,'load',altered),self.assertRaises(AssertionError):v.preserved_packet()
+
+    def test_corrupt_pin_rejected(self):
+        row=v.pin(v.HERE/'reference-seal.json');row['sha256']='0'*64
+        with self.assertRaises(AssertionError):v.check_pin(row)
+
+    def test_pin_traversal_rejected(self):
+        with self.assertRaises(AssertionError):v.check_pin(dict(path='../outside',bytes=1,sha256='0'*64))
+
+    def test_missing_pin_file_rejected(self):
+        with tempfile.TemporaryDirectory() as name:
+            root=Path(name)
+            with self.assertRaises(FileNotFoundError):v.check_pin(dict(path='missing',bytes=0,sha256=v.digest(b'')),root)
+
+    def test_corrupt_sealed_file_rejected(self):
+        with tempfile.TemporaryDirectory() as name:
+            root=Path(name);p=root/'capture.tsv';p.write_bytes(b'original');row=v.pin(p,root);p.write_bytes(b'changed')
+            with self.assertRaises(AssertionError):v.check_pin(row,root)
+
+    def test_missing_seal_rejected(self):
+        real=v.load
+        def missing(p):
+            if Path(p).name=='reference-seal.json':raise FileNotFoundError('missing seal')
+            return real(p)
+        with patch.object(v,'load',missing),self.assertRaises(FileNotFoundError):v.verify()
+
+    def test_late_seal_mislabel_rejected(self):
+        real=v.load
+        def altered(p):
+            a=real(p)
+            if Path(p).name=='reference-seal.json':a['provenance']='PRE_EDIT_FROZEN'
+            return a
+        with patch.object(v,'load',altered),self.assertRaises(AssertionError):v.verify()
+
+    def test_seal_after_current_execution_rejected(self):
+        real=v.load
+        def altered(p):
+            a=real(p)
+            if Path(p).name=='reference-seal.json':a['sealed_utc']='2099-01-01T00:00:00+00:00'
+            return a
+        with patch.object(v,'load',altered),self.assertRaises(AssertionError):v.verify()
+
+    def test_same_core_oracle_rejected(self):
+        real=v.load
+        def altered(p):
+            a=real(p)
+            if Path(p).name=='current-Debug-execution.json':a['core_mvid']=real(Path(p).with_name('original-Debug-execution.json'))['core_mvid']
+            return a
+        with patch.object(v,'load',altered),self.assertRaises(AssertionError):v.verify()
+
+
+if __name__=='__main__':unittest.main()

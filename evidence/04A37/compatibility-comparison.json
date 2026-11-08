@@ -1,0 +1,103 @@
+{
+  "status": "PASS_EXACT_SOFTWARE_COMPATIBILITY",
+  "rows_per_configuration": 6912,
+  "comparisons": [
+    {
+      "configuration": "Debug",
+      "family": "plot-prefixes",
+      "rows": 5376,
+      "pre": {
+        "path": "evidence/04A37/preedit/capture-Debug.tsv",
+        "bytes": 1359857,
+        "sha256": "8e3f05bf83e270f9b02ee11f16c46e8322a4dd83cea20c463714fd809f82a745"
+      },
+      "post": {
+        "path": "evidence/04A37/postedit/capture-Debug.tsv",
+        "bytes": 1359857,
+        "sha256": "8e3f05bf83e270f9b02ee11f16c46e8322a4dd83cea20c463714fd809f82a745"
+      },
+      "mismatches": 0
+    },
+    {
+      "configuration": "Debug",
+      "family": "dendrogram-series",
+      "rows": 1536,
+      "pre": {
+        "path": "evidence/04A37/preedit/series.tsv",
+        "bytes": 4797634,
+        "sha256": "198a692567f8d79a48d6e6420ce7e68d54a430722019d23c6165dea265e0bdc7"
+      },
+      "post": {
+        "path": "evidence/04A37/postedit/series-Debug.tsv",
+        "bytes": 4797634,
+        "sha256": "198a692567f8d79a48d6e6420ce7e68d54a430722019d23c6165dea265e0bdc7"
+      },
+      "mismatches": 0
+    },
+    {
+      "configuration": "Release",
+      "family": "plot-prefixes",
+      "rows": 5376,
+      "pre": {
+        "path": "evidence/04A37/preedit/capture-Release.tsv",
+        "bytes": 1359857,
+        "sha256": "8e3f05bf83e270f9b02ee11f16c46e8322a4dd83cea20c463714fd809f82a745"
+      },
+      "post": {
+        "path": "evidence/04A37/postedit/capture-Release.tsv",
+        "bytes": 1359857,
+        "sha256": "8e3f05bf83e270f9b02ee11f16c46e8322a4dd83cea20c463714fd809f82a745"
+      },
+      "mismatches": 0
+    },
+    {
+      "configuration": "Release",
+      "family": "dendrogram-series",
+      "rows": 1536,
+      "pre": {
+        "path": "evidence/04A37/preedit/series.tsv",
+        "bytes": 4797634,
+        "sha256": "198a692567f8d79a48d6e6420ce7e68d54a430722019d23c6165dea265e0bdc7"
+      },
+      "post": {
+        "path": "evidence/04A37/postedit/series-Release.tsv",
+        "bytes": 4797634,
+        "sha256": "198a692567f8d79a48d6e6420ce7e68d54a430722019d23c6165dea265e0bdc7"
+      },
+      "mismatches": 0
+    }
+  ],
+  "raw_operation_counts": {
+    "PcaLoadingPlot2D": 256,
+    "PcaLoadingPlot3D": 256,
+    "PcaScreePlot": 256,
+    "PcaScorePlot2D": 256,
+    "PcaScorePlot3D": 256,
+    "PcaBiplot": 256,
+    "FactorLoadingPlot2D": 256,
+    "FactorLoadingPlot3D": 256,
+    "FactorScreePlot": 256,
+    "CaContribution": 512,
+    "CaPoints": 512,
+    "CaLabels": 512,
+    "CaBounds": 256,
+    "CaCaptions": 256,
+    "DendrogramBounds": 256,
+    "DendrogramTitles": 256,
+    "Captions": 256,
+    "Groups": 256
+  },
+  "raw_rejections": 1154,
+  "family_accounting": {
+    "PCA_including_grouping": 1792,
+    "Factor": 768,
+    "CA_MCA": 2048,
+    "Dendrogram_including_supplement": 2048,
+    "Shared_caption_expressions": 256
+  },
+  "comparison": "Exact file bytes, IEEE Double bits/signed zero/NaN payloads, array element types/ranks/bounds, strings/culture/order, exception type/parameter/message and recorded source phase. No tolerance or culture normalization.",
+  "original_configurations": "Main capture executed in entry Debug and Release. Supplement1536 originally executed against entry Debug, reused unchanged for both post configurations; no assertion of a separate pre-edit Release supplement run.",
+  "limits": "Executed pure source slices/expressions, including malformed or omitted-MCA-row slice calls unreachable after some original guards. Native operation invariants are source/compiled-call proofs, not COM execution or visual equivalence.",
+  "scientific": "NOT_GOLDEN",
+  "scope_qualification": "PARTIAL_CORPUS_EXACT; REQUIRED_PREEDIT_OPTION_CROSS_PRODUCT_INCOMPLETE; NOT_READY_04A37"
+}

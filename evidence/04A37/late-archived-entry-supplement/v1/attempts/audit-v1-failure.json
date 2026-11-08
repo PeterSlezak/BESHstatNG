@@ -1,0 +1,21 @@
+{
+  "total": 40,
+  "passed": 38,
+  "errors": 2,
+  "failed": 0,
+  "scope": "New supplemental audit implementation only; not product/capture/legacy test failures",
+  "source_sha256": "094bdf1ab1b059ad3934bac4967904efc51c3a08572d7415ae187bcd384c9c61",
+  "nonpasses": [
+    {
+      "identity": "test_supplement.Supplement37Audit.test_missing_factor_nonfinite_cell_rejected",
+      "error": "KeyError: trace",
+      "cause": "null_model guard case intentionally has no trace parameter"
+    },
+    {
+      "identity": "test_supplement.Supplement37Audit.test_missing_mca_three_factors_rejected",
+      "error": "KeyError: multiple",
+      "cause": "null_model guard case intentionally has no multiple parameter"
+    }
+  ],
+  "correction": "Use optional-key lookup in negative-case selection. Keep all guard and Cartesian cases; no expected capture or original42 audit changed."
+}

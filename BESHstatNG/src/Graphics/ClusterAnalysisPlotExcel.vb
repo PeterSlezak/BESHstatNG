@@ -1,5 +1,6 @@
-﻿Option Explicit On
+Option Explicit On
 
+Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.Multivariate
 Imports Microsoft.Office.Interop.Excel
@@ -98,6 +99,9 @@ Namespace graphics
                 CoreServices.Errors.LogAndThrow(New ArgumentException("The supplied dendrogram layout does not contain any polyline coordinates."))
             End If
 
+            Dim geometry As New DendrogramChartGeometry37(layout)
+            Dim presentation As New DendrogramChartPresentation37(geometry, labelMode)
+
             If figure Is Nothing Then
                 If ws Is Nothing Then
                     If AppGlobals.app Is Nothing OrElse AppGlobals.app.ActiveWorkbook Is Nothing Then
@@ -129,12 +133,13 @@ Namespace graphics
 
                 Dim nextSeriesIndex As Integer = 1
 
+                Dim baseSeries = presentation.BaseSeries()
                 .SeriesCollection.NewSeries()
                 With .SeriesCollection(nextSeriesIndex)
                     .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                    .Name = "Dendrogram"
-                    .XValues = layout.PolylineX
-                    .Values = layout.PolylineY
+                    .Name = baseSeries.Name
+                    .XValues = baseSeries.XValues
+                    .Values = baseSeries.YValues
                     .Border.LineStyle = XlLineStyle.xlContinuous
                     .Border.Weight = XlBorderWeight.xlThin
                     .Border.Color = RGB(0, 0, 0)
@@ -144,19 +149,15 @@ Namespace graphics
                 End With
                 nextSeriesIndex += 1
 
-                If layout.ClusterPolylineX IsNot Nothing AndAlso layout.ClusterPolylineY IsNot Nothing Then
-                    Dim nColored As Integer = Math.Min(layout.ClusterPolylineX.Count, layout.ClusterPolylineY.Count)
-                    For i As Integer = 0 To nColored - 1
-                        If layout.ClusterPolylineX(i) Is Nothing OrElse layout.ClusterPolylineY(i) Is Nothing Then Continue For
-                        If layout.ClusterPolylineX(i).Length = 0 OrElse layout.ClusterPolylineY(i).Length = 0 Then Continue For
-
+                For Each clusterSeries In presentation.Clusters()
+                        Dim i As Integer = clusterSeries.SourceOrdinals(0)
                         Dim clr As Integer = ClusterAnalysisHelpers.GetClusterSeriesColor(i)
                         .SeriesCollection.NewSeries()
                         With .SeriesCollection(nextSeriesIndex)
                             .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                            .Name = $"Cluster {i + 1}"
-                            .XValues = layout.ClusterPolylineX(i)
-                            .Values = layout.ClusterPolylineY(i)
+                            .Name = clusterSeries.Name
+                            .XValues = clusterSeries.XValues
+                            .Values = clusterSeries.YValues
                             .Border.LineStyle = XlLineStyle.xlContinuous
                             .Border.Weight = XlBorderWeight.xlThin
                             .Border.Color = clr
@@ -165,16 +166,16 @@ Namespace graphics
                             .Format.Line.Weight = 2.0
                         End With
                         nextSeriesIndex += 1
-                    Next
-                End If
+                Next
 
-                If layout.CutLineX IsNot Nothing AndAlso layout.CutLineY IsNot Nothing AndAlso layout.CutLineX.Length >= 2 AndAlso layout.CutLineY.Length >= 2 Then
+                Dim cutSeries = presentation.CutSeries()
+                If cutSeries IsNot Nothing Then
                     .SeriesCollection.NewSeries()
                     With .SeriesCollection(nextSeriesIndex)
                         .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                        .Name = "Cut"
-                        .XValues = layout.CutLineX
-                        .Values = layout.CutLineY
+                        .Name = cutSeries.Name
+                        .XValues = cutSeries.XValues
+                        .Values = cutSeries.YValues
                         .Border.LineStyle = XlLineStyle.xlContinuous
                         .Border.Weight = XlBorderWeight.xlThin
                         .Border.Color = RGB(90, 90, 90)
@@ -186,19 +187,20 @@ Namespace graphics
                     nextSeriesIndex += 1
                 End If
 
-                If labelMode = DendrogramLabelMode.DataLabels AndAlso layout.LeafX IsNot Nothing AndAlso layout.LeafLabels IsNot Nothing AndAlso layout.LeafLabels.Length > 0 Then
+                Dim leafSeries = presentation.LeafSeries()
+                If leafSeries IsNot Nothing Then
                     .SeriesCollection.NewSeries()
                     With .SeriesCollection(nextSeriesIndex)
                         .ChartType = XlChartType.xlXYScatter
-                        .Name = "LeafLabels"
-                        .XValues = layout.LeafX
-                        .Values = layout.LeafY
+                        .Name = leafSeries.Name
+                        .XValues = leafSeries.XValues
+                        .Values = leafSeries.YValues
                         .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
-                        For i As Integer = 1 To layout.LeafLabels.Length
+                        For i As Integer = 1 To leafSeries.Labels.Length
                             .Points(i).HasDataLabel = True
-                            .Points(i).DataLabel.Text = layout.LeafLabels(i - 1)
+                            .Points(i).DataLabel.Text = leafSeries.Labels(i - 1)
                             .Points(i).DataLabel.Font.Size = 9
-                            Select Case layout.Orientation
+                            Select Case geometry.Orientation
                                 Case DendrogramOrientation.Top
                                     .Points(i).DataLabel.Position = XlDataLabelPosition.xlLabelPositionBelow
                                 Case DendrogramOrientation.Bottom
@@ -213,34 +215,13 @@ Namespace graphics
                     nextSeriesIndex += 1
                 End If
 
-                Dim xMin As Double = layout.PolylineX.Min()
-                Dim xMax As Double = layout.PolylineX.Max()
-                Dim yMin As Double = layout.PolylineY.Min()
-                Dim yMax As Double = layout.PolylineY.Max()
-
-                If layout.CutLineX IsNot Nothing AndAlso layout.CutLineX.Length > 0 Then
-                    xMin = Math.Min(xMin, layout.CutLineX.Min())
-                    xMax = Math.Max(xMax, layout.CutLineX.Max())
-                End If
-                If layout.CutLineY IsNot Nothing AndAlso layout.CutLineY.Length > 0 Then
-                    yMin = Math.Min(yMin, layout.CutLineY.Min())
-                    yMax = Math.Max(yMax, layout.CutLineY.Max())
-                End If
-
-                Dim xReference As Double = If(layout.Orientation = DendrogramOrientation.Left OrElse layout.Orientation = DendrogramOrientation.Right,
-                                              If(layout.MaximumHeight <= 0, 1.0, layout.MaximumHeight),
-                                              layout.LeafCount)
-                Dim yReference As Double = If(layout.Orientation = DendrogramOrientation.Left OrElse layout.Orientation = DendrogramOrientation.Right,
-                                              layout.LeafCount,
-                                              If(layout.MaximumHeight <= 0, 1.0, layout.MaximumHeight))
-                Dim xPad As Double = ClusterAnalysisHelpers.AxisPadding(xMin, xMax, xReference)
-                Dim yPad As Double = ClusterAnalysisHelpers.AxisPadding(yMin, yMax, yReference)
+                Dim bounds = geometry.Bounds()
 
                 With .Axes(XlAxisType.xlCategory)
                     .MinimumScaleIsAuto = False
                     .MaximumScaleIsAuto = False
-                    .MinimumScale = xMin - xPad
-                    .MaximumScale = xMax + xPad
+                    .MinimumScale = bounds.XMin
+                    .MaximumScale = bounds.XMax
                     .HasMajorGridlines = False
                     .HasMinorGridlines = False
                     Try
@@ -252,8 +233,8 @@ Namespace graphics
                 With .Axes(XlAxisType.xlValue)
                     .MinimumScaleIsAuto = False
                     .MaximumScaleIsAuto = False
-                    .MinimumScale = yMin - yPad
-                    .MaximumScale = yMax + yPad
+                    .MinimumScale = bounds.YMin
+                    .MaximumScale = bounds.YMax
                     .HasMajorGridlines = False
                     .HasMinorGridlines = False
                     Try
@@ -262,7 +243,7 @@ Namespace graphics
                     End Try
                 End With
 
-                If layout.Orientation = DendrogramOrientation.Left OrElse layout.Orientation = DendrogramOrientation.Right Then
+                If geometry.Orientation = DendrogramOrientation.Left OrElse geometry.Orientation = DendrogramOrientation.Right Then
                     With .Axes(XlAxisType.xlCategory)
                         .MajorTickMark = XlTickMark.xlTickMarkOutside
                         .MinorTickMark = XlTickMark.xlTickMarkNone
@@ -290,39 +271,35 @@ Namespace graphics
                     End With
                 End If
 
-                ApplyDendrogramAxisTitles(figure, layout, labelMode, distanceAxisTitle)
+                ApplyDendrogramAxisTitles(figure, presentation, labelMode, distanceAxisTitle)
             End With
 
             Return figure
         End Function
         Private Shared Sub ApplyDendrogramAxisTitles(figure As Chart,
-                                             layout As DendrogramLayout,
+                                             presentation As DendrogramChartPresentation37,
                                              labelMode As DendrogramLabelMode,
                                              distanceAxisTitle As String)
 
-            If figure Is Nothing OrElse layout Is Nothing Then Return
+            If figure Is Nothing OrElse presentation Is Nothing Then Return
 
-            Dim resolvedDistanceTitle As String = distanceAxisTitle
-            If String.IsNullOrWhiteSpace(resolvedDistanceTitle) Then
-                resolvedDistanceTitle = If(layout.HeightMode = DendrogramHeightMode.StepLevels,
-                                           "Distance not in proportion",
-                                           "Distance")
-            End If
+            Dim geometry = presentation.Geometry
+            Dim resolvedDistanceTitle As String = presentation.DistanceTitle(distanceAxisTitle)
 
-            Select Case layout.Orientation
+            Select Case geometry.Orientation
                 Case DendrogramOrientation.Top, DendrogramOrientation.Bottom
                     figure.Axes(XlAxisType.xlValue).HasTitle = True
                     figure.Axes(XlAxisType.xlValue).AxisTitle.Text = resolvedDistanceTitle
                     figure.Axes(XlAxisType.xlCategory).HasTitle = (labelMode = DendrogramLabelMode.AxisTitle)
                     If labelMode = DendrogramLabelMode.AxisTitle Then
-                        figure.Axes(XlAxisType.xlCategory).AxisTitle.Text = layout.GetSuggestedAxisTitle()
+                        figure.Axes(XlAxisType.xlCategory).AxisTitle.Text = geometry.SuggestedAxisTitle()
                     End If
                 Case Else
                     figure.Axes(XlAxisType.xlCategory).HasTitle = True
                     figure.Axes(XlAxisType.xlCategory).AxisTitle.Text = resolvedDistanceTitle
                     figure.Axes(XlAxisType.xlValue).HasTitle = (labelMode = DendrogramLabelMode.AxisTitle)
                     If labelMode = DendrogramLabelMode.AxisTitle Then
-                        figure.Axes(XlAxisType.xlValue).AxisTitle.Text = layout.GetSuggestedAxisTitle()
+                        figure.Axes(XlAxisType.xlValue).AxisTitle.Text = geometry.SuggestedAxisTitle()
                     End If
             End Select
         End Sub

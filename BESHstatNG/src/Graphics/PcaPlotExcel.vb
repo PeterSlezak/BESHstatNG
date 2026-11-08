@@ -1,6 +1,7 @@
-﻿Option Explicit On
+Option Explicit On
 
 Imports System.Linq
+Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
@@ -27,18 +28,18 @@ Namespace graphics
             If model.NoExtractComponents < 3 Then Exit Sub
 
             Dim loadings As Double(,) = model.GetLoadings
-            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(loadings, 0)
-            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(loadings, 1)
-            Dim pc3() As Double = Matrix.GetColumnFrom2Darray(loadings, 2)
+            Dim pc1() As Double = MultivariatePlotGeometry37.Column(loadings, 0)
+            Dim pc2() As Double = MultivariatePlotGeometry37.Column(loadings, 1)
+            Dim pc3() As Double = MultivariatePlotGeometry37.Column(loadings, 2)
             Dim pct() As Double = model.PercentExpl
 
             Dim XYZ As New XYZscatter
             With XYZ
-                .ChartName = "Loadings Plot3D"
+                .ChartName = MultivariateChartPresentation37.PcaLoading3DName
                 .dataInputs(pc1, pc2, pc3)
-                .axesLabelInputs($"1st Component Scores [{ Format$(pct(0), "#0.0#") }%]",
-                                 $"2nd Component Scores [{ Format$(pct(1), "#0.0#") }%]",
-                                 $"3rd Component Scores [{ Format$(pct(2), "#0.0#") }%]")
+                .axesLabelInputs(MultivariateChartPresentation37.ComponentCaption(pct(0), 0, False),
+                                 MultivariateChartPresentation37.ComponentCaption(pct(1), 1, False),
+                                 MultivariateChartPresentation37.ComponentCaption(pct(2), 2, False))
                 .showPlanePointInputs(True, True, True, 3, 3, 3)
                 .ScaleAxis(False)
                 .settingsInputs(True, True, True)
@@ -59,16 +60,15 @@ Namespace graphics
             Dim p As Integer = model.VariableCount
             Dim pct() As Double = model.PercentExpl
 
-            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(loadings, 0)
-            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(loadings, 1)
-            Dim scl1 As Double = Math.Max(Math.Abs(pc1.Min()), Math.Abs(pc1.Max()))
-            Dim scl2 As Double = Math.Max(Math.Abs(pc2.Min()), Math.Abs(pc2.Max()))
-            Dim udAxisX As CHARTscale = ChartScaling(-scl1, scl1)
-            Dim udAxisY As CHARTscale = ChartScaling(-scl2, scl2)
+            Dim pc1() As Double = MultivariatePlotGeometry37.Column(loadings, 0)
+            Dim pc2() As Double = MultivariatePlotGeometry37.Column(loadings, 1)
+            Dim axes = MultivariatePlotGeometry37.SymmetricAxes(pc1, pc2)
+            Dim udAxisX As ChartAxisScaleResult = axes.X
+            Dim udAxisY As ChartAxisScaleResult = axes.Y
 
             AppGlobals.app.Charts.Add()
             With AppGlobals.app.ActiveWorkbook.ActiveChart
-                .Name = "Loadings Plot2D"
+                .Name = MultivariateChartPresentation37.PcaLoading2DName
                 .ChartType = XlChartType.xlXYScatter
 
                 Do Until .SeriesCollection.Count = 0
@@ -84,9 +84,9 @@ Namespace graphics
                     series_id += 1
                     With .SeriesCollection(series_id)
                         .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                        .XValues = {0, pc1(id)}
-                        .Values = {0, pc2(id)}
-                        .Name = "Loading_" & CStr(id)
+                        .XValues = MultivariatePlotGeometry37.LoadingVector(pc1(id))
+                        .Values = MultivariatePlotGeometry37.LoadingVector(pc2(id))
+                        .Name = MultivariateChartPresentation37.LoadingSeriesName(id)
                         .Format.Line.Weight = 1
                         .Format.Line.Visible = True
                         .Format.Line.ForeColor.RGB = RGB(0, 0, 150)
@@ -103,9 +103,9 @@ Namespace graphics
                 AddZeroLines(.SeriesCollection, series_id, udAxisX, udAxisY)
                 DeleteLegendIfPresent(AppGlobals.app.ActiveWorkbook.ActiveChart)
                 SetAxisTitles(AppGlobals.app.ActiveWorkbook.ActiveChart,
-                              $"1st Component Scores [{ Format$(pct(0), "#0.0#") }%]",
-                              $"2nd Component Scores [{ Format$(pct(1), "#0.0#") }%]",
-                              "Component Loadings Plot")
+                              MultivariateChartPresentation37.ComponentCaption(pct(0), 0, False),
+                              MultivariateChartPresentation37.ComponentCaption(pct(1), 1, False),
+                              MultivariateChartPresentation37.PcaLoadingTitle)
             End With
         End Sub
 
@@ -119,22 +119,22 @@ Namespace graphics
             If model.NoExtractComponents < 3 Then Exit Sub
 
             Dim scores As Double(,) = model.ReducedDataset
-            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(scores, 0)
-            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(scores, 1)
-            Dim pc3() As Double = Matrix.GetColumnFrom2Darray(scores, 2)
+            Dim pc1() As Double = MultivariatePlotGeometry37.Column(scores, 0)
+            Dim pc2() As Double = MultivariatePlotGeometry37.Column(scores, 1)
+            Dim pc3() As Double = MultivariatePlotGeometry37.Column(scores, 2)
             Dim pct() As Double = model.PercentExpl
             Dim n As Integer = model.ObservationCount
 
-            Dim scoreLabels() As String = ResolveScoreLabels(model, rowLabels)
-            Dim normalizedGroups() As String = ResolveGroupLabels(groupLabels, n)
+            Dim scoreLabels() As String = MultivariateChartPresentation37.ScoreLabels(model, rowLabels)
+            Dim normalizedGroups() As String = MultivariateChartPresentation37.NormalizeGroups(groupLabels, n)
 
             Dim XYZ As New XYZscatter
             With XYZ
-                .ChartName = "Score Plot3D"
+                .ChartName = MultivariateChartPresentation37.PcaScore3DName
                 .dataInputs(pc1, pc2, pc3)
-                .axesLabelInputs($"1St Component Scores [{ Format$(pct(0), "#0.0#") }%]",
-                                 $"2nd Component Scores [{ Format$(pct(1), "#0.0#") }%]",
-                                 $"3Rd Component Scores [{ Format$(pct(2), "#0.0#") }%]")
+                .axesLabelInputs(MultivariateChartPresentation37.ComponentCaption(pct(0), 0, True),
+                                 MultivariateChartPresentation37.ComponentCaption(pct(1), 1, False),
+                                 MultivariateChartPresentation37.ComponentCaption(pct(2), 2, True))
                 .showPlanePointInputs(True, True, True, 3, 3, 3)
                 .ScaleAxis(False)
                 .settingsInputs(True, True, True)
@@ -158,17 +158,18 @@ Namespace graphics
             Dim scores As Double(,) = model.ReducedDataset
             Dim n As Integer = model.ObservationCount
             Dim pct() As Double = model.PercentExpl
-            Dim scoreLabels() As String = ResolveScoreLabels(model, rowLabels)
-            Dim normalizedGroups() As String = ResolveGroupLabels(groupLabels, n)
+            Dim scoreLabels() As String = MultivariateChartPresentation37.ScoreLabels(model, rowLabels)
+            Dim normalizedGroups() As String = MultivariateChartPresentation37.NormalizeGroups(groupLabels, n)
 
-            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(scores, 0)
-            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(scores, 1)
-            Dim udAxisX As CHARTscale = ChartScaling(pc1.Min(), pc1.Max())
-            Dim udAxisY As CHARTscale = ChartScaling(pc2.Min(), pc2.Max())
+            Dim pc1() As Double = MultivariatePlotGeometry37.Column(scores, 0)
+            Dim pc2() As Double = MultivariatePlotGeometry37.Column(scores, 1)
+            Dim axes = MultivariatePlotGeometry37.Axes(pc1, pc2)
+            Dim udAxisX As ChartAxisScaleResult = axes.X
+            Dim udAxisY As ChartAxisScaleResult = axes.Y
 
             AppGlobals.app.Charts.Add()
             With AppGlobals.app.ActiveWorkbook.ActiveChart
-                .Name = "Score Plot2D"
+                .Name = MultivariateChartPresentation37.PcaScore2DName
                 .ChartType = XlChartType.xlXYScatter
 
                 Do Until .SeriesCollection.Count = 0
@@ -184,14 +185,15 @@ Namespace graphics
                                                                     pc2,
                                                                     scoreLabels,
                                                                     normalizedGroups,
-                                                                    seriesId)
+                                                                    seriesId,
+                                                                    modelRowIds:=model.RowIds)
 
                 AddZeroLines(.SeriesCollection, seriesId, udAxisX, udAxisY)
                 ConfigureScoreLegend(AppGlobals.app.ActiveWorkbook.ActiveChart, groupSeriesCount)
                 SetAxisTitles(AppGlobals.app.ActiveWorkbook.ActiveChart,
-                              $"1St Component Scores [{ Format$(pct(0), "#0.0#") }%]",
-                              $"2nd Component Scores [{ Format$(pct(1), "#0.0#") }%]",
-                              "Scores Plot")
+                              MultivariateChartPresentation37.ComponentCaption(pct(0), 0, True),
+                              MultivariateChartPresentation37.ComponentCaption(pct(1), 1, False),
+                              MultivariateChartPresentation37.PcaScoreTitle)
             End With
         End Sub
 
@@ -206,14 +208,7 @@ Namespace graphics
             If model.NoExtractComponents < 2 Then Exit Sub
             If c < 0.0 Or c > 1.0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("biplot 'scale' is outside of range [0, 1]"))
 
-            Dim titl As String = String.Empty
-            If c = 0.0 Then
-                titl = "GH, or column-metric preserving"
-            ElseIf c = 1.0 Then
-                titl = "JK, or row-metric preserving"
-            ElseIf c = 0.5 Then
-                titl = "SQ, or symmetric"
-            End If
+            Dim titl As String = MultivariateChartPresentation37.BiplotDescription(c)
 
             Dim scores As Double(,) = model.ReducedDataset
             Dim loadings As Double(,) = model.GetLoadings
@@ -222,36 +217,21 @@ Namespace graphics
             Dim pct() As Double = model.PercentExpl
             Dim n As Integer = model.ObservationCount
             Dim p As Integer = model.VariableCount
-            Dim scoreLabels() As String = ResolveScoreLabels(model, rowLabels)
-            Dim normalizedGroups() As String = ResolveGroupLabels(groupLabels, n)
+            Dim scoreLabels() As String = MultivariateChartPresentation37.ScoreLabels(model, rowLabels)
+            Dim normalizedGroups() As String = MultivariateChartPresentation37.NormalizeGroups(groupLabels, n)
 
-            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(scores, 0)
-            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(scores, 1)
-            Dim Load1() As Double = Matrix.GetColumnFrom2Darray(loadings, 0)
-            Dim Load2() As Double = Matrix.GetColumnFrom2Darray(loadings, 1)
-
-            Dim lam(1) As Double
-            For i = 0 To 1
-                lam(i) = Math.Sqrt(eigenvalues(i)) * Math.Sqrt(n)
-                lam(i) = lam(i) ^ (1.0 - c)
-            Next
-
-            For i = 0 To n - 1
-                pc1(i) /= lam(0)
-                pc2(i) /= lam(1)
-            Next
-
-            For i = 0 To p - 1
-                Load1(i) *= lam(0)
-                Load2(i) *= lam(1)
-            Next
-
-            Dim udAxisX As CHARTscale = ChartScaling(Math.Min(pc1.Min(), Load1.Min()), Math.Max(pc1.Max(), Load1.Max()))
-            Dim udAxisY As CHARTscale = ChartScaling(Math.Min(pc2.Min(), Load2.Min()), Math.Max(pc2.Max(), Load2.Max()))
+            Dim coordinates = MultivariatePlotGeometry37.Biplot(scores, loadings, eigenvalues, n, p, c)
+            Dim pc1() As Double = coordinates.ScoreX
+            Dim pc2() As Double = coordinates.ScoreY
+            Dim Load1() As Double = coordinates.LoadingX
+            Dim Load2() As Double = coordinates.LoadingY
+            Dim axes = MultivariatePlotGeometry37.CombinedAxes(pc1, pc2, Load1, Load2)
+            Dim udAxisX As ChartAxisScaleResult = axes.X
+            Dim udAxisY As ChartAxisScaleResult = axes.Y
 
             AppGlobals.app.Charts.Add()
             With AppGlobals.app.ActiveWorkbook.ActiveChart
-                .Name = "Biplot scale=" & CStr(c)
+                .Name = MultivariateChartPresentation37.BiplotName(c)
                 .ChartType = XlChartType.xlXYScatter
 
                 Do Until .SeriesCollection.Count = 0
@@ -268,16 +248,17 @@ Namespace graphics
                                                                     scoreLabels,
                                                                     normalizedGroups,
                                                                     series_id,
-                                                                    "Biplot: " & titl)
+                                                                    MultivariateChartPresentation37.BiplotTitlePrefix & titl,
+                                                                    model.RowIds)
 
                 For id = 0 To p - 1
                     .SeriesCollection.NewSeries
                     series_id += 1
                     With .SeriesCollection(series_id)
                         .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                        .XValues = {0, Load1(id)}
-                        .Values = {0, Load2(id)}
-                        .Name = "Loading_" & CStr(id)
+                        .XValues = MultivariatePlotGeometry37.LoadingVector(Load1(id))
+                        .Values = MultivariatePlotGeometry37.LoadingVector(Load2(id))
+                        .Name = MultivariateChartPresentation37.LoadingSeriesName(id)
                         .Format.Line.Weight = 1
                         .Format.Line.Visible = True
                         .Format.Line.ForeColor.RGB = RGB(0, 0, 150)
@@ -294,9 +275,9 @@ Namespace graphics
                 AddZeroLines(.SeriesCollection, series_id, udAxisX, udAxisY)
                 ConfigureScoreLegend(AppGlobals.app.ActiveWorkbook.ActiveChart, groupSeriesCount)
                 SetAxisTitles(AppGlobals.app.ActiveWorkbook.ActiveChart,
-                              $"1st Component Scores [{ Format$(pct(0), "#0.0#")}%]",
-                              $"2nd Component Scores [{ Format$(pct(1), "#0.0#")}%]",
-                              "Biplot: " & titl)
+                              MultivariateChartPresentation37.ComponentCaption(pct(0), 0, False),
+                              MultivariateChartPresentation37.ComponentCaption(pct(1), 1, False),
+                              MultivariateChartPresentation37.BiplotTitlePrefix & titl)
             End With
         End Sub
 
@@ -311,7 +292,7 @@ Namespace graphics
 
             AppGlobals.app.Charts.Add()
             With AppGlobals.app.ActiveWorkbook.ActiveChart
-                .Name = "Scree Plot"
+                .Name = MultivariateChartPresentation37.ScreeName
                 .ChartType = XlChartType.xlXYScatter
 
                 Do Until .SeriesCollection.Count = 0
@@ -322,7 +303,7 @@ Namespace graphics
                 With .SeriesCollection(1)
                     .XValues = model.XaxisComponents
                     .Values = pct
-                    .Name = "Percent Explained"
+                    .Name = MultivariateChartPresentation37.PercentSeriesName
                     .Format.Line.Weight = 1.5
                     .MarkerStyle = 8
                     .MarkerSize = 5
@@ -332,7 +313,7 @@ Namespace graphics
 
                     For i = 0 To p - 1
                         .points(i + 1).HasDataLabel = True
-                        .points(i + 1).DataLabel.text = Format$(pct(i), "#0.0#")
+                        .points(i + 1).DataLabel.text = MultivariateChartPresentation37.PercentLabel(pct(i))
                         .points(i + 1).DataLabel.Position = XlDataLabelPosition.xlLabelPositionAbove
                         .points(i + 1).DataLabel.Font.Size = 12
                     Next
@@ -340,45 +321,11 @@ Namespace graphics
 
                 DeleteLegendIfPresent(AppGlobals.app.ActiveWorkbook.ActiveChart)
                 SetAxisTitles(AppGlobals.app.ActiveWorkbook.ActiveChart,
-                              "Principal Component",
-                              "Variance explained [%]",
-                              "Scree Plot")
+                              MultivariateChartPresentation37.ComponentAxisTitle,
+                              MultivariateChartPresentation37.VarianceAxisTitle,
+                              MultivariateChartPresentation37.ScreeName)
             End With
         End Sub
-
-        Private Shared Function ResolveScoreLabels(model As Multivariate.PCA, rowLabels() As String) As String()
-            Dim n As Integer = model.ObservationCount
-            Dim rowIds() As Integer = model.RowIds
-            Dim out(n - 1) As String
-
-            If rowLabels IsNot Nothing AndAlso rowLabels.Length <> n Then
-                Throw New ArgumentException("PCA row-label count must match the number of observations.", NameOf(rowLabels))
-            End If
-
-            For i As Integer = 0 To n - 1
-                Dim text As String = String.Empty
-                If rowLabels IsNot Nothing AndAlso rowLabels(i) IsNot Nothing Then text = rowLabels(i).Trim()
-                If text = String.Empty Then text = CStr(rowIds(i))
-                out(i) = text
-            Next
-
-            Return out
-        End Function
-
-        Private Shared Function ResolveGroupLabels(groupLabels() As String, expectedCount As Integer) As String()
-            If groupLabels Is Nothing Then Return Nothing
-            If groupLabels.Length <> expectedCount Then
-                Throw New ArgumentException("PCA grouping-label count must match the number of observations.", NameOf(groupLabels))
-            End If
-
-            Dim out(expectedCount - 1) As String
-            For i As Integer = 0 To expectedCount - 1
-                Dim text As String = If(groupLabels(i), String.Empty).Trim()
-                If text = String.Empty Then text = "(missing)"
-                out(i) = text
-            Next
-            Return out
-        End Function
 
         Private Shared Function AddScoreSeries2D(seriesCollection As Object,
                                                  xValues() As Double,
@@ -386,28 +333,26 @@ Namespace graphics
                                                  pointLabels() As String,
                                                  groupLabels() As String,
                                                  ByRef seriesId As Integer,
-                                                 Optional ungroupedSeriesName As String = "Score plot") As Integer
+                                                 Optional ungroupedSeriesName As String = "Score plot",
+                                                 Optional modelRowIds() As Integer = Nothing) As Integer
+            Dim ungrouped = If(groupLabels Is Nothing, MultivariateChartPresentation37.ScoreSeries(xValues, yValues, pointLabels, Nothing, ungroupedSeriesName, modelRowIds)(0), Nothing)
             If groupLabels Is Nothing Then
                 seriesCollection.NewSeries
                 seriesId += 1
                 With seriesCollection(seriesId)
-                    .XValues = xValues
-                    .Values = yValues
-                    .Name = ungroupedSeriesName
+                    .XValues = ungrouped.XValues
+                    .Values = ungrouped.YValues
+                    .Name = ungrouped.Name
                     .MarkerStyle = 8
                     .MarkerSize = 5
                     .MarkerForegroundColor = RGB(100, 100, 100)
                     .Format.Fill.Visible = False
-                    AddPointLabels(.points, pointLabels)
+                    AddPointLabels(.points, ungrouped.Labels)
                 End With
                 Return 0
             End If
 
-            Dim groupIds As New List(Of String)
-            Dim seen As New HashSet(Of String)(StringComparer.Ordinal)
-            For Each groupId As String In groupLabels
-                If seen.Add(groupId) Then groupIds.Add(groupId)
-            Next
+            Dim prepared = MultivariateChartPresentation37.ScoreSeries(xValues, yValues, pointLabels, groupLabels, ungroupedSeriesName, modelRowIds)
 
             'First four colors/styles follow the classic PCA grouping convention shown in
             'the UI example (blue circle, orange triangle, gray diamond, yellow square).
@@ -427,36 +372,26 @@ Namespace graphics
                 XlMarkerStyle.xlMarkerStyleDash
             }
 
-            For g As Integer = 0 To groupIds.Count - 1
-                Dim xs As New List(Of Double)
-                Dim ys As New List(Of Double)
-                Dim labels As New List(Of String)
-
-                For i As Integer = 0 To groupLabels.Length - 1
-                    If groupLabels(i) = groupIds(g) Then
-                        xs.Add(xValues(i))
-                        ys.Add(yValues(i))
-                        labels.Add(pointLabels(i))
-                    End If
-                Next
+            For g As Integer = 0 To prepared.Count - 1
+                Dim pointSeries = prepared(g)
 
                 seriesCollection.NewSeries
                 seriesId += 1
                 With seriesCollection(seriesId)
                     .ChartType = XlChartType.xlXYScatter
-                    .XValues = xs.ToArray()
-                    .Values = ys.ToArray()
-                    .Name = groupIds(g)
+                    .XValues = pointSeries.XValues
+                    .Values = pointSeries.YValues
+                    .Name = pointSeries.Name
                     .MarkerStyle = markers(g Mod markers.Length)
                     .MarkerSize = 6
                     .MarkerForegroundColor = colors(g Mod colors.Length)
                     .MarkerBackgroundColor = colors(g Mod colors.Length)
                     .Format.Fill.Visible = True
-                    AddPointLabels(.points, labels.ToArray())
+                    AddPointLabels(.points, pointSeries.Labels)
                 End With
             Next
 
-            Return groupIds.Count
+            Return prepared.Count
         End Function
 
         Private Shared Sub AddPointLabels(points As Object, labels() As String)
@@ -473,7 +408,7 @@ Namespace graphics
         End Sub
 
         Private Shared Sub ConfigureScoreLegend(chart As Chart, groupSeriesCount As Integer)
-            If groupSeriesCount <= 1 Then
+            If Not MultivariateChartPresentation37.ShowScoreLegend(groupSeriesCount) Then
                 DeleteLegendIfPresent(chart)
                 Exit Sub
             End If
@@ -488,7 +423,7 @@ Namespace graphics
             End Try
         End Sub
 
-        Private Shared Sub ConfigureScatterAxes(axis As Object, scale As CHARTscale)
+        Private Shared Sub ConfigureScatterAxes(axis As Object, scale As ChartAxisScaleResult)
             With axis
                 .MinimumScale = scale.Min
                 .MaximumScale = scale.Max
@@ -501,14 +436,14 @@ Namespace graphics
 
         Private Shared Sub AddZeroLines(seriesCollection As Object,
                                         ByRef seriesId As Integer,
-                                        axisX As CHARTscale,
-                                        axisY As CHARTscale)
+                                        axisX As ChartAxisScaleResult,
+                                        axisY As ChartAxisScaleResult)
             seriesCollection.NewSeries
             seriesId += 1
             With seriesCollection(seriesId)
-                .XValues = {axisX.Min, axisX.Max}
-                .Values = {0, 0}
-                .Name = "Y Zero Line"
+                .XValues = ChartReferenceSeries.Horizontal(axisX.Min, axisX.Max, 0).XValues
+                .Values = MultivariatePlotGeometry37.ZeroPair()
+                .Name = MultivariateChartPresentation37.YZeroName
                 .MarkerStyle = -4142
                 .Border.Color = RGB(0, 0, 0)
                 With .Format.Line
@@ -520,9 +455,9 @@ Namespace graphics
             seriesCollection.NewSeries
             seriesId += 1
             With seriesCollection(seriesId)
-                .XValues = {0, 0}
-                .Values = {axisY.Min, axisY.Max}
-                .Name = "X Zero Line"
+                .XValues = MultivariatePlotGeometry37.ZeroPair()
+                .Values = ChartReferenceSeries.Vertical(0, axisY.Min, axisY.Max).YValues
+                .Name = MultivariateChartPresentation37.XZeroName
                 .MarkerStyle = -4142
                 .Border.Color = RGB(0, 0, 0)
                 With .Format.Line

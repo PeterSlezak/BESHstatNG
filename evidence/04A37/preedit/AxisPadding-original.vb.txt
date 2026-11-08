@@ -1,0 +1,8 @@
+        Public Function AxisPadding(minValue As Double,
+                                    maxValue As Double,
+                                    referenceSize As Double) As Double
+            Dim span As Double = maxValue - minValue
+            If span > 0 Then Return 0.05 * span
+            If referenceSize > 0 Then Return 0.1 * referenceSize
+            Return 0.5
+        End Function

@@ -1,0 +1,50 @@
+{
+  "previous_nonpass_ledger": {
+    "path": "evidence/04A37/nonpasses.json",
+    "bytes": 22333,
+    "sha256": "cfcb93561f7d4c7c0b465e30bb708ce475474c3a4f0588b056c3fbe1d5de7f49"
+  },
+  "unchanged_legacy_managed_failed_per_configuration": 14,
+  "unchanged_prior_python": {
+    "passed": 805,
+    "failed": 140,
+    "errors": 11
+  },
+  "continuation_full_suites": "NOT_RERUN evidence-only continuation; no reset of prior failures",
+  "supplemental_comparison_expected_exceptions_per_configuration": 8212,
+  "supplemental_public_guards_per_configuration": 9180,
+  "unexplained_compatibility_changes": 0,
+  "initial_audit": {
+    "total": 40,
+    "passed": 38,
+    "failed": 0,
+    "errors": 2,
+    "receipt": "attempts/audit-v1-failure.json"
+  },
+  "final_supplemental_audit": {
+    "total": 45,
+    "passed": 45,
+    "failed": 0,
+    "errors": 0
+  },
+  "retained_preparation_failures": [
+    {
+      "phase": "Initial exact Git blob versus archive check",
+      "error": "AssertionError",
+      "cause": "Canonical Git LF versus pinned CRLF snapshot; preparation-v1-failure.json"
+    },
+    {
+      "phase": "Helper final newline check",
+      "error": "AssertionError",
+      "cause": "Mixed final newline; corrected proof uses exact entry pin plus canonical-content equality. Original helper file is unchanged."
+    }
+  ],
+  "retained_closeout_failure": {
+    "phase": "Source population filter",
+    "error": "AssertionError len(sources)==15",
+    "cause": "Archived VB generators also selected; closeout-v1-failure.json"
+  },
+  "corrections_scope": "Audit/evidence tooling only. No statistical engine, product/test source, frozen input/output or historical nonpass changed.",
+  "scientific": "NOT_GOLDEN",
+  "native": "NOT_RUN"
+}

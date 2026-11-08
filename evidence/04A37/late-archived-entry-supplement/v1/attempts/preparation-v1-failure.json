@@ -1,0 +1,6 @@
+{
+  "stage": "SOURCE_AUTHENTICITY",
+  "exit_code": 1,
+  "cause": "Initial byte equality incorrectly omitted established Git LF versus frozen entry CRLF reconstruction. No source difference; all four archived snapshot hashes still match original entry pins.",
+  "correction": "Verify exact pinned archive bytes and exact Git LF-to-CRLF inverse; retain both hash populations and do not overwrite either source."
+}

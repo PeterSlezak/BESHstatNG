@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "tools/verify_stage304_inventory.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.1743281000526622,
+      "stdout_sha256": "7788d50af2e9176560a1785ef60c018e111cd2bd58b07e1e3dacf67d839a6e6d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/validate_methods_catalog.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5104945000493899,
+      "stdout_sha256": "a70bfb0b64c4f6c04f35aa5c750548cb66686d91b481ae1351aea79f72332e99",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/generate_analysis_metadata.py",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5637782999547198,
+      "stdout_sha256": "333ca83ca13676f083b5aa452bc3fa627abcd2430e65fa17ec3bcb7f845f9fe6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHStatNG_Help_MkDocs/generate_help_resolver_routes.py",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5511066000908613,
+      "stdout_sha256": "253249fab444837d44ba1da5eefc73c3e9849bd773253dcf9b47847b882ad8b4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/generate_help_links.py",
+        "--methods-yml",
+        "BESHStatNG_Help_MkDocs/docs/_meta/methods.yml",
+        "--project-dir",
+        "BESHstatNG",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5278818999649957,
+      "stdout_sha256": "888fd08f3679d5a3f594309557bd4e65c931234fb73da7ba1300fb02fd0c0c4b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "BESHstatNG/tools/audit_transitional_officejs.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 115.66564999998081,
+      "stdout_sha256": "38527431c305bca83b15e0f2b5c72637010e2c9fed9a3132779c5ba15ca82df2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "scope": "Six final inventory/catalog/metadata/resolver/help/transitional checks; no separate fresh-entry contract-command receipt is claimed."
+}

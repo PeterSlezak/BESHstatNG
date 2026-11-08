@@ -1,0 +1,90 @@
+# Official 04A.37 owner review
+
+**NOT_READY_04A37 — mandatory pre-edit option coverage is incomplete.** Implementation and the recorded regression/compatibility checks pass within their stated scope, but the required frozen PCA biplot matrix was not executed independently of dimensional guards. Work remains unstaged and uncommitted on `codex/04A-37`. **04A.38 was not started.**
+
+The [coverage audit](../../evidence/04A37/preedit-coverage-audit.json) proves the generator tied `c` to `id Mod8` and retained component count to `id Mod4`. All c0/GH and c0.5/SQ cases stop before geometry; c0.75 and negative-scale cases also stop at guards. Zero/negative/nonfinite eigenvalue states were not crossed with finite valid biplot scales. Later unit comparisons exercise GH/SQ, but cannot retroactively satisfy the owner's before-production frozen-output requirement. Other correlated-case limits are recorded rather than silently narrowed.
+
+The earlier READY candidate and its passing40-test audit receipts are retained byte-for-byte in [coverage-correction history](../../evidence/04A37/coverage-correction/v1/history.json). That recommendation is superseded. The independent verifier now rejects READY when this frozen option coverage is absent. No valid original capture was overwritten, rebaselined or backdated; no replacement oracle was generated after production to manufacture readiness.
+
+To unblock acceptance, the owner must authorize a clearly labeled post-edit archived-entry supplemental-oracle exception, or a new authorized entry workflow. The outstanding work is an independent cross product of dimensions/scales/eigenvalue states/labels and the additional factor/MCA limits, followed by exact comparisons in both configurations and revised packet audits. Existing source/evidence remains reviewable and protected. No native or scientific acceptance is requested.
+
+## Authority and protected entry
+
+Actual entry `HEAD`, `main` and merge-base are **`a0680f546c5130fa5143c0b0c7136f852d650cc5`**, parent `92f5916d9dc0aaa727c99c0ceea9c89c10eefef3`. This is the owner's single-parent integration of accepted 04A.36 and documentation, not an asserted two-parent merge. The older parent is not the current-main pin. Entry worktree/index were clean. Requested branch creation required approved access to read-only `.git`; no configuration or permission change occurred.
+
+The [entry authority](../../evidence/04A37/entry-authority.json) verifies all **151 external 04A.36 artifacts**, its null manifest self-entry, final dossier and `closeout/v1` history against committed main. Git LF normalization is explicitly qualified by exact inverse reconstruction of original CRLF, final-literal LF and quoted CSV record endings; no historical artifact was rewritten. The live corrected Plan is 78,245 bytes, SHA256 `436b66c4307bd1571649c2604f8d90b5f0b5d843df3567b918698392fe5d6e7c`. All fifteen READMEs match owner-approved hashes. Those sixteen documents remain unchanged and outside this packet's publication manifest.
+
+AGENTS, project/settings/test scripts, Master Plan objective/charter, accepted 04A.17–20/29/33–36 contracts and relevant callers were inspected. [Entry baseline](../../evidence/04A37/entry-baseline.json), [32-member inventory](../../evidence/04A37/source-inventory.csv) and [1,029 supporting member identities](../../evidence/04A37/supporting-source-inventory.csv) retain the current authority. Plan status text remains unchanged under the owner's superseding acceptance.
+
+## Implementation and real consumers
+
+| Family | Portable preparation actually consumed | Retained Windows boundary |
+|---|---|---|
+| PCA: six public plots | Core `MultivariatePlotGeometry37`: column vectors, symmetric/score/combined axes, exact original biplot scaling, loading and zero vectors. Common `MultivariateChartPresentation37`: row/group labels, first-seen grouped point series, captions/titles/names/legend intent. Existing Core scree percentages/component axis remain authoritative. | Original `Chart`/`Series` creation, point/arrow/style/font writes, legend manipulation, axis-setting order and accepted XYZ invocation/settings. Original guards and late captions remain at their source phases. |
+| Factor: three public plots | Original initial-eigenvalue/trace scree rule and pattern*structure column sums/trace move to Core, with column/axis/vector preparation. Common supplies unchanged factor captions and chart intent. | Original matrix/factor gates, loading arrows, native series/styles/axes and XYZ renderer. No factor extraction, rotation, sign or percentage correction. |
+| CA/MCA: two public plots | Core selected contributions and Y-before-X bounds from both row/column factor groups. Common ordered correspondence point series, category labels, exact contribution/axis text and display/legend intent. | Chart-sheet/worksheet routes, column/XY types, columns-first order, MCA row omission, point writes and late Try/Catch. Original `Percents(2,1)` and `(1,1)` remain. |
+| Hierarchical: three render entry points | Existing `CreateDendrogramLayout` remains authoritative. Core `DendrogramChartGeometry37` deeply snapshots it and computes original late bounds using existing `AxisPadding`. Common admits ordered base/cluster/cut/leaf series and distance-title intent. | Validation before native creation; supplied chart/chart sheet/embedded chart, anchor/size, palette, lines, orientation label positions/ticks, COM state and `WriteObjectTable`. No paths, merges, membership, leaf order or cuts are recomputed. |
+
+All fourteen plot/render entry points reach consumed preparation; the additional public `WriteObjectTable` stays host-owned. Existing analysis requests/projections, `MultivariatePlotIntent`/`PlotPlan`, semantic axis classes and model arrays remain the workflow authority. No handler, availability/order, K-means/DA chart, UDF, UI, report writer, statistical engine, XYZ renderer or framework target changed.
+
+The [source transitions](../../evidence/04A37/source-transitions.json) list **16 proposed source/test/project/dossier paths**: two portable files, four Windows adapters, seven test/binding files, two additive test projects and this dossier. Core/Common remain `netstandard2.0`; Windows/test host remain Framework4.8; modern tests remain net10.0. New portable files use `Option Strict On` and no Office/COM/WinForms/drawing/filesystem dependencies.
+
+[Ownership](../../evidence/04A37/member-ownership.csv) accounts for **32 current original members**; [historical crosswalk](../../evidence/04A37/historical-crosswalk.csv) independently accounts for **32 inherited 04A.29 identities**. Five removed private helpers have explicit successors; private typed-argument changes are explicit. There are zero in-scope OPEN entries. Historical ledgers were not renamed or amended. The [renderer record](../../evidence/04A37/renderer-preservation.json) checks public headers/defaults, native write-target order and catch shapes. These are source/compiled-seam proofs; native visual and event/reentrancy/error equivalence are NOT_RUN.
+
+The separate [43-fragment inline map](../../evidence/04A37/inline-preparation-map.csv) pins original numerical, grouping, label, reference, title, admission and retained native-routing/tick blocks by exact source span/hash. These are explicit split/merge fragments with no fictitious standalone headers; they are not added to either 32-member population.
+
+## Frozen compatibility and identity
+
+Before production edits, original adapter sources, executable pure prefixes/expressions, deterministic input factories and first valid outputs were frozen. Generator construction/first captures overlapped entry validation; the seal followed the completed baseline while production diff was still empty. Invalid compiler attempts remain versioned; first successful captures were never overwritten. The [pre-edit receipt](../../evidence/04A37/preedit/receipt.json) records generator/input/source/output hashes, sizes, commit and comparison policy.
+
+| Reference corpus per final configuration | Rows | Exact SHA256 |
+|---|---:|---|
+| PCA/factor/CA/dendrogram prefixes, grouping and captions; invariant + sk-SK | 5,376 | `8e3f05bf83e270f9b02ee11f16c46e8322a4dd83cea20c463714fd809f82a745` |
+| Synthetic and actually fitted dendrogram layouts/series, all orientations/height/cut/label modes | 1,536 | `198a692567f8d79a48d6e6420ce7e68d54a430722019d23c6165dea265e0bdc7` |
+| **Debug / Release total** | **6,912 each** | **Zero differences** |
+
+The main reference was executed against both entry configurations. The supplementary dendrogram reference was originally executed against entry Debug and compared unchanged with both final configurations; a separate pre-edit Release supplement run is not claimed. [Comparison/accounting](../../evidence/04A37/compatibility-comparison.json) covers exact strings/order, array element types/ranks/lower bounds/lengths, IEEE bits including signed zero/NaN and exception type/parameter/message/source phase. No tolerance or culture normalization is used. Some malformed or omitted-MCA-row slice calls are unreachable after earlier original public guards; they are isolated source-expression evidence, not claims of shipping native failures.
+
+**These6,912 exact rows are a partial corpus, not complete 04A.37 acceptance coverage.** Of256 biplot records, only56 return geometry (14 c1,20 c0.25,22 NaN-scale); guard returns must not be counted as exercised metric/scaling modes. See the coverage audit's exact guard/geometry/exception counts. This is an unresolved acceptance blocker despite passing builds, tests and captured-row equality.
+
+Post comparisons compile the actual changed shipping numerical prefixes, whose consumed calls are also checked in Framework IL. The initial post recorder had an outer-array type and implicit-cp1252 Unicode binding error; its failed corpus remains under `development-v1`. It was corrected with explicit UTF-8 and the original aggregation type. Modern negative-zero caption formatting was corrected to reproduce legacy text without changing coordinate bits. Focused tests cover exceptional formatting, guards, copy/concurrent access, original pattern-versus-structure semantics, model IDs and dropped-row leaf identity.
+
+Ordinal kinds are explicit: model positions and cluster slots are zero-based; leaf original input ordinals are one-based; actual Core model `RowIds` are separate; native point indices are applied only in Windows. Existing semantic axis types are reused. Unavailable input/physical row joins stay unavailable. Labels never become identities, and worksheet rows are never inferred.
+
+## Executed matrix and nonpasses
+
+| Lane | Accepted 04A.36 reference | Fresh merged-main entry | Final 04A.37 |
+|---|---:|---:|---:|
+| Managed Debug | 20,457 PASS / 14 FAIL | 20,457 PASS / 14 FAIL | **20,507 PASS / 14 FAIL** |
+| Managed Release | 20,457 PASS / 14 FAIL | 20,457 PASS / 14 FAIL | **20,507 PASS / 14 FAIL** |
+| New 04A.37 managed cases/config | — | — | **50 PASS: Core11, Common8, Framework31** |
+| Node | 916 PASS | 916 PASS | **916 PASS** |
+| Python aggregate | 808 PASS / 137 FAIL / 11 ERROR | **809 PASS / 137 FAIL / 10 ERROR** | **805 PASS / 140 FAIL / 11 ERROR** |
+| Strict / profile / strict MkDocs | 1 / 1 / 0 | 1 / 1 / 0 | **1 / 1 / 0** |
+
+These suites are not fully green. [Managed identity occurrences](../../evidence/04A37/managed-test-identities.csv) preserve every historical raw identity/outcome multiset and all fourteen failures in each configuration. There are no removed cases or newly failing unqualified managed calculations. [Validation](../../evidence/04A37/validation.json), [nonpasses](../../evidence/04A37/nonpasses.json), [source/Node receipts](../../evidence/04A37/source-and-node-validation.json), [command receipts](../../evidence/04A37/command-receipts.json) and [build/source bindings](../../evidence/04A37/build-source-pins.json) supply the exact evidence.
+
+Fresh entry differs from 04A.36 because the old Core-directory dirty-scope assertion now passes after the owner documentation commit, and the historical unordered SPC source lookup produced its FAIL variant rather than ERROR. Final Python adds four genuine whole-file-pin failures for the four authorized Windows adapters; the same historical SPC identity returned its ERROR variant (`AddReferenceLine` lookup) with SPC source unchanged. All are retained and explicitly qualified. No old Python test was edited. The initial new inventory privacy defect was corrected before production, with the failed entry receipt retained and seventy inherited private path labels replaced by digest identities.
+
+Raw predecessor packet audits also ran. Their historical direct-byte readers retain failures for Git-normalized captures and current approved project/source successors; this batch independently verifies historical main bytes and explicit transitions rather than rewriting their assertions. New packet/adverse audit results and independent verification are in [audit results](../../evidence/04A37/audit-results.json). Strict/profile exit1 remains an unmet gate.
+
+Reproducible matrix commands are `PythonExe -B evidence/04A37/run.py build|managed <Debug|Release> entry|final`, `auxiliary.py source entry|final`, and `run.py serial Debug entry|final`, with standalone capture scripts listed in the packet README. Full Framework lanes were serial and used isolated configuration/output/result directories. Original `scripts/verify-beshstatng.ps1` shared-output wrappers are NOT_RUN: their output location conflicts with preservation/isolation, and Legacy Build includes unapproved packaging hooks. The accepted isolated offline runner executed the equivalent Core/Common/Office/Framework managed scopes and compile-only Windows targets. No packaging success is inferred.
+
+## Preservation, privacy and remaining gates
+
+[Preservation](../../evidence/04A37/preservation.json) checks all **4,504 tracked entry files**, with only six authorized tracked changes (four adapters/two test projects). [Lineage](../../evidence/04A37/lineage-check.json) checks all **278 original pins**, preserving prior canonical corrections/transitions and recording four explicit adapter successors. [Protected captures](../../evidence/04A37/mixed-model-captures-check.json) match **100/100 exact hashes**. Accepted 04A.36 final and pre-closeout/v1 history remains unchanged. Historical `TestResults` was checked by [membership/size/mtime metadata](../../evidence/04A37/historic-census-metadata.json), not rehashed, purged or restructured. Live Git proof does not imply completeness of a smaller uploaded ZIP or verification of ignored packaged dependencies.
+
+The [publication manifest](../../evidence/04A37/publication-manifest.json) covers every proposed artifact once, with actual bytes/SHA256 and exactly one null self-entry. Binaries, private raw logs/test outputs, absolute home paths, workbook data, secrets, signing material and the sixteen owner documents are excluded. [Privacy](../../evidence/04A37/privacy-check.json) and independent adverse tests reject missing/corrupted/duplicate/reordered/foreign/traversal/case-colliding/reserved paths, false ownership/readiness, unconsumed ports, repeated cases and lost captures.
+
+[Deferred candidates](../../evidence/04A37/deferred-issues.json) retain PCA normalization/grouping/row-order quirks, factor extraction/rotation/trace/text questions, CA/MCA percentage/row-column symmetry, dendrogram leaf/cut/NaN/bounds edges and original GUI/UDF/native obligations under the 04A.39–48 charter. Zero extraction OPEN entries closes none of those scientific/native obligations.
+
+**P=NO; N1=NO GO; N2=NO; Gate C2=UNMET; Gate C3=UNAPPROVED. All comparisons NOT_GOLDEN.** No native release, original-control discharge, commit, stage, push, merge, package, sign, deploy, permission change or 04A.38 implementation occurred.
+
+**NOT_RUN:** live Excel/COM/UIA/RefEdit; GUI automation/native visual/event checks; independent R adjudication; Office/Mac/WASM graphics/manual UI; packaging/installer/signing/deployment; original shared-output wrappers. Proposed owner-gated, non-executed smoke checks:
+
+1. PCA grouped 2D/3D scores and GH/JK/SQ biplots with missing/repeated labels and nonsequential IDs; check point association, capitalization, zero lines and legend series order.
+2. Factor rotated pattern/structure loading plots and initial-eigenvalue scree; check percentages, factor captions/arrows and two/three-factor gates.
+3. CA versus MCA correspondence/contribution in chart-sheet and worksheet routes; check row omission, column-first labels, both-group extents and legacy percent indices.
+4. Hierarchical Top/Bottom/Left/Right, MergeDistance/StepLevels, count/height cuts and all label modes, including supplied chart/embedded routes; check leaf order, selected anchors, cut/cluster series and distance-title fallback.
+
+Each native check requires separate owner authorization and reviewed-versus-loaded assembly identity. This proposal is software portability and compatibility only.

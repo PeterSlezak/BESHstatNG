@@ -1,0 +1,442 @@
+{
+  "status": "EXECUTED_WITH_INHERITED_AND_QUALIFIED_SOURCE_NONPASSES",
+  "managed": {
+    "Debug": {
+      "Passed": 20507,
+      "Failed": 14
+    },
+    "Release": {
+      "Passed": 20507,
+      "Failed": 14
+    }
+  },
+  "suites": [
+    {
+      "suite": "Core",
+      "configuration": "Debug",
+      "entry": {
+        "Passed": 1249
+      },
+      "final": {
+        "Passed": 1260
+      },
+      "entry_trx_sha256": "28eeb64200cc061cf4fcff3675f908e3684471e2ac08013b9416c63680a231ae",
+      "final_trx_sha256": "be3a5543d5c868b54aef01dbde1b311404eed6103e01e5de62105c74545ac9b9",
+      "exit": 0
+    },
+    {
+      "suite": "Core",
+      "configuration": "Release",
+      "entry": {
+        "Passed": 1249
+      },
+      "final": {
+        "Passed": 1260
+      },
+      "entry_trx_sha256": "fe89cbabdec359803d1519fd1437a828ba104c811a163581ac75d8f4e040fdf4",
+      "final_trx_sha256": "90fd8ac65915bcfb18578c5503bec30a4dc6dd9559e5e600a2e5ddd9c263c410",
+      "exit": 0
+    },
+    {
+      "suite": "Common",
+      "configuration": "Debug",
+      "entry": {
+        "Passed": 9046,
+        "Failed": 5
+      },
+      "final": {
+        "Passed": 9054,
+        "Failed": 5
+      },
+      "entry_trx_sha256": "b9430ac8a3743a82cad8360b5ac4644e30fb4bdea119c92343bec9792996c02e",
+      "final_trx_sha256": "4104f77436c55d544dc72277b254c67593ad4b0f2cb10797da9ce22659004709",
+      "exit": 1
+    },
+    {
+      "suite": "Common",
+      "configuration": "Release",
+      "entry": {
+        "Passed": 9046,
+        "Failed": 5
+      },
+      "final": {
+        "Passed": 9054,
+        "Failed": 5
+      },
+      "entry_trx_sha256": "b530fe12682286144d39deabc5a8e712037aac243a28fcd8cf1d68ba107fb5f3",
+      "final_trx_sha256": "865f49b256999ce2d0da27975114baea0c5d602a6cff5882b7bc7d091cc03c51",
+      "exit": 1
+    },
+    {
+      "suite": "Legacy",
+      "configuration": "Debug",
+      "entry": {
+        "Passed": 9548,
+        "Failed": 9
+      },
+      "final": {
+        "Passed": 9579,
+        "Failed": 9
+      },
+      "entry_trx_sha256": "67cb65a519e26a5d0379c5e8e220ea37601a20530f7768fd2c493312b9085ada",
+      "final_trx_sha256": "68cbdd1230c61e8f6ef76d7d4574854e069188b79986ae1a331729aed8d7f0d9",
+      "exit": 1
+    },
+    {
+      "suite": "Legacy",
+      "configuration": "Release",
+      "entry": {
+        "Passed": 9548,
+        "Failed": 9
+      },
+      "final": {
+        "Passed": 9579,
+        "Failed": 9
+      },
+      "entry_trx_sha256": "53ca89927d84e5e0340dadc33b9b891fd496dd1214fd41273361bb686fc80c45",
+      "final_trx_sha256": "0c82626c93298086fa2036acfc4fff2ba7c321f238ed98b3afa0871ae86c0f0a",
+      "exit": 1
+    },
+    {
+      "suite": "ControlMitigation",
+      "configuration": "Debug",
+      "entry": {
+        "Passed": 61
+      },
+      "final": {
+        "Passed": 61
+      },
+      "entry_trx_sha256": "8e9b0751b00b681c7917138fc85a9bd3251257c67ae1f486c7cd788b02fe352b",
+      "final_trx_sha256": "47325932f1177239398cd13e46bb04a69a0faa4eef39727555526b2b062c7096",
+      "exit": 0
+    },
+    {
+      "suite": "ControlMitigation",
+      "configuration": "Release",
+      "entry": {
+        "Passed": 61
+      },
+      "final": {
+        "Passed": 61
+      },
+      "entry_trx_sha256": "55897f201523c5112f93142f804063a01b28dc9e9eae3adfea0be74858d0eb81",
+      "final_trx_sha256": "95dc80c64797da028a43443f6bc514ef1d1b077520342aebfe8930c4ec9750db",
+      "exit": 0
+    },
+    {
+      "suite": "OfficeAddin",
+      "configuration": "Debug",
+      "entry": {
+        "Passed": 508
+      },
+      "final": {
+        "Passed": 508
+      },
+      "entry_trx_sha256": "22ac17aaaf75b3ab9bf87ea5b3f0eeb62b9b35177d8a91fd5868a9090acfce74",
+      "final_trx_sha256": "14ca284ee4c654aaf53d1c150a68bc5b29cb2aeff6b6eea7c268ccf04bbcfcb0",
+      "exit": 0
+    },
+    {
+      "suite": "OfficeAddin",
+      "configuration": "Release",
+      "entry": {
+        "Passed": 508
+      },
+      "final": {
+        "Passed": 508
+      },
+      "entry_trx_sha256": "e4bcfa7f0dc869866c7d7dc5cb164efef27ef14c0f7d11d996dfe2503affb3e0",
+      "final_trx_sha256": "6158932ef6354d8eef5f2d85b2631bb2537fd840f831c8000e631a8101e0e092",
+      "exit": 0
+    },
+    {
+      "suite": "OfficeExecution",
+      "configuration": "Debug",
+      "entry": {
+        "Passed": 45
+      },
+      "final": {
+        "Passed": 45
+      },
+      "entry_trx_sha256": "c83967a656a8c18fb8746f230b932976aca11eeaae33914c8e3c90afceba7cf0",
+      "final_trx_sha256": "80ad73a1f46d472bfd58d23dac9a49815828c6a151a9697813b9f75937f2640e",
+      "exit": 0
+    },
+    {
+      "suite": "OfficeExecution",
+      "configuration": "Release",
+      "entry": {
+        "Passed": 45
+      },
+      "final": {
+        "Passed": 45
+      },
+      "entry_trx_sha256": "1c0eec2e1ef33b03694c74275d381dba0269d1eadddbe64315bacb9590538b4d",
+      "final_trx_sha256": "8f077f59b24892519f56ef86b52f0c82b2a3a1210d3c27a22d876ce9e1735c0e",
+      "exit": 0
+    }
+  ],
+  "identity_deltas": [
+    {
+      "suite": "Core",
+      "configuration": "Debug",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 11
+    },
+    {
+      "suite": "Core",
+      "configuration": "Release",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 11
+    },
+    {
+      "suite": "Common",
+      "configuration": "Debug",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 8
+    },
+    {
+      "suite": "Common",
+      "configuration": "Release",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 8
+    },
+    {
+      "suite": "Legacy",
+      "configuration": "Debug",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 31
+    },
+    {
+      "suite": "Legacy",
+      "configuration": "Release",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 31
+    },
+    {
+      "suite": "ControlMitigation",
+      "configuration": "Debug",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 0
+    },
+    {
+      "suite": "ControlMitigation",
+      "configuration": "Release",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 0
+    },
+    {
+      "suite": "OfficeAddin",
+      "configuration": "Debug",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 0
+    },
+    {
+      "suite": "OfficeAddin",
+      "configuration": "Release",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 0
+    },
+    {
+      "suite": "OfficeExecution",
+      "configuration": "Debug",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 0
+    },
+    {
+      "suite": "OfficeExecution",
+      "configuration": "Release",
+      "removed": 0,
+      "changed_outcomes": 0,
+      "added": 0
+    }
+  ],
+  "new_managed_cases_per_configuration": 50,
+  "new_managed_by_suite": {
+    "Core": 11,
+    "Common": 8,
+    "Legacy": 31
+  },
+  "node": {
+    "total": 916,
+    "passed": 916,
+    "failed": 0
+  },
+  "python": {
+    "total": 956,
+    "passed": 805,
+    "failed": 140,
+    "errors": 11
+  },
+  "strict_profile_mkdocs": {
+    "strict": 1,
+    "profile": 1,
+    "docs": 0
+  },
+  "unclassified_python": 0,
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "next_batch": "04A38_NOT_STARTED",
+  "acceptance_recommendation": "READY_FOR_OWNER_04A37_ACCEPTANCE_REVIEW",
+  "required_preedit_option_coverage": "INCOMPLETE_ORIGINAL_CORPUS_PRESERVED; OWNER_AUTHORIZED_LATE_ROUTE_A_SUPPLEMENT_VERIFIED",
+  "continuation": {
+    "status": "PASS",
+    "source_and_product_tests_changed": false,
+    "unchanged_implementation_source_files": [
+      {
+        "path": "BESHStat.Core.Tests/src/Graphics/Graphics37Cases.vb",
+        "bytes": 7055,
+        "sha256": "3be821f2bba8a082aec80f53262c48e81ce5d7756205260557d5436aa4eac314"
+      },
+      {
+        "path": "BESHStat.Core.Tests/src/Graphics/Graphics37GeometryTests.vb",
+        "bytes": 4835,
+        "sha256": "8dfd8be625029c238ec257b007ef09d14a1018f2f6a03be74b97c5a3df695617"
+      },
+      {
+        "path": "BESHStat.Core.Tests/src/Graphics/Graphics37Original.vb",
+        "bytes": 18860,
+        "sha256": "3dc76f55a002e74a280ecead72e34518f364fbe90343698976ce5d938056f991"
+      },
+      {
+        "path": "BESHStat.Core.Tests/src/Graphics/Graphics37OriginalSeries.vb",
+        "bytes": 2583,
+        "sha256": "31dbe676199085727c7b739a3a856cedf83da9936dac0cf063510f819a708c75"
+      },
+      {
+        "path": "BESHStat.Core/src/Graphics/MultivariatePlotGeometry37.vb",
+        "bytes": 12265,
+        "sha256": "386d2fffa2e891b590b74bfe62d4a9d42e799e55fbf9560daaafa3ee9c7121d9"
+      },
+      {
+        "path": "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "bytes": 3181,
+        "sha256": "810e23b241b8c018803d3587932988e77cd7f63e51a8edb3a669d64c47e215e8"
+      },
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/Graphics37CurrentPrefixes.vb",
+        "bytes": 11965,
+        "sha256": "3c75e5212de81693deac89c264d92e6d98bf830d80e78a6b2ef422dc0d768e0b"
+      },
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/Graphics37PresentationTests.vb",
+        "bytes": 8454,
+        "sha256": "d1c661c5130359cc532fe49383fb4de8b7cf8264c6ce8485b13e42a9e4d8844a"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Results/MultivariateChartPresentation37.vb",
+        "bytes": 16309,
+        "sha256": "6166758af3e0f0b2f290c70329e38854bb02f07aa4d0345c9c5054946904d718"
+      },
+      {
+        "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "bytes": 34794,
+        "sha256": "e9779f75616717a4ddff7876749b334698d6ae525940ef70bdb815c5d8b9518a"
+      },
+      {
+        "path": "BESHStatNG.Test/src/Charts/Graphics37AdapterTests.vb",
+        "bytes": 6866,
+        "sha256": "a4b1618e0270b5c92a61d5336bde8c1304f44de292cb7b3c7008899aac208069"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/ClusterAnalysisPlotExcel.vb",
+        "bytes": 18199,
+        "sha256": "c3b8d12b08bbdb155349439a1f3c3847decfcefc79897faad110e6c8fc73cd68"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/CorrespondenceAnalysisPlotExcel.vb",
+        "bytes": 9222,
+        "sha256": "c28d46d2c8b4c6064dbaae2178a4d78cb8c43ad2bd5312890e1ddde919336deb"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/FactorAnalysisPlotExcel.vb",
+        "bytes": 11979,
+        "sha256": "9c2500193bea3799c5ac365fd27ed236f689c7c6445c5a6e0851dec316ea1466"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/PcaPlotExcel.vb",
+        "bytes": 25186,
+        "sha256": "22ef82b90ac59c40beea0490c8675e764e186c2c1248ca2d19296761c644e675"
+      }
+    ],
+    "original_reference_runs": [
+      {
+        "path": "evidence/04A37/late-archived-entry-supplement/v1/original-Debug-execution.json",
+        "bytes": 361,
+        "sha256": "305b68e8ff0bb3e41845355e4fa03aa027d845ba980f4db6053ca03ea7dfd0c5"
+      },
+      {
+        "path": "evidence/04A37/late-archived-entry-supplement/v1/original-Release-execution.json",
+        "bytes": 361,
+        "sha256": "35e9cee22b88f3f8052531a9f708f25c003840f3ddb34823a2a4513fad8bd107"
+      },
+      {
+        "path": "evidence/04A37/late-archived-entry-supplement/v1/current-Debug-execution.json",
+        "bytes": 361,
+        "sha256": "693c21c1133318d3369d6e917fc4fc0883dd843abfb1ff73d8ef1c59797870b6"
+      },
+      {
+        "path": "evidence/04A37/late-archived-entry-supplement/v1/current-Release-execution.json",
+        "bytes": 361,
+        "sha256": "1a4529c30f717c8d818c32fcee28badbe2cb1b91428843ea505f196411fd2d6f"
+      }
+    ],
+    "label_reference_runs": [
+      {
+        "path": "evidence/04A37/late-archived-entry-supplement/v1/label-extension-v1/original-Debug-execution.json",
+        "bytes": 359,
+        "sha256": "7b12399a5c7e581947c12507892332667d40ec0043e5dcb5c07499a67a0a275e"
+      },
+      {
+        "path": "evidence/04A37/late-archived-entry-supplement/v1/label-extension-v1/original-Release-execution.json",
+        "bytes": 359,
+        "sha256": "2bcc4d477fcf50e150b9559ee77c1808a3d7372abf0b0d044ab5174ba338f5c8"
+      },
+      {
+        "path": "evidence/04A37/late-archived-entry-supplement/v1/label-extension-v1/current-Debug-execution.json",
+        "bytes": 359,
+        "sha256": "32832e695d78ac856e58d3608c16f5c08fdfdccee84aea7a3b5427a615bfc36d"
+      },
+      {
+        "path": "evidence/04A37/late-archived-entry-supplement/v1/label-extension-v1/current-Release-execution.json",
+        "bytes": 359,
+        "sha256": "390348bb8b7770f1920e33a8992b9ab08273046405583692ad79598225bc2edc"
+      }
+    ],
+    "supplemental_rows_per_configuration": 22050,
+    "all_legacy_and_current_exact": true,
+    "full_managed_node_python_strict_docs": "NOT_RERUN_CONTINUATION_EVIDENCE_ONLY; prior executed results retained without promotion",
+    "prior_validation": {
+      "path": "evidence/04A37/late-archived-entry-supplement/v1/entry-not-ready/validation.json",
+      "bytes": 7247,
+      "sha256": "2d229874973c8d258ceddc14725e45be4ba68e5926c72c36c360115702b087ff"
+    },
+    "retained_nonpasses": {
+      "path": "evidence/04A37/nonpasses.json",
+      "bytes": 22333,
+      "sha256": "cfcb93561f7d4c7c0b465e30bb708ce475474c3a4f0588b056c3fbe1d5de7f49"
+    },
+    "current_focus": "Eight original/current culture-pinned capture runs across two corpora and two configurations; independent source/matrix/comparison reader; supplemental adverse tests; original42 packet audits and final reader; live Git/preservation/privacy",
+    "native": "NOT_RUN",
+    "scientific": "NOT_GOLDEN",
+    "gates": {
+      "P": "NO",
+      "N1": "NO GO",
+      "N2": "NO",
+      "C2": "UNMET",
+      "C3": "UNAPPROVED"
+    },
+    "next_batch": "04A38_NOT_STARTED"
+  }
+}

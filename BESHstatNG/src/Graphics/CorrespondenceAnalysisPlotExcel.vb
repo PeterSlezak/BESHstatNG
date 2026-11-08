@@ -1,6 +1,7 @@
-﻿Option Explicit On
+Option Explicit On
 
 Imports System.Linq
+Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
@@ -30,11 +31,7 @@ Namespace graphics
             Dim seriesID As Integer
             Dim contrib() As Double
 
-            If bRow Then
-                contrib = model.RowContribution(lAxis)
-            Else
-                contrib = model.ColContribution(lAxis)
-            End If
+            contrib = MultivariatePlotGeometry37.Contribution(model, lAxis, bRow)
 
             If ws Is Nothing Then
                 AppGlobals.app.Charts.Add()
@@ -47,8 +44,8 @@ Namespace graphics
                 .ChartType = XlChartType.xlColumnClustered
                 .HasTitle = False
                 .HasTitle = True
-                .ChartTitle.Text = "Contribution Plot: Axis " & CStr(lAxis + 1)
-                If model.IsMultiple Then .Name = "Contribution" & CStr(lAxis + 1)
+                .ChartTitle.Text = MultivariateChartPresentation37.ContributionTitle(lAxis)
+                If model.IsMultiple Then .Name = MultivariateChartPresentation37.ContributionName(lAxis)
                 .HasLegend = False
 
                 Do Until .SeriesCollection.Count = 0
@@ -58,14 +55,14 @@ Namespace graphics
                 seriesID = 1
                 .SeriesCollection.NewSeries
                 With .SeriesCollection(seriesID)
-                    .XValues = model.PlotLabels(bRow, vbNewLine)
+                    .XValues = MultivariateChartPresentation37.ContributionLabels(model, bRow)
                     .Values = contrib
                 End With
 
                 Try
                     .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
                     .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = "Contribution"
+                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = MultivariateChartPresentation37.ContributionAxisTitle
                     .ChartTitle.Font.Bold = True
                 Catch
                 End Try
@@ -83,10 +80,9 @@ Namespace graphics
             Dim seriesID As Integer
             Dim figure As Chart
 
-            Dim udPlotAxisY As CHARTscale = ChartScaling(Math.Min(model.RowFactors(1).Min(), model.ColFactors(1).Min()),
-                                                         Math.Max(model.RowFactors(1).Max(), model.ColFactors(1).Max()))
-            Dim udPlotAxisX As CHARTscale = ChartScaling(Math.Min(model.RowFactors(0).Min(), model.ColFactors(0).Min()),
-                                                         Math.Max(model.RowFactors(0).Max(), model.ColFactors(0).Max()))
+            Dim axes = MultivariatePlotGeometry37.CorrespondenceAxes(model)
+            Dim udPlotAxisY As ChartAxisScaleResult = axes.Y
+            Dim udPlotAxisX As ChartAxisScaleResult = axes.X
 
             If ws Is Nothing Then
                 AppGlobals.app.Charts.Add()
@@ -100,7 +96,7 @@ Namespace graphics
                 .ChartStyle = 1
                 .HasTitle = False
                 .HasTitle = True
-                If model.IsMultiple Then .Name = "CA plot"
+                If model.IsMultiple Then .Name = MultivariateChartPresentation37.CorrespondenceName
 
                 Do Until .SeriesCollection.Count = 0
                     .SeriesCollection(1).Delete
@@ -118,10 +114,11 @@ Namespace graphics
 
                 seriesID = 1
                 .SeriesCollection.NewSeries
+                Dim columns = MultivariateChartPresentation37.CorrespondenceSeries(model, False)
                 With .SeriesCollection(seriesID)
-                    .XValues = model.ColFactors(0)
-                    .Values = model.ColFactors(1)
-                    .Name = "Columns"
+                    .XValues = columns.XValues
+                    .Values = columns.YValues
+                    .Name = columns.Name
                     .MarkerStyle = XlMarkerStyle.xlMarkerStyleCircle
                     .MarkerSize = 6
                     .MarkerForegroundColor = GetColor(10)
@@ -129,17 +126,18 @@ Namespace graphics
 
                     For i As Integer = 1 To model.ColumNames.Length
                         .Points(i).HasDataLabel = True
-                        .Points(i).DataLabel.Text = model.PlotLabels(False, vbNullString)(i - 1)
+                        .Points(i).DataLabel.Text = MultivariateChartPresentation37.CorrespondenceLabel(model, False, i - 1)
                     Next
                 End With
 
-                If Not model.IsMultiple Then
+                If MultivariateChartPresentation37.ShowCorrespondenceRows(model) Then
                     seriesID += 1
                     .SeriesCollection.NewSeries
+                    Dim rows = MultivariateChartPresentation37.CorrespondenceSeries(model, True)
                     With .SeriesCollection(seriesID)
-                        .XValues = model.RowFactors(0)
-                        .Values = model.RowFactors(1)
-                        .Name = "Rows"
+                        .XValues = rows.XValues
+                        .Values = rows.YValues
+                        .Name = rows.Name
                         .MarkerStyle = XlMarkerStyle.xlMarkerStyleCircle
                         .MarkerSize = 6
                         .MarkerForegroundColor = RGB(0, 0, 150)
@@ -147,7 +145,7 @@ Namespace graphics
 
                         For i As Integer = 1 To model.rowNames.Length
                             .Points(i).HasDataLabel = True
-                            .Points(i).DataLabel.Text = model.PlotLabels(True, vbNullString)(i - 1)
+                            .Points(i).DataLabel.Text = MultivariateChartPresentation37.CorrespondenceLabel(model, True, i - 1)
                         Next
                     End With
                 End If
@@ -155,9 +153,9 @@ Namespace graphics
                 .SeriesCollection.NewSeries
                 seriesID += 1
                 With .SeriesCollection(seriesID)
-                    .XValues = {udPlotAxisX.Min, udPlotAxisX.Max}
-                    .Values = {0, 0}
-                    .Name = "Y Zero Line"
+                    .XValues = ChartReferenceSeries.Horizontal(udPlotAxisX.Min, udPlotAxisX.Max, 0).XValues
+                    .Values = MultivariatePlotGeometry37.ZeroPair()
+                    .Name = MultivariateChartPresentation37.YZeroName
                     .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
                     .Border.Color = RGB(0, 0, 0)
                     With .Format.Line
@@ -169,9 +167,9 @@ Namespace graphics
                 .SeriesCollection.NewSeries
                 seriesID += 1
                 With .SeriesCollection(seriesID)
-                    .XValues = {0, 0}
-                    .Values = {udPlotAxisY.Min, udPlotAxisY.Max}
-                    .Name = "X Zero Line"
+                    .XValues = MultivariatePlotGeometry37.ZeroPair()
+                    .Values = ChartReferenceSeries.Vertical(0, udPlotAxisY.Min, udPlotAxisY.Max).YValues
+                    .Name = MultivariateChartPresentation37.XZeroName
                     .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
                     .Border.Color = RGB(0, 0, 0)
                     With .Format.Line
@@ -181,7 +179,7 @@ Namespace graphics
                 End With
 
                 Try
-                    If model.IsMultiple Then
+                    If Not MultivariateChartPresentation37.ShowCorrespondenceRows(model) Then
                         .HasLegend = False
                     Else
                         For i As Integer = 4 To 3 Step -1
@@ -195,11 +193,11 @@ Namespace graphics
                     Dim pct As Double(,) = model.Percents
                     .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
                     .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = $"Factor 2 [{ Format$(pct(2, 1), "#0.0#") }%]"
+                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = MultivariateChartPresentation37.CorrespondenceCaption(pct(2, 1), 2)
                     .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = False
                     .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = True
-                    .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Text = $"Factor 1 [{ Format$(pct(1, 1), "#0.0#") }%]"
-                    .ChartTitle.Text = "Correspondence Plot"
+                    .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Text = MultivariateChartPresentation37.CorrespondenceCaption(pct(1, 1), 1)
+                    .ChartTitle.Text = MultivariateChartPresentation37.CorrespondenceTitle
                     .ChartTitle.Font.Bold = True
                 Catch
                 End Try

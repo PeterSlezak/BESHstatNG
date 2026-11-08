@@ -1,0 +1,72 @@
+"""Record actual focused continuation commands; preserve prior full-suite receipts."""
+from pathlib import Path
+import importlib.util
+import json
+import re
+import sys
+import verify_supplement as independent
+
+HERE=independent.HERE;ROOT=independent.ROOT;BATCH=HERE.parents[1]
+sys.path.insert(0,str(BATCH))
+from run import m
+from summarize import clean
+PRIVATE=ROOT/'.test-rationalization-04A37.tmp'
+
+
+def save(path,data):path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
+
+
+def tests(label):
+    runner=m.Runner(PRIVATE)
+    result=runner.command(label,[sys.executable,'-B','-m','unittest','discover','-s','evidence/04A37/late-archived-entry-supplement/v1','-p','test_supplement.py','-v'])
+    text=(PRIVATE/'commands'/label/'stderr.log').read_text(encoding='utf-8-sig')
+    total=int(re.search(r'Ran (\d+) tests',text).group(1))
+    assert result['exit_code']==0 and text.rstrip().endswith('OK')
+    receipt=dict(status='PASS',total=total,passed=total,failed=0,errors=0,command=clean(result),
+                 identities=re.findall(r'^(test_\S+ \([^)]*\))',text,re.M),
+                 test_source=independent.pin(HERE/'test_supplement.py'),
+                 original_tests='42 original audits unchanged; separate root audit execution required',
+                 retained_initial_attempt=independent.pin(HERE/'attempts/audit-v1-failure.json'))
+    save(HERE/'audit-results.json',receipt)
+    root=independent.load(BATCH/'audit-results.json');root['supplemental']=receipt;save(BATCH/'audit-results.json',root)
+    print('PASS',total,'new supplemental audits; original42 source unchanged')
+
+
+def prepare_current():
+    result,cases,rows=independent.verify();independent.verify_indexes(result,cases,rows)
+    audits=independent.load(HERE/'audit-results.json');assert audits['status']=='PASS'
+    old=independent.load(HERE/'entry-packet-pins.json')
+    sources=[r for r in old['files'] if r['path'].endswith(('.vb','.vbproj'))]
+    assert len(sources)==15
+    for r in sources:independent.check_pin(r)
+    continuation=dict(status='PASS',source_and_product_tests_changed=False,unchanged_implementation_source_files=sources,
+        original_reference_runs=[independent.pin(HERE/(mode+'-'+config+'-execution.json')) for mode in ['original','current'] for config in ['Debug','Release']],
+        label_reference_runs=[independent.pin(HERE/'label-extension-v1'/(mode+'-'+config+'-execution.json')) for mode in ['original','current'] for config in ['Debug','Release']],
+        supplemental_rows_per_configuration=22050,all_legacy_and_current_exact=True,
+        full_managed_node_python_strict_docs='NOT_RERUN_CONTINUATION_EVIDENCE_ONLY; prior executed results retained without promotion',
+        prior_validation=independent.pin(HERE/'entry-not-ready/validation.json'),
+        retained_nonpasses=independent.pin(BATCH/'nonpasses.json'),
+        current_focus='Eight original/current culture-pinned capture runs across two corpora and two configurations; independent source/matrix/comparison reader; supplemental adverse tests; original42 packet audits and final reader; live Git/preservation/privacy',
+        native='NOT_RUN',scientific='NOT_GOLDEN',gates=independent.GATES,next_batch='04A38_NOT_STARTED')
+    save(HERE/'continuation-validation.json',continuation)
+    validation=independent.load(BATCH/'validation.json')
+    validation['acceptance_recommendation']='READY_FOR_OWNER_04A37_ACCEPTANCE_REVIEW'
+    validation['required_preedit_option_coverage']='INCOMPLETE_ORIGINAL_CORPUS_PRESERVED; OWNER_AUTHORIZED_LATE_ROUTE_A_SUPPLEMENT_VERIFIED'
+    validation['continuation']=continuation
+    save(BATCH/'validation.json',validation)
+    readiness=independent.load(BATCH/'readiness.json')
+    readiness.update(status='READY_FOR_OWNER_04A37_ACCEPTANCE_REVIEW',blockers=[],
+        coverage_route='OWNER_AUTHORIZED_LATE_ARCHIVED_ENTRY_ROUTE_A',old_preedit_coverage_eligible=False,
+        supplemental_rows_per_configuration=22050,
+        software_scope='IMPLEMENTED_VALIDATED_WITH_OWNER_AUTHORIZED_LATE_ROUTE_A_COVERAGE; original chronology gap and native/scientific restrictions retained',
+        required_action='New independent owner acceptance review mandatory before commit/merge/publication. No automatic publication authorized.',
+        provenance=independent.PROVENANCE,approval=independent.pin(HERE/'supplemental-approval.json'),
+        original_not_ready=independent.pin(HERE/'entry-not-ready/readiness.json'))
+    save(BATCH/'readiness.json',readiness)
+    print('Qualified RouteA candidate prepared; final manifest/audits/preservation still required')
+
+
+if __name__=='__main__':
+    if sys.argv[1]=='tests':tests(sys.argv[2])
+    elif sys.argv[1]=='prepare-current':prepare_current()
+    else:raise ValueError(sys.argv[1])
