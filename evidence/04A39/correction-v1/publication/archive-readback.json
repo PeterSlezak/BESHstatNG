@@ -1,0 +1,40 @@
+{
+  "status": "PASS_SHA_SIZE_CRC_EXACT_PHYSICAL_MEMBERS",
+  "archive": {
+    "path": ".test-rationalization-04A39-correction-v1.tmp/BESHStatNG_04A39_CORRECTION_REVIEW_v1.zip",
+    "bytes": 74763995,
+    "sha256": "6164b6ff1f605997a4a2c482794682ab3e70bb85a48288721f252dec0bb03cab"
+  },
+  "physical_files": 2060,
+  "payload_files": 2058,
+  "index": {
+    "path": ".review-inventory.json",
+    "bytes": 1926392,
+    "sha256": "aedce3d03ccc5a3de538478b2c70d09814a4cf2142c8d7e8071e115fd85b89f2",
+    "crc32": "38b54a5b"
+  },
+  "gate": {
+    "path": ".review-gate.json",
+    "bytes": 2349,
+    "sha256": "ea4c2879b844108ae9e0b2c90b5cfaa95c149ff038981d0aac59da3cf73668e6",
+    "crc32": "24d5c43f"
+  },
+  "whole_archive_crc_test": "PASS",
+  "per_file_crc_sha_size": "PASS",
+  "missing": [],
+  "extra": [],
+  "duplicates": [],
+  "case_collisions": [],
+  "privacy": "PASS_STAGED_DERIVATIVE_ONLY;25_EXACT_SYNTHETIC_MATCHES;ROOT_NONPASS_UNWAIVED",
+  "upload_performed": false,
+  "source_tree_modified": false,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A40_NOT_AUTHORIZED"
+  }
+}

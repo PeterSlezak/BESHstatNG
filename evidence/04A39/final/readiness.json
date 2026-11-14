@@ -1,0 +1,169 @@
+{
+  "status": "NOT_READY_04A39",
+  "utc": "2026-11-14T12:27:11.758015+00:00",
+  "main": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "branch": "codex/04A-39",
+  "tip": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "facts": {
+    "verdict": "NOT_READY_04A39",
+    "blockers": [
+      "A39-RAW-REVIEW-PRIVACY-01:TWO_CHANGED_PRIVACY_NONPASSES:1599_FINDINGS_EACH",
+      "PYTHON_54_CHANGED_DIAGNOSTICS_UNWAIVED"
+    ],
+    "managed": {
+      "Debug": {
+        "executed": 21127,
+        "outcomes": {
+          "Passed": 21113,
+          "Failed": 14
+        },
+        "new": 33,
+        "scope": "FULL"
+      },
+      "Release": {
+        "executed": 336,
+        "outcomes": {
+          "Passed": 336
+        },
+        "new": 33,
+        "scope": "TARGETED_ONLY"
+      }
+    },
+    "exports": {
+      "Debug": 268,
+      "Release": 268
+    },
+    "current_fixtures_per_configuration": 77,
+    "retained_compatibility_per_configuration": 29424,
+    "compatibility_execution": "RETAINED_W3;NOT_FRESH39",
+    "Python": {
+      "PASS": 833,
+      "ERROR": 11,
+      "FAIL": 112
+    },
+    "Python_events": {
+      "ERROR": 11,
+      "FAIL": 184
+    },
+    "historical_Python": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "historical_Python_events": {
+      "FAIL": 185,
+      "ERROR": 13
+    },
+    "historical_privacy_errors_unwaived": 2,
+    "Python_parent_outcome_changes": 5,
+    "Python_changed_messages": 54,
+    "Node": 916,
+    "strict_profile_MkDocs": [
+      1,
+      1,
+      0
+    ],
+    "register": {
+      "canonical_entries": 1169,
+      "original_obligations": 1514,
+      "restricted_controls": 802,
+      "report_occurrences": 286,
+      "statuses": {
+        "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+        "OWNER_AUTHORIZED_04A39_ONLY": 1,
+        "REQUIRES_OWNER_DECISION": 6,
+        "OBSERVED_RESTRICTED": 3,
+        "CHANGED_NONPASS_BLOCKING": 3,
+        "HISTORICALLY_REPORTED_RESTRICTED": 76,
+        "SUSPECTED_REQUIRES_REVIEW": 13,
+        "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+        "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+        "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+      },
+      "no_discharge": true,
+      "W3_validation_gate_records": 163,
+      "W3_events": 198,
+      "original_member_signatures": 759,
+      "unknown_entries": 0
+    },
+    "gates": {
+      "P": "NO",
+      "N1": "NO GO",
+      "N2": "NO",
+      "C2": "UNMET",
+      "C3": "UNAPPROVED",
+      "scientific": "NOT_GOLDEN"
+    },
+    "scientific_native": "NOT_RUN_UNAUTHORIZED",
+    "review": "No automatic acceptance, merge or04A.40 start."
+  },
+  "canonical_register": {
+    "path": "evidence/04A39/register/current-v5.json",
+    "bytes": 521,
+    "sha256": "940c17003f4df2818a400b7af9c0eb46fa82ce2b7ea1eb2549c1f67194114ab4"
+  },
+  "register_counts": {
+    "original_obligations": 1514,
+    "restricted_controls": 802,
+    "distinct_original_linked_controls": 927,
+    "canonical_entries": 1169,
+    "report_ids": 91,
+    "report_occurrences": 286,
+    "new_observations": 4,
+    "statuses": {
+      "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+      "OWNER_AUTHORIZED_04A39_ONLY": 1,
+      "REQUIRES_OWNER_DECISION": 6,
+      "OBSERVED_RESTRICTED": 3,
+      "HISTORICALLY_REPORTED_RESTRICTED": 76,
+      "SUSPECTED_REQUIRES_REVIEW": 13,
+      "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+      "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+      "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21,
+      "CHANGED_NONPASS_BLOCKING": 3
+    },
+    "issue_entries_with_current_declaration_candidates": 92,
+    "original_member_ids_resolved": 759,
+    "W3_validation_gate_records": 163,
+    "W3_python_events": 198
+  },
+  "source_and_test_gate": "VERIFIED_BEHAVIOR_PRESERVING_SOFTWARE_SCOPE;NO_PRODUCTION_CHANGE",
+  "privacy_and_diagnostic_gate": "BLOCKING_CHANGED_NONPASSES;NOT_WAIVED",
+  "exceptions": {
+    "path": "evidence/04A39/final/unresolved-exceptions-v2.json",
+    "bytes": 132408,
+    "sha256": "06e62abdff95c6fe5c5f9eb1e669293675029ba937b7688a56122144cbf1a6b6"
+  },
+  "controls": {
+    "path": "evidence/04A39/final/readiness-controls-v2.json",
+    "bytes": 5676,
+    "sha256": "1b21cef7b04789154de2b29ae7115de30f5c6636a41c604d363737f443f088df"
+  },
+  "source_states": {
+    "path": "evidence/04A39/matrix/final-source-state-v1.json",
+    "bytes": 173282,
+    "sha256": "55364518cbe9240f5bd9737776831e475ddc815d0add7fd1f6eee326033d336f"
+  },
+  "production_source_changes": 0,
+  "activated_defect_fixes": 0,
+  "owner_acceptance": "NOT_GRANTED_BY_AGENT",
+  "next_batch": "04A40_NOT_AUTHORIZED",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN"
+  },
+  "limitations": [
+    "Current833/112/11 is a fresh result, not a replacement of inherited830/113/13.",
+    "Two historical UnicodeDecodeError parents now FAIL with1599 findings each. Historical errors remain unwaived.",
+    "Three old FAIL parents PASS in the new tracked-diff scope; original failures are retained, not discharged.",
+    "54 retained nonpass messages/traces changed and require review.",
+    "29,424/config compatibility retained fromW3 after production source/compiled/fixture proof, not freshly executed39 comparator.",
+    "Release managed336 targeted only;W3 full Release14 failures/nine trace variations remain inherited.",
+    "No native/scientific/R/Excel/COM/UIA/RefEdit/browser/OfficeMac/install/sign/deploy acceptance.",
+    "Inherited37484 file pins/154 archives retain qualified W3 physical scope;39 preservation is incremental."
+  ]
+}

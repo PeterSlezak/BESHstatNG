@@ -1,0 +1,36 @@
+{
+  "suite": "Legacy",
+  "part": "all",
+  "selection": null,
+  "name": "a39fD-full-Legacy-all",
+  "outcomes": {
+    "Passed": 9799,
+    "Failed": 9
+  },
+  "cases": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-Legacy-all/cases.json",
+    "bytes": 3029252,
+    "sha256": "3921e2f9fb58da9baed58c3821c456c4a19affedca4ca67be5af22a5561847c9"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-Legacy-all/results/Legacy.trx",
+    "bytes": 332542868,
+    "sha256": "8da27af75ea069d92313cb3157ed5586bbcfda6632be0601beba6b210b09bcbf"
+  },
+  "command": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-Legacy-all\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+      "/Settings:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-Legacy-all\\serial.runsettings",
+      "/ResultsDirectory:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-Legacy-all\\results",
+      "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+      "/Logger:trx;LogFileName=Legacy.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 165.37083339999663,
+    "stdout_sha256": "bac30c7e7b7b5ec1c43f80a56b052dab6709e923ea3d49cb872b3efd2ed912fc",
+    "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "suite": "Common",
+  "part": "main",
+  "selection": "FullyQualifiedName!~MigrationSemantic04A02Tests",
+  "name": "a39fD-full-Common-main",
+  "outcomes": {
+    "Passed": 9405,
+    "Failed": 5
+  },
+  "cases": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-Common-main/cases.json",
+    "bytes": 3029569,
+    "sha256": "2871a8ddc594c73fd3c8ed581c93f1dee44d81a566b8de013b0c8c937f39c6c5"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-Common-main/results/Common.trx",
+    "bytes": 332804685,
+    "sha256": "080011479bb3391c25f92720384269390643f6187a8359ba5316cc5738864df6"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+      "/Settings:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-Common-main\\serial.runsettings",
+      "/ResultsDirectory:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-Common-main\\results",
+      "/Logger:trx;LogFileName=Common.trx",
+      "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 104.92934610001976,
+    "stdout_sha256": "35c61214a017ab4b998297cf057b04edcbdc81c8e2ae92fae18fad633fa55d66",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

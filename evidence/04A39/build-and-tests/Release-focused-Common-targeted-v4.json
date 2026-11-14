@@ -1,0 +1,36 @@
+{
+  "suite": "Common",
+  "part": "targeted",
+  "selection": "FullyQualifiedName~UdfInputPolicy39Tests|FullyQualifiedName~UdfInputBoundary39Tests|FullyQualifiedName~PairedBlockPolicyTests|FullyQualifiedName~PairedBlockAdapterTests|FullyQualifiedName~PhysicalImporter27Tests|FullyQualifiedName~PhysicalImporter27ColumnNameTests|FullyQualifiedName~UdfImportFacadeTests|FullyQualifiedName~UdfPreparation38AdapterTests|FullyQualifiedName~UdfW2CompletionPreparation38",
+  "name": "a39fR-focused-Common-targeted",
+  "outcomes": {
+    "Passed": 68
+  },
+  "cases": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fR-focused-Common-targeted/cases.json",
+    "bytes": 22602,
+    "sha256": "4435aa7ba60cb2d76a1f29ef1fc24ecefe639399ca3048fb0b61ae972817f7c3"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fR-focused-Common-targeted/results/Common.trx",
+    "bytes": 101376,
+    "sha256": "8a7b60806a0f74b5c9d7327b74c7e4cecbb4a0c8c980b62e26ea44571bf52cff"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\executions\\a39fR-focused-Common-targeted\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+      "/Settings:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\executions\\a39fR-focused-Common-targeted\\serial.runsettings",
+      "/ResultsDirectory:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\executions\\a39fR-focused-Common-targeted\\results",
+      "/Logger:trx;LogFileName=Common.trx",
+      "/TestCaseFilter:FullyQualifiedName~UdfInputPolicy39Tests|FullyQualifiedName~UdfInputBoundary39Tests|FullyQualifiedName~PairedBlockPolicyTests|FullyQualifiedName~PairedBlockAdapterTests|FullyQualifiedName~PhysicalImporter27Tests|FullyQualifiedName~PhysicalImporter27ColumnNameTests|FullyQualifiedName~UdfImportFacadeTests|FullyQualifiedName~UdfPreparation38AdapterTests|FullyQualifiedName~UdfW2CompletionPreparation38"
+    ],
+    "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+    "exit_code": 0,
+    "seconds": 2.375212199985981,
+    "stdout_sha256": "46d735d8a6cf71c27579faf2ec280b2e8001f44720b43704a54247b417ecb11b",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

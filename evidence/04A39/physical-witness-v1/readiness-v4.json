@@ -1,0 +1,216 @@
+{
+  "status": "READY_FOR_OWNER_04A39_ACCEPTANCE_REVIEW_WITH_DOCUMENTED_RESTRICTIONS",
+  "publication": "PHYSICAL_DERIVATIVE_PUBLICATION_PASS",
+  "publication_unresolved_sensitive_findings": 0,
+  "synthetic_exact_matches": 25,
+  "public_SDK_original_conditional_matches": 2,
+  "postseal_matches": 0,
+  "repository_privacy": "REPOSITORY_CANDIDATE_PRIVACY_FAIL_UNWAIVED",
+  "W3_privacy": "TWO_HISTORICAL_ERROR_PARENTS_UNWAIVED",
+  "changed_diagnostics": "54_RETAINED_FAIL_DIFFERENCES_EXPLAINED_NOT_WAIVED",
+  "owner39_acceptance": false,
+  "accepted_or_merged": false,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A40_NOT_AUTHORIZED"
+  },
+  "utc": "2026-11-14T17:53:28.325446+00:00",
+  "owner_authority": {
+    "date": "2026-11-14",
+    "type": "OWNER_ASSERTION_FROM_CURRENT_INSTRUCTION",
+    "scope": "04A39 physical review-derivative publication gate only",
+    "exact_quote": "The authorization does not change original repository-candidate scanner scope, waive the two inherited 1,941-finding privacy FAIL parents, change earlier 1,599 snapshots or W3 ERRORs, or authorize protected raw evidence modification/deletion.",
+    "acceptance": false,
+    "required_fixture_matches": 25,
+    "required_unresolved": 0
+  },
+  "prior_readiness": {
+    "path": "evidence/04A39/correction-v1/final/readiness.json",
+    "bytes": 9042,
+    "sha256": "0233c800cf9148e48f4bda755ece75cc15edecef8739aa797cca00b824f3afaf"
+  },
+  "prior_status": "BLOCKED_04A39_OWNER_DECISION_REQUIRED",
+  "reconciliation": "Subsequent limited owner authority makes the verified physical derivative gate applicable to39 readiness. Original scanner scope and every FAIL/ERROR remain unchanged.",
+  "input_archives": [
+    {
+      "path": ".test-rationalization-04A39-correction-v1.tmp/BESHStatNG_04A39_CORRECTION_REVIEW_v1.zip",
+      "bytes": 74763995,
+      "sha256": "6164b6ff1f605997a4a2c482794682ab3e70bb85a48288721f252dec0bb03cab"
+    },
+    {
+      "path": ".test-rationalization-04A39-correction-v1.tmp/BESHStatNG_04A39_CORRECTION_POSTSEAL_v2.zip",
+      "bytes": 182435,
+      "sha256": "871ec6511fbdf8236e5653df8e1153a21c0137ba609b644c00faf860e0abae76"
+    }
+  ],
+  "owner_context": {
+    "token_count": 2,
+    "token_fingerprints": [
+      "026ad9b14a7453b7488daa0c6acbc258b1506f52c441c7c465474c1a564394ff",
+      "099834321317040e7635fd51832dabebce657642ec59988738ca407970b5a590"
+    ],
+    "username_present": true,
+    "hostname_present": true,
+    "raw_context": {
+      "path": ".test-rationalization-04A39-physical-witness-v1.tmp/owner-context.json",
+      "bytes": 144,
+      "sha256": "59530f76d953e26e83522113e097909a7d968d5613902a181ece88c25460fd6c"
+    }
+  },
+  "guard": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/privacy_regex_guard.py",
+    "bytes": 842,
+    "sha256": "ad17f82adca850afb94fa60d3c0ca5866b446860a7724dc77a5e5b3111c9ce5f"
+  },
+  "original_scanners": [
+    {
+      "path": "scripts/verify-04a13-publication.py",
+      "bytes": 9176,
+      "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+    },
+    {
+      "path": "scripts/verify-04a14-publication.py",
+      "bytes": 9320,
+      "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+    }
+  ],
+  "fixture_count": 25,
+  "physical_generic_main": 27,
+  "original_conditional_SDK": 2,
+  "original_scanner_main": 25,
+  "postseal": 0,
+  "unresolved_sensitive": 0,
+  "fixture_proof": {
+    "path": "evidence/04A39/physical-witness-v1/exact-25-fixtures.json",
+    "bytes": 48938,
+    "sha256": "e75c61fe69214321a8713fa145710a284014d3b8ded3cd02375ec0eac02c6d94"
+  },
+  "sdk_proof": {
+    "path": "evidence/04A39/physical-witness-v1/sdk-HEAD-proof.json",
+    "bytes": 2511,
+    "sha256": "b31b512624995c3f128e11e798dd0e1e8ab6c829fb1010eb1828bba3940fba28"
+  },
+  "preservation": {
+    "path": "evidence/04A39/physical-witness-v1/preservation-reconciliation.json",
+    "bytes": 7002,
+    "sha256": "feb2d5215cac27d933e7973fd2f73510367c2b6fa9de927c16c41524cc160a10"
+  },
+  "adverse_controls": {
+    "path": "evidence/04A39/physical-witness-v1/adverse-controls.json",
+    "bytes": 1892,
+    "sha256": "0e835d24ca0456bcad4581fa4e1544a461c91d61e5662b4e75519cc180c4e31b"
+  },
+  "Git": {
+    "path": "evidence/04A39/physical-witness-v1/Git-final-v4.json",
+    "bytes": 1575,
+    "sha256": "6a16b61da1404c8640d58a191777b3012127652abc6586d0491d9baea780c264"
+  },
+  "source_pins": 1353,
+  "old_dossier_files": 468,
+  "Python_parents": 956,
+  "changed_diagnostic_FAIL_events": 54,
+  "canonical_register": 1169,
+  "original_obligations": 1514,
+  "restricted_controls": 802,
+  "retained_results": {
+    "verdict": "NOT_READY_04A39",
+    "blockers": [
+      "A39-RAW-REVIEW-PRIVACY-01:TWO_CHANGED_PRIVACY_NONPASSES:1599_FINDINGS_EACH",
+      "PYTHON_54_CHANGED_DIAGNOSTICS_UNWAIVED"
+    ],
+    "managed": {
+      "Debug": {
+        "executed": 21127,
+        "outcomes": {
+          "Passed": 21113,
+          "Failed": 14
+        },
+        "new": 33,
+        "scope": "FULL"
+      },
+      "Release": {
+        "executed": 336,
+        "outcomes": {
+          "Passed": 336
+        },
+        "new": 33,
+        "scope": "TARGETED_ONLY"
+      }
+    },
+    "exports": {
+      "Debug": 268,
+      "Release": 268
+    },
+    "current_fixtures_per_configuration": 77,
+    "retained_compatibility_per_configuration": 29424,
+    "compatibility_execution": "RETAINED_W3;NOT_FRESH39",
+    "Python": {
+      "PASS": 833,
+      "ERROR": 11,
+      "FAIL": 112
+    },
+    "Python_events": {
+      "ERROR": 11,
+      "FAIL": 184
+    },
+    "historical_Python": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "historical_Python_events": {
+      "FAIL": 185,
+      "ERROR": 13
+    },
+    "historical_privacy_errors_unwaived": 2,
+    "Python_parent_outcome_changes": 5,
+    "Python_changed_messages": 54,
+    "Node": 916,
+    "strict_profile_MkDocs": [
+      1,
+      1,
+      0
+    ],
+    "register": {
+      "canonical_entries": 1169,
+      "original_obligations": 1514,
+      "restricted_controls": 802,
+      "report_occurrences": 286,
+      "statuses": {
+        "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+        "OWNER_AUTHORIZED_04A39_ONLY": 1,
+        "REQUIRES_OWNER_DECISION": 6,
+        "OBSERVED_RESTRICTED": 3,
+        "CHANGED_NONPASS_BLOCKING": 3,
+        "HISTORICALLY_REPORTED_RESTRICTED": 76,
+        "SUSPECTED_REQUIRES_REVIEW": 13,
+        "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+        "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+        "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+      },
+      "no_discharge": true,
+      "W3_validation_gate_records": 163,
+      "W3_events": 198,
+      "original_member_signatures": 759,
+      "unknown_entries": 0
+    },
+    "gates": {
+      "P": "NO",
+      "N1": "NO GO",
+      "N2": "NO",
+      "C2": "UNMET",
+      "C3": "UNAPPROVED",
+      "scientific": "NOT_GOLDEN"
+    },
+    "scientific_native": "NOT_RUN_UNAUTHORIZED",
+    "review": "No automatic acceptance, merge or04A.40 start."
+  },
+  "expensive_campaigns_rerun": 0,
+  "scientific_native_manual": "NOT_RUN_UNAUTHORIZED",
+  "review_limit": "Remote reviewers receive exact scanner/guard source and authenticated HEAD snapshot, but no real owner username/hostname values. The fresh owner-local original-scanner executions are machine-bound attestations; generic/per-key/HEAD checks can be independently repeated using pinned ZIP bytes."
+}

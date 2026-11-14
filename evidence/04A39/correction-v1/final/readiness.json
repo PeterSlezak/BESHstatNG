@@ -1,0 +1,268 @@
+{
+  "status": "BLOCKED_04A39_OWNER_DECISION_REQUIRED",
+  "reason": "Historical repository-candidate privacy FAILs remain unwaived while immutable raw records are preserved. New derivative safety is a separate gate.",
+  "diagnostics": "54_EXPLAINED_UNWAIVED",
+  "privacy": "ROOT_CANDIDATE_FAIL_UNWAIVED",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A40_NOT_AUTHORIZED"
+  },
+  "utc": "2026-11-14T16:12:22.468144+00:00",
+  "main": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "branch": "codex/04A-39",
+  "tip": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "active_local_reader": {
+    "path": "evidence/04A39/correction-v1/verify_correction_v2.py",
+    "bytes": 3409,
+    "sha256": "60efb3840a4d8ef1dff29dced4ebeeed527cadeb68eeb22b1bb99cbcf6452b68"
+  },
+  "active_public_reader": {
+    "path": "evidence/04A39/correction-v1/review_readback.py",
+    "bytes": 3882,
+    "sha256": "79e17abd295ef49ee1962e2a0ccb28bbef4d579ef88e1998edaac0cbd5fd7c57"
+  },
+  "original39": {
+    "path": "evidence/04A39/final/delivery-receipt-v1.json",
+    "bytes": 2676,
+    "sha256": "b21a7e95731c08cbef5a6a76bd3717214a18e72adae778af73f6d50a00a370a3"
+  },
+  "old_dossier_status": "NOT_READY_04A39_UNCHANGED",
+  "source_lock": {
+    "path": "evidence/04A39/correction-v1/entry/source-lock.json",
+    "bytes": 252976,
+    "sha256": "1b61a9460f7241a5608d401e4e7c8e7e3d24b859da99a93bd8b6af86d5af3c01"
+  },
+  "source_paths": 1353,
+  "production_or_existing_test_changes": 0,
+  "retained_results": {
+    "verdict": "NOT_READY_04A39",
+    "blockers": [
+      "A39-RAW-REVIEW-PRIVACY-01:TWO_CHANGED_PRIVACY_NONPASSES:1599_FINDINGS_EACH",
+      "PYTHON_54_CHANGED_DIAGNOSTICS_UNWAIVED"
+    ],
+    "managed": {
+      "Debug": {
+        "executed": 21127,
+        "outcomes": {
+          "Passed": 21113,
+          "Failed": 14
+        },
+        "new": 33,
+        "scope": "FULL"
+      },
+      "Release": {
+        "executed": 336,
+        "outcomes": {
+          "Passed": 336
+        },
+        "new": 33,
+        "scope": "TARGETED_ONLY"
+      }
+    },
+    "exports": {
+      "Debug": 268,
+      "Release": 268
+    },
+    "current_fixtures_per_configuration": 77,
+    "retained_compatibility_per_configuration": 29424,
+    "compatibility_execution": "RETAINED_W3;NOT_FRESH39",
+    "Python": {
+      "PASS": 833,
+      "ERROR": 11,
+      "FAIL": 112
+    },
+    "Python_events": {
+      "ERROR": 11,
+      "FAIL": 184
+    },
+    "historical_Python": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "historical_Python_events": {
+      "FAIL": 185,
+      "ERROR": 13
+    },
+    "historical_privacy_errors_unwaived": 2,
+    "Python_parent_outcome_changes": 5,
+    "Python_changed_messages": 54,
+    "Node": 916,
+    "strict_profile_MkDocs": [
+      1,
+      1,
+      0
+    ],
+    "register": {
+      "canonical_entries": 1169,
+      "original_obligations": 1514,
+      "restricted_controls": 802,
+      "report_occurrences": 286,
+      "statuses": {
+        "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+        "OWNER_AUTHORIZED_04A39_ONLY": 1,
+        "REQUIRES_OWNER_DECISION": 6,
+        "OBSERVED_RESTRICTED": 3,
+        "CHANGED_NONPASS_BLOCKING": 3,
+        "HISTORICALLY_REPORTED_RESTRICTED": 76,
+        "SUSPECTED_REQUIRES_REVIEW": 13,
+        "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+        "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+        "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+      },
+      "no_discharge": true,
+      "W3_validation_gate_records": 163,
+      "W3_events": 198,
+      "original_member_signatures": 759,
+      "unknown_entries": 0
+    },
+    "gates": {
+      "P": "NO",
+      "N1": "NO GO",
+      "N2": "NO",
+      "C2": "UNMET",
+      "C3": "UNAPPROVED",
+      "scientific": "NOT_GOLDEN"
+    },
+    "scientific_native": "NOT_RUN_UNAUTHORIZED",
+    "review": "No automatic acceptance, merge or04A.40 start."
+  },
+  "fresh_python_full_campaign": false,
+  "focused": {
+    "parents": 26,
+    "PASS": 3,
+    "FAIL": 23,
+    "ERROR": 0,
+    "command_exit": 1
+  },
+  "changed_diagnostic_events": 54,
+  "changed_diagnostics_explained": 54,
+  "trace_differences_only_assertion_messages": true,
+  "original_privacy_per_parent": 1599,
+  "focused_privacy_per_parent": 1941,
+  "privacy_findings_unwaived": true,
+  "new_reporting_controls": {
+    "executed": 24,
+    "PASS": 24,
+    "FAIL": 0,
+    "ERROR": 0
+  },
+  "staged_publication": {
+    "scanner_findings": 25,
+    "reviewed_exact_occurrences": 25,
+    "unresolved": 0,
+    "privacy_status": "PASS_STAGED_DERIVATIVE_ONLY",
+    "repository_candidate_status": "FAIL_UNWAIVED",
+    "historical_utf8_gate_status": "ERROR_LEGACY_SOURCE_ENCODING_UNWAIVED",
+    "command_exit": 0,
+    "sanitization_status": "DETERMINISTIC_SANITIZED_DERIVATIVES;RAW_PRESERVED_LOCAL",
+    "scope": "Exact physical staged derivative, including original synthetic test literals with25 exact occurrence dispositions. Not a repository-wide privacy result.",
+    "payload_files": 2058,
+    "payload_fingerprint": "1f21db3e3670a4ce4f211d5097434c0b6dd50e3c80bf92b17d207e6c02a2a11e",
+    "protected_paths": 134,
+    "source_coverage": 1353,
+    "legacy_source_encodings": [
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/SpreadsheetRangeIdentityTests.vb",
+        "sha256": "b14f43d19935e8050dc08bc6d505927524f33bcb0e855cd0b309a80cfd39feb2",
+        "privacy_views": [
+          "cp1250",
+          "cp1252"
+        ],
+        "original_bytes_preserved": true
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/DumbbellPlot.vb",
+        "sha256": "56c37aae362293725c1197ea3048873f712a12cc9c332cf51f3a76907d33b43e",
+        "privacy_views": [
+          "cp1250",
+          "cp1252"
+        ],
+        "original_bytes_preserved": true
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/SankeyPlot.vb",
+        "sha256": "6ddae98f6c07cefeba643e37a7a6589ee736c1709dbc975da9dac118469f152d",
+        "privacy_views": [
+          "cp1250",
+          "cp1252"
+        ],
+        "original_bytes_preserved": true
+      }
+    ],
+    "scanner": {
+      "path": "scripts/verify-04a13-publication.py",
+      "bytes": 9176,
+      "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+    },
+    "scanner14": {
+      "path": "scripts/verify-04a14-publication.py",
+      "bytes": 9320,
+      "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+    },
+    "scanner_rules_changed": false,
+    "source_or_test_changed": false,
+    "gates": {
+      "P": "NO",
+      "N1": "NO GO",
+      "N2": "NO",
+      "C2": "UNMET",
+      "C3": "UNAPPROVED",
+      "scientific": "NOT_GOLDEN",
+      "next": "04A40_NOT_AUTHORIZED"
+    },
+    "raw_receipt": {
+      "path": ".test-rationalization-04A39-correction-v1.tmp/final-stage-scan-raw.json",
+      "bytes": 14072,
+      "sha256": "a31ee793e988be5352c7b0980eee968c6bea6a399876353c18bd9956e28d9adb"
+    }
+  },
+  "main_archive": {
+    "path": ".test-rationalization-04A39-correction-v1.tmp/BESHStatNG_04A39_CORRECTION_REVIEW_v1.zip",
+    "bytes": 74763995,
+    "sha256": "6164b6ff1f605997a4a2c482794682ab3e70bb85a48288721f252dec0bb03cab"
+  },
+  "standalone_readback": {
+    "path": "evidence/04A39/correction-v1/final/standalone-readback.json",
+    "bytes": 900,
+    "sha256": "f58fd34039285bc0b4288799b6ffc061b4ae4b61537efb262061074e66d7cf8c"
+  },
+  "preservation": {
+    "path": "evidence/04A39/correction-v1/preservation/postpublication.json",
+    "bytes": 723,
+    "sha256": "b0f782d9de4b7020cecfbe5c1dc7d390b92f48135f37fc4252f26ab677970482"
+  },
+  "Git": {
+    "path": "evidence/04A39/correction-v1/final/git-final-v1.json",
+    "bytes": 1404,
+    "sha256": "8c20b0014fe1ee6a2f2a84b3ac6b110ea1710461c2fe13130246076b84617ccb"
+  },
+  "actions": [
+    {
+      "id": "A39-RAW-REVIEW-PRIVACY-01",
+      "status": "BLOCKED_OWNER_DECISION",
+      "action": "Decide whether the new physical derivative gate can satisfy39 publication while the two historical Git-candidate FAILs and immutable raw originals remain unwaived. No control/test/domain is silently redefined."
+    },
+    {
+      "id": "PYTHON_54_CHANGED_DIAGNOSTICS",
+      "status": "EXPLANATION_VERIFIED_ORIGINAL_FAILURES_UNWAIVED",
+      "action": "Review54 exact source-bound assertion differences; retain historical register facets and scientific restrictions."
+    },
+    {
+      "id": "V6_RAW_DERIVATIVE",
+      "status": "WORKFLOW_REPLACED_OLD_ARCHIVE_PRESERVED",
+      "action": "Use the gated correction derivative for review. External v6 workflow/archive were not changed or republished."
+    },
+    {
+      "id": "SCIENTIFIC_NATIVE_AND_04A40",
+      "status": "NOT_AUTHORIZED",
+      "action": "No statistical/native changes, acceptance, Git publication or next batch authorized."
+    }
+  ],
+  "transport_self_policy": "Main ZIP was frozen before archive-bound receipts. Small postseal companion transports these additive receipts and helper source; final delivery receipt is external to avoid circular archive hashes."
+}

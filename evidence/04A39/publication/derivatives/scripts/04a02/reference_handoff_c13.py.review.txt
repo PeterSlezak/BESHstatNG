@@ -1,0 +1,73 @@
+"""C13 case handoff admission. No R execution; frozen v6 remains the executor.
+
+The caller must separately review the exact conditional GO hash. This module
+does not supply an independent scientific review, owner token or P approval.
+"""
+import argparse
+import importlib.util
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[2]
+spec=importlib.util.spec_from_file_location('c13_frozen_v6',ROOT/'scripts/04a02/oracle_operator_v6.py')
+r=importlib.util.module_from_spec(spec);spec.loader.exec_module(r)
+MANIFEST=ROOT/'docs/architecture/04A02/oracle-proposals/manifest-v6-c12-v1.json'
+MANIFEST_SHA='d8f3338bfe588e47ba6f78b589b43f587448ffbd52948558ad9e0af6f2bc8bd1'
+OWNER_ROOT=Path(r'<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a')
+JOB=OWNER_ROOT/'c12-startup-20261101-v1'
+STARTUP_HASHES={
+    'startup-receipt.json':'d18fb85b20041c20a6b04c4386c1baaef285edbb203c3d841e8ce9dc2781be42',
+    'raw-stdout.bin':'65d9770ddd915052b2fbb0b0ebdc0ad758581b6af961cbff07e0905fe04582f4',
+    'raw-stderr.bin':'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+    'exit.json':'d24219f6de94b955cf36d25bd2aca88e2d35eef45b9317b7083f55ec8fe9653c',
+    'preflight.json':'5f8d8a1a070c81b57b729b0073e5b21471db6ce9f2ed94d3cbc69f9ab7b40e87',
+    'startup.R':'6af48e2d873bd413a6b5d8cdb4d2534040fb756c5a0a7b4a230dbd9d545b9106'}
+CASES={'C30-SYN-ANOVA':'c13-reference-anova-20261101-v1','C30-SYN-KW':'c13-reference-kw-20261101-v1'}
+
+
+def verified_startup(case_id):
+    m,d,c,f,p=r.pins(MANIFEST,MANIFEST_SHA,case_id)
+    for name,expected in STARTUP_HASHES.items():
+        r.require(r.digest(JOB/name)==expected,'C12 original drift: '+name)
+    receipt=r.v2.strict_json((JOB/'startup-receipt.json').read_bytes())
+    r.require(receipt.get('schema')=='04A02-C12-startup-receipt-v1' and receipt.get('status')=='R_RUNTIME_PROBED','Qualified startup receipt required')
+    r.require(receipt.get('job')==str(JOB) and receipt.get('manifest_sha256')==MANIFEST_SHA,'Startup root/manifest mismatch')
+    r.require(r.v2.strict_json((JOB/'exit.json').read_bytes())=={'exit_code':0} and (JOB/'raw-stderr.bin').read_bytes()==b'','Startup exit/stderr')
+    r.require(not list(JOB.glob('failure-*.json')),'Failed startup cannot qualify')
+    proof=r.validate_probe(r.v2.strict_json((JOB/'raw-stdout.bin').read_bytes()),JOB,p['namespace_validation'],p['path_identity_validation'])
+    r.require(receipt.get('path_identity_evidence')==proof,'Startup native identity evidence drift')
+    r.require(receipt.get('namespace_policy')==m['namespace_policy'] and receipt.get('path_identity_policy')==m['path_identity_policy'],'Startup policy drift')
+    return m,d,c,f,p
+
+
+def validate_go_scope(go,case_id,reviewed_hash,actual_hash):
+    r.require(case_id in CASES,'Unapproved statistical case')
+    r.require(reviewed_hash==actual_hash,'Review must bind the exact GO bytes')
+    r.require(go.get('schema')=='04A02-C12-R-technical-v1' and go.get('status')=='R_TECHNICAL_GO','Native case GO schema/status required')
+    r.require(go.get('case_id')==case_id and go.get('manifest_sha256')==MANIFEST_SHA and go.get('output_root')==str(OWNER_ROOT),'Wrong case/manifest/root')
+    r.require(go.get('attempt_name')==CASES[case_id],'Wrong one-shot attempt')
+    r.require(go.get('P')=='NO' and go.get('N2')=='NO','Promotion/output is not authorized')
+    r.require(go.get('activation')=='EXACT_NORMAL_OWNER_CONTEXT_AFTER_HASH_REVIEW','Conditional owner activation required')
+    return go
+
+
+def admit(go_path,reviewed_hash,case_id):
+    go=r.v3.pinned(go_path,reviewed_hash)
+    validate_go_scope(go,case_id,reviewed_hash,r.digest(go_path))
+    _,_,_,_,policy=verified_startup(case_id)
+    r.new_attempt_path(OWNER_ROOT,CASES[case_id])
+    # This is deliberately a real current observation, never the retained owner
+    # ACL replay used by host-free tests. Frozen v6 repeats it inside held locks.
+    with r.lock_chain_complete(OWNER_ROOT):
+        observed=r.collect_acl(OWNER_ROOT)
+        r.qualification(go_path,reviewed_hash,MANIFEST_SHA,case_id,OWNER_ROOT,observed,
+                        policy['namespace_validation'],policy['path_identity_validation'])
+    return go
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--go',type=Path,required=True)
+    parser.add_argument('--reviewed-go-sha256',required=True)
+    parser.add_argument('--case',choices=CASES,required=True)
+    args=parser.parse_args()
+    admit(args.go,args.reviewed_go_sha256,args.case)

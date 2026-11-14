@@ -1,0 +1,69 @@
+{
+  "status": "NOT_READY_04A39",
+  "utc": "2026-11-14T12:52:14.215649+00:00",
+  "main": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "branch": "codex/04A-39",
+  "tip": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "owner_review": {
+    "path": "evidence/04A39/final/owner-review.md",
+    "bytes": 10038,
+    "sha256": "329367e5be32022a16e647dc3666d0f8f6b1f45baa9f0339925823df5813909b"
+  },
+  "readiness": {
+    "path": "evidence/04A39/final/readiness.json",
+    "bytes": 5574,
+    "sha256": "f589fa5cd2bea17f45b7cc3cfbf1c30bd907a499737db42cda30e56d73e8f273"
+  },
+  "canonical_register": {
+    "path": "evidence/04A39/register/current-v5.json",
+    "bytes": 521,
+    "sha256": "940c17003f4df2818a400b7af9c0eb46fa82ce2b7ea1eb2549c1f67194114ab4"
+  },
+  "Git": {
+    "path": "evidence/04A39/final/git-final-v1.json",
+    "bytes": 59886,
+    "sha256": "dafaafd4ca22b4531dc32d5b2990e73f704272b5fd95c32bc67f7c66ca170d25"
+  },
+  "archive": {
+    "path": ".test-rationalization-04A39.tmp/review-v1/BESHstatNG_04A39_REVIEW_v1.zip",
+    "bytes": 74016681,
+    "sha256": "e23e51ecf47e487ad3444acbd7f7b1cb72577a3c38718fba5c6130a40ac9efa2"
+  },
+  "physical_readback": {
+    "path": "evidence/04A39/publication/physical-readback-v1.json",
+    "bytes": 1104,
+    "sha256": "a6367e700e006580eb519b8cc5082c2e0d3b11b0f5f6826be381c87f5e4e5b5d"
+  },
+  "logical_manifest": {
+    "path": "evidence/04A39/publication/payload-manifest-v1.json",
+    "bytes": 431463,
+    "sha256": "b655f7fd016521758d1504fe21778f17e4918a3c4133f92d7bba1613d5934265"
+  },
+  "preservation": {
+    "path": "evidence/04A39/preservation/new-pins-v1.json",
+    "bytes": 2016814,
+    "sha256": "f79afe493552159cc3bac6ea203e2ea6df13c20c4167ad882db684665197d77a"
+  },
+  "postpublication_preservation": {
+    "path": "evidence/04A39/preservation/post-publication-additions-v1.json",
+    "bytes": 687811,
+    "sha256": "e8f45e40cc4ca905d2ee74b104546f10cd2d9e1c2380b29130819fe2081859dd"
+  },
+  "new39_existing_pins": 6222,
+  "new39_postpublication_additions": 2191,
+  "inherited_file_pins": 37484,
+  "inherited_archive_records": 154,
+  "new_review_archives": 1,
+  "physical_scope": "Incremental39 audit/readback; no new whole inherited union/private upload claim.",
+  "omitted_postpublication_bookkeeping": "Final Git/receipt and post-publication preservation JSON follow the ZIP to avoid self-hash cycles; provide these small JSONs beside the ZIP. Original raw authorities and failed attempts remain local.",
+  "external_upload": "NOT_PERFORMED",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN"
+  },
+  "next_batch": "04A40_NOT_AUTHORIZED"
+}

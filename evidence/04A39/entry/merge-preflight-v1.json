@@ -1,0 +1,156 @@
+{
+  "status": "04A38_OWNER_ACCEPTED_AND_MERGED_VERIFIED",
+  "utc": "2026-11-14T11:23:31.536800+00:00",
+  "main": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "parent": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "branch": "codex/04A-39",
+  "branch_parent": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "owner_acceptances": [
+    {
+      "scope": "W2",
+      "date": "2026-11-13"
+    },
+    {
+      "scope": "W3 software qualified",
+      "date": "2026-11-14"
+    },
+    {
+      "scope": "Phase04A.38 overall",
+      "date": "2026-11-14"
+    }
+  ],
+  "acceptance_basis": "Owner assertions in current prompt; no invented prior receipt/signature",
+  "commands": [
+    {
+      "arguments": [
+        "branch",
+        "--show-current"
+      ],
+      "stdout": "codex/04A-39\n",
+      "stdout_sha256": "9b27ecc6238e73f99e57e7925d4bf0c9c450b3093e9c715902c3a09ad5bfd70e",
+      "exit_code": 0,
+      "utc": "2026-11-14T11:23:31.156438+00:00"
+    },
+    {
+      "arguments": [
+        "rev-parse",
+        "HEAD",
+        "main"
+      ],
+      "stdout": "22da2214da6bb1cad4f2934d0b36276324a1432f\n22da2214da6bb1cad4f2934d0b36276324a1432f\n",
+      "stdout_sha256": "c94fa641bd068a55842a1d570c04f10bf1c6b988121a52f196d8584a8ef0e246",
+      "exit_code": 0,
+      "utc": "2026-11-14T11:23:31.187138+00:00"
+    },
+    {
+      "arguments": [
+        "merge-base",
+        "HEAD",
+        "main"
+      ],
+      "stdout": "22da2214da6bb1cad4f2934d0b36276324a1432f\n",
+      "stdout_sha256": "6c5c47bc3599bdb65651e1a8de16bf06bbd78db48298dbc09800bca8f0ed707b",
+      "exit_code": 0,
+      "utc": "2026-11-14T11:23:31.222327+00:00"
+    },
+    {
+      "arguments": [
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "stdout": "?? evidence/04A39/capture-entry-v1.py\n?? evidence/04A39/common39.py\n?? evidence/04A39/entry/line-ending-reconciliation-v1.json\n?? evidence/04A39/entry/source-preimages-v1.json\n",
+      "stdout_sha256": "642dabc878abfa43674d7869ec07ad1cfd2a7f84ba6a08d74ef5dcfbb9ab833b",
+      "exit_code": 0,
+      "utc": "2026-11-14T11:23:31.371756+00:00"
+    },
+    {
+      "arguments": [
+        "diff",
+        "--cached",
+        "--name-status"
+      ],
+      "stdout": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "utc": "2026-11-14T11:23:31.411063+00:00"
+    },
+    {
+      "arguments": [
+        "diff",
+        "--check"
+      ],
+      "stdout": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit_code": 0,
+      "utc": "2026-11-14T11:23:31.490994+00:00"
+    },
+    {
+      "arguments": [
+        "log",
+        "--all",
+        "-15",
+        "--format=%H %P %s"
+      ],
+      "stdout": "22da2214da6bb1cad4f2934d0b36276324a1432f ba1636f5356ac761509c2cfa16fc66b92430935d UDFs extraction\nba1636f5356ac761509c2cfa16fc66b92430935d a0680f546c5130fa5143c0b0c7136f852d650cc5 Portable PCA/factor/cluster/CA plot geometry, axes, score/loadings/biplot/dendrogram labels.\na0680f546c5130fa5143c0b0c7136f852d650cc5 92f5916d9dc0aaa727c99c0ceea9c89c10eefef3 Portable Survival plots, SPC plots\n92f5916d9dc0aaa727c99c0ceea9c89c10eefef3 6f1a27dc2a3aaa3f58326557c087e508344500b8 create aux.py\n6f1a27dc2a3aaa3f58326557c087e508344500b8 f6b605b4a5fc3ffe4ab5f68ddb1f7ef75071311e Extract multiple-comparison/CI and agreement/PSM report and plot geometry\nf6b605b4a5fc3ffe4ab5f68ddb1f7ef75071311e b162a6ac801d7784fc5e27974fbf91aa57a2aee1 Graphics reusable methods migration\nb162a6ac801d7784fc5e27974fbf91aa57a2aee1 43d20f86b80934c49b2f3dec90824aa62af5aaee XYZ/ScatterMatrix/3D coordinate transformations, interpolation and series payloads\n43d20f86b80934c49b2f3dec90824aa62af5aaee 43a752b169fb996ed65387d88d380b1386e92240 Box plot/histogram/violin aggregate and chart-axis semantics\n43a752b169fb996ed65387d88d380b1386e92240 f840b1695fd95be25faba6fd5408c9498a31d804 ROC and normal plot data/quantiles/ref lines, preserve source immutability\nf840b1695fd95be25faba6fd5408c9498a31d804 45466a88e7567c9f4711ba4fbbe295a7a2e69bb4 Migrate remaining plot-label normalization, portable ROC, normal Q–Q, etc.\n45466a88e7567c9f4711ba4fbbe295a7a2e69bb4 02a6d01cd3520116539fcefdd77612bbd9550129 Windows Graphics modules Audit\n02a6d01cd3520116539fcefdd77612bbd9550129 ed94086e449f22ee1a0fc3888d6209ecba85a8b5 Update BESHStatNG_CrossPlatform_MasterPlan.md\ned94086e449f22ee1a0fc3888d6209ecba85a8b5 033cbe9033cc10bce3e19322e5582e5ea389fe22 Reconcile output cells, formatting, p-values, layout/overwrite and three destinations\n033cbe9033cc10bce3e19322e5582e5ea389fe22 c2ea685e893d5d1379a1bd8c13c390fc6a259f58 tests-rationalization\nc2ea685e893d5d1379a1bd8c13c390fc6a259f58 97d54617703287f20886d82bc2896bd95e475770 Extract sample-size/assurance and agreement reporting/input rules\n",
+      "stdout_sha256": "853a5df871eb81c096532138bda3945f254a7ce07bd77e54fc40e417c99d7850",
+      "exit_code": 0,
+      "utc": "2026-11-14T11:23:31.536772+00:00"
+    }
+  ],
+  "index": {
+    "path": ".git/index",
+    "bytes": 2051745,
+    "sha256": "2a0e5c1da0a43550074f695676ba71692af75a8007f2f4f3dc5b4504231fdb45"
+  },
+  "authorities": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/production-test-freeze-v1.json",
+      "bytes": 424596,
+      "sha256": "43cd9af03ab09829c205b694f6650df1779766692159da791144b9f48f7c868e"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/final/delivery-receipt-v1.json",
+      "bytes": 2201,
+      "sha256": "2b8edd7147d7f0f9f648ee7e8bff1ee425f41d53cc72df785a15782168344f89"
+    },
+    {
+      "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+      "bytes": 84627,
+      "sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd"
+    },
+    {
+      "path": "planning/BESHStatNG_CrossPlatform_MasterPlan2.12.md",
+      "bytes": 209612,
+      "sha256": "3b998b5f004a071d4ce797ee51903773616c42053e594ee419ddb12ea739eed7"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 3101,
+      "sha256": "9fb0b1351f975c33724fc62a023f66f74ceb8bb0990254731a4c897586955a3b"
+    }
+  ],
+  "gate_proof": {
+    "path": "evidence/04A39/entry/line-ending-reconciliation-v1.json",
+    "bytes": 1044081,
+    "sha256": "1675d38db513e9d73b6e6f728af69e76be3f144cb58613c8c34a2db1b5bf13ad"
+  },
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN"
+  },
+  "inherited_preservation": {
+    "file_pins": 37484,
+    "archive_records": 154,
+    "physical_scope": "Inherited qualified W3 audit; no new whole-union byte audit claimed"
+  },
+  "preflight_attempts": [
+    "Initial branch creation denied by filesystem sandbox before any index/branch write; authorized tool escalation then succeeded.",
+    "Initial inspection used absent evidence/04A04/07/27 paths; actual authorities found under docs/architecture.",
+    "One read-only diagnostic assumed dictionary for the1514-entry list; corrected diagnostic only; no campaign started."
+  ]
+}

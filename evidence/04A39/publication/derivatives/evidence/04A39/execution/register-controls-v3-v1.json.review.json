@@ -1,0 +1,17 @@
+{
+  "command": [
+    "<PYTHON>",
+    "-I",
+    "-B",
+    "-c",
+    "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+    "<REPO_ROOT>\\evidence\\04A39",
+    "<REPO_ROOT>\\evidence\\04A39\\register-controls-v3.py"
+  ],
+  "cwd": "<REPO_ROOT>",
+  "exit_code": 0,
+  "seconds": 4.7175593999854755,
+  "stdout_sha256": "e66653f7385b23e8dcb40275c2723e818ad95675f7aa40d0f0392a63885d7e31",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+}

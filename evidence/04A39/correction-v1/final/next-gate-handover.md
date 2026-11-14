@@ -1,0 +1,1 @@
+Independent owner/ChatGPT review of the main correction ZIP and complementary postseal receipts is recommended. Resolve the exact publication-domain decision in readiness.json; preserve both historical privacy FAILs and all raw originals. Do not infer39 acceptance, stage/commit/merge or begin04A.40. All scientific/native gates remain unchanged.

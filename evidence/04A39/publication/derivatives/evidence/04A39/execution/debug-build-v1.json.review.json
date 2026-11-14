@@ -1,0 +1,19 @@
+{
+  "command": [
+    "<PYTHON>",
+    "-I",
+    "-B",
+    "-c",
+    "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+    "<REPO_ROOT>\\evidence\\04A39",
+    "<REPO_ROOT>\\evidence\\04A39\\managed-v1.py",
+    "Debug",
+    "build"
+  ],
+  "cwd": "<REPO_ROOT>",
+  "exit_code": 1,
+  "seconds": 36.42795809998643,
+  "stdout_sha256": "b84336ed605656cabd0b1fe3a87eb31f565ff951050fb21dfa467396030221fe",
+  "stderr_sha256": "22fa4ccf7f30aa982cb6cb78f27ad8d5d0e768a31cbc80acae2207350678e572",
+  "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+}

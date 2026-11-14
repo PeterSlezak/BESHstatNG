@@ -1,0 +1,63 @@
+{
+  "configuration": "Debug",
+  "commands": [
+    {
+      "command": [
+        "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\completion-w2-cont15\\signatures-v1\\MethodMetadata38.exe",
+        "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\shipping-final\\Debug",
+        "C:\\Users\\peter\\source\\repos\\BESHstatNG\\evidence\\04A39\\abi-cil\\Debug\\current-v1.json",
+        "C:\\Users\\peter\\source\\repos\\BESHstatNG\\evidence\\04A38\\completion\\w2\\continuation-v16\\native-metadata-owners-v1.txt"
+      ],
+      "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+      "exit_code": 0,
+      "seconds": 8.844764700013911,
+      "stdout_sha256": "9b47ec3cf1879d0b8943740d848190da6fb66cae26274461c67640f0ba3dac81",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\completion-w2-cont15\\packet-v2\\inspection\\Inspect38.exe",
+        "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\shipping-final\\Debug",
+        "C:\\Users\\peter\\source\\repos\\BESHstatNG\\evidence\\04A39\\abi-cil\\Debug\\exports-v1.json",
+        "C:\\Users\\peter\\source\\repos\\BESHstatNG\\evidence\\04A38\\entry-members.json"
+      ],
+      "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+      "exit_code": 0,
+      "seconds": 0.6590810999914538,
+      "stdout_sha256": "768d70d3cf223e448fec840b0c77f411d7200e0c4edb14c31b61c0a66f40baff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "source_lock": {
+    "path": "evidence/04A39/entry/source-preimages-v1.json",
+    "bytes": 252413,
+    "sha256": "b1ea6b3d6ca6fc16b0a4a36a0252addc0466287c7bebeb76f7b756f155b807f1"
+  },
+  "accepted_W3_metadata": {
+    "path": "evidence/04A38/completion/w3/abi-cil/review-metadata/Debug/current.json",
+    "bytes": 76259957,
+    "sha256": "1e2809a2f76a845e95e2e7958cceab50bbc35f06e787385a87991b840f0449f4"
+  },
+  "metadata": {
+    "path": "evidence/04A39/abi-cil/Debug/current-v1.json",
+    "bytes": 76259957,
+    "sha256": "088e5187c5a5d9cab54c4d01911b57089a9378ece2207cbd17d080fd0828ab80"
+  },
+  "exports": {
+    "path": "evidence/04A39/abi-cil/Debug/exports-v1.json",
+    "bytes": 2611465,
+    "sha256": "586ee48f63dee33cc53e0aea076647126b9d7e833785be1dcee72d5a245b6d7f"
+  },
+  "exports_count": 268,
+  "exact_exports": true,
+  "method_count": 15012,
+  "missing": [],
+  "added": [],
+  "normalized_method_changes": [],
+  "types_exact": false,
+  "exception_callback_delegate_dependency_proof": "Complete normalized per-method metadata includes signatures, attributes, locals, exceptions and ordered instructions/calls; comparison is config-to-same-config, not Debug IL versus Release IL.",
+  "actual_consumption": "All accepted Windowsâ†’Core/Common compiled dependencies retained exactly; no production algorithm/parser/helper/reference was introduced.",
+  "raw_IL_changed": 0
+}

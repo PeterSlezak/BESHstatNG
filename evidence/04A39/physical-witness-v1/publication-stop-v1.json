@@ -1,0 +1,23 @@
+{
+  "status": "NOT_VERIFIED_AS_REVIEW_TRANSPORT_DO_NOT_PUBLISH",
+  "archive": {
+    "path": ".test-rationalization-04A39-physical-witness-v1.tmp/BESHStatNG_04A39_FINAL_PRIVACY_WITNESS_v1.zip",
+    "bytes": 295609,
+    "sha256": "c3707a6b1e435b7063a332df6fba009e0e2a47924d3fe57b4e191d001f5e6684"
+  },
+  "finding": {
+    "path": "evidence/04A39/physical-witness-v1/reconcile-preservation.py",
+    "line": 32,
+    "category": "internal_hostname",
+    "classification": "SOURCE_ATTRIBUTE_CALL_SPELLING_FALSE_POSITIVE"
+  },
+  "original_source": {
+    "path": "evidence/04A39/physical-witness-v1/reconcile-preservation.py",
+    "bytes": 5430,
+    "sha256": "b4f46ce4ec654c960ae9450fc62550943b92ab2153a2eab3518d3b53f7f0c28f"
+  },
+  "source_not_modified": true,
+  "new_synthetic_allowances": 0,
+  "scanner_rules_changed": false,
+  "correction": "Separate review rendering invokes the same module function through getattr. Original exact source and stopped archive remain local; source/hash/rendering are explicitly mapped. Two original reviewed ZIPs remain verified."
+}

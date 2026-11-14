@@ -1,0 +1,101 @@
+{
+  "results": [
+    {
+      "category": "strict",
+      "result": {
+        "command": [
+          "dotnet",
+          "C:\\Users\\peter\\source\\repos\\BESHstatNG\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+          "--check",
+          "--strict"
+        ],
+        "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+        "exit_code": 1,
+        "seconds": 12.394558400003007,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A39.tmp/commands/a39serial-strict/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A39.tmp/commands/a39serial-strict/stderr.log",
+        "bytes": 529,
+        "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+      },
+      "disposition": "INHERITED_RESTRICTED;EXPLICIT_OWNER_DECISION_REQUIRED"
+    },
+    {
+      "category": "profile",
+      "result": {
+        "command": [
+          "C:\\Users\\peter\\Desktop\\WPy64-31470\\python\\python.exe",
+          "-B",
+          "scripts/windows-migration-audit/owner_closeout.py",
+          "--profile",
+          "inventory-complete-with-approved-deferrals"
+        ],
+        "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+        "exit_code": 1,
+        "seconds": 40.14438749998226,
+        "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A39.tmp/commands/a39serial-profile/stdout.log",
+        "bytes": 46,
+        "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A39.tmp/commands/a39serial-profile/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "disposition": "INHERITED_RESTRICTED;EXPLICIT_OWNER_DECISION_REQUIRED"
+    },
+    {
+      "category": "docs",
+      "result": {
+        "command": [
+          "C:\\Users\\peter\\Desktop\\WPy64-31470\\python\\python.exe",
+          "-B",
+          "-m",
+          "mkdocs",
+          "build",
+          "--config-file",
+          "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+          "--site-dir",
+          "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\a39serial\\site",
+          "--strict"
+        ],
+        "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+        "exit_code": 0,
+        "seconds": 8.886757500004023,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "6725b5790bd319b6d550d8f1f2150df619bcfb8c15a8872a1f897fce235fe507",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A39.tmp/commands/a39serial-docs/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A39.tmp/commands/a39serial-docs/stderr.log",
+        "bytes": 777,
+        "sha256": "6725b5790bd319b6d550d8f1f2150df619bcfb8c15a8872a1f897fce235fe507"
+      },
+      "disposition": "VERIFIED_PASS"
+    }
+  ],
+  "prior_exits": [
+    1,
+    1,
+    0
+  ],
+  "source_backed_dispositions": "Strict NormalPlot identity ambiguity and profile source-contract failures remain real nonpasses, not scientific/native release."
+}

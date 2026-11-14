@@ -1,0 +1,1098 @@
+{
+  "status": "BLOCKING_CHANGED_PRIVACY_AND_DIAGNOSTICS_NOT_WAIVED",
+  "current": {
+    "path": "evidence/04A39/python-node-scanners/python-identities-v1.json",
+    "bytes": 3403818,
+    "sha256": "f31b1aeb11fbf984e054c27bb2a1998916022df0afb79293e1524435abfdb364"
+  },
+  "baseline": {
+    "path": "evidence/04A38/completion/w3/python-node-scanners/python-identities-v1.json",
+    "bytes": 2427375,
+    "sha256": "b72670cdeda0e28636dba0c4f7df29108b9f417a196b149cd93bcb2b4e9fe394"
+  },
+  "parents": 956,
+  "current_parent_outcomes": {
+    "PASS": 833,
+    "ERROR": 11,
+    "FAIL": 112
+  },
+  "baseline_parent_outcomes": {
+    "PASS": 830,
+    "FAIL": 113,
+    "ERROR": 13
+  },
+  "current_event_outcomes": {
+    "ERROR": 11,
+    "FAIL": 184
+  },
+  "baseline_event_outcomes": {
+    "FAIL": 185,
+    "ERROR": 13
+  },
+  "changes": [
+    {
+      "id": "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+      "before": "FAIL",
+      "after": "PASS",
+      "classification": "PASS_IN_CURRENT_TRACKED_DIFF_SCOPE;HISTORICAL_FAIL_NOT_DISCHARGED",
+      "reason": "Guard inspects git diff names. Accepted38 UDF changes are committed, leaving only39 test-project/plan tracked modifications. Current PASS does not erase original FAIL or independently prove all untracked/private files."
+    },
+    {
+      "id": "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+      "before": "FAIL",
+      "after": "PASS",
+      "classification": "PASS_IN_CURRENT_TRACKED_DIFF_SCOPE;HISTORICAL_FAIL_NOT_DISCHARGED",
+      "reason": "Guard inspects git diff names. Accepted38 UDF changes are committed, leaving only39 test-project/plan tracked modifications. Current PASS does not erase original FAIL or independently prove all untracked/private files."
+    },
+    {
+      "id": "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+      "before": "FAIL",
+      "after": "PASS",
+      "classification": "PASS_IN_CURRENT_TRACKED_DIFF_SCOPE;HISTORICAL_FAIL_NOT_DISCHARGED",
+      "reason": "Guard inspects git diff names. Accepted38 UDF changes are committed, leaving only39 test-project/plan tracked modifications. Current PASS does not erase original FAIL or independently prove all untracked/private files."
+    },
+    {
+      "id": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "before": "ERROR",
+      "after": "FAIL",
+      "classification": "CHANGED_NONPASS_PRIVACY_FINDINGS_BLOCKING",
+      "reason": "Same test parent executed. Its scan candidate set uses git diff plus untracked files. Old38 files are now committed; new39 raw machine-bound reports are candidates. Current scanner completes and reports1599 findings instead of reaching the historical UTF8 decode error. Original ERROR remains unwaived."
+    },
+    {
+      "id": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "before": "ERROR",
+      "after": "FAIL",
+      "classification": "CHANGED_NONPASS_PRIVACY_FINDINGS_BLOCKING",
+      "reason": "Same test parent executed. Its scan candidate set uses git diff plus untracked files. Old38 files are now committed; new39 raw machine-bound reports are candidates. Current scanner completes and reports1599 findings instead of reaching the historical UTF8 decode error. Original ERROR remains unwaived."
+    }
+  ],
+  "diagnostic_drifts": [
+    {
+      "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "a776ec58204c97462b75fcac1e41a4f40683cee409f35b742447eaf1a2b33c4a",
+      "after_message_sha256": "9e5db6d6d7c672712306661d6647a8723450c13c64ae92d315ba6784b7a2289c",
+      "before_trace_sha256": "5caadb9a81f1c22daa821f650e23076e03b3bb47a86cf13b6c6ec69f3b8ff7c4",
+      "after_trace_sha256": "794e3ca8a0b945ea7e288419a0675c9890e6e2fa7f164ee9e591d7416c90a06a",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a10_regression_projection.Regression10ProjectionTests.test_core_udfs_frameworks_and_accepted_evidence_are_byte_protected",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "5ac265a63a7dc0c9cc667315a2e90e920c0d67e0f73f73b9e528fc3e27221aa0",
+      "after_message_sha256": "b751a8b9c7dcd36c5dccf2bba794136c4c7079db39857c921e462043fe1240c2",
+      "before_trace_sha256": "52814c34755d2d43f4ac0855d32cab05dc26e54e207b129db51bf5bf5707d564",
+      "after_trace_sha256": "9738627bb07c0b70e5d1b2866d397d4a7129d73dc7455abe37f3b09ec0dff1e5",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a11_regression_families.Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "5ac265a63a7dc0c9cc667315a2e90e920c0d67e0f73f73b9e528fc3e27221aa0",
+      "after_message_sha256": "b751a8b9c7dcd36c5dccf2bba794136c4c7079db39857c921e462043fe1240c2",
+      "before_trace_sha256": "d1f013178c34263410578fbebad4f1bc2ce39d95fc5a91a84e957b6e7aa1a556",
+      "after_trace_sha256": "43466b35c84a3c9317e1b8fbf141e6a418e3287aa464cccf135ef5be43154dce",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "a618e456ef12e04bce93763f6ca48a8c55a9129d08912913ad31eecf121ce99b",
+      "after_message_sha256": "2939905788845e8f723cdb6558e124d5c559591001246d9bb4cd90c7cec1261b",
+      "before_trace_sha256": "2605933298660aed6f4ae8aa9a1804483168d96f7ffe0489b78f10c945fc4e0c",
+      "after_trace_sha256": "35a9eb2fefd3647b1e4a91d2ecac28353a602d12cdb119e63da5183cf4431ac0",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "bd2bc5b6f4bed8d2f001dc9dac46a22b6bd9c6ad51a41b55a826f9bc45f2c214",
+      "after_message_sha256": "de334f36774bb9f1081d7dfb65fc434e8664c80d82c5e0ad64964bc5c82aecdb",
+      "before_trace_sha256": "156a838a955ef269526b754c2f56c43e9e5120d501576d4f1f118d773d814dcd",
+      "after_trace_sha256": "34044ebc9504ec18d177cc9c00447a0f970d8426874625e5889e2c4a36cd719b",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_actual_merged_base_and_protected_owner_plan",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "a4332c93d3086f6d0c6f1ae8cb5e3e33ef88a2f78f3ffef5b1884e7bcce3cc22",
+      "after_message_sha256": "b20fa69ddbc4b8a79933f2a705dccd3a395e5491089921b0feff7655029ebe2f",
+      "before_trace_sha256": "67d806dcef62bc5b90fa0fd47c4264430f363eb19758afe70ce1e549088a500d",
+      "after_trace_sha256": "756f0aaa607037fd427f865f6f8c216458ea3039e6d7186d9fee72c26281f27a",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "3edf32d6405851ed335e8ee2dbff2f61c0a1ec6b3923807e980c8267d25895de",
+      "after_message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+      "before_trace_sha256": "1694da0c76b21179f4498bc5d64c2c8ac78aa381f8b60136999bb6814e9b8754",
+      "after_trace_sha256": "190526db225f7dc4049575bf9222e4bef30b7b63e8b65f26d48002c3cf95d6f4",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_udf_exports_signatures_and_packing_are_preserved",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "3edf32d6405851ed335e8ee2dbff2f61c0a1ec6b3923807e980c8267d25895de",
+      "after_message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+      "before_trace_sha256": "e2e949a86a76db2b2a26766cb238669a339ddf86b57eed3ee6c617d00c035631",
+      "after_trace_sha256": "1ea5a70ea61195b050c8eb02e9086d387415105006ea0c5c2dd290d17e1e8da8",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "3edf32d6405851ed335e8ee2dbff2f61c0a1ec6b3923807e980c8267d25895de",
+      "after_message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+      "before_trace_sha256": "d8dd7822d6f6ba098cc7029b3602e2456f4d39761512f9074875cd173a750642",
+      "after_trace_sha256": "323457bb2a7a9dd7196a8119e759d16da9e103b96733b47c62531d5c0151e43e",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "5e4e288402ca834b2e8aaf79145a5a0772b5ed110d32c4cb69dd34237a0c178f",
+      "after_message_sha256": "d87ce9c24799aa289cdeb5742512632cd1ccd0490fb65c56fac7e4bef186e8d5",
+      "before_trace_sha256": "bf9e331ecfd79367b7ff4b8b29d1beb95d4f4f0145e837df20c189dd7ac99ebe",
+      "after_trace_sha256": "ac4928f3f3cc0b64b4af51c7d064d7ed0a98409fd036e07a7b8890e130979443",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "141b952964c1e5ebd3f414dc8a026965fc872a112eeff8495aa18f4ec8e1334b",
+      "after_message_sha256": "0fa01f98653a8122ae8004fbaf9461553d2b38c52a483c78c9f5119f79a54c16",
+      "before_trace_sha256": "204cf6a10b7ccdd4d8c51cd1a5d8b679694fe336f965bcc225e83cc56a67dcde",
+      "after_trace_sha256": "2c6ec9bddcfd8403ce13ad2f0ed07ae2438b7b46508870ef9fb941256c589a02",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "3c8f03d4d802a9d0e37a048dffc09910fa138dc77a58f290ee69657da9c29ec9",
+      "after_message_sha256": "c107eab35ad52ab8afaa57020a9ec19e3e6fad8bd65b9c39e037ed31eb7624c4",
+      "before_trace_sha256": "7ecf3515e1edeb6e23fe1b514bb7073ec8c0469076135f8d672744f64451e2ec",
+      "after_trace_sha256": "d7b44aedc99dc5d5d501b6e96f1ca65ba90b251ec430a0ab0d0e6261735995ae",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "3fbf72262942826dee11a7f6ee96971cd0da8c342184b42bf3c9cc66d8196e18",
+      "after_message_sha256": "d79ec0a28a24f5321e9c4d6e39b0f3574b1ee2968b50c9a784b35d9f241cab8e",
+      "before_trace_sha256": "ab29017e7ce2e6773a374bc0cf71044533548ffce3c252e3657b1fbaf654175d",
+      "after_trace_sha256": "cf725088bfe6aa28d76c6a9943bc83d6e6be82b8d547641402071a6190f6c11c",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "27c136023ead007445d730b2265da30bccec03085837b32cbd97822d4b360552",
+      "after_message_sha256": "51ae5c0dd10833d44cda64c514c7b936e9d631cd55661ce138611c54e3ff3f21",
+      "before_trace_sha256": "cfa5f4d275409e94a4e317a1c8c5642acf6b68aa9ef55f5197eea83b3bec712d",
+      "after_trace_sha256": "0b958c702946899cda67b90ac1b98aac90c78c835c7cd3bd8bb92c63def20ba9",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "9b423506a302612134f271bb5f8415c08b8a160f022d5b83df163699fdb04196",
+      "after_message_sha256": "8ecb30447288425376140b0f64b1d1c1b2c8871ef4b06ab2139e493a6ff399a4",
+      "before_trace_sha256": "f5b77267f1b78086ce8294bda2cd5b927cab79995e6e9554c5473193ffa53c01",
+      "after_trace_sha256": "6e0e51dd254c3aa909f6ffe9d713a52b01b033250b22e36c7272568c21d9c47f",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "bd863dd33da8298443496b4b50714a68be6ba3e744a47f0c893384f4c9845107",
+      "after_message_sha256": "a47efdc276f59cffcb97d6f49e25aab01b5dcfa1d75455a56f8382955be0ec91",
+      "before_trace_sha256": "b04e051d15603756d02dece741a21e36120c247e5c772ce031b34eb6c11c6931",
+      "after_trace_sha256": "19017e907a2737ef2bd51db28d47dd00fd3975eab5ba777fa12075933b83646b",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "4bfde94a7e6e8cccfa6a8dc95fbbf54586a144aa1a14d99b7c06b5c58091f779",
+      "after_message_sha256": "6e92258e7b6d19e4638a050e2dad22ad16f2be1b5bb156a386846d28fde39ce1",
+      "before_trace_sha256": "363438a6170c68253b1cdae00b713a2f0c49e382e24cf40dbddb29870ded0dea",
+      "after_trace_sha256": "64d24477f69acdd42d88b53b16030df938fe07152321baff75036e6acd1c6f56",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "0790d5bf9abd68b89e2a3567922b8f0b7fa3b4d1d6d4c57d4348f36a3430b9ce",
+      "after_message_sha256": "3518ac432b47372e50dd8ab97632cdec453c3830a3ca5b8d37e46989a9b41feb",
+      "before_trace_sha256": "1398c0b101b06053dd0f90d8661a62acd54c17858d5dfa84c070f65bbb784938",
+      "after_trace_sha256": "c12f336a962154a4b59ace3cec730a271ce62cdf4d8d6ede26d986528458eeb5",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "6371ec409c927ddbe1e813b3dea3c47b128f364bf60a1378353393a056601033",
+      "after_message_sha256": "f7de099417eb83e526aa381483570d136176846aaed02c1bc6239df1bb973b86",
+      "before_trace_sha256": "6d7ccda64a6598edc4df1da4e734811f172e35b3e1e7a3ecdd2b9f63d2eedc01",
+      "after_trace_sha256": "a1d6571cb4333c512581f4c48835bff8479135a4ea273d56b6b0741dd373cf73",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "b82340c4ed1f06fd2d841c52245e7c391c2ebdf4ba660c408c8255bc2bc01308",
+      "after_message_sha256": "a6766b16dd805ff1ff58c351ce8d18f804c04351c2d9ddc5148f3dd62bb3cb94",
+      "before_trace_sha256": "04f41e5dcbf5c7cc96c64dab28af56dc76d440ad66e1cbc7ed9d4a7f026bb955",
+      "after_trace_sha256": "821730d775e70844edd3dbed4214fcad9928fa7dcdcdff5f43f535afae8655ee",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "283118c0cdd45b8b04deda7e89fe8222072bef39d2b2a04ee6eabb8f22f09e95",
+      "after_message_sha256": "4fdf418dbe8d9a4318c245303d89fc4e8682c53b23af9c6cace1c5aae453e8b9",
+      "before_trace_sha256": "b1621b90c61cb4d65250520e216ad98f8d881db329d60adb865e7fc4bec9c188",
+      "after_trace_sha256": "2163f2026f515473c435266f31ae8610767960cfbdc281e452cf191f279ccb66",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "cfb55745c8ec019d7c71ba056a8dff9e7cc76a45a6cf2eccf5b9900f67ff1915",
+      "after_message_sha256": "9599e9f997cc8d31745877bcd31b0e8cfe8a27bcd307b08a6955f91946177ee9",
+      "before_trace_sha256": "4ba4e2aff3d9909dbbd6132cf1960884065f33e002aff09cea112b549904c208",
+      "after_trace_sha256": "fa908ecac9c6fbbb1a4eb9ee815f88dbafe4d38c68880f11987fee9c5348ed59",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "da71f7ac30f1046ee8e98b00c8c2d6573b2306f89d9bc02d80100a15bbd3e4ed",
+      "after_message_sha256": "65f842c41f3242e3722040e6005f5ed16bdf40e8ac4933c443fdb0057f31e876",
+      "before_trace_sha256": "d63190010502ad0afd06b6ca89fed042080c02a2b91d5e5625ad47569a319877",
+      "after_trace_sha256": "533c962e37fdce4f0ed7ac13077814e9daa55c6f910d4ca442be4ccf5b5d72c8",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "33493930dc69e02ac12da1729772dfbea830241e649bbaf3be1b5fab50c86d1c",
+      "after_message_sha256": "56d6f8da758b31ee9250f25f8770ac9cb2cd4143f6c260fb56fb810b78d190d7",
+      "before_trace_sha256": "ef9c919e35f1693c3e3e539760f457f37e69bf1a96d85d12509fada0798dd92d",
+      "after_trace_sha256": "e49cb899778ee03700c4ceecfd9f4570d82d058d503d55b7a2f7a076019aec99",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "ae51f1ca70d8674f970496d2155b9ab01e854d3460627858d4f43ed3e3c10a25",
+      "after_message_sha256": "1ae3abec2e4e90741e601e8e6624bbde041943787dd5173bd3219b076a654420",
+      "before_trace_sha256": "27ddb17c6f57795e6d52538e870bb86df4627711a144704048dd053240c6341b",
+      "after_trace_sha256": "9fc7677aec734a9cf05460c6678fff54eaff03a7d585ca087f51e0471189491b",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "8ea20cff4c95423755e24d1549715ee07de7c5dd862a00abbd5a09d5375ab52c",
+      "after_message_sha256": "6508bb0489555d37819f50cff767925699a737fde493f0149ce6c8b68aaaf265",
+      "before_trace_sha256": "a53d3d18b9d8802ff13cba931712a2db92964c6ebaa471fcc954fb97309babf9",
+      "after_trace_sha256": "52632f055bdf13e9ab1c19431e619dd4429cbbdcff72ab77c63f2ebe6b95f2b2",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "402dedb43dadc885263091c7e06409244a72ed0e1654b973507975f3056f6264",
+      "after_message_sha256": "9d8303594b13c057f70d3f6702210cb084705442c433105234b2f02f4869e8b1",
+      "before_trace_sha256": "d4150140942d9baea19c0ecdbbb8782c20953cf65eee062ebe593cabec77388d",
+      "after_trace_sha256": "37b5092e7d3a4a2f728c0f1112aadaa1d2d8c92e7975cb8d9527e0d533f59741",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "4c9e22229254589e0b6da308a960e0b94b0c190d77bcd4fae6a5a7da15367684",
+      "after_message_sha256": "1e9bef28684ec13002a4c87b6f0e0f50b14031cdc52bb7b694d18d5a9d2a649c",
+      "before_trace_sha256": "f9121d81c0068ab40ddee07f0f760f47449c6b5c2624682f2c88908dd8844b15",
+      "after_trace_sha256": "50f5d41b89738838f6ca7e675607af2c5992e93b9f63e9a38503217e53da4ba7",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "54178dfe19a4924e37d347497dd1520f9977b4fb01f5d3146cc483ffe83d8c1e",
+      "after_message_sha256": "ec7ade46730287cbde90884a4b9923d500a1ec593cecbf5f932155ac47ec61e5",
+      "before_trace_sha256": "cf395fcc4eefa90f7027953f8773846eed73664cc90c0654103cc1081bd2c0fc",
+      "after_trace_sha256": "7f88c1150d4963ed9aceca54957a055e777a24315c2be1af5262ba30e1133aed",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "623a049e8e2dc13241fe3574a37584fecbd11a4ca949bbdb511b93d66df9afcd",
+      "after_message_sha256": "45e65f59172b2f6dec718413f8e6cf69c9d3bb352c30430a3495b37d9562f53a",
+      "before_trace_sha256": "dce6229894a98b360cf40716faeff348d3e9846340ec794db2b85534e1d91f45",
+      "after_trace_sha256": "2983a00def01a99f91c9a295986aa3ceb98a37959d891b701fb9e9028537e8cf",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "404c2f2c19081d1491e2b76dddfa89867fe79fe8233e1b8cf70d0f356bed7afc",
+      "after_message_sha256": "fb8b3cec26bad71799d88e1473f12f8f1eee51d960af081c8260dc2dcc0e3cb9",
+      "before_trace_sha256": "596ad36cbc20f3a7ddf0231e72745f2d11fad68c9b9afcbf4f45890709e266c4",
+      "after_trace_sha256": "a347ff4c468cdc77b0260c4c32f93dea54283c41356793316971991e88ab3bc9",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "68ecfc9a4cb4076c864236f204f7b4d6baca6e83cd9037a6c77398c5b2111ff8",
+      "after_message_sha256": "1e1afbfac11570504bf981696c629091c45a985d24ed3f341e2b2d2e981e7c57",
+      "before_trace_sha256": "a384e2611b93e7bee87518643926ce657f6c8890053aaaab1ca23fff2937a122",
+      "after_trace_sha256": "8aefef7900a4ef9c63bd3a3ef30d1f0c5fd250d19aad2615a8f7551e1ee21c52",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "9ccd75a919865f506bb0b264a68822a6c6b3e8020a225ea9c8cfca041bdfb914",
+      "after_message_sha256": "af9ad5e83a4645bf89a958dd9df15f41133a8f35bfb0426cdcdba5aaaf1f4962",
+      "before_trace_sha256": "f1efb184425af9cc4e01861a5e42e137187591270249279b68d62b288b2826c1",
+      "after_trace_sha256": "2bd4ed208af36d6904f2f597ca4df8f98352b242637237901a09ebbd3a333974",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "ffe1c1cbd32e14a7b0fcf04995aad68c95271738c9cbcea1628ff5660926cf02",
+      "after_message_sha256": "04d669806e58b169b6183aecf0dc6d9ae83a3e53fa07239624548e5c30a10bac",
+      "before_trace_sha256": "bd44b6fed8089c73a8b3363af7c2a94786424868235f89d44bd5b32777df2849",
+      "after_trace_sha256": "80fbd2e043920ee09686a7477b99446cf55fffb009f86eb983f3d4c1130d40f4",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "473a49411e1cd1601908abdf9e517fb8f4ce5d13d85e11c090c46d269e285c38",
+      "after_message_sha256": "ddd09216fd7f11890a89effac33f954198e256e857060194dc1c9131d2d970f5",
+      "before_trace_sha256": "eb13f5536be29f137f82bc727ee44bf4cf27d16d1119f7383e3eb4feb2d6b278",
+      "after_trace_sha256": "50c0dfc8581a7fa4b863c2845c01e0e89d6fd3d4dd2c8e45c0c1c2a2d46eb350",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "8d9bf4705a138f5acb782f34c9636b1b487cf17dd517ed17fb0b61623d92a9a2",
+      "after_message_sha256": "7d300f0bc0f88041b76b9bda696dfd8d75c490d4d6dceb4403577afca1fd6047",
+      "before_trace_sha256": "91dc94fde1d06ccd0d06d076ad995dad19efdc9032c0055c5a78aaf6c8459280",
+      "after_trace_sha256": "201b2003531bae1761c5d7c00fdd9cec27fd9428c67f6c54c55b234fb97b5abc",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "7532df1a4d93e2d7932e0a872da2285b82a703bc2bba5fbdd1872b4d96349b6f",
+      "after_message_sha256": "42b6a857eba4cfcb2bb16de71c31837231c1e8a20efbefa4acc909b96ea1b0ab",
+      "before_trace_sha256": "6fd2d52ecddbb76625fbdf6203bc206c88ad20198bcf84d4a8fe533f40c07a36",
+      "after_trace_sha256": "231c509a9a83520b88c979f993f14e75b14c57cdf478f04d07d516dee3c20db5",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "7b3d8339475fc3094eaa364c671be29c1c65b090ffa376a5cb406138e6b2f762",
+      "after_message_sha256": "50119efec500fcf073f298434979fb1f35636c45afa18295ab241891a75f1add",
+      "before_trace_sha256": "4b66bf051f83394059ce9c9604e93e997d7747117786744464856ae6aa88fa3a",
+      "after_trace_sha256": "060855b9fa942062500f00224984b10d1159bc06580c28745a5cb4d36f09c3c3",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "6c9eaeeaf145db671472d78db0343d38e9804bb41afd5afbb2881fd0602167c5",
+      "after_message_sha256": "7bc7829c5a2a2bc867f827766207d0acee804efebc84686bf728db1fdba42784",
+      "before_trace_sha256": "51a7e9b63d43ff820f9aa21b909072d4f5603f99a36a5922025b454b53035a08",
+      "after_trace_sha256": "7bfdbade8f0ab5fbd05cf9611d51bee284ae37735e57458e409809ceee419a3a",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "913bccef4c0e73f9473b3e7e16f768b348de6e01bb1626cec1e841eb996e3563",
+      "after_message_sha256": "f0fc22748f61b55b922fdaa65b7d0cb65c6d7364106c27d886e101ae6b708569",
+      "before_trace_sha256": "6889e76b6212b2554c399772fd51062f4bb31a9e55f807d77d6741009091e2f5",
+      "after_trace_sha256": "4afce18536bcfbe23a0ea4227fad0e1f64cf765446910152de17613cc2bdf499",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "ab5544650fcbce1af71e5131d0fe027ec7d37eb4246cfec1bcfb8c6e0a530177",
+      "after_message_sha256": "7c178635bf147a959df02cfbd823674d0bac8fab47c1929a27fc82838635817f",
+      "before_trace_sha256": "06cea7d5bd1ea6ffdaa9a92f1b3fd9670abb74c208be58c98d1d7c58cceb5f12",
+      "after_trace_sha256": "a2223f82d109732b4a96f20e704d0e84a4e34676aede41231a8b9e014f32be00",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb')",
+      "occurrence": 0,
+      "before_message_sha256": "7e46818c4e08bcf0cb359cf6e8d25e152f293bd2528de84f6edf11e32a956a28",
+      "after_message_sha256": "ccffa0c4318f6573a4e8ec2d66231e52775395b21935ee65e1d5e797460ee774",
+      "before_trace_sha256": "eba271693c76f770d17e268e8bf838bc462b2156f0911e26733f51156dfbccb7",
+      "after_trace_sha256": "a4586ca5ce2033cd22c1ce6ba5e7811ceaccade8ed0ba1b03218965bd4ca8340",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "3afb77fbe4e0f938cc3feca99a642790a6ed3b9ba44f1bfeecc001c4af5ec214",
+      "after_message_sha256": "809e6d946c53f4641431223f05ca951784ebf3ecd821357169340a33c29e8866",
+      "before_trace_sha256": "3b5e9134e5f4c867a04e39c8a7466c8281d2faba73e33a96b5d40a4db2ca52be",
+      "after_trace_sha256": "235083e535a23d06d7142370eb7acb16f81a5cf89aefbd20f96446970b6656a9",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "e94f02b3affbfe330f161b03569bc3c6732f8311b5ae013cae8e395d75c1f5c1",
+      "after_message_sha256": "90589ec4b6d8f31338da4a55663712ccb2f6e52bd2a1de263ce7c2dd9a1938bd",
+      "before_trace_sha256": "7794800cdaa5ec23ceb550e307678aef9a8b60f1e2960fc003dd10defb5c1696",
+      "after_trace_sha256": "e07a5681caaf56ef92c8a10ef60b324b0812f18050521a44f99909f2077d0245",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "a656e890941cdae91c3732e30c4de90ee73c4bfb33fa74622ac2f71f2b047cde",
+      "after_message_sha256": "18672027e36c9bc32fc18e4d89fb5b976c392c211951753307bc2246fe7155c8",
+      "before_trace_sha256": "ca06874b261e4df624fc3e7aa73855299a6a9aa1aacb8d5bab833db8fa27e99d",
+      "after_trace_sha256": "6aeb8e07820405af0f2225ba4ed39c4549dcb5b8f4442d723d1159bde2267e69",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "763d210a96b22d18b4c1616afba9d179760006d1acd9d8833863b3c90156ed86",
+      "after_message_sha256": "674b6c865d1f8f36a79aa60eb9248dd152922496d33556d049036ee6cc75ba74",
+      "before_trace_sha256": "7e092b3d47d80c3730fbaffdda5faf4c93b0f69875495ffd0a74667d266aa086",
+      "after_trace_sha256": "7cc39c1a6ac79c2e31bcbc02be6a21f65f69e2033902b142a41ef61bb579eb9e",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "8cfe2ce00f03c2b65601a806af176375b136b0b772c64100c8dc8714c865286f",
+      "after_message_sha256": "a3d58bfe8321e896af9714edcf96100a8f221a1596e0f1522869b71bf04cfe24",
+      "before_trace_sha256": "aaab16d77d29e6e506980b7f9d164eea2917faf6ee25bb1334745eea0d922a07",
+      "after_trace_sha256": "67de30a679e2e1adb59137582af6827c1314a65a3c8d85734dcef013941f0077",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "a0a4ca776c3adfe80c5da7d947bfe714860f0af8e2c44eff487d75ce01a13c89",
+      "after_message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+      "before_trace_sha256": "637335aaad17d106a1f8a84b8b596be70b25224871a7be6b5cd12bf5f1ed3396",
+      "after_trace_sha256": "db23ed29f45101d1cc83c989a66e6761c99f4902e752f8e3ea80eee545a0933b",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "a0a4ca776c3adfe80c5da7d947bfe714860f0af8e2c44eff487d75ce01a13c89",
+      "after_message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+      "before_trace_sha256": "51b320f307814214658002d113f76bb240446191f70b74518c7088f9f5da927a",
+      "after_trace_sha256": "ef18d2038dc5d290ef32d1f81bb9447a157755fa7d12e37bbbcc9a16c88ddcd0",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a11_publication.Publication11Tests.test_accepted_dossier_and_dormant_patches_unchanged",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "d2fb7687316d22e6360361c2b21a9d7de4ea82045ece781deae97dedff2a718f",
+      "after_message_sha256": "7322e1f001840cb5eed19c3a66e32066d5877e2b1b44cfb95cc70f150f34726d",
+      "before_trace_sha256": "530a364ad84eaaf5c414aa06eab3433da4dadc0c1655a2f27e472c169b78fb29",
+      "after_trace_sha256": "854adc0cfb9ed4ad6f7eb9771f05aaabf70145aa94092e30bdc650bcde8350ed",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "989eabd4f02e1b3d3607aebad42a5690d7fdc8405d72b52ade485a76b19c0f58",
+      "after_message_sha256": "ced9310a49e2d00b4bfc2a73243916208b0ccfd99339064da1f0f37a11a1197c",
+      "before_trace_sha256": "2963a839eaa2fdeeea86a8a086f3758c14542ad62d4b159b7f80fe85b2967166",
+      "after_trace_sha256": "2bf9ea7b7548c0da7b5a4d93ace96c963d46872a08e0bac9b6e2e668a11ab8e8",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_successor_pins_and_members_reconcile_to_actual_forms",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "fdf901585d65cefe15c0baac7d1f7af03fc74f029828fa164c621bcfef63855a",
+      "after_message_sha256": "5d304966d1a3ac3fd5d11adebc21b2f40def4b4344e930553fb52a872ca35b30",
+      "before_trace_sha256": "591e471d9358cfb1de31ffe64fb20fe58a57102846724edcb853e4dcec280f6e",
+      "after_trace_sha256": "69111efe7fa9f498a8889a18f776969160f99108873f4b5b581d5df92fb2e0d8",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "d5244aa086ec9d2fc9e50c6a658462ccad32c423e3cb8100e5c66946611d2498",
+      "after_message_sha256": "57901a66253d21dd4de7c3d18745d605a715d5f11f2397daf9574d68ba53662b",
+      "before_trace_sha256": "f465d227882ae74f922497818ecc7f4af5145da048743b633574c646bbee458e",
+      "after_trace_sha256": "06994401ad2cf5d8472ddbc920062bc51e491e90a2c9a98794ee32caa0323dd2",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_original_members_and_successor_pins_are_reconcilable",
+      "outcome": "FAIL",
+      "subtest": null,
+      "occurrence": 0,
+      "before_message_sha256": "a8af748b1b1ac73610a6080408cf1e485faa49177b8e61d268f21c7d9664b0aa",
+      "after_message_sha256": "2bb08c389e1f932c0b71b07b9e7c90ee73da931b603f538041ed0e972f35061b",
+      "before_trace_sha256": "5f711ef5ea41816e9701d4a379aa7ff232d18d42d9a524b4c0d14ceb92f6f377",
+      "after_trace_sha256": "98ba06bee04d32865d59e4fa84633aea15962e8d1faf0bb778d7f1341a885d86",
+      "message_changed": true,
+      "trace_changed": true,
+      "disposition": "CHANGED_DIAGNOSTIC_NOT_WAIVED;EXACT_MESSAGES_RETAINED;OWNER_REVIEW_REQUIRED"
+    }
+  ],
+  "diagnostic_drift_count": 54,
+  "historical_events_not_reproduced_in_current_scope": [
+    {
+      "outcome": "FAIL",
+      "subtest": null,
+      "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a05_completion_successor.py\", line 135, in test_no_designer_importer_targets_exports_or_signing_change\n    self.assertFalse(contract.git(\"diff\",\"--name-only\",\"--\",\"BESHstatNG/src/ExcelUDFs\").strip())\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: b'BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb\\nBESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb\\nBESHstatNG/src/ExcelUDFs/DistributionUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ExcelArgModules.vb\\nBESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb\\nBESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ParametricUDFs.vb\\nBESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb\\nBESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb\\nBESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb\\nBESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb\\nBESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb\\nBESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb\\nBESHstatNG/src/ExcelUDFs/UdfOutputTables.vb\\nBESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb' is not false\n",
+      "traceback_sha256": "294904cf566f5d090247c9195744575efe468f085a64a8ad919b7a500612ab0c",
+      "message": "b'BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb\\nBESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb\\nBESHstatNG/src/ExcelUDFs/DistributionUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ExcelArgModules.vb\\nBESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb\\nBESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ParametricUDFs.vb\\nBESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb\\nBESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb\\nBESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb\\nBESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb\\nBESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb\\nBESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb\\nBESHstatNG/src/ExcelUDFs/UdfOutputTables.vb\\nBESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb' is not false",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a05_completion_successor.py\", line 135, in test_no_designer_importer_targets_exports_or_signing_change",
+      "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+      "occurrence": 0,
+      "message_sha256": "aa957ddcfd30f9ce4c80e85d918523cd5909791159420cff04d1e5a18c9fe77d",
+      "classification": "RETAINED_IDENTICAL",
+      "previous": {
+        "outcome": "FAIL",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a05_completion_successor.py\", line 135, in test_no_designer_importer_targets_exports_or_signing_change\n    self.assertFalse(contract.git(\"diff\",\"--name-only\",\"--\",\"BESHstatNG/src/ExcelUDFs\").strip())\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: b'BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb\\nBESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb\\nBESHstatNG/src/ExcelUDFs/DistributionUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ExcelArgModules.vb\\nBESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb\\nBESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ParametricUDFs.vb\\nBESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb\\nBESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb\\nBESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb\\nBESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb\\nBESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb\\nBESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb\\nBESHstatNG/src/ExcelUDFs/UdfOutputTables.vb\\nBESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb' is not false\n",
+        "traceback_sha256": "294904cf566f5d090247c9195744575efe468f085a64a8ad919b7a500612ab0c",
+        "message": "b'BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb\\nBESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb\\nBESHstatNG/src/ExcelUDFs/DistributionUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ExcelArgModules.vb\\nBESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb\\nBESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb\\nBESHstatNG/src/ExcelUDFs/ParametricUDFs.vb\\nBESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb\\nBESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb\\nBESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb\\nBESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb\\nBESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb\\nBESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb\\nBESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb\\nBESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb\\nBESHstatNG/src/ExcelUDFs/UdfOutputTables.vb\\nBESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb' is not false",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a05_completion_successor.py\", line 135, in test_no_designer_importer_targets_exports_or_signing_change",
+        "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+        "occurrence": 0,
+        "lane": 5,
+        "phase": "MAIN",
+        "raw_message_sha256": "aa957ddcfd30f9ce4c80e85d918523cd5909791159420cff04d1e5a18c9fe77d",
+        "classification": "INHERITED_NONPASS_IDENTITY_OUTCOME_OCCURRENCE_NOT_WAIVED",
+        "previous": {
+          "source": {
+            "path": "evidence/04A38/completion/w2/continuation-v17/python-first-failures-v1.json",
+            "bytes": 1174259,
+            "sha256": "13331706f57ea8bcf51407c4850b0d74d2c5da8e27733d8e7b03cc548af0d60b"
+          },
+          "event_key": [
+            "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+            "FAIL",
+            "",
+            0
+          ],
+          "message_sha256": "aa957ddcfd30f9ce4c80e85d918523cd5909791159420cff04d1e5a18c9fe77d",
+          "traceback_sha256": "294904cf566f5d090247c9195744575efe468f085a64a8ad919b7a500612ab0c"
+        }
+      }
+    },
+    {
+      "outcome": "FAIL",
+      "subtest": null,
+      "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a05_contingency.py\", line 143, in test_no_designer_udf_numerical_packaging_or_framework_change\n    self.assertFalse(any(p.endswith(\"Designer.vb\") or \"ExcelUDFs/\" in p or p.startswith(\"BESHStat.Core/\") or p.endswith(\".dna\") for p in changed))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false\n",
+      "traceback_sha256": "c3febe5720f4b2004487bd3877ec724ffd31ec623059612b03c5bee644c39ca5",
+      "message": "True is not false",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a05_contingency.py\", line 143, in test_no_designer_udf_numerical_packaging_or_framework_change",
+      "identity": "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+      "occurrence": 0,
+      "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+      "classification": "RETAINED_IDENTICAL",
+      "previous": {
+        "outcome": "FAIL",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a05_contingency.py\", line 143, in test_no_designer_udf_numerical_packaging_or_framework_change\n    self.assertFalse(any(p.endswith(\"Designer.vb\") or \"ExcelUDFs/\" in p or p.startswith(\"BESHStat.Core/\") or p.endswith(\".dna\") for p in changed))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false\n",
+        "traceback_sha256": "c3febe5720f4b2004487bd3877ec724ffd31ec623059612b03c5bee644c39ca5",
+        "message": "True is not false",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a05_contingency.py\", line 143, in test_no_designer_udf_numerical_packaging_or_framework_change",
+        "identity": "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+        "occurrence": 0,
+        "lane": 5,
+        "phase": "MAIN",
+        "raw_message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "classification": "INHERITED_NONPASS_IDENTITY_OUTCOME_OCCURRENCE_NOT_WAIVED",
+        "previous": {
+          "source": {
+            "path": "evidence/04A38/completion/w2/continuation-v17/python-first-failures-v1.json",
+            "bytes": 1174259,
+            "sha256": "13331706f57ea8bcf51407c4850b0d74d2c5da8e27733d8e7b03cc548af0d60b"
+          },
+          "event_key": [
+            "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+            "FAIL",
+            "",
+            0
+          ],
+          "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+          "traceback_sha256": "c3febe5720f4b2004487bd3877ec724ffd31ec623059612b03c5bee644c39ca5"
+        }
+      }
+    },
+    {
+      "outcome": "FAIL",
+      "subtest": null,
+      "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a04_alignment.py\", line 84, in test_udf_exports_and_packaging_unchanged\n    self.assertFalse(any(\"UDF\" in p.upper() or p.endswith(\".dna\") for p in changed))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false\n",
+      "traceback_sha256": "261bbe08bba3836e79db18dbab48d382d0b67f7de27f4f1110a66501b2e65b58",
+      "message": "True is not false",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a04_alignment.py\", line 84, in test_udf_exports_and_packaging_unchanged",
+      "identity": "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+      "occurrence": 0,
+      "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+      "classification": "RETAINED_IDENTICAL",
+      "previous": {
+        "outcome": "FAIL",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a04_alignment.py\", line 84, in test_udf_exports_and_packaging_unchanged\n    self.assertFalse(any(\"UDF\" in p.upper() or p.endswith(\".dna\") for p in changed))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false\n",
+        "traceback_sha256": "261bbe08bba3836e79db18dbab48d382d0b67f7de27f4f1110a66501b2e65b58",
+        "message": "True is not false",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a04_alignment.py\", line 84, in test_udf_exports_and_packaging_unchanged",
+        "identity": "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+        "occurrence": 0,
+        "lane": 6,
+        "phase": "MAIN",
+        "raw_message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "classification": "INHERITED_NONPASS_IDENTITY_OUTCOME_OCCURRENCE_NOT_WAIVED",
+        "previous": {
+          "source": {
+            "path": "evidence/04A38/completion/w2/continuation-v17/python-first-failures-v1.json",
+            "bytes": 1174259,
+            "sha256": "13331706f57ea8bcf51407c4850b0d74d2c5da8e27733d8e7b03cc548af0d60b"
+          },
+          "event_key": [
+            "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+            "FAIL",
+            "",
+            0
+          ],
+          "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+          "traceback_sha256": "261bbe08bba3836e79db18dbab48d382d0b67f7de27f4f1110a66501b2e65b58"
+        }
+      }
+    },
+    {
+      "outcome": "ERROR",
+      "subtest": null,
+      "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values\n    findings, _ = p.scan(candidates)\n                  ~~~~~~^^^^^^^^^^^^\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    # Execution additionally refuses writes outside each worker's disposable root.\n  File \"<REPO_ROOT>\\scripts\\verify-04a13-publication.py\", line 56, in scan\n    text = (ROOT / path).read_text(encoding='utf-8-sig')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\pathlib\\__init__.py\", line 788, in read_text\n    return f.read()\n           ~~~~~~^^\n  File \"<frozen codecs>\", line 325, in decode\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\encodings\\utf_8_sig.py\", line 69, in _buffer_decode\n    return codecs.utf_8_decode(input, errors, final)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte\n",
+      "traceback_sha256": "4c139eda0f1d16f21343f282be2f378e948f80b8d47c3aff7cbe0a71627d0f45",
+      "message": "'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "occurrence": 0,
+      "message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+      "classification": "RETAINED_IDENTICAL",
+      "previous": {
+        "outcome": "ERROR",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values\n    findings, _ = p.scan(candidates)\n                  ~~~~~~^^^^^^^^^^^^\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    # Execution additionally refuses writes outside each worker's disposable root.\n  File \"<REPO_ROOT>\\scripts\\verify-04a13-publication.py\", line 56, in scan\n    text = (ROOT / path).read_text(encoding='utf-8-sig')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\pathlib\\__init__.py\", line 788, in read_text\n    return f.read()\n           ~~~~~~^^\n  File \"<frozen codecs>\", line 325, in decode\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\encodings\\utf_8_sig.py\", line 69, in _buffer_decode\n    return codecs.utf_8_decode(input, errors, final)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte\n",
+        "traceback_sha256": "4c139eda0f1d16f21343f282be2f378e948f80b8d47c3aff7cbe0a71627d0f45",
+        "message": "'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "occurrence": 0,
+        "lane": 1,
+        "phase": "MAIN",
+        "raw_message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+        "classification": "ACTUAL_UNICODE_DECODE_ERROR;C15_FOCUSED_AND_OLDER_JSON_OR_ASSERTION_ATTEMPTS_SEPARATELY_RETAINED",
+        "previous": {
+          "source": {
+            "path": "evidence/04A38/completion/w2/continuation-v17/python-first-failures-v1.json",
+            "bytes": 1174259,
+            "sha256": "13331706f57ea8bcf51407c4850b0d74d2c5da8e27733d8e7b03cc548af0d60b"
+          },
+          "event_key": [
+            "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+            "ERROR",
+            "",
+            0
+          ],
+          "message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+          "traceback_sha256": "eabaf2d957bac6971f757d4f767bf9fedb8cce58584aac0c8f396c9a19e0cfdb"
+        }
+      }
+    },
+    {
+      "outcome": "ERROR",
+      "subtest": null,
+      "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy\n    findings, _ = pub.scan([p for p in pub.paths() if (ROOT / p).is_file()])\n                  ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    # Execution additionally refuses writes outside each worker's disposable root.\n  File \"<REPO_ROOT>\\scripts\\verify-04a14-publication.py\", line 56, in scan\n    text = (ROOT / path).read_text(encoding='utf-8-sig')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\pathlib\\__init__.py\", line 788, in read_text\n    return f.read()\n           ~~~~~~^^\n  File \"<frozen codecs>\", line 325, in decode\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\encodings\\utf_8_sig.py\", line 69, in _buffer_decode\n    return codecs.utf_8_decode(input, errors, final)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte\n",
+      "traceback_sha256": "acbe787c409fa3a276dd129672cbe96d4f4387aa5480bc5e8c6abafdd3d8ce94",
+      "message": "'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "occurrence": 0,
+      "message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+      "classification": "RETAINED_IDENTICAL",
+      "previous": {
+        "outcome": "ERROR",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy\n    findings, _ = pub.scan([p for p in pub.paths() if (ROOT / p).is_file()])\n                  ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    # Execution additionally refuses writes outside each worker's disposable root.\n  File \"<REPO_ROOT>\\scripts\\verify-04a14-publication.py\", line 56, in scan\n    text = (ROOT / path).read_text(encoding='utf-8-sig')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\pathlib\\__init__.py\", line 788, in read_text\n    return f.read()\n           ~~~~~~^^\n  File \"<frozen codecs>\", line 325, in decode\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\encodings\\utf_8_sig.py\", line 69, in _buffer_decode\n    return codecs.utf_8_decode(input, errors, final)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte\n",
+        "traceback_sha256": "acbe787c409fa3a276dd129672cbe96d4f4387aa5480bc5e8c6abafdd3d8ce94",
+        "message": "'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy",
+        "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "occurrence": 0,
+        "lane": 1,
+        "phase": "MAIN",
+        "raw_message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+        "classification": "ACTUAL_UNICODE_DECODE_ERROR;C15_FOCUSED_AND_OLDER_JSON_OR_ASSERTION_ATTEMPTS_SEPARATELY_RETAINED",
+        "previous": {
+          "source": {
+            "path": "evidence/04A38/completion/w2/continuation-v17/python-first-failures-v1.json",
+            "bytes": 1174259,
+            "sha256": "13331706f57ea8bcf51407c4850b0d74d2c5da8e27733d8e7b03cc548af0d60b"
+          },
+          "event_key": [
+            "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+            "ERROR",
+            "",
+            0
+          ],
+          "message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+          "traceback_sha256": "167cf8fc891190da86db0b1af9d6a0e2a2354c12ab66e9e5fad2fa03644d8cba"
+        }
+      }
+    }
+  ],
+  "historical_privacy_UnicodeDecodeErrors": [
+    {
+      "outcome": "ERROR",
+      "subtest": null,
+      "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values\n    findings, _ = p.scan(candidates)\n                  ~~~~~~^^^^^^^^^^^^\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    # Execution additionally refuses writes outside each worker's disposable root.\n  File \"<REPO_ROOT>\\scripts\\verify-04a13-publication.py\", line 56, in scan\n    text = (ROOT / path).read_text(encoding='utf-8-sig')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\pathlib\\__init__.py\", line 788, in read_text\n    return f.read()\n           ~~~~~~^^\n  File \"<frozen codecs>\", line 325, in decode\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\encodings\\utf_8_sig.py\", line 69, in _buffer_decode\n    return codecs.utf_8_decode(input, errors, final)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte\n",
+      "traceback_sha256": "4c139eda0f1d16f21343f282be2f378e948f80b8d47c3aff7cbe0a71627d0f45",
+      "message": "'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "occurrence": 0,
+      "message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+      "classification": "RETAINED_IDENTICAL",
+      "previous": {
+        "outcome": "ERROR",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values\n    findings, _ = p.scan(candidates)\n                  ~~~~~~^^^^^^^^^^^^\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    # Execution additionally refuses writes outside each worker's disposable root.\n  File \"<REPO_ROOT>\\scripts\\verify-04a13-publication.py\", line 56, in scan\n    text = (ROOT / path).read_text(encoding='utf-8-sig')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\pathlib\\__init__.py\", line 788, in read_text\n    return f.read()\n           ~~~~~~^^\n  File \"<frozen codecs>\", line 325, in decode\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\encodings\\utf_8_sig.py\", line 69, in _buffer_decode\n    return codecs.utf_8_decode(input, errors, final)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte\n",
+        "traceback_sha256": "4c139eda0f1d16f21343f282be2f378e948f80b8d47c3aff7cbe0a71627d0f45",
+        "message": "'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "occurrence": 0,
+        "lane": 1,
+        "phase": "MAIN",
+        "raw_message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+        "classification": "ACTUAL_UNICODE_DECODE_ERROR;C15_FOCUSED_AND_OLDER_JSON_OR_ASSERTION_ATTEMPTS_SEPARATELY_RETAINED",
+        "previous": {
+          "source": {
+            "path": "evidence/04A38/completion/w2/continuation-v17/python-first-failures-v1.json",
+            "bytes": 1174259,
+            "sha256": "13331706f57ea8bcf51407c4850b0d74d2c5da8e27733d8e7b03cc548af0d60b"
+          },
+          "event_key": [
+            "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+            "ERROR",
+            "",
+            0
+          ],
+          "message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+          "traceback_sha256": "eabaf2d957bac6971f757d4f767bf9fedb8cce58584aac0c8f396c9a19e0cfdb"
+        }
+      }
+    },
+    {
+      "outcome": "ERROR",
+      "subtest": null,
+      "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy\n    findings, _ = pub.scan([p for p in pub.paths() if (ROOT / p).is_file()])\n                  ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    # Execution additionally refuses writes outside each worker's disposable root.\n  File \"<REPO_ROOT>\\scripts\\verify-04a14-publication.py\", line 56, in scan\n    text = (ROOT / path).read_text(encoding='utf-8-sig')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\pathlib\\__init__.py\", line 788, in read_text\n    return f.read()\n           ~~~~~~^^\n  File \"<frozen codecs>\", line 325, in decode\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\encodings\\utf_8_sig.py\", line 69, in _buffer_decode\n    return codecs.utf_8_decode(input, errors, final)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte\n",
+      "traceback_sha256": "acbe787c409fa3a276dd129672cbe96d4f4387aa5480bc5e8c6abafdd3d8ce94",
+      "message": "'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "occurrence": 0,
+      "message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+      "classification": "RETAINED_IDENTICAL",
+      "previous": {
+        "outcome": "ERROR",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy\n    findings, _ = pub.scan([p for p in pub.paths() if (ROOT / p).is_file()])\n                  ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    # Execution additionally refuses writes outside each worker's disposable root.\n  File \"<REPO_ROOT>\\scripts\\verify-04a14-publication.py\", line 56, in scan\n    text = (ROOT / path).read_text(encoding='utf-8-sig')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\pathlib\\__init__.py\", line 788, in read_text\n    return f.read()\n           ~~~~~~^^\n  File \"<frozen codecs>\", line 325, in decode\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\encodings\\utf_8_sig.py\", line 69, in _buffer_decode\n    return codecs.utf_8_decode(input, errors, final)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte\n",
+        "traceback_sha256": "acbe787c409fa3a276dd129672cbe96d4f4387aa5480bc5e8c6abafdd3d8ce94",
+        "message": "'utf-8' codec can't decode byte 0xbe in position 13: invalid start byte",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy",
+        "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "occurrence": 0,
+        "lane": 1,
+        "phase": "MAIN",
+        "raw_message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+        "classification": "ACTUAL_UNICODE_DECODE_ERROR;C15_FOCUSED_AND_OLDER_JSON_OR_ASSERTION_ATTEMPTS_SEPARATELY_RETAINED",
+        "previous": {
+          "source": {
+            "path": "evidence/04A38/completion/w2/continuation-v17/python-first-failures-v1.json",
+            "bytes": 1174259,
+            "sha256": "13331706f57ea8bcf51407c4850b0d74d2c5da8e27733d8e7b03cc548af0d60b"
+          },
+          "event_key": [
+            "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+            "ERROR",
+            "",
+            0
+          ],
+          "message_sha256": "7ed227d5a7e255ede4b880ca1fdd059bb7702b0595a2fb23508968e916417361",
+          "traceback_sha256": "167cf8fc891190da86db0b1af9d6a0e2a2354c12ab66e9e5fad2fa03644d8cba"
+        }
+      }
+    }
+  ],
+  "historical_privacy_errors_waived": false,
+  "missing_parent_identities": [],
+  "scope_source": [
+    {
+      "path": "scripts/verify-04a13-publication.py",
+      "bytes": 9176,
+      "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+    },
+    {
+      "path": "scripts/verify-04a14-publication.py",
+      "bytes": 9320,
+      "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+    },
+    {
+      "path": "scripts/tests/test_04a04_alignment.py",
+      "bytes": 6834,
+      "sha256": "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff"
+    },
+    {
+      "path": "scripts/tests/test_04a05_completion_successor.py",
+      "bytes": 9515,
+      "sha256": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952"
+    },
+    {
+      "path": "scripts/tests/test_04a05_contingency.py",
+      "bytes": 9696,
+      "sha256": "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b"
+    }
+  ],
+  "findings_per_current_privacy_parent": 1599,
+  "repository_privacy": "NOT_CLEAN;NEW_RAW39_ARTIFACT_FINDINGS_BLOCKING",
+  "campaign_repeats": 0,
+  "action": "Keep raw authority local; verify sanitized upload derivative independently. No source/test fixes or privacy waivers. Owner decision/re-freeze plan required before READY."
+}

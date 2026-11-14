@@ -1,0 +1,250 @@
+{
+  "status": "EXACT_LISTED_PRESERVATION_AND_RETAINED_IDENTITY_READBACK_PASS",
+  "original_NOT_READY_files": 468,
+  "source_test_plan_pins": 1353,
+  "old_correction_files_unchanged": 76,
+  "protected_unique_paths": 8984,
+  "protected_bytes": 3222863329,
+  "authorities": [
+    {
+      "authority": {
+        "path": "evidence/04A39/preservation/new-pins-v1.json",
+        "bytes": 2016814,
+        "sha256": "f79afe493552159cc3bac6ea203e2ea6df13c20c4167ad882db684665197d77a"
+      },
+      "rows": 6222,
+      "bytes": 1693051220
+    },
+    {
+      "authority": {
+        "path": "evidence/04A39/preservation/post-publication-additions-v1.json",
+        "bytes": 687811,
+        "sha256": "e8f45e40cc4ca905d2ee74b104546f10cd2d9e1c2380b29130819fe2081859dd"
+      },
+      "rows": 2191,
+      "bytes": 980693028
+    },
+    {
+      "authority": {
+        "path": ".test-rationalization-04A39-correction-v1.tmp/private-pins-after-postseal.json",
+        "bytes": 243518,
+        "sha256": "f2db0c9b36e728eab2f1856cbcb5a0032ac237e9d18761e4a5f93c9f381f956b"
+      },
+      "rows": 571,
+      "bytes": 549119081
+    }
+  ],
+  "raw_python_authorities": 14,
+  "register": {
+    "canonical_entries": 1169,
+    "original_obligations": 1514,
+    "restricted_controls": 802,
+    "report_occurrences": 286,
+    "statuses": {
+      "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+      "OWNER_AUTHORIZED_04A39_ONLY": 1,
+      "REQUIRES_OWNER_DECISION": 6,
+      "OBSERVED_RESTRICTED": 3,
+      "CHANGED_NONPASS_BLOCKING": 3,
+      "HISTORICALLY_REPORTED_RESTRICTED": 76,
+      "SUSPECTED_REQUIRES_REVIEW": 13,
+      "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+      "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+      "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+    },
+    "no_discharge": true,
+    "W3_validation_gate_records": 163,
+    "W3_events": 198,
+    "original_member_signatures": 759,
+    "unknown_entries": 0
+  },
+  "register_crosswalk_rows": 2967,
+  "current_register_source_pins": 33,
+  "register_statuses_aliases_unchanged": true,
+  "policy_members": 192,
+  "canonical_register": {
+    "path": "evidence/04A39/register/defects-v7.json",
+    "bytes": 38049892,
+    "sha256": "23785e28026d5c94ea803efd0a00f4e5f8147dbf5b5122f6a0476b530f14cd8d"
+  },
+  "Python_parents": 956,
+  "Python_original39": {
+    "PASS": 833,
+    "FAIL": 112,
+    "ERROR": 11
+  },
+  "Python_W3": {
+    "PASS": 830,
+    "FAIL": 113,
+    "ERROR": 13
+  },
+  "changed_diagnostic_FAIL_events": 54,
+  "changed_diagnostics": "SOURCE_EXPLAINED_FAILS_NOT_WAIVED",
+  "privacy": {
+    "W3": "TWO_ERROR_PARENTS_UNWAIVED",
+    "current": "TWO_FAIL_PARENTS_UNWAIVED",
+    "each": 1941,
+    "snapshot_each": 1599,
+    "added_each": 342
+  },
+  "compatibility": [
+    {
+      "configuration": "Debug",
+      "receipt": {
+        "path": "evidence/04A39/compatibility/Debug-retained-v1.json",
+        "bytes": 15503373,
+        "sha256": "7acdc24439b7d6921466c615e1609068a0f0a9c918c90a2ac4ddca5e554c3ace"
+      },
+      "cases": 29424,
+      "preedit": 28966,
+      "supplement": 458,
+      "corpora": 12,
+      "mode": "RETAINED_W3_NOT_FRESH"
+    },
+    {
+      "configuration": "Release",
+      "receipt": {
+        "path": "evidence/04A39/compatibility/Release-retained-v1.json",
+        "bytes": 15503488,
+        "sha256": "d6ddf9410b602bf82e15af4ff7507f0351ed1326873dde17f27c15871f7d292c"
+      },
+      "cases": 29424,
+      "preedit": 28966,
+      "supplement": 458,
+      "corpora": 12,
+      "mode": "RETAINED_W3_NOT_FRESH"
+    }
+  ],
+  "exports": [
+    {
+      "configuration": "Debug",
+      "receipt": {
+        "path": "evidence/04A39/abi-cil/Debug/exports-v1.json",
+        "bytes": 2611465,
+        "sha256": "586ee48f63dee33cc53e0aea076647126b9d7e833785be1dcee72d5a245b6d7f"
+      },
+      "signatures": 268,
+      "mode": "RETAINED_NOT_FRESH_COMPILED_RUN"
+    },
+    {
+      "configuration": "Release",
+      "receipt": {
+        "path": "evidence/04A39/abi-cil/Release/exports-v1.json",
+        "bytes": 2610832,
+        "sha256": "c3d53bfa1382e04d5824f0d820db279517d024ff8951ce1941956e8624c879f8"
+      },
+      "signatures": 268,
+      "mode": "RETAINED_NOT_FRESH_COMPILED_RUN"
+    }
+  ],
+  "retained_campaigns": {
+    "verdict": "NOT_READY_04A39",
+    "blockers": [
+      "A39-RAW-REVIEW-PRIVACY-01:TWO_CHANGED_PRIVACY_NONPASSES:1599_FINDINGS_EACH",
+      "PYTHON_54_CHANGED_DIAGNOSTICS_UNWAIVED"
+    ],
+    "managed": {
+      "Debug": {
+        "executed": 21127,
+        "outcomes": {
+          "Passed": 21113,
+          "Failed": 14
+        },
+        "new": 33,
+        "scope": "FULL"
+      },
+      "Release": {
+        "executed": 336,
+        "outcomes": {
+          "Passed": 336
+        },
+        "new": 33,
+        "scope": "TARGETED_ONLY"
+      }
+    },
+    "exports": {
+      "Debug": 268,
+      "Release": 268
+    },
+    "current_fixtures_per_configuration": 77,
+    "retained_compatibility_per_configuration": 29424,
+    "compatibility_execution": "RETAINED_W3;NOT_FRESH39",
+    "Python": {
+      "PASS": 833,
+      "ERROR": 11,
+      "FAIL": 112
+    },
+    "Python_events": {
+      "ERROR": 11,
+      "FAIL": 184
+    },
+    "historical_Python": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "historical_Python_events": {
+      "FAIL": 185,
+      "ERROR": 13
+    },
+    "historical_privacy_errors_unwaived": 2,
+    "Python_parent_outcome_changes": 5,
+    "Python_changed_messages": 54,
+    "Node": 916,
+    "strict_profile_MkDocs": [
+      1,
+      1,
+      0
+    ],
+    "register": {
+      "canonical_entries": 1169,
+      "original_obligations": 1514,
+      "restricted_controls": 802,
+      "report_occurrences": 286,
+      "statuses": {
+        "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+        "OWNER_AUTHORIZED_04A39_ONLY": 1,
+        "REQUIRES_OWNER_DECISION": 6,
+        "OBSERVED_RESTRICTED": 3,
+        "CHANGED_NONPASS_BLOCKING": 3,
+        "HISTORICALLY_REPORTED_RESTRICTED": 76,
+        "SUSPECTED_REQUIRES_REVIEW": 13,
+        "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+        "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+        "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+      },
+      "no_discharge": true,
+      "W3_validation_gate_records": 163,
+      "W3_events": 198,
+      "original_member_signatures": 759,
+      "unknown_entries": 0
+    },
+    "gates": {
+      "P": "NO",
+      "N1": "NO GO",
+      "N2": "NO",
+      "C2": "UNMET",
+      "C3": "UNAPPROVED",
+      "scientific": "NOT_GOLDEN"
+    },
+    "scientific_native": "NOT_RUN_UNAUTHORIZED",
+    "review": "No automatic acceptance, merge or04A.40 start."
+  },
+  "inherited_W3_union": {
+    "files": 37484,
+    "archive_declarations": 154,
+    "scope": "INHERITED_QUALIFIED;NOT_FRESH_FULL_UNION"
+  },
+  "no_TestResults_recursive_search": true,
+  "original_reference_executions": 0,
+  "full_campaigns_rerun": 0,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A40_NOT_AUTHORIZED"
+  }
+}

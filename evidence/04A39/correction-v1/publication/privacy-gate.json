@@ -1,0 +1,70 @@
+{
+  "scanner_findings": 25,
+  "reviewed_exact_occurrences": 25,
+  "unresolved": 0,
+  "privacy_status": "PASS_STAGED_DERIVATIVE_ONLY",
+  "repository_candidate_status": "FAIL_UNWAIVED",
+  "historical_utf8_gate_status": "ERROR_LEGACY_SOURCE_ENCODING_UNWAIVED",
+  "command_exit": 0,
+  "sanitization_status": "DETERMINISTIC_SANITIZED_DERIVATIVES;RAW_PRESERVED_LOCAL",
+  "scope": "Exact physical staged derivative, including original synthetic test literals with25 exact occurrence dispositions. Not a repository-wide privacy result.",
+  "payload_files": 2058,
+  "payload_fingerprint": "1f21db3e3670a4ce4f211d5097434c0b6dd50e3c80bf92b17d207e6c02a2a11e",
+  "protected_paths": 134,
+  "source_coverage": 1353,
+  "legacy_source_encodings": [
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/SpreadsheetRangeIdentityTests.vb",
+      "sha256": "b14f43d19935e8050dc08bc6d505927524f33bcb0e855cd0b309a80cfd39feb2",
+      "privacy_views": [
+        "cp1250",
+        "cp1252"
+      ],
+      "original_bytes_preserved": true
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/DumbbellPlot.vb",
+      "sha256": "56c37aae362293725c1197ea3048873f712a12cc9c332cf51f3a76907d33b43e",
+      "privacy_views": [
+        "cp1250",
+        "cp1252"
+      ],
+      "original_bytes_preserved": true
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/SankeyPlot.vb",
+      "sha256": "6ddae98f6c07cefeba643e37a7a6589ee736c1709dbc975da9dac118469f152d",
+      "privacy_views": [
+        "cp1250",
+        "cp1252"
+      ],
+      "original_bytes_preserved": true
+    }
+  ],
+  "scanner": {
+    "path": "scripts/verify-04a13-publication.py",
+    "bytes": 9176,
+    "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+  },
+  "scanner14": {
+    "path": "scripts/verify-04a14-publication.py",
+    "bytes": 9320,
+    "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+  },
+  "scanner_rules_changed": false,
+  "source_or_test_changed": false,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A40_NOT_AUTHORIZED"
+  },
+  "raw_receipt": {
+    "path": ".test-rationalization-04A39-correction-v1.tmp/final-stage-scan-raw.json",
+    "bytes": 14072,
+    "sha256": "a31ee793e988be5352c7b0980eee968c6bea6a399876353c18bd9956e28d9adb"
+  }
+}

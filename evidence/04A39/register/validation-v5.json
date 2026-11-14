@@ -1,0 +1,97 @@
+{
+  "summary": {
+    "canonical_entries": 1169,
+    "original_obligations": 1514,
+    "restricted_controls": 802,
+    "report_occurrences": 286,
+    "statuses": {
+      "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+      "OWNER_AUTHORIZED_04A39_ONLY": 1,
+      "REQUIRES_OWNER_DECISION": 6,
+      "OBSERVED_RESTRICTED": 3,
+      "CHANGED_NONPASS_BLOCKING": 3,
+      "HISTORICALLY_REPORTED_RESTRICTED": 76,
+      "SUSPECTED_REQUIRES_REVIEW": 13,
+      "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+      "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+      "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+    },
+    "no_discharge": true,
+    "W3_validation_gate_records": 163,
+    "W3_events": 198,
+    "original_member_signatures": 759,
+    "unknown_entries": 0
+  },
+  "reader": {
+    "path": "evidence/04A39/verify-register-v5.py",
+    "bytes": 8180,
+    "sha256": "e96f86212e60f2944b879e06ec2c1159e45b5adea863909a475f62347ce75f8a"
+  },
+  "controls": [
+    {
+      "id": "MISSING_CANONICAL_ENTRY",
+      "outcome": "PASS_REJECTED",
+      "reason": "MISSING_OR_DUPLICATE_OBLIGATION"
+    },
+    {
+      "id": "DUPLICATE_CANONICAL_ENTRY",
+      "outcome": "PASS_REJECTED",
+      "reason": "DUPLICATE_CANONICAL_ID"
+    },
+    {
+      "id": "CHANGED_ORIGINAL_FACET",
+      "outcome": "PASS_REJECTED",
+      "reason": "CHANGED_ORIGINAL_RECORD"
+    },
+    {
+      "id": "LOST_ORIGINAL_FACET",
+      "outcome": "PASS_REJECTED",
+      "reason": "LOST_OBLIGATION_FACET"
+    },
+    {
+      "id": "MISSING_RESTRICTED_CONTROL",
+      "outcome": "PASS_REJECTED",
+      "reason": "MISSING_OR_DUPLICATE_RESTRICTED_CONTROL"
+    },
+    {
+      "id": "DUPLICATE_OBLIGATION_MAP",
+      "outcome": "PASS_REJECTED",
+      "reason": "BAD_OBLIGATION_CROSSWALK"
+    },
+    {
+      "id": "GATE_RELEASE",
+      "outcome": "PASS_REJECTED",
+      "reason": "GATE_RELEASE"
+    },
+    {
+      "id": "PREMATURE_04A48_EXIT",
+      "outcome": "PASS_REJECTED",
+      "reason": "PREMATURE_EXIT_DISPOSITION"
+    },
+    {
+      "id": "RESERVED_STATUS",
+      "outcome": "PASS_REJECTED",
+      "reason": "RESERVED_04A48_STATUS"
+    },
+    {
+      "id": "LOST_REPORT_HISTORY",
+      "outcome": "PASS_REJECTED",
+      "reason": "LOST_REPORT_OCCURRENCE"
+    },
+    {
+      "id": "FALSE_DISCHARGE",
+      "outcome": "PASS_REJECTED",
+      "reason": ""
+    },
+    {
+      "id": "LOST_W3_VALIDATION_RECORD",
+      "outcome": "PASS_REJECTED",
+      "reason": "LOST_W3_VALIDATION_OR_GATE"
+    },
+    {
+      "id": "LOST_ORIGINAL_MEMBER_SIGNATURE",
+      "outcome": "PASS_REJECTED",
+      "reason": "ORIGINAL_MEMBER_SIGNATURE_LOST"
+    }
+  ]
+}

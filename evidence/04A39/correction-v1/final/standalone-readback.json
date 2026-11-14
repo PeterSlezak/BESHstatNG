@@ -1,0 +1,23 @@
+{
+  "status": "PASS_DERIVATIVE_INTEGRITY_READBACK",
+  "physical_files": 2060,
+  "source_paths": 1353,
+  "exact_sources": 1322,
+  "source_renderings": 31,
+  "parent_identities": 956,
+  "diagnostic_changes": 54,
+  "privacy": "DERIVATIVE_GATE_ONLY;REPOSITORY_NONPASS_UNWAIVED",
+  "acceptance": "OWNER_DECISION_REQUIRED",
+  "reader": {
+    "path": "evidence/04A39/correction-v1/review_readback.py",
+    "bytes": 3882,
+    "sha256": "79e17abd295ef49ee1962e2a0ccb28bbef4d579ef88e1998edaac0cbd5fd7c57"
+  },
+  "archive": {
+    "path": ".test-rationalization-04A39-correction-v1.tmp/BESHStatNG_04A39_CORRECTION_REVIEW_v1.zip",
+    "bytes": 74763995,
+    "sha256": "6164b6ff1f605997a4a2c482794682ab3e70bb85a48288721f252dec0bb03cab"
+  },
+  "command_exit": 0,
+  "invocation": "Owner Python -I -B review_readback.py <archive> --sha256 <external SHA>; also executed directly here to bind final machine receipt."
+}

@@ -1,0 +1,867 @@
+{
+  "status": "EXACT_25_KEYS_REVERIFIED_WITH_BOTH_SCANNERS",
+  "fixtures": [
+    {
+      "key": [
+        "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+        "78ef6a5e623e69cd0196fa1da48eb36f223b4de7ed509c2eff358c17d7d24f4d",
+        "content",
+        136,
+        "email",
+        8351,
+        "58fab5a683b41e57ee95b5ab349128117c2a1bce880c97f5426fb34f4bd7b2ac",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+        "bytes": 20151,
+        "sha256": "78ef6a5e623e69cd0196fa1da48eb36f223b4de7ed509c2eff358c17d7d24f4d"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+          "bytes": 20151,
+          "sha256": "78ef6a5e623e69cd0196fa1da48eb36f223b4de7ed509c2eff358c17d7d24f4d"
+        },
+        "line": 136,
+        "excerpt_sha256": "c82027f07b41fa891049098f54ea76e80e643634d06e03d950c86b5e61cafb2e",
+        "review_excerpt": "    <DataRow(\"javascript:alert(1)\")> <DataRow(\"data:text/plain,hello\")> <DataRow(\"file:///tmp/a\")>\n    <DataRow(\"http://example.org\")> <DataRow(\"=HYPERLINK(x)\")> <DataRow(\" https://example.org\")>\n    <DataRow(\"https://user:<REDACTED_EMAIL>\")> <DataRow(\"https://example.org:8443/x\")>\n    <DataRow(\"https://example.org/a b\")> <DataRow(\"https://example.org\\report\")>\n    <DataRow(\"https://example.org:443/report\")> <DataRow(\"https://.\")> <DataRow(\"https://-bad.example/report\")>"
+      },
+      "original_justification_sha256": "3be1982149f68002ae4a7a0fda53145eec293d0cf14c7c4de9bf0a33f7e55c0b",
+      "original_line": 136,
+      "physical_line": 136,
+      "raw_match_sha256": "58fab5a683b41e57ee95b5ab349128117c2a1bce880c97f5426fb34f4bd7b2ac",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+        "78ef6a5e623e69cd0196fa1da48eb36f223b4de7ed509c2eff358c17d7d24f4d",
+        "content",
+        136,
+        "credential_url",
+        8338,
+        "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+        "bytes": 20151,
+        "sha256": "78ef6a5e623e69cd0196fa1da48eb36f223b4de7ed509c2eff358c17d7d24f4d"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+          "bytes": 20151,
+          "sha256": "78ef6a5e623e69cd0196fa1da48eb36f223b4de7ed509c2eff358c17d7d24f4d"
+        },
+        "line": 136,
+        "excerpt_sha256": "c82027f07b41fa891049098f54ea76e80e643634d06e03d950c86b5e61cafb2e",
+        "review_excerpt": "    <DataRow(\"javascript:alert(1)\")> <DataRow(\"data:text/plain,hello\")> <DataRow(\"file:///tmp/a\")>\n    <DataRow(\"http://example.org\")> <DataRow(\"=HYPERLINK(x)\")> <DataRow(\" https://example.org\")>\n    <DataRow(\"https://user:<REDACTED_EMAIL>\")> <DataRow(\"https://example.org:8443/x\")>\n    <DataRow(\"https://example.org/a b\")> <DataRow(\"https://example.org\\report\")>\n    <DataRow(\"https://example.org:443/report\")> <DataRow(\"https://.\")> <DataRow(\"https://-bad.example/report\")>"
+      },
+      "original_justification_sha256": "bf6464e440e47489aea32a99d6b7ef7a0160877bf2981c0b863951025c6b37d9",
+      "original_line": 136,
+      "physical_line": 136,
+      "raw_match_sha256": "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+        "86974bc9137bf833b84434ffd12b9c543ec088ed96af5262f312a521242c20e0",
+        "content",
+        85,
+        "profile_or_home",
+        4199,
+        "a7e983d07a10feff780335d0f756c79364cf30ef6ea6008700fc931dbde24de4",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+        "bytes": 9752,
+        "sha256": "86974bc9137bf833b84434ffd12b9c543ec088ed96af5262f312a521242c20e0"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+          "bytes": 9752,
+          "sha256": "86974bc9137bf833b84434ffd12b9c543ec088ed96af5262f312a521242c20e0"
+        },
+        "line": 85,
+        "excerpt_sha256": "9aaed6737912bde8a30eb706e3185fef7352c6e27c91e6a0d60fcaa25b71ef6e",
+        "review_excerpt": "    <DataRow(\"=SUM(A1:B99)\")>\n    <DataRow(\"'Payroll'!$A$1\")>\n    <DataRow(\"<REDACTED_HOME>\\salary.xlsx\")>\n    <DataRow(\"https://private.example/token?secret=abc\")>\n    <DataRow(\"patient Alice account 12345\")>"
+      },
+      "original_justification_sha256": "e45efd328995b70a530343196e07ddcd3339818b1942d3bcb75f957730118109",
+      "original_line": 85,
+      "physical_line": 85,
+      "raw_match_sha256": "f3c514a7469cc3e75e7e5397edff186e85d5642ffa464e6f263335961ca0950b",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+        "86974bc9137bf833b84434ffd12b9c543ec088ed96af5262f312a521242c20e0",
+        "content",
+        85,
+        "appdata_or_drive_path",
+        4199,
+        "66afde23560e31135e92775cf88c99664bb2a9ad23876d32d07fa3b05364aea2",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+        "bytes": 9752,
+        "sha256": "86974bc9137bf833b84434ffd12b9c543ec088ed96af5262f312a521242c20e0"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+          "bytes": 9752,
+          "sha256": "86974bc9137bf833b84434ffd12b9c543ec088ed96af5262f312a521242c20e0"
+        },
+        "line": 85,
+        "excerpt_sha256": "9aaed6737912bde8a30eb706e3185fef7352c6e27c91e6a0d60fcaa25b71ef6e",
+        "review_excerpt": "    <DataRow(\"=SUM(A1:B99)\")>\n    <DataRow(\"'Payroll'!$A$1\")>\n    <DataRow(\"<REDACTED_HOME>\\salary.xlsx\")>\n    <DataRow(\"https://private.example/token?secret=abc\")>\n    <DataRow(\"patient Alice account 12345\")>"
+      },
+      "original_justification_sha256": "1d895234b55e72e7189a13e02e589ceb86ffcf57a88bcca7636f56a02f311e6c",
+      "original_line": 85,
+      "physical_line": 85,
+      "raw_match_sha256": "e9f06d746eb62787daceea0d5fdccbacf560fca6504def63cccd56a44ac63856",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+        "86974bc9137bf833b84434ffd12b9c543ec088ed96af5262f312a521242c20e0",
+        "content",
+        132,
+        "appdata_or_drive_path",
+        6965,
+        "91692358de105bd73c9d44bdbf3e44164c9ff76c53e346bb6b82e5075e146c76",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+        "bytes": 9752,
+        "sha256": "86974bc9137bf833b84434ffd12b9c543ec088ed96af5262f312a521242c20e0"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/DiagnosticTests.vb",
+          "bytes": 9752,
+          "sha256": "86974bc9137bf833b84434ffd12b9c543ec088ed96af5262f312a521242c20e0"
+        },
+        "line": 132,
+        "excerpt_sha256": "5403abf0c2c2175dc9d07f5d4acbfa4817763eae938f75a8166da85b2e7b0419",
+        "review_excerpt": "    Public Async Function ThrowingOrDisposedSinkNeverMasksOriginalValidationFailure(disposed As Boolean) As Task\n        Dim target As New Sink With {.Failure = If(disposed, CType(New ObjectDisposedException(\"=SECRET()\"), Exception), New Exception(\"Payroll!A1\"))}\n        Dim original As New ArgumentException(\"=SECRET(A1)\" & Environment.NewLine & \"<REDACTED_DRIVE>\")\n        Dim run = Await New DiagnosticEmitter(target).StartAsync(AnalysisIds.OneWayAnova, False)\n        Dim caught As Exception = Nothing"
+      },
+      "original_justification_sha256": "9ee20b587dce99b76af2e3c430461a8cc7b869a876ffe73cccabaaa404934f85",
+      "original_line": 132,
+      "physical_line": 132,
+      "raw_match_sha256": "e7d5c31fe395a8fc38f4ce585ac3eafaf370a20160994d343534945c1a4f671d",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.Excel.Common.Tests/src/UserFaultTests.vb",
+        "68903d3e6efea9a31983b78bc04fc5ceac7055dcf6bbb0379ce95a519ec4bb94",
+        "content",
+        14,
+        "appdata_or_drive_path",
+        344,
+        "91692358de105bd73c9d44bdbf3e44164c9ff76c53e346bb6b82e5075e146c76",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.Excel.Common.Tests/src/UserFaultTests.vb",
+        "bytes": 15705,
+        "sha256": "68903d3e6efea9a31983b78bc04fc5ceac7055dcf6bbb0379ce95a519ec4bb94"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.Excel.Common.Tests/src/UserFaultTests.vb",
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/UserFaultTests.vb",
+          "bytes": 15705,
+          "sha256": "68903d3e6efea9a31983b78bc04fc5ceac7055dcf6bbb0379ce95a519ec4bb94"
+        },
+        "line": 14,
+        "excerpt_sha256": "0424fa2a0028481bce37d2c42199059c7d687ec7f4781ce05788bb2f8c0fc85d",
+        "review_excerpt": "<TestClass>\nPublic Class UserFaultTests\n    Private Const Payload As String = \"PRIVATE 'Sheet!A1' <REDACTED_DRIVE> <script> stack at JS.write\"\n\n    Private NotInheritable Class HostileException"
+      },
+      "original_justification_sha256": "52c2ed6dbcafee782fa5f13abda72577e6c06eab3fc048a34854e6f969eb193b",
+      "original_line": 14,
+      "physical_line": 14,
+      "raw_match_sha256": "e7d5c31fe395a8fc38f4ce585ac3eafaf370a20160994d343534945c1a4f671d",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.Excel.Common.Tests/src/UserFaultTests.vb",
+        "68903d3e6efea9a31983b78bc04fc5ceac7055dcf6bbb0379ce95a519ec4bb94",
+        "content",
+        100,
+        "appdata_or_drive_path",
+        4946,
+        "91692358de105bd73c9d44bdbf3e44164c9ff76c53e346bb6b82e5075e146c76",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.Excel.Common.Tests/src/UserFaultTests.vb",
+        "bytes": 15705,
+        "sha256": "68903d3e6efea9a31983b78bc04fc5ceac7055dcf6bbb0379ce95a519ec4bb94"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.Excel.Common.Tests/src/UserFaultTests.vb",
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/UserFaultTests.vb",
+          "bytes": 15705,
+          "sha256": "68903d3e6efea9a31983b78bc04fc5ceac7055dcf6bbb0379ce95a519ec4bb94"
+        },
+        "line": 100,
+        "excerpt_sha256": "31c95c6f2dff411521ad2d53ef4adc00761bdbf411ed4239e49601844b68bbc1",
+        "review_excerpt": "    <DataRow(Nothing)> <DataRow(\"\")> <DataRow(\"groups[0]\")> <DataRow(\"groups[16383]\")>\n    <DataRow(\"groups[]\")> <DataRow(\"groups[01]\")> <DataRow(\"groups[-1]\")> <DataRow(\"groups[16384]\")>\n    <DataRow(\"groups[PRIVATE]\")> <DataRow(\"<REDACTED_DRIVE>\")> <DataRow(\"options\" & vbLf)>\n    <DataRow(\"rows\")> <DataRow(\"header\")> <DataRow(\"category\")> <DataRow(\"options.alpha\")>\n    Public Sub FieldPathsAreClosedVocabularyAndBoundedIndexes(field As String)"
+      },
+      "original_justification_sha256": "8e607d00e6e9ba8efc4d1a98a97fbeda3a727c4027115ebce1cde82082435355",
+      "original_line": 100,
+      "physical_line": 100,
+      "raw_match_sha256": "e7d5c31fe395a8fc38f4ce585ac3eafaf370a20160994d343534945c1a4f671d",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py",
+        "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7",
+        "content",
+        99,
+        "appdata_or_drive_path",
+        5522,
+        "bf3ceb184ee547f5e02dc853a2311143b34b724ea2a665f727f43fdfdd7aafd0",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py",
+        "bytes": 18295,
+        "sha256": "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py",
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py",
+          "bytes": 18295,
+          "sha256": "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7"
+        },
+        "line": 99,
+        "excerpt_sha256": "af6d01e407d6cf19fa82a4f9dc9997de4c7fdd4336d85a91edb507ede2af6740",
+        "review_excerpt": "\n    def test_artifact_path_aliases_rejected(self):\n        for name in ['../outside', '<REDACTED_DRIVE> 'x:stream', 'CON', 'dir/NUL.png', 'dir/trailing.']:\n            with self.subTest(name=name), self.assertRaises(ValueError): c.safe_artifact_path(name)\n"
+      },
+      "original_justification_sha256": "4e35da2bbc3214a1e19328b7ad626b0df47bc65732fa754757e739da6c7e4a03",
+      "original_line": 99,
+      "physical_line": 99,
+      "raw_match_sha256": "a324ac4f565175d0cf07096c375e086dbfa4f38cda83939264e1bca9db6b10f7",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.WasmSmoke/tests/Execution/OfficeFaultTests.cs",
+        "d70f0a7c48d07ec4c21b08b06ed666af409b5d3c9795deeb127d1cae1333c73f",
+        "content",
+        8,
+        "appdata_or_drive_path",
+        228,
+        "91692358de105bd73c9d44bdbf3e44164c9ff76c53e346bb6b82e5075e146c76",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.WasmSmoke/tests/Execution/OfficeFaultTests.cs",
+        "bytes": 5875,
+        "sha256": "d70f0a7c48d07ec4c21b08b06ed666af409b5d3c9795deeb127d1cae1333c73f"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.WasmSmoke/tests/Execution/OfficeFaultTests.cs",
+        "source": {
+          "path": "BESHStat.WasmSmoke/tests/Execution/OfficeFaultTests.cs",
+          "bytes": 5875,
+          "sha256": "d70f0a7c48d07ec4c21b08b06ed666af409b5d3c9795deeb127d1cae1333c73f"
+        },
+        "line": 8,
+        "excerpt_sha256": "3b80c7af6a907fb6012572bc7043085329ca2f15c6416dec9dd86b37681e2a12",
+        "review_excerpt": "public sealed class OfficeFaultTests\n{\n    private const string Payload = \"PRIVATE Sheet!A1 <REDACTED_DRIVE> JS stack at write\";\n    private sealed class BrokenSink : IDiagnosticSink\n    {"
+      },
+      "original_justification_sha256": "b20f680b8da2a27172866ca304fb1052d3b96b36d96e7cf4758b9d3e2f013a52",
+      "original_line": 8,
+      "physical_line": 8,
+      "raw_match_sha256": "e7d5c31fe395a8fc38f4ce585ac3eafaf370a20160994d343534945c1a4f671d",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+        "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844",
+        "content",
+        90,
+        "appdata_or_drive_path",
+        6158,
+        "e17c03fc68b51444fe44b1f042e97ad96e8c5bd1be2486af57e782617c95f6dd",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+        "bytes": 15264,
+        "sha256": "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+        "source": {
+          "path": "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+          "bytes": 15264,
+          "sha256": "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844"
+        },
+        "line": 90,
+        "excerpt_sha256": "a0453e9f9a78da6854620092833c289614e9e295d59be4585e9c14a17357f11d",
+        "review_excerpt": "    \"unsafe javascript\": p => { p.items[4].linkTarget = \"javascript:alert(1)\"; },\n    \"unsafe data\": p => { p.items[4].linkTarget = \"data:text/html,hello\"; },\n    \"unsafe file\": p => { p.items[4].linkTarget = \"file:///<REDACTED_DRIVE>\"; },\n    \"insecure HTTP\": p => { p.items[4].linkTarget = \"http://example.org/report\"; },\n    \"formula link\": p => { p.items[4].linkTarget = '=HYPERLINK(\"https://example.org\")'; },"
+      },
+      "original_justification_sha256": "53057bbae4157bbe1335cb71ea27554212577ef986b93e45781d11c3b357481d",
+      "original_line": 90,
+      "physical_line": 90,
+      "raw_match_sha256": "25c0a06f1726edebd7086d4e857e18009b028e64198ae6eb81a0447f6b3e5453",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+        "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844",
+        "content",
+        93,
+        "email",
+        6416,
+        "58fab5a683b41e57ee95b5ab349128117c2a1bce880c97f5426fb34f4bd7b2ac",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+        "bytes": 15264,
+        "sha256": "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+        "source": {
+          "path": "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+          "bytes": 15264,
+          "sha256": "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844"
+        },
+        "line": 93,
+        "excerpt_sha256": "d713c0b5282341cb6f918f233f41f923c2ef6c5e0f641a2755cb9a19c94aef26",
+        "review_excerpt": "    \"insecure HTTP\": p => { p.items[4].linkTarget = \"http://example.org/report\"; },\n    \"formula link\": p => { p.items[4].linkTarget = '=HYPERLINK(\"https://example.org\")'; },\n    \"credential URL\": p => { p.items[4].linkTarget = \"https://user:<REDACTED_EMAIL>\"; },\n    \"whitespace URL\": p => { p.items[4].linkTarget = \"https://example.org/a b\"; },\n    \"trailing newline URL\": p => { p.items[4].linkTarget = \"https://example.org\\n\"; },"
+      },
+      "original_justification_sha256": "65dbcb27e60f564e8aa4b1d14af6a1367f9e0a55ae22528b679dfcbb6c225e0f",
+      "original_line": 93,
+      "physical_line": 93,
+      "raw_match_sha256": "58fab5a683b41e57ee95b5ab349128117c2a1bce880c97f5426fb34f4bd7b2ac",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+        "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844",
+        "content",
+        93,
+        "credential_url",
+        6403,
+        "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+        "bytes": 15264,
+        "sha256": "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+        "source": {
+          "path": "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs",
+          "bytes": 15264,
+          "sha256": "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844"
+        },
+        "line": 93,
+        "excerpt_sha256": "d713c0b5282341cb6f918f233f41f923c2ef6c5e0f641a2755cb9a19c94aef26",
+        "review_excerpt": "    \"insecure HTTP\": p => { p.items[4].linkTarget = \"http://example.org/report\"; },\n    \"formula link\": p => { p.items[4].linkTarget = '=HYPERLINK(\"https://example.org\")'; },\n    \"credential URL\": p => { p.items[4].linkTarget = \"https://user:<REDACTED_EMAIL>\"; },\n    \"whitespace URL\": p => { p.items[4].linkTarget = \"https://example.org/a b\"; },\n    \"trailing newline URL\": p => { p.items[4].linkTarget = \"https://example.org\\n\"; },"
+      },
+      "original_justification_sha256": "a2ed1b8a8b62dc30ca428e383cc13e9a9a8476c0768bad87e06e7aa0c3f2dc84",
+      "original_line": 93,
+      "physical_line": 93,
+      "raw_match_sha256": "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.WasmSmoke/tests/diagnostics.test.cjs",
+        "c7aee61bb2943703cb9269f3a8ce249fd5df266d01e4920a89632e129de0092d",
+        "content",
+        45,
+        "profile_or_home",
+        2320,
+        "a7e983d07a10feff780335d0f756c79364cf30ef6ea6008700fc931dbde24de4",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.WasmSmoke/tests/diagnostics.test.cjs",
+        "bytes": 6503,
+        "sha256": "c7aee61bb2943703cb9269f3a8ce249fd5df266d01e4920a89632e129de0092d"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.WasmSmoke/tests/diagnostics.test.cjs",
+        "source": {
+          "path": "BESHStat.WasmSmoke/tests/diagnostics.test.cjs",
+          "bytes": 6503,
+          "sha256": "c7aee61bb2943703cb9269f3a8ce249fd5df266d01e4920a89632e129de0092d"
+        },
+        "line": 45,
+        "excerpt_sha256": "8b137846f8d350a1b9a3fb73193143695b6de915f4e135dbaf671eb7643630e0",
+        "review_excerpt": "});\n\nfor (const payload of [\"=SUM(A1:B99)\", \"'Payroll'!$A$1\", \"<REDACTED_HOME>\\\\salary.xlsx\",\n    \"patient Alice account 12345\", \"input\\r\\nforged=secret\", \"input\\0\", \"秘密🔒\\u2028\", \"x\".repeat(100000)]) {\n    test(`untrusted payload is redacted (${payload.slice(0, 24)})`, () => {"
+      },
+      "original_justification_sha256": "7926ab6f24f00c9bf5b46bc76755a6863429b611db0edc4b891e72aeffd8616e",
+      "original_line": 45,
+      "physical_line": 45,
+      "raw_match_sha256": "f3c514a7469cc3e75e7e5397edff186e85d5642ffa464e6f263335961ca0950b",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStat.WasmSmoke/tests/diagnostics.test.cjs",
+        "c7aee61bb2943703cb9269f3a8ce249fd5df266d01e4920a89632e129de0092d",
+        "content",
+        45,
+        "appdata_or_drive_path",
+        2320,
+        "66afde23560e31135e92775cf88c99664bb2a9ad23876d32d07fa3b05364aea2",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStat.WasmSmoke/tests/diagnostics.test.cjs",
+        "bytes": 6503,
+        "sha256": "c7aee61bb2943703cb9269f3a8ce249fd5df266d01e4920a89632e129de0092d"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStat.WasmSmoke/tests/diagnostics.test.cjs",
+        "source": {
+          "path": "BESHStat.WasmSmoke/tests/diagnostics.test.cjs",
+          "bytes": 6503,
+          "sha256": "c7aee61bb2943703cb9269f3a8ce249fd5df266d01e4920a89632e129de0092d"
+        },
+        "line": 45,
+        "excerpt_sha256": "8b137846f8d350a1b9a3fb73193143695b6de915f4e135dbaf671eb7643630e0",
+        "review_excerpt": "});\n\nfor (const payload of [\"=SUM(A1:B99)\", \"'Payroll'!$A$1\", \"<REDACTED_HOME>\\\\salary.xlsx\",\n    \"patient Alice account 12345\", \"input\\r\\nforged=secret\", \"input\\0\", \"秘密🔒\\u2028\", \"x\".repeat(100000)]) {\n    test(`untrusted payload is redacted (${payload.slice(0, 24)})`, () => {"
+      },
+      "original_justification_sha256": "dc7601f9cf47168d3d37c8246f6ac014613aebe4dbcaa609216db2df1d72248d",
+      "original_line": 45,
+      "physical_line": 45,
+      "raw_match_sha256": "e9f06d746eb62787daceea0d5fdccbacf560fca6504def63cccd56a44ac63856",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+        "343e41e57aba0f6f5826450d94833b14cf97a7d4a8d6e8f53c7dbea9ca058034",
+        "content",
+        75,
+        "profile_or_home",
+        3178,
+        "a7e983d07a10feff780335d0f756c79364cf30ef6ea6008700fc931dbde24de4",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+        "bytes": 5349,
+        "sha256": "343e41e57aba0f6f5826450d94833b14cf97a7d4a8d6e8f53c7dbea9ca058034"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+        "source": {
+          "path": "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+          "bytes": 5349,
+          "sha256": "343e41e57aba0f6f5826450d94833b14cf97a7d4a8d6e8f53c7dbea9ca058034"
+        },
+        "line": 75,
+        "excerpt_sha256": "dea614fc8dedcbae216ebb3b8047a90502a0420464c2648701b3ed8438ac9ad6",
+        "review_excerpt": "    Public Sub SecretsInOutputExceptionsNeverReachLoggerAndLoggingCannotReplaceFailure(throwing As Boolean)\n        Dim logger As New DiagnosticRecordingLogger With {.ThrowOnWrite = throwing}\n        Dim original As New ArgumentException(\"=SECRET(Payroll!A1)\" & Environment.NewLine & \"<REDACTED_HOME>\\salary.xlsx 秘密\")\n        Dim session As New ExcelDnaSharedOutputRun()\n        Using run As New WindowsDiagnosticRun(AnalysisIds.KruskalWallis, True, New CoreLoggerDiagnosticSink(logger))"
+      },
+      "original_justification_sha256": "c12880d2195fe8f5cec4827d74535f69e475cae3d91237980741922419945407",
+      "original_line": 75,
+      "physical_line": 75,
+      "raw_match_sha256": "f3c514a7469cc3e75e7e5397edff186e85d5642ffa464e6f263335961ca0950b",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+        "343e41e57aba0f6f5826450d94833b14cf97a7d4a8d6e8f53c7dbea9ca058034",
+        "content",
+        75,
+        "appdata_or_drive_path",
+        3178,
+        "66afde23560e31135e92775cf88c99664bb2a9ad23876d32d07fa3b05364aea2",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+        "bytes": 5349,
+        "sha256": "343e41e57aba0f6f5826450d94833b14cf97a7d4a8d6e8f53c7dbea9ca058034"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+        "source": {
+          "path": "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+          "bytes": 5349,
+          "sha256": "343e41e57aba0f6f5826450d94833b14cf97a7d4a8d6e8f53c7dbea9ca058034"
+        },
+        "line": 75,
+        "excerpt_sha256": "dea614fc8dedcbae216ebb3b8047a90502a0420464c2648701b3ed8438ac9ad6",
+        "review_excerpt": "    Public Sub SecretsInOutputExceptionsNeverReachLoggerAndLoggingCannotReplaceFailure(throwing As Boolean)\n        Dim logger As New DiagnosticRecordingLogger With {.ThrowOnWrite = throwing}\n        Dim original As New ArgumentException(\"=SECRET(Payroll!A1)\" & Environment.NewLine & \"<REDACTED_HOME>\\salary.xlsx 秘密\")\n        Dim session As New ExcelDnaSharedOutputRun()\n        Using run As New WindowsDiagnosticRun(AnalysisIds.KruskalWallis, True, New CoreLoggerDiagnosticSink(logger))"
+      },
+      "original_justification_sha256": "eed289e36169276382208bbea96c002c8482249eae5d697287cc07df57656a82",
+      "original_line": 75,
+      "physical_line": 75,
+      "raw_match_sha256": "e9f06d746eb62787daceea0d5fdccbacf560fca6504def63cccd56a44ac63856",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+        "343e41e57aba0f6f5826450d94833b14cf97a7d4a8d6e8f53c7dbea9ca058034",
+        "content",
+        112,
+        "appdata_or_drive_path",
+        4984,
+        "91692358de105bd73c9d44bdbf3e44164c9ff76c53e346bb6b82e5075e146c76",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+        "bytes": 5349,
+        "sha256": "343e41e57aba0f6f5826450d94833b14cf97a7d4a8d6e8f53c7dbea9ca058034"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+        "source": {
+          "path": "BESHStatNG.Test/src/DiagnosticAdapterTests.vb",
+          "bytes": 5349,
+          "sha256": "343e41e57aba0f6f5826450d94833b14cf97a7d4a8d6e8f53c7dbea9ca058034"
+        },
+        "line": 112,
+        "excerpt_sha256": "62912b0b44d7bb013f9ef4072c0530ac74da21652e749142bcf23f734c45c5eb",
+        "review_excerpt": "    Public Sub UnsafeStageIsRedactedInUiAndLogs()\n        Dim logger As New DiagnosticRecordingLogger()\n        Using run As New WindowsDiagnosticRun(\"<REDACTED_DRIVE>\", True, New CoreLoggerDiagnosticSink(logger))\n            run.EnterStage(\"Payroll!A1\")\n            run.Reject()"
+      },
+      "original_justification_sha256": "32aa2e38ba8cda965ef2b5d9ac8778614ca8e0b2c101560c20b048f7b2822862",
+      "original_line": 112,
+      "physical_line": 112,
+      "raw_match_sha256": "e7d5c31fe395a8fc38f4ce585ac3eafaf370a20160994d343534945c1a4f671d",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "BESHStatNG.Test/src/ExecutionAdapterTests.vb",
+        "c1d62e45c76ef1326f731aed9a478cb9d0bcb5601f181e20fe5c7c6d461af78e",
+        "content",
+        107,
+        "appdata_or_drive_path",
+        5773,
+        "2465b32e83fa7e6be3815d412bf3fa770b682524b0608d6b174fc67d96256ba2",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "BESHStatNG.Test/src/ExecutionAdapterTests.vb",
+        "bytes": 9553,
+        "sha256": "c1d62e45c76ef1326f731aed9a478cb9d0bcb5601f181e20fe5c7c6d461af78e"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "BESHStatNG.Test/src/ExecutionAdapterTests.vb",
+        "source": {
+          "path": "BESHStatNG.Test/src/ExecutionAdapterTests.vb",
+          "bytes": 9553,
+          "sha256": "c1d62e45c76ef1326f731aed9a478cb9d0bcb5601f181e20fe5c7c6d461af78e"
+        },
+        "line": 107,
+        "excerpt_sha256": "f4b04ce6643dca634b3e4660c558d17c9e1bf59787bbbe49dfceea0ae1369bc5",
+        "review_excerpt": "            run.Execution.Start()\n            Dim intent = New WriteIntent(\"plan\", \"target\", New SpreadsheetOutputTarget(), New WriteRegion() {})\n            Dim result = New WriteResult(state, WriteCodes.Changed, \"PRIVATE <REDACTED_DRIVE>\", intent,\n                state = OutputWriteState.PartiallyWritten,\n                confirmationRequired:=If(state = OutputWriteState.CancelledByUser, CType(True, Boolean?), Nothing),"
+      },
+      "original_justification_sha256": "183df07c0af5cf8713e9c610441cb8400e0f271542a837b557155af5703a3c18",
+      "original_line": 107,
+      "physical_line": 107,
+      "raw_match_sha256": "60f7bc90fb2f092f4a7cf71630228183878137180bba29e1d1442aa2e9dca119",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "scripts/tests/test_04a08_evidence_relocation.py",
+        "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+        "content",
+        157,
+        "profile_or_home",
+        8342,
+        "cc477d9ec01e02b6d63fdc59040c4bb460c27cf9f42443dc72bf50b45bd8308d",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "bytes": 8808,
+        "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "source": {
+          "path": "scripts/tests/test_04a08_evidence_relocation.py",
+          "bytes": 8808,
+          "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+        },
+        "line": 157,
+        "excerpt_sha256": "16ae396a9f696ab65093e6f8dc4f458a512d9db893a943f2113e700b544c5119",
+        "review_excerpt": "            for field in ['managed_fail', 'managed_pass', 'managed_total', 'python_nonpassing_methods', 'python_nonpasses', 'managed_failures']:\n                self.assertEqual(original['configurations'][config][field], public['configurations'][config][field])\n        samples = ['<REDACTED_HOME>/Desktop/WPyExample/python/python.exe',\n                   '<REDACTED_DRIVE>\n                   '<REDACTED_HOME>\\\\custom\\\\file.txt']"
+      },
+      "original_justification_sha256": "a6406f19bad1cf7fd0e18b1c8563e0cbde562a1afe3e1c807502cbc72de7723f",
+      "original_line": 157,
+      "physical_line": 157,
+      "raw_match_sha256": "6346341e1bdbf348ec88e0e37fe38d44f688e0fbef87ba96a2ba8dbe967ada6f",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "scripts/tests/test_04a08_evidence_relocation.py",
+        "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+        "content",
+        159,
+        "profile_or_home",
+        8483,
+        "d04fa98233ad0d757cea8731a0fb1963709773d91891e4db6bfef6242594724a",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "bytes": 8808,
+        "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "source": {
+          "path": "scripts/tests/test_04a08_evidence_relocation.py",
+          "bytes": 8808,
+          "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+        },
+        "line": 159,
+        "excerpt_sha256": "f4949a8ae49b371d818907884bcafe68125508131db7fd319ed06c6bbb045064",
+        "review_excerpt": "        samples = ['<REDACTED_HOME>/Desktop/WPyExample/python/python.exe',\n                   '<REDACTED_DRIVE>\n                   '<REDACTED_HOME>\\\\custom\\\\file.txt']\n        for text in samples:\n            sanitized = p.sanitize_text(text)"
+      },
+      "original_justification_sha256": "d13fabfbcbbcbda06c6b5e9d06bf2ead9e35a01bdd8286639b3adb9caa8fd264",
+      "original_line": 159,
+      "physical_line": 159,
+      "raw_match_sha256": "f068f0883693bb6e8de060bfdb2ef0d1aeef797dee25fd185ac11997f80872b4",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "scripts/tests/test_04a08_evidence_relocation.py",
+        "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+        "content",
+        157,
+        "appdata_or_drive_path",
+        8342,
+        "8de0da66483637ddb242a566fb25a8d10fe530284d11f4735a33940fd34df588",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "bytes": 8808,
+        "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "source": {
+          "path": "scripts/tests/test_04a08_evidence_relocation.py",
+          "bytes": 8808,
+          "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+        },
+        "line": 157,
+        "excerpt_sha256": "16ae396a9f696ab65093e6f8dc4f458a512d9db893a943f2113e700b544c5119",
+        "review_excerpt": "            for field in ['managed_fail', 'managed_pass', 'managed_total', 'python_nonpassing_methods', 'python_nonpasses', 'managed_failures']:\n                self.assertEqual(original['configurations'][config][field], public['configurations'][config][field])\n        samples = ['<REDACTED_HOME>/Desktop/WPyExample/python/python.exe',\n                   '<REDACTED_DRIVE>\n                   '<REDACTED_HOME>\\\\custom\\\\file.txt']"
+      },
+      "original_justification_sha256": "8afc7d701eb746a7f29a88ee34b0543b13ade352f384bd25a3d9af8ba779f841",
+      "original_line": 157,
+      "physical_line": 157,
+      "raw_match_sha256": "992603c47fb1e0abf3c3d076e687fdc539c69a15f455077c609810c3523c79d1",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "scripts/tests/test_04a08_evidence_relocation.py",
+        "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+        "content",
+        158,
+        "appdata_or_drive_path",
+        8418,
+        "5121afcb530f853e0e387a0a2c8d8aeab91faf5c60982ca2a164d6381a275a54",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "bytes": 8808,
+        "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "source": {
+          "path": "scripts/tests/test_04a08_evidence_relocation.py",
+          "bytes": 8808,
+          "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+        },
+        "line": 158,
+        "excerpt_sha256": "c64f02a7a3dd0e6d4aa863f3965732811a94b9d910119098a623a2d6e7364201",
+        "review_excerpt": "                self.assertEqual(original['configurations'][config][field], public['configurations'][config][field])\n        samples = ['<REDACTED_HOME>/Desktop/WPyExample/python/python.exe',\n                   '<REDACTED_DRIVE>\n                   '<REDACTED_HOME>\\\\custom\\\\file.txt']\n        for text in samples:"
+      },
+      "original_justification_sha256": "b3d066f6381bf3095d9cac8ab3f867a75fcba8f8daf9c13646e8906cbefe2fac",
+      "original_line": 158,
+      "physical_line": 158,
+      "raw_match_sha256": "9f60329ec5a92f9f0d147ca8b3811b2d02afb57627ff3fd63dd4040e016a3265",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "scripts/tests/test_04a08_evidence_relocation.py",
+        "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+        "content",
+        159,
+        "appdata_or_drive_path",
+        8483,
+        "bcc827239031a23aef02d74f2a770a7f955c90bdd54a00e9fd3247415088683e",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "bytes": 8808,
+        "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "source": {
+          "path": "scripts/tests/test_04a08_evidence_relocation.py",
+          "bytes": 8808,
+          "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+        },
+        "line": 159,
+        "excerpt_sha256": "f4949a8ae49b371d818907884bcafe68125508131db7fd319ed06c6bbb045064",
+        "review_excerpt": "        samples = ['<REDACTED_HOME>/Desktop/WPyExample/python/python.exe',\n                   '<REDACTED_DRIVE>\n                   '<REDACTED_HOME>\\\\custom\\\\file.txt']\n        for text in samples:\n            sanitized = p.sanitize_text(text)"
+      },
+      "original_justification_sha256": "e53e8100b5f800834c301794aa9345edac13657940a0fca9246c241b1d5a6469",
+      "original_line": 159,
+      "physical_line": 159,
+      "raw_match_sha256": "53e0f41d700122aa998638677bab092ba4164861d9c7a97ffcfc7120c70feadf",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "scripts/tests/test_04a08_evidence_relocation.py",
+        "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+        "content",
+        141,
+        "unc_share",
+        7226,
+        "973987827e12bd3031f16b9d32893ddf87aef218089601162ec6ffaa613b272d",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "bytes": 8808,
+        "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "source": {
+          "path": "scripts/tests/test_04a08_evidence_relocation.py",
+          "bytes": 8808,
+          "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+        },
+        "line": 141,
+        "excerpt_sha256": "3d699baacebf1c730ee07ccc40f7d7eedb21fbcbd822c89428b406056ff2267a",
+        "review_excerpt": "            for account in accounts:\n                self.assertNotRegex(text.lower(), r'\\b'+re.escape(account.lower())+r'\\b')\n        self.assertTrue(p.privacy_inventory({'path': r'<REDACTED_UNC>'})['findings']['unc_paths'])\n        synthetic = p.privacy_inventory({'value': '<REDACTED_CONNECTION>_example_only'})\n        finding = synthetic['findings']['secret_token_patterns'][0]"
+      },
+      "original_justification_sha256": "5511424c327118a60422103dd209073128b7a5a5e99e8f2831cb18d65b0d8491",
+      "original_line": 141,
+      "physical_line": 141,
+      "raw_match_sha256": "681d071ebe74c4840212167bbcec3a3d44f17a5e84abeec614e9eefe750297b9",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    },
+    {
+      "key": [
+        "scripts/tests/test_04a08_evidence_relocation.py",
+        "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+        "content",
+        142,
+        "connection_secret",
+        7328,
+        "164a8f0082d99674a8638a5839b1652de14de9e1448aaac2d4bee4a0c8d08402",
+        "utf-8-sig"
+      ],
+      "source": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "bytes": 8808,
+        "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+      },
+      "proof": "Existing diagnostic/privacy or hostile-payload unit test literal, asserted as input to redaction/rejection. Exact source SHA, origin, byte-view offset and match SHA only; no file/category wildcard exemption.",
+      "original_justification": {
+        "path": "scripts/tests/test_04a08_evidence_relocation.py",
+        "source": {
+          "path": "scripts/tests/test_04a08_evidence_relocation.py",
+          "bytes": 8808,
+          "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca"
+        },
+        "line": 142,
+        "excerpt_sha256": "e65e25e025a83379d9d96f0a3d1aaa6910191eafb95f7b3e0bfd60b5ea2144ac",
+        "review_excerpt": "                self.assertNotRegex(text.lower(), r'\\b'+re.escape(account.lower())+r'\\b')\n        self.assertTrue(p.privacy_inventory({'path': r'<REDACTED_UNC>'})['findings']['unc_paths'])\n        synthetic = p.privacy_inventory({'value': '<REDACTED_CONNECTION>_example_only'})\n        finding = synthetic['findings']['secret_token_patterns'][0]\n        self.assertIn('match_sha256', finding)"
+      },
+      "original_justification_sha256": "cf89cb8ac9340397a1a54517b25226df5e37f18f213548e7a3dbee1ffbb29fea",
+      "original_line": 142,
+      "physical_line": 142,
+      "raw_match_sha256": "164a8f0082d99674a8638a5839b1652de14de9e1448aaac2d4bee4a0c8d08402",
+      "status": "EXACT_ALREADY_JUSTIFIED_NEGATIVE_TEST_FIXTURE"
+    }
+  ],
+  "count": 25,
+  "observed_key_checks": 50,
+  "missing": [],
+  "changed": [],
+  "additional": [],
+  "new_synthetic_entries": 0,
+  "source_and_physical_hashes_exact": true,
+  "private_match_values": {
+    "path": ".test-rationalization-04A39-physical-witness-v1.tmp/exact-fixture-matches-raw.json",
+    "bytes": 20060,
+    "sha256": "9f174cc93d2b8134d872ceceb1b188c0fcd9c191791fd749c65774e0d08f68c6"
+  }
+}

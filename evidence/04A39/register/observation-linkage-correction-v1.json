@@ -1,0 +1,56 @@
+{
+  "changes": [
+    {
+      "id": "ISSUE:A39-NESTED-EXTREME-ROUNDTRIP-01",
+      "reason": "New observations have executed Roslyn member and77-case fixture proof, not historical prose contexts. Generic historical-context index incorrectly overwrote their linkage status.",
+      "proof": [
+        {
+          "path": "BESHstatNG/src/DM/WindowsPairedInputAdapter.vb",
+          "kind": "EXECUTED_ROSLYN_MEMBER",
+          "member": "SelectNested",
+          "signature": "Public Shared Function SelectNested(imported As DataObj, ByRef errorText As String) As MultiGroupsPairedDataObj",
+          "line": 80,
+          "header_sha256": "4ec10d414af54805cf3eb0cf7b707be95f0b1aa735a74704eb1c07ed5225ae0b",
+          "source_preimage": {
+            "path": "BESHstatNG/src/DM/WindowsPairedInputAdapter.vb",
+            "bytes": 10454,
+            "sha256": "33ea15a434dd16dd7b1f93a9f5d28fb29d754dd48745345b624862e6ea80b00a"
+          },
+          "body_sha256": "1045cb89715a2c0e8386bc4ed8af6777151a9446725931ea97021e6296feb9d8",
+          "identity": "BESHstatNG/src/DM/WindowsPairedInputAdapter.vb|BESHStatNG.WindowsPairedInputAdapter|FunctionBlock|4ec10d414af54805@5108:2342",
+          "lexical_encoding": "EXECUTED_ROSLYN_SYNTAX"
+        }
+      ]
+    },
+    {
+      "id": "ISSUE:A39-PAIRED-SOURCE-POSITION-01",
+      "reason": "New observations have executed Roslyn member and77-case fixture proof, not historical prose contexts. Generic historical-context index incorrectly overwrote their linkage status.",
+      "proof": [
+        {
+          "path": "BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb",
+          "kind": "EXECUTED_ROSLYN_MEMBER",
+          "member": "PairedArgumentsAligned",
+          "signature": "Friend Shared Function PairedArgumentsAligned(first As Object, second As Object) As Boolean",
+          "line": 139,
+          "header_sha256": "c78493c94f8ec88056dcf5519df2203b41a21a6c0cf49fe17fca9be8e4a9e2d6",
+          "source_preimage": {
+            "path": "BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb",
+            "bytes": 10860,
+            "sha256": "a2a5e1c896b36d8fcfae43c4310e55fd6cc2f8384df30fd090688620e960b0cb"
+          },
+          "body_sha256": "48e165147572141360f3290c6c0a22034823dea22527c34a240c7d9f9898d49d",
+          "identity": "BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb|BESHStatNG.WindowsSpreadsheetTransport|FunctionBlock|c78493c94f8ec880@8161:436",
+          "lexical_encoding": "EXECUTED_ROSLYN_SYNTAX"
+        }
+      ]
+    }
+  ],
+  "previous": {
+    "path": "evidence/04A39/register/defects-v4.json",
+    "bytes": 26392417,
+    "sha256": "63a1195d43c849830202785286511e573493423a5dda2c574def98eb0269404b"
+  },
+  "assertion_preserving": true,
+  "source_or_tests_changed": false,
+  "historical_obligations_changed": false
+}

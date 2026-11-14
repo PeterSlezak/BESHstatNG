@@ -1,0 +1,33 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A39\\python-node-scanners\\campaign-v2",
+      "<REPO_ROOT>\\evidence\\04A39\\python-node-scanners\\campaign-v2\\python_workers_v4.py",
+      "execute"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 683.9059727999847,
+    "stdout_sha256": "476e66c0d7c2123c6b67603723729d3cbe60b0c15850fbb3967023d0f141e2b6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "checked": 10314,
+  "changed": [],
+  "input_freeze": {
+    "path": "evidence/04A39/python-node-scanners/input-freeze-v1.json",
+    "bytes": 2225859,
+    "sha256": "b555093419759a574a27c4dd1f3e0b1700218b340c323403b46d166f5d5baaca"
+  },
+  "campaigns": 1,
+  "summary": {
+    "path": "evidence/04A39/python-node-scanners/campaign-v2/python-execution-summary-v1.json",
+    "bytes": 1744,
+    "sha256": "0df1d4210859dbfe5f4fd5e6e54ffbbd40a1edfe7a67d1a4f5c20a7d65aa41a5"
+  }
+}

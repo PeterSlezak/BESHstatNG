@@ -1,0 +1,127 @@
+{
+  "status": "PASS_MATCH_SPAN_VALUE_ORDER_AND_REAL_SCANNER_EQUIVALENCE",
+  "samples": 577,
+  "positive_email_samples": 559,
+  "empty_email_samples": 18,
+  "flags_and_other_patterns_checked": true,
+  "skips": 18,
+  "original_regex_fallbacks": 559,
+  "actual_scanner_controls": [
+    {
+      "sample_id": 0,
+      "scanner": "13",
+      "findings": 0,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 0,
+      "scanner": "14",
+      "findings": 0,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 1,
+      "scanner": "13",
+      "findings": 3,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 1,
+      "scanner": "14",
+      "findings": 3,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 2,
+      "scanner": "13",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 2,
+      "scanner": "14",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 3,
+      "scanner": "13",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 3,
+      "scanner": "14",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 4,
+      "scanner": "13",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 4,
+      "scanner": "14",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 5,
+      "scanner": "13",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 5,
+      "scanner": "14",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 6,
+      "scanner": "13",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 6,
+      "scanner": "14",
+      "findings": 1,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 7,
+      "scanner": "13",
+      "findings": 6,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 7,
+      "scanner": "14",
+      "findings": 6,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 8,
+      "scanner": "13",
+      "findings": 7,
+      "identical_match_decisions": true
+    },
+    {
+      "sample_id": 8,
+      "scanner": "14",
+      "findings": 7,
+      "identical_match_decisions": true
+    }
+  ],
+  "owner_local_tokens_detected": true,
+  "guard": {
+    "path": "evidence/04A39/physical-witness-v1/dependencies/privacy_regex_guard.py",
+    "bytes": 842,
+    "sha256": "ad17f82adca850afb94fa60d3c0ca5866b446860a7724dc77a5e5b3111c9ce5f"
+  },
+  "historical_proof_samples": 12068,
+  "law": "Every original email match contains the mandatory suffix. No suffix means no original match. Otherwise the original regex and Match objects execute unchanged. Other patterns/flags are forwarded unchanged."
+}

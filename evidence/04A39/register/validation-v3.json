@@ -1,0 +1,79 @@
+{
+  "summary": {
+    "canonical_entries": 1019,
+    "original_obligations": 1514,
+    "restricted_controls": 802,
+    "report_occurrences": 286,
+    "statuses": {
+      "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+      "UNKNOWN_BLOCKED": 2,
+      "HISTORICALLY_REPORTED_RESTRICTED": 76,
+      "SUSPECTED_REQUIRES_REVIEW": 13,
+      "OBSERVED_RESTRICTED": 1
+    },
+    "no_discharge": true,
+    "unknown_entries": 2
+  },
+  "reader": {
+    "path": "evidence/04A39/verify-register-v3.py",
+    "bytes": 5763,
+    "sha256": "21a9925fb968a5bef0530a83d8519c8df46954cb80c77a1692bc92798a1bcb35"
+  },
+  "controls": [
+    {
+      "id": "MISSING_CANONICAL_ENTRY",
+      "outcome": "PASS_REJECTED",
+      "reason": "MISSING_OR_DUPLICATE_OBLIGATION"
+    },
+    {
+      "id": "DUPLICATE_CANONICAL_ENTRY",
+      "outcome": "PASS_REJECTED",
+      "reason": "DUPLICATE_CANONICAL_ID"
+    },
+    {
+      "id": "CHANGED_ORIGINAL_FACET",
+      "outcome": "PASS_REJECTED",
+      "reason": "CHANGED_ORIGINAL_RECORD"
+    },
+    {
+      "id": "LOST_ORIGINAL_FACET",
+      "outcome": "PASS_REJECTED",
+      "reason": "LOST_OBLIGATION_FACET"
+    },
+    {
+      "id": "MISSING_RESTRICTED_CONTROL",
+      "outcome": "PASS_REJECTED",
+      "reason": "MISSING_OR_DUPLICATE_RESTRICTED_CONTROL"
+    },
+    {
+      "id": "DUPLICATE_OBLIGATION_MAP",
+      "outcome": "PASS_REJECTED",
+      "reason": "BAD_OBLIGATION_CROSSWALK"
+    },
+    {
+      "id": "GATE_RELEASE",
+      "outcome": "PASS_REJECTED",
+      "reason": "GATE_RELEASE"
+    },
+    {
+      "id": "PREMATURE_04A48_EXIT",
+      "outcome": "PASS_REJECTED",
+      "reason": "PREMATURE_EXIT_DISPOSITION"
+    },
+    {
+      "id": "RESERVED_STATUS",
+      "outcome": "PASS_REJECTED",
+      "reason": "RESERVED_04A48_STATUS"
+    },
+    {
+      "id": "LOST_REPORT_HISTORY",
+      "outcome": "PASS_REJECTED",
+      "reason": "LOST_REPORT_OCCURRENCE"
+    },
+    {
+      "id": "FALSE_DISCHARGE",
+      "outcome": "PASS_REJECTED",
+      "reason": ""
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "parents": [
+    {
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "test_source": {
+        "path": "scripts/tests/test_04a13_survival_workflow.py",
+        "bytes": 10622,
+        "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+      },
+      "line": 162,
+      "method_source": "    def test_complete_existing_publication_set_has_no_unresolved_private_values(self):\n        p = module('publication13', 'verify-04a13-publication.py')\n        candidates = [path for path in p.paths() if (ROOT / path).is_file()]\n        findings, _ = p.scan(candidates)\n        self.assertEqual([], findings)",
+      "W3_outcome": "ERROR",
+      "original39_outcome": "FAIL",
+      "focused_outcome": "FAIL",
+      "original_findings": 1599,
+      "focused_findings": 1941,
+      "scanner": {
+        "path": "scripts/verify-04a13-publication.py",
+        "bytes": 9176,
+        "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+      },
+      "W3_raw": {
+        "path": ".test-rationalization-04A38.tmp/w3pyv1/python-v1/1/raw-result.json",
+        "bytes": 86065,
+        "sha256": "f50aeb508193ed28cc5a1e78eda54b080ca38923bab14fbd56a68173d0cde90e"
+      },
+      "original39_raw": {
+        "path": ".test-rationalization-04A39.tmp/python-private/python-v1/1/raw-result.json",
+        "bytes": 66132,
+        "sha256": "e287de175b380a2c007e8b9896bb77713ca67784b3f4c3df92dcf26227620c62"
+      },
+      "output_paths": "Raw original and focused result/journal/command paths retained in protected command provenance; public fields contain pins and sanitized arguments only.",
+      "waiver": false
+    },
+    {
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "test_source": {
+        "path": "scripts/tests/test_04a14_mixed_workflow.py",
+        "bytes": 14339,
+        "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+      },
+      "line": 211,
+      "method_source": "    def test_entire_proposed_publication_set_privacy(self):\n        pub = module('mixed14_publication', 'verify-04a14-publication.py')\n        self.assertNotIn(c.OWNER_PLAN, pub.paths())\n        findings, _ = pub.scan([p for p in pub.paths() if (ROOT / p).is_file()])\n        self.assertEqual([], findings)",
+      "W3_outcome": "ERROR",
+      "original39_outcome": "FAIL",
+      "focused_outcome": "FAIL",
+      "original_findings": 1599,
+      "focused_findings": 1941,
+      "scanner": {
+        "path": "scripts/verify-04a14-publication.py",
+        "bytes": 9320,
+        "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+      },
+      "W3_raw": {
+        "path": ".test-rationalization-04A38.tmp/w3pyv1/python-v1/1/raw-result.json",
+        "bytes": 86065,
+        "sha256": "f50aeb508193ed28cc5a1e78eda54b080ca38923bab14fbd56a68173d0cde90e"
+      },
+      "original39_raw": {
+        "path": ".test-rationalization-04A39.tmp/python-private/python-v1/1/raw-result.json",
+        "bytes": 66132,
+        "sha256": "e287de175b380a2c007e8b9896bb77713ca67784b3f4c3df92dcf26227620c62"
+      },
+      "output_paths": "Raw original and focused result/journal/command paths retained in protected command provenance; public fields contain pins and sanitized arguments only.",
+      "waiver": false
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "<REDACTED_DRIVE><PRIVATE_IDENTIFIER>\\Desktop\\WPy64-31470\\python\\python.exe",
+        "-B",
+        "<REDACTED_DRIVE><PRIVATE_IDENTIFIER>\\source\\repos\\BESHstatNG\\evidence\\04A39\\python-node-scanners\\campaign-v2\\python_workers_v4.py",
+        "worker",
+        "1",
+        "MAIN"
+      ],
+      "cwd": "<REDACTED_DRIVE><PRIVATE_IDENTIFIER>\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\python-private\\python-v1\\1",
+      "exit_code": 1,
+      "seconds": 113.21507740000379,
+      "stdout_sha256": "6e57207ed9a25f15e78aafc475686e1636a0163314beb1d637bfaffbe3abd8d9",
+      "stderr_sha256": "49ab7b90a5d253814021f9e444f9a363e067fd57bf59aa12dc17787b6450ded7",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "protected_commands": {
+    "path": ".test-rationalization-04A39-correction-v1.tmp/privacy-parent-command-provenance.json",
+    "bytes": 1776,
+    "sha256": "0f568c223da3420532ef3ba960342f0d48e905c09c80b5b8a27d687c7ac1a50d"
+  },
+  "rules_changed": false,
+  "scope": "Git changed/untracked candidate union plus phase manifest/privacy receipt; every parent assertion remains unchanged. Full original39 lane1 and focused26 campaign are distinct executions."
+}

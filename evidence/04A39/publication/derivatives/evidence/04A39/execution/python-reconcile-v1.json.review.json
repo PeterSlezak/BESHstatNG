@@ -1,0 +1,17 @@
+{
+  "command": [
+    "<PYTHON>",
+    "-I",
+    "-B",
+    "-c",
+    "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+    "<REPO_ROOT>\\evidence\\04A39",
+    "<REPO_ROOT>\\evidence\\04A39\\reconcile-python-v1.py"
+  ],
+  "cwd": "<REPO_ROOT>",
+  "exit_code": 1,
+  "seconds": 0.5659550999989733,
+  "stdout_sha256": "9c0e1b3ee12d8619d6ba51b7d056af2bc058a8b9e32592c9cfe9602fbd8c109c",
+  "stderr_sha256": "c4993474d84d3ca1e70a3fe48d817b464794661f13e5f8e1ae6ff03b9f340d3f",
+  "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+}

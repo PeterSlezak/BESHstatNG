@@ -1,0 +1,40 @@
+{
+  "utc": "2026-11-14T17:52:57.278976+00:00",
+  "branch": "codex/04A-39",
+  "HEAD": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "main": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "merge_base": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+  "staged": "",
+  "status": " M BESHStatNG.Test/BESHStatNG.Tests.vbproj\n M planning/BESHStatNG_CrossPlatform_MasterPlan.md\n?? BESHStat.Excel.Common.Tests/src/UdfInputPolicy39Tests.vb\n?? BESHStatNG.Test/src/UDFs/UdfInputBoundary39Tests.vb\n?? evidence/04A39/\n?? planning/BESHStatNG_CrossPlatform_MasterPlan2.14.md\n",
+  "diff_check": "",
+  "index": {
+    "path": ".git/index",
+    "bytes": 2051745,
+    "sha256": "2a0e5c1da0a43550074f695676ba71692af75a8007f2f4f3dc5b4504231fdb45"
+  },
+  "source_lock": {
+    "path": "evidence/04A39/correction-v1/entry/source-lock.json",
+    "bytes": 252976,
+    "sha256": "1b61a9460f7241a5608d401e4e7c8e7e3d24b859da99a93bd8b6af86d5af3c01"
+  },
+  "old_correction_files_unchanged": true,
+  "raw": {
+    "path": ".test-rationalization-04A39-physical-witness-v1.tmp/git-final-v3-raw.json",
+    "bytes": 967,
+    "sha256": "36cb7f9d7adb08d9bdb06e5c1f92ffe9349ef9992de6313a60203714825b5e2c"
+  },
+  "source_test_plan_count": 1353,
+  "no_new_existing_source_edits": true,
+  "diff_check_exit": 0,
+  "staged_empty": true,
+  "commands": [
+    "git branch --show-current",
+    "git rev-parse HEAD main",
+    "git merge-base HEAD main",
+    "git diff --cached --name-only",
+    "git diff --check",
+    "git status --short",
+    "SHA256 .git/index"
+  ],
+  "historical_tracked_modifications_preserved": true
+}

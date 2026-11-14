@@ -1,0 +1,34 @@
+{
+  "previous": {
+    "path": "evidence/04A39/build-and-tests/Debug-build-v2.json",
+    "bytes": 172311,
+    "sha256": "89cd13835eae964a09cf82e8f14d77013c93c6e79c4fff4baa3658938af43cd9"
+  },
+  "changed_paths": [
+    "BESHStatNG.Test/src/UDFs/UdfInputBoundary39Tests.vb"
+  ],
+  "command": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+      "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+      "/t:Build",
+      "/p:Configuration=Debug",
+      "/p:BuildProjectReferences=false",
+      "/p:ProduceReferenceAssembly=false",
+      "/p:OutputPath=<REPO_ROOT>\\.test-rationalization-04A39.tmp\\builds\\a39v4\\Debug\\legacy\\",
+      "/m:4",
+      "/v:minimal",
+      "/nr:false",
+      "/p:IntermediateOutputPath=<REPO_ROOT>\\.test-rationalization-04A39.tmp\\builds\\a39v4\\Debug\\obj\\Legacy\\",
+      "/p:PythonExe=<PYTHON>"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 2.0815712999901734,
+    "stdout_sha256": "056c05afda662841519bf31068d6ac057def2ce877bd1d29469f1388ea79a24e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "reason": "New test wrongly expected custom alpha fallback for invalid text. Actual accepted ParseAlphaOrDefault throws; correction asserts exact exception. No inherited test or production change.",
+  "source_unchanged_during_compile": true
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+    "/nologo",
+    "/target:exe",
+    "/out:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\fixtures-before-v2\\Observe39.exe",
+    "/r:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\fixtures-before-v2\\BESHStatNG.dll",
+    "/r:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\fixtures-before-v2\\BESHStat.Core.dll",
+    "/r:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\fixtures-before-v2\\BESHStat.Excel.Common.dll",
+    "/r:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\fixtures-before-v2\\ExcelDna.Integration.dll",
+    "/r:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\System.Web.Extensions.dll",
+    "/r:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+    "<REPO_ROOT>\\evidence\\04A39\\fixtures\\Observe39v2.cs"
+  ],
+  "cwd": "<REPO_ROOT>",
+  "exit_code": 0,
+  "seconds": 0.3080762000172399,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+}

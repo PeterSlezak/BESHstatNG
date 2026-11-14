@@ -1,0 +1,104 @@
+{
+  "changes": [
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/common.py",
+        "bytes": 2082,
+        "sha256": "1151bae4be442ab6a352ef2dcc6961515aa0d66b76361485ffe8ab50b56b2700"
+      },
+      "after": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/common.py",
+        "bytes": 2151,
+        "sha256": "698342dffcd7361998d10290c4387cc3e6619650524781675dfa76aec2d15f15"
+      },
+      "substitutions": [
+        {
+          "before": "ROOT=Path(__file__).resolve().parents[6]",
+          "after": "ROOT=Path(__file__).resolve().parents[4]"
+        },
+        {
+          "before": "BASE='ba1636f5356ac761509c2cfa16fc66b92430935d'",
+          "after": "BASE='22da2214da6bb1cad4f2934d0b36276324a1432f'"
+        },
+        {
+          "before": "PRIVATE=RUNROOT/'w3pyv1'",
+          "after": "PRIVATE=ROOT/'.test-rationalization-04A39.tmp/python-private'"
+        },
+        {
+          "before": "m.Runner(RUNROOT).command('w3pyv1-'+label",
+          "after": "m.Runner(ROOT/'.test-rationalization-04A39.tmp').command('a39pyv1-'+label"
+        }
+      ]
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/python_workers_v4.py",
+        "bytes": 17835,
+        "sha256": "3e5bb96c1b94a0b3dcda8d61e8f9e9ced61a87ffda419313fe2ce51728e69bc8"
+      },
+      "after": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/python_workers_v4.py",
+        "bytes": 17908,
+        "sha256": "896877e177cfa1368dc09463311779fb352c5e78a8de56fdc0a25e4dba10c303"
+      },
+      "substitutions": [
+        {
+          "before": "PRIVATE=RUNROOT/'w3pyv1'",
+          "after": "PRIVATE=ROOT/'.test-rationalization-04A39.tmp/python-private'"
+        },
+        {
+          "before": "RUNROOT/'executions/w3D-Common-semantic/observations'",
+          "after": "ROOT/'.test-rationalization-04A39.tmp/executions/a39fD-full-Common-semantic/observations'"
+        }
+      ]
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "after": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "substitutions": []
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "after": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "substitutions": []
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "after": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "substitutions": []
+    }
+  ],
+  "assertions_changed": 0,
+  "historical_RUNROOT": "Unchanged04A38 private root used read-only for exact cache authority,5829 successful rows and11-file disposable provenance. All commands/results/temp/cache go into new04A39 private root.",
+  "expected_parents": 956,
+  "max_parent_workers": 3,
+  "scanner_workers": 1,
+  "scanner_helpers": 0,
+  "source_hashseed": "38 unchanged from authenticated workers",
+  "scheduling": "Five non-scanner lanes, maximum3 simultaneous processes; disposable lane5 part next; lane1 shared scanners alone last.",
+  "privacy": "Two historical UnicodeDecodeError ERRORs remain unwaived; unchanged assertion/cache kernels and actual adverse controls."
+}

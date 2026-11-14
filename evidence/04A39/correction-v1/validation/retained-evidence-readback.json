@@ -1,0 +1,157 @@
+{
+  "status": "SOURCE_AND_REGISTER_READER_VERIFIED;VALIDATION_OUTCOMES_RETAINED",
+  "source_lock": {
+    "path": "evidence/04A39/correction-v1/entry/source-lock.json",
+    "bytes": 252976,
+    "sha256": "1b61a9460f7241a5608d401e4e7c8e7e3d24b859da99a93bd8b6af86d5af3c01"
+  },
+  "source_paths": 1353,
+  "production_or_test_edits_this_continuation": false,
+  "canonical_register": {
+    "path": "evidence/04A39/register/defects-v7.json",
+    "bytes": 38049892,
+    "sha256": "23785e28026d5c94ea803efd0a00f4e5f8147dbf5b5122f6a0476b530f14cd8d"
+  },
+  "register_reader": {
+    "path": "evidence/04A39/verify-register-v5.py",
+    "bytes": 8180,
+    "sha256": "e96f86212e60f2944b879e06ec2c1159e45b5adea863909a475f62347ce75f8a"
+  },
+  "register_counts": {
+    "canonical_entries": 1169,
+    "original_obligations": 1514,
+    "restricted_controls": 802,
+    "report_occurrences": 286,
+    "statuses": {
+      "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+      "OWNER_AUTHORIZED_04A39_ONLY": 1,
+      "REQUIRES_OWNER_DECISION": 6,
+      "OBSERVED_RESTRICTED": 3,
+      "CHANGED_NONPASS_BLOCKING": 3,
+      "HISTORICALLY_REPORTED_RESTRICTED": 76,
+      "SUSPECTED_REQUIRES_REVIEW": 13,
+      "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+      "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+      "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+    },
+    "no_discharge": true,
+    "W3_validation_gate_records": 163,
+    "W3_events": 198,
+    "original_member_signatures": 759,
+    "unknown_entries": 0
+  },
+  "policy_map": {
+    "path": "evidence/04A39/map/method-policy-map-v1.json",
+    "bytes": 1343027,
+    "sha256": "92f182b8912b6841966da914543c465388726a1ff320e0fcfc38409e31d4906a"
+  },
+  "focused_members": 192,
+  "retained_facts": {
+    "verdict": "NOT_READY_04A39",
+    "blockers": [
+      "A39-RAW-REVIEW-PRIVACY-01:TWO_CHANGED_PRIVACY_NONPASSES:1599_FINDINGS_EACH",
+      "PYTHON_54_CHANGED_DIAGNOSTICS_UNWAIVED"
+    ],
+    "managed": {
+      "Debug": {
+        "executed": 21127,
+        "outcomes": {
+          "Passed": 21113,
+          "Failed": 14
+        },
+        "new": 33,
+        "scope": "FULL"
+      },
+      "Release": {
+        "executed": 336,
+        "outcomes": {
+          "Passed": 336
+        },
+        "new": 33,
+        "scope": "TARGETED_ONLY"
+      }
+    },
+    "exports": {
+      "Debug": 268,
+      "Release": 268
+    },
+    "current_fixtures_per_configuration": 77,
+    "retained_compatibility_per_configuration": 29424,
+    "compatibility_execution": "RETAINED_W3;NOT_FRESH39",
+    "Python": {
+      "PASS": 833,
+      "ERROR": 11,
+      "FAIL": 112
+    },
+    "Python_events": {
+      "ERROR": 11,
+      "FAIL": 184
+    },
+    "historical_Python": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "historical_Python_events": {
+      "FAIL": 185,
+      "ERROR": 13
+    },
+    "historical_privacy_errors_unwaived": 2,
+    "Python_parent_outcome_changes": 5,
+    "Python_changed_messages": 54,
+    "Node": 916,
+    "strict_profile_MkDocs": [
+      1,
+      1,
+      0
+    ],
+    "register": {
+      "canonical_entries": 1169,
+      "original_obligations": 1514,
+      "restricted_controls": 802,
+      "report_occurrences": 286,
+      "statuses": {
+        "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+        "OWNER_AUTHORIZED_04A39_ONLY": 1,
+        "REQUIRES_OWNER_DECISION": 6,
+        "OBSERVED_RESTRICTED": 3,
+        "CHANGED_NONPASS_BLOCKING": 3,
+        "HISTORICALLY_REPORTED_RESTRICTED": 76,
+        "SUSPECTED_REQUIRES_REVIEW": 13,
+        "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+        "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+        "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+      },
+      "no_discharge": true,
+      "W3_validation_gate_records": 163,
+      "W3_events": 198,
+      "original_member_signatures": 759,
+      "unknown_entries": 0
+    },
+    "gates": {
+      "P": "NO",
+      "N1": "NO GO",
+      "N2": "NO",
+      "C2": "UNMET",
+      "C3": "UNAPPROVED",
+      "scientific": "NOT_GOLDEN"
+    },
+    "scientific_native": "NOT_RUN_UNAUTHORIZED",
+    "review": "No automatic acceptance, merge or04A.40 start."
+  },
+  "fresh_full_managed": false,
+  "fresh_release": false,
+  "fresh_node": false,
+  "fresh_compatibility": false,
+  "wrappers": "NOT_RUN;unchanged original39 reason: implicit restore/shared historical TestResults. No product changes; focused reporting controls substitute only for this continuation, not wrapper PASS.",
+  "scientific_native_manual": "NOT_RUN_UNAUTHORIZED",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A40_NOT_AUTHORIZED"
+  }
+}

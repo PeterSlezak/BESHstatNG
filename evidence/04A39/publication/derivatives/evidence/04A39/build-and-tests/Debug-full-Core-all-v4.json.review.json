@@ -1,0 +1,35 @@
+{
+  "suite": "Core",
+  "part": "all",
+  "selection": null,
+  "name": "a39fD-full-Core-all",
+  "outcomes": {
+    "Passed": 1280
+  },
+  "cases": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-Core-all/cases.json",
+    "bytes": 388962,
+    "sha256": "f33c66102122205bbba17035c3b841f150a4611555d09ab65dffb3abe85a259e"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-Core-all/results/Core.trx",
+    "bytes": 1872876,
+    "sha256": "5600ae73f75d458dd7bf1e35d93df289b8b0559735608b528bd5fed70be0b12a"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-Core-all\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+      "/Settings:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-Core-all\\serial.runsettings",
+      "/ResultsDirectory:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-Core-all\\results",
+      "/Logger:trx;LogFileName=Core.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 6.665664700005436,
+    "stdout_sha256": "0a5316d9637a6e1dd7aae50171b6261d36ab497964d98203f6a2d2398d6f43c6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

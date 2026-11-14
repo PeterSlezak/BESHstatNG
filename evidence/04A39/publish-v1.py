@@ -1,0 +1,87 @@
+"""Compact upload-ready source/evidence derivative, exact payload manifest and actual privacy controls."""
+from common39 import *
+import importlib.util
+import zipfile
+import zlib
+import shutil
+sys.path.append(str(ROOT/'evidence/04A38'))
+from baseline_report import clean
+sys.path.append(str(ROOT/'evidence/04A38/completion/w2/continuation-v6'))
+import publication_policy as policy
+
+source_lock()
+spec=importlib.util.spec_from_file_location('zipreader39',HERE/'verify-package-v1.py')
+reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
+selected={p.relative_to(ROOT).as_posix() for p in HERE.rglob('*') if p.is_file() and '__pycache__' not in p.parts}
+selected.update(x['path'] for x in load(HERE/'entry/source-preimages-v1.json')['files'])
+selected.update(['BESHStat.Excel.Common.Tests/src/UdfInputPolicy39Tests.vb','BESHStatNG.Test/src/UDFs/UdfInputBoundary39Tests.vb',
+    'planning/BESHStatNG_CrossPlatform_MasterPlan.md','planning/BESHStatNG_CrossPlatform_MasterPlan2.12.md','planning/BESHStatNG_CrossPlatform_MasterPlan2.14.md','AGENTS.md'])
+register=load(HERE/'register/defects-v5.json')
+selected.update(x['path'] for x in register['ingested_sources']+register['authority_pins'])
+selected.update(x['path'] for x in register['current_source_pins'])
+for config in ['Debug','Release']:
+    for relative in ['build-and-tests/'+config+'-identities-v1.json','abi-cil/review-metadata/'+config+'/current.json',
+        'abi-cil/review-metadata/'+config+'/exports.json','compatibility/'+config+'-case-identities-v2.json']:
+        selected.add((W3/relative).relative_to(ROOT).as_posix())
+    for result in load(HERE/('compatibility/'+config+'-retained-v1.json'))['results']:
+        selected.update(result[key]['path'] for key in ['original','current','inputs','recorder'])
+selected.update((W3/name).relative_to(ROOT).as_posix() for name in ['final/owner-review.md','final/readiness.json','final/delivery-receipt-v1.json',
+    'python-node-scanners/python-identities-v1.json','python-node-scanners/node-v1.json','compatibility/reference-authority-audit-v2.json'])
+rows=[];decisions=[];derivatives=[];exclusions=[]
+for name in sorted(selected):
+    reader.safe(name);path=ROOT/name;data=path.read_bytes();raw=pin(path)
+    try:findings=policy.privacy(name,data)
+    except ValueError as error:
+        assert 'Unattested privacy finding' in str(error)
+        try:review=(json.dumps(clean(json.loads(data)),indent=2,ensure_ascii=False)+'\n').encode()
+        except (ValueError,UnicodeError):review=clean(data.decode('utf-8-sig',errors='replace')).encode()
+        derivative=HERE/'publication/derivatives'/(name+'.review.json' if name.endswith('.json') else name+'.review.txt')
+        try:findings=policy.privacy(derivative.relative_to(ROOT).as_posix(),review)
+        except ValueError:
+            review=(json.dumps(dict(raw=raw,transport_only='Raw sensitive values omitted; local original retained. This derivative is not executable raw evidence.'),indent=2)+'\n').encode()
+            derivative=HERE/'publication/derivatives'/(name+'.omitted-values.review.json')
+            findings=policy.privacy(derivative.relative_to(ROOT).as_posix(),review)
+        derivative.parent.mkdir(parents=True,exist_ok=True)
+        with derivative.open('xb') as stream:stream.write(review)
+        exclusions.append(raw);derivatives.append(dict(raw=raw,derivative=pin(derivative)))
+        name=derivative.relative_to(ROOT).as_posix();path=derivative;data=review
+    rows.append(dict(pin(path),crc32=format(zlib.crc32(data)&0xffffffff,'08x')))
+    decisions.append(dict(path=name,sha256=rows[-1]['sha256'],findings=findings))
+controls=[]
+for bad in ['../escape','/absolute','C:/drive','a\\b','a/../b','AUX.txt','folder/name.']:
+    try:reader.safe(bad)
+    except AssertionError:controls.append(dict(id='REJECT_PATH:'+bad,outcome='PASS_REJECTED'))
+    else:raise AssertionError('Unsafe derivative path admitted')
+for text in [b'https'+b'://u'+b':p'+b'@private.invalid/path', b'C:'+bytes([92])+b'Users'+bytes([92])+b'PrivateOwner'+bytes([92])+b'secret.txt']:
+    try:policy.privacy('evidence/04A39/unattested-negative.txt',text)
+    except ValueError:controls.append(dict(id='REJECT_UNATTESTED_PRIVACY:'+sha(text)[:12],outcome='PASS_REJECTED'))
+    else:raise AssertionError('Privacy adverse control admitted')
+save('publication/privacy-and-exclusions-v1.json',dict(policy=pin(ROOT/'evidence/04A38/completion/w2/continuation-v6/publication_policy.py'),
+    decisions=decisions,derivatives=derivatives,exclusions=exclusions,controls=controls,new_waivers=False,
+    repository_privacy='NOT_VERIFIED_CLEAN;TWO_HISTORICAL_UNICODE_ERROR_PARENTS_UNWAIVED',
+    private_raw='Complete TRX/worker logs,live index,owner documents and historical private archives not included; locally retained and explicitly pinned.',
+    original_traces='Large historical plain/repeat/trace authority is retained locally; compact reference-authority receipt included, not every trace payload.'))
+p=HERE/'publication/privacy-and-exclusions-v1.json';data=p.read_bytes();policy.privacy(p.relative_to(ROOT).as_posix(),data)
+rows.append(dict(pin(p),crc32=format(zlib.crc32(data)&0xffffffff,'08x')))
+assert len(rows)==len({r['path'] for r in rows})==len({r['path'].casefold() for r in rows})
+manifest=dict(schema='04A39_REVIEW_TRANSPORT_V1',files=sorted(rows,key=lambda x:x['path']),main=MAIN,
+    privacy=pin(p),scope='Review derivative;no private/live/native/scientific reproduction claim',external_upload='NOT_PERFORMED')
+save('publication/payload-manifest-v1.json',manifest)
+folder=PRIVATE/'review-v1';folder.mkdir(exist_ok=False)
+archive=folder/'BESHstatNG_04A39_REVIEW_v1.zip'
+with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=6,allowZip64=True) as z:
+    z.writestr('.review-manifest.json',(HERE/'publication/payload-manifest-v1.json').read_bytes())
+    for row in rows:
+        assert pin(row['path'])=={k:row[k] for k in ['path','bytes','sha256']}
+        z.write(ROOT/row['path'],row['path'])
+assert archive.stat().st_size<180*1024**2, 'Stopped archive retained; split into complementary parts before delivery'
+result=reader.verify(archive)
+extract=PRIVATE/'review-readback-v1';extract.mkdir(exist_ok=False)
+with zipfile.ZipFile(archive) as z:
+    # Reader has already rejected path traversal/symlinks/collisions before extraction.
+    z.extractall(extract)
+for row in rows:
+    b=(extract/row['path']).read_bytes();assert len(b)==row['bytes'] and sha(b)==row['sha256']
+save('publication/physical-readback-v1.json',dict(archive=pin(archive),result=result,extracted_payloads=len(rows),
+    logical_manifest=pin(HERE/'publication/payload-manifest-v1.json'),external_upload='NOT_PERFORMED'))
+source_lock();print('Review ZIP',archive.stat().st_size,'bytes;',len(rows),'payloads',flush=True)

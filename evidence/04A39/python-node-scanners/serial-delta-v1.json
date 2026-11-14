@@ -1,0 +1,104 @@
+{
+  "entries": [
+    {
+      "category": "strict",
+      "current": [
+        {
+          "path": ".test-rationalization-04A39.tmp/commands/a39serial-strict/stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".test-rationalization-04A39.tmp/commands/a39serial-strict/stderr.log",
+          "bytes": 529,
+          "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+        }
+      ],
+      "previous": [
+        {
+          "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-strict/stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-strict/stderr.log",
+          "bytes": 529,
+          "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+        }
+      ],
+      "stdout_exact": true,
+      "stderr_exact": true
+    },
+    {
+      "category": "profile",
+      "current": [
+        {
+          "path": ".test-rationalization-04A39.tmp/commands/a39serial-profile/stdout.log",
+          "bytes": 46,
+          "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+        },
+        {
+          "path": ".test-rationalization-04A39.tmp/commands/a39serial-profile/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "previous": [
+        {
+          "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-profile/stdout.log",
+          "bytes": 46,
+          "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+        },
+        {
+          "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-profile/stderr.log",
+          "bytes": 4934,
+          "sha256": "fc6ab2fb12bb18cf0d4ed89d3d7b80675728520d883eafdf4ab863bc57a6304a"
+        }
+      ],
+      "stdout_exact": true,
+      "stderr_exact": false
+    },
+    {
+      "category": "docs",
+      "current": [
+        {
+          "path": ".test-rationalization-04A39.tmp/commands/a39serial-docs/stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".test-rationalization-04A39.tmp/commands/a39serial-docs/stderr.log",
+          "bytes": 777,
+          "sha256": "6725b5790bd319b6d550d8f1f2150df619bcfb8c15a8872a1f897fce235fe507"
+        }
+      ],
+      "previous": [
+        {
+          "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-docs/stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-docs/stderr.log",
+          "bytes": 780,
+          "sha256": "ff0d0cf47cb7290b39959160af2863a5df348afed6d8d70a038b9b3f79d87e9e"
+        }
+      ],
+      "stdout_exact": true,
+      "stderr_exact": false
+    }
+  ],
+  "exits": [
+    1,
+    1,
+    0
+  ],
+  "strict": "Exact same NormalPlot ambiguity identity and trace; actual nonpass.",
+  "profile": "Exact same opaque INTEGRITY_FAILURE stdout. W3 CRLF warnings removed from stderr after authorized merge/EOL transition. Exact originating assertion not exposed by CLI; do not invent a cause.",
+  "dispositions": [
+    "INHERITED_RESTRICTED;EXPLICIT_OWNER_DECISION_REQUIRED",
+    "INHERITED_RESTRICTED;EXPLICIT_OWNER_DECISION_REQUIRED",
+    "VERIFIED_PASS"
+  ],
+  "no_reexecution": true
+}

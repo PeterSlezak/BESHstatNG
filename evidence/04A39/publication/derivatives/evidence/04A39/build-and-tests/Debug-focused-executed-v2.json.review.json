@@ -1,0 +1,85 @@
+{
+  "configuration": "Debug",
+  "mode": "focused",
+  "parts": [
+    {
+      "suite": "Common",
+      "part": "new",
+      "selection": "FullyQualifiedName~UdfInputPolicy39Tests",
+      "name": "a39bD-focused-Common-new",
+      "outcomes": {
+        "Passed": 11
+      },
+      "cases": {
+        "path": ".test-rationalization-04A39.tmp/executions/a39bD-focused-Common-new/cases.json",
+        "bytes": 5340,
+        "sha256": "58acf5fc70de48578c6409fe4aff61dd9de6faab115645b90b15e4d3a9ffeeac"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A39.tmp/executions/a39bD-focused-Common-new/results/Common.trx",
+        "bytes": 18099,
+        "sha256": "4568b57aa66d84a7a69cb25149ec4e664de2e8c28b9c9f465237d2c928c7e121"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39bD-focused-Common-new\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39bD-focused-Common-new\\serial.runsettings",
+          "/ResultsDirectory:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39bD-focused-Common-new\\results",
+          "/Logger:trx;LogFileName=Common.trx",
+          "/TestCaseFilter:FullyQualifiedName~UdfInputPolicy39Tests"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.8394792999897618,
+        "stdout_sha256": "2a8f79b8da39f7e67d0f2402f5a329eb1b844fcdd5e72748be9688e0142804b7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "Legacy",
+      "part": "new",
+      "selection": "FullyQualifiedName~UdfInputPolicy39Tests|FullyQualifiedName~UdfInputBoundary39Tests",
+      "name": "a39bD-focused-Legacy-new",
+      "outcomes": {
+        "Passed": 21,
+        "Failed": 1
+      },
+      "cases": {
+        "path": ".test-rationalization-04A39.tmp/executions/a39bD-focused-Legacy-new/cases.json",
+        "bytes": 9068,
+        "sha256": "87bf1c20b45626969d502dfe027542e5aaa2e2708666407bd63014d04808ca41"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A39.tmp/executions/a39bD-focused-Legacy-new/results/Legacy.trx",
+        "bytes": 33996,
+        "sha256": "d7828f2f37f9263be6413a04e2608d77e5ebbdc6f2b19f25398c5327d7921dc8"
+      },
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39bD-focused-Legacy-new\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+          "/Settings:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39bD-focused-Legacy-new\\serial.runsettings",
+          "/ResultsDirectory:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39bD-focused-Legacy-new\\results",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+          "/Logger:trx;LogFileName=Legacy.trx",
+          "/TestCaseFilter:FullyQualifiedName~UdfInputPolicy39Tests|FullyQualifiedName~UdfInputBoundary39Tests"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 3.7537376999971457,
+        "stdout_sha256": "f09104734bbc7ddebdfbd9e76f0b5e4e7bb66a6d850f7712d95fb72a4c57f79d",
+        "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "outcomes": {
+    "Passed": 32,
+    "Failed": 1
+  },
+  "identities": 33,
+  "source_unchanged": true
+}

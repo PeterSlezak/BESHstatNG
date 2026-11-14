@@ -1,0 +1,516 @@
+{
+  "executed": 26,
+  "outcomes": {
+    "PASS": 3,
+    "FAIL": 23
+  },
+  "command_exit": 1,
+  "changed_diagnostics": [
+    {
+      "change_id": "DIAGNOSTIC-001",
+      "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+      "outcome": "FAIL",
+      "message_sha256": "9e5db6d6d7c672712306661d6647a8723450c13c64ae92d315ba6784b7a2289c",
+      "message_exact": true,
+      "raw_trace_sha256": "794e3ca8a0b945ea7e288419a0675c9890e6e2fa7f164ee9e591d7416c90a06a",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-002",
+      "identity": "test_04a10_regression_projection.Regression10ProjectionTests.test_core_udfs_frameworks_and_accepted_evidence_are_byte_protected",
+      "outcome": "FAIL",
+      "message_sha256": "b751a8b9c7dcd36c5dccf2bba794136c4c7079db39857c921e462043fe1240c2",
+      "message_exact": true,
+      "raw_trace_sha256": "9738627bb07c0b70e5d1b2866d397d4a7129d73dc7455abe37f3b09ec0dff1e5",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-003",
+      "identity": "test_04a11_regression_families.Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected",
+      "outcome": "FAIL",
+      "message_sha256": "b751a8b9c7dcd36c5dccf2bba794136c4c7079db39857c921e462043fe1240c2",
+      "message_exact": true,
+      "raw_trace_sha256": "43466b35c84a3c9317e1b8fbf141e6a418e3287aa464cccf135ef5be43154dce",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-004",
+      "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources",
+      "outcome": "FAIL",
+      "message_sha256": "2939905788845e8f723cdb6558e124d5c559591001246d9bb4cd90c7cec1261b",
+      "message_exact": true,
+      "raw_trace_sha256": "35a9eb2fefd3647b1e4a91d2ecac28353a602d12cdb119e63da5183cf4431ac0",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-005",
+      "identity": "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source",
+      "outcome": "FAIL",
+      "message_sha256": "de334f36774bb9f1081d7dfb65fc434e8664c80d82c5e0ad64964bc5c82aecdb",
+      "message_exact": true,
+      "raw_trace_sha256": "34044ebc9504ec18d177cc9c00447a0f970d8426874625e5889e2c4a36cd719b",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-006",
+      "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_actual_merged_base_and_protected_owner_plan",
+      "outcome": "FAIL",
+      "message_sha256": "b20fa69ddbc4b8a79933f2a705dccd3a395e5491089921b0feff7655029ebe2f",
+      "message_exact": true,
+      "raw_trace_sha256": "756f0aaa607037fd427f865f6f8c216458ea3039e6d7186d9fee72c26281f27a",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-007",
+      "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+      "message_exact": true,
+      "raw_trace_sha256": "190526db225f7dc4049575bf9222e4bef30b7b63e8b65f26d48002c3cf95d6f4",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-008",
+      "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_udf_exports_signatures_and_packing_are_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+      "message_exact": true,
+      "raw_trace_sha256": "1ea5a70ea61195b050c8eb02e9086d387415105006ea0c5c2dd290d17e1e8da8",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-009",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+      "message_exact": true,
+      "raw_trace_sha256": "323457bb2a7a9dd7196a8119e759d16da9e103b96733b47c62531d5c0151e43e",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-010",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "d87ce9c24799aa289cdeb5742512632cd1ccd0490fb65c56fac7e4bef186e8d5",
+      "message_exact": true,
+      "raw_trace_sha256": "ac4928f3f3cc0b64b4af51c7d064d7ed0a98409fd036e07a7b8890e130979443",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-011",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "0fa01f98653a8122ae8004fbaf9461553d2b38c52a483c78c9f5119f79a54c16",
+      "message_exact": true,
+      "raw_trace_sha256": "2c6ec9bddcfd8403ce13ad2f0ed07ae2438b7b46508870ef9fb941256c589a02",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-012",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "c107eab35ad52ab8afaa57020a9ec19e3e6fad8bd65b9c39e037ed31eb7624c4",
+      "message_exact": true,
+      "raw_trace_sha256": "d7b44aedc99dc5d5d501b6e96f1ca65ba90b251ec430a0ab0d0e6261735995ae",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-013",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "d79ec0a28a24f5321e9c4d6e39b0f3574b1ee2968b50c9a784b35d9f241cab8e",
+      "message_exact": true,
+      "raw_trace_sha256": "cf725088bfe6aa28d76c6a9943bc83d6e6be82b8d547641402071a6190f6c11c",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-014",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "51ae5c0dd10833d44cda64c514c7b936e9d631cd55661ce138611c54e3ff3f21",
+      "message_exact": true,
+      "raw_trace_sha256": "0b958c702946899cda67b90ac1b98aac90c78c835c7cd3bd8bb92c63def20ba9",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-015",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "8ecb30447288425376140b0f64b1d1c1b2c8871ef4b06ab2139e493a6ff399a4",
+      "message_exact": true,
+      "raw_trace_sha256": "6e0e51dd254c3aa909f6ffe9d713a52b01b033250b22e36c7272568c21d9c47f",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-016",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "a47efdc276f59cffcb97d6f49e25aab01b5dcfa1d75455a56f8382955be0ec91",
+      "message_exact": true,
+      "raw_trace_sha256": "19017e907a2737ef2bd51db28d47dd00fd3975eab5ba777fa12075933b83646b",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-017",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "6e92258e7b6d19e4638a050e2dad22ad16f2be1b5bb156a386846d28fde39ce1",
+      "message_exact": true,
+      "raw_trace_sha256": "64d24477f69acdd42d88b53b16030df938fe07152321baff75036e6acd1c6f56",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-018",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "3518ac432b47372e50dd8ab97632cdec453c3830a3ca5b8d37e46989a9b41feb",
+      "message_exact": true,
+      "raw_trace_sha256": "c12f336a962154a4b59ace3cec730a271ce62cdf4d8d6ede26d986528458eeb5",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-019",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "f7de099417eb83e526aa381483570d136176846aaed02c1bc6239df1bb973b86",
+      "message_exact": true,
+      "raw_trace_sha256": "a1d6571cb4333c512581f4c48835bff8479135a4ea273d56b6b0741dd373cf73",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-020",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "a6766b16dd805ff1ff58c351ce8d18f804c04351c2d9ddc5148f3dd62bb3cb94",
+      "message_exact": true,
+      "raw_trace_sha256": "821730d775e70844edd3dbed4214fcad9928fa7dcdcdff5f43f535afae8655ee",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-021",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "4fdf418dbe8d9a4318c245303d89fc4e8682c53b23af9c6cace1c5aae453e8b9",
+      "message_exact": true,
+      "raw_trace_sha256": "2163f2026f515473c435266f31ae8610767960cfbdc281e452cf191f279ccb66",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-022",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "9599e9f997cc8d31745877bcd31b0e8cfe8a27bcd307b08a6955f91946177ee9",
+      "message_exact": true,
+      "raw_trace_sha256": "fa908ecac9c6fbbb1a4eb9ee815f88dbafe4d38c68880f11987fee9c5348ed59",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-023",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "65f842c41f3242e3722040e6005f5ed16bdf40e8ac4933c443fdb0057f31e876",
+      "message_exact": true,
+      "raw_trace_sha256": "533c962e37fdce4f0ed7ac13077814e9daa55c6f910d4ca442be4ccf5b5d72c8",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-024",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "56d6f8da758b31ee9250f25f8770ac9cb2cd4143f6c260fb56fb810b78d190d7",
+      "message_exact": true,
+      "raw_trace_sha256": "e49cb899778ee03700c4ceecfd9f4570d82d058d503d55b7a2f7a076019aec99",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-025",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "1ae3abec2e4e90741e601e8e6624bbde041943787dd5173bd3219b076a654420",
+      "message_exact": true,
+      "raw_trace_sha256": "9fc7677aec734a9cf05460c6678fff54eaff03a7d585ca087f51e0471189491b",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-026",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "6508bb0489555d37819f50cff767925699a737fde493f0149ce6c8b68aaaf265",
+      "message_exact": true,
+      "raw_trace_sha256": "52632f055bdf13e9ab1c19431e619dd4429cbbdcff72ab77c63f2ebe6b95f2b2",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-027",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "9d8303594b13c057f70d3f6702210cb084705442c433105234b2f02f4869e8b1",
+      "message_exact": true,
+      "raw_trace_sha256": "37b5092e7d3a4a2f728c0f1112aadaa1d2d8c92e7975cb8d9527e0d533f59741",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-028",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "1e9bef28684ec13002a4c87b6f0e0f50b14031cdc52bb7b694d18d5a9d2a649c",
+      "message_exact": true,
+      "raw_trace_sha256": "50f5d41b89738838f6ca7e675607af2c5992e93b9f63e9a38503217e53da4ba7",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-029",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "ec7ade46730287cbde90884a4b9923d500a1ec593cecbf5f932155ac47ec61e5",
+      "message_exact": true,
+      "raw_trace_sha256": "7f88c1150d4963ed9aceca54957a055e777a24315c2be1af5262ba30e1133aed",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-030",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "45e65f59172b2f6dec718413f8e6cf69c9d3bb352c30430a3495b37d9562f53a",
+      "message_exact": true,
+      "raw_trace_sha256": "2983a00def01a99f91c9a295986aa3ceb98a37959d891b701fb9e9028537e8cf",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-031",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "fb8b3cec26bad71799d88e1473f12f8f1eee51d960af081c8260dc2dcc0e3cb9",
+      "message_exact": true,
+      "raw_trace_sha256": "a347ff4c468cdc77b0260c4c32f93dea54283c41356793316971991e88ab3bc9",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-032",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "1e1afbfac11570504bf981696c629091c45a985d24ed3f341e2b2d2e981e7c57",
+      "message_exact": true,
+      "raw_trace_sha256": "8aefef7900a4ef9c63bd3a3ef30d1f0c5fd250d19aad2615a8f7551e1ee21c52",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-033",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "af9ad5e83a4645bf89a958dd9df15f41133a8f35bfb0426cdcdba5aaaf1f4962",
+      "message_exact": true,
+      "raw_trace_sha256": "2bd4ed208af36d6904f2f597ca4df8f98352b242637237901a09ebbd3a333974",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-034",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "04d669806e58b169b6183aecf0dc6d9ae83a3e53fa07239624548e5c30a10bac",
+      "message_exact": true,
+      "raw_trace_sha256": "80fbd2e043920ee09686a7477b99446cf55fffb009f86eb983f3d4c1130d40f4",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-035",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "ddd09216fd7f11890a89effac33f954198e256e857060194dc1c9131d2d970f5",
+      "message_exact": true,
+      "raw_trace_sha256": "50c0dfc8581a7fa4b863c2845c01e0e89d6fd3d4dd2c8e45c0c1c2a2d46eb350",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-036",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "7d300f0bc0f88041b76b9bda696dfd8d75c490d4d6dceb4403577afca1fd6047",
+      "message_exact": true,
+      "raw_trace_sha256": "201b2003531bae1761c5d7c00fdd9cec27fd9428c67f6c54c55b234fb97b5abc",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-037",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "42b6a857eba4cfcb2bb16de71c31837231c1e8a20efbefa4acc909b96ea1b0ab",
+      "message_exact": true,
+      "raw_trace_sha256": "231c509a9a83520b88c979f993f14e75b14c57cdf478f04d07d516dee3c20db5",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-038",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "50119efec500fcf073f298434979fb1f35636c45afa18295ab241891a75f1add",
+      "message_exact": true,
+      "raw_trace_sha256": "060855b9fa942062500f00224984b10d1159bc06580c28745a5cb4d36f09c3c3",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-039",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "7bc7829c5a2a2bc867f827766207d0acee804efebc84686bf728db1fdba42784",
+      "message_exact": true,
+      "raw_trace_sha256": "7bfdbade8f0ab5fbd05cf9611d51bee284ae37735e57458e409809ceee419a3a",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-040",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "f0fc22748f61b55b922fdaa65b7d0cb65c6d7364106c27d886e101ae6b708569",
+      "message_exact": true,
+      "raw_trace_sha256": "4afce18536bcfbe23a0ea4227fad0e1f64cf765446910152de17613cc2bdf499",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-041",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "7c178635bf147a959df02cfbd823674d0bac8fab47c1929a27fc82838635817f",
+      "message_exact": true,
+      "raw_trace_sha256": "a2223f82d109732b4a96f20e704d0e84a4e34676aede41231a8b9e014f32be00",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-042",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "message_sha256": "ccffa0c4318f6573a4e8ec2d66231e52775395b21935ee65e1d5e797460ee774",
+      "message_exact": true,
+      "raw_trace_sha256": "a4586ca5ce2033cd22c1ce6ba5e7811ceaccade8ed0ba1b03218965bd4ca8340",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-043",
+      "identity": "test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope",
+      "outcome": "FAIL",
+      "message_sha256": "809e6d946c53f4641431223f05ca951784ebf3ecd821357169340a33c29e8866",
+      "message_exact": true,
+      "raw_trace_sha256": "235083e535a23d06d7142370eb7acb16f81a5cf89aefbd20f96446970b6656a9",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-044",
+      "identity": "test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope",
+      "outcome": "FAIL",
+      "message_sha256": "90589ec4b6d8f31338da4a55663712ccb2f6e52bd2a1de263ce7c2dd9a1938bd",
+      "message_exact": true,
+      "raw_trace_sha256": "e07a5681caaf56ef92c8a10ef60b324b0812f18050521a44f99909f2077d0245",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-045",
+      "identity": "test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes",
+      "outcome": "FAIL",
+      "message_sha256": "18672027e36c9bc32fc18e4d89fb5b976c392c211951753307bc2246fe7155c8",
+      "message_exact": true,
+      "raw_trace_sha256": "6aeb8e07820405af0f2225ba4ed39c4549dcb5b8f4442d723d1159bde2267e69",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-046",
+      "identity": "test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index",
+      "outcome": "FAIL",
+      "message_sha256": "674b6c865d1f8f36a79aa60eb9248dd152922496d33556d049036ee6cc75ba74",
+      "message_exact": true,
+      "raw_trace_sha256": "7cc39c1a6ac79c2e31bcbc02be6a21f65f69e2033902b142a41ef61bb579eb9e",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-047",
+      "identity": "test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index",
+      "outcome": "FAIL",
+      "message_sha256": "a3d58bfe8321e896af9714edcf96100a8f221a1596e0f1522869b71bf04cfe24",
+      "message_exact": true,
+      "raw_trace_sha256": "67de30a679e2e1adb59137582af6827c1314a65a3c8d85734dcef013941f0077",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-048",
+      "identity": "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy",
+      "outcome": "FAIL",
+      "message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+      "message_exact": true,
+      "raw_trace_sha256": "db23ed29f45101d1cc83c989a66e6761c99f4902e752f8e3ea80eee545a0933b",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-049",
+      "identity": "test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index",
+      "outcome": "FAIL",
+      "message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+      "message_exact": true,
+      "raw_trace_sha256": "ef18d2038dc5d290ef32d1f81bb9447a157755fa7d12e37bbbcc9a16c88ddcd0",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-050",
+      "identity": "test_04a11_publication.Publication11Tests.test_accepted_dossier_and_dormant_patches_unchanged",
+      "outcome": "FAIL",
+      "message_sha256": "7322e1f001840cb5eed19c3a66e32066d5877e2b1b44cfb95cc70f150f34726d",
+      "message_exact": true,
+      "raw_trace_sha256": "854adc0cfb9ed4ad6f7eb9771f05aaabf70145aa94092e30bdc650bcde8350ed",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-051",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch",
+      "outcome": "FAIL",
+      "message_sha256": "ced9310a49e2d00b4bfc2a73243916208b0ccfd99339064da1f0f37a11a1197c",
+      "message_exact": true,
+      "raw_trace_sha256": "2bf9ea7b7548c0da7b5a4d93ace96c963d46872a08e0bac9b6e2e668a11ab8e8",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-052",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_successor_pins_and_members_reconcile_to_actual_forms",
+      "outcome": "FAIL",
+      "message_sha256": "5d304966d1a3ac3fd5d11adebc21b2f40def4b4344e930553fb52a872ca35b30",
+      "message_exact": true,
+      "raw_trace_sha256": "69111efe7fa9f498a8889a18f776969160f99108873f4b5b581d5df92fb2e0d8",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-053",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index",
+      "outcome": "FAIL",
+      "message_sha256": "57901a66253d21dd4de7c3d18745d605a715d5f11f2397daf9574d68ba53662b",
+      "message_exact": true,
+      "raw_trace_sha256": "06994401ad2cf5d8472ddbc920062bc51e491e90a2c9a98794ee32caa0323dd2",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    },
+    {
+      "change_id": "DIAGNOSTIC-054",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_original_members_and_successor_pins_are_reconcilable",
+      "outcome": "FAIL",
+      "message_sha256": "2bb08c389e1f932c0b71b07b9e7c90ee73da931b603f538041ed0e972f35061b",
+      "message_exact": true,
+      "raw_trace_sha256": "98ba06bee04d32865d59e4fa84633aea15962e8d1faf0bb778d7f1341a885d86",
+      "trace_disposition": "FOCUSED_RUNNER_FRAME_DIFFERS;ORIGINAL_RAW_TRACE_RETAINED;ASSERTION_MESSAGE_EXACT"
+    }
+  ],
+  "exact_changed_messages": 54,
+  "raw_receipt": {
+    "path": ".test-rationalization-04A39-correction-v1.tmp/focused-raw.json",
+    "bytes": 254143,
+    "sha256": "cb75c83109f1b2d0f455c680919b8eb13034b1ac9867a819f42442bf8722cc9e"
+  },
+  "cache": {
+    "path": ".test-rationalization-04A39-correction-v1.tmp/focused-cache.json",
+    "bytes": 465651,
+    "sha256": "9c747d39c2dbdac4f585e349df53f101b73a040497af90d6ec61c018b186f957"
+  },
+  "changed_parent_outcomes_vs_original39": [],
+  "new_functional_failure": false,
+  "full956_rerun": false,
+  "three_pass_parents": [
+    "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+    "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+    "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change"
+  ],
+  "privacy_note": "Two original ERROR parents now reproducibly FAIL; W3 UnicodeDecodeErrors remain unwaived. No successful repository privacy result."
+}

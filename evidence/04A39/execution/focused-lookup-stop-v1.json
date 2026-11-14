@@ -1,0 +1,59 @@
+{
+  "status": "STOPPED_FOCUSED_DIAGNOSTIC_ONLY",
+  "stopped": {
+    "path": "evidence/04A39/expand-source-links-v5.py",
+    "bytes": 5104,
+    "sha256": "29bd50a19350aa2f0ef8213afda9155de3badd83a1d3070a7533d4b20e75981d"
+  },
+  "completed": {
+    "path": "evidence/04A39/expand-source-links-v6.py",
+    "bytes": 5111,
+    "sha256": "a30cdd43d7fe1e08f2908aaabe9d5bd35aeeb305f94d111186fb2e74d8a91d9b"
+  },
+  "reason": "Repeated per-declaration regex compilation was slow. Owned helper interrupted through its execution session before any register-v4 payload was written; token-set membership is the same word-boundary predicate and completed in2.55s.",
+  "controls": [
+    {
+      "word": "Alpha",
+      "text": "Alpha Alpha2",
+      "both": true
+    },
+    {
+      "word": "Alpha",
+      "text": "preAlpha",
+      "both": false
+    },
+    {
+      "word": "A_b",
+      "text": "A_b-A_b2",
+      "both": true
+    },
+    {
+      "word": "SelectNested",
+      "text": "SelectNested(x)",
+      "both": true
+    },
+    {
+      "word": "Group9",
+      "text": "Group9.Member",
+      "both": true
+    },
+    {
+      "word": "Alpha",
+      "text": "αAlphaβ",
+      "both": false
+    }
+  ],
+  "test_campaign_identities_started": 0,
+  "production_changes": 0,
+  "raw_stdout": {
+    "path": ".test-rationalization-04A39.tmp/commands/a39v1-packet-source-links-v5/stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw_stderr": {
+    "path": ".test-rationalization-04A39.tmp/commands/a39v1-packet-source-links-v5/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "diagnostic_limit": "Attempted read-only Win32_Process command-line query was sandbox-denied; no Stop-Process action executed. Session interrupt stopped the owned helper."
+}

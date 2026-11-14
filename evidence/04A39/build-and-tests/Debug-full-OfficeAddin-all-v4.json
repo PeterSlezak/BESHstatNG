@@ -1,0 +1,35 @@
+{
+  "suite": "OfficeAddin",
+  "part": "all",
+  "selection": null,
+  "name": "a39fD-full-OfficeAddin-all",
+  "outcomes": {
+    "Passed": 508
+  },
+  "cases": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-OfficeAddin-all/cases.json",
+    "bytes": 172775,
+    "sha256": "f2d1becad37516551bbb64952db17928a7a1008de5b19c367a4d5d86ebf054dd"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-OfficeAddin-all/results/OfficeAddin.trx",
+    "bytes": 740441,
+    "sha256": "c88ce78c6f8de5ff4245ab914707e1bdef32c8a418534e703d08391bb7b6f976"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-OfficeAddin-all\\sandbox\\tests\\bin\\Debug\\net10.0\\OfficeAddin.Tests.dll",
+      "/Settings:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-OfficeAddin-all\\serial.runsettings",
+      "/ResultsDirectory:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-OfficeAddin-all\\results",
+      "/Logger:trx;LogFileName=OfficeAddin.trx"
+    ],
+    "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+    "exit_code": 0,
+    "seconds": 35.04569110000739,
+    "stdout_sha256": "39db89603885438380e4341a3b7821a10355520642c33f885fea1a2b29deca8a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

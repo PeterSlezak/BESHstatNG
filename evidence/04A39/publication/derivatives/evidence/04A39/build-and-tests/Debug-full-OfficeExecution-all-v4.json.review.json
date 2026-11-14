@@ -1,0 +1,35 @@
+{
+  "suite": "OfficeExecution",
+  "part": "all",
+  "selection": null,
+  "name": "a39fD-full-OfficeExecution-all",
+  "outcomes": {
+    "Passed": 45
+  },
+  "cases": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-OfficeExecution-all/cases.json",
+    "bytes": 15574,
+    "sha256": "27cae470f55215f75535e8cb5836ac386bb601b4d72c333a16e4d86eb2c68b98"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A39.tmp/executions/a39fD-full-OfficeExecution-all/results/OfficeExecution.trx",
+    "bytes": 66350,
+    "sha256": "74f8220afddaaf9b6f134e1d7d23715ea7b303a362007bae42c9f43f2d50207a"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-OfficeExecution-all\\sandbox\\Execution\\bin\\Debug\\net10.0\\Execution.Tests.dll",
+      "/Settings:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-OfficeExecution-all\\serial.runsettings",
+      "/ResultsDirectory:<REPO_ROOT>\\.test-rationalization-04A39.tmp\\executions\\a39fD-full-OfficeExecution-all\\results",
+      "/Logger:trx;LogFileName=OfficeExecution.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 1.6321804999897722,
+    "stdout_sha256": "2e046a56f88df567315fd584efff203528949b1f4908793f5d17121fadccfdb1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

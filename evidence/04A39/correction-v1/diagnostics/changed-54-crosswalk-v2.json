@@ -1,0 +1,2507 @@
+{
+  "count": 54,
+  "changes": [
+    {
+      "change_id": "DIAGNOSTIC-001",
+      "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "a776ec58204c97462b75fcac1e41a4f40683cee409f35b742447eaf1a2b33c4a",
+      "current_message_sha256": "9e5db6d6d7c672712306661d6647a8723450c13c64ae92d315ba6784b7a2289c",
+      "before_trace_sha256": "3ee848a2f5a7af82055a98b85807124372dd46c3d5fe5685226ac4c315ef792e",
+      "current_trace_sha256": "5bc84ddb6ee099ba89cf6400c753d7d6567e69d3b3a341f5dcf0246404c56161",
+      "test_source": {
+        "path": "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py",
+        "bytes": 18295,
+        "sha256": "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7"
+      },
+      "test_line": 107,
+      "test_end_line": 119,
+      "assertion_source_sha256": "dbea0115b538319ee5ed6138951568ad55319827e9c634ca44d61668d1b28f9f",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+          "before_sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd",
+          "after_sha256": "3e2b4da4cfb234ca7089e60db8bdd00c954f3ccd0171b73e856ab76c7524199d",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+              "bytes": 84627,
+              "sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd"
+            },
+            "current": {
+              "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+              "bytes": 84627,
+              "sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd"
+            },
+            "git_path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+            "git_blob_oid": "df0ca2ad23b61feb30ae2a41cc8a3f860912bee2",
+            "git_bytes": 84627,
+            "git_sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd",
+            "git_classification": "EXACT_BYTES",
+            "live_classification": "EXACT_BYTES"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "19ba0eccb4562ae81bc183a2bc9ee77636ce95f852ec5536d58ff78246b2675d"
+    },
+    {
+      "change_id": "DIAGNOSTIC-002",
+      "identity": "test_04a10_regression_projection.Regression10ProjectionTests.test_core_udfs_frameworks_and_accepted_evidence_are_byte_protected",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "5ac265a63a7dc0c9cc667315a2e90e920c0d67e0f73f73b9e528fc3e27221aa0",
+      "current_message_sha256": "b751a8b9c7dcd36c5dccf2bba794136c4c7079db39857c921e462043fe1240c2",
+      "before_trace_sha256": "ca277857f22356536be799d465a771533e32908426dd32dba2cc7112d9c20c57",
+      "current_trace_sha256": "420b81f92d81c31bb000629d510cd85b45cf0c7c1564b870b7a1f3c3fde556e9",
+      "test_source": {
+        "path": "scripts/tests/test_04a10_regression_projection.py",
+        "bytes": 5135,
+        "sha256": "57c41c74d298919dc2d456c8a2d32544239234965344ed199f4a0f8c9bbc927c"
+      },
+      "test_line": 67,
+      "test_end_line": 72,
+      "assertion_source_sha256": "0756df609cad672cdcd8e3127b48ec9bd0f0828e72e43e17958c8eeedc238389",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": ".gitignore",
+          "before_sha256": "511dd9cb366d9f30a61607c1d20d95ec03775e8463944649c18c45c9b68c3444",
+          "after_sha256": "6fdd2d9d0d05d73c12694ba149c8051b97a12da0e71f19f71eed1935b7adb913",
+          "disposition": "MERGED_MAIN_WORKTREE_NEWLINE_OR_APPROVED38_IGNORE_TRANSITION",
+          "lineage": null
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "2abac92ecf7a56c2d19cdb7e41bb0e04b595a62bc62a8810cf3e78eda89d754d"
+    },
+    {
+      "change_id": "DIAGNOSTIC-003",
+      "identity": "test_04a11_regression_families.Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "5ac265a63a7dc0c9cc667315a2e90e920c0d67e0f73f73b9e528fc3e27221aa0",
+      "current_message_sha256": "b751a8b9c7dcd36c5dccf2bba794136c4c7079db39857c921e462043fe1240c2",
+      "before_trace_sha256": "4b5424ee27b482d86eb7f1a7b8af121c524d765e1cca990279d8ce5f185b3795",
+      "current_trace_sha256": "b32d53d96bf57b6b1a2714eef3ce88e8acd153ffe8aa7fbab924f134fc43e91d",
+      "test_source": {
+        "path": "scripts/tests/test_04a11_regression_families.py",
+        "bytes": 6217,
+        "sha256": "9c65062a77fca3f9b42b16aa8cd5ab9ce56a2d48b2c381f083e97c830e182ee3"
+      },
+      "test_line": 51,
+      "test_end_line": 54,
+      "assertion_source_sha256": "cfa3512562ea1bbf635d8b66e13c1b217d1ddfd50aa21e5fae20b91368a5e8ad",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": ".gitignore",
+          "before_sha256": "511dd9cb366d9f30a61607c1d20d95ec03775e8463944649c18c45c9b68c3444",
+          "after_sha256": "6fdd2d9d0d05d73c12694ba149c8051b97a12da0e71f19f71eed1935b7adb913",
+          "disposition": "MERGED_MAIN_WORKTREE_NEWLINE_OR_APPROVED38_IGNORE_TRANSITION",
+          "lineage": null
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "16fce34f408f14b6904e8a45453ea95c83c422f3575bebbcd23c7c40891a1215"
+    },
+    {
+      "change_id": "DIAGNOSTIC-004",
+      "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "a618e456ef12e04bce93763f6ca48a8c55a9129d08912913ad31eecf121ce99b",
+      "current_message_sha256": "2939905788845e8f723cdb6558e124d5c559591001246d9bb4cd90c7cec1261b",
+      "before_trace_sha256": "2aacad382d5733fa56b7b1cf16c165214c192dba43f732ec0b483c57ff8d8194",
+      "current_trace_sha256": "099cb98d5c4f13928cfa4d3ce0c5dcfe42771966bec5bbc5d997b15398f3fc03",
+      "test_source": {
+        "path": "scripts/tests/test_04a17_multivariate.py",
+        "bytes": 8080,
+        "sha256": "06afd4bd4829b90688f0924c13a4a1d5ea5fc22d85120fde21308895f2dd1db0"
+      },
+      "test_line": 19,
+      "test_end_line": 23,
+      "assertion_source_sha256": "fc2c46e0d51079008975f3e055840f0b9cf4c974162890b4a8ab6c1548745bac",
+      "cause": "HISTORICAL_BRANCH_ASSERTION_CURRENT_BRANCH_CHANGED",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "5eccabef6a55c2ed2cac0a936770fd83407d5761bf3aef91d8dcc449feca91f6"
+    },
+    {
+      "change_id": "DIAGNOSTIC-005",
+      "identity": "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "bd2bc5b6f4bed8d2f001dc9dac46a22b6bd9c6ad51a41b55a826f9bc45f2c214",
+      "current_message_sha256": "de334f36774bb9f1081d7dfb65fc434e8664c80d82c5e0ad64964bc5c82aecdb",
+      "before_trace_sha256": "94ef1eda93352feb8e165dcfeb6fe97ef4d8720f3f9fea932161eb4a779cd973",
+      "current_trace_sha256": "1909b4359a06a87771ad6eee91e879f9b69f3b102e3044e5fa5395b80f60a315",
+      "test_source": {
+        "path": "scripts/tests/test_04a20_factor_discriminant.py",
+        "bytes": 12829,
+        "sha256": "1fc46c38c6695727ebf008e5a30999bd01f15737c14c5a5b56d04069f590e4bb"
+      },
+      "test_line": 20,
+      "test_end_line": 27,
+      "assertion_source_sha256": "ac84db2d58820a30ae71f25607fb8b6e97df8d3ccf43c651816602a4a696152b",
+      "cause": "HISTORICAL_MAIN_ASSERTION_ACCEPTED38_MERGE",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "3adf1607fc041b56c6cfbe94f561839ad0906ab1ecccbbe10e64e4ed4dd2e608"
+    },
+    {
+      "change_id": "DIAGNOSTIC-006",
+      "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_actual_merged_base_and_protected_owner_plan",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "a4332c93d3086f6d0c6f1ae8cb5e3e33ef88a2f78f3ffef5b1884e7bcce3cc22",
+      "current_message_sha256": "b20fa69ddbc4b8a79933f2a705dccd3a395e5491089921b0feff7655029ebe2f",
+      "before_trace_sha256": "1e8997473b06157600a43605f11962d3f3375be74a1d03310360cbc4c1124e08",
+      "current_trace_sha256": "85e3a2fd3880be1a85fa9f578fc91f53bb737925884c0d6e4b344dead3bd18b7",
+      "test_source": {
+        "path": "scripts/tests/test_04a23_multivariate_spc.py",
+        "bytes": 13644,
+        "sha256": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8"
+      },
+      "test_line": 24,
+      "test_end_line": 30,
+      "assertion_source_sha256": "3db095b9e5d041ec96b082bf674ffe705589b0965f3af4a183be06497df10cb9",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+          "before_sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd",
+          "after_sha256": "3e2b4da4cfb234ca7089e60db8bdd00c954f3ccd0171b73e856ab76c7524199d",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+              "bytes": 84627,
+              "sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd"
+            },
+            "current": {
+              "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+              "bytes": 84627,
+              "sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd"
+            },
+            "git_path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+            "git_blob_oid": "df0ca2ad23b61feb30ae2a41cc8a3f860912bee2",
+            "git_bytes": 84627,
+            "git_sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd",
+            "git_classification": "EXACT_BYTES",
+            "live_classification": "EXACT_BYTES"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "46482d7a38079752dcace3a344ad41b7e23d3a029122966cfe46f6921ca58be9"
+    },
+    {
+      "change_id": "DIAGNOSTIC-007",
+      "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "3edf32d6405851ed335e8ee2dbff2f61c0a1ec6b3923807e980c8267d25895de",
+      "current_message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+      "before_trace_sha256": "92c2ba9b7142b9a379f9f474852054a6926b4acf49cb5b01107e18158affa35b",
+      "current_trace_sha256": "9878cef3400a8a7034c9f9c90665942c502008ad5323ed0f9653f5b8e54b23f4",
+      "test_source": {
+        "path": "scripts/tests/test_04a27_geometry_completion.py",
+        "bytes": 8338,
+        "sha256": "54cec305dc4898b35d9e9b585c22dcc0667bdffb563ef04dfecfc933d3432625"
+      },
+      "test_line": 99,
+      "test_end_line": 112,
+      "assertion_source_sha256": "5bdc98143bfdab183739b103096359c058a4446db1d3902690297408adc7cee5",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "before_sha256": "e8a00beea238aca6a86b678f28a49456e36bfddabb68d8c6a4473f16c9486e48",
+          "after_sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 109699,
+              "sha256": "e8a00beea238aca6a86b678f28a49456e36bfddabb68d8c6a4473f16c9486e48"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 108322,
+              "sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+            "git_blob_oid": "b1d3a925f4c15bdced98dc7f17d4351eacb1584e",
+            "git_bytes": 108322,
+            "git_sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "aaf9af0e167ba7efc9cb1b31bd7b00f5f618863d532b42faa4ac17d5ac33db94"
+    },
+    {
+      "change_id": "DIAGNOSTIC-008",
+      "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_udf_exports_signatures_and_packing_are_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "3edf32d6405851ed335e8ee2dbff2f61c0a1ec6b3923807e980c8267d25895de",
+      "current_message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+      "before_trace_sha256": "e27697290e6994081282e1fbe219d42f9c22525c8dcd860db32cacb1ecc608ee",
+      "current_trace_sha256": "b3c28c0f3c4965b60b3e4f77484937aac1b7ac9581a2367dd2df20d3f9ba6218",
+      "test_source": {
+        "path": "scripts/tests/test_04a27_transport_successor.py",
+        "bytes": 8216,
+        "sha256": "e268340655fb8be7889e13c0f22d1cb3acd662aba09264b33728dcd431e23830"
+      },
+      "test_line": 85,
+      "test_end_line": 94,
+      "assertion_source_sha256": "8c620c3aa6e22de079c938831a498fdd6a0cd3f49e3c4fe2222aa8b31f26122c",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "before_sha256": "e8a00beea238aca6a86b678f28a49456e36bfddabb68d8c6a4473f16c9486e48",
+          "after_sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 109699,
+              "sha256": "e8a00beea238aca6a86b678f28a49456e36bfddabb68d8c6a4473f16c9486e48"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 108322,
+              "sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+            "git_blob_oid": "b1d3a925f4c15bdced98dc7f17d4351eacb1584e",
+            "git_bytes": 108322,
+            "git_sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "943931e3b36861fcaf74e67eeb59ed97c4548fffbab6d6d34d4a885cc99f6db4"
+    },
+    {
+      "change_id": "DIAGNOSTIC-009",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "3edf32d6405851ed335e8ee2dbff2f61c0a1ec6b3923807e980c8267d25895de",
+      "current_message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+      "before_trace_sha256": "65675dc3a3dfc6fb495ff976b95227bd477540582d5676b6cb3207adf1991cf4",
+      "current_trace_sha256": "29544c9253417fad22e7a6354fa3a412e3c2d57dbddb9b4c6e2cb09f7f827157",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "before_sha256": "e8a00beea238aca6a86b678f28a49456e36bfddabb68d8c6a4473f16c9486e48",
+          "after_sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 109699,
+              "sha256": "e8a00beea238aca6a86b678f28a49456e36bfddabb68d8c6a4473f16c9486e48"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 108322,
+              "sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+            "git_blob_oid": "b1d3a925f4c15bdced98dc7f17d4351eacb1584e",
+            "git_bytes": 108322,
+            "git_sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb')",
+      "stable_event_id": "db17ea3127d7416d0145ad98734736e86101369430c2beec684e9745a6e213dc"
+    },
+    {
+      "change_id": "DIAGNOSTIC-010",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "5e4e288402ca834b2e8aaf79145a5a0772b5ed110d32c4cb69dd34237a0c178f",
+      "current_message_sha256": "d87ce9c24799aa289cdeb5742512632cd1ccd0490fb65c56fac7e4bef186e8d5",
+      "before_trace_sha256": "0f8e8cdb5ae2e01d25e6b75b6ad5ad901be3e8934040aa085fdb5c71046def88",
+      "current_trace_sha256": "ec1973d1fb02a89e338e9896e89e167f876ee99b62645200ab1d8d2f43cae72a",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "before_sha256": "033250be3232f558db1339202ce303990ccc296e85203aa153259835ee60d965",
+          "after_sha256": "0a7e05f79fe8a7f95f6e02c1358f4335a70dc5902f4e1eac0c84ff422aade38d",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+              "bytes": 40935,
+              "sha256": "033250be3232f558db1339202ce303990ccc296e85203aa153259835ee60d965"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+              "bytes": 40206,
+              "sha256": "0a7e05f79fe8a7f95f6e02c1358f4335a70dc5902f4e1eac0c84ff422aade38d"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+            "git_blob_oid": "1d08d8841684e8b208985c5d60a911a680a57913",
+            "git_bytes": 40206,
+            "git_sha256": "0a7e05f79fe8a7f95f6e02c1358f4335a70dc5902f4e1eac0c84ff422aade38d",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb')",
+      "stable_event_id": "5298fcbd7e457c265682c54be9b81c86e17b3ff285140cf68c4742fd7db0ff3a"
+    },
+    {
+      "change_id": "DIAGNOSTIC-011",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "141b952964c1e5ebd3f414dc8a026965fc872a112eeff8495aa18f4ec8e1334b",
+      "current_message_sha256": "0fa01f98653a8122ae8004fbaf9461553d2b38c52a483c78c9f5119f79a54c16",
+      "before_trace_sha256": "e86826ebda4edb3901d9e2da48f8736686ee48f7d97d7bbf18b36e117c87ae06",
+      "current_trace_sha256": "d5d5f99645b188920cd37eced52e86f5913bd852b5042483f5a93ae2f88fcc0c",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "before_sha256": "18f1b00afa7d4e8938028058a82106fe0d2500da4f5e3ae77abd053dd0150c11",
+          "after_sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+              "bytes": 68495,
+              "sha256": "18f1b00afa7d4e8938028058a82106fe0d2500da4f5e3ae77abd053dd0150c11"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+              "bytes": 67317,
+              "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+            "git_blob_oid": "bcf69166c3f8bf69898e5528300ee72574e9a087",
+            "git_bytes": 67317,
+            "git_sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb')",
+      "stable_event_id": "609803bf08a65449b6433bcec81b0622cdd06a469794ba0778c73bb16bfded1c"
+    },
+    {
+      "change_id": "DIAGNOSTIC-012",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "3c8f03d4d802a9d0e37a048dffc09910fa138dc77a58f290ee69657da9c29ec9",
+      "current_message_sha256": "c107eab35ad52ab8afaa57020a9ec19e3e6fad8bd65b9c39e037ed31eb7624c4",
+      "before_trace_sha256": "de0b7348031d9abb0e61e415a5254f2e5162578b96ea9a13cb6a86b7f8026950",
+      "current_trace_sha256": "cf058c70099663d8313d616c534c46e31a9ba8000b5e4e8dccc46caf9d7d1317",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+          "before_sha256": "4a0a482f26d4b134cedf4d141359e90ad0d5c689195738e467c6d7089af38f8f",
+          "after_sha256": "e696157daa778512b00639d0e3bcb4da8bb647c3d6e2f7db41f299d04c95fe56",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+              "bytes": 7836,
+              "sha256": "4a0a482f26d4b134cedf4d141359e90ad0d5c689195738e467c6d7089af38f8f"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+              "bytes": 7660,
+              "sha256": "e696157daa778512b00639d0e3bcb4da8bb647c3d6e2f7db41f299d04c95fe56"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+            "git_blob_oid": "6ef0900c24fd508b0d56691f9c4798ca5804d84a",
+            "git_bytes": 7660,
+            "git_sha256": "e696157daa778512b00639d0e3bcb4da8bb647c3d6e2f7db41f299d04c95fe56",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb')",
+      "stable_event_id": "3a62cfda8b9363f8d10f2f1593fa29236997172ef52c4971bf02c12da321aeab"
+    },
+    {
+      "change_id": "DIAGNOSTIC-013",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "3fbf72262942826dee11a7f6ee96971cd0da8c342184b42bf3c9cc66d8196e18",
+      "current_message_sha256": "d79ec0a28a24f5321e9c4d6e39b0f3574b1ee2968b50c9a784b35d9f241cab8e",
+      "before_trace_sha256": "3e44ac3e690ed96f3ec15e940445b5a3a43bb7cc63cd44dab2d5c79d7c8e393b",
+      "current_trace_sha256": "5b75fcd8c86f6d84df668b39a0609da22d7f7a1695d81e8d5d1585de4b526809",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+          "before_sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422",
+          "after_sha256": "f74625970d6bbf40c34e5a1e2eb708bd299abc49929ad0eb2defbef7a77b015a",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+              "bytes": 8752,
+              "sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+              "bytes": 8544,
+              "sha256": "f74625970d6bbf40c34e5a1e2eb708bd299abc49929ad0eb2defbef7a77b015a"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+            "git_blob_oid": "01793d441093109ebc4c4e9d989a7e95fed33eb1",
+            "git_bytes": 8544,
+            "git_sha256": "f74625970d6bbf40c34e5a1e2eb708bd299abc49929ad0eb2defbef7a77b015a",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb')",
+      "stable_event_id": "5adb2494bb3b58bfad2e3053899a8fdde7b8b640f0ef89ac089be6830f44c28e"
+    },
+    {
+      "change_id": "DIAGNOSTIC-014",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "27c136023ead007445d730b2265da30bccec03085837b32cbd97822d4b360552",
+      "current_message_sha256": "51ae5c0dd10833d44cda64c514c7b936e9d631cd55661ce138611c54e3ff3f21",
+      "before_trace_sha256": "21d3f96545cc030a4f85f0105eff113e7671d6e5d783f876c5f5d0cf67535c56",
+      "current_trace_sha256": "1438a65f8858e6e35c68e533aa5788eb271b97206c2f38da791d781de40637df",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "before_sha256": "932411ad9682d8fd94e3c3b1101f135af798fb1222852ab74c23779e9b966d52",
+          "after_sha256": "7c633a4e02447ceffcda098772ba2f6e3f490af0c86efc961a4d8587d3423e75",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+              "bytes": 57064,
+              "sha256": "932411ad9682d8fd94e3c3b1101f135af798fb1222852ab74c23779e9b966d52"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+              "bytes": 56001,
+              "sha256": "7c633a4e02447ceffcda098772ba2f6e3f490af0c86efc961a4d8587d3423e75"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+            "git_blob_oid": "20cf3f0f72621a9e97c4d27fe20f1c5abe3239f6",
+            "git_bytes": 56001,
+            "git_sha256": "7c633a4e02447ceffcda098772ba2f6e3f490af0c86efc961a4d8587d3423e75",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb')",
+      "stable_event_id": "1ee11affd2401fbdfd60f71c2c8fda455bdad421e822a76923d13d876f09e165"
+    },
+    {
+      "change_id": "DIAGNOSTIC-015",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "9b423506a302612134f271bb5f8415c08b8a160f022d5b83df163699fdb04196",
+      "current_message_sha256": "8ecb30447288425376140b0f64b1d1c1b2c8871ef4b06ab2139e493a6ff399a4",
+      "before_trace_sha256": "eedcddeeaa445344ba9ffd4ad4d503c09ea4e32ea294d778464eb0bb56991bce",
+      "current_trace_sha256": "9dd963af8c2ba5f4140c13b6b3a9d0b58d463bf7e23a147bb0ed5d3e58b7d945",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "before_sha256": "e8e0bb3b738ce29b7f76ef3342f8f79f159337d4b87ba9107b67b9a428ba6164",
+          "after_sha256": "b87df3b3a071aed8ff5691031c1e3a4481e65b9ddb30caa7c44e0d6b5301052a",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+              "bytes": 53546,
+              "sha256": "e8e0bb3b738ce29b7f76ef3342f8f79f159337d4b87ba9107b67b9a428ba6164"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+              "bytes": 52696,
+              "sha256": "b87df3b3a071aed8ff5691031c1e3a4481e65b9ddb30caa7c44e0d6b5301052a"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+            "git_blob_oid": "1d747df09c2d4161189cef7e1c738f8e993bb3ce",
+            "git_bytes": 52696,
+            "git_sha256": "b87df3b3a071aed8ff5691031c1e3a4481e65b9ddb30caa7c44e0d6b5301052a",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb')",
+      "stable_event_id": "65a0e77b6948c9427894fe7aa00765e04a84c60e990e4cf66239a7a52259b006"
+    },
+    {
+      "change_id": "DIAGNOSTIC-016",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "bd863dd33da8298443496b4b50714a68be6ba3e744a47f0c893384f4c9845107",
+      "current_message_sha256": "a47efdc276f59cffcb97d6f49e25aab01b5dcfa1d75455a56f8382955be0ec91",
+      "before_trace_sha256": "b7099656efd8a3ed219a32bd992eb69d6080be0f93c8454cb67933ce3ca9b46a",
+      "current_trace_sha256": "16bd93a6fa5c5ef5d373a268db5b9c0ff41d7eab4fb600530377e4ae0f6e33a9",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "before_sha256": "816b8ef9f5b3ab19e0ac873e667e6762d7728aa4a5c908cb037733bd79da6bda",
+          "after_sha256": "9b345fb2a67d9bc957d379fe7d4d03818d77fecae208ceb033e714f8f72be260",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+              "bytes": 48660,
+              "sha256": "816b8ef9f5b3ab19e0ac873e667e6762d7728aa4a5c908cb037733bd79da6bda"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+              "bytes": 47965,
+              "sha256": "9b345fb2a67d9bc957d379fe7d4d03818d77fecae208ceb033e714f8f72be260"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+            "git_blob_oid": "862908d19eff23117de977b0478a311f6d0214aa",
+            "git_bytes": 47965,
+            "git_sha256": "9b345fb2a67d9bc957d379fe7d4d03818d77fecae208ceb033e714f8f72be260",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb')",
+      "stable_event_id": "23306b75ec456e943a6bf60cd9654a1612aa28e824889216a1b472f79e988d94"
+    },
+    {
+      "change_id": "DIAGNOSTIC-017",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "4bfde94a7e6e8cccfa6a8dc95fbbf54586a144aa1a14d99b7c06b5c58091f779",
+      "current_message_sha256": "6e92258e7b6d19e4638a050e2dad22ad16f2be1b5bb156a386846d28fde39ce1",
+      "before_trace_sha256": "539fc9ca0fb74a921e04d1c7c6c4e964504b74befaff1c6204574b01ed979066",
+      "current_trace_sha256": "79ac77bf0e5fd09d26f7c0251b422a88046563728512cf036f2c27cde7c6bf61",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "before_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "after_sha256": "7a58c166a4ebece7a4e50de6e3c1db88f18b4982e46f675230705e055884ac46",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+              "bytes": 50307,
+              "sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+              "bytes": 49442,
+              "sha256": "7a58c166a4ebece7a4e50de6e3c1db88f18b4982e46f675230705e055884ac46"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+            "git_blob_oid": "96458d2f21d45c824a71e7db0794ba67a46c2cba",
+            "git_bytes": 49442,
+            "git_sha256": "7a58c166a4ebece7a4e50de6e3c1db88f18b4982e46f675230705e055884ac46",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb')",
+      "stable_event_id": "85450d149b49627a1bc2b99408ecd0dddca5b46926bb34c526d718a872b8ba13"
+    },
+    {
+      "change_id": "DIAGNOSTIC-018",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "0790d5bf9abd68b89e2a3567922b8f0b7fa3b4d1d6d4c57d4348f36a3430b9ce",
+      "current_message_sha256": "3518ac432b47372e50dd8ab97632cdec453c3830a3ca5b8d37e46989a9b41feb",
+      "before_trace_sha256": "495e8a55e40a3f8a5a3c787f59b17ae09fbd85dc29bd4ce8e2cedcb4c8b0e77c",
+      "current_trace_sha256": "c77bc390713085822363d62d458f3bf8dc51aaa9dec1c2063b694fb8add3b076",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "before_sha256": "7e355e28bbbdd72eec2aa6aa16c413922b38e5ee3a93a011b000e7b803ecbec4",
+          "after_sha256": "f888db425e4ef6811213837b1289f64e4012fcf60573f9c3fe3189a087f0cfb2",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+              "bytes": 41295,
+              "sha256": "7e355e28bbbdd72eec2aa6aa16c413922b38e5ee3a93a011b000e7b803ecbec4"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+              "bytes": 40613,
+              "sha256": "f888db425e4ef6811213837b1289f64e4012fcf60573f9c3fe3189a087f0cfb2"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+            "git_blob_oid": "36a0b0ba7fa123ab7f235f3a624521c4a911e85d",
+            "git_bytes": 40613,
+            "git_sha256": "f888db425e4ef6811213837b1289f64e4012fcf60573f9c3fe3189a087f0cfb2",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb')",
+      "stable_event_id": "5bc8d868e4f8277dce9fa1aebaa5f25ac80bb2ea53bddfee7c03ee8747e1dfe5"
+    },
+    {
+      "change_id": "DIAGNOSTIC-019",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "6371ec409c927ddbe1e813b3dea3c47b128f364bf60a1378353393a056601033",
+      "current_message_sha256": "f7de099417eb83e526aa381483570d136176846aaed02c1bc6239df1bb973b86",
+      "before_trace_sha256": "c2e53e8ebfa73196d9a34b6f895a9593254976dfd312a6447101cb64388ea66e",
+      "current_trace_sha256": "ee9c9c421e4f675a2b1bae61c66cb9c7274d88a4c006fabe674dd8588c45a06f",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "before_sha256": "5b683440a8907dc45f149cc1ebe4f6fb2352cca45fbef4dd20cb5a21685edfa4",
+          "after_sha256": "945479354176869c562473cee68352c66402052d1c697b4c55ab7d552bc02f01",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+              "bytes": 66492,
+              "sha256": "5b683440a8907dc45f149cc1ebe4f6fb2352cca45fbef4dd20cb5a21685edfa4"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+              "bytes": 65409,
+              "sha256": "945479354176869c562473cee68352c66402052d1c697b4c55ab7d552bc02f01"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+            "git_blob_oid": "0baf2e2ed6908c565baead6972668063aca012e0",
+            "git_bytes": 65409,
+            "git_sha256": "945479354176869c562473cee68352c66402052d1c697b4c55ab7d552bc02f01",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb')",
+      "stable_event_id": "b6199fbf7b9b9a80ac64e6c1051d46544376435b507e082fd0821eabfbe8d225"
+    },
+    {
+      "change_id": "DIAGNOSTIC-020",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "b82340c4ed1f06fd2d841c52245e7c391c2ebdf4ba660c408c8255bc2bc01308",
+      "current_message_sha256": "a6766b16dd805ff1ff58c351ce8d18f804c04351c2d9ddc5148f3dd62bb3cb94",
+      "before_trace_sha256": "40a0a43d5c577b1c17eca6e44a3bd6cbbdce9fc4ba641a38a980ca8d2053ca4d",
+      "current_trace_sha256": "5a2014a231c19ca0a637b138ab458ffd52022e6f43c1289bf15ff547c903469a",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "before_sha256": "be473271f2867688c878fea643f25d277e9648035b3efbdba1544cf38fb35045",
+          "after_sha256": "531e90704a789862ba955d426967b0cb93fa11a43a4ac21a068fd3727cf733af",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+              "bytes": 43272,
+              "sha256": "be473271f2867688c878fea643f25d277e9648035b3efbdba1544cf38fb35045"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+              "bytes": 42519,
+              "sha256": "531e90704a789862ba955d426967b0cb93fa11a43a4ac21a068fd3727cf733af"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+            "git_blob_oid": "2e1180d1955a68c4bedd74911a4d195128c88164",
+            "git_bytes": 42519,
+            "git_sha256": "531e90704a789862ba955d426967b0cb93fa11a43a4ac21a068fd3727cf733af",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb')",
+      "stable_event_id": "296b69a14389be49ed5999f5cedf58e1922cd85243d918c180ab64f1ce07c3db"
+    },
+    {
+      "change_id": "DIAGNOSTIC-021",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "283118c0cdd45b8b04deda7e89fe8222072bef39d2b2a04ee6eabb8f22f09e95",
+      "current_message_sha256": "4fdf418dbe8d9a4318c245303d89fc4e8682c53b23af9c6cace1c5aae453e8b9",
+      "before_trace_sha256": "f053fecb1ec200cd9286dffe644fbd7878834d64a14962aabf7015b182557a05",
+      "current_trace_sha256": "815958b1e8a0e8c74e083e5afaa1c2ecb43895f9b7801cf7cc095f421be5d0d5",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "before_sha256": "9a3fd0c6ab9217f1f481fb64d59dec2eae4e183b8dd3f54c46d847f7b9335d4c",
+          "after_sha256": "d571ec9300de844bc3801eb96944edf59faf6f13a160be9168cda1b387cbe781",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+              "bytes": 60523,
+              "sha256": "9a3fd0c6ab9217f1f481fb64d59dec2eae4e183b8dd3f54c46d847f7b9335d4c"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+              "bytes": 59584,
+              "sha256": "d571ec9300de844bc3801eb96944edf59faf6f13a160be9168cda1b387cbe781"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+            "git_blob_oid": "b36319e79273faf039b0c88475baadf5ce34d7d4",
+            "git_bytes": 59584,
+            "git_sha256": "d571ec9300de844bc3801eb96944edf59faf6f13a160be9168cda1b387cbe781",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb')",
+      "stable_event_id": "e9605f5f2c8cd120ed5d028a9ca67fd625b54b90334b68b2532cc2e62e4f89ab"
+    },
+    {
+      "change_id": "DIAGNOSTIC-022",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "cfb55745c8ec019d7c71ba056a8dff9e7cc76a45a6cf2eccf5b9900f67ff1915",
+      "current_message_sha256": "9599e9f997cc8d31745877bcd31b0e8cfe8a27bcd307b08a6955f91946177ee9",
+      "before_trace_sha256": "af4294302f700023eb2e8f9abcc2bf95f29ab67559710042ea84859a50935947",
+      "current_trace_sha256": "bcec174bac5469d724b061be7dd22839b16cc81ae3bff8b828381b639e3ede61",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+          "before_sha256": "e07c0c18ed85e9d7f1d6ed14159a53213138926ddb351b9f110c64453a48c8ee",
+          "after_sha256": "2efed3093c4b12e83b91328dce4e84bf6dbd287b44c7ec9fb2dc19767507e800",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+              "bytes": 81069,
+              "sha256": "e07c0c18ed85e9d7f1d6ed14159a53213138926ddb351b9f110c64453a48c8ee"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+              "bytes": 79787,
+              "sha256": "2efed3093c4b12e83b91328dce4e84bf6dbd287b44c7ec9fb2dc19767507e800"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+            "git_blob_oid": "81a6663a2e6173f60c12e1cfe59ef033abbb4246",
+            "git_bytes": 79787,
+            "git_sha256": "2efed3093c4b12e83b91328dce4e84bf6dbd287b44c7ec9fb2dc19767507e800",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb')",
+      "stable_event_id": "e690eeefc2d6afe99e0283d550092e74b42e1a26111b7a1f3b012e07df46fe6d"
+    },
+    {
+      "change_id": "DIAGNOSTIC-023",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "da71f7ac30f1046ee8e98b00c8c2d6573b2306f89d9bc02d80100a15bbd3e4ed",
+      "current_message_sha256": "65f842c41f3242e3722040e6005f5ed16bdf40e8ac4933c443fdb0057f31e876",
+      "before_trace_sha256": "678f682b43f9008c2b1ff90a96661764c225c3264c45767a093ae82c51fc6377",
+      "current_trace_sha256": "6b400edff4b3d32ed88d9d110fc458866ca87c5b41e41213e27fdef20ae7304a",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "before_sha256": "28d8ee9be92ad072745883e28eb26789da4752668c1020804674ea8e8d4f0f8b",
+          "after_sha256": "de1149c832b97a957937904c58dfa3d2dabbd9bd411c71a2ca19f6c2dc87e53f",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+              "bytes": 44235,
+              "sha256": "28d8ee9be92ad072745883e28eb26789da4752668c1020804674ea8e8d4f0f8b"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+              "bytes": 43528,
+              "sha256": "de1149c832b97a957937904c58dfa3d2dabbd9bd411c71a2ca19f6c2dc87e53f"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+            "git_blob_oid": "63e3d1228c36ec1cdfebec9fcb62fad9b30286ef",
+            "git_bytes": 43528,
+            "git_sha256": "de1149c832b97a957937904c58dfa3d2dabbd9bd411c71a2ca19f6c2dc87e53f",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb')",
+      "stable_event_id": "691e6a994c18840dbdfa9929b253f04a11795894a1e158ed51adcda800435e20"
+    },
+    {
+      "change_id": "DIAGNOSTIC-024",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "33493930dc69e02ac12da1729772dfbea830241e649bbaf3be1b5fab50c86d1c",
+      "current_message_sha256": "56d6f8da758b31ee9250f25f8770ac9cb2cd4143f6c260fb56fb810b78d190d7",
+      "before_trace_sha256": "acf5e831302cefaa92b5ab523ce9f80997533058a2a0baae2810f091cf3b1914",
+      "current_trace_sha256": "320460c46d1d323e1b0d17a2561818ec100f9a4bf5d758c5a7be566a466a1b9d",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "before_sha256": "9ac5347f2262ba30944dc327e0272f022a0464471b89359e309af3dc27d55ef6",
+          "after_sha256": "5a36e766e4859eae8e6292bcc8975d4b926d53caa50fa5d972335c0d49ef61d3",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+              "bytes": 40827,
+              "sha256": "9ac5347f2262ba30944dc327e0272f022a0464471b89359e309af3dc27d55ef6"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+              "bytes": 40155,
+              "sha256": "5a36e766e4859eae8e6292bcc8975d4b926d53caa50fa5d972335c0d49ef61d3"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+            "git_blob_oid": "f80a32e32328faf49cff5c6ca1a59bda595ecd59",
+            "git_bytes": 40155,
+            "git_sha256": "5a36e766e4859eae8e6292bcc8975d4b926d53caa50fa5d972335c0d49ef61d3",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb')",
+      "stable_event_id": "6d7787c3f356bef921b80c3d4b09e64192470c5e48b3e923c893511c51678152"
+    },
+    {
+      "change_id": "DIAGNOSTIC-025",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "ae51f1ca70d8674f970496d2155b9ab01e854d3460627858d4f43ed3e3c10a25",
+      "current_message_sha256": "1ae3abec2e4e90741e601e8e6624bbde041943787dd5173bd3219b076a654420",
+      "before_trace_sha256": "6ab2bc7e44aa57198bd648ff1db6028b92487591ee88bb685bc4e98e389c5cee",
+      "current_trace_sha256": "3c138f38373afbabf57e067c8e79006caecd0f75d845ff1a89e8c029169f0b47",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+          "before_sha256": "700b461dcae1577186c0f152735c4f4279d05f363f8c23487e528723d167451d",
+          "after_sha256": "30087c0b3c124280e6b080671185185f3070777d5aa8d05fbd3174da753e79c4",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+              "bytes": 14461,
+              "sha256": "700b461dcae1577186c0f152735c4f4279d05f363f8c23487e528723d167451d"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+              "bytes": 14242,
+              "sha256": "30087c0b3c124280e6b080671185185f3070777d5aa8d05fbd3174da753e79c4"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+            "git_blob_oid": "b7b1be1c166e6784716d9f42b937a25af37eac24",
+            "git_bytes": 14242,
+            "git_sha256": "30087c0b3c124280e6b080671185185f3070777d5aa8d05fbd3174da753e79c4",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb')",
+      "stable_event_id": "ee03850066a97fc975cdc535366dffe5e11baa0de7101a72b4685b6687fedad1"
+    },
+    {
+      "change_id": "DIAGNOSTIC-026",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "8ea20cff4c95423755e24d1549715ee07de7c5dd862a00abbd5a09d5375ab52c",
+      "current_message_sha256": "6508bb0489555d37819f50cff767925699a737fde493f0149ce6c8b68aaaf265",
+      "before_trace_sha256": "a150a4c2210c8e444ae53ef1d15d47940311134fb61baf8d816a56b6199c63f9",
+      "current_trace_sha256": "3d8890a13b6d6db74337ccb92c5e0bf202afc6da3c4b4f1344c5a2092adccc53",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+          "before_sha256": "e22eb5525e15f94ae1ea2eaa406d57cbd8d485da898e435776ed5a9a7a210551",
+          "after_sha256": "0533622d2fc5012524473179448b27e4cd9626fab4c37e9b1ff80554a1dd743a",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+              "bytes": 4056,
+              "sha256": "e22eb5525e15f94ae1ea2eaa406d57cbd8d485da898e435776ed5a9a7a210551"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+              "bytes": 3979,
+              "sha256": "0533622d2fc5012524473179448b27e4cd9626fab4c37e9b1ff80554a1dd743a"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+            "git_blob_oid": "4d62fd0e16dd19712b156dcf7a1321aa26d8917c",
+            "git_bytes": 3979,
+            "git_sha256": "0533622d2fc5012524473179448b27e4cd9626fab4c37e9b1ff80554a1dd743a",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb')",
+      "stable_event_id": "f3cb15862f2c6033c2e949561f6083477b483b988b67e7c22de323005e90f6b7"
+    },
+    {
+      "change_id": "DIAGNOSTIC-027",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "402dedb43dadc885263091c7e06409244a72ed0e1654b973507975f3056f6264",
+      "current_message_sha256": "9d8303594b13c057f70d3f6702210cb084705442c433105234b2f02f4869e8b1",
+      "before_trace_sha256": "4393a1666050dd096cb9bc44507e9e07df998b834795bb4f964e85c0f0f27ecd",
+      "current_trace_sha256": "46c371963f3c43273863dcf95490696ba8b3da501398c0af7d4aeda7f90bb509",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "before_sha256": "a62a5da1bb7b05fcd8c20f3b4aa5c24bf7bf835f6a57034e955390230091ace0",
+          "after_sha256": "2893e57baa8845b9c6d53b861130e4bcc8fd1e6bc5e407a0511ed561fdb5d65e",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+              "bytes": 52726,
+              "sha256": "a62a5da1bb7b05fcd8c20f3b4aa5c24bf7bf835f6a57034e955390230091ace0"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+              "bytes": 51900,
+              "sha256": "2893e57baa8845b9c6d53b861130e4bcc8fd1e6bc5e407a0511ed561fdb5d65e"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+            "git_blob_oid": "e9cfb15f7bc04cfb3135ad0c6d0d8ce6fcb5156b",
+            "git_bytes": 51900,
+            "git_sha256": "2893e57baa8845b9c6d53b861130e4bcc8fd1e6bc5e407a0511ed561fdb5d65e",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb')",
+      "stable_event_id": "9f9c74d1a040602c1e53fc4f0b886edcb68ef5c1ede921c37c36c77f64848542"
+    },
+    {
+      "change_id": "DIAGNOSTIC-028",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "4c9e22229254589e0b6da308a960e0b94b0c190d77bcd4fae6a5a7da15367684",
+      "current_message_sha256": "1e9bef28684ec13002a4c87b6f0e0f50b14031cdc52bb7b694d18d5a9d2a649c",
+      "before_trace_sha256": "f1b344e4127a30c12839eebdbd3b99063fb22e5dfb28d933242c32466924dbf4",
+      "current_trace_sha256": "69b5bc521d7ba9bbd4cf78b49edf596e9716714f4ea10a0629f94e2eb7822aaf",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "before_sha256": "ac0f65493602e1e09647659d9e83c0df1a583410f317994ad31be6cb52c5de82",
+          "after_sha256": "037f1bf4d87d3d9ea7935e28aa5f5a95805c8168640b2a049504310d7c20c593",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+              "bytes": 53994,
+              "sha256": "ac0f65493602e1e09647659d9e83c0df1a583410f317994ad31be6cb52c5de82"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+              "bytes": 53163,
+              "sha256": "037f1bf4d87d3d9ea7935e28aa5f5a95805c8168640b2a049504310d7c20c593"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+            "git_blob_oid": "175d044141d2d479781d7f2e37c1cc178406b753",
+            "git_bytes": 53163,
+            "git_sha256": "037f1bf4d87d3d9ea7935e28aa5f5a95805c8168640b2a049504310d7c20c593",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb')",
+      "stable_event_id": "5b2f81c04b333f0e76fe50074b5765510aec7d4c875778c35e4ef05c2ed29935"
+    },
+    {
+      "change_id": "DIAGNOSTIC-029",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "54178dfe19a4924e37d347497dd1520f9977b4fb01f5d3146cc483ffe83d8c1e",
+      "current_message_sha256": "ec7ade46730287cbde90884a4b9923d500a1ec593cecbf5f932155ac47ec61e5",
+      "before_trace_sha256": "9bb1823720db59f426997d1036a7373cc7a2b8539ebfa9a69a2fd6f80ab26993",
+      "current_trace_sha256": "290bd1e88c3095a300546d1f5a68b46d2701c7787371344f3bc688e89d4fa65f",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+          "before_sha256": "367b8f2f624324aa6cfbf993843bfc6975740bed0cec9a5488105541daac13fa",
+          "after_sha256": "b9ae9da8984bbd4f8715de450e7d72f24d09d3c46bfa92a7bb5ef311bebe1e21",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+              "bytes": 17619,
+              "sha256": "367b8f2f624324aa6cfbf993843bfc6975740bed0cec9a5488105541daac13fa"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+              "bytes": 17322,
+              "sha256": "b9ae9da8984bbd4f8715de450e7d72f24d09d3c46bfa92a7bb5ef311bebe1e21"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+            "git_blob_oid": "e8eff08704d0ffb120d0cd59824ff088d824f02b",
+            "git_bytes": 17322,
+            "git_sha256": "b9ae9da8984bbd4f8715de450e7d72f24d09d3c46bfa92a7bb5ef311bebe1e21",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb')",
+      "stable_event_id": "94ff8e42b69135cd4fc04e5bf7a6512c02262b7b6c8ad3fff0828ec393d03666"
+    },
+    {
+      "change_id": "DIAGNOSTIC-030",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "623a049e8e2dc13241fe3574a37584fecbd11a4ca949bbdb511b93d66df9afcd",
+      "current_message_sha256": "45e65f59172b2f6dec718413f8e6cf69c9d3bb352c30430a3495b37d9562f53a",
+      "before_trace_sha256": "288cd7edaf66ad2955f1d64a7803bd1b2bbaa3b7312e051a1863ed5b6229b4e7",
+      "current_trace_sha256": "225e330a44e2d9c924f2819ad007d3274887e06e2b146f1898e0f30e8be13b4f",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+          "before_sha256": "ce44246e9c600da8f78f5a67c3357ce7a0d3d9f23db9d9a2c09470c6362bd8a9",
+          "after_sha256": "345a31b9ca1520489da56f233fd9663ebff0dd0c14af3bfa549d671c67fd0e50",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+              "bytes": 25353,
+              "sha256": "ce44246e9c600da8f78f5a67c3357ce7a0d3d9f23db9d9a2c09470c6362bd8a9"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+              "bytes": 24861,
+              "sha256": "345a31b9ca1520489da56f233fd9663ebff0dd0c14af3bfa549d671c67fd0e50"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+            "git_blob_oid": "cf94139d5151fa01333aa7a432acbacbbb095aac",
+            "git_bytes": 24861,
+            "git_sha256": "345a31b9ca1520489da56f233fd9663ebff0dd0c14af3bfa549d671c67fd0e50",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb')",
+      "stable_event_id": "af119951c18c765c0877311e5dcc3eeb18fcdf213fff9078f22d571e8a06866d"
+    },
+    {
+      "change_id": "DIAGNOSTIC-031",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "404c2f2c19081d1491e2b76dddfa89867fe79fe8233e1b8cf70d0f356bed7afc",
+      "current_message_sha256": "fb8b3cec26bad71799d88e1473f12f8f1eee51d960af081c8260dc2dcc0e3cb9",
+      "before_trace_sha256": "b7ea331cd4f04ea0071976e7dab23c505907c4d1cf978c1886348beac4a474ed",
+      "current_trace_sha256": "3ab9ef97be5253d684ef4c46c0fa67e94c7e3f41657cc028407650e9a1297698",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+          "before_sha256": "c8420c2c62bc80cb55d57ce6846ece8b5ed283220ef4e5a22451801591c4e088",
+          "after_sha256": "ea60e3cfcd2b6e69235045ba3e8a7f92b7c4fb2f2437639f295b2b1bd33d17bc",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+              "bytes": 22371,
+              "sha256": "c8420c2c62bc80cb55d57ce6846ece8b5ed283220ef4e5a22451801591c4e088"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+              "bytes": 21980,
+              "sha256": "ea60e3cfcd2b6e69235045ba3e8a7f92b7c4fb2f2437639f295b2b1bd33d17bc"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+            "git_blob_oid": "3a90adb1bb37a1986d1e40c0f59b6681bcd1796f",
+            "git_bytes": 21980,
+            "git_sha256": "ea60e3cfcd2b6e69235045ba3e8a7f92b7c4fb2f2437639f295b2b1bd33d17bc",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb')",
+      "stable_event_id": "b88998a6501fceec7da7ab6d1dd80e86ca3c2728a30695d0612b2d07f3da7c76"
+    },
+    {
+      "change_id": "DIAGNOSTIC-032",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "68ecfc9a4cb4076c864236f204f7b4d6baca6e83cd9037a6c77398c5b2111ff8",
+      "current_message_sha256": "1e1afbfac11570504bf981696c629091c45a985d24ed3f341e2b2d2e981e7c57",
+      "before_trace_sha256": "bb76f5ded287373adca377b753a01a63521c1c01a6fd081e331c2af47442f6a1",
+      "current_trace_sha256": "e61640b205ee3c79572d6a13f0539e8613530db76a6e703f02543124c57cc88b",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+          "before_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727",
+          "after_sha256": "5b2d5392505829536a2f6f21622f23d4b433617135ce5d3679b73c3011c00a83",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+              "bytes": 7635,
+              "sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+              "bytes": 7498,
+              "sha256": "5b2d5392505829536a2f6f21622f23d4b433617135ce5d3679b73c3011c00a83"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+            "git_blob_oid": "35b97948b6c565591e58f10cdbb1237ba6428dcd",
+            "git_bytes": 7498,
+            "git_sha256": "5b2d5392505829536a2f6f21622f23d4b433617135ce5d3679b73c3011c00a83",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb')",
+      "stable_event_id": "d759028b1a860e8c42a257326fce38823fe78e054dbed5a35b197916f50bb51f"
+    },
+    {
+      "change_id": "DIAGNOSTIC-033",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "9ccd75a919865f506bb0b264a68822a6c6b3e8020a225ea9c8cfca041bdfb914",
+      "current_message_sha256": "af9ad5e83a4645bf89a958dd9df15f41133a8f35bfb0426cdcdba5aaaf1f4962",
+      "before_trace_sha256": "6d65caa831e6612337477fb85f4fdeaf8deda5fad261f84e965280c3ef811c20",
+      "current_trace_sha256": "ca61e530199dc11d871168e6dee50896df4da20396dad100dd9fe06f0149d9e5",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+          "before_sha256": "0b93866862d987ae4563c31b8ce1a1a8b7e9d644cdbabfb04b6052f7ada66978",
+          "after_sha256": "e136e56245c0d6040b893cfb2baca83ce7ed5a10150c3678419fdc1a831fa865",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+              "bytes": 14006,
+              "sha256": "0b93866862d987ae4563c31b8ce1a1a8b7e9d644cdbabfb04b6052f7ada66978"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+              "bytes": 13741,
+              "sha256": "e136e56245c0d6040b893cfb2baca83ce7ed5a10150c3678419fdc1a831fa865"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+            "git_blob_oid": "56b0e08ade0479f34155c68e37a0d41f7a6a4d91",
+            "git_bytes": 13741,
+            "git_sha256": "e136e56245c0d6040b893cfb2baca83ce7ed5a10150c3678419fdc1a831fa865",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb')",
+      "stable_event_id": "d37955a6d238eeaf7d3d4767ff4521e16f6ff56cd4f75d5ec689cab9f8f99f33"
+    },
+    {
+      "change_id": "DIAGNOSTIC-034",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "ffe1c1cbd32e14a7b0fcf04995aad68c95271738c9cbcea1628ff5660926cf02",
+      "current_message_sha256": "04d669806e58b169b6183aecf0dc6d9ae83a3e53fa07239624548e5c30a10bac",
+      "before_trace_sha256": "72afb3ca1e57bc532d6aa12c5da3d5f863ad573b28e7915d4b63680868ed0362",
+      "current_trace_sha256": "1423ab7307152d7851d3ccb0c0776399249dd929a846714430c4832880551b8e",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+          "before_sha256": "88b4a4b2d3f45277d87d506762e9cc0f81ba4f00ee8307810e1429c824810322",
+          "after_sha256": "dd30e243619e7884f7b71da7c947677d91fcd86cb1bcc7eb3b595135406197d7",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+              "bytes": 10401,
+              "sha256": "88b4a4b2d3f45277d87d506762e9cc0f81ba4f00ee8307810e1429c824810322"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+              "bytes": 10177,
+              "sha256": "dd30e243619e7884f7b71da7c947677d91fcd86cb1bcc7eb3b595135406197d7"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+            "git_blob_oid": "d926f068445c39984634711124bf1724134a4182",
+            "git_bytes": 10177,
+            "git_sha256": "dd30e243619e7884f7b71da7c947677d91fcd86cb1bcc7eb3b595135406197d7",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb')",
+      "stable_event_id": "e6b442ac0fd1a16e7d3b916f75c574d05bad887739776215b3fc016a7a731fa6"
+    },
+    {
+      "change_id": "DIAGNOSTIC-035",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "473a49411e1cd1601908abdf9e517fb8f4ce5d13d85e11c090c46d269e285c38",
+      "current_message_sha256": "ddd09216fd7f11890a89effac33f954198e256e857060194dc1c9131d2d970f5",
+      "before_trace_sha256": "c2848a4d7f98ced18e837788c70d100243f9f707f5ad2b3a84e798d034cc97d0",
+      "current_trace_sha256": "b712fd34feeb8f7c13d16785263b9a92a6313b86b79c33becaa3779bb8a96008",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+          "before_sha256": "a8be297be0121682449eb913f0d5f13c35bb9e74f920e131d6e527b6ee17e78f",
+          "after_sha256": "9530005d124e24d551a417b6d0c66f359426de565f6cd819206021f98b7b02cd",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+              "bytes": 5369,
+              "sha256": "a8be297be0121682449eb913f0d5f13c35bb9e74f920e131d6e527b6ee17e78f"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+              "bytes": 5251,
+              "sha256": "9530005d124e24d551a417b6d0c66f359426de565f6cd819206021f98b7b02cd"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+            "git_blob_oid": "7667426570780c316721af67fbbf3506ca718e28",
+            "git_bytes": 5251,
+            "git_sha256": "9530005d124e24d551a417b6d0c66f359426de565f6cd819206021f98b7b02cd",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb')",
+      "stable_event_id": "9acd28839a5b8afb01ef282cb7767f64c14ae335d22f04846466ff388fb3934c"
+    },
+    {
+      "change_id": "DIAGNOSTIC-036",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "8d9bf4705a138f5acb782f34c9636b1b487cf17dd517ed17fb0b61623d92a9a2",
+      "current_message_sha256": "7d300f0bc0f88041b76b9bda696dfd8d75c490d4d6dceb4403577afca1fd6047",
+      "before_trace_sha256": "422d4e6af804b7f62cc34183261dd66bd45749ad075ceef9d7284aead6c21130",
+      "current_trace_sha256": "8386f394fec1bd34f854c80cc0baecb42224b4157bd05aac7c8c4d2a98a9ebf6",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+          "before_sha256": "49daf2c93f4a7e851fe2047ed083b2801bfa77aadeacc72337faf3dd2715ea2b",
+          "after_sha256": "7f326a6e2bee03907a17e5f26b661cf1c1616822d53986f491fef56121b29582",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+              "bytes": 5969,
+              "sha256": "49daf2c93f4a7e851fe2047ed083b2801bfa77aadeacc72337faf3dd2715ea2b"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+              "bytes": 5858,
+              "sha256": "7f326a6e2bee03907a17e5f26b661cf1c1616822d53986f491fef56121b29582"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+            "git_blob_oid": "707382f59ad61c3a2f269204afdb88bc77e825e2",
+            "git_bytes": 5858,
+            "git_sha256": "7f326a6e2bee03907a17e5f26b661cf1c1616822d53986f491fef56121b29582",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb')",
+      "stable_event_id": "dfc36180081a321e5ad51d5ecdba192df1e589c3bc3053d75e296ab2d685941c"
+    },
+    {
+      "change_id": "DIAGNOSTIC-037",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "7532df1a4d93e2d7932e0a872da2285b82a703bc2bba5fbdd1872b4d96349b6f",
+      "current_message_sha256": "42b6a857eba4cfcb2bb16de71c31837231c1e8a20efbefa4acc909b96ea1b0ab",
+      "before_trace_sha256": "bf02371f02c4d5682a6295a703fed6c9c855e9ee6bdb2301e687ec50d81705fb",
+      "current_trace_sha256": "91dead9c3183dd8ba76d56237992745a7ce81f6d449565eafd7b46f0e306687d",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+          "before_sha256": "18ce6e4d3945decad013427213a3f10072a519b7c7eb54a985ba990f70083a52",
+          "after_sha256": "f0a6386fda9aef168b268db03d51d95cdca3fa8ab04cc13f575b48a342fe0c46",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+              "bytes": 8532,
+              "sha256": "18ce6e4d3945decad013427213a3f10072a519b7c7eb54a985ba990f70083a52"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+              "bytes": 8354,
+              "sha256": "f0a6386fda9aef168b268db03d51d95cdca3fa8ab04cc13f575b48a342fe0c46"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+            "git_blob_oid": "cac6f72ab8a0a313c65032e1665b1fbf6141e413",
+            "git_bytes": 8354,
+            "git_sha256": "f0a6386fda9aef168b268db03d51d95cdca3fa8ab04cc13f575b48a342fe0c46",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb')",
+      "stable_event_id": "129f8dd7ef96512cfae0c77837bcf78fbd54e630331d26c30dcc8552c914d6a7"
+    },
+    {
+      "change_id": "DIAGNOSTIC-038",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "7b3d8339475fc3094eaa364c671be29c1c65b090ffa376a5cb406138e6b2f762",
+      "current_message_sha256": "50119efec500fcf073f298434979fb1f35636c45afa18295ab241891a75f1add",
+      "before_trace_sha256": "5c724b2ca4328ef20a0b63188fdfc2169fabad6d105455895238badc2c9ef4cc",
+      "current_trace_sha256": "d69b912808200d051c3e6db5be9a3aa7cbe9de8ebfb2ba520eee7a3f9a3d669d",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+          "before_sha256": "124cfecf3537e62902d5e3861f01687e4b7230fa0eb84dcd94bea7f4828fea64",
+          "after_sha256": "f976b44dceda3fc7c2102b59025a28addedd26dec1e60905712463da93edcceb",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+              "bytes": 2151,
+              "sha256": "124cfecf3537e62902d5e3861f01687e4b7230fa0eb84dcd94bea7f4828fea64"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+              "bytes": 2109,
+              "sha256": "f976b44dceda3fc7c2102b59025a28addedd26dec1e60905712463da93edcceb"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+            "git_blob_oid": "313f10803984353961b6afd282e07dd63873cfea",
+            "git_bytes": 2109,
+            "git_sha256": "f976b44dceda3fc7c2102b59025a28addedd26dec1e60905712463da93edcceb",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb')",
+      "stable_event_id": "17bd62e8b7060cc1384b95f9273b4d4d9aec669396d04918a8d50dc14647ef24"
+    },
+    {
+      "change_id": "DIAGNOSTIC-039",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "6c9eaeeaf145db671472d78db0343d38e9804bb41afd5afbb2881fd0602167c5",
+      "current_message_sha256": "7bc7829c5a2a2bc867f827766207d0acee804efebc84686bf728db1fdba42784",
+      "before_trace_sha256": "c7cd96092169e39835c227d9ba23777d9a6da254fded1ef0610ab16a4b32c287",
+      "current_trace_sha256": "099040185e91c7b33b496621090393a3da26bf5565dbcb1a064799ab8be1ee0b",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+          "before_sha256": "b5cfeedf89941f8d01338620bd4fa1cd5ad5442602c45645b16b1d66adac26c4",
+          "after_sha256": "f17f46d678b16804ddeb3cf0d7524909d8b25d913169e9277b797440ece5ac5a",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+              "bytes": 7013,
+              "sha256": "b5cfeedf89941f8d01338620bd4fa1cd5ad5442602c45645b16b1d66adac26c4"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+              "bytes": 6888,
+              "sha256": "f17f46d678b16804ddeb3cf0d7524909d8b25d913169e9277b797440ece5ac5a"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+            "git_blob_oid": "2b5bfe97798333e09d456d29e7e3d7ad65f2fe51",
+            "git_bytes": 6888,
+            "git_sha256": "f17f46d678b16804ddeb3cf0d7524909d8b25d913169e9277b797440ece5ac5a",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb')",
+      "stable_event_id": "a6139576d4bfb1f728bd6e221d10a74c04b3110f5cf5e814e5c000d76cc69fdd"
+    },
+    {
+      "change_id": "DIAGNOSTIC-040",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "913bccef4c0e73f9473b3e7e16f768b348de6e01bb1626cec1e841eb996e3563",
+      "current_message_sha256": "f0fc22748f61b55b922fdaa65b7d0cb65c6d7364106c27d886e101ae6b708569",
+      "before_trace_sha256": "7e0a3f07f25d5a3cf277d63ea16c5843d54c384ddb5bfabc4cd9574de9899ebf",
+      "current_trace_sha256": "2d26796db91b5ef664117b287681af580f0aed5e028bec794b83240a50cc7c0b",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+          "before_sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a",
+          "after_sha256": "30cd312196e97e9f23cb2ba0ca3e104e68465de8e519870b2e44aec035e57eea",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+              "bytes": 1102,
+              "sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+              "bytes": 1074,
+              "sha256": "30cd312196e97e9f23cb2ba0ca3e104e68465de8e519870b2e44aec035e57eea"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+            "git_blob_oid": "f3640718b05ae1329336231e921c2917feeff6f5",
+            "git_bytes": 1074,
+            "git_sha256": "30cd312196e97e9f23cb2ba0ca3e104e68465de8e519870b2e44aec035e57eea",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb')",
+      "stable_event_id": "92587977d94b8d2ba5731525759889fc11567dc4af7b885044b4df77405ea9d8"
+    },
+    {
+      "change_id": "DIAGNOSTIC-041",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "ab5544650fcbce1af71e5131d0fe027ec7d37eb4246cfec1bcfb8c6e0a530177",
+      "current_message_sha256": "7c178635bf147a959df02cfbd823674d0bac8fab47c1929a27fc82838635817f",
+      "before_trace_sha256": "25edd8e6190ab570438315b4361ace8a0c9e88dfb5e83dca466e960f7455d2e9",
+      "current_trace_sha256": "0b529a9f9e96a15eedcf6f7dad893a9b932090e3d1c5073a3cdf61736f44e6d3",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+          "before_sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526",
+          "after_sha256": "351b4edbffe0a74dd711ccb6592e4253db6a5dae0635b1886b83f20673491483",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+              "bytes": 19571,
+              "sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+              "bytes": 19196,
+              "sha256": "351b4edbffe0a74dd711ccb6592e4253db6a5dae0635b1886b83f20673491483"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+            "git_blob_oid": "eba42205a220036aa974734087e6bd1c1520c9fc",
+            "git_bytes": 19196,
+            "git_sha256": "351b4edbffe0a74dd711ccb6592e4253db6a5dae0635b1886b83f20673491483",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb')",
+      "stable_event_id": "2c3533d45e53d5b001778477a48171fb4e098ba9758a67821a93628a77ba13c3"
+    },
+    {
+      "change_id": "DIAGNOSTIC-042",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "7e46818c4e08bcf0cb359cf6e8d25e152f293bd2528de84f6edf11e32a956a28",
+      "current_message_sha256": "ccffa0c4318f6573a4e8ec2d66231e52775395b21935ee65e1d5e797460ee774",
+      "before_trace_sha256": "a59f53f3a6d4baf8ab6304da73c96a52eb99cc8b23f2f9e49a81dbc1191c838d",
+      "current_trace_sha256": "58276486b72eed2b9be0eccdfc27c02d34edde0392d5a012d9fa2351b0fa8301",
+      "test_source": {
+        "path": "scripts/tests/test_04a28_output.py",
+        "bytes": 8219,
+        "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+      },
+      "test_line": 25,
+      "test_end_line": 29,
+      "assertion_source_sha256": "1fa1870ae4f4cbab12d075e30b9d144bce55dbb646a2a0ff18762547cb76230d",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+          "before_sha256": "779ff2e9d5814a0eb2efbfb99a2a0a601b59462e954ec94528d2c8e62f03eab6",
+          "after_sha256": "f93dd269d967c369a8d54d4aebb60a5e4fa81aa413f0acd706780a517e8f7920",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+              "bytes": 7285,
+              "sha256": "779ff2e9d5814a0eb2efbfb99a2a0a601b59462e954ec94528d2c8e62f03eab6"
+            },
+            "current": {
+              "path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+              "bytes": 7172,
+              "sha256": "f93dd269d967c369a8d54d4aebb60a5e4fa81aa413f0acd706780a517e8f7920"
+            },
+            "git_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+            "git_blob_oid": "d00bc534b177fc944096127ca3f12d824f724ce7",
+            "git_bytes": 7172,
+            "git_sha256": "f93dd269d967c369a8d54d4aebb60a5e4fa81aa413f0acd706780a517e8f7920",
+            "git_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY",
+            "live_classification": "OWNER_AUTHORIZED_LINE_ENDINGS_ONLY"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb')",
+      "stable_event_id": "c13e2f36a3f78867f8ba6a45eedd109901f4273eb3264791e559ea942b31206d"
+    },
+    {
+      "change_id": "DIAGNOSTIC-043",
+      "identity": "test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "3afb77fbe4e0f938cc3feca99a642790a6ed3b9ba44f1bfeecc001c4af5ec214",
+      "current_message_sha256": "809e6d946c53f4641431223f05ca951784ebf3ecd821357169340a33c29e8866",
+      "before_trace_sha256": "42dddc5361b2f9a990fe0cb4967ce330e32dc4007ac0969bd54756dae3edfa2a",
+      "current_trace_sha256": "6ea1bd065bb588251ce6b2618e25039c2d9189c2fdf0cd55b645e3a62da12a0c",
+      "test_source": {
+        "path": "scripts/tests/test_04a15_fitting.py",
+        "bytes": 5180,
+        "sha256": "393ff03ddff0d05d15ab61835825c0b8dabd4013710bdb80e5ba99504c78385d"
+      },
+      "test_line": 15,
+      "test_end_line": 21,
+      "assertion_source_sha256": "655e37773ad352067f1cc35b0407afc8ad9cedcb0dabd8c45df5e66e11f2f520",
+      "cause": "HISTORICAL_BRANCH_ASSERTION_CURRENT_BRANCH_CHANGED",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "5b7a61de09ef72b7015cef27e14ece3e8aace63763f4838e3bc643ce2a04cab2"
+    },
+    {
+      "change_id": "DIAGNOSTIC-044",
+      "identity": "test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "e94f02b3affbfe330f161b03569bc3c6732f8311b5ae013cae8e395d75c1f5c1",
+      "current_message_sha256": "90589ec4b6d8f31338da4a55663712ccb2f6e52bd2a1de263ce7c2dd9a1938bd",
+      "before_trace_sha256": "f450f0ab32fb5a3ccdda3441a8fe79f1251511a5850d2a8b6d32a2ea099236ff",
+      "current_trace_sha256": "632d8c016cd3d1d94e1758f9130a2c177f2c35e063971b58ca41a432cf334000",
+      "test_source": {
+        "path": "scripts/tests/test_04a16_post_estimation.py",
+        "bytes": 8710,
+        "sha256": "4c1384ee83aa78f6893221e6fcaf926880e400ea2c82b597e65e7923035a5984"
+      },
+      "test_line": 15,
+      "test_end_line": 21,
+      "assertion_source_sha256": "dfb4c9ad4d40bbaf690a022c4bf088a5c8e24d8a9e4500d5eef9b8a21a6991cc",
+      "cause": "HISTORICAL_BRANCH_ASSERTION_CURRENT_BRANCH_CHANGED",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "aa096a454cd4bede20cd3be8f22aea36975ec79dd6116e07753995e99f67eb96"
+    },
+    {
+      "change_id": "DIAGNOSTIC-045",
+      "identity": "test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "a656e890941cdae91c3732e30c4de90ee73c4bfb33fa74622ac2f71f2b047cde",
+      "current_message_sha256": "18672027e36c9bc32fc18e4d89fb5b976c392c211951753307bc2246fe7155c8",
+      "before_trace_sha256": "ea024904627d7b9836721761831838f6bb5345e2957cd59b3511660ba0e11f72",
+      "current_trace_sha256": "c83cbcff03a8d9b7212d06a6e6b2a44a1d1a6189983c21011d62418807c5d6a2",
+      "test_source": {
+        "path": "scripts/tests/test_04a18_projection.py",
+        "bytes": 7203,
+        "sha256": "53e1b4e323b682dedcb64df3fc1e90a04faeb3a146314f4bb1330c00c594716e"
+      },
+      "test_line": 19,
+      "test_end_line": 27,
+      "assertion_source_sha256": "a424b259ea24d48df56a08634ac57e486149eafe4bb2aafe6a0fd9496a1f3988",
+      "cause": "HISTORICAL_BRANCH_ASSERTION_CURRENT_BRANCH_CHANGED",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "826469c175100d61f75cfde25207bebcb6c6033eded38c24ab4a1171f7e0fed9"
+    },
+    {
+      "change_id": "DIAGNOSTIC-046",
+      "identity": "test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "763d210a96b22d18b4c1616afba9d179760006d1acd9d8833863b3c90156ed86",
+      "current_message_sha256": "674b6c865d1f8f36a79aa60eb9248dd152922496d33556d049036ee6cc75ba74",
+      "before_trace_sha256": "fa94a4cfc75d2200675291759cfb4c4373e60d8ea75691071422788e4d3f6c6a",
+      "current_trace_sha256": "3e4384757d214f5638b3511d95aaa18b10535dbc5564f19cef22958be4d659c1",
+      "test_source": {
+        "path": "scripts/tests/test_04a19_clustering.py",
+        "bytes": 10215,
+        "sha256": "565f5a4071b7a3d319614f5d4000d66c696c2832433ff39062d46885dccf703e"
+      },
+      "test_line": 18,
+      "test_end_line": 24,
+      "assertion_source_sha256": "262576fc27173111034d73b16c04cf9166f45c444c75fde62c4edfda8a0c9e23",
+      "cause": "HISTORICAL_MAIN_ASSERTION_ACCEPTED38_MERGE",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "27e181b57d15fc35e51144096cdde0a7818f174864d3502a8beb4ed9e449ac44"
+    },
+    {
+      "change_id": "DIAGNOSTIC-047",
+      "identity": "test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "8cfe2ce00f03c2b65601a806af176375b136b0b772c64100c8dc8714c865286f",
+      "current_message_sha256": "a3d58bfe8321e896af9714edcf96100a8f221a1596e0f1522869b71bf04cfe24",
+      "before_trace_sha256": "c6ecd7d60c5ec9a11af2dcad3d7d63a464e97a2856d6ce438387287aa9bb2179",
+      "current_trace_sha256": "730d47b73eee555af6a0661659f0d9f1eb45fa6946f492d4d2db83f46a44638a",
+      "test_source": {
+        "path": "scripts/tests/test_04a21_spc.py",
+        "bytes": 13212,
+        "sha256": "46858710327c0e3e34d142afa61a3456a1d805d3ebc7d5481ac4c84680d38693"
+      },
+      "test_line": 23,
+      "test_end_line": 29,
+      "assertion_source_sha256": "b1fc6f7f3d579357e7ac6a61226f93630085485746235d74570e511ec9f3cabb",
+      "cause": "HISTORICAL_MAIN_ASSERTION_ACCEPTED38_MERGE",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "249489ad4906b2d9479e24d92fcdcbde246bf13ec24274470a60a476137e3668"
+    },
+    {
+      "change_id": "DIAGNOSTIC-048",
+      "identity": "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "a0a4ca776c3adfe80c5da7d947bfe714860f0af8e2c44eff487d75ce01a13c89",
+      "current_message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+      "before_trace_sha256": "6d94635ac26563ccc7be82b81741ac789754e457eda2977f8c25a3aa3f720d59",
+      "current_trace_sha256": "8e7fb2d8ebc8e34e9476614c123d8c47dac27c845e03f3908920e31a3b681298",
+      "test_source": {
+        "path": "scripts/tests/test_04a22_spc.py",
+        "bytes": 9384,
+        "sha256": "7654f6e2b47b6a19bbb994a1d23470036d54fe0b7090969906289b7247c3e3bb"
+      },
+      "test_line": 138,
+      "test_end_line": 141,
+      "assertion_source_sha256": "c6d3ee4c71900893fda26b9a441929f8949d49dc4aadacd86493061aa2b91fef",
+      "cause": "TRACKED_DIFF_SCOPE_CHANGED_AFTER_ACCEPTED38_MERGE",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "delegated_producer": {
+            "path": "scripts/verify-04a22-publication.py",
+            "bytes": 7473,
+            "sha256": "20c17d6274c9049f366b23cfde890f3beb1277743bb37fa0e66a3b891f9599c3"
+          },
+          "proof": "Exact test calls this verifier; its candidate function reads tracked Git diff."
+        },
+        {
+          "expected_current_tracked_paths": [
+            "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+            "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+          ],
+          "remaining_assertion_set": [
+            "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+          ]
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "6644c234de4ce0b1185b4399724e0440ef6f061be9d00d1ece542740d96a00d4"
+    },
+    {
+      "change_id": "DIAGNOSTIC-049",
+      "identity": "test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "a0a4ca776c3adfe80c5da7d947bfe714860f0af8e2c44eff487d75ce01a13c89",
+      "current_message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+      "before_trace_sha256": "993d926191a50bd12634d3ce9ca0131936ab5199420c1317d7fd114e36416e05",
+      "current_trace_sha256": "7d90bc94506f9bd4aa7583707c9a7983840e6ecf23433c9c786a4960fb0801cb",
+      "test_source": {
+        "path": "scripts/tests/test_04a24_multivariate_payload.py",
+        "bytes": 14011,
+        "sha256": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461"
+      },
+      "test_line": 194,
+      "test_end_line": 196,
+      "assertion_source_sha256": "edb92e883468e373eb9ba6526e1b67707566d515d1162a45171f6df031068b29",
+      "cause": "TRACKED_DIFF_SCOPE_CHANGED_AFTER_ACCEPTED38_MERGE",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "delegated_producer": {
+            "path": "scripts/verify-04a24-publication.py",
+            "bytes": 6996,
+            "sha256": "640d86cb3dcee8e7ff2c81eb673438abbe10c39e47d1820671a2e123a1890da4"
+          },
+          "proof": "Exact test calls this verifier; its candidate function reads tracked Git diff."
+        },
+        {
+          "expected_current_tracked_paths": [
+            "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+            "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+          ],
+          "remaining_assertion_set": [
+            "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+          ]
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "ad9d8e16c05fabda6b8df221127d008bcc2506dd42b3883c2bdc88497123e7af"
+    },
+    {
+      "change_id": "DIAGNOSTIC-050",
+      "identity": "test_04a11_publication.Publication11Tests.test_accepted_dossier_and_dormant_patches_unchanged",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "d2fb7687316d22e6360361c2b21a9d7de4ea82045ece781deae97dedff2a718f",
+      "current_message_sha256": "7322e1f001840cb5eed19c3a66e32066d5877e2b1b44cfb95cc70f150f34726d",
+      "before_trace_sha256": "ec16ea6cf1487599f0d7a3335b197a0c28c4d9f040b8d59c90911ba00d5d1c6b",
+      "current_trace_sha256": "4304808d189a4e0670e5211b961cc3a6e75ad3f59cf68a79efd5478902cbec9a",
+      "test_source": {
+        "path": "scripts/tests/test_04a11_publication.py",
+        "bytes": 4164,
+        "sha256": "4be50a31f8aa0b48e5c96afdb957e2f2b9c71f6933a879413d2b2da7b896604e"
+      },
+      "test_line": 64,
+      "test_end_line": 67,
+      "assertion_source_sha256": "2606aa17a1d56092ee18de307353a9445ad5174e8259eee86faf3a2b65723927",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+          "before_sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6",
+          "after_sha256": "fc7282b42107c21b3b05686ba2328b2caf871d5ddef471487887180b6c6cda07",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "bytes": 34861,
+              "sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6"
+            },
+            "current": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "bytes": 34861,
+              "sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6"
+            },
+            "git_path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+            "git_blob_oid": "698435e5842cd327ff4e4d551bde2ac4691402ef",
+            "git_bytes": 34861,
+            "git_sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6",
+            "git_classification": "EXACT_BYTES",
+            "live_classification": "EXACT_BYTES"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "594d166420e90d1018e1e480db6d9a7cf15a5db99ea773a7e7969452d5baa9a0"
+    },
+    {
+      "change_id": "DIAGNOSTIC-051",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "989eabd4f02e1b3d3607aebad42a5690d7fdc8405d72b52ade485a76b19c0f58",
+      "current_message_sha256": "ced9310a49e2d00b4bfc2a73243916208b0ccfd99339064da1f0f37a11a1197c",
+      "before_trace_sha256": "10b46e88a17e08c812d1faa3fd70c0f7ebaf0376b8ac135f41281a63f73e0471",
+      "current_trace_sha256": "f93ee8dbf2f3d983d0b7cf0c90ddf9d393e6b47b00404395b5c5044d28e2cf5b",
+      "test_source": {
+        "path": "scripts/tests/test_04a13_survival_workflow.py",
+        "bytes": 10622,
+        "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+      },
+      "test_line": 25,
+      "test_end_line": 30,
+      "assertion_source_sha256": "7fd13befc0165ecc4d8acb6a7963c0355dd36bdb12a91727e0c8d1db81446560",
+      "cause": "HISTORICAL_BRANCH_ASSERTION_CURRENT_BRANCH_CHANGED",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "83a2fc8d7b2cf0c7f1c9d93c8a70cbf7bb41895a09c92531c3401cbf11b1b5e5"
+    },
+    {
+      "change_id": "DIAGNOSTIC-052",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_successor_pins_and_members_reconcile_to_actual_forms",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "fdf901585d65cefe15c0baac7d1f7af03fc74f029828fa164c621bcfef63855a",
+      "current_message_sha256": "5d304966d1a3ac3fd5d11adebc21b2f40def4b4344e930553fb52a872ca35b30",
+      "before_trace_sha256": "0515d0a4434bc8cd3145ed8d58ddfebcddeefee7aadc04b10a58d27edf642665",
+      "current_trace_sha256": "96a3ed292c264273b9900095c0ab2a379e16566f8abf247b95e661df815252bc",
+      "test_source": {
+        "path": "scripts/tests/test_04a13_survival_workflow.py",
+        "bytes": 10622,
+        "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+      },
+      "test_line": 38,
+      "test_end_line": 47,
+      "assertion_source_sha256": "850cbb3343066bb0fe29dec7a8bb2033510386b7afafc1423634efd58cbc8f55",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+          "before_sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6",
+          "after_sha256": "fc7282b42107c21b3b05686ba2328b2caf871d5ddef471487887180b6c6cda07",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "bytes": 34861,
+              "sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6"
+            },
+            "current": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "bytes": 34861,
+              "sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6"
+            },
+            "git_path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+            "git_blob_oid": "698435e5842cd327ff4e4d551bde2ac4691402ef",
+            "git_bytes": 34861,
+            "git_sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6",
+            "git_classification": "EXACT_BYTES",
+            "live_classification": "EXACT_BYTES"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "88b7673c2f8b9fdf56e3acb94620f5c4e3d7139a5657e9835a41dc3127823de8"
+    },
+    {
+      "change_id": "DIAGNOSTIC-053",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "d5244aa086ec9d2fc9e50c6a658462ccad32c423e3cb8100e5c66946611d2498",
+      "current_message_sha256": "57901a66253d21dd4de7c3d18745d605a715d5f11f2397daf9574d68ba53662b",
+      "before_trace_sha256": "a2b15ff4d6249406b9451b6e5ab91f9280c01f05e21ca7fff8601f8cc1b3d812",
+      "current_trace_sha256": "d9ff9f263ee3ff7a59a12e2f320e9f29a6c15e848fa6b208b27fc68398f6c521",
+      "test_source": {
+        "path": "scripts/tests/test_04a14_mixed_workflow.py",
+        "bytes": 14339,
+        "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+      },
+      "test_line": 21,
+      "test_end_line": 26,
+      "assertion_source_sha256": "5398e277e07822948840f0d86ccc8462b2fc89866ee9ff7e6ba3d559c7d2225c",
+      "cause": "HISTORICAL_BRANCH_ASSERTION_CURRENT_BRANCH_CHANGED",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "4355ed2b39fdb390d2f1f22bd96d970eb6c77e38a7bc88de25da2dd698327ac8"
+    },
+    {
+      "change_id": "DIAGNOSTIC-054",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_original_members_and_successor_pins_are_reconcilable",
+      "occurrence": 0,
+      "before_outcome": "FAIL",
+      "current_outcome": "FAIL",
+      "before_message_sha256": "a8af748b1b1ac73610a6080408cf1e485faa49177b8e61d268f21c7d9664b0aa",
+      "current_message_sha256": "2bb08c389e1f932c0b71b07b9e7c90ee73da931b603f538041ed0e972f35061b",
+      "before_trace_sha256": "a53102b26045e283b86fccf8a7474aa7c531262f50369a560c61bac84f0ee73d",
+      "current_trace_sha256": "ae43279a0d8bdf12dea12b2c48dcf1c930102b5475c867d901b344735f895f7f",
+      "test_source": {
+        "path": "scripts/tests/test_04a14_mixed_workflow.py",
+        "bytes": 14339,
+        "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+      },
+      "test_line": 38,
+      "test_end_line": 50,
+      "assertion_source_sha256": "94e4690b9047296b766b2f0a1d6f02cd714f1e0e5ddc9475dad6ba309736f4db",
+      "cause": "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES",
+      "trace_difference_only_assertion_message": true,
+      "bindings": [
+        {
+          "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+          "before_sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6",
+          "after_sha256": "fc7282b42107c21b3b05686ba2328b2caf871d5ddef471487887180b6c6cda07",
+          "disposition": "OWNER_AUTHORIZED_LINE_ENDING_CHANGE",
+          "lineage": {
+            "accepted": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "bytes": 34861,
+              "sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6"
+            },
+            "current": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "bytes": 34861,
+              "sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6"
+            },
+            "git_path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+            "git_blob_oid": "698435e5842cd327ff4e4d551bde2ac4691402ef",
+            "git_bytes": 34861,
+            "git_sha256": "0c271c41a80106a7358db07278194214ec98658115d92bbf6e6c08f911911fe6",
+            "git_classification": "EXACT_BYTES",
+            "live_classification": "EXACT_BYTES"
+          }
+        }
+      ],
+      "functional_behavior_change_detected": false,
+      "disposition": "EXPLAINED_SOURCE_BOUND_DIFFERENCE;ORIGINAL_FAIL_UNWAIVED;NO_EXPECTATION_CHANGE",
+      "subtest": null,
+      "stable_event_id": "0ad3ef8fca2edbe4ebbd22fc6505f8bf692dc5ebbb6f667d41ec90f6cd9f8525"
+    }
+  ],
+  "cause_counts": {
+    "HISTORICAL_PIN_ASSERTION_CHANGED_BYTES": 43,
+    "HISTORICAL_BRANCH_ASSERTION_CURRENT_BRANCH_CHANGED": 6,
+    "HISTORICAL_MAIN_ASSERTION_ACCEPTED38_MERGE": 3,
+    "TRACKED_DIFF_SCOPE_CHANGED_AFTER_ACCEPTED38_MERGE": 2
+  },
+  "raw_authority": {
+    "path": ".test-rationalization-04A39-correction-v1.tmp/diagnostic-crosswalk-raw.json",
+    "bytes": 366492,
+    "sha256": "a3b8d5cbb36ed24f0ca9716caa560ad3698bae9fa345c6cbd8373222a7fdc306"
+  },
+  "reporting_changes": 0,
+  "runtime_only_changes": 0,
+  "new_functional_failure_evidence": 0,
+  "status": "54_EXACT_ASSERTION_DIFFERENCES_EXPLAINED_NOT_WAIVED",
+  "supersedes": {
+    "path": "evidence/04A39/correction-v1/diagnostics/changed-54-crosswalk.json",
+    "bytes": 125357,
+    "sha256": "a6ab6ff4b4eb2e725343b4f99e4c0854697708285ccb7e75677d0220075015d3"
+  },
+  "correction": "Added explicit subtest field to the event key. No message, trace, outcome or assertion changed. Original failed identity reader retained."
+}
