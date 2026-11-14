@@ -1,0 +1,20 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/native-metadata-owners-v2.txt",
+    "bytes": 1601,
+    "sha256": "c5b29cec2f30c4472546e5155cf54b16334a174b14210cebdf3beeefa65584d4"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/native-metadata-owners-v3.txt",
+    "bytes": 1653,
+    "sha256": "2b9d9374a0ec3470581f7dbbf997d87d530b099bbd6bb67aac6a11c891bff44a"
+  },
+  "added_owner": "BESHStatNG.regression.BinaryClassificationReporting",
+  "reason": "Four report methods now delegate to Common; two unchanged native private helpers no longer lie on those call paths. Explicit real-module roots preserve their method/field/ctor measurements and expose real GUI/Core forwarding edges. This is passive current-only metadata, not GUI/native execution or deletion.",
+  "retained_first_measurement": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/cohort-diagnostic-v1.json",
+    "bytes": 969536,
+    "sha256": "71c0aef2742810fe7b21f121d046f6be8b788bce16529301f39bf1426cc54bc4"
+  },
+  "original_queries": 0
+}

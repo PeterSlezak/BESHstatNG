@@ -1,0 +1,22 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v7/python_workers_v1.py",
+    "bytes": 14128,
+    "sha256": "483f1b3411edce7df39f02ae1178b8e3c561c1cc43efc946bfa2f6154edc2271"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/python_workers_v1.py",
+    "bytes": 16990,
+    "sha256": "867e69f8e0776203f91449d5f1042e78676dfdba2e0d1722e21f036a1c0b8bd2"
+  },
+  "known_disposable_cases": [
+    "test_clone_shaped_payload_reads_without_any_ignored_originals",
+    "test_corrupted_published_copy_fails_closed",
+    "test_development_reader_uses_local_original_even_when_publication_exists",
+    "test_duplicate_mapping_or_excluded_injection_is_rejected"
+  ],
+  "assertions_changed": 0,
+  "discovery": "Exact unchanged modules,956 actual cases; each assigned one logical lane and one phase. Unsafe4 run once in proven disposable source/fixture copy; C7 first blocked errors remain preserved.",
+  "schedule": "Five non-scanner lanes then four-case serial copy, then scanner parent plus at most five pure read-only helpers. Peak test/scanner workers <=6; no overlapping full managed campaign.",
+  "original_queries": 0
+}

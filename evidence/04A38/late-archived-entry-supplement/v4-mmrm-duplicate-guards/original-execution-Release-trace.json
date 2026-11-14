@@ -1,0 +1,55 @@
+{
+  "role": "original",
+  "configuration": "Release",
+  "mode": "trace",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/input-seal.json",
+    "bytes": 6084,
+    "sha256": "5a78297ef1b45c95f3c4f23dd079a9bcc55ec79c067f1ee27465f6a50bb59708"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 38400,
+    "sha256": "2d01c3ed2594796de23e6bb3911d9f8f764eefc3107ec89ed52ced1960178be6"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/trace/execution.json",
+      "bytes": 1019,
+      "sha256": "1b3752562028d8b8af27a53718d855ba77289801e61106de80ccf41a89deebeb"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/trace/results.tsv",
+      "bytes": 64486,
+      "sha256": "c41219aedcbb91614ae2f2c801edc19d08b6f89a0d05615889ac13d449323f05"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/trace/results.tsv.branches.json",
+      "bytes": 3359,
+      "sha256": "b16612ac637d601aa30a2df0da7860eccefb10089df045e42ace9224a107bee1"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/trace/results.tsv.sessions.json",
+      "bytes": 29607,
+      "sha256": "4ad4cc3c1bb0f38a1e1791b991d7443e1607b65a2624457ef0ecc5d8d412f9b8"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v4\\original-Release-trace-v2\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v4\\original-Release-trace-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\inputs-Release.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\original-results\\Release\\trace\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\original-results\\Release\\trace\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.5126466999936383,
+    "stdout_sha256": "5d37f4a223ad596de91c609f6e8ed7ba20ebb58157bbdfb9ec8dd85480c549d0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

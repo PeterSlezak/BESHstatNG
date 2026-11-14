@@ -1,0 +1,29 @@
+Friend Function TryReadPairedNumericColumns(x As Object, y As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
+        mat = Nothing
+        names = Nothing
+        If Not WindowsSpreadsheetTransport.PairedArgumentsAligned(x, y) Then Return False
+        Dim ax As Object(,) = Get2D(x)
+        Dim ay As Object(,) = Get2D(y)
+        If ax Is Nothing OrElse ay Is Nothing Then Return False
+        If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return False
+        If ax.GetLength(0) <> ay.GetLength(0) Then Return False
+
+        Dim hasHeaderX As Boolean = LooksLikeSingleColumnHeader(ax)
+        Dim hasHeaderY As Boolean = LooksLikeSingleColumnHeader(ay)
+        If hasHeaderX <> hasHeaderY Then Return False
+
+        names = New String() {
+                If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Sample 1"),
+                If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Sample 2")
+            }
+
+        Dim pairs As List(Of Double()) = ExtractCompletePairedNumericRows(ax, ay)
+        If pairs.Count = 0 Then Return True
+
+        mat = New Double(pairs.Count - 1, 1) {}
+        For r As Integer = 0 To pairs.Count - 1
+            mat(r, 0) = pairs(r)(0)
+            mat(r, 1) = pairs(r)(1)
+        Next
+        Return True
+    End Function

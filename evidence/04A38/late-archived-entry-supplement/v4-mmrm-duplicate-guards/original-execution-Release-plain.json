@@ -1,0 +1,50 @@
+{
+  "role": "original",
+  "configuration": "Release",
+  "mode": "plain",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/input-seal.json",
+    "bytes": 6084,
+    "sha256": "5a78297ef1b45c95f3c4f23dd079a9bcc55ec79c067f1ee27465f6a50bb59708"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 38400,
+    "sha256": "10efc90e041bc8af06d47813173c4cf7ebe6a53f44eb0accabd9cd4111fac311"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/plain/execution.json",
+      "bytes": 1019,
+      "sha256": "3b8f294f1fe565f204c9468208a078f2b27f8e352b785a7c40b562e2de659744"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/plain/results.tsv",
+      "bytes": 64486,
+      "sha256": "c41219aedcbb91614ae2f2c801edc19d08b6f89a0d05615889ac13d449323f05"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/plain/results.tsv.sessions.json",
+      "bytes": 29607,
+      "sha256": "51df98f765937eb5c7b3cb5e8747d30f328e02b00cee0dce597928242768ddb1"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v4\\original-Release-plain-v2\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v4\\original-Release-plain-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\inputs-Release.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\original-results\\Release\\plain\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\original-results\\Release\\plain\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.4981220999979996,
+    "stdout_sha256": "5d37f4a223ad596de91c609f6e8ed7ba20ebb58157bbdfb9ec8dd85480c549d0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

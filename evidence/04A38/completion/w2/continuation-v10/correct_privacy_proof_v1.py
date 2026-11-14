@@ -1,0 +1,4 @@
+from common import *
+source=(HERE/'prove_publication_privacy_v1.py').read_text(encoding='utf-8').replace('continuation-v9/prove_parallel_scan_v1.py','continuation-v8/prove_parallel_scan_v1.py').replace('continuation-v9/prove_publication_privacy_v1.py','continuation-v8/prove_publication_privacy_v1.py')
+with (HERE/'prove_publication_privacy_v2.py').open('x',encoding='utf-8',newline='\n') as f:f.write(source)
+save('privacy-proof-first-attempt-v1.json',dict(first=pin(HERE/'prove_publication_privacy_v1.py'),corrected=pin(HERE/'prove_publication_privacy_v2.py'),error='AssertionError: C9 generator sources contain no inherited positive under the base policy. The positive cache controls must retain their exact immutable C8 paths/hashes already present in the C9 physical receipt; no new exception is authorized or added.',production_test_changes=0))

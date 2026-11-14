@@ -1,0 +1,133 @@
+{
+  "status": "NOT_READY_04A38",
+  "W2": "IN_PROGRESS",
+  "W3": "NOT_STARTED",
+  "source_proposal": {
+    "historical_supported": 704,
+    "historical_OPEN": 0,
+    "current_supported": 726,
+    "current_OPEN": 0,
+    "support_supported": 303,
+    "support_OPEN": 0,
+    "new_historical": 97,
+    "new_current": 91,
+    "new_support": 32
+  },
+  "checkpoint": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/checkpoint-verification-v2.json",
+    "bytes": 2821,
+    "sha256": "0f2a4da869661f48040ac791cb848139af52e6385926029779e6759a807e5c16"
+  },
+  "private_actual": {
+    "status": "ACTUAL_ALL_PRIVATE_BYTES_FILESYSTEM_IDENTITIES_AND_PHYSICAL_ARCHIVE_SHA_PASS",
+    "manifest": {
+      "path": "evidence/04A38/completion/w2/continuation-v17/retained-private-preservation-v2.json",
+      "bytes": 15166162,
+      "sha256": "020e3af32efa041ff40b9e1e2a980c2589c32ef262b084028b7e5569c1e6ff82"
+    },
+    "reader": {
+      "path": "evidence/04A38/completion/w2/continuation-v17/private_preservation_v1.py",
+      "bytes": 5984,
+      "sha256": "a9998b2cceb17862801fe9612e5bbea2fe6849ef6a1d3b83ce60a2e492381aa7"
+    },
+    "actual_raw": {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont17/final-actual-private-preservation-v1.json",
+      "bytes": 7151388,
+      "sha256": "1e73b9cc52795c5cb187413fd5292c4e5838613a7c204d21d54cf7ef305388c9"
+    },
+    "private_pins": 29489,
+    "physical_archives": 141,
+    "historical_TestResults": "NOT_ENUMERATED",
+    "giant_aggregation": "STREAM_HASH_ONLY;NOT_PARSED_OR_IN_DERIVATIVE",
+    "original_queries": 0
+  },
+  "postseal_private_addendum": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postseal-private-addendum-v1.json",
+    "bytes": 18403,
+    "sha256": "4e1c2c29e8a602bb25c1802af0dd718304b6e90780a1a3ecb58bc66b750164e8"
+  },
+  "physical_transport": {
+    "status": "ALL_EIGHT_PHYSICAL_PART_AND_PAYLOAD_BYTES_VERIFIED",
+    "results": [
+      {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\verify_c17_transport_v2.py",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-review-parts-index-v1.json",
+          "<ISOLATED_RUN>\\completion-w2-cont17\\review-parts-v1"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 32.51484050000727,
+        "stdout_sha256": "1d06341529ae2ef5d5283c12f6658547961a64fab788d16f7e7c016aa47da5d4",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\private_preservation_v1.py",
+          "prepare",
+          "2",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-review-parts-index-v1.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 13.20501430000877,
+        "stdout_sha256": "450b496d6c05fa3c2bf71fb1a311e43c55657c2fed5b135d534939647df984c6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    ],
+    "index": {
+      "path": "evidence/04A38/completion/w2/continuation-v17-review-parts-index-v1.json",
+      "bytes": 7607848,
+      "sha256": "661b2710649b5d97735cc18672adb1848a96c015dbcf837039cc7a139631382f"
+    },
+    "reader": {
+      "path": "evidence/04A38/completion/w2/continuation-v17/verify_c17_transport_v2.py",
+      "bytes": 4184,
+      "sha256": "2bf983b19c99eef0bf6c191737bac8617b591683116686272dfce8a072e11ff0"
+    },
+    "external_upload": "NOT_PERFORMED_BY_AGENT",
+    "scope": "Actual local eight ZIP bytes and every11522 logical payload SHA/size/CRC verified; identical embedded manifest and unique union. Git-free source review scope is distinct from live checkout/private verification.",
+    "original_queries": 0
+  },
+  "index": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-review-parts-index-v1.json",
+    "bytes": 7607848,
+    "sha256": "661b2710649b5d97735cc18672adb1848a96c015dbcf837039cc7a139631382f"
+  },
+  "final_git": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-final-git-preservation-v1.json",
+    "bytes": 5833,
+    "sha256": "143b6e391688a75b77c4c4326fc52439095edadaf3daeb7ed2b8d1ea3ffe9a2b"
+  },
+  "artifacts": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-post-publication-artifacts-v1.json",
+    "bytes": 5344,
+    "sha256": "109cbcbf295c8c2c6f4a1fc4f207a5895d92d2a65a7fe0feb7526f4f0732b013"
+  },
+  "validation": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/final-validation-qualification-v2.json",
+    "bytes": 3031,
+    "sha256": "b6f13fde616c1659ec6eeebf4f9cb31fb362e8f9419e5793be96c1118e2ec6d2"
+  },
+  "additional_comprehensive_final_source_managed_Python": "NOT_RUN_REQUIRES_SPECIFIC_OWNER_REPLACEMENT_AUTHORITY",
+  "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_full_selected_focused_unit_tests": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_ABI_CIL_signatures_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "gate": "P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN; 04A39_BLOCKED",
+  "original_queries": 0
+}

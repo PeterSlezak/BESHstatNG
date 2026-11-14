@@ -1,0 +1,96 @@
+{
+  "status": "EXACT_EXECUTED_DISCOVERED_MULTISET_RECONCILED",
+  "workers_at_peak": 6,
+  "outcomes": {
+    "PASS": 830,
+    "ERROR": 13,
+    "FAIL": 113
+  },
+  "executed": 956,
+  "lane_counts": [
+    {
+      "lane": 2,
+      "phase": "MAIN",
+      "testsRun": 27,
+      "outcomes": {
+        "PASS": 27
+      },
+      "seconds": 269.29064970000036,
+      "exit_code": 0
+    },
+    {
+      "lane": 3,
+      "phase": "MAIN",
+      "testsRun": 16,
+      "outcomes": {
+        "PASS": 16
+      },
+      "seconds": 105.6058170999986,
+      "exit_code": 0
+    },
+    {
+      "lane": 4,
+      "phase": "MAIN",
+      "testsRun": 168,
+      "outcomes": {
+        "ERROR": 5,
+        "PASS": 157,
+        "FAIL": 6
+      },
+      "seconds": 4.179729600000428,
+      "exit_code": 1
+    },
+    {
+      "lane": 5,
+      "phase": "MAIN",
+      "testsRun": 327,
+      "outcomes": {
+        "PASS": 267,
+        "FAIL": 59,
+        "ERROR": 1
+      },
+      "seconds": 33.63364999999976,
+      "exit_code": 1
+    },
+    {
+      "lane": 6,
+      "phase": "MAIN",
+      "testsRun": 374,
+      "outcomes": {
+        "PASS": 335,
+        "FAIL": 34,
+        "ERROR": 5
+      },
+      "seconds": 22.808007699999507,
+      "exit_code": 1
+    },
+    {
+      "lane": 5,
+      "phase": "DISPOSABLE",
+      "testsRun": 4,
+      "outcomes": {
+        "PASS": 4
+      },
+      "seconds": 0.43254329999945185,
+      "exit_code": 0
+    },
+    {
+      "lane": 1,
+      "phase": "MAIN",
+      "testsRun": 40,
+      "outcomes": {
+        "FAIL": 14,
+        "PASS": 24,
+        "ERROR": 2
+      },
+      "seconds": 1936.933315100001,
+      "exit_code": 1
+    }
+  ],
+  "missing": [],
+  "duplicated": [],
+  "skipped": [],
+  "source_unchanged": true,
+  "raw_attempts": 956,
+  "corrective_repeats": 0
+}

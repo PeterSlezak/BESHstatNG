@@ -1,0 +1,147 @@
+{
+  "status": "SOURCE_BACKED_CURRENT_NONPASS_HISTORY_NOT_WAIVED",
+  "lost_events": [],
+  "new_events": [],
+  "changed_messages": [
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb')",
+      "occurrence": 0,
+      "old_message": "'0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa' != '6cce0e3544665792b3e91bdb1fa29128775fb1fb799ef7148d069da99899e672'\n- 0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa\n+ 6cce0e3544665792b3e91bdb1fa29128775fb1fb799ef7148d069da99899e672\n",
+      "new_message": "'0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa' != '465f06ddbc0485ecf3c67e65e84068053c70f8492f83b2150a43ee84dc898c02'\n- 0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa\n+ 465f06ddbc0485ecf3c67e65e84068053c70f8492f83b2150a43ee84dc898c02\n",
+      "old_message_sha256": "350f95c354cfbd4125606a3c4cf79f855e21479ace0a0a3ef5e65b4b5e333ded",
+      "new_message_sha256": "3a155f71a32208471121d9f32aba7f307b042e86b47186445c5289475873df55",
+      "old_traceback_sha256": "d34183fe0e2bbd91dc4f8cf9a945fae5b0b11ac71e575f381c52f436af37681f",
+      "new_traceback_sha256": "db2c2cbf87263ed31190102dce37dd6419927f4384cd538d1d497b6efad83a6c",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a28_output.py\", line 29, in test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_SOURCE_PIN_FAIL_C13_AUTHORIZED_HASH_DELTA_NOT_WAIVED",
+      "transition": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "before": {
+          "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "bytes": 208220,
+          "sha256": "6cce0e3544665792b3e91bdb1fa29128775fb1fb799ef7148d069da99899e672"
+        },
+        "preimage": {
+          "path": "evidence/04A38/completion/w2/continuation-v13/source-before/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb.txt",
+          "bytes": 208220,
+          "sha256": "6cce0e3544665792b3e91bdb1fa29128775fb1fb799ef7148d069da99899e672"
+        },
+        "after": {
+          "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "bytes": 207582,
+          "sha256": "465f06ddbc0485ecf3c67e65e84068053c70f8492f83b2150a43ee84dc898c02"
+        },
+        "snapshot": {
+          "path": "evidence/04A38/completion/w2/continuation-v13/source-after/final-v1/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb.txt",
+          "bytes": 207582,
+          "sha256": "465f06ddbc0485ecf3c67e65e84068053c70f8492f83b2150a43ee84dc898c02"
+        }
+      }
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb')",
+      "occurrence": 0,
+      "old_message": "'606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd' != 'dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80'\n- 606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd\n+ dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80\n",
+      "new_message": "'606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd' != '36a0b8942f4dd87ce5fda7df467334830dfded0e181d69a3d2ccddcb01bb4d78'\n- 606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd\n+ 36a0b8942f4dd87ce5fda7df467334830dfded0e181d69a3d2ccddcb01bb4d78\n",
+      "old_message_sha256": "8a45e1c6a3e5f3b63fb2ec987ae9a4e1702071a1eb325909c9c4486ebf54aa3d",
+      "new_message_sha256": "7923d6f29731dd22a248031f1b494ce3bc6a41ea963e4fd9ce9362b3779c3034",
+      "old_traceback_sha256": "2f8994dfb416463d813b0c8a58832e01f95f941ea7b15bb6ccefc96fa4efa8ff",
+      "new_traceback_sha256": "d9245ba594612812c634d1bfb46d9e60e380130522bf5e1cb0bcaa4a909a5c32",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a28_output.py\", line 29, in test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_SOURCE_PIN_FAIL_C13_AUTHORIZED_HASH_DELTA_NOT_WAIVED",
+      "transition": {
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "before": {
+          "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+          "bytes": 36318,
+          "sha256": "dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80"
+        },
+        "preimage": {
+          "path": "evidence/04A38/completion/w2/continuation-v13/source-before/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb.txt",
+          "bytes": 36318,
+          "sha256": "dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80"
+        },
+        "after": {
+          "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+          "bytes": 31061,
+          "sha256": "36a0b8942f4dd87ce5fda7df467334830dfded0e181d69a3d2ccddcb01bb4d78"
+        },
+        "snapshot": {
+          "path": "evidence/04A38/completion/w2/continuation-v13/source-after/final-v1/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb.txt",
+          "bytes": 31061,
+          "sha256": "36a0b8942f4dd87ce5fda7df467334830dfded0e181d69a3d2ccddcb01bb4d78"
+        }
+      }
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb')",
+      "occurrence": 0,
+      "old_message": "'ca8ce9338405315b73a81ec3c7f48a5667cd67c0059121094b2cff12ff501ff3' != '3a4362f50f2189db44d24788084385d50fc5d008aaff00b1233785eacad7e42f'\n- ca8ce9338405315b73a81ec3c7f48a5667cd67c0059121094b2cff12ff501ff3\n+ 3a4362f50f2189db44d24788084385d50fc5d008aaff00b1233785eacad7e42f\n",
+      "new_message": "'ca8ce9338405315b73a81ec3c7f48a5667cd67c0059121094b2cff12ff501ff3' != '69ccf917e4b74ab0b6f02727dbf918bfc875b4b16692a07f6636dac5acf6a354'\n- ca8ce9338405315b73a81ec3c7f48a5667cd67c0059121094b2cff12ff501ff3\n+ 69ccf917e4b74ab0b6f02727dbf918bfc875b4b16692a07f6636dac5acf6a354\n",
+      "old_message_sha256": "40910fda2efc8cf3325be272061cf5f5469f2bfd100be409d35cc8cee8795846",
+      "new_message_sha256": "24d8f71d7db0f912fac50c06ba3398cd557718131eff7e5c5fec06a25e187d1a",
+      "old_traceback_sha256": "70fa009420663b54e5992e23d814330b08f106f11c1eb3661eba7d35234caafe",
+      "new_traceback_sha256": "166843b05d7e929b7271472082969aaaa1dd994918f224854653c1d4a9d485dc",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a28_output.py\", line 29, in test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_SOURCE_PIN_FAIL_C13_AUTHORIZED_HASH_DELTA_NOT_WAIVED",
+      "transition": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+        "before": {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+          "bytes": 7660,
+          "sha256": "3a4362f50f2189db44d24788084385d50fc5d008aaff00b1233785eacad7e42f"
+        },
+        "preimage": {
+          "path": "evidence/04A38/completion/w2/continuation-v13/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb.txt",
+          "bytes": 7660,
+          "sha256": "3a4362f50f2189db44d24788084385d50fc5d008aaff00b1233785eacad7e42f"
+        },
+        "after": {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+          "bytes": 5954,
+          "sha256": "69ccf917e4b74ab0b6f02727dbf918bfc875b4b16692a07f6636dac5acf6a354"
+        },
+        "snapshot": {
+          "path": "evidence/04A38/completion/w2/continuation-v13/source-after/final-v1/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb.txt",
+          "bytes": 5954,
+          "sha256": "69ccf917e4b74ab0b6f02727dbf918bfc875b4b16692a07f6636dac5acf6a354"
+        }
+      }
+    }
+  ],
+  "same_clean_messages": 191,
+  "actual_parent_outcomes": {
+    "PASS": 830,
+    "ERROR": 13,
+    "FAIL": 113
+  },
+  "actual_event_outcomes": {
+    "ERROR": 13,
+    "FAIL": 181
+  },
+  "v12_baseline": {
+    "parents": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "events": {
+      "FAIL": 181,
+      "ERROR": 13
+    }
+  },
+  "v12_prior_investigation": {
+    "path": "evidence/04A38/completion/w2/continuation-v12/python-nonpass-investigation-v1.json",
+    "bytes": 113080,
+    "sha256": "453eda2f9c423b0a9f2c00d8aa136f37498811befd82953940e3544acfa56267"
+  },
+  "v12_extra_importer_subtest": "UdfDataImportMultivariate.vb retained by exact event key; later hash/message changes are separate.",
+  "historical_assertions_changed": 0,
+  "original_queries": 0
+}

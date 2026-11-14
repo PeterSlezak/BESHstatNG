@@ -1,0 +1,84 @@
+{
+  "phases": [
+    {
+      "parent": "MCA_SUMMARY",
+      "portable": "BuildMcaSummary",
+      "original_segment": "                Dim out(If(hdr, 6, 5), 1) As Object\n                Dim r0 As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"Setting\"\n                    out(0, 1) = \"Value\"\n                    r0 = 1\n                End If\n\n                out(r0 + 0, 0) = \"Analysis type\"\n                out(r0 + 0, 1) = \"Multiple correspondence analysis\"\n                out(r0 + 1, 0) = \"Observations\"\n                out(r0 + 1, 1) = h.ObservationCount\n                out(r0 + 2, 0) = \"Variables\"\n                out(r0 + 2, 1) = h.VariableNames.Length\n                out(r0 + 3, 0) = \"Category levels\"\n                out(r0 + 3, 1) = h.Model.ColumNames.Length\n                out(r0 + 4, 0) = \"Available axes\"\n                out(r0 + 4, 1) = If(eigen Is Nothing, 0, eigen.Length)\n                out(r0 + 5, 0) = \"Total inertia\"\n                out(r0 + 5, 1) = If(eigen Is Nothing, CType(Nothing, Object), CType(eigen.Sum(), Object))\n\n",
+      "portable_segment": "                Dim out(If(hdr, 6, 5), 1) As Object\n                Dim r0 As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"Setting\"\n                    out(0, 1) = \"Value\"\n                    r0 = 1\n                End If\n\n                out(r0 + 0, 0) = \"Analysis type\"\n                out(r0 + 0, 1) = \"Multiple correspondence analysis\"\n                out(r0 + 1, 0) = \"Observations\"\n                out(r0 + 1, 1) = observationCount\n                out(r0 + 2, 0) = \"Variables\"\n                out(r0 + 2, 1) = variableNames.Length\n                out(r0 + 3, 0) = \"Category levels\"\n                out(r0 + 3, 1) = model.ColumNames.Length\n                out(r0 + 4, 0) = \"Available axes\"\n                out(r0 + 4, 1) = If(eigen Is Nothing, 0, eigen.Length)\n                out(r0 + 5, 0) = \"Total inertia\"\n                out(r0 + 5, 1) = If(eigen Is Nothing, CType(Nothing, Object), CType(eigen.Sum(), Object))\n\n                Return out\n",
+      "bindings": {
+        "h.ObservationCount": "observationCount",
+        "h.VariableNames": "variableNames",
+        "h.Model": "model"
+      }
+    },
+    {
+      "parent": "DA_SUMMARY",
+      "portable": "BuildDiscriminantSummary",
+      "original_segment": "                Dim out(14, 1) As Object\n                out(0, 0) = \"Setting\"\n                out(0, 1) = \"Value\"\n                out(1, 0) = \"Method\"\n                out(1, 1) = h.Method\n                out(2, 0) = \"Grouping variable\"\n                out(2, 1) = h.GroupVariableName\n                out(3, 0) = \"Predictors\"\n                out(3, 1) = h.VariableNames.Length\n                out(4, 0) = \"Groups\"\n                out(4, 1) = If(model.GroupLabels Is Nothing, 0, model.GroupLabels.Length)\n                out(5, 0) = \"Rows analyzed\"\n                out(5, 1) = If(model.PreparedData Is Nothing OrElse model.PreparedData.ActiveOriginalData Is Nothing, 0, model.PreparedData.ActiveOriginalData.GetLength(0))\n                out(6, 0) = \"Rows removed\"\n                out(6, 1) = If(model.PreparedData Is Nothing OrElse model.PreparedData.RemovedOriginalIndices Is Nothing, 0, model.PreparedData.RemovedOriginalIndices.Length)\n                out(7, 0) = \"Standardization\"\n                out(7, 1) = h.Standardization\n                out(8, 0) = \"Missing-value policy\"\n                out(8, 1) = h.MissingValuePolicy\n                out(9, 0) = \"Prior mode\"\n                out(9, 1) = h.PriorMode\n                out(10, 0) = \"Validation mode\"\n                out(10, 1) = h.ValidationMode\n                out(11, 0) = \"Training accuracy %\"\n                out(11, 1) = If(model.TrainingClassification Is Nothing OrElse model.TrainingClassification.Confusion Is Nothing, CType(Nothing, Object), CType(model.TrainingClassification.Confusion.OverallAccuracyPct, Object))\n                out(12, 0) = \"Validation accuracy %\"\n                out(12, 1) = If(model.ValidationClassification Is Nothing OrElse model.ValidationClassification.Confusion Is Nothing, CType(Nothing, Object), CType(model.ValidationClassification.Confusion.OverallAccuracyPct, Object))\n                out(13, 0) = \"Covariance regularization\"\n                out(13, 1) = h.CovarianceRegularization\n                out(14, 0) = \"Validation detail\"\n",
+      "portable_segment": "                Dim out(14, 1) As Object\n                out(0, 0) = \"Setting\"\n                out(0, 1) = \"Value\"\n                out(1, 0) = \"Method\"\n                out(1, 1) = method\n                out(2, 0) = \"Grouping variable\"\n                out(2, 1) = groupVariableName\n                out(3, 0) = \"Predictors\"\n                out(3, 1) = variableNames.Length\n                out(4, 0) = \"Groups\"\n                out(4, 1) = If(model.GroupLabels Is Nothing, 0, model.GroupLabels.Length)\n                out(5, 0) = \"Rows analyzed\"\n                out(5, 1) = If(model.PreparedData Is Nothing OrElse model.PreparedData.ActiveOriginalData Is Nothing, 0, model.PreparedData.ActiveOriginalData.GetLength(0))\n                out(6, 0) = \"Rows removed\"\n                out(6, 1) = If(model.PreparedData Is Nothing OrElse model.PreparedData.RemovedOriginalIndices Is Nothing, 0, model.PreparedData.RemovedOriginalIndices.Length)\n                out(7, 0) = \"Standardization\"\n                out(7, 1) = standardization\n                out(8, 0) = \"Missing-value policy\"\n                out(8, 1) = missingValuePolicy\n                out(9, 0) = \"Prior mode\"\n                out(9, 1) = priorMode\n                out(10, 0) = \"Validation mode\"\n                out(10, 1) = validationMode\n                out(11, 0) = \"Training accuracy %\"\n                out(11, 1) = If(model.TrainingClassification Is Nothing OrElse model.TrainingClassification.Confusion Is Nothing, CType(Nothing, Object), CType(model.TrainingClassification.Confusion.OverallAccuracyPct, Object))\n                out(12, 0) = \"Validation accuracy %\"\n                out(12, 1) = If(model.ValidationClassification Is Nothing OrElse model.ValidationClassification.Confusion Is Nothing, CType(Nothing, Object), CType(model.ValidationClassification.Confusion.OverallAccuracyPct, Object))\n                out(13, 0) = \"Covariance regularization\"\n                out(13, 1) = covarianceRegularization\n                out(14, 0) = \"Validation detail\"\n                Return out\n",
+      "bindings": {
+        "h.Method": "method",
+        "h.GroupVariableName": "groupVariableName",
+        "h.VariableNames": "variableNames",
+        "h.Standardization": "standardization",
+        "h.MissingValuePolicy": "missingValuePolicy",
+        "h.PriorMode": "priorMode",
+        "h.ValidationMode": "validationMode",
+        "h.CovarianceRegularization": "covarianceRegularization"
+      }
+    },
+    {
+      "parent": "TryGetCategoricalMatrix",
+      "portable": "CompleteCategoricalMatrixPrepared",
+      "original_segment": "        Dim inferred(cols - 1) As String\n        For j As Integer = 0 To cols - 1\n            inferred(j) = \"Variable \" & (j + 1).ToString(CultureInfo.InvariantCulture)\n            If assumeHeader AndAlso Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(0, j)) Then\n                inferred(j) = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(0, j))\n            End If\n        Next\n        resolvedNames = ResolveImportLabelNames(varNames, cols, \"Variable \", inferred)\n\n        ReDim data(rows - 1, cols - 1)\n        For i As Integer = 0 To rows - 1\n            For j As Integer = 0 To cols - 1\n                data(i, j) = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(startRow + i, j))\n            Next\n        Next\n\n        Return True\n",
+      "portable_segment": "        Dim inferred(cols - 1) As String\n        For j As Integer = 0 To cols - 1\n            inferred(j) = \"Variable \" & (j + 1).ToString(CultureInfo.InvariantCulture)\n            If assumeHeader AndAlso Not isBlank(arr(0, j)) Then\n                inferred(j) = toText(arr(0, j))\n            End If\n        Next\n        resolvedNames = resolveNames(varNames, cols, \"Variable \", inferred)\n\n        ReDim data(rows - 1, cols - 1)\n        For i As Integer = 0 To rows - 1\n            For j As Integer = 0 To cols - 1\n                data(i, j) = toText(arr(startRow + i, j))\n            Next\n        Next\n\n        Return True\n",
+      "bindings": {
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell": "isBlank",
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText": "toText",
+        "ResolveImportLabelNames": "resolveNames"
+      }
+    },
+    {
+      "parent": "TryGetStringVector",
+      "portable": "TryGetStringVectorPrepared",
+      "original_segment": "        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        Dim list As New List(Of String)()\n        If rows = 1 Then\n            For j As Integer = 0 To cols - 1\n                list.Add(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(0, j)))\n            Next\n        ElseIf cols = 1 Then\n            For i As Integer = 0 To rows - 1\n                list.Add(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(i, 0)))\n            Next\n        Else\n            Return False\n        End If\n\n        values = list.ToArray()\n        Return values.Length > 0\n",
+      "portable_segment": "        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        Dim list As New List(Of String)()\n        If rows = 1 Then\n            For j As Integer = 0 To cols - 1\n                list.Add(convertCell(arr(0, j)))\n            Next\n        ElseIf cols = 1 Then\n            For i As Integer = 0 To rows - 1\n                list.Add(convertCell(arr(i, 0)))\n            Next\n        Else\n            Return False\n        End If\n\n        values = list.ToArray()\n        Return values.Length > 0\n",
+      "bindings": {
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText": "convertCell"
+      }
+    },
+    {
+      "parent": "TryGetDoubleVector",
+      "portable": "TryGetDoubleVectorPrepared",
+      "original_segment": "        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        Dim vals As New List(Of Double)()\n        If rows = 1 Then\n            For j As Integer = 0 To cols - 1\n                Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(0, j))\n                If Not d.HasValue Then Return False\n                vals.Add(d.Value)\n            Next\n        ElseIf cols = 1 Then\n            For i As Integer = 0 To rows - 1\n                Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(i, 0))\n                If Not d.HasValue Then Return False\n                vals.Add(d.Value)\n            Next\n        Else\n            Return False\n        End If\n\n        values = vals.ToArray()\n        Return values.Length > 0\n",
+      "portable_segment": "        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        Dim vals As New List(Of Double)()\n        If rows = 1 Then\n            For j As Integer = 0 To cols - 1\n                Dim d As Double? = convertCell(arr(0, j))\n                If Not d.HasValue Then Return False\n                vals.Add(d.Value)\n            Next\n        ElseIf cols = 1 Then\n            For i As Integer = 0 To rows - 1\n                Dim d As Double? = convertCell(arr(i, 0))\n                If Not d.HasValue Then Return False\n                vals.Add(d.Value)\n            Next\n        Else\n            Return False\n        End If\n\n        values = vals.ToArray()\n        Return values.Length > 0\n",
+      "bindings": {
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble": "convertCell"
+      }
+    }
+  ],
+  "source_after": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "bytes": 208220,
+      "sha256": "6cce0e3544665792b3e91bdb1fa29128775fb1fb799ef7148d069da99899e672"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+      "bytes": 10401,
+      "sha256": "88b4a4b2d3f45277d87d506762e9cc0f81ba4f00ee8307810e1429c824810322"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb",
+      "bytes": 18568,
+      "sha256": "eb6b62172a18a56b2753c80914335963de759d28899116c9c2bed956db712df0"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfModelImportPreparation38.vb",
+      "bytes": 6725,
+      "sha256": "57770d415491bc9fd25bb1478abaea0a8a92d483ace898d689f447d36b80018d"
+    }
+  ],
+  "qualification": "Exact extracted source segments and substitutions, subject to independent full body/fragment/CIL/behavior verification before any closure.",
+  "original_queries": 0
+}

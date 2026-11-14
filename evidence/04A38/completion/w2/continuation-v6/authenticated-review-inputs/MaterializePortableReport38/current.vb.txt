@@ -1,0 +1,45 @@
+Friend Function MaterializePortableReport38(projection As Global.BESHStatNG.ExcelCommon.UdfReportProjection38,
+                                                Optional sourceValues As Object() = Nothing) As Object
+        If projection Is Nothing Then Return Nothing
+        Select Case projection.Fault
+            Case Global.BESHStatNG.ExcelCommon.UdfReportFault38.NotAvailable : Return ExcelError.ExcelErrorNA
+            Case Global.BESHStatNG.ExcelCommon.UdfReportFault38.InvalidValue : Return ExcelError.ExcelErrorValue
+            Case Global.BESHStatNG.ExcelCommon.UdfReportFault38.InvalidNumber : Return ExcelError.ExcelErrorNum
+        End Select
+        Dim model As ResultTableOutputModel = projection.ToOutputModel()
+        Dim values As Object(,) = model.Values
+        If values Is Nothing Then Return Nothing
+        For row As Integer = values.GetLowerBound(0) To values.GetUpperBound(0)
+            For column As Integer = values.GetLowerBound(1) To values.GetUpperBound(1)
+                Dim reference = TryCast(values(row, column), Global.BESHStatNG.ExcelCommon.UdfSourceCellReference38)
+                If reference IsNot Nothing Then values(row, column) = sourceValues(reference.SourceOrdinal)
+                Dim cell = TryCast(values(row, column), Global.BESHStatNG.ExcelCommon.OutputCell)
+                If cell IsNot Nothing Then
+                    If cell.Kind = Global.BESHStatNG.ExcelCommon.OutputCellKind.Number Then
+                        If cell.NumberKind.Value = Global.BESHStatNG.ExcelCommon.OutputNumberKind.Binary64 Then
+                            values(row, column) = cell.BinaryValue.Value
+                        Else
+                            values(row, column) = cell.DecimalValue.Value
+                        End If
+                    Else
+                        Select Case cell.ErrorKind.Value
+                            Case Global.BESHStatNG.ExcelCommon.OutputErrorKind.NotAvailable : values(row, column) = ExcelError.ExcelErrorNA
+                            Case Global.BESHStatNG.ExcelCommon.OutputErrorKind.InvalidValue : values(row, column) = ExcelError.ExcelErrorValue
+                            Case Global.BESHStatNG.ExcelCommon.OutputErrorKind.InvalidNumber : values(row, column) = ExcelError.ExcelErrorNum
+                        End Select
+                    End If
+                End If
+            Next
+        Next
+        Select Case projection.Preparation
+            Case Global.BESHStatNG.ExcelCommon.UdfReportPreparation38.NormalizeBlanks
+                Dim prepared As Object(,) = PrepareResultTableForUdf(values)
+                For Each address In Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.PvalueCells(model, prepared.GetLength(0), prepared.GetLength(1))
+                    prepared(address.RowOrdinal, address.ColumnOrdinal) = FormatPValueForUdf(prepared(address.RowOrdinal, address.ColumnOrdinal))
+                Next
+                Return prepared
+            Case Global.BESHStatNG.ExcelCommon.UdfReportPreparation38.PvalueRows
+                Return PreparePValueRowsForUdf(values)
+        End Select
+        Return values
+    End Function

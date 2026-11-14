@@ -395,13 +395,9 @@ Namespace WorksheetFunctions
             Dim alphaValue As Double = 0.05
             If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-            Dim n As Integer = pairs.GetLength(0)
-            Dim x(n - 1) As Double
-            Dim y(n - 1) As Double
-            For i = 0 To n - 1
-                x(i) = pairs(i, 0)
-                y(i) = pairs(i, 1)
-            Next
+            Dim x() As Double = Nothing
+            Dim y() As Double = Nothing
+            Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.SplitCorrelationColumns(pairs, x, y)
 
             Dim test = New SpearmanRho(x, y, "X", "Y")
             test.Compute(Nothing, alphaValue)
@@ -466,13 +462,9 @@ Namespace WorksheetFunctions
             Dim alphaValue As Double = 0.05
             If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-            Dim n As Integer = pairs.GetLength(0)
-            Dim x(n - 1) As Double
-            Dim y(n - 1) As Double
-            For i = 0 To n - 1
-                x(i) = pairs(i, 0)
-                y(i) = pairs(i, 1)
-            Next
+            Dim x() As Double = Nothing
+            Dim y() As Double = Nothing
+            Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.SplitCorrelationColumns(pairs, x, y)
 
             Dim test = New SpearmanRho(x, y, "X", "Y")
             test.Compute(Nothing, alphaValue)
@@ -544,13 +536,9 @@ Namespace WorksheetFunctions
             Dim alphaValue As Double = 0.05
             If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-            Dim n As Integer = pairs.GetLength(0)
-            Dim x(n - 1) As Double
-            Dim y(n - 1) As Double
-            For i = 0 To n - 1
-                x(i) = pairs(i, 0)
-                y(i) = pairs(i, 1)
-            Next
+            Dim x() As Double = Nothing
+            Dim y() As Double = Nothing
+            Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.SplitCorrelationColumns(pairs, x, y)
 
             Dim test = New KendallsTau(x, y, "X", "Y")
             test.compute(Nothing, alphaValue)
@@ -608,13 +596,9 @@ Namespace WorksheetFunctions
             Dim alphaValue As Double = 0.05
             If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-            Dim n As Integer = pairs.GetLength(0)
-            Dim x(n - 1) As Double
-            Dim y(n - 1) As Double
-            For i = 0 To n - 1
-                x(i) = pairs(i, 0)
-                y(i) = pairs(i, 1)
-            Next
+            Dim x() As Double = Nothing
+            Dim y() As Double = Nothing
+            Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.SplitCorrelationColumns(pairs, x, y)
 
             Dim test = New KendallsTau(x, y, "X", "Y")
             test.compute(Nothing, alphaValue)
@@ -677,10 +661,7 @@ Namespace WorksheetFunctions
             If err.HasValue Then Return err.Value
             If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
-            Dim names(data.Length - 1) As String
-            For i As Integer = 0 To data.Length - 1
-                names(i) = "G" & (i + 1).ToString()
-            Next
+            Dim names() As String = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.KruskalGroupNames(data.Length)
 
             Dim which As Integer = ParseKwType(statType, defaultTieCorrected:=True, err:=err)
             If err.HasValue Then Return err.Value
@@ -744,10 +725,7 @@ Namespace WorksheetFunctions
             If err.HasValue Then Return err.Value
             If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
-            Dim names(data.Length - 1) As String
-            For i As Integer = 0 To data.Length - 1
-                names(i) = "G" & (i + 1).ToString()
-            Next
+            Dim names() As String = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.KruskalGroupNames(data.Length)
 
             Dim which As Integer = ParseKwType(pType, defaultTieCorrected:=True, err:=err)
             If err.HasValue Then Return err.Value
@@ -818,10 +796,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixCompleteCases(data, mat, b, k) Then Return ExcelError.ExcelErrorValue
                 If b < 2 OrElse k < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim names(k - 1) As String
-                For j = 0 To k - 1
-                    names(j) = $"G{j + 1}"
-                Next
+                Dim names() As String = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.FriedmanGroupNames(k)
 
                 Dim test = New Friedman(mat, names)
                 Dim res = test.compute()
@@ -888,10 +863,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixCompleteCases(data, mat, b, k) Then Return ExcelError.ExcelErrorValue
                 If b < 2 OrElse k < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim names(k - 1) As String
-                For j = 0 To k - 1
-                    names(j) = $"G{j + 1}"
-                Next
+                Dim names() As String = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.FriedmanGroupNames(k)
 
                 Dim test = New Friedman(mat, names)
                 Dim res = test.compute()
@@ -960,11 +932,7 @@ Namespace WorksheetFunctions
                 Dim alphaValue As Double = 0.05
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-                Dim test = New KruskallWalis(data, names)
-                test.compute()
-                test.MCP(alphaValue)
-
-                Dim tables = test.wrapResults()
+                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildKruskalMcpTables(data, names, alphaValue)
                 Return PrepareResultTableForUdf(tables(1))
             Catch
                 Return ExcelError.ExcelErrorValue
@@ -1028,11 +996,7 @@ Namespace WorksheetFunctions
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
                 Dim which As String = NormalizeText(method)
-                Dim test = New Friedman(mat, names)
-                test.compute()
-                test.MCP(alphaValue)
-
-                Dim tables = test.wrapResults()
+                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildFriedmanMcpTables(mat, names, alphaValue)
 
                 Select Case which
                     Case "", "DUNN", "SPSS"
@@ -1081,20 +1045,9 @@ Namespace WorksheetFunctions
                 s = Nothing
             End Try
 
-            If String.IsNullOrWhiteSpace(s) Then
-                Return If(defaultTieCorrected, 1, 0)
-            End If
-
-            s = s.Trim().ToUpperInvariant()
-            If s = "H" OrElse s = "UNCOR" OrElse s = "UNCORRECTED" OrElse s = "RAW" Then
-                Return 0
-            End If
-            If s = "HCOR" OrElse s = "H_COR" OrElse s = "TIE" OrElse s = "TIES" OrElse s = "COR" OrElse s = "CORR" OrElse s = "CORRECTED" Then
-                Return 1
-            End If
-
-            err = ExcelError.ExcelErrorValue
-            Return 0
+            Dim result As Integer
+            If Not Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryKwType(s, defaultTieCorrected, result) Then err = ExcelError.ExcelErrorValue
+            Return result
         End Function
 
         ' Helper: parse Friedman statistic/p-value selector. Returns 1 for T1 (chi-square), 2 for T2 (F-approx).
@@ -1104,16 +1057,7 @@ Namespace WorksheetFunctions
                 s = Convert.ToString(selector).Trim().ToUpperInvariant()
             End If
 
-            If String.IsNullOrWhiteSpace(s) Then
-                Return If(defaultToT1, 1, 2)
-            End If
-
-            If s = "T2" OrElse s = "F" OrElse s = "FAPPROX" OrElse s = "IMAN" OrElse s = "IMAN-DAVENPORT" OrElse s = "DAVENPORT" Then
-                Return 2
-            End If
-
-            ' default to T1
-            Return 1
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.FriedmanType(s, defaultToT1)
         End Function
 
     End Module

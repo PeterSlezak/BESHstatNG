@@ -1,0 +1,19 @@
+Friend Function ExtractNumericColumnIgnoringNonNumeric(arg As Object, ByRef err As ExcelError?) As Double()
+        err = Nothing
+
+        Dim arr As Object(,) = CoerceToObjectMatrix(arg, err)
+        If err.HasValue OrElse arr Is Nothing Then Return Array.Empty(Of Double)()
+
+        If arr.GetLength(1) <> 1 Then
+            err = ExcelError.ExcelErrorValue
+            Return Array.Empty(Of Double)()
+        End If
+
+        Dim values As New List(Of Double)(arr.GetLength(0))
+        For r As Integer = 0 To arr.GetLength(0) - 1
+            Dim d As Double? = TryGetDouble(arr(r, 0))
+            If d.HasValue Then values.Add(d.Value)
+        Next
+
+        Return values.ToArray()
+    End Function

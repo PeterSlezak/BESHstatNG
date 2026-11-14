@@ -1,0 +1,466 @@
+{
+  "status": "ORIGINAL_FUNCTION_FILESET_ORDER_FINDINGS_REVIEWED_AND_ADVERSE_CONTROLS_PASS",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/parallel_scan_v1.py",
+    "bytes": 9708,
+    "sha256": "b3d297ec321485e9b72eed0de42fc007aaca357bd53b1ca724294c0b519be51e"
+  },
+  "proof": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+    "bytes": 5735,
+    "sha256": "ec2b1f7f32a9b3e94c2c33a4c159ea072f39ad7275e33286aa1a087518c28367"
+  },
+  "authority": {
+    "kernel": {
+      "path": "evidence/04A38/completion/w2/continuation-v9/parallel_scan_v1.py",
+      "bytes": 9708,
+      "sha256": "b3d297ec321485e9b72eed0de42fc007aaca357bd53b1ca724294c0b519be51e"
+    },
+    "policy": {
+      "path": "scripts/verify-04a13-publication.py",
+      "bytes": 9176,
+      "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+    },
+    "scan_ast_sha256": "11c38010824cd1a0791eb7dbbd5a3c054f9054b2d6e737a63678d243287e47e9",
+    "git_ast_sha256": "f2fb665d9c9068ad1fcc37696630822ec2bd7703f27ab788ae6d1a6fd2289a96",
+    "guard": {
+      "path": "evidence/04A38/completion/w2/continuation-v6/privacy_regex_guard.py",
+      "bytes": 842,
+      "sha256": "ad17f82adca850afb94fa60d3c0ca5866b446860a7724dc77a5e5b3111c9ce5f"
+    },
+    "root": "<REPO_ROOT>",
+    "computername": "<HOST>",
+    "python": "3.14.7 (main, Aug  7 2026, 02:26:22) [MSC v.1944 64 bit (AMD64)]",
+    "hash_seed": "38",
+    "python_executable": {
+      "name": "python.exe",
+      "bytes": 91648,
+      "sha256": "6bf492976e3a0cbb10695171d7f11897c4935ba93bc078b3bc3be52861d78ecc"
+    },
+    "HEAD": "ba1636f5356ac761509c2cfa16fc66b92430935d"
+  },
+  "controls": [
+    {
+      "name": "Exact original ordered full function versus five process per-file evaluation",
+      "status": "PASS",
+      "files": 16
+    },
+    {
+      "name": "reverse candidate multiset and finding/reviewed order preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "duplicate candidate multiset and finding/reviewed order preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "Original per-file equality 0",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/0.txt",
+        "bytes": 17,
+        "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+      }
+    },
+    {
+      "name": "Original per-file equality 1",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/1.txt",
+        "bytes": 29,
+        "sha256": "b2e173fbc6d38b777e13a62a5bd57bcc7de7ed77dde38d78a49dfbbe55881fce"
+      }
+    },
+    {
+      "name": "Original per-file equality 2",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/2.txt",
+        "bytes": 22,
+        "sha256": "681d071ebe74c4840212167bbcec3a3d44f17a5e84abeec614e9eefe750297b9"
+      }
+    },
+    {
+      "name": "Original per-file equality 3",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/3.txt",
+        "bytes": 16,
+        "sha256": "dadb050df8995cb05d933bceddc6d7f91222fc37690321583191feebae845be4"
+      }
+    },
+    {
+      "name": "Original per-file equality 4",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/4.txt",
+        "bytes": 22,
+        "sha256": "e09c9887bed4eae31f77c4cd96bcc8797d7fd24ae1fb3ec43cd8175db5359961"
+      }
+    },
+    {
+      "name": "Original per-file equality 5",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/5.txt",
+        "bytes": 28,
+        "sha256": "40ac8eb6dfa3d530a92acb6ba8790d69dd3c73774a0b73aa11d6cdf078134a1f"
+      }
+    },
+    {
+      "name": "Original per-file equality 6",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/6.txt",
+        "bytes": 33,
+        "sha256": "7417c255bc144429f592debd03109fddd07f15f4b52b719b03f20a34dd508e3a"
+      }
+    },
+    {
+      "name": "Original per-file equality 7",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/7.txt",
+        "bytes": 41,
+        "sha256": "33d6c66a1260ee21d906337900c1e14e3b1d7a67a2ecdae5ad3662ccd7ed7c9f"
+      }
+    },
+    {
+      "name": "Original per-file equality 8",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/8.txt",
+        "bytes": 31,
+        "sha256": "0a9e0693ab84550a0b2f4eaf0ac37472b5f7a04950584fdb5cd57d803c6d86b6"
+      }
+    },
+    {
+      "name": "Original per-file equality 9",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/9.txt",
+        "bytes": 29,
+        "sha256": "7747e124d4e286e84faa23498c71231b2b11f7edf8a57129f4739ae7ea830942"
+      }
+    },
+    {
+      "name": "Original per-file equality 10",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/10.txt",
+        "bytes": 52,
+        "sha256": "6894225f695c3a611873680ef5022e85a71d7fe5d1918397faa52dec3a01632c"
+      }
+    },
+    {
+      "name": "Original per-file equality 11",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/11.txt",
+        "bytes": 28,
+        "sha256": "4bba834e21d168c6afb70e29f3422b09ae536a7ddabba7724c6470d3f2249aa3"
+      }
+    },
+    {
+      "name": "Original per-file equality 12",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/12.txt",
+        "bytes": 14,
+        "sha256": "3f5346c5cdc6de73b5bb008a89326f4635175f53d786f67ef3a336b502d1a738"
+      }
+    },
+    {
+      "name": "Original per-file equality 13",
+      "status": "PASS",
+      "input": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/escaped.json",
+        "bytes": 45,
+        "sha256": "29f3d00f46c876ab37aa5a81768a9daddad0ae28c0e1a13fe9e8dd4ba713140b"
+      }
+    },
+    {
+      "name": "Original per-file equality 14",
+      "status": "PASS",
+      "input": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb",
+        "bytes": 24938,
+        "sha256": "55280194f3a54cc3ae700af525a069a28593010a0e9c8d8072f97e585eb1ee30"
+      }
+    },
+    {
+      "name": "Original per-file equality 15",
+      "status": "PASS",
+      "input": {
+        "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+        "bytes": 53994,
+        "sha256": "ac0f65493602e1e09647659d9e83c0df1a583410f317994ad31be6cb52c5de82"
+      }
+    },
+    {
+      "name": "Dropped scanner helper file",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Duplicate scanner file occurrence",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Changed content key",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Wrong source AST authority",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Changed ROOT",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Changed hash-seed authority",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Changed environment",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Abnormal child exit",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Actual changed fixture invalidates stale content cache",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Changed input evaluates original positive fallback again",
+      "status": "PASS"
+    }
+  ],
+  "receipts": [
+    {
+      "number": 1,
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/1/input.json",
+        "bytes": 1473,
+        "sha256": "e8c94fcd8c6e4b8efd8c37895d8f741aec4a00ba6d25a42d86f324b0644f6be4"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/1/raw-result.json",
+        "bytes": 1644,
+        "sha256": "b631088f508b7f53c195c45d4082edd894b5a45e64b72133b8419097d3cc76d2"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/1/command.json",
+        "bytes": 1798,
+        "sha256": "3e4184bd1bfb7ec8a6a53dcc36c1480f5873d751d5eed8ddc27510366bc3ad9d"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/1/stdout.log",
+        "bytes": 78,
+        "sha256": "e9f01de3046bc229d8a78a54e51e87b6f06e06663a99e3074598aef978803782"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 0,
+      "seconds": 0.07366749999346212,
+      "pid": 20636,
+      "files": 1,
+      "regex_guard": {
+        "skips": 2,
+        "fallbacks": 0
+      }
+    },
+    {
+      "number": 2,
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/2/input.json",
+        "bytes": 1495,
+        "sha256": "8a558bfb9b2ae0d11cb87f27c4466cbdc963cf611b028454a7a7e69f9334c534"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/2/raw-result.json",
+        "bytes": 1665,
+        "sha256": "58bcf5ca18c3ebf0b5c0024b83face43eece8d4715ed22ab04da8919699f5b5f"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/2/command.json",
+        "bytes": 1798,
+        "sha256": "1b54c1cca74a1bcd949bc405fc5c7f4804a847bdacafac1e2406c9b757c64e5d"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/2/stdout.log",
+        "bytes": 77,
+        "sha256": "bc7f9a7b83567ba5db1a4fa41855de74a8c95cf44eb23be97011a60307bed4c5"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/2/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 0,
+      "seconds": 0.05631429998902604,
+      "pid": 2116,
+      "files": 1,
+      "regex_guard": {
+        "skips": 2,
+        "fallbacks": 0
+      }
+    },
+    {
+      "number": 3,
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/3/input.json",
+        "bytes": 2506,
+        "sha256": "84593c21ff3cd94fb278bbaed96278e6a4b99f665562d88f3e391bafdf25af0f"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/3/raw-result.json",
+        "bytes": 3956,
+        "sha256": "aafe522a0c1b832345886087682b38ca4ca5e5be8d1b79cf5280d3d4b26f84e5"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/3/command.json",
+        "bytes": 1798,
+        "sha256": "b613afa74609b781ae550b12f9c9916ed039e57b85501a76c5a7fe2e789b0ff9"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/3/stdout.log",
+        "bytes": 79,
+        "sha256": "7f7c8cd18ad3e227a596d594826a419032a76ae6908b280cf6eed22c8d2b4fed"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/3/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 0,
+      "seconds": 0.057842699985485524,
+      "pid": 22984,
+      "files": 5,
+      "regex_guard": {
+        "skips": 10,
+        "fallbacks": 0
+      }
+    },
+    {
+      "number": 4,
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/4/input.json",
+        "bytes": 2262,
+        "sha256": "150c58cd762df47ca09386ebb9d85ef5126b023f2967324d962cbf965946a940"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/4/raw-result.json",
+        "bytes": 4173,
+        "sha256": "b86fca3989448337256b84e42cc83b85225a3a79b8d95441c061722e7c65ca10"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/4/command.json",
+        "bytes": 1797,
+        "sha256": "f75f07672f1bc91affb14327f56b88a9b86aff37687d8f7f1f3096eb8254f50d"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/4/stdout.log",
+        "bytes": 79,
+        "sha256": "79ba08c0eb1e5e038fdf62adfb4d4460f03920f57a53e40b65fb1d164ab0be87"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/4/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 0,
+      "seconds": 0.054476600023917854,
+      "pid": 13380,
+      "files": 4,
+      "regex_guard": {
+        "skips": 8,
+        "fallbacks": 1
+      }
+    },
+    {
+      "number": 5,
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/5/input.json",
+        "bytes": 2500,
+        "sha256": "91e881f00b48f8fba76b07ec168c9575d6b9718f174c62f03afe50a740171781"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/5/raw-result.json",
+        "bytes": 4167,
+        "sha256": "25c7f70b57a53ee6b7e15fbc77f3d61a36d3f9434fdc3708e0d29956298112cf"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/5/command.json",
+        "bytes": 1798,
+        "sha256": "abdfd647de2fb50d6af44a4ea5201c6d373c46caf55ee935a68b860cd99b3780"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/5/stdout.log",
+        "bytes": 77,
+        "sha256": "fe67c54ed26192447897c347b7b349b8977d262cf05d5d9cfcc9c40ecf9b6055"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/execution/5/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 0,
+      "seconds": 0.05545630000415258,
+      "pid": 5444,
+      "files": 5,
+      "regex_guard": {
+        "skips": 9,
+        "fallbacks": 1
+      }
+    },
+    {
+      "number": 1,
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/invalidated-execution/1/input.json",
+        "bytes": 1516,
+        "sha256": "c437caf33e5fd7348cdb9b856e8c5aa7c1b4b9d3391897808dfb4118a02f3232"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/invalidated-execution/1/raw-result.json",
+        "bytes": 1687,
+        "sha256": "84e7f0a317c896fdc48091ecea7b846d40802eeae16c6326230768a7e47de2dd"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/invalidated-execution/1/command.json",
+        "bytes": 1882,
+        "sha256": "bb4872f0107036e8052f385b95431d2e9995477dbaff86a5810071790b925c94"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/invalidated-execution/1/stdout.log",
+        "bytes": 78,
+        "sha256": "5f73c6ab40a01de6dd114672f0f1f7906020493d54611a20d5b86bf62185ef74"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/invalidated-execution/1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 0,
+      "seconds": 0.039174299978185445,
+      "pid": 3260,
+      "files": 1,
+      "regex_guard": {
+        "skips": 2,
+        "fallbacks": 0
+      }
+    }
+  ],
+  "original_function_source_unchanged": true,
+  "assertions_changed": 0,
+  "law": "C6 already proves scan(list) equals ordered concatenation of original scan([path]) findings plus sorted reviewed union under the exact shared13/14 AST and git/environment. Independent helpers evaluate that same deterministic function for each content-keyed actual path. Restore reviewed tuple types, source/order/multiset and SHA-check every file before/after. Parent reuses the unchanged C6 cache/concatenation function. No candidate traversal or test assertion changes.",
+  "scheduler": "Run non-scanner lanes first; only logical lane1 may launch five read-only helpers. Parent plus helpers <=6 worker processes. No other test lane is active during that phase.",
+  "retained_regex_controls": 12068,
+  "regex_positive_fallback": "Unchanged C6 RegexProxy; helper skip/fallback counters and exact raw reports retained",
+  "original_queries": 0
+}

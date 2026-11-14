@@ -1,0 +1,72 @@
+{
+  "assemblies": [
+    {
+      "actual_managed": {
+        "path": ".test-rationalization-04A38.tmp/builds/w2c15-checkpoint-v2/Debug/legacy/BESHStatNG.dll",
+        "bytes": 2644992,
+        "sha256": "7615f17912323f88d293d6b5a116437f49135817494f83c8fd88bda5507189ff"
+      },
+      "measured_shipping": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/packet-v3/Debug/lib/BESHStatNG.dll",
+        "bytes": 2644992,
+        "sha256": "75cbd59201b0f224aeb33e4b653f2625e22f818c326d20a7f5adb7b22540aceb"
+      },
+      "physical_bytes_equal": false
+    },
+    {
+      "actual_managed": {
+        "path": ".test-rationalization-04A38.tmp/builds/w2c15-checkpoint-v2/Debug/legacy/BESHStat.Core.dll",
+        "bytes": 2088448,
+        "sha256": "49b01a4d4c036112711007c0618efb5fa53d12c86e0ca454d392a407bb7aed84"
+      },
+      "measured_shipping": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/packet-v3/Debug/lib/BESHStat.Core.dll",
+        "bytes": 2088448,
+        "sha256": "08b770159d63912ff6f30775eee1692ee0258f2dff69975c2f6d44234e8b89c2"
+      },
+      "physical_bytes_equal": false
+    },
+    {
+      "actual_managed": {
+        "path": ".test-rationalization-04A38.tmp/builds/w2c15-checkpoint-v2/Debug/legacy/BESHStat.Excel.Common.dll",
+        "bytes": 1175040,
+        "sha256": "c6670f831dc2be81d6faae3ce8cc7bd0c06585b84c2bc618828d0b0843bd9669"
+      },
+      "measured_shipping": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/packet-v3/Debug/lib/BESHStat.Excel.Common.dll",
+        "bytes": 1175040,
+        "sha256": "1805fbb81b1a7bd72c1595d05ca35e00cd5d28402df896fe575ea3dd36371a72"
+      },
+      "physical_bytes_equal": false
+    }
+  ],
+  "actual": {
+    "metadata": {
+      "path": "evidence/04A38/completion/w2/continuation-v15/metadata-managed-Debug-v1.json",
+      "bytes": 75820783,
+      "sha256": "ed5872b84a09006bd485547caa9bd0c1ad2c7d5dbaf54e9bec315933bd6ee59b"
+    },
+    "command": {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont15\\signatures-v1\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\builds\\w2c15-checkpoint-v2\\Debug\\legacy",
+        "<ISOLATED_RUN>\\completion-w2-cont15\\final-drafts\\metadata-managed-Debug-v1.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\native-metadata-owners-v3.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 7.244336600000679,
+      "stdout_sha256": "2392d6f3aa9f38ac4fe62aa7bbf1e57b5483122543be98f512e03d1e94f1ddde",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    "all_actual_method_semantics_equal": true,
+    "original_private_measurement": {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/final-drafts/metadata-managed-Debug-v1.json",
+      "bytes": 75820783,
+      "sha256": "ed5872b84a09006bd485547caa9bd0c1ad2c7d5dbaf54e9bec315933bd6ee59b"
+    }
+  },
+  "scope": "Actual authorized replacement full Debug campaign production DLLs independently bound to final packet-v3 shipping source/CIL. No unit test rerun, no original DLL load.",
+  "original_queries": 0
+}

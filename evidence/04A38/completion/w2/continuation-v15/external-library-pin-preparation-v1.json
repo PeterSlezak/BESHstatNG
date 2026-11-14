@@ -1,0 +1,13 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/source-provisional/common-before-external-library-pin-v1.py",
+    "bytes": 2310,
+    "sha256": "fdcdd6008b2090a2d26f1e746d3073ce03e4d59b9be0cda87459a190c489b902"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/common.py",
+    "bytes": 2393,
+    "sha256": "a254f6305aee2a3af972da5c3069204c551eb55bcc1f0b800b35cdb260e235ac"
+  },
+  "reason": "Use inherited v14 external-library pin contract before Python/scanner controls: hash external binaries by name/size/hash without requiring a repository-relative payload path. No scanner/test assertions changed; no failed scanner or campaign launch occurred."
+}

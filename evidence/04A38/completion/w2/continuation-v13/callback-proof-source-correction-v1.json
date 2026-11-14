@@ -1,0 +1,20 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/callback_context_v1.py",
+    "bytes": 10168,
+    "sha256": "0aacb28e45c983d86549e13d9c376eaca3eaea49ab51af59c82a264cf4045937"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/callback_context_v2.py",
+    "bytes": 10167,
+    "sha256": "93c7b5c4ca8c17d078cbf8eb4d3912ff14fdf4625dd848e6d858415a6cb69fae"
+  },
+  "first_attempt": {
+    "type": "SyntaxError",
+    "message": "unmatched ')'",
+    "line": 43,
+    "text": "    for index,(old,new) in enumerate(zip(oldchildren,newchildren))):"
+  },
+  "scope": "Bookkeeping Python syntax only; rejected before execution. No production/test or original reference source changed.",
+  "original_queries": 0
+}

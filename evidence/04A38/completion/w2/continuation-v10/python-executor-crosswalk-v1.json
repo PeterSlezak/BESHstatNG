@@ -1,0 +1,28 @@
+{
+  "kernel": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v9/parallel_scan_v1.py",
+      "bytes": 9708,
+      "sha256": "b3d297ec321485e9b72eed0de42fc007aaca357bd53b1ca724294c0b519be51e"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v10/parallel_scan_v1.py",
+      "bytes": 10232,
+      "sha256": "cd13641a6d6448dbcf3494136c3ca64bdfbe3b4449b4670d399fe7daf004dc7c"
+    }
+  },
+  "worker": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v9/python_workers_v1.py",
+      "bytes": 17224,
+      "sha256": "697d8534e1e57f7cbe7cf854e420b9119793ed145672ec29bad22945cab2a85c"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v10/python_workers_v1.py",
+      "bytes": 17276,
+      "sha256": "ab762071737087aafb46b6bdd554b894cb9ce16a27a9ef9341603d1429a7d767"
+    }
+  },
+  "change": "Only files above 256MiB are deferred from parallel precomputation to the exact unchanged sequential C6 scan/cache at their original candidate position. No file filtering, original scanner/test rewrite, JSON parser replacement or exception translation. Preserve the protected giant failed aggregation; never aggregate it as a result report.",
+  "original_queries": 0
+}

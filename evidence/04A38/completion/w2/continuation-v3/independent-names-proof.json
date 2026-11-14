@@ -1,0 +1,49 @@
+{
+  "status": "NAMES_AND_CANONICAL_SPILL_SOURCE_CIL_PASS_NOT_READY",
+  "proofs": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "name": "ResolveNames",
+      "target": "UdfNamePreparation38.FillExplicitNames + ResolveDetectedNames",
+      "reason": "Complete original three-branch operation composition; host missing/acquisition precedes typed policy; explicit same-array mutation uses actual length; detected fresh copy; current-culture ordinals and negative allocation behavior preserved"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|f2174ff6d80f42c7@2560:2296",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+      "name": "GetVariableNames",
+      "target": "UdfNamePreparation38.GetVariableNames + UdfVariableNameRange38",
+      "reason": "Exact original fallback-before-missing, comma RemoveEmptyEntries, row-before-column, conversion-before-count-mismatch and fill order; original native Get2D normalizes/copies bounds; no ExcelError crosses typed string boundary"
+    }
+  ],
+  "configurations": [
+    {
+      "configuration": "Debug",
+      "outcomes": [
+        {
+          "Passed": 82
+        },
+        {
+          "Passed": 59
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "outcomes": [
+        {
+          "Passed": 82
+        },
+        {
+          "Passed": 59
+        }
+      ]
+    }
+  ],
+  "duplicates_removed_from_coordinate_class": 2,
+  "canonical_spill_methods_unchanged": true,
+  "original_queries": 0,
+  "W2": "IN_PROGRESS",
+  "W3": "NOT_STARTED",
+  "boundary": "No opaque ExcelError/cell enters portable policy; host accessor supplies already interpreted string after original copied/normalized Get2D"
+}

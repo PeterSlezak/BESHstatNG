@@ -1,0 +1,106 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\metadata-v6\\MethodMetadata38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\MethodMetadata-v6.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.3415916000085417,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\metadata-v6\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\consolidated38-v7\\original-build\\Debug",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\metadata-v6\\parametric-v4\\original-Debug.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\native-metadata-owners-v6.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.9498741999850608,
+      "stdout_sha256": "b204759657db30aad7309728263e90db81f646defa7fdb89e6a8e63db5c38cb8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\metadata-v6\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\consolidated38-v7\\original-build\\Release",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\metadata-v6\\parametric-v4\\original-Release.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\native-metadata-owners-v6.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.8094435000093654,
+      "stdout_sha256": "b204759657db30aad7309728263e90db81f646defa7fdb89e6a8e63db5c38cb8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\metadata-v6\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\metadata-v6\\parametric-v4\\current-Debug.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\native-metadata-owners-v6.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.95751070001279,
+      "stdout_sha256": "f7dcb4de683b10034035c8f497adb9f4f39e948a6f821a7edeabf9dcf9c8dbd0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\metadata-v6\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\metadata-v6\\parametric-v4\\current-Release.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\native-metadata-owners-v6.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.8935147000011057,
+      "stdout_sha256": "f7dcb4de683b10034035c8f497adb9f4f39e948a6f821a7edeabf9dcf9c8dbd0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "files": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/metadata-v6/parametric-v4/original-Debug.json",
+      "bytes": 9980961,
+      "sha256": "f46fc590161c780b5a1bc8125a0eb26b31caf72ca9296e639ca2d4f7433919f2"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/metadata-v6/parametric-v4/original-Release.json",
+      "bytes": 9254401,
+      "sha256": "f77e122a24ea8f7f80c5f5365f9fed00ded1cb6c03828e056d057179db522d1a"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/metadata-v6/parametric-v4/current-Debug.json",
+      "bytes": 10971103,
+      "sha256": "a5f24f64ecf2b17b1433ce7510a57200b5221574ff4f6ef997e0f635193431c8"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/metadata-v6/parametric-v4/current-Release.json",
+      "bytes": 10240528,
+      "sha256": "c722b3a36965c3f68ee1a844aa5af58d7db79ad50d33d5280c01516f32dcf809"
+    }
+  ],
+  "tool": {
+    "path": "evidence/04A38/completion/w2/continuation-v4/MethodMetadata-v6.cs",
+    "bytes": 9044,
+    "sha256": "76af1a8bd59088bbbb02f8a9b03f48584d3a288b69876621dd9f0e0b36a2859a"
+  },
+  "metadata_only": true,
+  "original_semantic_calls": 0
+}

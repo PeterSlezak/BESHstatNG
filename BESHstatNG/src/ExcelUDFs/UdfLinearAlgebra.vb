@@ -14,28 +14,11 @@ Friend Module UdfLinearAlgebra
     ''' <returns>True when inversion succeeds; otherwise, False.</returns>
     Friend Function TryInvertMatrix(a As Double(,), ByRef inv As Double(,)) As Boolean
         inv = Nothing
-        If a Is Nothing Then Return False
-        If a.Rank <> 2 Then Return False
-
-        Dim nRows As Integer = a.GetLength(0)
-        Dim nCols As Integer = a.GetLength(1)
-        If nRows <> nCols OrElse nRows = 0 Then Return False
-
+        Dim nRows As Integer = 0
+        Dim nCols As Integer = 0
+        If Not Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TryGetSquareMatrixDimensions(a, nRows, nCols) Then Return False
         Try
-            Dim iErr As Integer = 0
-            inv = Global.BESHStatNG.Matrix.Matrix.MatInv(a, "SVD", iErr, False)
-
-            If iErr <> 0 OrElse inv Is Nothing Then
-                inv = Nothing
-                Return False
-            End If
-
-            If inv.GetLength(0) <> nRows OrElse inv.GetLength(1) <> nCols Then
-                inv = Nothing
-                Return False
-            End If
-
-            Return True
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TryInvertPreparedSquareMatrix(a, nRows, nCols, inv)
         Catch
             inv = Nothing
             Return False

@@ -1,0 +1,31 @@
+{
+  "status": "FAILED_LAUNCH_BEFORE_ANY_WORK_PRESERVED_AND_CORRECTED",
+  "original_attempt": "Initial tool result: isolated finalize_external_v1.py exited1 at line2 importing common. Raw original tool result remains in conversation history; this receipt does not relabel the repeat as the first.",
+  "diagnostic_repeat": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13\\finalize_external_v1.py"
+    ],
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\r\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13\\finalize_external_v1.py\", line 2, in <module>\r\n    from common import *\r\nModuleNotFoundError: No module named 'common'\r\n",
+    "stdout_bytes": 0,
+    "stderr_bytes": 249,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "c35c88e51eb389f66c654db27ee8a9ed4781488be25bdb9af12b8cd22cd031b1"
+  },
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/finalize_external_v1.py",
+    "bytes": 10233,
+    "sha256": "33330b46af70f9b6d5046c049cea8573a883f54021fca49c9fd0bc36071bc520"
+  },
+  "preparation_tool": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-prepare-final-launch-v2.py",
+    "bytes": 2752,
+    "sha256": "96d97abd38a69534ecd1f1af32afeaa477afe511a3f1b0c52506980ec42eba5b"
+  },
+  "remedy": "Explicitly insert the documented C13 tool directory before importing common; actual successor private reader --verify remains isolated. No source, test, seal, part, manifest or private file changed.",
+  "original_queries": 0
+}

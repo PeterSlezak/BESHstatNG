@@ -1,0 +1,6 @@
+from common import *
+h=json.loads((HERE/'historical-ownership.json').read_bytes());current=json.loads((HERE/'current-ownership.json').read_bytes());orig=json.loads((W1/'original-universe.json').read_bytes());closed={r['git_original_id'] for r in h['members'] if r['proof']};canonical={r['git_original_id']:r['canonical_original_id'] for r in h['members']}
+rows=[dict(fragment_id=r['fragment_id'],parent=r['member_id'],canonical_original_parent=canonical.get(r['member_id']),is_branch=r['is_branch'],is_inline=r['is_inline'],status='COVERED_BY_PROVEN_WHOLE_PARENT' if r['member_id'] in closed else 'OPEN') for r in orig['fragments']]
+def counts(rs,covered):return dict(total=len(rs),branches=sum(r['is_branch'] for r in rs),inline=sum(r['is_inline'] for r in rs),covered=sum(covered(r) for r in rs),branches_covered=sum(r['is_branch'] and covered(r) for r in rs),inline_covered=sum(r['is_inline'] and covered(r) for r in rs))
+save('original-fragment-parent-crosswalk.json',dict(scope='Exact W1 authenticated Git syntax fragments; canonical CRLF snapshot identities mapped explicitly; OPEN outside proven whole parent',rows=rows))
+save('fragment-coverage-addendum.json',dict(original=counts(rows,lambda r:r['status'].startswith('COVERED')),current=counts(current['fragments'],lambda r:r['review_status']=='COVERED_BY_REVIEWED_BODY'),whole_branch_closure=False))

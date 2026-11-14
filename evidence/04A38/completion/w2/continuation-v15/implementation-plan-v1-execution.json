@@ -1,0 +1,24 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/plan_implementation_v1.py",
+    "bytes": 2828,
+    "sha256": "61b643f24d119bfa13c534c147cb6c081e079bcb7fe6fe631f630531c2015b82"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\plan_implementation_v1.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 2.722977699995681,
+    "stdout_sha256": "41b2c909f47f8c6f016421c69f1b5fca4548c0b6b3c669f47163d6f3943eb412",
+    "stderr_sha256": "6ff6ded4d2541f8c6f90ed463b604868ca589f769cdb6788126d45bd495475dd",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

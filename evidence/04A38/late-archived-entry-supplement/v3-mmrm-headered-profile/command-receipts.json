@@ -1,0 +1,1438 @@
+{
+  "commands": [
+    {
+      "lane": "mmrm38-v3-compile-current-Debug-trace",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize-",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\MixedModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\UdfDataImportMixedModel.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\FixtureInputs38.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\MmrmBranch38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5005043999990448,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-compile-current-Release-trace",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize+",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\MixedModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\UdfDataImportMixedModel.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\FixtureInputs38.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\MmrmBranch38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4846149000004516,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-compile-original-Debug-plain",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize-",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\FixtureInputs38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.521276500003296,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-compile-original-Debug-trace",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize-",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\MixedModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\UdfDataImportMixedModel.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\FixtureInputs38.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\MmrmBranch38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5195571000003838,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-compile-original-Release-plain",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize+",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\FixtureInputs38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5109129999982542,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-compile-original-Release-trace",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize+",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\MixedModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\UdfDataImportMixedModel.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\FixtureInputs38.vb",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\MmrmBranch38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5093072000017855,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-current-Debug",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\MmrmCurrentCapture38.exe",
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\current-results\\Debug\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\current-results\\Debug\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.45538849999866216,
+        "stdout_sha256": "e090c51ad9c4007dc8a884037fe63e51e1b2d03ee68cefbb09e1709069159b5c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-current-Debug-recorder",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\current-Debug-trace\\MmrmCurrentCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3423285000026226,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-current-Release",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\MmrmCurrentCapture38.exe",
+          "<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\current-results\\Release\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\current-results\\Release\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5116683000014746,
+        "stdout_sha256": "e090c51ad9c4007dc8a884037fe63e51e1b2d03ee68cefbb09e1709069159b5c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-current-Release-recorder",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\current-Release-trace\\MmrmCurrentCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3357841000033659,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-gate-independent-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/verify_packet.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.5030614999996033,
+        "stdout_sha256": "72ec3d1eaa139fa72c86ff0263e729a75f1b386909386682b8f268cf68c85057",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-guard-gap-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile",
+          "-p",
+          "test_guard_gap.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 23.60466369999631,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "723a31a54593b6500ca0354bfbc300202d487e4b025129d7403d550db41d7dbb",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-guard-gap-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/verify_guard_gap.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.162149400006456,
+        "stdout_sha256": "e33d0a421ab5cd4280bb363573dcf42905eaa280b35f986409b4a6bc99334229",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-materialize-compile",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/main:MaterializeMmrm38",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\MaterializeMmrm38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\MaterializeMmrm38.cs",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\frozen-v2\\Capture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.36371990000043297,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-materialize-inputs",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\MaterializeMmrm38.exe",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\factory-inputs.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3460121000025538,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Debug-common",
+      "receipt": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHStat.Excel.Common\\BESHStat.Excel.Common.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\mmrm38-v3\\original-build\\Debug\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\mmrm38-v3\\obj\\Debug\\common\\",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 2.4067708000002312,
+        "stdout_sha256": "fa702ecd6ae191fef6085c686b3605dcdbbcde19ea513cfb160d2784a87988c0",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Debug-core",
+      "receipt": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHStat.Core\\BESHStat.Core.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\mmrm38-v3\\original-build\\Debug\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\mmrm38-v3\\obj\\Debug\\core\\",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 4.132382099996903,
+        "stdout_sha256": "3d71e7a3b57b485011df6de682e56eedbad787fad1527fb038307680c50ae28e",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Debug-host",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\BESHstatNG.vbproj",
+          "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\mmrm38-v3\\original-build\\Debug\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\mmrm38-v3\\obj\\Debug\\host\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 2.8100078999996185,
+        "stdout_sha256": "d35ea85ee6f5fac216e3e056540041a2cd5f2b3a50d6858b7b60b22237ac4993",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Debug-plain",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\MmrmCapture38.exe",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\plain\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\plain\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4623924999978044,
+        "stdout_sha256": "f91ed326f60e6adcb27e78fbf38a363949c6942a3e5f220ab64f6617ab6a8f56",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Debug-repeat",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\MmrmCapture38.exe",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\repeat\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\repeat\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.35643700000218814,
+        "stdout_sha256": "f91ed326f60e6adcb27e78fbf38a363949c6942a3e5f220ab64f6617ab6a8f56",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Debug-trace",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\MmrmCapture38.exe",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\trace\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\trace\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.45746279999730177,
+        "stdout_sha256": "f91ed326f60e6adcb27e78fbf38a363949c6942a3e5f220ab64f6617ab6a8f56",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Release-common",
+      "receipt": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHStat.Excel.Common\\BESHStat.Excel.Common.vbproj",
+          "/t:Build",
+          "/p:Configuration=Release",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\mmrm38-v3\\original-build\\Release\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\mmrm38-v3\\obj\\Release\\common\\",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 1.8368927000046824,
+        "stdout_sha256": "fb35d7905e7ff81728cce4a3d32342ba7b3879aba45051ce0dcf8a8f3506f6c8",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Release-core",
+      "receipt": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHStat.Core\\BESHStat.Core.vbproj",
+          "/t:Build",
+          "/p:Configuration=Release",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\mmrm38-v3\\original-build\\Release\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\mmrm38-v3\\obj\\Release\\core\\",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 2.301991899999848,
+        "stdout_sha256": "eb1d401e5a1321fdf4fb7030b286ae692a26268a1f3ff2c2fa741bfca987ffa4",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Release-host",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\BESHstatNG.vbproj",
+          "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+          "/p:Configuration=Release",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\mmrm38-v3\\original-build\\Release\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\mmrm38-v3\\obj\\Release\\host\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 2.3969356999950833,
+        "stdout_sha256": "caeaac9011a71666e2d420c37f25f5beb597a88c6c946df76db75b817a819f61",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Release-plain",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain\\MmrmCapture38.exe",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Release\\plain\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Release\\plain\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.518656700005522,
+        "stdout_sha256": "f91ed326f60e6adcb27e78fbf38a363949c6942a3e5f220ab64f6617ab6a8f56",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Release-repeat",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain\\MmrmCapture38.exe",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Release\\repeat\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Release\\repeat\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.42401659999450203,
+        "stdout_sha256": "f91ed326f60e6adcb27e78fbf38a363949c6942a3e5f220ab64f6617ab6a8f56",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-original-Release-trace",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\MmrmCapture38.exe",
+          "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Release\\trace\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Release\\trace\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5116677999976673,
+        "stdout_sha256": "f91ed326f60e6adcb27e78fbf38a363949c6942a3e5f220ab64f6617ab6a8f56",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-packet-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile",
+          "-p",
+          "test_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 7.707766799998353,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0941b96160443d3fe78631b847a11d2598adfd32754af85cad54f44b91eadc46",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-predecessor-live-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\verify_closeout.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 9.87650130000111,
+        "stdout_sha256": "4a6fea5b9ae5ac601e9047f88e6ac03203dbea556c680a4b5ab2619162a265c4",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-preservation-closeout",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\verify_preservation.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.7939760999943246,
+        "stdout_sha256": "775a8f7dd3877034a7898fcd82bbeeb555d6c2c0d108ae6e291713d4857455d6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-preservation-gate",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\verify_preservation.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.750397600000724,
+        "stdout_sha256": "775a8f7dd3877034a7898fcd82bbeeb555d6c2c0d108ae6e291713d4857455d6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-addendum-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/preedit_addendum_reader.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.0634112999978242,
+        "stdout_sha256": "630bbf880da9b4c267baf9a6372711604f01ed961f3ad15214efcb9e6df4fcf2",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-checkpoint-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/",
+          "-p",
+          "test_review_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.36286150000523776,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "7865299618d0ef2ae69cc8e14d72516b8c6f648c9bce1071ecfda9ec981956dc",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-checkpoint-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/verify_review_packet.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.6210942000034265,
+        "stdout_sha256": "9d41abe5f91877508f497acac60a8c67840f6c6a83f2a49680122b4f9f2f047a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-continuation-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/continuation/v1",
+          "-p",
+          "test_branch_audit.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.633535799999663,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "45657353f2866b2a989990bbf7fcdfa64d5a0e19a8303cfa8224d356c556ae60",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-continuation-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/continuation/v1/verify_continuation.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.9522391999998945,
+        "stdout_sha256": "e79b35c77b672256598c8970a8bb32365ecd69ba3153e271f0e22e8d35770e2f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-gee-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_gee.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 25.010644000001776,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0d0d3d2582915387dc20451fd3be1220bf7c7a6dae2dc5ff845c494dd978063c",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-gee-closeout-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/verify_closeout.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 13.336486200001673,
+        "stdout_sha256": "4a6fea5b9ae5ac601e9047f88e6ac03203dbea556c680a4b5ab2619162a265c4",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-gee-manifest-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_manifest.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 9.690545199999178,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e8bae8b19ea36823e32d5767027b14949e2b6babebf71ccee837fc53d176ac5d",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-gee-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/verify_gee.py",
+          "--publication"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.516102299996419,
+        "stdout_sha256": "b73825b75d7ac65db326cd27b7f89420296265037f8b5b19f86b103dbd704e04",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-late432-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v1",
+          "-p",
+          "test_supplement.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.5302609999998822,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "1fe1088b6e0d0e9cea017104e655203fcd66211029fea6209b8dd059d661e499",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-late432-manifest-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v1",
+          "-p",
+          "test_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 9.64640910000162,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "9b267f62fcc6832807322c98c089322464b6793d60eb4670d268f74629729f80",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-late432-packet-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v1/verify_packet.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.7318242000037571,
+        "stdout_sha256": "88cd6bc4810e7484f2db6acd8212ba3c040c31a8bdce1bcf9e3b6ce9e55b5e95",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-late432-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v1/verify_supplement.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.2167431000052602,
+        "stdout_sha256": "66ade008e6d76de6fc5e694e8bc7cec166a2708287cd6a264a48888de88582e6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-old-gap-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_mmrm_gap.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 18.704243300002418,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "970f035fb229c325a979a64408afca1b0bc66b38708d0ae1a2463e464bb87157",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-preedit-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v1/replay_preedit_adverse.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 19.09332749999885,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "4893e799140cb199a02fcc8de5f4da2e148d9074bc518c4b4e6ec265ca47453c",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-preedit-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/preedit_reader.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 4.81980509999994,
+        "stdout_sha256": "44818d302730ce8739a7521d5e769aecdd3e2f6f72e5f00d8767171371166293",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-prior-protected-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_preservation.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.2151279999961844,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e35f498030485061805cf90b34990d600212c12923e9c7337f1b157fbf785114",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-recorder-Debug-plain",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\MmrmCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.343187599995872,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-recorder-Debug-trace",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\MmrmCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.33472169999731705,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-recorder-Release-plain",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-plain\\MmrmCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3361780999985058,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-recorder-Release-trace",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\MmrmCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3315898000000743,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "mmrm38-v3-supplement-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile",
+          "-p",
+          "test_supplement.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 28.252027999995335,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "9fa33f874c7169cde42c1d040dc25b689deee50f4eb9c0c5927899688361c009",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "raw_logs": "Retained privately; exact sanitized command vectors, cwd, exits and raw log digests are above",
+  "earlier_tooling_failures": [
+    "attempt-input-tooling-v1.json",
+    "attempt-input-reader-v1.json"
+  ],
+  "command_aliases": {
+    "<V3>": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile",
+    "<PYTHON>": "Existing owner-specified Python executable; identity/runtime in this packet"
+  },
+  "non_execution": "Read-only corpus audits create no reference cases; all original/current executions are the two approved identities/configuration"
+}

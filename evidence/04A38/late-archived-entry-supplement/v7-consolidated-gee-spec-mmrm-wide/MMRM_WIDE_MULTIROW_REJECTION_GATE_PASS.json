@@ -1,0 +1,200 @@
+{
+  "status": "MMRM_WIDE_MULTIROW_REJECTION_GATE_PASS",
+  "recorded_utc": "2026-11-09T17:35:49.455338+00:00",
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "approval": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/owner-authorization.json",
+    "bytes": 3062,
+    "sha256": "7a27c30e0c50f04cf8a8267f16f87d85ea295b81843d1a3dacbe09767bd4ca51"
+  },
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/input-seal.json",
+    "bytes": 7509,
+    "sha256": "0cce11e2b2de60c5691df4d52d00d535f74df7b1526f63b7f81dc9451751dcdf"
+  },
+  "original_output_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-output-seal.json",
+    "bytes": 27449,
+    "sha256": "f1913f11c89b9f812df5c8c6584af5cb65753012c2ded8b4e1a63ac7c88ba79d"
+  },
+  "validation": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/gate-validation.json",
+    "bytes": 69242,
+    "sha256": "d3b87364b9c1243569e3db8e3061035d4eca4725eddb3a996c8b530fce4e36fc"
+  },
+  "cases": {
+    "Debug": [
+      {
+        "case_id": "AUTHORIZED-G/Invariant/MMRM_WIDE_MULTIROW_REJECTION",
+        "culture": "",
+        "kind": "MMRM_WIDE_MULTIROW_REJECTION",
+        "exact": true,
+        "true_guard_original_lines": [
+          592,
+          593,
+          594
+        ],
+        "outcome": "RETURN_TEXT",
+        "returned_report": false,
+        "input_sha256": "8fa43a53c490e5897fb515e13b9dabed98a188dde17ddc52b9be4a8125b51518",
+        "original_query_sha256": "98068f8a3a4a16e02bf995d68ff09e493bd23f19582aee450b443113f8f4a844",
+        "current_query_sha256": "98068f8a3a4a16e02bf995d68ff09e493bd23f19582aee450b443113f8f4a844",
+        "decoded_result": "BESH.REGR.MMRM_LSMESTIMATE error: wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+        "events": [
+          "G2.spec.accepted=True",
+          "G2.parser.entry=True",
+          "G2.headerless.bad_precondition=False",
+          "G2.headerless.columns=1",
+          "G2.headerless.column_guard_true=True",
+          "G2.headerless.attempted=False",
+          "G2.branch.wide=True",
+          "G2.header.visit_col=0",
+          "G2.wide.row=1",
+          "G2.wide.prior_data_row=-1",
+          "G2.first_row.accepted=1",
+          "G2.wide.row=2",
+          "G2.wide.prior_data_row=1",
+          "G2.guard.multirow=True",
+          "G2.guard.atProfile_Nothing=True",
+          "G2.guard.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "G2.public.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "G2.public.atProfile_Nothing=True",
+          "G2.public.at_rejected=True"
+        ],
+        "private_ByRef": {
+          "atProfile": null,
+          "errorMessage": "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+        }
+      },
+      {
+        "case_id": "AUTHORIZED-G/sk-SK/MMRM_WIDE_MULTIROW_REJECTION",
+        "culture": "sk-SK",
+        "kind": "MMRM_WIDE_MULTIROW_REJECTION",
+        "exact": true,
+        "true_guard_original_lines": [
+          592,
+          593,
+          594
+        ],
+        "outcome": "RETURN_TEXT",
+        "returned_report": false,
+        "input_sha256": "1925550949091aaa090b7c49500eb9d4c4b40d3de517040eecfa66efa79e138b",
+        "original_query_sha256": "98068f8a3a4a16e02bf995d68ff09e493bd23f19582aee450b443113f8f4a844",
+        "current_query_sha256": "98068f8a3a4a16e02bf995d68ff09e493bd23f19582aee450b443113f8f4a844",
+        "decoded_result": "BESH.REGR.MMRM_LSMESTIMATE error: wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+        "events": [
+          "G2.spec.accepted=True",
+          "G2.parser.entry=True",
+          "G2.headerless.bad_precondition=False",
+          "G2.headerless.columns=1",
+          "G2.headerless.column_guard_true=True",
+          "G2.headerless.attempted=False",
+          "G2.branch.wide=True",
+          "G2.header.visit_col=0",
+          "G2.wide.row=1",
+          "G2.wide.prior_data_row=-1",
+          "G2.first_row.accepted=1",
+          "G2.wide.row=2",
+          "G2.wide.prior_data_row=1",
+          "G2.guard.multirow=True",
+          "G2.guard.atProfile_Nothing=True",
+          "G2.guard.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "G2.public.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "G2.public.atProfile_Nothing=True",
+          "G2.public.at_rejected=True"
+        ],
+        "private_ByRef": {
+          "atProfile": null,
+          "errorMessage": "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+        }
+      }
+    ],
+    "Release": [
+      {
+        "case_id": "AUTHORIZED-G/Invariant/MMRM_WIDE_MULTIROW_REJECTION",
+        "culture": "",
+        "kind": "MMRM_WIDE_MULTIROW_REJECTION",
+        "exact": true,
+        "true_guard_original_lines": [
+          592,
+          593,
+          594
+        ],
+        "outcome": "RETURN_TEXT",
+        "returned_report": false,
+        "input_sha256": "55b93ae0282544776eac6a128ef431abe1887335eeb03028075350732297f4ff",
+        "original_query_sha256": "98068f8a3a4a16e02bf995d68ff09e493bd23f19582aee450b443113f8f4a844",
+        "current_query_sha256": "98068f8a3a4a16e02bf995d68ff09e493bd23f19582aee450b443113f8f4a844",
+        "decoded_result": "BESH.REGR.MMRM_LSMESTIMATE error: wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+        "events": [
+          "G2.spec.accepted=True",
+          "G2.parser.entry=True",
+          "G2.headerless.bad_precondition=False",
+          "G2.headerless.columns=1",
+          "G2.headerless.column_guard_true=True",
+          "G2.headerless.attempted=False",
+          "G2.branch.wide=True",
+          "G2.header.visit_col=0",
+          "G2.wide.row=1",
+          "G2.wide.prior_data_row=-1",
+          "G2.first_row.accepted=1",
+          "G2.wide.row=2",
+          "G2.wide.prior_data_row=1",
+          "G2.guard.multirow=True",
+          "G2.guard.atProfile_Nothing=True",
+          "G2.guard.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "G2.public.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "G2.public.atProfile_Nothing=True",
+          "G2.public.at_rejected=True"
+        ],
+        "private_ByRef": {
+          "atProfile": null,
+          "errorMessage": "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+        }
+      },
+      {
+        "case_id": "AUTHORIZED-G/sk-SK/MMRM_WIDE_MULTIROW_REJECTION",
+        "culture": "sk-SK",
+        "kind": "MMRM_WIDE_MULTIROW_REJECTION",
+        "exact": true,
+        "true_guard_original_lines": [
+          592,
+          593,
+          594
+        ],
+        "outcome": "RETURN_TEXT",
+        "returned_report": false,
+        "input_sha256": "43d2460001d111eeeabbaa1c017e014b6db1c25aa40cbc939887c9cf0d1f46d0",
+        "original_query_sha256": "98068f8a3a4a16e02bf995d68ff09e493bd23f19582aee450b443113f8f4a844",
+        "current_query_sha256": "98068f8a3a4a16e02bf995d68ff09e493bd23f19582aee450b443113f8f4a844",
+        "decoded_result": "BESH.REGR.MMRM_LSMESTIMATE error: wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+        "events": [
+          "G2.spec.accepted=True",
+          "G2.parser.entry=True",
+          "G2.headerless.bad_precondition=False",
+          "G2.headerless.columns=1",
+          "G2.headerless.column_guard_true=True",
+          "G2.headerless.attempted=False",
+          "G2.branch.wide=True",
+          "G2.header.visit_col=0",
+          "G2.wide.row=1",
+          "G2.wide.prior_data_row=-1",
+          "G2.first_row.accepted=1",
+          "G2.wide.row=2",
+          "G2.wide.prior_data_row=1",
+          "G2.guard.multirow=True",
+          "G2.guard.atProfile_Nothing=True",
+          "G2.guard.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "G2.public.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "G2.public.atProfile_Nothing=True",
+          "G2.public.at_rejected=True"
+        ],
+        "private_ByRef": {
+          "atProfile": null,
+          "errorMessage": "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+        }
+      }
+    ]
+  },
+  "batch_status": "NOT_READY_04A38"
+}

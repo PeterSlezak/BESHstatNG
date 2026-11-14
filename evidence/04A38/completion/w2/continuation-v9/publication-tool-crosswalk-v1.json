@@ -1,0 +1,39 @@
+{
+  "verifier": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/verify_c8_publication_v4.py",
+      "bytes": 5282,
+      "sha256": "eb2235fb1eb5ab29f20f963b6c4e0ead5a9e16b00e3b07d783d5f61c1d8a5b08"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v9/verify_c9_publication_v1.py",
+      "bytes": 5058,
+      "sha256": "b0f48466a78de366879b3c0f9981b8c1507e8573ac193f570f6d6ff394fc1e11"
+    }
+  },
+  "publisher": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/publish_v5.py",
+      "bytes": 7254,
+      "sha256": "9683ffa01f76f7a146dcd27ad2940c930ccb25a56565ad823050d145276c3fdb"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v9/publish_v1.py",
+      "bytes": 7726,
+      "sha256": "74a4230998a47812282ad430c54ad8865c9dcc8fe8d7a3dfe58a16b40bed1896"
+    }
+  },
+  "postseal": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/postseal_v2.py",
+      "bytes": 2182,
+      "sha256": "604db8ccfbf51ea6bd4f80a8533603d999e9075f63bb913534477e0941fe2ea5"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v9/postseal_v1.py",
+      "bytes": 2185,
+      "sha256": "b11ed7945a16676a28f0c644ccdbbe36d70357d306863d694fa55fb09858e1ae"
+    }
+  },
+  "scope": "No new privacy exception; correct inherited validation helper is explicitly bootstrapped. Initial final C9 manifest is v1; failed C8 candidates remain ordinary preserved payloads. Separate actual live/copy/physical/private scopes remain mandatory."
+}

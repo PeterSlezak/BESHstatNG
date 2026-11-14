@@ -1,0 +1,54 @@
+{
+  "status": "NEW_FIXTURE_ERRORS_RETAINED_AND_CORRECTED",
+  "failures": [
+    {
+      "test": "Inference38KeepsReportChoicesNamesAndPairOwnership/sk-SK",
+      "cause": "New assertion incorrectly assumed fullwidth WELCH compares equal in sk-SK; actual established comparison policy returns no alias. Preserve the culture difference, do not change global policy."
+    },
+    {
+      "test": "Inference38MeanReportBodiesKeepLabelsRawNumbersAndCiHelpers",
+      "cause": "New sample difference2.25 lies outside margins[-2,2]; original engine properly throws. Add explicit throw/error check and use[-4,4] for valid report testing."
+    }
+  ],
+  "records": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/focused-families-v1-Debug.json",
+      "bytes": 39585,
+      "sha256": "4f8046de447324d66b4b9dd937e2ccf520fead31f39804f9cc56fd361fd84f58"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/focused-families-v1-Release.json",
+      "bytes": 39595,
+      "sha256": "9715481e3252e95095825c3fa418d432b4d5becc0cd43b314dbe4de99cfe7182"
+    }
+  ],
+  "preimages": [
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/attempts/families-v1-fixtures/BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb.txt",
+        "bytes": 38552,
+        "sha256": "bfed2511381799fcaf64789e0de08f79abd4a24ce7e46fbef16195b6baf171e9"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+        "bytes": 38780,
+        "sha256": "75b89210bfae1387db604ed77b6570a63c1d6ef8a8060d24a759ce27ce43f99a"
+      }
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/attempts/families-v1-fixtures/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "bytes": 57659,
+        "sha256": "cfd294988cc73053bc820f85847b92a42628c027d26634daec2c730646dd06f6"
+      },
+      "after": {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 57764,
+        "sha256": "53073bbf7be8a00058dbbcd85a687d9a937953fcaf43addf4f1ab9cc13e9ca04"
+      }
+    }
+  ],
+  "changed_old_assertions": 0,
+  "production_changes": 0,
+  "original_queries": 0
+}

@@ -1,0 +1,49 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_04a13_survival_workflow.py",
+        "-k",
+        "test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 396.51634610000474,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "215f0f6f1c72ab85314ab494e22a8934c4caed80f85b0ba0f6deea0a34ec689e",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_04a14_mixed_workflow.py",
+        "-k",
+        "test_entire_proposed_publication_set_privacy",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 403.4259185999981,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "f5c88acf45345a53467ecd19f6ecaaa62379258478a2f18ab78d741606feffb8",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "expectation": "Each inherited privacy identity remains FAIL; must not ERROR from new artifact encoding. No test assertions changed."
+}

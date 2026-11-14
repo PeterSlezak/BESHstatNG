@@ -1,0 +1,166 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\inspection\\Inspect38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\helpers\\Inspect38.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5437300999983563,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\inspection\\Inspect38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\inspection\\packet-v1\\Inspect38-Debug.json",
+        "<REPO_ROOT>\\evidence\\04A38\\entry-members.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.7280415000004723,
+      "stdout_sha256": "768d70d3cf223e448fec840b0c77f411d7200e0c4edb14c31b61c0a66f40baff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\inspection\\Inspect38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\inspection\\packet-v1\\Inspect38-Release.json",
+        "<REPO_ROOT>\\evidence\\04A38\\entry-members.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6596882000012556,
+      "stdout_sha256": "768d70d3cf223e448fec840b0c77f411d7200e0c4edb14c31b61c0a66f40baff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\inspection\\Closure38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\helpers\\PortableConsumerClosure38.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.3982036999987031,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\inspection\\Closure38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\entry-members.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\inspection\\packet-v1\\Closure38-Debug.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.918433900000309,
+      "stdout_sha256": "25af1fd2563c09f79b24c6958e76c45fd91a855f5947872b3eec716754e8f038",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\inspection\\Closure38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\entry-members.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\inspection\\packet-v1\\Closure38-Release.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 6.6978165000000445,
+      "stdout_sha256": "25af1fd2563c09f79b24c6958e76c45fd91a855f5947872b3eec716754e8f038",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\inspection\\MethodBodies38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\MethodBodies-v2.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.3806241999991471,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\inspection\\MethodBodies38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\inspection\\packet-v1\\MethodBodies38-Debug.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.8870538999999553,
+      "stdout_sha256": "5db263b489ebb1e0898b80b13f1b25fd77e4928f72a9f174b79da7eba2855736",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\inspection\\MethodBodies38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont12\\packet-v1\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\inspection\\packet-v1\\MethodBodies38-Release.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.9594457000002876,
+      "stdout_sha256": "5db263b489ebb1e0898b80b13f1b25fd77e4928f72a9f174b79da7eba2855736",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "dotnet",
+        "<ISOLATED_RUN>\\mmrm38-v6\\w1-census-tool-v2\\bin\\Census.dll",
+        "<REPO_ROOT>",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\current-universe-packet-v1.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 19.746123499999158,
+      "stdout_sha256": "ab903025ad214a0c1a1cd6d3bfc609894e1743b318e45f92101cfd371c2d735f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "exports": [
+    {
+      "configuration": "Debug",
+      "exact": 268
+    },
+    {
+      "configuration": "Release",
+      "exact": 268
+    }
+  ],
+  "metadata_only": true,
+  "original_queries": 0
+}

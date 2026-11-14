@@ -1,0 +1,96 @@
+{
+  "new_F_gate_tests": 70,
+  "new_W1_tests": {
+    "label": "mmrm38-v6-w1-adverse-v2",
+    "total": 18,
+    "passed": 18,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "d2c31a6ca55743627f740ba425beae49a33cb9f020bcbe35a88ecd86107f40f1",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_changed_optional_default (test_w1_v2.W1Tests.test_changed_optional_default)",
+      "test_duplicate_identity (test_w1_v2.W1Tests.test_duplicate_identity)",
+      "test_fabricated_original_outcome (test_w1_v2.W1Tests.test_fabricated_original_outcome)",
+      "test_fake_consumer (test_w1_v2.W1Tests.test_fake_consumer)",
+      "test_false_branch_source (test_w1_v2.W1Tests.test_false_branch_source)",
+      "test_false_host_closure (test_w1_v2.W1Tests.test_false_host_closure)",
+      "test_false_ready (test_w1_v2.W1Tests.test_false_ready)",
+      "test_intact (test_w1_v2.W1Tests.test_intact)",
+      "test_lost_family (test_w1_v2.W1Tests.test_lost_family)",
+      "test_missing_branch (test_w1_v2.W1Tests.test_missing_branch)",
+      "test_missing_inline (test_w1_v2.W1Tests.test_missing_inline)",
+      "test_missing_member (test_w1_v2.W1Tests.test_missing_member)",
+      "test_missing_support (test_w1_v2.W1Tests.test_missing_support)",
+      "test_omitted_gap (test_w1_v2.W1Tests.test_omitted_gap)",
+      "test_proposal_materialized (test_w1_v2.W1Tests.test_proposal_materialized)",
+      "test_scope_expansion (test_w1_v2.W1Tests.test_scope_expansion)",
+      "test_unapproved_reference (test_w1_v2.W1Tests.test_unapproved_reference)",
+      "test_wrong_original_line (test_w1_v2.W1Tests.test_wrong_original_line)"
+    ],
+    "nonpasses": []
+  },
+  "unchanged_prior_tests": 457,
+  "total_current_focused_passes": 545,
+  "failed_first_W1_fixture": {
+    "label": "mmrm38-v6-w1-adverse",
+    "total": 18,
+    "passed": 17,
+    "failed": 0,
+    "errors": 1,
+    "stderr_sha256": "ac2fe70902dc6b01a0c1d2953c1fafd3b821730082c3c249b55276118bf075ce",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 1,
+    "identities": [
+      "test_changed_optional_default (test_w1.W1Tests.test_changed_optional_default)",
+      "test_duplicate_identity (test_w1.W1Tests.test_duplicate_identity)",
+      "test_fabricated_original_outcome (test_w1.W1Tests.test_fabricated_original_outcome)",
+      "test_fake_consumer (test_w1.W1Tests.test_fake_consumer)",
+      "test_false_branch_source (test_w1.W1Tests.test_false_branch_source)",
+      "test_false_host_closure (test_w1.W1Tests.test_false_host_closure)",
+      "test_false_ready (test_w1.W1Tests.test_false_ready)",
+      "test_intact (test_w1.W1Tests.test_intact)",
+      "test_lost_family (test_w1.W1Tests.test_lost_family)",
+      "test_missing_branch (test_w1.W1Tests.test_missing_branch)",
+      "test_missing_inline (test_w1.W1Tests.test_missing_inline)",
+      "test_missing_member (test_w1.W1Tests.test_missing_member)",
+      "test_missing_support (test_w1.W1Tests.test_missing_support)",
+      "test_omitted_gap (test_w1.W1Tests.test_omitted_gap)",
+      "test_proposal_materialized (test_w1.W1Tests.test_proposal_materialized)",
+      "test_scope_expansion (test_w1.W1Tests.test_scope_expansion)",
+      "test_unapproved_reference (test_w1.W1Tests.test_unapproved_reference)",
+      "test_wrong_original_line (test_w1.W1Tests.test_wrong_original_line)"
+    ],
+    "nonpasses": [
+      {
+        "outcome": "ERROR",
+        "identity": "test_intact (test_w1.W1Tests.test_intact)",
+        "subtest": ""
+      }
+    ]
+  },
+  "failed_attempt_records": [
+    "census-setup-attempt-v1.json",
+    "matrix-attempt-v1.json",
+    "adverse-attempt-v1.json"
+  ],
+  "correction_policy": "Original assertions and frozen outputs unchanged; invalid fixture nominal rejections were not accepted as proof",
+  "selected_Release": "Actual F2/2 and268 compiled metadata comparisons; no full suite",
+  "full_suites": "NOT_RUN_EVIDENCE_ONLY_NO_PRODUCTION_EDIT_AND_MANDATORY_REFERENCE_STOP",
+  "inherited_full_receipts_only": {
+    "managed_Debug": "20556 PASS /14 inherited FAIL",
+    "managed_Release": "20556 PASS /14 inherited FAIL",
+    "Python": "767 PASS /178 FAIL /11 ERROR",
+    "Node": "916 PASS",
+    "strict": 1,
+    "profile": 1,
+    "MkDocs": 0
+  },
+  "canonical_wrapper": "Inspected;NOT_RUN: implicit restore and shared TestResults, uncontrolled Legacy build effects",
+  "native_Excel_COM_UIA_RefEdit": "NOT_RUN",
+  "R": "NOT_RUN",
+  "Office_Mac_manual": "NOT_RUN",
+  "installer_signing_deployment": "NOT_RUN",
+  "W3_READY_verifier": "NOT_COMPLETED_NOT_RUN"
+}

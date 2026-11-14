@@ -1,0 +1,104 @@
+{
+  "results": [
+    {
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v2",
+          "-p",
+          "test_independent_slice.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 6.438929700001609,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "79a22026152b2bc51252599e8b7530f5a88d857402116676d0eabdd2533c64fc",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c2-independent-test_independent_slice",
+        "total": 20,
+        "passed": 20,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "79a22026152b2bc51252599e8b7530f5a88d857402116676d0eabdd2533c64fc",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_ByRef_initialization_removed (test_independent_slice.IndependentSliceControls.test_ByRef_initialization_removed)",
+          "test_changed_export_default (test_independent_slice.IndependentSliceControls.test_changed_export_default)",
+          "test_changed_original_result (test_independent_slice.IndependentSliceControls.test_changed_original_result)",
+          "test_changed_spill_copy (test_independent_slice.IndependentSliceControls.test_changed_spill_copy)",
+          "test_choice_order_changed (test_independent_slice.IndependentSliceControls.test_choice_order_changed)",
+          "test_deleted_case_count (test_independent_slice.IndependentSliceControls.test_deleted_case_count)",
+          "test_erased_synthetic_failures (test_independent_slice.IndependentSliceControls.test_erased_synthetic_failures)",
+          "test_extra_original_authority (test_independent_slice.IndependentSliceControls.test_extra_original_authority)",
+          "test_forged_cil_edge (test_independent_slice.IndependentSliceControls.test_forged_cil_edge)",
+          "test_forged_current_equality (test_independent_slice.IndependentSliceControls.test_forged_current_equality)",
+          "test_ignorable_comparison_choice (test_independent_slice.IndependentSliceControls.test_ignorable_comparison_choice)",
+          "test_missing_metadata_lambda_site (test_independent_slice.IndependentSliceControls.test_missing_metadata_lambda_site)",
+          "test_missing_preimage (test_independent_slice.IndependentSliceControls.test_missing_preimage)",
+          "test_missing_probe_observation (test_independent_slice.IndependentSliceControls.test_missing_probe_observation)",
+          "test_missing_root_module (test_independent_slice.IndependentSliceControls.test_missing_root_module)",
+          "test_null_comparison_choice (test_independent_slice.IndependentSliceControls.test_null_comparison_choice)",
+          "test_positive_bounded_reader (test_independent_slice.IndependentSliceControls.test_positive_bounded_reader)",
+          "test_swapped_culture (test_independent_slice.IndependentSliceControls.test_swapped_culture)",
+          "test_text_policy_flag_change (test_independent_slice.IndependentSliceControls.test_text_policy_flag_change)",
+          "test_wrong_distribution_error_shape (test_independent_slice.IndependentSliceControls.test_wrong_distribution_error_shape)"
+        ],
+        "nonpasses": []
+      }
+    },
+    {
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v2",
+          "-p",
+          "test_host_cache.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 7.093828799988842,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "2348efb949508cbb70a1eb33ee2af023286d2a46a168b012da24da40a15b9544",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c2-independent-test_host_cache",
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "2348efb949508cbb70a1eb33ee2af023286d2a46a168b012da24da40a15b9544",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_actual_scope (test_host_cache.CacheControls.test_actual_scope)",
+          "test_changed_ByRef_handle_write (test_host_cache.CacheControls.test_changed_ByRef_handle_write)",
+          "test_changed_cache_comparer (test_host_cache.CacheControls.test_changed_cache_comparer)",
+          "test_changed_constant_literal (test_host_cache.CacheControls.test_changed_constant_literal)",
+          "test_forged_static_context (test_host_cache.CacheControls.test_forged_static_context)",
+          "test_missing_cctor (test_host_cache.CacheControls.test_missing_cctor)",
+          "test_missing_exception_context (test_host_cache.CacheControls.test_missing_exception_context)",
+          "test_wrong_original_scope (test_host_cache.CacheControls.test_wrong_original_scope)"
+        ],
+        "nonpasses": []
+      }
+    }
+  ],
+  "original_queries": 0,
+  "scope": "Reader corruption fixtures only; no new original semantic reference"
+}

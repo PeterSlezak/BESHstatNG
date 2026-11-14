@@ -1,0 +1,23 @@
+Private Function ParseKwType(arg As Object, defaultTieCorrected As Boolean, ByRef err As ExcelError?) As Integer
+            err = Nothing
+
+            If arg Is Nothing OrElse TypeOf arg Is ExcelMissing OrElse TypeOf arg Is ExcelEmpty Then
+                Return If(defaultTieCorrected, 1, 0)
+            End If
+
+            If TypeOf arg Is ExcelError Then
+                err = DirectCast(arg, ExcelError)
+                Return 0
+            End If
+
+            Dim s As String = Nothing
+            Try
+                s = Convert.ToString(arg)
+            Catch
+                s = Nothing
+            End Try
+
+            Dim result As Integer
+            If Not Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryKwType(s, defaultTieCorrected, result) Then err = ExcelError.ExcelErrorValue
+            Return result
+        End Function

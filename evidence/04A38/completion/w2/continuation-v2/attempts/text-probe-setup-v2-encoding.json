@@ -1,0 +1,11 @@
+{
+  "exit_code": 1,
+  "error": "Setup read_text omitted UTF-8, attempted cp1252 on Unicode current-only source; subsequent missing runner exit2",
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v2/prepare_text_probe_v2.py",
+    "bytes": 1352,
+    "sha256": "101b812acf75bbd55acc86676f285f1bb624ed7be10a9a75c0f1883b3d99d2ac"
+  },
+  "payloads_produced": false,
+  "correction": "Explicit UTF-8; no source/input/output bytes normalized or rewritten"
+}

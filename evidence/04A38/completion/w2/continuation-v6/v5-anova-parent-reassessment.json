@@ -1,0 +1,384 @@
+{
+  "parents": [
+    {
+      "name": "ANOVA1",
+      "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|f49139737bf6c76c@2546:1533",
+      "source_contract": {
+        "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|f49139737bf6c76c@2546:1533",
+        "new_support": true,
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "name": "ANOVA1",
+        "owner": "BESHStatNG.WorksheetFunctions.ParametricUDFs",
+        "original_snapshot": {
+          "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+          "bytes": 62170,
+          "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+        },
+        "original_whole_body": "        Public Function ANOVA1(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Dim mdl As New parametric.OneWayANOVA(data, names)\n                mdl.compute()\n                Dim tables = mdl.wrapResults()\n                Return PrepareResultTableForUdf(tables(0))\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+        "current_whole_body": "        Public Function ANOVA1(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayAnovaTable(data, names))\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+        "original_body_sha256": "d34654b621a10545ccdfcf0d9bb9b0da9c193a9e0665638679565b6eb452e9da",
+        "current_body_sha256": "fde1022791b320f3650f0a21bff452155d28c971086a4a0128bd44e35b04c4f1",
+        "dependency_ids": [
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+          "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+          "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb|BESHStatNG.UDFhelpers|FunctionBlock|b48bd79d93052119@119:585"
+        ],
+        "portable_bodies": [
+          {
+            "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+            "name": "BuildOneWayAnovaTable",
+            "whole_body": "        Public Shared Function BuildOneWayAnovaTable(data()() As Double, names() As String) As Global.BESHStatNG.ResultTable\n            Dim mdl As New Global.BESHStatNG.parametric.OneWayANOVA(data, names)\n            mdl.compute()\n            Dim tables = mdl.wrapResults()\n            Return tables(0)\n        End Function",
+            "source_pin": {
+              "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+              "bytes": 45155,
+              "sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+            }
+          }
+        ],
+        "review": "Full C4 independently checked original/current source substitution and actual CIL rebound unchanged. Import then group-count rejection then lazy names; MCP alpha before selector conversion, existing engine construction/compute before selector rejection. Classical compute/wrap/table0; Welch compute then original WelshANOVA, same cell types/labels/SetBody/pvalue-column/header order; MCP exact aliases/actions/ALL order, selected table1 or sequential rendering/stack with final normalization once. Entire OneWayANOVA engine and ResultTable source/IL/context unchanged; native real catch/logging/error fallback preserved. All surrounding named dependencies now supported rather than merely the report call edge.",
+        "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+        "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+        "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+      },
+      "dependencies": [
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+          "proof": {
+            "kind": "C5_COMPLETE_BODY_SOURCE_CIL_CONTEXT_DEPENDENCY_PROOF",
+            "evidence": "body-contracts.json",
+            "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307"
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+          "proof": {
+            "kind": "C3_SOURCE_OPERATIONS_AND_COMPILED_CONTEXT",
+            "evidence": "independent-names-proof.json",
+            "target": "UdfNamePreparation38.FillExplicitNames + ResolveDetectedNames"
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+          "proof": {
+            "kind": "CARRIED_C2_FULL_SOURCE_OR_CIL_PROOF",
+            "prior": {
+              "kind": "V2_SOURCE_OPERATIONS_AND_COMPILED_CONSUMER",
+              "evidence": "independent-slice-proof.json",
+              "target": "UdfSpillPreparation38.NormalizeBlanks"
+            },
+            "native_source_token_exact": true
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb|BESHStatNG.UDFhelpers|FunctionBlock|b48bd79d93052119@119:585",
+          "proof": {
+            "kind": "CARRIED_C2_FULL_SOURCE_OR_CIL_PROOF",
+            "prior": {
+              "kind": "V2_EXACT_SOURCE_AND_FULL_DUAL_CONFIGURATION_CONTEXT",
+              "evidence": "host-cache-proof.json",
+              "disposition": "HOST_ONLY_WITH_BOUNDARY_PROOF"
+            },
+            "native_source_token_exact": true
+          }
+        }
+      ],
+      "compiled_proof": {
+        "path": "evidence/04A38/completion/w2/continuation-v5/production-consumer-edges-v3.json",
+        "bytes": 2676686,
+        "sha256": "13940bf0e45942d7b3c9dc06b92c2396f83284a446e278045a72646a462e662d"
+      },
+      "engine_result_settings_full_context": [
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v9/current-Debug.json",
+          "bytes": 11362826,
+          "sha256": "1e397b4d3d6a6d032df149dd39505603873820583282e35bc3bfd5ac91fe0a7d"
+        },
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v9/current-Release.json",
+          "bytes": 10599141,
+          "sha256": "0bf49194f5800bc5c67a3471f08a2928a57f5d39b5b6c9c55278966bb2115132"
+        }
+      ],
+      "original_context": [
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v7/original-Debug.json",
+          "bytes": 10351481,
+          "sha256": "8f8eafb96e36c4685f8a92339a4b9064e0af7cff5ebb3ca3516d7958ca5c174d"
+        },
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v7/original-Release.json",
+          "bytes": 9593114,
+          "sha256": "ea1814e0a755f7e046748fb9a0e8222f718bb2839047ea99838656d10134c52f"
+        }
+      ],
+      "reassessment": "SUPPORTED: complete ordered source composition and native real catch/logging, import/names/alpha/format/stack dependencies individually supported, unchanged entire engine/result/settings context and exact frozen fixtures. No reopen warranted by this review."
+    },
+    {
+      "name": "ANOVA1_WELCH",
+      "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|92e012471d500c66@5814:1980",
+      "source_contract": {
+        "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|92e012471d500c66@5814:1980",
+        "new_support": true,
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "name": "ANOVA1_WELCH",
+        "owner": "BESHStatNG.WorksheetFunctions.ParametricUDFs",
+        "original_snapshot": {
+          "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+          "bytes": 62170,
+          "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+        },
+        "original_whole_body": "        Public Function ANOVA1_WELCH(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Dim mdl As New parametric.OneWayANOVA(data, names)\n                mdl.compute()\n                Dim w = mdl.WelshANOVA()\n\n                Dim body(0, 3) As Object\n                body(0, 0) = data.Length - 1\n                body(0, 1) = w.DF1\n                body(0, 2) = w.TestStatistics1\n                body(0, 3) = w.Pvalue\n\n                Dim t As New ResultTable\n                t.SetBody(body)\n                t.AddPvalueToFormat(4)\n                t.AddHeaderLeftRow({\"Welch ANOVA\"})\n                t.AddHeaderTopRow({\"Source\", \"df numerator\", \"df denominator\", \"F\", \"P-value\"})\n                Return PrepareResultTableForUdf(t)\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_WELCH\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+        "current_whole_body": "        Public Function ANOVA1_WELCH(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildWelchAnovaTable(data, names))\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_WELCH\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+        "original_body_sha256": "2cffb719b77a1bc0494bd4e2e48e91c4a64597b4c688b701102f7039391b5df8",
+        "current_body_sha256": "2d9f3f10c3ee2f6df1a00224dc84e3b721a5c5245e521a9c6b948b06d66da97b",
+        "dependency_ids": [
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+          "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+          "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb|BESHStatNG.UDFhelpers|FunctionBlock|b48bd79d93052119@119:585"
+        ],
+        "portable_bodies": [
+          {
+            "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+            "name": "BuildWelchAnovaTable",
+            "whole_body": "        Public Shared Function BuildWelchAnovaTable(data()() As Double, names() As String) As Global.BESHStatNG.ResultTable\n            Dim mdl As New Global.BESHStatNG.parametric.OneWayANOVA(data, names)\n            mdl.compute()\n            Dim w = mdl.WelshANOVA()\n\n            Dim body(0, 3) As Object\n            body(0, 0) = data.Length - 1\n            body(0, 1) = w.DF1\n            body(0, 2) = w.TestStatistics1\n            body(0, 3) = w.Pvalue\n\n            Dim t As New Global.BESHStatNG.ResultTable\n            t.SetBody(body)\n            t.AddPvalueToFormat(4)\n            t.AddHeaderLeftRow({\"Welch ANOVA\"})\n            t.AddHeaderTopRow({\"Source\", \"df numerator\", \"df denominator\", \"F\", \"P-value\"})\n            Return t\n        End Function",
+            "source_pin": {
+              "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+              "bytes": 45155,
+              "sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+            }
+          }
+        ],
+        "review": "Full C4 independently checked original/current source substitution and actual CIL rebound unchanged. Import then group-count rejection then lazy names; MCP alpha before selector conversion, existing engine construction/compute before selector rejection. Classical compute/wrap/table0; Welch compute then original WelshANOVA, same cell types/labels/SetBody/pvalue-column/header order; MCP exact aliases/actions/ALL order, selected table1 or sequential rendering/stack with final normalization once. Entire OneWayANOVA engine and ResultTable source/IL/context unchanged; native real catch/logging/error fallback preserved. All surrounding named dependencies now supported rather than merely the report call edge.",
+        "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+        "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+        "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+      },
+      "dependencies": [
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+          "proof": {
+            "kind": "C5_COMPLETE_BODY_SOURCE_CIL_CONTEXT_DEPENDENCY_PROOF",
+            "evidence": "body-contracts.json",
+            "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307"
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+          "proof": {
+            "kind": "C3_SOURCE_OPERATIONS_AND_COMPILED_CONTEXT",
+            "evidence": "independent-names-proof.json",
+            "target": "UdfNamePreparation38.FillExplicitNames + ResolveDetectedNames"
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+          "proof": {
+            "kind": "CARRIED_C2_FULL_SOURCE_OR_CIL_PROOF",
+            "prior": {
+              "kind": "V2_SOURCE_OPERATIONS_AND_COMPILED_CONSUMER",
+              "evidence": "independent-slice-proof.json",
+              "target": "UdfSpillPreparation38.NormalizeBlanks"
+            },
+            "native_source_token_exact": true
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb|BESHStatNG.UDFhelpers|FunctionBlock|b48bd79d93052119@119:585",
+          "proof": {
+            "kind": "CARRIED_C2_FULL_SOURCE_OR_CIL_PROOF",
+            "prior": {
+              "kind": "V2_EXACT_SOURCE_AND_FULL_DUAL_CONFIGURATION_CONTEXT",
+              "evidence": "host-cache-proof.json",
+              "disposition": "HOST_ONLY_WITH_BOUNDARY_PROOF"
+            },
+            "native_source_token_exact": true
+          }
+        }
+      ],
+      "compiled_proof": {
+        "path": "evidence/04A38/completion/w2/continuation-v5/production-consumer-edges-v3.json",
+        "bytes": 2676686,
+        "sha256": "13940bf0e45942d7b3c9dc06b92c2396f83284a446e278045a72646a462e662d"
+      },
+      "engine_result_settings_full_context": [
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v9/current-Debug.json",
+          "bytes": 11362826,
+          "sha256": "1e397b4d3d6a6d032df149dd39505603873820583282e35bc3bfd5ac91fe0a7d"
+        },
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v9/current-Release.json",
+          "bytes": 10599141,
+          "sha256": "0bf49194f5800bc5c67a3471f08a2928a57f5d39b5b6c9c55278966bb2115132"
+        }
+      ],
+      "original_context": [
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v7/original-Debug.json",
+          "bytes": 10351481,
+          "sha256": "8f8eafb96e36c4685f8a92339a4b9064e0af7cff5ebb3ca3516d7958ca5c174d"
+        },
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v7/original-Release.json",
+          "bytes": 9593114,
+          "sha256": "ea1814e0a755f7e046748fb9a0e8222f718bb2839047ea99838656d10134c52f"
+        }
+      ],
+      "reassessment": "SUPPORTED: complete ordered source composition and native real catch/logging, import/names/alpha/format/stack dependencies individually supported, unchanged entire engine/result/settings context and exact frozen fixtures. No reopen warranted by this review."
+    },
+    {
+      "name": "ANOVA1_MCP",
+      "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|48e659350cca435d@19669:3886",
+      "source_contract": {
+        "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|48e659350cca435d@19669:3886",
+        "new_support": true,
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "name": "ANOVA1_MCP",
+        "owner": "BESHStatNG.WorksheetFunctions.ParametricUDFs",
+        "original_snapshot": {
+          "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+          "bytes": 62170,
+          "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+        },
+        "original_whole_body": "        Public Function ANOVA1_MCP(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing,\n            <ExcelArgument(Name:=\"method\", Description:=\"Optional: tukey/tukey-kramer (default), games-howell, lsd/fisher, bonferroni, or all.\")> Optional method As Object = Nothing,\n            <ExcelArgument(Name:=\"alpha\", Description:=\"Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).\")> Optional alpha As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n\n                Dim alphaValue As Double = 0.05\n                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum\n\n                Dim which As String = NormalizeText(method)\n                Dim mdl As New parametric.OneWayANOVA(data, names)\n                mdl.compute()\n\n                Select Case which\n                    Case \"\", \"TUKEY\", \"TUKEYKRAMER\", \"TUKEY-KRAMER\", \"TK\"\n                        mdl.TukeyKramer(alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"GAMESHOWELL\", \"GAMES-HOWELL\", \"GH\", \"GAMES\"\n                        mdl.GamesHowell(alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"LSD\", \"FISHER\", \"FISHERLSD\", \"FISHER-LSD\"\n                        mdl.FisherLSD(False, alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"BONF\", \"BONFERRONI\"\n                        mdl.FisherLSD(True, alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"ALL\", \"BOTH\"\n                        mdl.FisherLSD(False, alphaValue)\n                        mdl.FisherLSD(True, alphaValue)\n                        mdl.TukeyKramer(alphaValue)\n                        mdl.GamesHowell(alphaValue)\n\n                        Dim tables = mdl.wrapResults()\n                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))\n                        For i As Integer = 2 To tables.Count - 1\n                            stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))\n                        Next\n                        Return PrepareResultTableForUdf(stacked)\n\n                    Case Else\n                        Return ExcelError.ExcelErrorValue\n                End Select\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_MCP\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+        "current_whole_body": "        Public Function ANOVA1_MCP(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing,\n            <ExcelArgument(Name:=\"method\", Description:=\"Optional: tukey/tukey-kramer (default), games-howell, lsd/fisher, bonferroni, or all.\")> Optional method As Object = Nothing,\n            <ExcelArgument(Name:=\"alpha\", Description:=\"Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).\")> Optional alpha As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n\n                Dim alphaValue As Double = 0.05\n                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum\n\n                Dim which As String = NormalizeText(method)\n                Dim stackAll As Boolean = False\n                Dim tables = Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayMcpTables(data, names, which, alphaValue, stackAll)\n                If tables Is Nothing Then Return ExcelError.ExcelErrorValue\n                If Not stackAll Then Return PrepareResultTableForUdf(tables(1))\n                Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))\n                For i As Integer = 2 To tables.Count - 1\n                    stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))\n                Next\n                Return PrepareResultTableForUdf(stacked)\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_MCP\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+        "original_body_sha256": "4947dfbc9cdca18cbb858df3d6d9e71ee01137b4f2edc6c67e3e801553286e44",
+        "current_body_sha256": "8f93a3efcd70673693f1df25e3436028f8195d1217bb6ee510eeadc7bd1557ef",
+        "dependency_ids": [
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|0b8c41739ffaa923@5864:902",
+          "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|603632dd8d74d641@1004:159",
+          "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|0b82712d3fec65fc@60502:916",
+          "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb|BESHStatNG.UDFhelpers|FunctionBlock|b48bd79d93052119@119:585"
+        ],
+        "portable_bodies": [
+          {
+            "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+            "name": "BuildOneWayMcpTables",
+            "whole_body": "        Public Shared Function BuildOneWayMcpTables(data()() As Double, names() As String, which As String, alphaValue As Double, ByRef stackAll As Boolean) As List(Of Global.BESHStatNG.ResultTable)\n            Dim mdl As New Global.BESHStatNG.parametric.OneWayANOVA(data, names)\n            mdl.compute()\n            stackAll = False\n            Select Case LegacyUdfText38.CaseToken(which, New String() {\"\", \"TUKEY\", \"TUKEYKRAMER\", \"TUKEY-KRAMER\", \"TK\", \"GAMESHOWELL\", \"GAMES-HOWELL\", \"GH\", \"GAMES\", \"LSD\", \"FISHER\", \"FISHERLSD\", \"FISHER-LSD\", \"BONF\", \"BONFERRONI\", \"ALL\", \"BOTH\"})\n                Case \"\", \"TUKEY\", \"TUKEYKRAMER\", \"TUKEY-KRAMER\", \"TK\"\n                    mdl.TukeyKramer(alphaValue)\n                Case \"GAMESHOWELL\", \"GAMES-HOWELL\", \"GH\", \"GAMES\"\n                    mdl.GamesHowell(alphaValue)\n                Case \"LSD\", \"FISHER\", \"FISHERLSD\", \"FISHER-LSD\"\n                    mdl.FisherLSD(False, alphaValue)\n                Case \"BONF\", \"BONFERRONI\"\n                    mdl.FisherLSD(True, alphaValue)\n                Case \"ALL\", \"BOTH\"\n                    mdl.FisherLSD(False, alphaValue)\n                    mdl.FisherLSD(True, alphaValue)\n                    mdl.TukeyKramer(alphaValue)\n                    mdl.GamesHowell(alphaValue)\n                    stackAll = True\n                Case Else\n                    Return Nothing\n            End Select\n            Return mdl.wrapResults()\n        End Function",
+            "source_pin": {
+              "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+              "bytes": 45155,
+              "sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+            }
+          }
+        ],
+        "review": "Full C4 independently checked original/current source substitution and actual CIL rebound unchanged. Import then group-count rejection then lazy names; MCP alpha before selector conversion, existing engine construction/compute before selector rejection. Classical compute/wrap/table0; Welch compute then original WelshANOVA, same cell types/labels/SetBody/pvalue-column/header order; MCP exact aliases/actions/ALL order, selected table1 or sequential rendering/stack with final normalization once. Entire OneWayANOVA engine and ResultTable source/IL/context unchanged; native real catch/logging/error fallback preserved. All surrounding named dependencies now supported rather than merely the report call edge.",
+        "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+        "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+        "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+      },
+      "dependencies": [
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+          "proof": {
+            "kind": "C5_COMPLETE_BODY_SOURCE_CIL_CONTEXT_DEPENDENCY_PROOF",
+            "evidence": "body-contracts.json",
+            "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307"
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+          "proof": {
+            "kind": "C3_SOURCE_OPERATIONS_AND_COMPILED_CONTEXT",
+            "evidence": "independent-names-proof.json",
+            "target": "UdfNamePreparation38.FillExplicitNames + ResolveDetectedNames"
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|0b8c41739ffaa923@5864:902",
+          "proof": {
+            "kind": "C5_COMPLETE_BODY_SOURCE_CIL_CONTEXT_DEPENDENCY_PROOF",
+            "evidence": "body-contracts.json",
+            "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|0b8c41739ffaa923@5864:902"
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|603632dd8d74d641@1004:159",
+          "proof": {
+            "kind": "C3_SOURCE_OPERATIONS_AND_COMPILED_CONTEXT",
+            "evidence": "independent-unchanged-proof.json",
+            "target": "UdfScalarUtilitiesOptions38.NormalizeText"
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+          "proof": {
+            "kind": "CARRIED_C2_FULL_SOURCE_OR_CIL_PROOF",
+            "prior": {
+              "kind": "V2_SOURCE_OPERATIONS_AND_COMPILED_CONSUMER",
+              "evidence": "independent-slice-proof.json",
+              "target": "UdfSpillPreparation38.NormalizeBlanks"
+            },
+            "native_source_token_exact": true
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|0b82712d3fec65fc@60502:916",
+          "proof": {
+            "kind": "CARRIED_C2_FULL_SOURCE_OR_CIL_PROOF",
+            "prior": {
+              "kind": "V2_SOURCE_OPERATIONS_AND_COMPILED_CONSUMER",
+              "evidence": "independent-slice-proof.json",
+              "target": "UdfSpillPreparation38.StackWithBlankRow"
+            },
+            "native_source_token_exact": true
+          }
+        },
+        {
+          "id": "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb|BESHStatNG.UDFhelpers|FunctionBlock|b48bd79d93052119@119:585",
+          "proof": {
+            "kind": "CARRIED_C2_FULL_SOURCE_OR_CIL_PROOF",
+            "prior": {
+              "kind": "V2_EXACT_SOURCE_AND_FULL_DUAL_CONFIGURATION_CONTEXT",
+              "evidence": "host-cache-proof.json",
+              "disposition": "HOST_ONLY_WITH_BOUNDARY_PROOF"
+            },
+            "native_source_token_exact": true
+          }
+        }
+      ],
+      "compiled_proof": {
+        "path": "evidence/04A38/completion/w2/continuation-v5/production-consumer-edges-v3.json",
+        "bytes": 2676686,
+        "sha256": "13940bf0e45942d7b3c9dc06b92c2396f83284a446e278045a72646a462e662d"
+      },
+      "engine_result_settings_full_context": [
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v9/current-Debug.json",
+          "bytes": 11362826,
+          "sha256": "1e397b4d3d6a6d032df149dd39505603873820583282e35bc3bfd5ac91fe0a7d"
+        },
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v9/current-Release.json",
+          "bytes": 10599141,
+          "sha256": "0bf49194f5800bc5c67a3471f08a2928a57f5d39b5b6c9c55278966bb2115132"
+        }
+      ],
+      "original_context": [
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v7/original-Debug.json",
+          "bytes": 10351481,
+          "sha256": "8f8eafb96e36c4685f8a92339a4b9064e0af7cff5ebb3ca3516d7958ca5c174d"
+        },
+        {
+          "path": "evidence/04A38/completion/w2/continuation-v5/dependency-metadata-v7/original-Release.json",
+          "bytes": 9593114,
+          "sha256": "ea1814e0a755f7e046748fb9a0e8222f718bb2839047ea99838656d10134c52f"
+        }
+      ],
+      "reassessment": "SUPPORTED: complete ordered source composition and native real catch/logging, import/names/alpha/format/stack dependencies individually supported, unchanged entire engine/result/settings context and exact frozen fixtures. No reopen warranted by this review."
+    }
+  ],
+  "independent_reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/v5-ownership-recomputed.json",
+    "bytes": 801,
+    "sha256": "f9ac4d6bdc3b240c77963f84d054f1a8cbb346b1da34bcda14bd337972b7121c"
+  },
+  "reopened": [],
+  "original_queries": 0
+}

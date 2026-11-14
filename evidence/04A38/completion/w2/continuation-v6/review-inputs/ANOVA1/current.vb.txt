@@ -1,0 +1,24 @@
+            Category:="BESHStatNG - Parametric",
+            Description:="One-way ANOVA table. Input: one column per group.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function ANOVA1(
+            <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
+                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayAnovaTable(data, names))
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.ANOVA1", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Welch heteroscedastic one-way ANOVA for

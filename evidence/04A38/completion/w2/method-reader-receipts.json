@@ -1,0 +1,80 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2\\method-reader\\MethodBodies38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\MethodBodies.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.3390287999936845,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2\\method-reader\\MethodBodies38.exe",
+        "<ISOLATED_RUN>\\consolidated38-v7\\original-build\\Debug",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\method-bodies-original-Debug.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6904925999988336,
+      "stdout_sha256": "330743073fe59ce47f44002dbde0354597e67c0963263bd878d71d3c332b1dc9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2\\method-reader\\MethodBodies38.exe",
+        "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\method-bodies-current-Debug.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6880325999954948,
+      "stdout_sha256": "06fc72ea5b237bcf9b6ce2f01760cec458c3175805fb1c918e5245e894bf4bfc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2\\method-reader\\MethodBodies38.exe",
+        "<ISOLATED_RUN>\\consolidated38-v7\\original-build\\Release",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\method-bodies-original-Release.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5898963999934494,
+      "stdout_sha256": "330743073fe59ce47f44002dbde0354597e67c0963263bd878d71d3c332b1dc9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2\\method-reader\\MethodBodies38.exe",
+        "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\method-bodies-current-Release.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6450130000011995,
+      "stdout_sha256": "06fc72ea5b237bcf9b6ce2f01760cec458c3175805fb1c918e5245e894bf4bfc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "tool_source": {
+    "path": "evidence/04A38/completion/w2/MethodBodies.cs",
+    "bytes": 5969,
+    "sha256": "195c4cb104d17bfbd764ee025062ecf5abc1e4b7dde0514deb8df538bf8498e7"
+  },
+  "original_model_or_query_executions": 0,
+  "scope": "ReadMethodBody metadata only; no constructor/method invocation"
+}

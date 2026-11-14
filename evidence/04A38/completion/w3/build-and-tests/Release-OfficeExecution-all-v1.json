@@ -1,0 +1,34 @@
+{
+  "suite": "OfficeExecution",
+  "part": "all",
+  "name": "w3R-OfficeExecution",
+  "outcomes": {
+    "Passed": 45
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-OfficeExecution/cases.json",
+    "bytes": 15544,
+    "sha256": "50536c5b6fef8ab871585f106cc99fce03c79543caa2472a8d64540f02b7bdcf"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-OfficeExecution/results/OfficeExecution.trx",
+    "bytes": 65531,
+    "sha256": "da56fbbe4149d829b8a7d372bbf61853cb8a08fcd59f0bff312655d2f7774360"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3R-OfficeExecution\\sandbox\\Execution\\bin\\Release\\net10.0\\Execution.Tests.dll",
+      "/Settings:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3R-OfficeExecution\\serial.runsettings",
+      "/ResultsDirectory:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3R-OfficeExecution\\results",
+      "/Logger:trx;LogFileName=OfficeExecution.trx"
+    ],
+    "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+    "exit_code": 0,
+    "seconds": 1.531693600001745,
+    "stdout_sha256": "f0306ea3cc0aa2a793a91c7d4d943d76d3939c1453145d9b5cfae4587491ee43",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

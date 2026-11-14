@@ -1,0 +1,355 @@
+{
+  "configuration": "Debug",
+  "records": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Core.Tests\\BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Debug\\obj\\tests-profiles-v1-Core\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.0001165000139736,
+      "stdout_sha256": "c7c113872615f2286b93549abc8da0151e59a4ef96176e7503beb1be3eec5f96",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Debug\\lib\\BESHStat.Core.Tests.dll",
+          "/TestCaseFilter:FullyQualifiedName~UdfModelProfilePreparation38Tests|FullyQualifiedName~UdfRowMaskPreparation38Tests",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Debug\\results-profiles-v1-Core",
+          "/Settings:<REPO_ROOT>\\test.runsettings"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.0239591999998083,
+        "stdout_sha256": "72515f4cd7b2fec1cd07e1ed543452a4db4461c8935e41c47fcb503af1237cd2",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Core.Tests.UdfRowMaskPreparation38Tests",
+            "method": "ExceptionalComparisonRetainsEarlierMaskWritesAndCount",
+            "test_name": "ExceptionalComparisonRetainsEarlierMaskWritesAndCount",
+            "outcome": "Passed",
+            "duration": "00:00:00.0054734",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.UdfRowMaskPreparation38Tests",
+            "method": "InvalidColumnRejectsWithoutReadingValue",
+            "test_name": "InvalidColumnRejectsWithoutReadingValue (1)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0043775",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.UdfRowMaskPreparation38Tests",
+            "method": "ExcludedTimeRowsNeverReadAProfile",
+            "test_name": "ExcludedTimeRowsNeverReadAProfile",
+            "outcome": "Passed",
+            "duration": "00:00:00.0054726",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.UdfRowMaskPreparation38Tests",
+            "method": "MaskRetainsSavedRowPositionsAndCount",
+            "test_name": "MaskRetainsSavedRowPositionsAndCount",
+            "outcome": "Passed",
+            "duration": "00:00:00.0054629",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.UdfRowMaskPreparation38Tests",
+            "method": "UnmatchedVisitWritesEveryMaskCellFalse",
+            "test_name": "UnmatchedVisitWritesEveryMaskCellFalse",
+            "outcome": "Passed",
+            "duration": "00:00:00.0054715",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.UdfRowMaskPreparation38Tests",
+            "method": "InvalidColumnRejectsWithoutReadingValue",
+            "test_name": "InvalidColumnRejectsWithoutReadingValue (-1)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0043789",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 6
+        },
+        "counters": {
+          "total": "6",
+          "executed": "6",
+          "passed": "6",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "40de8bc3a995ee9411a5e724279e250918b6f2659709fd5779d4d53de9f94c24"
+      }
+    },
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Excel.Common.Tests\\BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Debug\\obj\\tests-profiles-v1-Common\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.196543800004292,
+      "stdout_sha256": "530b1ea0ec08d043bbc887884d12f77a6115fd54565177075c9dc85abbd161d7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Debug\\lib\\BESHStat.Excel.Common.Tests.dll",
+          "/TestCaseFilter:FullyQualifiedName~UdfModelProfilePreparation38Tests|FullyQualifiedName~UdfRowMaskPreparation38Tests",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Debug\\results-profiles-v1-Common",
+          "/Settings:<REPO_ROOT>\\test.runsettings"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.9320728000020608,
+        "stdout_sha256": "00d49e5ca7db4196ddece0b8d621615c758c2a65a956450f92954b6e4bc863f8",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "FamilyHeaderlessDivergenceIsRetained",
+            "test_name": "FamilyHeaderlessDivergenceIsRetained (\"sk-SK\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001933",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "MmrmSpecRetainsLabelsWeightsVisitAndColumnRoles",
+            "test_name": "MmrmSpecRetainsLabelsWeightsVisitAndColumnRoles (\"sk-SK\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002241",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "DuplicateVisitAliasesRemainFamilySpecific",
+            "test_name": "DuplicateVisitAliasesRemainFamilySpecific (False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002531",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "GeeSpecInterceptRoleIsRejectedBeforeWeightCellsAreRead",
+            "test_name": "GeeSpecInterceptRoleIsRejectedBeforeWeightCellsAreRead",
+            "outcome": "Passed",
+            "duration": "00:00:00.0017895",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "StringNumericDoesNotBypassTheSuppliedCellPolicy",
+            "test_name": "StringNumericDoesNotBypassTheSuppliedCellPolicy",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002131",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "NonfiniteCellsFailThroughTheSuppliedHostPolicy",
+            "test_name": "NonfiniteCellsFailThroughTheSuppliedHostPolicy (NaN)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001985",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "TimeSelectionDoesNotReadModelNames",
+            "test_name": "TimeSelectionDoesNotReadModelNames",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002829",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "DuplicateVisitAliasesRemainFamilySpecific",
+            "test_name": "DuplicateVisitAliasesRemainFamilySpecific (True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002453",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "HeaderedVisitAndFittedColumnPreserveTypedValues",
+            "test_name": "HeaderedVisitAndFittedColumnPreserveTypedValues (\"\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0141572",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "GroupInterceptRejectsBeforeAllocatingValues",
+            "test_name": "GroupInterceptRejectsBeforeAllocatingValues",
+            "outcome": "Passed",
+            "duration": "00:00:00.0008971",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "MmrmSpecRetainsLabelsWeightsVisitAndColumnRoles",
+            "test_name": "MmrmSpecRetainsLabelsWeightsVisitAndColumnRoles (\"\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0025323",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "WideMultipleRowsFailBeforeNumericValueReading",
+            "test_name": "WideMultipleRowsFailBeforeNumericValueReading (False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001937",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "NonfiniteCellsFailThroughTheSuppliedHostPolicy",
+            "test_name": "NonfiniteCellsFailThroughTheSuppliedHostPolicy (-\u221e)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000201",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "WideBlankRowsDoNotCountAndInputsAreNotMutated",
+            "test_name": "WideBlankRowsDoNotCountAndInputsAreNotMutated",
+            "outcome": "Passed",
+            "duration": "00:00:00.0015585",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "HeaderedVisitAndFittedColumnPreserveTypedValues",
+            "test_name": "HeaderedVisitAndFittedColumnPreserveTypedValues (\"sk-SK\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004513",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "DuplicateDesignNamesResolveCaseInsensitively",
+            "test_name": "DuplicateDesignNamesResolveCaseInsensitively",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002380",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "NonfiniteCellsFailThroughTheSuppliedHostPolicy",
+            "test_name": "NonfiniteCellsFailThroughTheSuppliedHostPolicy (\u221e)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002655",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "WideMultipleRowsFailBeforeNumericValueReading",
+            "test_name": "WideMultipleRowsFailBeforeNumericValueReading (True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006074",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "ExistingOneBasedArrayFailureIsNotSilentlyRebased",
+            "test_name": "ExistingOneBasedArrayFailureIsNotSilentlyRebased",
+            "outcome": "Passed",
+            "duration": "00:00:00.0014681",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "FamilyHeaderlessDivergenceIsRetained",
+            "test_name": "FamilyHeaderlessDivergenceIsRetained (\"\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003247",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfModelProfilePreparation38Tests",
+            "method": "GroupValuesAreCopiedInSavedRowOrder",
+            "test_name": "GroupValuesAreCopiedInSavedRowOrder",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004289",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 21
+        },
+        "counters": {
+          "total": "21",
+          "executed": "21",
+          "passed": "21",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "b0ced02e8c0bf649494aaffb8e0240891462ead4732b62c7a75ff1117f9bcefd"
+      }
+    }
+  ]
+}

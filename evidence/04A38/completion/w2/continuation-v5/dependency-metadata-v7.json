@@ -1,0 +1,85 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont5\\dependency-metadata-v7\\MethodMetadata38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\MethodMetadata-v7.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.42869009997230023,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont5\\dependency-metadata-v7\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\consolidated38-v7\\original-build\\Debug",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\dependency-metadata-v7\\original-Debug.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\native-metadata-owners-v7.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.2178839999833144,
+      "stdout_sha256": "3f14c528797cf66e1da0efe888595e64790daaf8fdbc82fa47d5074fa0958dbc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont5\\dependency-metadata-v7\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\consolidated38-v7\\original-build\\Release",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\dependency-metadata-v7\\original-Release.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\native-metadata-owners-v7.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.042340799991507,
+      "stdout_sha256": "3f14c528797cf66e1da0efe888595e64790daaf8fdbc82fa47d5074fa0958dbc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont5\\dependency-metadata-v7\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont5\\cells-v3\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\dependency-metadata-v7\\current-Debug.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\native-metadata-owners-v7.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.2291858999815304,
+      "stdout_sha256": "24d403df9042b2bdf58fc2b2dde534cd7da549054f11bb3529672e83a3c83928",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont5\\dependency-metadata-v7\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont5\\cells-v3\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\dependency-metadata-v7\\current-Release.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\native-metadata-owners-v7.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.12542840000242,
+      "stdout_sha256": "24d403df9042b2bdf58fc2b2dde534cd7da549054f11bb3529672e83a3c83928",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v5/MethodMetadata-v7.cs",
+    "bytes": 9190,
+    "sha256": "a538a0fd907a23371f2c66e0ed1f04fc40b81101d39cc577ddb789b3de6120ab"
+  },
+  "original_calls": 0,
+  "original_compilations": 0,
+  "scope": "Passive full AppGlobals, Core settings/services and PValuePresentation plus existing UDF/engine/result-table bodies"
+}

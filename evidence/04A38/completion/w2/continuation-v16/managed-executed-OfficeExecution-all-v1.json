@@ -1,0 +1,30 @@
+{
+  "suite": "OfficeExecution",
+  "part": "all",
+  "selection": null,
+  "outcomes": {
+    "Passed": 45
+  },
+  "trx_sha256": "081f01c036b7cf74da6d32550471c56945cdb2e38c2d33e2a69038768f9a8cd9",
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w2c16-checkpoint-v1-Debug-serial-OfficeExecution\\sandbox\\Execution\\bin\\Debug\\net10.0\\Execution.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c16-checkpoint-v1-Debug-serial-OfficeExecution\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c16-checkpoint-v1-Debug-serial-OfficeExecution\\results",
+      "/Logger:trx;LogFileName=OfficeExecution.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 1.585408799997822,
+    "stdout_sha256": "72d5b310b0f9bf4892db82a84f575cac5c72fb11bfb788c3d79193a70547bc58",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c16-checkpoint-v1-Debug-serial-OfficeExecution/cases.json",
+    "bytes": 15627,
+    "sha256": "dc07997971b24ccc86c6d57055513c57ca8357a418bf87e4c3c0150697cf0581"
+  }
+}

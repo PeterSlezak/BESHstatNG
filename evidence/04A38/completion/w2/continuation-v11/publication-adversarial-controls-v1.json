@@ -1,0 +1,109 @@
+{
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_c11_publication_v2.py",
+    "bytes": 7076,
+    "sha256": "69b1242943eaa575760f75c5d7dfae28d3183070c2041dcb807ed189b2fa7b96"
+  },
+  "controls": [
+    {
+      "name": "Actual valid bounded part",
+      "status": "PASS",
+      "result": {
+        "name": "positive.zip",
+        "files": 1,
+        "sha256": "7d3b2817f1a462d78eb6f0aeb0d27d103031e254428e9934a7341b465e18ac15",
+        "bytes": 136,
+        "status": "ALL_PART_MEMBERS_SHA_CRC_SAFE_PATH_PASS_NOT_READY"
+      }
+    },
+    {
+      "name": "Actual ZIP duplicate",
+      "status": "REJECTED",
+      "reason": "Physical duplicate/casefold/unsorted ZIP identity"
+    },
+    {
+      "name": "Actual ZIP casefold-collision",
+      "status": "REJECTED",
+      "reason": "Physical duplicate/casefold/unsorted ZIP identity"
+    },
+    {
+      "name": "Actual ZIP unsafe-parent",
+      "status": "REJECTED",
+      "reason": "Unsafe/reserved path"
+    },
+    {
+      "name": "Actual ZIP reserved-name",
+      "status": "REJECTED",
+      "reason": "Unsafe/reserved path"
+    },
+    {
+      "name": "Actual ZIP symlink",
+      "status": "REJECTED",
+      "reason": "Directory/encrypted/symlink member"
+    },
+    {
+      "name": "Actual ZIP unmanifested-extra",
+      "status": "REJECTED",
+      "reason": "Physical missing/extra payload"
+    },
+    {
+      "name": "wrong file SHA",
+      "status": "REJECTED",
+      "reason": "ZIP payload SHA mismatch"
+    },
+    {
+      "name": "wrong stored CRC",
+      "status": "REJECTED",
+      "reason": "ZIP stored CRC mismatch"
+    },
+    {
+      "name": "wrong physical part SHA",
+      "status": "REJECTED",
+      "reason": "Physical part SHA/length mismatch"
+    },
+    {
+      "name": "wrong logical prefix",
+      "status": "REJECTED",
+      "reason": "Ambiguous logical root"
+    }
+  ],
+  "physical_artifacts": [
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/publication-adverse-v1/positive.zip",
+      "bytes": 136,
+      "sha256": "7d3b2817f1a462d78eb6f0aeb0d27d103031e254428e9934a7341b465e18ac15"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/publication-adverse-v1/duplicate.zip",
+      "bytes": 250,
+      "sha256": "f42d8418a648b7f08c0b8bff2cd76e3f3d4c6e31d8637f93ce4528505d520f7a"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/publication-adverse-v1/casefold-collision.zip",
+      "bytes": 250,
+      "sha256": "8ab71566885c76d678673fc7dad838a55bfd2ff4b34f3203706cddbc1fbe5ab0"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/publication-adverse-v1/unsafe-parent.zip",
+      "bytes": 140,
+      "sha256": "5a1e72e7b5616325c8dd3ad600eeff290955d1bbf5078c8977e59fa9c8be3fc6"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/publication-adverse-v1/reserved-name.zip",
+      "bytes": 128,
+      "sha256": "47dd21b8e142f070769fb52707c1467c12a1e645112fc371b731986835df7b65"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/publication-adverse-v1/symlink.zip",
+      "bytes": 136,
+      "sha256": "d5a4ec54081db5cb9bd7ad434e3f0ff06dc0b95b601c8b41c314e2db4ea73cff"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/publication-adverse-v1/unmanifested-extra.zip",
+      "bytes": 260,
+      "sha256": "22ee71ecc804a3211dc1b6f429d5577bcbd6e61b8849694f1ad14c53a052bf50"
+    }
+  ],
+  "original_queries": 0,
+  "scope": "Real positive/negative ZIP files retained separately. No source/reference bytes altered; no negative archive extracted."
+}

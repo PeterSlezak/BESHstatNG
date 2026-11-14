@@ -1,0 +1,38 @@
+# NOT_READY_04A38 — W2 advanced; W3 NOT_STARTED
+
+Continue04A.38 only, in codex/04A-38, pinned HEAD/main/merge-base ba1636f5356ac761509c2cfa16fc66b92430935d. Preserve all current changes and every earlier evidence version. Verify live branch/index/diff, source-transitions-v4.json, preservation-final-v3.json and publication-manifest-v1.json before editing. No reset/clean/restore/stage/commit/merge/rebase/push or owner-document edit.
+
+Final shipping libraries: <ISOLATED_RUN>/completion-w2-cont5/cells-v5/<Debug|Release>/lib. Final actual CIL/export/syntax: inspection/final-v4/, dependency-metadata-v9/current-*.json, unchanged original passive v7 metadata, current-universe-final-v4.json. Source/test final preimages and after snapshots are exact; intermediate cells-v1/v2/v3/v4 and old C5 provisional artifacts remain preserved.
+
+Final ledgers are historical-ownership-v3.json, current-ownership-v3.json, original-fragment-parent-crosswalk-v3.json, fragment-coverage-v3.json, per-family-ownership-v3.json and remaining-work-queue-v3.json. Readers are verify_slice_v4.py, verify_ownership_final.py, verify_preservation_v3.py. All 35 reviewed contracts are in body-contracts-v3.json;33 are new closures. CellToTrimmedText/TryGetDouble, scalar/header/grouped import, TryParseAlpha, metadata-bearing output/p-value helpers and ANOVA1/ANOVA1_WELCH/ANOVA1_MCP are supported. Do not reinsert them as the first OPEN queue. Grouped-complete/nested contracts were carried and reviewed again, not new closures.
+
+Remaining 505 historical/515 current/69 distinct support OPEN.1277/15730 current fragments covered. All 704 original identities and 717 current identities remain. Do not infer child/body closure from a portable call, unchanged result, module header or generic HOST_ONLY label. Review complete caller/error/ByRef/static/callback/source dependencies. Keep original/current fragment universes distinct; the old entry branch/inline fractions were current-universe figures.
+
+First exact canonical historical IDs:
+
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|e63d09dbd251bbb8@32891:1350` — TryReadIndependentNumericColumns
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|38553d53fa898b31@6123:384` — TryGetIndependentNumericColumns
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|e0115878bff3edd3@34247:1289` — TryReadPairedNumericColumns
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|aa365271f2be42e6@6659:352` — TryGetPairedNumericColumns
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|28a12f57ef632e22@35902:191` — ExtractCompletePairedNumericRows
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|21463d26741187fb@41353:1642` — TryReadCompleteNumericMatrixWithHeaders
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|d28552d10468faf1@7170:344` — TryGetCompleteNumericMatrixWithHeaders
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|c59b5d6f8668964e@4321:1055` — TryGetSingleNumericColumn
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|db5258a9bf9981b0@1842:1669` — TryGetOptionalProbabilityThresholds
+- `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|ed67aefdecc241dd@3519:488` — TryAppendProbabilityThreshold
+- `BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|8614efa30bafc520@8188:228` — TryGetOptionalThresholdVector
+- `BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|26e82d97c65354cd@8428:609` — TryGetSingleThresholdFromArg
+- `BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|c558d21c9b6fe881@10443:2426` — RMANOVA1
+- `BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|02f92ea6a40bf497@15499:2243` — ANOVA2_NESTED
+
+Complete independent/paired/repeated numeric imports and probability-vector policy first, reusing current Common/Core preparation and native physical-alignment/Excel acquisition policies. Then finish RM/nested ANOVA and t-test parent families; continue all 41 sources through the full queue. MaterializePortableReport38 and remaining projection parents require complete metadata/error/source-reference dependency review. Add no duplicate engine or global conversion/text policy. Preserve source row identity, lower bounds, copy/name ownership, first-error/ByRef behavior and real native Framework Err catches. Native scalar conversion and grouped/nested acquisition must call the prepared Common phases after their original entry reset; a second reset can erase aliased callback writes. Existing public Common APIs keep their reset wrappers. See the retained alias-probe-before/after receipts and five whole-body source/four CIL proofs.
+
+The C5 portable ByRef Object parameters are deliberate readonly aliases to the native local Object. Do not restore ByVal forwarding that adds a second boxed-value copy. DirectCast is valid only on the TypeOf String branch. Original Long rounding overflow, unsigned-type text fallback, fixed 0.05 alpha default/invariant-first parsing, empty-column header policy and numeric enum eligibility remain compatibility constraints. Leave scientific/GUI/UDF inconsistencies in the deferred04A.39–48 charter.
+
+Final validation details are validation-v3.json/nonpasses-v3.json: Debug20688PASS/14 inheritedFAIL; selectedRelease181PASS; Node916PASS; Python765/180/11; strict/profile/MkDocs1/1/0. Full Release NOT_RUN_OWNER_PREFERENCE.32 final C5 plus30 exact historical-view C4 controls pass. Retain all raw identities/occurrences and unordered-SPC FAIL/ERROR history, every compile/fixture/reader/tool failure and two-label-only diagnostic derivative proof. The pruned final tools audit uses the unchanged ignored-component policy before descent; do not broadly enumerate retained TestResults.
+
+All 24 final current/original pairs match exactly:28,966 genuine pre-edit plus458 separate A–G late/config. No new original fit/query/capture/compilation was authorized or executed. Original DLL activity remains passive metadata/hash only; actual current-only probes are not archived-original references. A–G are exhausted. No new essential gap is identified; ordinary W2 work needs no generic permission. Stop before any genuinely indispensable new original-reference query and request a bounded owner decision.
+
+All 4695 tracked paths/278 pins/100 captures/16 owner documents/41 original snapshots are independently preserved live. Publish/export only the explicit manifest inventory: exclude all raw full-managed Debug diagnostics and Python caches physically, while retaining them locally. The post-seal sibling receipt records actual live/copy/ZIP checks. Omitted payloads cannot be reverified from a compact copy. Keep all older manifests/decisions unchanged.
+
+W3 remains NOT_STARTED. A new fail-closed whole-batch readiness verifier with zero unsupported mandatory OPEN, genuine branch/statement/inline/support proofs and meaningful mutations is required before conditional W3. No READY or owner acceptance is implied. P=NO;N1=NO GO;N2=NO;C2=UNMET;C3=UNAPPROVED;NOT_GOLDEN. Native/manual/scientific/install/restore/signing/deployment and 04A.39 remain outside this checkpoint.

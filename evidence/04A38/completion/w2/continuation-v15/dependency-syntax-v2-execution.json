@@ -1,0 +1,24 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/dependency_syntax_v2.py",
+    "bytes": 4094,
+    "sha256": "7c97bb1507bec1725bc11ef5443dd14a91a4a951884b9e862eb40a667ba9b56b"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\dependency_syntax_v2.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 28.329238599995733,
+    "stdout_sha256": "ece928bb85d69416c6be09edb34dc7e63e177fbb75a6febf47fff75d716e5885",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

@@ -1,0 +1,28 @@
+Friend Function CellToTrimmedText(v As Object) As String
+            If ExcelArgPredicates.IsMissingArg(v) Then Return ""
+
+            If TypeOf v Is String Then
+                Return CStr(v).Trim()
+            End If
+
+            If TypeOf v Is Double OrElse
+               TypeOf v Is Single OrElse
+               TypeOf v Is Decimal OrElse
+               TypeOf v Is Integer OrElse
+               TypeOf v Is Long OrElse
+               TypeOf v Is Short Then
+
+                Dim d As Double = Convert.ToDouble(v, CultureInfo.InvariantCulture)
+                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return ""
+
+                If Math.Abs(d - Math.Round(d)) < 0.000000000001R Then
+                    Return CLng(Math.Round(d)).ToString(CultureInfo.InvariantCulture)
+                End If
+
+                Return d.ToString(CultureInfo.InvariantCulture)
+            End If
+
+            Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)
+            If s Is Nothing Then Return ""
+            Return s.Trim()
+        End Function

@@ -1,0 +1,8 @@
+Private Function ParseFriedmanType(selector As Object, Optional defaultToT1 As Boolean = True) As Integer
+            Dim s As String = ""
+            If selector IsNot Nothing AndAlso Not TypeOf selector Is ExcelMissing AndAlso Not TypeOf selector Is ExcelEmpty Then
+                s = Convert.ToString(selector).Trim().ToUpperInvariant()
+            End If
+
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.FriedmanType(s, defaultToT1)
+        End Function

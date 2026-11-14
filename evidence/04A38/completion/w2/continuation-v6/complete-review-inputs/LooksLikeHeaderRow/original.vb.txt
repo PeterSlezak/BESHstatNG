@@ -1,0 +1,26 @@
+Friend Function LooksLikeHeaderRow(arr As Object(,), numericCols As Integer()) As Boolean
+        Dim rows As Integer = arr.GetLength(0)
+        If rows < 2 Then Return False
+
+        Dim anyNonNumeric As Boolean = False
+        For Each c In numericCols
+            If Not TryGetDouble(arr(0, c)).HasValue Then
+                anyNonNumeric = True
+                Exit For
+            End If
+        Next
+        If Not anyNonNumeric Then Return False
+
+        For Each c In numericCols
+            Dim foundNumericBelow As Boolean = False
+            For r As Integer = 1 To rows - 1
+                If TryGetDouble(arr(r, c)).HasValue Then
+                    foundNumericBelow = True
+                    Exit For
+                End If
+            Next
+            If Not foundNumericBelow Then Return False
+        Next
+
+        Return True
+    End Function

@@ -1,0 +1,76 @@
+{
+  "status": "NOT_READY_04A38",
+  "recorded_utc": "2026-11-10T12:03:51.351881+00:00",
+  "W1_G_GATE": "APPROVAL_G_COMBINED_GATE_PASS_PREVIOUSLY_COMPLETED_PRESERVED",
+  "W2": "IN_PROGRESS",
+  "W3": "NOT_STARTED",
+  "ownership": {
+    "status": "NOT_READY_04A38",
+    "W2": "IN_PROGRESS",
+    "W3": "NOT_STARTED",
+    "historical": {
+      "total": 704,
+      "closed": 120,
+      "OPEN": 584
+    },
+    "current": {
+      "total": 713,
+      "closed": 119,
+      "OPEN": 594
+    },
+    "support": {
+      "raw": 325,
+      "distinct": 303,
+      "raw_fully_reconciled": 256,
+      "distinct_fully_reconciled": 234
+    },
+    "fragments": {
+      "total": 15878,
+      "branches": 3717,
+      "inline": 1092,
+      "covered_by_reviewed_parent": 636
+    },
+    "carried_full_IL": 39,
+    "new_cache_host_methods": 33,
+    "new_primary_initializers": 21,
+    "new_source_operation_bodies": 6,
+    "exports": 268,
+    "source_files": 41,
+    "owner_decision_needed": false,
+    "new_original_queries": 0
+  },
+  "validation": {
+    "managed_Debug": {
+      "Passed": 20653,
+      "Failed": 14
+    },
+    "selected_Release": {
+      "Passed": 146
+    },
+    "full_Release": "NOT_RUN_OWNER_PREFERENCE",
+    "Python": {
+      "total": 956,
+      "passed": 765,
+      "failed": 180,
+      "errors": 11
+    },
+    "Node": 916,
+    "strict_profile_MkDocs": {
+      "strict": 1,
+      "profile": 1,
+      "docs": 0
+    }
+  },
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "golden": "NOT_GOLDEN"
+  },
+  "new_original_queries": 0,
+  "owner_decision_needed": false,
+  "reason": "584 historical bodies,594 current bodies,69 distinct support declarations and15242 uncovered current fragments remain. More substantive W2 implementation/whole-body proof required; this is an execution checkpoint, not acceptance or an authorization stop.",
+  "first_next": "ParametricUDFs.ResolveNames then UdfDataImport.GetVariableNames; actual source semantics and immutable witnesses, no original query"
+}

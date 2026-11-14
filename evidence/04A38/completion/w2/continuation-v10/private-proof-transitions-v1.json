@@ -1,0 +1,72 @@
+{
+  "rows": [
+    {
+      "before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v1/fixtures/0.txt",
+        "bytes": 17,
+        "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+      },
+      "after": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v1/fixtures/0.txt",
+        "bytes": 29,
+        "sha256": "862340991bdbc503da2f9433b77067c206f05c4c8d4c26db79c111ad09c310a2"
+      },
+      "recovered_before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v1/retained-before-adverse-0-v1.txt",
+        "bytes": 17,
+        "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+      },
+      "generator": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+        "bytes": 5737,
+        "sha256": "7b4d2f12a4e6bce3d9f589bbab77c818f3b9d12d44ec79198a0fbb6c8dc01b54"
+      },
+      "observed_before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v1/execution/3/raw-result.json",
+        "bytes": 3967,
+        "sha256": "d24cb156b3c853ea410e362db1f5e85c2aa39eb444050dd13d7d22dccf868e97"
+      },
+      "observed_after": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v1/invalidated-execution/1/raw-result.json",
+        "bytes": 1690,
+        "sha256": "c206899d884a7db4971f9085a252133225d129d8777a067acef0e15dc3830332"
+      },
+      "recovery": "SYNTHETIC_CONSTANT_RECOVERED_FROM_EXACT_GENERATOR_AND_OBSERVED_BEFORE_SHA;NOT_A_CAPTURED_SOURCE_PREIMAGE_OR_STATISTICAL_REFERENCE"
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v2/fixtures/0.txt",
+        "bytes": 17,
+        "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+      },
+      "after": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v2/fixtures/0.txt",
+        "bytes": 29,
+        "sha256": "862340991bdbc503da2f9433b77067c206f05c4c8d4c26db79c111ad09c310a2"
+      },
+      "recovered_before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v2/retained-before-adverse-0-v1.txt",
+        "bytes": 17,
+        "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+      },
+      "generator": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+        "bytes": 5742,
+        "sha256": "ab7dfba8b35c5f35fc9072ae745bfa061a08f5e07e7b40d6035b5d3281f63035"
+      },
+      "observed_before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v2/execution/3/raw-result.json",
+        "bytes": 3967,
+        "sha256": "27b39c6bd2b58412005cb386ef6fca0a4c91af9631759c13f9d5440a81e61c1f"
+      },
+      "observed_after": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/parallel-scan-proof-v2/invalidated-execution/1/raw-result.json",
+        "bytes": 1690,
+        "sha256": "12cfefa59c89f7f4fdffe37d4a92db12014f8513e96ba7df5f5d2e43026302ed"
+      },
+      "recovery": "SYNTHETIC_CONSTANT_RECOVERED_FROM_EXACT_GENERATOR_AND_OBSERVED_BEFORE_SHA;NOT_A_CAPTURED_SOURCE_PREIMAGE_OR_STATISTICAL_REFERENCE"
+    }
+  ],
+  "scope": "Two current disposable synthetic cache-invalidation fixtures intentionally changed by their controls. Exact original observed hashes, fresh fallback and honest recovered constants preserved. All genuine production/test preimages were captured before edits; no historical/source/reference file rewritten.",
+  "original_queries": 0
+}

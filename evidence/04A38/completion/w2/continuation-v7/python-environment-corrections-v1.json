@@ -1,0 +1,144 @@
+{
+  "corrections": [
+    {
+      "identity": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_clone_shaped_payload_reads_without_any_ignored_originals",
+      "first": {
+        "id": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_clone_shaped_payload_reads_without_any_ignored_originals",
+        "occurrence": 0,
+        "outcome": "ERROR",
+        "events": [
+          {
+            "outcome": "ERROR",
+            "subtest": null,
+            "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 75, in test_clone_shaped_payload_reads_without_any_ignored_originals\n    root = self.clone_payload()\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 39, in clone_payload\n    root = self.temporary_root()\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 26, in temporary_root\n    temporary = tempfile.TemporaryDirectory(prefix='.04a08-check-', dir=ROOT/'evidence')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\tempfile.py\", line 907, in __init__\n    self.name = mkdtemp(suffix, prefix, dir)\n                ~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\tempfile.py\", line 381, in mkdtemp\n    _os.mkdir(file, 0o700)\n    ~~~~~~~~~^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v7\\python_workers_v1.py\", line 93, in audit\n    elif event in ['os.remove','os.rmdir','os.mkdir','os.chmod','os.truncate']:private(args[0],event)\n                                                                               ~~~~~~~^^^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v7\\python_workers_v1.py\", line 88, in private\n    if not path.is_relative_to(work):raise PermissionError('C7 worker refused write outside disposable lane: '+str(path))\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: C7 worker refused write outside disposable lane: <REPO_ROOT>\\evidence\\.04a08-check-gsldvauq\n",
+            "traceback_sha256": "6f02f288413561eb7a36a07416c71b7041ade301f969a6813acf29f29e92f014",
+            "message": "C7 worker refused write outside disposable lane: <REPO_ROOT>\\evidence\\.04a08-check-gsldvauq",
+            "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 75, in test_clone_shaped_payload_reads_without_any_ignored_originals"
+          }
+        ],
+        "start_seconds": 10.547075699985726,
+        "end_seconds": 10.563339299988002,
+        "lane": 5
+      },
+      "corrected": {
+        "id": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_clone_shaped_payload_reads_without_any_ignored_originals",
+        "occurrence": 0,
+        "outcome": "PASS",
+        "events": []
+      },
+      "classification": "INITIAL_WRITE_GUARD_ERROR_CORRECTED_BY_UNCHANGED_SERIAL_DISPOSABLE_COPY"
+    },
+    {
+      "identity": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_corrupted_published_copy_fails_closed",
+      "first": {
+        "id": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_corrupted_published_copy_fails_closed",
+        "occurrence": 0,
+        "outcome": "ERROR",
+        "events": [
+          {
+            "outcome": "ERROR",
+            "subtest": null,
+            "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 100, in test_corrupted_published_copy_fails_closed\n    root = self.clone_payload()\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 39, in clone_payload\n    root = self.temporary_root()\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 26, in temporary_root\n    temporary = tempfile.TemporaryDirectory(prefix='.04a08-check-', dir=ROOT/'evidence')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\tempfile.py\", line 907, in __init__\n    self.name = mkdtemp(suffix, prefix, dir)\n                ~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\tempfile.py\", line 381, in mkdtemp\n    _os.mkdir(file, 0o700)\n    ~~~~~~~~~^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v7\\python_workers_v1.py\", line 93, in audit\n    elif event in ['os.remove','os.rmdir','os.mkdir','os.chmod','os.truncate']:private(args[0],event)\n                                                                               ~~~~~~~^^^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v7\\python_workers_v1.py\", line 88, in private\n    if not path.is_relative_to(work):raise PermissionError('C7 worker refused write outside disposable lane: '+str(path))\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: C7 worker refused write outside disposable lane: <REPO_ROOT>\\evidence\\.04a08-check-5bexcfw4\n",
+            "traceback_sha256": "eb408b589f40c729653c2188e90a3b7d376c82a0b49ca5e24dd2ad28cf24cc94",
+            "message": "C7 worker refused write outside disposable lane: <REPO_ROOT>\\evidence\\.04a08-check-5bexcfw4",
+            "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 100, in test_corrupted_published_copy_fails_closed"
+          }
+        ],
+        "start_seconds": 10.563383800006704,
+        "end_seconds": 10.575062899995828,
+        "lane": 5
+      },
+      "corrected": {
+        "id": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_corrupted_published_copy_fails_closed",
+        "occurrence": 0,
+        "outcome": "PASS",
+        "events": []
+      },
+      "classification": "INITIAL_WRITE_GUARD_ERROR_CORRECTED_BY_UNCHANGED_SERIAL_DISPOSABLE_COPY"
+    },
+    {
+      "identity": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_development_reader_uses_local_original_even_when_publication_exists",
+      "first": {
+        "id": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_development_reader_uses_local_original_even_when_publication_exists",
+        "occurrence": 0,
+        "outcome": "ERROR",
+        "events": [
+          {
+            "outcome": "ERROR",
+            "subtest": null,
+            "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 85, in test_development_reader_uses_local_original_even_when_publication_exists\n    root = self.temporary_root()\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 26, in temporary_root\n    temporary = tempfile.TemporaryDirectory(prefix='.04a08-check-', dir=ROOT/'evidence')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\tempfile.py\", line 907, in __init__\n    self.name = mkdtemp(suffix, prefix, dir)\n                ~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\tempfile.py\", line 381, in mkdtemp\n    _os.mkdir(file, 0o700)\n    ~~~~~~~~~^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v7\\python_workers_v1.py\", line 93, in audit\n    elif event in ['os.remove','os.rmdir','os.mkdir','os.chmod','os.truncate']:private(args[0],event)\n                                                                               ~~~~~~~^^^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v7\\python_workers_v1.py\", line 88, in private\n    if not path.is_relative_to(work):raise PermissionError('C7 worker refused write outside disposable lane: '+str(path))\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: C7 worker refused write outside disposable lane: <REPO_ROOT>\\evidence\\.04a08-check-1wgmkg3d\n",
+            "traceback_sha256": "7120a967ead2911545ee4fce5a9e3b3bd20b11012510229ac510b329cfcede75",
+            "message": "C7 worker refused write outside disposable lane: <REPO_ROOT>\\evidence\\.04a08-check-1wgmkg3d",
+            "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 85, in test_development_reader_uses_local_original_even_when_publication_exists"
+          }
+        ],
+        "start_seconds": 10.575109199999133,
+        "end_seconds": 10.589035099983448,
+        "lane": 5
+      },
+      "corrected": {
+        "id": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_development_reader_uses_local_original_even_when_publication_exists",
+        "occurrence": 0,
+        "outcome": "PASS",
+        "events": []
+      },
+      "classification": "INITIAL_WRITE_GUARD_ERROR_CORRECTED_BY_UNCHANGED_SERIAL_DISPOSABLE_COPY"
+    },
+    {
+      "identity": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_duplicate_mapping_or_excluded_injection_is_rejected",
+      "first": {
+        "id": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_duplicate_mapping_or_excluded_injection_is_rejected",
+        "occurrence": 0,
+        "outcome": "ERROR",
+        "events": [
+          {
+            "outcome": "ERROR",
+            "subtest": null,
+            "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 107, in test_duplicate_mapping_or_excluded_injection_is_rejected\n    root = self.clone_payload()\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 39, in clone_payload\n    root = self.temporary_root()\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 26, in temporary_root\n    temporary = tempfile.TemporaryDirectory(prefix='.04a08-check-', dir=ROOT/'evidence')\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\tempfile.py\", line 907, in __init__\n    self.name = mkdtemp(suffix, prefix, dir)\n                ~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\tempfile.py\", line 381, in mkdtemp\n    _os.mkdir(file, 0o700)\n    ~~~~~~~~~^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v7\\python_workers_v1.py\", line 93, in audit\n    elif event in ['os.remove','os.rmdir','os.mkdir','os.chmod','os.truncate']:private(args[0],event)\n                                                                               ~~~~~~~^^^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v7\\python_workers_v1.py\", line 88, in private\n    if not path.is_relative_to(work):raise PermissionError('C7 worker refused write outside disposable lane: '+str(path))\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: C7 worker refused write outside disposable lane: <REPO_ROOT>\\evidence\\.04a08-check-b6pau8gl\n",
+            "traceback_sha256": "16171bed50ea98fb1a7c485ac59c673adbdd8b089c8fa5348529108452792b43",
+            "message": "C7 worker refused write outside disposable lane: <REPO_ROOT>\\evidence\\.04a08-check-b6pau8gl",
+            "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a08_evidence_relocation.py\", line 107, in test_duplicate_mapping_or_excluded_injection_is_rejected"
+          }
+        ],
+        "start_seconds": 10.589089799992507,
+        "end_seconds": 10.603025199990952,
+        "lane": 5
+      },
+      "corrected": {
+        "id": "test_04a08_evidence_relocation.EvidenceRelocation08Tests.test_duplicate_mapping_or_excluded_injection_is_rejected",
+        "occurrence": 0,
+        "outcome": "PASS",
+        "events": []
+      },
+      "classification": "INITIAL_WRITE_GUARD_ERROR_CORRECTED_BY_UNCHANGED_SERIAL_DISPOSABLE_COPY"
+    }
+  ],
+  "raw_result": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont7/python-correction-v1/result.json",
+    "bytes": 967,
+    "sha256": "15f6a9f712b7707306785de3ed709ceff9a9f7c6ef21b324cbaea29feb93b6d1"
+  },
+  "raw_stdout": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont7/python-correction-v1/stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "raw_stderr": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont7/python-correction-v1/stderr.log",
+    "bytes": 841,
+    "sha256": "89807afe8e93499d5780072bfac326002229280595110b77994e067c2805c684"
+  },
+  "copy_provenance": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont7/python-correction-v1/copy-provenance.json",
+    "bytes": 2322,
+    "sha256": "24d319ef9a15dd267fd88f92f3597581445e29336eba5aded91885735c9de829"
+  },
+  "copied_runner": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont7/python-correction-v1/correct_python_shared_writer_v1.py",
+    "bytes": 1481,
+    "sha256": "399524e7cb1b9cf3506284a192dacf648fbe739d22be74a0cd2ed2b1fd6700b8"
+  },
+  "assertions_changed": 0,
+  "source_files_changed": 0,
+  "scope": "Exactly four original tests run serially in byte-identical disposable reader/test/fixture copy; no authoritative evidence scratch path was written. Initial errors remain raw attempts."
+}

@@ -1,0 +1,35 @@
+{
+  "status": "EXACT_FIRST_CHECKPOINT_CACHE_AND_UNCHANGED_FRESH_DELTA_POLICY",
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/publication_privacy_c14_v2.py",
+    "bytes": 2943,
+    "sha256": "468bf55177b72e1c6662282c171a795a7f7e6039f00afdfc944b48a6abb37530"
+  },
+  "first_manifest": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/publication-manifest-v1.json",
+    "bytes": 4559636,
+    "sha256": "61577def61a7315e74faa320701af1de3832070f8766b3295b917a718bd4f457"
+  },
+  "first_receipt": {
+    "path": "evidence/04A38/completion/w2/continuation-v14-publication-privacy-receipt-v1.json",
+    "bytes": 5184,
+    "sha256": "d8a183073fcaf4aa96fa74cd679f8bf75b4dd110f4fa79da89eb5a8136d0da06"
+  },
+  "prior_exact_equal_base": true,
+  "changed_bytes_evaluate_base": true,
+  "controls": [
+    {
+      "name": "Changed exact authority",
+      "status": "REJECTED",
+      "reason": "Privacy authority changed evidence/04A38/completion/w2/continuation-v14/publication-manifest-v1.json"
+    },
+    {
+      "name": "Fresh private-key marker",
+      "status": "REJECTED",
+      "reason": "Unattested privacy finding unattested-delta.txt [private_key/raw]"
+    }
+  ],
+  "full_scanner_repeated": false,
+  "source_or_assertions_changed": 0,
+  "original_queries": 0
+}

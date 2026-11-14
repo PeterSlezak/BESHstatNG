@@ -1,0 +1,380 @@
+{
+  "status": "SUBSTANTIVE_PACKET_A_IMPLEMENTED_NOT_YET_CLOSED_OR_TESTED",
+  "moves": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "host": "GEE_LSMESTIMATE",
+      "name": "CreateGeeLsmEstimateTable",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                Dim hdr() As String = {\"Label\", \"Estimate\", \"Std. Error\", \"Z\", \"P-value\",\n                                       ((100.0R * (1.0R - alphaValue)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"% CI Lower\"),\n                                       ((100.0R * (1.0R - alphaValue)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"% CI Upper\"),\n                                       \"Scale\", \"Covariance\"}\n                Dim out(labels.Count, hdr.Length - 1) As Object\n                For j As Integer = 0 To hdr.Length - 1\n                    out(0, j) = hdr(j)\n                Next",
+      "portable_segment": "Dim hdr() As String = {\"Label\", \"Estimate\", \"Std. Error\", \"Z\", \"P-value\",\n                       ((100.0R * (1.0R - alphaValue)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"% CI Lower\"),\n                       ((100.0R * (1.0R - alphaValue)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"% CI Upper\"),\n                       \"Scale\", \"Covariance\"}\nDim out(labelCount, hdr.Length - 1) As Object\nFor j As Integer = 0 To hdr.Length - 1\n    out(0, j) = hdr(j)\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function CreateGeeLsmEstimateTable(labelCount As Integer, alphaValue As Double) As Object(,)",
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.CreateGeeLsmEstimateTable(labels.Count, alphaValue)",
+      "aliases": [
+        {
+          "before": "labels.Count",
+          "after": "labelCount"
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "host": "GEE_LSMESTIMATE",
+      "name": "AppendGeeLsmEstimateRow",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                    out(r + 1, 0) = labels(r)\n                    out(r + 1, 1) = SafeExcelNumber(estOut)\n                    out(r + 1, 2) = SafeExcelNumber(seOut)\n                    out(r + 1, 3) = SafeExcelNumber(z)\n                    out(r + 1, 4) = SafeExcelNumber(pValue)\n                    out(r + 1, 5) = SafeExcelNumber(loOut)\n                    out(r + 1, 6) = SafeExcelNumber(hiOut)\n                    out(r + 1, 7) = scaleLabel\n                    out(r + 1, 8) = covName",
+      "portable_segment": "out(r + 1, 0) = label\nout(r + 1, 1) = safeNumber(estOut)\nout(r + 1, 2) = safeNumber(seOut)\nout(r + 1, 3) = safeNumber(z)\nout(r + 1, 4) = safeNumber(pValue)\nout(r + 1, 5) = safeNumber(loOut)\nout(r + 1, 6) = safeNumber(hiOut)\nout(r + 1, 7) = scaleLabel\nout(r + 1, 8) = covName",
+      "portable_suffix": "",
+      "portable_signature": "Sub AppendGeeLsmEstimateRow(out As Object(,), r As Integer, label As String, estOut As Double, seOut As Double, z As Double, pValue As Double, loOut As Double, hiOut As Double, scaleLabel As String, covName As String, safeNumber As Func(Of Double, Object))",
+      "native_call": "                    Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.AppendGeeLsmEstimateRow(out, r, labels(r), estOut, seOut, z, pValue, loOut, hiOut, scaleLabel, covName, AddressOf SafeExcelNumber)",
+      "aliases": [
+        {
+          "before": "labels(r)",
+          "after": "label"
+        },
+        {
+          "before": "SafeExcelNumber(",
+          "after": "safeNumber("
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+      "host": "GLMNB_SUMMARY",
+      "name": "BuildGlmCoefficientTable",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)\n                Dim out(outRows - 1, 7) As Object\n                Dim zCrit As Double = distributions.ZCritTwoSided(ciAlpha)\n                Dim ciLabel As String = (100.0R * (1.0R - ciAlpha)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"%\"\n                Dim r0 As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Parameter\"\n                    out(0, 1) = \"Type\"\n                    out(0, 2) = \"Coef\"\n                    out(0, 3) = \"SE\"\n                    out(0, 4) = \"Z\"\n                    out(0, 5) = \"P-value\"\n                    out(0, 6) = ciLabel & \" CI Lower\"\n                    out(0, 7) = ciLabel & \" CI Upper\"\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To beta.Length - 1\n                    Dim z As Double = If(se(i) > 0.0R, beta(i) / se(i), Double.NaN)\n                    Dim pv As Double = If(se(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)\n\n                    out(r0 + i, 0) = names(i)\n                    out(r0 + i, 1) = If(h.InterceptIncluded AndAlso i = 0, \"Intercept\", \"Slope\")\n                    out(r0 + i, 2) = beta(i)\n                    out(r0 + i, 3) = se(i)\n                    out(r0 + i, 4) = z\n                    out(r0 + i, 5) = pv\n                    out(r0 + i, 6) = beta(i) - zCrit * se(i)\n                    out(r0 + i, 7) = beta(i) + zCrit * se(i)\n                Next",
+      "portable_segment": "Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)\nDim out(outRows - 1, 7) As Object\nDim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\nDim ciLabel As String = (100.0R * (1.0R - alphaValue)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"%\"\nDim r0 As Integer = 0\n\nIf hdr Then\n    out(0, 0) = \"Parameter\"\n    out(0, 1) = \"Type\"\n    out(0, 2) = \"Coef\"\n    out(0, 3) = \"SE\"\n    out(0, 4) = \"Z\"\n    out(0, 5) = \"P-value\"\n    out(0, 6) = ciLabel & \" CI Lower\"\n    out(0, 7) = ciLabel & \" CI Upper\"\n    r0 = 1\nEnd If\n\nFor i As Integer = 0 To beta.Length - 1\n    Dim z As Double = If(se(i) > 0.0R, beta(i) / se(i), Double.NaN)\n    Dim pv As Double = If(se(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)\n\n    out(r0 + i, 0) = names(i)\n    out(r0 + i, 1) = If(interceptIncluded AndAlso i = 0, \"Intercept\", \"Slope\")\n    out(r0 + i, 2) = beta(i)\n    out(r0 + i, 3) = se(i)\n    out(r0 + i, 4) = z\n    out(r0 + i, 5) = pv\n    out(r0 + i, 6) = beta(i) - zCrit * se(i)\n    out(r0 + i, 7) = beta(i) + zCrit * se(i)\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function BuildGlmCoefficientTable(beta As Double(), se As Double(), names As String(), hdr As Boolean, alphaValue As Double, interceptIncluded As Boolean) As Object(,)",
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildGlmCoefficientTable(beta, se, names, hdr, ciAlpha, h.InterceptIncluded)",
+      "aliases": [
+        {
+          "before": "ciAlpha",
+          "after": "alphaValue"
+        },
+        {
+          "before": "h.InterceptIncluded",
+          "after": "interceptIncluded"
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+      "host": "GLM_SUMMARY",
+      "name": "BuildGlmCoefficientTable",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)\n                Dim out(outRows - 1, 7) As Object\n                Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\n                Dim ciLabel As String = (100.0R * (1.0R - alphaValue)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"%\"\n                Dim r0 As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Parameter\"\n                    out(0, 1) = \"Type\"\n                    out(0, 2) = \"Coef\"\n                    out(0, 3) = \"SE\"\n                    out(0, 4) = \"Z\"\n                    out(0, 5) = \"P-value\"\n                    out(0, 6) = ciLabel & \" CI Lower\"\n                    out(0, 7) = ciLabel & \" CI Upper\"\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To beta.Length - 1\n                    Dim z As Double = If(se(i) > 0.0R, beta(i) / se(i), Double.NaN)\n                    Dim pv As Double = If(se(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)\n\n                    out(r0 + i, 0) = names(i)\n                    out(r0 + i, 1) = If(h.InterceptIncluded AndAlso i = 0, \"Intercept\", \"Slope\")\n                    out(r0 + i, 2) = beta(i)\n                    out(r0 + i, 3) = se(i)\n                    out(r0 + i, 4) = z\n                    out(r0 + i, 5) = pv\n                    out(r0 + i, 6) = beta(i) - zCrit * se(i)\n                    out(r0 + i, 7) = beta(i) + zCrit * se(i)\n                Next",
+      "portable_segment": "Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)\nDim out(outRows - 1, 7) As Object\nDim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\nDim ciLabel As String = (100.0R * (1.0R - alphaValue)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"%\"\nDim r0 As Integer = 0\n\nIf hdr Then\n    out(0, 0) = \"Parameter\"\n    out(0, 1) = \"Type\"\n    out(0, 2) = \"Coef\"\n    out(0, 3) = \"SE\"\n    out(0, 4) = \"Z\"\n    out(0, 5) = \"P-value\"\n    out(0, 6) = ciLabel & \" CI Lower\"\n    out(0, 7) = ciLabel & \" CI Upper\"\n    r0 = 1\nEnd If\n\nFor i As Integer = 0 To beta.Length - 1\n    Dim z As Double = If(se(i) > 0.0R, beta(i) / se(i), Double.NaN)\n    Dim pv As Double = If(se(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)\n\n    out(r0 + i, 0) = names(i)\n    out(r0 + i, 1) = If(interceptIncluded AndAlso i = 0, \"Intercept\", \"Slope\")\n    out(r0 + i, 2) = beta(i)\n    out(r0 + i, 3) = se(i)\n    out(r0 + i, 4) = z\n    out(r0 + i, 5) = pv\n    out(r0 + i, 6) = beta(i) - zCrit * se(i)\n    out(r0 + i, 7) = beta(i) + zCrit * se(i)\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function BuildGlmCoefficientTable(beta As Double(), se As Double(), names As String(), hdr As Boolean, alphaValue As Double, interceptIncluded As Boolean) As Object(,)",
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildGlmCoefficientTable(beta, se, names, hdr, alphaValue, h.InterceptIncluded)",
+      "aliases": [
+        {
+          "before": "alphaValue",
+          "after": "alphaValue"
+        },
+        {
+          "before": "h.InterceptIncluded",
+          "after": "interceptIncluded"
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+      "host": "GLMNB_TESTS",
+      "name": "BuildRegressionTestsPrefix",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                Dim outRows As Integer = If(hdr, labels.Length + extraRows + 1, labels.Length + extraRows)\n                Dim out(outRows - 1, 3) As Object\n                Dim r As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Item\"\n                    out(0, 1) = \"Value\"\n                    out(0, 2) = \"df\"\n                    out(0, 3) = \"P-value\"\n                    r = 1\n                End If\n\n                For i As Integer = 0 To labels.Length - 1\n                    out(r, 0) = labels(i)\n                    out(r, 1) = vals(i, 0)\n                    out(r, 2) = vals(i, 1)\n                    out(r, 3) = vals(i, 2)\n                    r += 1\n                Next",
+      "portable_segment": "Dim outRows As Integer = If(hdr, labels.Length + extraRows + 1, labels.Length + extraRows)\nDim out(outRows - 1, 3) As Object\nr = 0\n\nIf hdr Then\n    out(0, 0) = \"Item\"\n    out(0, 1) = \"Value\"\n    out(0, 2) = \"df\"\n    out(0, 3) = \"P-value\"\n    r = 1\nEnd If\n\nFor i As Integer = 0 To labels.Length - 1\n    out(r, 0) = labels(i)\n    out(r, 1) = vals(i, 0)\n    out(r, 2) = vals(i, 1)\n    out(r, 3) = vals(i, 2)\n    r += 1\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function BuildRegressionTestsPrefix(labels As String(), vals As Object(,), hdr As Boolean, extraRows As Integer, ByRef r As Integer) As Object(,)",
+      "native_call": "                Dim r As Integer = 0\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildRegressionTestsPrefix(labels, vals, hdr, extraRows, r)",
+      "aliases": [
+        {
+          "before": "Dim r As Integer = 0",
+          "after": "r = 0"
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+      "host": "GLM_TESTS",
+      "name": "BuildRegressionTestsPrefix",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                Dim outRows As Integer = If(hdr, labels.Length + extraRows + 1, labels.Length + extraRows)\n                Dim out(outRows - 1, 3) As Object\n                Dim r As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Item\"\n                    out(0, 1) = \"Value\"\n                    out(0, 2) = \"df\"\n                    out(0, 3) = \"P-value\"\n                    r = 1\n                End If\n\n                For i As Integer = 0 To labels.Length - 1\n                    out(r, 0) = labels(i)\n                    out(r, 1) = vals(i, 0)\n                    out(r, 2) = vals(i, 1)\n                    out(r, 3) = vals(i, 2)\n                    r += 1\n                Next",
+      "portable_segment": "Dim outRows As Integer = If(hdr, labels.Length + extraRows + 1, labels.Length + extraRows)\nDim out(outRows - 1, 3) As Object\nr = 0\n\nIf hdr Then\n    out(0, 0) = \"Item\"\n    out(0, 1) = \"Value\"\n    out(0, 2) = \"df\"\n    out(0, 3) = \"P-value\"\n    r = 1\nEnd If\n\nFor i As Integer = 0 To labels.Length - 1\n    out(r, 0) = labels(i)\n    out(r, 1) = vals(i, 0)\n    out(r, 2) = vals(i, 1)\n    out(r, 3) = vals(i, 2)\n    r += 1\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function BuildRegressionTestsPrefix(labels As String(), vals As Object(,), hdr As Boolean, extraRows As Integer, ByRef r As Integer) As Object(,)",
+      "native_call": "                Dim r As Integer = 0\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildRegressionTestsPrefix(labels, vals, hdr, extraRows, r)",
+      "aliases": [
+        {
+          "before": "Dim r As Integer = 0",
+          "after": "r = 0"
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+      "host": "BuildParameterNames",
+      "name": "CompleteRegressionParameterNames",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "            Dim predictorNames() As String = If(h.VarNames, New String() {})\n            For i As Integer = 0 To predictorNames.Length - 1\n                If nextIndex + i <= UBound(out) Then\n                    out(nextIndex + i) = predictorNames(i)\n                End If\n            Next\n\n            For i As Integer = 0 To UBound(out)\n                If String.IsNullOrWhiteSpace(out(i)) Then\n                    out(i) = \"Param\" & (i + 1).ToString(CultureInfo.InvariantCulture)\n                End If\n            Next\n\n            Return out",
+      "portable_segment": "Dim predictorNames() As String = If(varNames, New String() {})\nFor i As Integer = 0 To predictorNames.Length - 1\n    If nextIndex + i <= (out.Length - 1) Then\n        out(nextIndex + i) = predictorNames(i)\n    End If\nNext\n\nFor i As Integer = 0 To (out.Length - 1)\n    If String.IsNullOrWhiteSpace(out(i)) Then\n        out(i) = \"Param\" & (i + 1).ToString(CultureInfo.InvariantCulture)\n    End If\nNext\n\nReturn out",
+      "portable_suffix": "",
+      "portable_signature": "Function CompleteRegressionParameterNames(out As String(), nextIndex As Integer, varNames As String()) As String()",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.CompleteRegressionParameterNames(out, nextIndex, h.VarNames)",
+      "aliases": [
+        {
+          "before": "h.VarNames",
+          "after": "varNames"
+        },
+        {
+          "before": "UBound(out)",
+          "after": "(out.Length - 1)"
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+      "host": "BuildParameterNames",
+      "name": "CompleteRegressionParameterNames",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "            Dim predictorNames() As String = If(h.VarNames, New String() {})\n            For i As Integer = 0 To predictorNames.Length - 1\n                If nextIndex + i <= UBound(out) Then\n                    out(nextIndex + i) = predictorNames(i)\n                End If\n            Next\n\n            For i As Integer = 0 To UBound(out)\n                If String.IsNullOrWhiteSpace(out(i)) Then\n                    out(i) = \"Param\" & (i + 1).ToString(CultureInfo.InvariantCulture)\n                End If\n            Next\n\n            Return out",
+      "portable_segment": "Dim predictorNames() As String = If(varNames, New String() {})\nFor i As Integer = 0 To predictorNames.Length - 1\n    If nextIndex + i <= (out.Length - 1) Then\n        out(nextIndex + i) = predictorNames(i)\n    End If\nNext\n\nFor i As Integer = 0 To (out.Length - 1)\n    If String.IsNullOrWhiteSpace(out(i)) Then\n        out(i) = \"Param\" & (i + 1).ToString(CultureInfo.InvariantCulture)\n    End If\nNext\n\nReturn out",
+      "portable_suffix": "",
+      "portable_signature": "Function CompleteRegressionParameterNames(out As String(), nextIndex As Integer, varNames As String()) As String()",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.CompleteRegressionParameterNames(out, nextIndex, h.VarNames)",
+      "aliases": [
+        {
+          "before": "h.VarNames",
+          "after": "varNames"
+        },
+        {
+          "before": "UBound(out)",
+          "after": "(out.Length - 1)"
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+      "host": "GLMNB_PRED",
+      "name": "CreateGeePredictionTable",
+      "destination": "UdfCoxGeeReportPreparation38",
+      "original_segment": "                Dim outRows As Integer = If(hdr, nRows + 1, nRows)\n                Dim out(outRows - 1, 1) As Object\n                Dim r0 As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"PredictedResponse\"\n                    out(0, 1) = \"LinearPredictor\"\n                    r0 = 1\n                End If",
+      "portable_segment": "Dim outRows As Integer = If(hdr, nRows + 1, nRows)\nDim out(outRows - 1, 1) As Object\nr0 = 0\n\nIf hdr Then\n    out(0, 0) = \"PredictedResponse\"\n    out(0, 1) = \"LinearPredictor\"\n    r0 = 1\nEnd If",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function CreateGeePredictionTable(nRows As Integer, hdr As Boolean, ByRef r0 As Integer) As Object(,)",
+      "native_call": "                Dim r0 As Integer = 0\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateGeePredictionTable(nRows, hdr, r0)",
+      "aliases": [
+        {
+          "before": "Dim r0 As Integer = 0",
+          "after": "r0 = 0"
+        }
+      ],
+      "emitted": false
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+      "host": "GLM_PRED",
+      "name": "CreateGeePredictionTable",
+      "destination": "UdfCoxGeeReportPreparation38",
+      "original_segment": "                Dim outRows As Integer = If(hdr, nRows + 1, nRows)\n                Dim out(outRows - 1, 1) As Object\n                Dim r0 As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"PredictedResponse\"\n                    out(0, 1) = \"LinearPredictor\"\n                    r0 = 1\n                End If",
+      "portable_segment": "Dim outRows As Integer = If(hdr, nRows + 1, nRows)\nDim out(outRows - 1, 1) As Object\nr0 = 0\n\nIf hdr Then\n    out(0, 0) = \"PredictedResponse\"\n    out(0, 1) = \"LinearPredictor\"\n    r0 = 1\nEnd If",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function CreateGeePredictionTable(nRows As Integer, hdr As Boolean, ByRef r0 As Integer) As Object(,)",
+      "native_call": "                Dim r0 As Integer = 0\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateGeePredictionTable(nRows, hdr, r0)",
+      "aliases": [
+        {
+          "before": "Dim r0 As Integer = 0",
+          "after": "r0 = 0"
+        }
+      ],
+      "emitted": false
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+      "host": "BuildAllResidualOutput",
+      "name": "BuildAllGlmResidualTable",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "            Dim n As Integer = model.pRaw_res.Length\n            Dim outRows As Integer = If(includeHeader, n + 1, n)\n            Dim out(outRows - 1, 6) As Object\n            Dim r0 As Integer = 0\n\n            If includeHeader Then\n                out(0, 0) = \"RawResidual\"\n                out(0, 1) = \"DevianceResidual\"\n                out(0, 2) = \"PearsonResidual\"\n                out(0, 3) = \"Leverage\"\n                out(0, 4) = \"StdDevianceResidual\"\n                out(0, 5) = \"StdPearsonResidual\"\n                out(0, 6) = \"CookDistance\"\n                r0 = 1\n            End If\n\n            For i As Integer = 0 To n - 1\n                out(r0 + i, 0) = model.pRaw_res(i)\n                out(r0 + i, 1) = model.pDeviance_res(i)\n                out(r0 + i, 2) = model.pPearsChisq_res(i)\n                out(r0 + i, 3) = model.pLeverage(i)\n                out(r0 + i, 4) = model.pStDeviance_res(i)\n                out(r0 + i, 5) = model.pStPearsChisq_res(i)\n                out(r0 + i, 6) = model.pCookDistance(i)\n            Next\n\n            Return out",
+      "portable_segment": "Dim n As Integer = raw.Length\nDim outRows As Integer = If(includeHeader, n + 1, n)\nDim out(outRows - 1, 6) As Object\nDim r0 As Integer = 0\n\nIf includeHeader Then\n    out(0, 0) = \"RawResidual\"\n    out(0, 1) = \"DevianceResidual\"\n    out(0, 2) = \"PearsonResidual\"\n    out(0, 3) = \"Leverage\"\n    out(0, 4) = \"StdDevianceResidual\"\n    out(0, 5) = \"StdPearsonResidual\"\n    out(0, 6) = \"CookDistance\"\n    r0 = 1\nEnd If\n\nFor i As Integer = 0 To n - 1\n    out(r0 + i, 0) = raw(i)\n    out(r0 + i, 1) = dev(i)\n    out(r0 + i, 2) = pear(i)\n    out(r0 + i, 3) = leverage(i)\n    out(r0 + i, 4) = sdev(i)\n    out(r0 + i, 5) = spear(i)\n    out(r0 + i, 6) = cook(i)\nNext\n\nReturn out",
+      "portable_suffix": "",
+      "portable_signature": "Function BuildAllGlmResidualTable(raw As Double(), dev As Double(), pear As Double(), leverage As Double(), sdev As Double(), spear As Double(), cook As Double(), includeHeader As Boolean) As Object(,)",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildAllGlmResidualTable(model.pRaw_res, model.pDeviance_res, model.pPearsChisq_res, model.pLeverage, model.pStDeviance_res, model.pStPearsChisq_res, model.pCookDistance, includeHeader)",
+      "aliases": [
+        {
+          "before": "model.pRaw_res",
+          "after": "raw"
+        },
+        {
+          "before": "model.pDeviance_res",
+          "after": "dev"
+        },
+        {
+          "before": "model.pPearsChisq_res",
+          "after": "pear"
+        },
+        {
+          "before": "model.pLeverage",
+          "after": "leverage"
+        },
+        {
+          "before": "model.pStDeviance_res",
+          "after": "sdev"
+        },
+        {
+          "before": "model.pStPearsChisq_res",
+          "after": "spear"
+        },
+        {
+          "before": "model.pCookDistance",
+          "after": "cook"
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "host": "LM_SUMMARY",
+      "name": "BuildLmCoefficientTable",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                Dim outRows As Integer = q + If(hdr, 1, 0) + noteCount\n                Dim out(outRows - 1, 7) As Object\n\n                Dim r0 As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"Parameter\"\n                    out(0, 1) = \"Type\"\n                    out(0, 2) = \"Coef\"\n                    out(0, 3) = \"SE\"\n                    out(0, 4) = \"T\"\n                    out(0, 5) = \"P-value\"\n                    out(0, 6) = $\"{100.0 * (1.0 - alphaValue):0.##}% CI LCL\"\n                    out(0, 7) = $\"{100.0 * (1.0 - alphaValue):0.##}% CI UCL\"\n                    r0 = 1\n                End If\n\n                Dim tCrit As Double = distributions.T_Inv_2T(alphaValue, dfResid)\n                For i As Integer = 0 To q - 1\n                    Dim pname As String = If(h.Model.results.bIntercept AndAlso i = 0,\n                                             \"Intercept\",\n                                             h.Model.results.varNames(i - If(h.Model.results.bIntercept, 1, 0)))\n                    Dim tVal As Double = If(se(i) > 0.0, coef(i) / se(i), Double.NaN)\n                    Dim pVal As Double = If(se(i) > 0.0, distributions.T_2T(Math.Abs(tVal), dfResid), Double.NaN)\n\n                    out(r0 + i, 0) = pname\n                    out(r0 + i, 1) = If(h.Model.results.bIntercept AndAlso i = 0, \"Intercept\", \"Slope\")\n                    out(r0 + i, 2) = coef(i)\n                    out(r0 + i, 3) = se(i)\n                    out(r0 + i, 4) = tVal\n                    out(r0 + i, 5) = pVal\n                    out(r0 + i, 6) = coef(i) - tCrit * se(i)\n                    out(r0 + i, 7) = coef(i) + tCrit * se(i)\n                Next",
+      "portable_segment": "Dim outRows As Integer = q + If(hdr, 1, 0) + noteCount\nDim out(outRows - 1, 7) As Object\n\nDim r0 As Integer = 0\nIf hdr Then\n    out(0, 0) = \"Parameter\"\n    out(0, 1) = \"Type\"\n    out(0, 2) = \"Coef\"\n    out(0, 3) = \"SE\"\n    out(0, 4) = \"T\"\n    out(0, 5) = \"P-value\"\n    out(0, 6) = $\"{100.0 * (1.0 - alphaValue):0.##}% CI LCL\"\n    out(0, 7) = $\"{100.0 * (1.0 - alphaValue):0.##}% CI UCL\"\n    r0 = 1\nEnd If\n\nDim tCrit As Double = distributions.T_Inv_2T(alphaValue, dfResid)\nFor i As Integer = 0 To q - 1\n    Dim pname As String = If(model.results.bIntercept AndAlso i = 0,\n                             \"Intercept\",\n                             model.results.varNames(i - If(model.results.bIntercept, 1, 0)))\n    Dim tVal As Double = If(se(i) > 0.0, coef(i) / se(i), Double.NaN)\n    Dim pVal As Double = If(se(i) > 0.0, distributions.T_2T(Math.Abs(tVal), dfResid), Double.NaN)\n\n    out(r0 + i, 0) = pname\n    out(r0 + i, 1) = If(model.results.bIntercept AndAlso i = 0, \"Intercept\", \"Slope\")\n    out(r0 + i, 2) = coef(i)\n    out(r0 + i, 3) = se(i)\n    out(r0 + i, 4) = tVal\n    out(r0 + i, 5) = pVal\n    out(r0 + i, 6) = coef(i) - tCrit * se(i)\n    out(r0 + i, 7) = coef(i) + tCrit * se(i)\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function BuildLmCoefficientTable(model As regression.LinearModel, coef As Double(), se As Double(), dfResid As Double, q As Integer, hdr As Boolean, noteCount As Integer, alphaValue As Double) As Object(,)",
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildLmCoefficientTable(h.Model, coef, se, dfResid, q, hdr, noteCount, alphaValue)",
+      "aliases": [
+        {
+          "before": "h.Model",
+          "after": "model"
+        }
+      ],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "host": "LM_TESTS",
+      "name": "BuildLmTestsTable",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                Dim outRows As Integer = n + If(hdr, 1, 0) + noteCount\n                Dim out(outRows - 1, 3) As Object\n\n                Dim r0 As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"Item\"\n                    out(0, 1) = \"Value\"\n                    out(0, 2) = \"df\"\n                    out(0, 3) = \"P-value\"\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To n - 1\n                    out(r0 + i, 0) = labels(i)\n                    out(r0 + i, 1) = vals(i, 0)\n                    out(r0 + i, 2) = vals(i, 1)\n                    out(r0 + i, 3) = vals(i, 2)\n                Next",
+      "portable_segment": "Dim outRows As Integer = n + If(hdr, 1, 0) + noteCount\nDim out(outRows - 1, 3) As Object\n\nDim r0 As Integer = 0\nIf hdr Then\n    out(0, 0) = \"Item\"\n    out(0, 1) = \"Value\"\n    out(0, 2) = \"df\"\n    out(0, 3) = \"P-value\"\n    r0 = 1\nEnd If\n\nFor i As Integer = 0 To n - 1\n    out(r0 + i, 0) = labels(i)\n    out(r0 + i, 1) = vals(i, 0)\n    out(r0 + i, 2) = vals(i, 1)\n    out(r0 + i, 3) = vals(i, 2)\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function BuildLmTestsTable(labels As String(), vals As Object(,), n As Integer, hdr As Boolean, noteCount As Integer) As Object(,)",
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildLmTestsTable(labels, vals, n, hdr, noteCount)",
+      "aliases": [],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "host": "DropTopRows",
+      "name": "DropTopRows",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "            If arr Is Nothing Then Return Nothing\n            If rowsToDrop <= 0 Then Return arr\n\n            Dim rows As Integer = arr.GetLength(0)\n            Dim cols As Integer = arr.GetLength(1)\n            If rowsToDrop >= rows Then\n                Dim emptyOut(0, Math.Max(0, cols - 1)) As Object\n                Return emptyOut\n            End If\n\n            Dim out(rows - rowsToDrop - 1, cols - 1) As Object\n            For i As Integer = rowsToDrop To rows - 1\n                For j As Integer = 0 To cols - 1\n                    out(i - rowsToDrop, j) = arr(i, j)\n                Next\n            Next\n            Return out",
+      "portable_segment": "If arr Is Nothing Then Return Nothing\nIf rowsToDrop <= 0 Then Return arr\n\nDim rows As Integer = arr.GetLength(0)\nDim cols As Integer = arr.GetLength(1)\nIf rowsToDrop >= rows Then\n    Dim emptyOut(0, Math.Max(0, cols - 1)) As Object\n    Return emptyOut\nEnd If\n\nDim out(rows - rowsToDrop - 1, cols - 1) As Object\nFor i As Integer = rowsToDrop To rows - 1\n    For j As Integer = 0 To cols - 1\n        out(i - rowsToDrop, j) = arr(i, j)\n    Next\nNext\nReturn out",
+      "portable_suffix": "",
+      "portable_signature": "Function DropTopRows(arr As Object(,), rowsToDrop As Integer) As Object(,)",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.DropTopRows(arr, rowsToDrop)",
+      "aliases": [],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "host": "AppendFootnotes",
+      "name": "AppendFootnotes",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "            If arr Is Nothing Then Return Nothing\n            If notes Is Nothing OrElse notes.Length = 0 Then Return arr\n\n            Dim rows As Integer = arr.GetLength(0)\n            Dim cols As Integer = arr.GetLength(1)\n            Dim out(rows + notes.Length - 1, cols - 1) As Object\n\n            For i As Integer = 0 To rows - 1\n                For j As Integer = 0 To cols - 1\n                    out(i, j) = arr(i, j)\n                Next\n            Next\n\n            For i As Integer = 0 To notes.Length - 1\n                out(rows + i, 0) = notes(i)\n            Next\n\n            Return out",
+      "portable_segment": "If arr Is Nothing Then Return Nothing\nIf notes Is Nothing OrElse notes.Length = 0 Then Return arr\n\nDim rows As Integer = arr.GetLength(0)\nDim cols As Integer = arr.GetLength(1)\nDim out(rows + notes.Length - 1, cols - 1) As Object\n\nFor i As Integer = 0 To rows - 1\n    For j As Integer = 0 To cols - 1\n        out(i, j) = arr(i, j)\n    Next\nNext\n\nFor i As Integer = 0 To notes.Length - 1\n    out(rows + i, 0) = notes(i)\nNext\n\nReturn out",
+      "portable_suffix": "",
+      "portable_signature": "Function AppendFootnotes(arr As Object(,), notes As String()) As Object(,)",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.AppendFootnotes(arr, notes)",
+      "aliases": [],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "host": "AppendFootnotesInPlace",
+      "name": "AppendFootnotesInPlace",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "            If arr Is Nothing OrElse notes Is Nothing Then Exit Sub\n            For i As Integer = 0 To notes.Length - 1\n                arr(startRow + i, 0) = notes(i)\n            Next",
+      "portable_segment": "If arr Is Nothing OrElse notes Is Nothing Then Exit Sub\nFor i As Integer = 0 To notes.Length - 1\n    arr(startRow + i, 0) = notes(i)\nNext",
+      "portable_suffix": "",
+      "portable_signature": "Sub AppendFootnotesInPlace(arr As Object(,), startRow As Integer, notes As String())",
+      "native_call": "            Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.AppendFootnotesInPlace(arr, startRow, notes)",
+      "aliases": [],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "host": "LM_RESID",
+      "name": "BuildLmResidualColumn",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                Dim startRow As Integer = If(hdr, 0, 1)\n                Dim rowCount As Integer = fullTable.GetLength(0) - startRow\n                Dim out(rowCount - 1, 0) As Object\n\n                Dim r As Integer = 0\n                If hdr Then\n                    out(0, 0) = colName\n                    r = 1\n                End If\n\n                For i As Integer = 1 To fullTable.GetLength(0) - 1\n                    out(r, 0) = fullTable(i, colIndex)\n                    r += 1\n                Next",
+      "portable_segment": "Dim startRow As Integer = If(hdr, 0, 1)\nDim rowCount As Integer = fullTable.GetLength(0) - startRow\nDim out(rowCount - 1, 0) As Object\n\nDim r As Integer = 0\nIf hdr Then\n    out(0, 0) = colName\n    r = 1\nEnd If\n\nFor i As Integer = 1 To fullTable.GetLength(0) - 1\n    out(r, 0) = fullTable(i, colIndex)\n    r += 1\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function BuildLmResidualColumn(fullTable As Object(,), hdr As Boolean, colIndex As Integer, colName As String) As Object(,)",
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildLmResidualColumn(fullTable, hdr, colIndex, colName)",
+      "aliases": [],
+      "emitted": true
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "host": "LM_PRED",
+      "name": "CreateLmPredictionTable",
+      "destination": "UdfRegressionFamilyReportPreparation38",
+      "original_segment": "                Dim outRows As Integer = If(hdr, nRows + 1, nRows)\n                Dim out(outRows - 1, 0) As Object\n\n                Dim r0 As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"PredictedY\"\n                    r0 = 1\n                End If",
+      "portable_segment": "Dim outRows As Integer = If(hdr, nRows + 1, nRows)\nDim out(outRows - 1, 0) As Object\n\nr0 = 0\nIf hdr Then\n    out(0, 0) = \"PredictedY\"\n    r0 = 1\nEnd If",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function CreateLmPredictionTable(nRows As Integer, hdr As Boolean, ByRef r0 As Integer) As Object(,)",
+      "native_call": "                Dim r0 As Integer = 0\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.CreateLmPredictionTable(nRows, hdr, r0)",
+      "aliases": [
+        {
+          "before": "Dim r0 As Integer = 0",
+          "after": "r0 = 0"
+        }
+      ],
+      "emitted": true
+    }
+  ],
+  "sources": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "bytes": 89689,
+      "sha256": "bf7517f0d38283d8f77f0ecd0c73c10c7d9d8b9fe26de3d8ae27bcbcd981c335"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+      "bytes": 41295,
+      "sha256": "7e355e28bbbdd72eec2aa6aa16c413922b38e5ee3a93a011b000e7b803ecbec4"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+      "bytes": 66492,
+      "sha256": "5b683440a8907dc45f149cc1ebe4f6fb2352cca45fbef4dd20cb5a21685edfa4"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "bytes": 43272,
+      "sha256": "be473271f2867688c878fea643f25d277e9648035b3efbdba1544cf38fb35045"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfRegressionFamilyReportPreparation38.vb",
+      "bytes": 11498,
+      "sha256": "c3b9c59d0c387cc0bcefa65ba1d34bee6ce24c61f2adfade78b2843b0ad98dbc"
+    }
+  ],
+  "new_portable_methods": 13,
+  "scientific_Core_changes": 0,
+  "unit_test_runs": 0,
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "original_queries": 0
+}

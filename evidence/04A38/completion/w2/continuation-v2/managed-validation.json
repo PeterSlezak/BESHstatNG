@@ -1,0 +1,73 @@
+{
+  "Debug": {
+    "outcomes": {
+      "Passed": 20653,
+      "Failed": 14
+    },
+    "new_passes": 27,
+    "new_nonpasses": [],
+    "inherited_nonpasses": 14,
+    "suites": [
+      {
+        "suite": "Core",
+        "outcomes": {
+          "Passed": 1278
+        },
+        "exit_code": 0,
+        "trx_sha256": "8e965c4ceb9713b0e963533a6182321222e059155af6c1dcce80b8e137dd8ea4"
+      },
+      {
+        "suite": "Common",
+        "outcomes": {
+          "Passed": 9131,
+          "Failed": 5
+        },
+        "exit_code": 1,
+        "trx_sha256": "f0ff71b1252561cb9757775e53aae015eb13939ad3a874b80f1958c9b337c40a"
+      },
+      {
+        "suite": "Legacy",
+        "outcomes": {
+          "Passed": 9630,
+          "Failed": 9
+        },
+        "exit_code": 1,
+        "trx_sha256": "b0706a415082da7a823b70cdbaf6cf2e5df4378158572a8ff6f16cd603bf9218"
+      },
+      {
+        "suite": "ControlMitigation",
+        "outcomes": {
+          "Passed": 61
+        },
+        "exit_code": 0,
+        "trx_sha256": "e2a690545a3f1374d6bed9281d99045cd363b6c024be43cb694a4bd64e59cb87"
+      },
+      {
+        "suite": "OfficeAddin",
+        "outcomes": {
+          "Passed": 508
+        },
+        "exit_code": 0,
+        "trx_sha256": "64ef0cb1434d5641a8306a6cc0d0b6cfd3af86019d35c637b0913bf07c40c941"
+      },
+      {
+        "suite": "OfficeExecution",
+        "outcomes": {
+          "Passed": 45
+        },
+        "exit_code": 0,
+        "trx_sha256": "04f27cc07a96f03e94903bc0c67572c9917ed22280b8cb42fd9d93ae02cfb7b3"
+      }
+    ],
+    "old_identity_occurrence_outcome_delta": 0
+  },
+  "selected_Release": {
+    "outcomes": {
+      "Passed": 146
+    },
+    "distinct_identities": 146,
+    "full_suite": "NOT_RUN_OWNER_PREFERENCE"
+  },
+  "source_pin_changes": "Authorized production/test source transitions retain old expected assertions; no historical managed test renamed/removed",
+  "original_queries": 0
+}

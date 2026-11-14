@@ -1,0 +1,70 @@
+{
+  "configuration": "Debug",
+  "commands": [
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont15\\signatures-v1\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont16\\combined-v3\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v16\\final-v4\\current-Debug.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\native-metadata-owners-v3.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.652646599999571,
+      "stdout_sha256": "cce6917bf4cab62fb0d73326dfc12c5f50414b350181fa2bea2e7354d8f1330e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2\\inspection\\Inspect38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont16\\combined-v3\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v16\\final-v4\\exports-Debug.json",
+        "<REPO_ROOT>\\evidence\\04A38\\entry-members.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6082446000000346,
+      "stdout_sha256": "768d70d3cf223e448fec840b0c77f411d7200e0c4edb14c31b61c0a66f40baff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "tools": [
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/signatures-v1/MethodMetadata38.exe",
+      "bytes": 45056,
+      "sha256": "8f0ba155b0747c08204667812ed1855b0195818e42b4d368569c472827f07717"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/packet-v2/inspection/Inspect38.exe",
+      "bytes": 24576,
+      "sha256": "116e24667d914f3f472caa83eead91bfe96035ef9a7e52451987409be6f3da9a"
+    }
+  ],
+  "files": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v16/final-v4/current-Debug.json",
+      "bytes": 75891789,
+      "sha256": "19bafc7d5c9f1e4b202e2bd6852b5d3385b3ec3ad5a5230b949498b5300accb3"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v16/final-v4/exports-Debug.json",
+      "bytes": 2700881,
+      "sha256": "e09d20078b03989f21c6250e4e61310bbea223b08bac9fb7db495eeba392602d"
+    }
+  ],
+  "public_exports": 268,
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/production-test-freeze-v3.json",
+    "bytes": 18284,
+    "sha256": "67db8a9ea651472a6e9ab0b633ad1f63925e0468f5629876c4a848e8b010b11c"
+  },
+  "current_only": true,
+  "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_ABI_CIL_signatures_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_unit_suites": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "original_queries": 0,
+  "original_activity": "READ_EXISTING_AUTHENTICATED_METADATA_ONLY;NO_ORIGINAL_DLL_LOAD_OR_EXECUTION"
+}

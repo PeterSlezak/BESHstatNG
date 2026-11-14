@@ -80,27 +80,7 @@ Namespace WorksheetFunctions
                 If groups Is Nothing OrElse names Is Nothing Then Return ExcelError.ExcelErrorNum
 
                 Dim resolvedRule As String = Global.BESHStatNG.UdfDataImport.GetHistogramBinRule(binRule)
-                Dim parts As New List(Of Object(,))()
-
-                For i As Integer = 0 To groups.Length - 1
-                    Dim values() As Double = groups(i)
-                    If values Is Nothing OrElse values.Length < 1 Then Continue For
-
-                    Dim bins As Object(,) = graphics.HistogramBinsComputation(values, resolvedRule)
-                    If bins Is Nothing OrElse bins.GetLength(0) < 1 Then Continue For
-
-                    Dim part(bins.GetLength(0), 2) As Object
-                    part(0, 0) = "Group"
-                    part(0, 1) = "BinMidpoint"
-                    part(0, 2) = "Frequency"
-                    For r As Integer = 0 To bins.GetLength(0) - 1
-                        part(r + 1, 0) = names(i)
-                        part(r + 1, 1) = bins(r, 0)
-                        part(r + 1, 2) = bins(r, 1)
-                    Next
-                    parts.Add(part)
-                Next
-
+                Dim parts As List(Of Object(,)) = Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildHistogramPartsPrepared(groups, names, resolvedRule, AddressOf graphics.HistogramBinsComputation)
                 If parts.Count = 0 Then Return ExcelError.ExcelErrorNum
                 Return StackHomogeneousTables(parts)
             Catch ex As Exception
@@ -152,35 +132,7 @@ Namespace WorksheetFunctions
                 If groups Is Nothing OrElse names Is Nothing Then Return ExcelError.ExcelErrorNum
 
                 Dim resolvedRule As String = Global.BESHStatNG.UdfDataImport.GetHistogramBinRule(binRule)
-                Dim parts As New List(Of Object(,))()
-
-                For i As Integer = 0 To groups.Length - 1
-                    Dim values() As Double = groups(i)
-                    If values Is Nothing OrElse values.Length < 2 Then Continue For
-
-                    Dim bins As Object(,) = graphics.HistogramBinsComputation(values, resolvedRule)
-                    If bins Is Nothing OrElse bins.GetLength(0) < 1 Then Continue For
-
-                    Dim mids(bins.GetLength(0) - 1) As Double
-                    For r As Integer = 0 To bins.GetLength(0) - 1
-                        mids(r) = Convert.ToDouble(bins(r, 0), CultureInfo.InvariantCulture)
-                    Next
-
-                    Dim overlay As Double(,) = graphics.GaussOverlayComputation(values, mids)
-                    If overlay Is Nothing OrElse overlay.GetLength(0) < 1 Then Continue For
-
-                    Dim part(overlay.GetLength(0), 2) As Object
-                    part(0, 0) = "Group"
-                    part(0, 1) = "X"
-                    part(0, 2) = "NormalFrequency"
-                    For r As Integer = 0 To overlay.GetLength(0) - 1
-                        part(r + 1, 0) = names(i)
-                        part(r + 1, 1) = overlay(r, 0)
-                        part(r + 1, 2) = overlay(r, 1)
-                    Next
-                    parts.Add(part)
-                Next
-
+                Dim parts As List(Of Object(,)) = Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildHistogramNormalPartsPrepared(groups, names, resolvedRule, AddressOf graphics.HistogramBinsComputation, AddressOf graphics.GaussOverlayComputation)
                 If parts.Count = 0 Then Return ExcelError.ExcelErrorNum
                 Return StackHomogeneousTables(parts)
             Catch ex As Exception
@@ -515,168 +467,25 @@ Namespace WorksheetFunctions
         ''' A spill range with columns Bin, N, MeanPredicted, ObservedRate, LowerCI, UpperCI, ErrorMinus, ErrorPlus.
         ''' </returns>
         Private Function BuildCalibrationPointsTable(rows As IList(Of regression.CalibrationBinSummary)) As Object(,)
-            Dim out(rows.Count, 7) As Object
-            out(0, 0) = "Bin"
-            out(0, 1) = "N"
-            out(0, 2) = "MeanPredicted"
-            out(0, 3) = "ObservedRate"
-            out(0, 4) = "LowerCI"
-            out(0, 5) = "UpperCI"
-            out(0, 6) = "ErrorMinus"
-            out(0, 7) = "ErrorPlus"
-
-            For i As Integer = 0 To rows.Count - 1
-                Dim r = rows(i)
-                out(i + 1, 0) = r.BinIndex
-                out(i + 1, 1) = r.N
-                out(i + 1, 2) = r.MeanPredicted
-                out(i + 1, 3) = r.ObservedRate
-                out(i + 1, 4) = r.LowerCI
-                out(i + 1, 5) = r.UpperCI
-                out(i + 1, 6) = If(Double.IsNaN(r.LowerCI), ExcelError.ExcelErrorNA, r.ObservedRate - r.LowerCI)
-                out(i + 1, 7) = If(Double.IsNaN(r.UpperCI), ExcelError.ExcelErrorNA, r.UpperCI - r.ObservedRate)
-            Next
-
-            Return PrepareResultTableForUdf(out)
+            ' The original mixed Enum/Double If expression coerced ExcelErrorNA to Double.
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildCalibrationPointsTable(rows, CDbl(ExcelError.ExcelErrorNA))), Object(,))
         End Function
 
         Private Function BuildRocPointsTable(cutoffTable As Object(,), isLowerDirection As Boolean) As Object(,)
-            If cutoffTable Is Nothing OrElse cutoffTable.GetLength(0) < 2 Then
-                Return BuildSimpleNoteTable("ROC", "No ROC cut-off table was returned.")
-            End If
-
-            Dim n As Integer = cutoffTable.GetLength(0) - 1
-            Dim out(n + 2, 4) As Object
-            out(0, 0) = "Threshold"
-            out(0, 1) = "Sensitivity"
-            out(0, 2) = "Specificity"
-            out(0, 3) = "FalsePositiveRate"
-            out(0, 4) = "TruePositiveRate"
-
-            out(1, 0) = ""
-            out(1, 1) = 1.0R
-            out(1, 2) = 0.0R
-            out(1, 3) = 1.0R
-            out(1, 4) = 1.0R
-
-            For i As Integer = 1 To n
-                Dim thresholdObj As Object = cutoffTable(i, 0)
-                Dim threshold As Double
-                If TryGetFiniteDoubleFlexible(thresholdObj, threshold) Then
-                    out(i + 1, 0) = If(isLowerDirection, -threshold, threshold)
-                Else
-                    out(i + 1, 0) = thresholdObj
-                End If
-
-                Dim sens As Double = Convert.ToDouble(cutoffTable(i, 1), CultureInfo.InvariantCulture)
-                Dim spec As Double = Convert.ToDouble(cutoffTable(i, 2), CultureInfo.InvariantCulture)
-                out(i + 1, 1) = sens
-                out(i + 1, 2) = spec
-                out(i + 1, 3) = 1.0R - spec
-                out(i + 1, 4) = sens
-            Next
-
-            out(n + 2, 0) = ""
-            out(n + 2, 1) = 0.0R
-            out(n + 2, 2) = 1.0R
-            out(n + 2, 3) = 0.0R
-            out(n + 2, 4) = 0.0R
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildRocPointsTable(cutoffTable, isLowerDirection, AddressOf TryGetFiniteDoubleFlexible)
         End Function
 
         Private Function BuildRocStatsTable(summaryTable As Object(,)) As Object(,)
             If summaryTable Is Nothing OrElse summaryTable.GetLength(0) < 2 Then
-                Return BuildSimpleNoteTable("ROC", "No ROC summary table was returned.")
+                Return Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildRocStatsTable(summaryTable)
             End If
-
-            Dim bodyRows As Integer = summaryTable.GetLength(0) - 1
-            Dim out(bodyRows, 1) As Object
-            out(0, 0) = "Metric"
-            out(0, 1) = "Value"
-            For i As Integer = 1 To bodyRows
-                out(i, 0) = summaryTable(i, 0)
-                out(i, 1) = summaryTable(i, 1)
-            Next
-            Return PreparePValueRowsForUdf(out)
+            Return PreparePValueRowsForUdf(Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildRocStatsTable(summaryTable))
         End Function
 
         Private Function BuildKaplanMeierStepTable(rawCurves As Object()) As Object(,)
-            Dim totalRows As Integer = 1 'header
-
-            For Each groupObj As Object In rawCurves
-                If groupObj Is Nothing Then Continue For
-                Dim items As IEnumerable = TryCast(groupObj, IEnumerable)
-                If items Is Nothing Then Continue For
-                Dim recs As List(Of survival.SurvivalTableRecord) = items.Cast(Of Object)().Select(Function(x) CType(x, survival.SurvivalTableRecord)).ToList()
-                If recs.Count = 0 Then Continue For
-                totalRows += 1 + 2 * recs.Count
-            Next
-
-            If totalRows <= 1 Then
-                Return BuildSimpleNoteTable("Kaplan-Meier", "No survival-curve rows were returned.")
-            End If
-
-            Dim out(totalRows - 1, 6) As Object
-            out(0, 0) = "Group"
-            out(0, 1) = "PlotOrder"
-            out(0, 2) = "Time"
-            out(0, 3) = "Survival"
-            out(0, 4) = "LowerCI"
-            out(0, 5) = "UpperCI"
-            out(0, 6) = "AtRisk"
-
-            Dim row As Integer = 1
-            For Each groupObj As Object In rawCurves
-                If groupObj Is Nothing Then Continue For
-                Dim items As IEnumerable = TryCast(groupObj, IEnumerable)
-                If items Is Nothing Then Continue For
-                Dim recs As List(Of survival.SurvivalTableRecord) = items.Cast(Of Object)().Select(Function(x) CType(x, survival.SurvivalTableRecord)).ToList()
-                If recs.Count = 0 Then Continue For
-
-                Dim groupName As String = recs(0).strGroup
-                Dim prevProb As Double = 1.0R
-                Dim prevLL As Double = 1.0R
-                Dim prevUL As Double = 1.0R
-                Dim plotOrder As Integer = 1
-
-                out(row, 0) = groupName
-                out(row, 1) = plotOrder
-                out(row, 2) = 0.0R
-                out(row, 3) = 1.0R
-                out(row, 4) = 1.0R
-                out(row, 5) = 1.0R
-                out(row, 6) = recs(0).AtRisk
-                row += 1
-                plotOrder += 1
-
-                For Each rec As survival.SurvivalTableRecord In recs
-                    out(row, 0) = groupName
-                    out(row, 1) = plotOrder
-                    out(row, 2) = rec.Time
-                    out(row, 3) = prevProb
-                    out(row, 4) = prevLL
-                    out(row, 5) = prevUL
-                    out(row, 6) = ""
-                    row += 1
-                    plotOrder += 1
-
-                    out(row, 0) = groupName
-                    out(row, 1) = plotOrder
-                    out(row, 2) = rec.Time
-                    out(row, 3) = rec.Prob
-                    out(row, 4) = rec.ProbCILL
-                    out(row, 5) = rec.ProbCIUL
-                    out(row, 6) = rec.AtRisk
-                    row += 1
-                    plotOrder += 1
-
-                    prevProb = rec.Prob
-                    prevLL = rec.ProbCILL
-                    prevUL = rec.ProbCIUL
-                Next
-            Next
-
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildKaplanMeierStepTablePrepared(
+                rawCurves, Function(x) CType(x, survival.SurvivalTableRecord),
+                Function(x) CType(x, survival.SurvivalTableRecord), AddressOf BuildSimpleNoteTable)
         End Function
 
         Private Function StackHomogeneousTables(tables As List(Of Object(,))) As Object(,)
@@ -686,28 +495,7 @@ Namespace WorksheetFunctions
                 Return empty
             End If
 
-            Dim cols As Integer = tables(0).GetLength(1)
-            Dim totalRows As Integer = 1
-            For Each tbl As Object(,) In tables
-                totalRows += Math.Max(0, tbl.GetLength(0) - 1)
-            Next
-
-            Dim out(totalRows - 1, cols - 1) As Object
-            For j As Integer = 0 To cols - 1
-                out(0, j) = tables(0)(0, j)
-            Next
-
-            Dim row As Integer = 1
-            For Each tbl As Object(,) In tables
-                For i As Integer = 1 To tbl.GetLength(0) - 1
-                    For j As Integer = 0 To cols - 1
-                        out(row, j) = tbl(i, j)
-                    Next
-                    row += 1
-                Next
-            Next
-
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.StackHomogeneousTablesPrepared(tables)
         End Function
 
     End Module

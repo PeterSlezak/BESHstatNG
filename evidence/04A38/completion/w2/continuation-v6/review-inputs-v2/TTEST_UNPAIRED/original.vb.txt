@@ -1,0 +1,48 @@
+ra>
+        ''' <para>
+        ''' The test statistic is based on the difference between the sample means.
+        ''' The pooled version assumes equal population variances, while the Welch version does not and uses an adjusted
+        ''' degrees-of-freedom approximation.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.PAR.TTEST_UNPAIRED(A2:A21, B2:B19)
+        ''' =BESH.PAR.TTEST_UNPAIRED(A1:A21, B1:B19, "Control,Treatment", "welch", 0.01)
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.PAR.TTEST_UNPAIRED",
+            Category:="BESHStatNG - Parametric",
+            Description:="Two-sample unpaired t-test. Returns pooled, Welch, or both result tables.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function TTEST_UNPAIRED(
+            <ExcelArgument(Name:="x", Description:="First independent group as a single-column range. Non-numeric cells ignored; first cell may be a header.")> x As Object,
+            <ExcelArgument(Name:="y", Description:="Second independent group as a single-column range. Non-numeric cells ignored; first cell may be a header.")> y As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="output", Description:="Optional: both (default), equal/pooled/student, or unequal/welch.")> Optional outputType As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional two-sided significance level for the confidence interval. Default 0.05.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetIndependentNumericColumns(x, y, data, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
+                If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
+                If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(groupNames, detectedNames, 2, "Group")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim mdl As New parametric.UnpairedTtest(data, names)
+                mdl.compute(alphaValue)
+                Dim tables = mdl.wrapResults()
+
+                Dim which As String = NormalizeText(outputType)
+                Select Case which
+                    Case "", "BOTH", "ALL"
+                        Return StackWithBlankRow(PrepareResultTableForUdf(tables(0)), PrepareResultTableForUd

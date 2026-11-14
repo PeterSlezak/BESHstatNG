@@ -1,0 +1,277 @@
+{
+  "moves": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "host": "BuildAllResidualOutput",
+      "original_segment": "        Private Function BuildAllResidualOutput(res As regression.MultinomialResiduals,\r\n                                                categories() As Integer, includeHeader As Boolean) As Object\r\n            If res Is Nothing Then Return ExcelError.ExcelErrorNA\r\n\r\n            Dim cats() As Integer = categories\r\n            Dim n As Integer = res.FittedMeans.GetLength(0)\r\n            Dim k As Integer = cats.Length\r\n\r\n            Dim headers As New List(Of String)()\r\n            headers.AddRange(CategoryHeaders(\"Observed\", cats))\r\n            headers.AddRange(CategoryHeaders(\"FittedMean\", cats))\r\n            headers.AddRange(CategoryHeaders(\"Prob\", cats))\r\n            headers.AddRange(CategoryHeaders(\"Response\", cats))\r\n            headers.AddRange(CategoryHeaders(\"Pearson\", cats))\r\n            headers.AddRange(CategoryHeaders(\"StdPearson\", cats))\r\n            headers.Add(\"DevianceResidual\")\r\n            headers.Add(\"StdDevianceResidual\")\r\n            headers.Add(\"Leverage\")\r\n\r\n            Dim outRows As Integer = If(includeHeader, n + 1, n)\r\n            Dim outCols As Integer = headers.Count\r\n            Dim out(outRows - 1, outCols - 1) As Object\r\n            Dim r0 As Integer = 0\r\n\r\n            If includeHeader Then\r\n                For j As Integer = 0 To outCols - 1\r\n                    out(0, j) = headers(j)\r\n                Next\r\n                r0 = 1\r\n            End If\r\n\r\n            For i As Integer = 0 To n - 1\r\n                Dim c As Integer = 0\r\n\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.Observed(i, j) : c += 1\r\n                Next\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.FittedMeans(i, j) : c += 1\r\n                Next\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.Probabilities(i, j) : c += 1\r\n                Next\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.ResponseResiduals(i, j) : c += 1\r\n                Next\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.PearsonResiduals(i, j) : c += 1\r\n                Next\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.StdPearsonResiduals(i, j) : c += 1\r\n                Next\r\n\r\n                out(r0 + i, c) = res.DevianceResiduals(i) : c += 1\r\n                out(r0 + i, c) = res.StdDevianceResiduals(i) : c += 1\r\n                out(r0 + i, c) = res.Leverage(i)\r\n            Next\r\n\r\n            Return out\r\n        End Function",
+      "native_call": "        Private Function BuildAllResidualOutput(res As regression.MultinomialResiduals,\r\n                                                categories() As Integer, includeHeader As Boolean) As Object\r\n            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildMultinomialResidualOutput(res, categories, includeHeader, ExcelError.ExcelErrorNA)\r\n        End Function",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildMultinomialResidualOutput(res As regression.MultinomialResiduals, categories() As Integer, includeHeader As Boolean, unavailable As Object) As Object",
+        "body": "If res Is Nothing Then Return unavailable\n\n            Dim cats() As Integer = categories\n            Dim n As Integer = res.FittedMeans.GetLength(0)\n            Dim k As Integer = cats.Length\n\n            Dim headers As New List(Of String)()\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"Observed\", cats))\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"FittedMean\", cats))\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"Prob\", cats))\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"Response\", cats))\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"Pearson\", cats))\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"StdPearson\", cats))\n            headers.Add(\"DevianceResidual\")\n            headers.Add(\"StdDevianceResidual\")\n            headers.Add(\"Leverage\")\n\n            Dim outRows As Integer = If(includeHeader, n + 1, n)\n            Dim outCols As Integer = headers.Count\n            Dim out(outRows - 1, outCols - 1) As Object\n            Dim r0 As Integer = 0\n\n            If includeHeader Then\n                For j As Integer = 0 To outCols - 1\n                    out(0, j) = headers(j)\n                Next\n                r0 = 1\n            End If\n\n            For i As Integer = 0 To n - 1\n                Dim c As Integer = 0\n\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.Observed(i, j) : c += 1\n                Next\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.FittedMeans(i, j) : c += 1\n                Next\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.Probabilities(i, j) : c += 1\n                Next\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.ResponseResiduals(i, j) : c += 1\n                Next\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.PearsonResiduals(i, j) : c += 1\n                Next\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.StdPearsonResiduals(i, j) : c += 1\n                Next\n\n                out(r0 + i, c) = res.DevianceResiduals(i) : c += 1\n                out(r0 + i, c) = res.StdDevianceResiduals(i) : c += 1\n                out(r0 + i, c) = res.Leverage(i)\n            Next\n\n            Return out"
+      },
+      "aliases": [
+        {
+          "before": "ExcelError.ExcelErrorNA",
+          "after": "unavailable"
+        },
+        {
+          "before": "CategoryHeaders(",
+          "after": "UdfRegressionOutputReports38.CategoryHeaders("
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "host": "BuildAllResidualOutput",
+      "original_segment": "        Private Function BuildAllResidualOutput(res As regression.MultinomialResiduals,\r\n                                                includeHeader As Boolean) As Object\r\n            If res Is Nothing Then Return ExcelError.ExcelErrorNA\r\n\r\n            Dim cats() As Integer = res.Categories\r\n            Dim n As Integer = res.FittedMeans.GetLength(0)\r\n            Dim k As Integer = cats.Length\r\n\r\n            Dim headers As New List(Of String)()\r\n            headers.AddRange(CategoryHeaders(\"FittedMean\", cats))\r\n            headers.AddRange(CategoryHeaders(\"Prob\", cats))\r\n            headers.AddRange(CategoryHeaders(\"Response\", cats))\r\n            headers.AddRange(CategoryHeaders(\"Pearson\", cats))\r\n            headers.AddRange(CategoryHeaders(\"StdPearson\", cats))\r\n            headers.Add(\"DevianceResidual\")\r\n            headers.Add(\"StdDevianceResidual\")\r\n            headers.Add(\"Leverage\")\r\n\r\n            Dim outRows As Integer = If(includeHeader, n + 1, n)\r\n            Dim outCols As Integer = headers.Count\r\n            Dim out(outRows - 1, outCols - 1) As Object\r\n            Dim r0 As Integer = 0\r\n\r\n            If includeHeader Then\r\n                For j As Integer = 0 To outCols - 1\r\n                    out(0, j) = headers(j)\r\n                Next\r\n                r0 = 1\r\n            End If\r\n\r\n            For i As Integer = 0 To n - 1\r\n                Dim c As Integer = 0\r\n\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.FittedMeans(i, j) : c += 1\r\n                Next\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.Probabilities(i, j) : c += 1\r\n                Next\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.ResponseResiduals(i, j) : c += 1\r\n                Next\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.PearsonResiduals(i, j) : c += 1\r\n                Next\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + i, c) = res.StdPearsonResiduals(i, j) : c += 1\r\n                Next\r\n\r\n                out(r0 + i, c) = res.DevianceResiduals(i) : c += 1\r\n                out(r0 + i, c) = res.StdDevianceResiduals(i) : c += 1\r\n                out(r0 + i, c) = res.Leverage(i)\r\n            Next\r\n\r\n            Return out\r\n        End Function",
+      "native_call": "        Private Function BuildAllResidualOutput(res As regression.MultinomialResiduals,\r\n                                                includeHeader As Boolean) As Object\r\n            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalResidualOutput(res, includeHeader, ExcelError.ExcelErrorNA)\r\n        End Function",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildOrdinalResidualOutput(res As regression.MultinomialResiduals, includeHeader As Boolean, unavailable As Object) As Object",
+        "body": "If res Is Nothing Then Return unavailable\n\n            Dim cats() As Integer = res.Categories\n            Dim n As Integer = res.FittedMeans.GetLength(0)\n            Dim k As Integer = cats.Length\n\n            Dim headers As New List(Of String)()\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"FittedMean\", cats))\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"Prob\", cats))\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"Response\", cats))\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"Pearson\", cats))\n            headers.AddRange(UdfRegressionOutputReports38.CategoryHeaders(\"StdPearson\", cats))\n            headers.Add(\"DevianceResidual\")\n            headers.Add(\"StdDevianceResidual\")\n            headers.Add(\"Leverage\")\n\n            Dim outRows As Integer = If(includeHeader, n + 1, n)\n            Dim outCols As Integer = headers.Count\n            Dim out(outRows - 1, outCols - 1) As Object\n            Dim r0 As Integer = 0\n\n            If includeHeader Then\n                For j As Integer = 0 To outCols - 1\n                    out(0, j) = headers(j)\n                Next\n                r0 = 1\n            End If\n\n            For i As Integer = 0 To n - 1\n                Dim c As Integer = 0\n\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.FittedMeans(i, j) : c += 1\n                Next\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.Probabilities(i, j) : c += 1\n                Next\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.ResponseResiduals(i, j) : c += 1\n                Next\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.PearsonResiduals(i, j) : c += 1\n                Next\n                For j As Integer = 0 To k - 1\n                    out(r0 + i, c) = res.StdPearsonResiduals(i, j) : c += 1\n                Next\n\n                out(r0 + i, c) = res.DevianceResiduals(i) : c += 1\n                out(r0 + i, c) = res.StdDevianceResiduals(i) : c += 1\n                out(r0 + i, c) = res.Leverage(i)\n            Next\n\n            Return out"
+      },
+      "aliases": [
+        {
+          "before": "ExcelError.ExcelErrorNA",
+          "after": "unavailable"
+        },
+        {
+          "before": "CategoryHeaders(",
+          "after": "UdfRegressionOutputReports38.CategoryHeaders("
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "host": "AppendZipSummaryRows",
+      "original_segment": "        Private Sub AppendZipSummaryRows(rows As List(Of Object()),\r\n                                         componentLabel As String,\r\n                                         predictorNames() As String,\r\n                                         coeffs() As Double,\r\n                                         ses() As Double,\r\n                                         interceptIncluded As Boolean,\r\n                                         ciAlpha As Double)\r\n            If rows Is Nothing OrElse coeffs Is Nothing OrElse ses Is Nothing Then Exit Sub\r\n            If coeffs.Length <> ses.Length Then Exit Sub\r\n\r\n            Dim zCrit As Double = distributions.ZCritTwoSided(ciAlpha)\r\n            For i As Integer = 0 To coeffs.Length - 1\r\n                Dim z As Double = If(ses(i) > 0.0R, coeffs(i) / ses(i), Double.NaN)\r\n                Dim pv As Double = If(ses(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)\r\n                rows.Add(New Object() {\r\n                    componentLabel,\r\n                    predictorNames(i),\r\n                    If(interceptIncluded AndAlso i = 0, \"Intercept\", \"Slope\"),\r\n                    coeffs(i),\r\n                    ses(i),\r\n                    z,\r\n                    pv,\r\n                    coeffs(i) - zCrit * ses(i),\r\n                    coeffs(i) + zCrit * ses(i)\r\n                })\r\n            Next\r\n        End Sub",
+      "native_call": "        Private Sub AppendZipSummaryRows(rows As List(Of Object()),\r\n                                         componentLabel As String,\r\n                                         predictorNames() As String,\r\n                                         coeffs() As Double,\r\n                                         ses() As Double,\r\n                                         interceptIncluded As Boolean,\r\n                                         ciAlpha As Double)\r\n            Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.AppendZipSummaryRows(rows, componentLabel, predictorNames, coeffs, ses, interceptIncluded, ciAlpha)\r\n        End Sub",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Sub AppendZipSummaryRows(rows As List(Of Object()), componentLabel As String, predictorNames() As String, coeffs() As Double, ses() As Double, interceptIncluded As Boolean, ciAlpha As Double)",
+        "body": "If rows Is Nothing OrElse coeffs Is Nothing OrElse ses Is Nothing Then Exit Sub\n            If coeffs.Length <> ses.Length Then Exit Sub\n\n            Dim zCrit As Double = distributions.ZCritTwoSided(ciAlpha)\n            For i As Integer = 0 To coeffs.Length - 1\n                Dim z As Double = If(ses(i) > 0.0R, coeffs(i) / ses(i), Double.NaN)\n                Dim pv As Double = If(ses(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)\n                rows.Add(New Object() {\n                    componentLabel,\n                    predictorNames(i),\n                    If(interceptIncluded AndAlso i = 0, \"Intercept\", \"Slope\"),\n                    coeffs(i),\n                    ses(i),\n                    z,\n                    pv,\n                    coeffs(i) - zCrit * ses(i),\n                    coeffs(i) + zCrit * ses(i)\n                })\n            Next"
+      },
+      "aliases": [],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "host": "MaterializeRows",
+      "original_segment": "        Private Function MaterializeRows(rows As List(Of Object()), includeHeader As Boolean, headers() As String) As Object\r\n            Dim bodyCols As Integer = If(headers Is Nothing, If(rows.Count > 0, rows(0).Length, 1), headers.Length)\r\n            Dim outRows As Integer = rows.Count + If(includeHeader, 1, 0)\r\n            If outRows < 1 Then outRows = 1\r\n            Dim out(outRows - 1, bodyCols - 1) As Object\r\n            Dim r0 As Integer = 0\r\n\r\n            If includeHeader AndAlso headers IsNot Nothing Then\r\n                For j As Integer = 0 To headers.Length - 1\r\n                    out(0, j) = headers(j)\r\n                Next\r\n                r0 = 1\r\n            End If\r\n\r\n            For i As Integer = 0 To rows.Count - 1\r\n                Dim rowVals() As Object = rows(i)\r\n                For j As Integer = 0 To Math.Min(bodyCols, rowVals.Length) - 1\r\n                    out(r0 + i, j) = rowVals(j)\r\n                Next\r\n            Next\r\n\r\n            Return out\r\n        End Function",
+      "native_call": "        Private Function MaterializeRows(rows As List(Of Object()), includeHeader As Boolean, headers() As String) As Object\r\n            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.MaterializeZipRows(rows, includeHeader, headers)\r\n        End Function",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function MaterializeZipRows(rows As List(Of Object()), includeHeader As Boolean, headers() As String) As Object",
+        "body": "Dim bodyCols As Integer = If(headers Is Nothing, If(rows.Count > 0, rows(0).Length, 1), headers.Length)\n            Dim outRows As Integer = rows.Count + If(includeHeader, 1, 0)\n            If outRows < 1 Then outRows = 1\n            Dim out(outRows - 1, bodyCols - 1) As Object\n            Dim r0 As Integer = 0\n\n            If includeHeader AndAlso headers IsNot Nothing Then\n                For j As Integer = 0 To headers.Length - 1\n                    out(0, j) = headers(j)\n                Next\n                r0 = 1\n            End If\n\n            For i As Integer = 0 To rows.Count - 1\n                Dim rowVals() As Object = rows(i)\n                For j As Integer = 0 To Math.Min(bodyCols, rowVals.Length) - 1\n                    out(r0 + i, j) = rowVals(j)\n                Next\n            Next\n\n            Return out"
+      },
+      "aliases": [],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "host": "MMRM_FITTED",
+      "original_segment": "                Dim out(fitted.Length - 1 + If(hdr, 1, 0), 1) As Object\r\n                Dim r As Integer = 0\r\n\r\n                If hdr Then\r\n                    out(0, 0) = \"Row\"\r\n                    out(0, 1) = \"Fitted\"\r\n                    r = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To fitted.Length - 1\r\n                    out(r + i, 0) = i + 1\r\n                    out(r + i, 1) = fitted(i)\r\n                Next\r\n\r\n                Return out",
+      "native_call": "Return Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.BuildFittedTable(fitted, hdr)",
+      "portable": {
+        "owner": "UdfLmmReportPreparation38",
+        "existing": true,
+        "call": "BuildFittedTable(fitted, hdr)",
+        "body": "                Dim out(fitted.Length - 1 + If(hdr, 1, 0), 1) As Object\n                Dim r As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Row\"\n                    out(0, 1) = \"Fitted\"\n                    r = 1\n                End If\n\n                For i As Integer = 0 To fitted.Length - 1\n                    out(r + i, 0) = i + 1\n                    out(r + i, 1) = fitted(i)\n                Next\n\n                Return out"
+      },
+      "aliases": [],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "host": "MMRM_RESID",
+      "original_segment": "                Dim out(n - 1 + If(hdr, 1, 0), 2) As Object\r\n                Dim r As Integer = 0\r\n                If hdr Then\r\n                    out(0, 0) = \"Row\"\r\n                    out(0, 1) = \"Fitted\"\r\n                    out(0, 2) = \"Residual\"\r\n                    r = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To n - 1\r\n                    out(r + i, 0) = i + 1\r\n                    out(r + i, 1) = If(i < fitted.Length, CType(fitted(i), Object), String.Empty)\r\n                    out(r + i, 2) = If(i < resid.Length, CType(resid(i), Object), String.Empty)\r\n                Next\r\n\r\n                Return out",
+      "native_call": "Return Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.BuildResidualTable(fitted, resid, n, hdr)",
+      "portable": {
+        "owner": "UdfLmmReportPreparation38",
+        "existing": true,
+        "call": "BuildResidualTable(fitted, resid, n, hdr)",
+        "body": "                Dim out(n - 1 + If(hdr, 1, 0), 2) As Object\n                Dim r As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"Row\"\n                    out(0, 1) = \"Fitted\"\n                    out(0, 2) = \"Residual\"\n                    r = 1\n                End If\n\n                For i As Integer = 0 To n - 1\n                    out(r + i, 0) = i + 1\n                    out(r + i, 1) = If(i < fitted.Length, CType(fitted(i), Object), String.Empty)\n                    out(r + i, 2) = If(i < resid.Length, CType(resid(i), Object), String.Empty)\n                Next\n\n                Return out"
+      },
+      "aliases": [],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "host": "TryResolveMmrmFormulaRequiredXColumns",
+      "original_segment": "        Dim normalizedFormula As String = If(formulaText, String.Empty).Trim()\r\n        If normalizedFormula = String.Empty Then\r\n            ReDim columnIndices(pAll - 1)\r\n            For j As Integer = 0 To pAll - 1\r\n                columnIndices(j) = j\r\n            Next\r\n            selectedNames = CType(allDisplayNames.Clone(), String())\r\n            If hasAbsoluteLetters Then selectedAbsoluteLetters = CType(allAbsoluteLetters.Clone(), String())\r\n            Return True\r\n        End If\r\n\r\n        Dim mode As String = If(formulaAddressingMode, String.Empty).Trim().ToLowerInvariant()\r\n        Dim allowAbsolute As Boolean = String.Equals(mode, \"absolute\", StringComparison.OrdinalIgnoreCase)\r\n        Dim allowRelative As Boolean = String.Equals(mode, \"relative\", StringComparison.OrdinalIgnoreCase)\r\n        Dim allowQuoted As Boolean = True\r\n\r\n        If allowAbsolute AndAlso Not hasAbsoluteLetters Then\r\n            errorMessage = \"formulaAddressing='absolute' requires x to be passed as a direct worksheet range so absolute worksheet column letters can be determined.\"\r\n            Return False\r\n        End If\r\n\r\n        Dim catalog As RegressionVariableCatalog = RegressionVariableCatalog.Build(varNames:=allDisplayNames,\r\n                                                                                   absoluteColumnLetters:=If(allowAbsolute, allAbsoluteLetters, Nothing),\r\n                                                                                   allowRelativeColumnLetters:=allowRelative,\r\n                                                                                   allowAbsoluteColumnLetters:=allowAbsolute,\r\n                                                                                   allowQuotedVariableNames:=allowQuoted)\r\n\r\n        Dim spec As RegressionFormulaDesignSpec = Nothing\r\n        Dim parseErr As String = Nothing\r\n        If Not RegressionFormulaParser.TryParseFormulaToDesignSpec(formulaText:=normalizedFormula,\r\n                                                                   variableCatalog:=catalog,\r\n                                                                   designSpec:=spec,\r\n                                                                   errorMessage:=parseErr) Then\r\n            errorMessage = \"formula could not be parsed or expanded: \" & If(parseErr, String.Empty)\r\n            Return False\r\n        End If\r\n\r\n        If spec Is Nothing OrElse spec.RequiredRawVarKeys Is Nothing OrElse spec.RequiredRawVarKeys.Count = 0 Then\r\n            errorMessage = \"formula did not reference any predictor columns.\"\r\n            Return False\r\n        End If\r\n\r\n        If allowRelative Then\r\n            ReDim columnIndices(pAll - 1)\r\n            For j As Integer = 0 To pAll - 1\r\n                columnIndices(j) = j\r\n            Next\r\n            selectedNames = CType(allDisplayNames.Clone(), String())\r\n            If hasAbsoluteLetters Then selectedAbsoluteLetters = CType(allAbsoluteLetters.Clone(), String())\r\n            Return True\r\n        End If\r\n\r\n        Dim entries As New List(Of RegressionVariableCatalogEntry)()\r\n        For Each requiredKey As String In spec.RequiredRawVarKeys\r\n            Dim entry As RegressionVariableCatalogEntry = catalog.Variables.FirstOrDefault(Function(v) String.Equals(v.BaseKey, requiredKey, StringComparison.Ordinal))\r\n            If entry Is Nothing Then\r\n                errorMessage = \"formula referenced an unknown predictor column.\"\r\n                Return False\r\n            End If\r\n            If Not entries.Any(Function(v) String.Equals(v.BaseKey, entry.BaseKey, StringComparison.Ordinal)) Then\r\n                entries.Add(entry)\r\n            End If\r\n        Next\r\n\r\n        entries = entries.OrderBy(Function(v) v.RelativeColumnIndex).ToList()\r\n        ReDim columnIndices(entries.Count - 1)\r\n        ReDim selectedNames(entries.Count - 1)\r\n        If hasAbsoluteLetters Then ReDim selectedAbsoluteLetters(entries.Count - 1)\r\n\r\n        For j As Integer = 0 To entries.Count - 1\r\n            Dim originalIndex As Integer = entries(j).RelativeColumnIndex - 1\r\n            If originalIndex < 0 OrElse originalIndex >= pAll Then\r\n                errorMessage = \"formula referenced a predictor column outside the supplied x range.\"\r\n                Return False\r\n            End If\r\n            columnIndices(j) = originalIndex\r\n            selectedNames(j) = entries(j).DisplayName\r\n            If hasAbsoluteLetters Then selectedAbsoluteLetters(j) = entries(j).AbsoluteColumnLetter\r\n        Next\r\n\r\n        Return True\r\n",
+      "native_call": "        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ResolveMmrmFormulaColumns(formulaText, formulaAddressingMode, pAll, allDisplayNames, allAbsoluteLetters, hasAbsoluteLetters, columnIndices, selectedNames, selectedAbsoluteLetters, errorMessage)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function ResolveMmrmFormulaColumns(formulaText As String, formulaAddressingMode As String, pAll As Integer, allDisplayNames() As String, allAbsoluteLetters() As String, hasAbsoluteLetters As Boolean, ByRef columnIndices() As Integer, ByRef selectedNames() As String, ByRef selectedAbsoluteLetters() As String, ByRef errorMessage As String) As Boolean",
+        "body": "        Dim normalizedFormula As String = If(formulaText, String.Empty).Trim()\n        If normalizedFormula = String.Empty Then\n            ReDim columnIndices(pAll - 1)\n            For j As Integer = 0 To pAll - 1\n                columnIndices(j) = j\n            Next\n            selectedNames = CType(allDisplayNames.Clone(), String())\n            If hasAbsoluteLetters Then selectedAbsoluteLetters = CType(allAbsoluteLetters.Clone(), String())\n            Return True\n        End If\n\n        Dim mode As String = If(formulaAddressingMode, String.Empty).Trim().ToLowerInvariant()\n        Dim allowAbsolute As Boolean = String.Equals(mode, \"absolute\", StringComparison.OrdinalIgnoreCase)\n        Dim allowRelative As Boolean = String.Equals(mode, \"relative\", StringComparison.OrdinalIgnoreCase)\n        Dim allowQuoted As Boolean = True\n\n        If allowAbsolute AndAlso Not hasAbsoluteLetters Then\n            errorMessage = \"formulaAddressing='absolute' requires x to be passed as a direct worksheet range so absolute worksheet column letters can be determined.\"\n            Return False\n        End If\n\n        Dim catalog As RegressionVariableCatalog = RegressionVariableCatalog.Build(varNames:=allDisplayNames,\n                                                                                   absoluteColumnLetters:=If(allowAbsolute, allAbsoluteLetters, Nothing),\n                                                                                   allowRelativeColumnLetters:=allowRelative,\n                                                                                   allowAbsoluteColumnLetters:=allowAbsolute,\n                                                                                   allowQuotedVariableNames:=allowQuoted)\n\n        Dim spec As RegressionFormulaDesignSpec = Nothing\n        Dim parseErr As String = Nothing\n        If Not RegressionFormulaParser.TryParseFormulaToDesignSpec(formulaText:=normalizedFormula,\n                                                                   variableCatalog:=catalog,\n                                                                   designSpec:=spec,\n                                                                   errorMessage:=parseErr) Then\n            errorMessage = \"formula could not be parsed or expanded: \" & If(parseErr, String.Empty)\n            Return False\n        End If\n\n        If spec Is Nothing OrElse spec.RequiredRawVarKeys Is Nothing OrElse spec.RequiredRawVarKeys.Count = 0 Then\n            errorMessage = \"formula did not reference any predictor columns.\"\n            Return False\n        End If\n\n        If allowRelative Then\n            ReDim columnIndices(pAll - 1)\n            For j As Integer = 0 To pAll - 1\n                columnIndices(j) = j\n            Next\n            selectedNames = CType(allDisplayNames.Clone(), String())\n            If hasAbsoluteLetters Then selectedAbsoluteLetters = CType(allAbsoluteLetters.Clone(), String())\n            Return True\n        End If\n\n        Dim entries As New List(Of RegressionVariableCatalogEntry)()\n        For Each requiredKey As String In spec.RequiredRawVarKeys\n            Dim entry As RegressionVariableCatalogEntry = catalog.Variables.FirstOrDefault(Function(v) String.Equals(v.BaseKey, requiredKey, StringComparison.Ordinal))\n            If entry Is Nothing Then\n                errorMessage = \"formula referenced an unknown predictor column.\"\n                Return False\n            End If\n            If Not entries.Any(Function(v) String.Equals(v.BaseKey, entry.BaseKey, StringComparison.Ordinal)) Then\n                entries.Add(entry)\n            End If\n        Next\n\n        entries = entries.OrderBy(Function(v) v.RelativeColumnIndex).ToList()\n        ReDim columnIndices(entries.Count - 1)\n        ReDim selectedNames(entries.Count - 1)\n        If hasAbsoluteLetters Then ReDim selectedAbsoluteLetters(entries.Count - 1)\n\n        For j As Integer = 0 To entries.Count - 1\n            Dim originalIndex As Integer = entries(j).RelativeColumnIndex - 1\n            If originalIndex < 0 OrElse originalIndex >= pAll Then\n                errorMessage = \"formula referenced a predictor column outside the supplied x range.\"\n                Return False\n            End If\n            columnIndices(j) = originalIndex\n            selectedNames(j) = entries(j).DisplayName\n            If hasAbsoluteLetters Then selectedAbsoluteLetters(j) = entries(j).AbsoluteColumnLetter\n        Next\n\n        Return True"
+      },
+      "aliases": [],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "host": "TryGetMmrmAlignedInputs",
+      "original_segment": "        Dim p As Integer = xColumnIndices.Length\r\n        Dim yList As New List(Of Double)()\r\n        Dim xRows As New List(Of Double())()\r\n        Dim subjectList As New List(Of Object)()\r\n        Dim visitList As New List(Of Double)()\r\n\r\n        For i As Integer = 0 To n - 1\r\n            Dim yi As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(yCol(i, 0))\r\n            Dim subjectText As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(subjectCol(i, 0))\r\n            Dim valid As Boolean = yi.HasValue AndAlso Not String.IsNullOrWhiteSpace(subjectText)\r\n            Dim row(p - 1) As Double\r\n\r\n            If valid Then\r\n                For j As Integer = 0 To p - 1\r\n                    Dim xij As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(xRaw(i, xColumnIndices(j)))\r\n                    If Not xij.HasValue Then\r\n                        valid = False\r\n                        Exit For\r\n                    End If\r\n                    row(j) = xij.Value\r\n                Next\r\n            End If\r\n\r\n            Dim vi As Double = Double.NaN\r\n            If valid AndAlso visitSupplied Then\r\n                Dim parsedVisit As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(visitCol(i, 0))\r\n                If Not parsedVisit.HasValue Then\r\n                    valid = False\r\n                Else\r\n                    vi = parsedVisit.Value\r\n                End If\r\n            End If\r\n\r\n            If valid Then\r\n                yList.Add(yi.Value)\r\n                xRows.Add(row)\r\n                subjectList.Add(subjectText)\r\n                If visitSupplied Then visitList.Add(vi)\r\n            Else\r\n                droppedRows += 1\r\n            End If\r\n        Next\r\n\r\n        If yList.Count = 0 Then\r\n            errorMessage = \"no valid complete rows remain after removing rows with missing/invalid y, x, subject, or visit values.\"\r\n            Return False\r\n        End If\r\n\r\n        yValues = yList.ToArray()\r\n        subjectValues = subjectList.ToArray()\r\n        ReDim xValues(yList.Count - 1, p - 1)\r\n        For i As Integer = 0 To yList.Count - 1\r\n            For j As Integer = 0 To p - 1\r\n                xValues(i, j) = xRows(i)(j)\r\n            Next\r\n        Next\r\n\r\n        If visitSupplied Then visitValues = visitList.ToArray()\r\n        Return True\r\n",
+      "native_call": "        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.AlignMmrmRows(yCol, xRaw, subjectCol, visitCol, xColumnIndices, visitSupplied, n, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText, yValues, xValues, subjectValues, visitValues, droppedRows, errorMessage)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function AlignMmrmRows(yCol(,) As Object, xRaw(,) As Object, subjectCol(,) As Object, visitCol(,) As Object, xColumnIndices() As Integer, visitSupplied As Boolean, n As Integer, readNumber As Func(Of Object, Double?), readText As Func(Of Object, String), ByRef yValues() As Double, ByRef xValues(,) As Double, ByRef subjectValues() As Object, ByRef visitValues() As Double, ByRef droppedRows As Integer, ByRef errorMessage As String) As Boolean",
+        "body": "        Dim p As Integer = xColumnIndices.Length\n        Dim yList As New List(Of Double)()\n        Dim xRows As New List(Of Double())()\n        Dim subjectList As New List(Of Object)()\n        Dim visitList As New List(Of Double)()\n\n        For i As Integer = 0 To n - 1\n            Dim yi As Double? = readNumber(yCol(i, 0))\n            Dim subjectText As String = readText(subjectCol(i, 0))\n            Dim valid As Boolean = yi.HasValue AndAlso Not String.IsNullOrWhiteSpace(subjectText)\n            Dim row(p - 1) As Double\n\n            If valid Then\n                For j As Integer = 0 To p - 1\n                    Dim xij As Double? = readNumber(xRaw(i, xColumnIndices(j)))\n                    If Not xij.HasValue Then\n                        valid = False\n                        Exit For\n                    End If\n                    row(j) = xij.Value\n                Next\n            End If\n\n            Dim vi As Double = Double.NaN\n            If valid AndAlso visitSupplied Then\n                Dim parsedVisit As Double? = readNumber(visitCol(i, 0))\n                If Not parsedVisit.HasValue Then\n                    valid = False\n                Else\n                    vi = parsedVisit.Value\n                End If\n            End If\n\n            If valid Then\n                yList.Add(yi.Value)\n                xRows.Add(row)\n                subjectList.Add(subjectText)\n                If visitSupplied Then visitList.Add(vi)\n            Else\n                droppedRows += 1\n            End If\n        Next\n\n        If yList.Count = 0 Then\n            errorMessage = \"no valid complete rows remain after removing rows with missing/invalid y, x, subject, or visit values.\"\n            Return False\n        End If\n\n        yValues = yList.ToArray()\n        subjectValues = subjectList.ToArray()\n        ReDim xValues(yList.Count - 1, p - 1)\n        For i As Integer = 0 To yList.Count - 1\n            For j As Integer = 0 To p - 1\n                xValues(i, j) = xRows(i)(j)\n            Next\n        Next\n\n        If visitSupplied Then visitValues = visitList.ToArray()\n        Return True"
+      },
+      "aliases": [
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble",
+          "after": "readNumber"
+        },
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText",
+          "after": "readText"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+      "host": "GetReferenceCategory",
+      "original_segment": "    Friend Function GetReferenceCategory(arg As Object) As regression.ReferenceCategory\r\n        Dim s As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg)\r\n        If String.IsNullOrWhiteSpace(s) Then Return regression.ReferenceCategory.Last\r\n\r\n        Select Case s.Trim().ToLowerInvariant()\r\n            Case \"first\", \"smallest\", \"min\"\r\n                Return regression.ReferenceCategory.First\r\n            Case Else\r\n                Return regression.ReferenceCategory.Last\r\n        End Select\r\n    End Function",
+      "native_call": "    Friend Function GetReferenceCategory(arg As Object) As regression.ReferenceCategory\r\n        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.GetReferenceCategory(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg))\r\n    End Function",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function GetReferenceCategory(s As String) As regression.ReferenceCategory",
+        "body": "If String.IsNullOrWhiteSpace(s) Then Return regression.ReferenceCategory.Last\n\n        Select Case s.Trim().ToLowerInvariant()\n            Case \"first\", \"smallest\", \"min\"\n                Return regression.ReferenceCategory.First\n            Case Else\n                Return regression.ReferenceCategory.Last\n        End Select",
+        "one_native_conversion": true
+      },
+      "aliases": [],
+      "original_queries": 0
+    }
+  ],
+  "before": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "bytes": 51591,
+        "sha256": "ae7ba18a58279ebc948c39d2481afed671f00f58d1dcd9b8e58af6f3f0f5478e"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/shared-packets-before/BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "bytes": 51591,
+        "sha256": "ae7ba18a58279ebc948c39d2481afed671f00f58d1dcd9b8e58af6f3f0f5478e"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "bytes": 47996,
+        "sha256": "594723690f162f9c35cbdf677f9c8da51cf9031f81ee33c9dcd12ecc37d659de"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/shared-packets-before/BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "bytes": 47996,
+        "sha256": "594723690f162f9c35cbdf677f9c8da51cf9031f81ee33c9dcd12ecc37d659de"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+        "bytes": 57030,
+        "sha256": "840bd88e20704624c8a537f2a5940ad7a09fd0226deed9fce353697b5a458411"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/shared-packets-before/BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+        "bytes": 57030,
+        "sha256": "840bd88e20704624c8a537f2a5940ad7a09fd0226deed9fce353697b5a458411"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "bytes": 84656,
+        "sha256": "ed072b0418f86546a3f10951f65be817176681157cd649b24293682301ec39f2"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/shared-packets-before/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "bytes": 84656,
+        "sha256": "ed072b0418f86546a3f10951f65be817176681157cd649b24293682301ec39f2"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "bytes": 20297,
+        "sha256": "285ab4113b594947691f0567120129c9196ae9bcb1a33d23c78ec80ad56cfcd2"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/shared-packets-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "bytes": 20297,
+        "sha256": "285ab4113b594947691f0567120129c9196ae9bcb1a33d23c78ec80ad56cfcd2"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+        "bytes": 2424,
+        "sha256": "726834fdd1192ce956bc8d3f464a1b38698644a06ab5563e7bf850c26a616f2f"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/shared-packets-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+        "bytes": 2424,
+        "sha256": "726834fdd1192ce956bc8d3f464a1b38698644a06ab5563e7bf850c26a616f2f"
+      }
+    }
+  ],
+  "current": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "bytes": 49383,
+      "sha256": "128643ed6a06f4a1630adbfc7dbb9ff4576ae882690e6cccb89a962a02fed32a"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "bytes": 45968,
+      "sha256": "8a592a8990633458b5e02aadccc1d013e218d58bf92f2d6b6dfb7659ca1d66a5"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "bytes": 55539,
+      "sha256": "3915271d2bc59cb01ea080d86ff942c97da8f747c0055f7896be5c2f4f1e05ef"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "bytes": 83735,
+      "sha256": "c074b481458d217111788574b25d5405e5f07fd748891a44ca87193427bdc52d"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "bytes": 14006,
+      "sha256": "0b93866862d987ae4563c31b8ce1a1a8b7e9d644cdbabfb04b6052f7ada66978"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+      "bytes": 2151,
+      "sha256": "124cfecf3537e62902d5e3861f01687e4b7230fa0eb84dcd94bea7f4828fea64"
+    }
+  ],
+  "new_common": [
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+      "bytes": 7788,
+      "sha256": "4db32788c5bdbd6928f863cb89bce4f915b46b82b04af75a6334e8d3814931f4"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "bytes": 8216,
+      "sha256": "267e7a4e80f42019681528e108afe76a613fcd95fbd1975537529794f0b74747"
+    }
+  ],
+  "original_queries": 0,
+  "tests_run": false
+}

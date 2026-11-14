@@ -364,25 +364,7 @@ Namespace WorksheetFunctions
         End Function
 
         Friend Function ComputeWeightedEventRate(y() As Double, weights() As Double) As Double
-            If y Is Nothing OrElse y.Length = 0 Then Return Double.NaN
-            Dim sumY As Double = 0.0
-
-            If weights Is Nothing Then
-                For i = 0 To y.Length - 1
-                    sumY += If(y(i) >= 0.5, 1.0, 0.0)
-                Next
-                Return sumY / y.Length
-            End If
-
-            Dim sumW As Double = 0.0
-            sumY = 0.0
-            For i = 0 To y.Length - 1
-                sumW += weights(i)
-                sumY += weights(i) * If(y(i) >= 0.5, 1.0, 0.0)
-            Next
-
-            If sumW <= 0.0 Then Return Double.NaN
-            Return sumY / sumW
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeWeightedEventRate(y, weights)
         End Function
 
     End Module

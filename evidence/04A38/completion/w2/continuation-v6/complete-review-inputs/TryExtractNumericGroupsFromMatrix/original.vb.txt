@@ -1,0 +1,38 @@
+Friend Function TryExtractNumericGroupsFromMatrix(mat As Object(,),
+                                                  startRow As Integer,
+                                                  hasHeader As Boolean,
+                                                  defaultPrefix As String,
+                                                  ByRef groups()() As Double, ByRef names() As String) As Boolean
+        groups = Nothing
+        names = Nothing
+
+        If mat Is Nothing Then Return False
+
+        Dim rows As Integer = mat.GetLength(0)
+        Dim cols As Integer = mat.GetLength(1)
+        If rows < 1 OrElse cols < 1 Then Return False
+
+        Dim groupList As New List(Of Double())()
+        Dim nameList As New List(Of String)()
+
+        For c As Integer = 0 To cols - 1
+            Dim values As New List(Of Double)(Math.Max(0, rows - startRow))
+            For r As Integer = startRow To rows - 1
+                Dim d As Double? = TryGetDouble(mat(r, c))
+                If d.HasValue Then values.Add(d.Value)
+            Next
+
+            If values.Count > 0 Then
+                groupList.Add(values.ToArray())
+                If hasHeader Then
+                    nameList.Add(CellToTrimmedText(mat(0, c)))
+                Else
+                    nameList.Add(defaultPrefix & (groupList.Count).ToString(CultureInfo.InvariantCulture))
+                End If
+            End If
+        Next
+
+        groups = groupList.ToArray()
+        names = nameList.ToArray()
+        Return True
+    End Function

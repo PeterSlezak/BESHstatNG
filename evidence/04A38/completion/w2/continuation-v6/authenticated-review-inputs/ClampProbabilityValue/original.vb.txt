@@ -1,0 +1,5 @@
+Private Function ClampProbabilityValue(value As Double) As Double
+        If value < 0.0R Then Return 0.0R
+        If value > 1.0R Then Return 1.0R
+        Return value
+    End Function

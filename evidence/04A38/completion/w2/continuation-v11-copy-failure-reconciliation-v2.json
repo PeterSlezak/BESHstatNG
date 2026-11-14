@@ -1,0 +1,45 @@
+{
+  "status": "TWO_FAILED_COPIES_RETAINED_NOT_RELABELLED",
+  "first": {
+    "path": "evidence/04A38/completion/w2/continuation-v11-copy-failure-reconciliation-v1.json",
+    "bytes": 79637,
+    "sha256": "157a55eb433aa9d6f9c8aad7f22ed9aa25eb058deb989023adffc3d16c33de01"
+  },
+  "second_command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-copied-default-publication-reader-v2/command.json",
+    "bytes": 615,
+    "sha256": "dd0910328191f6f7cdb2f038c79dcdac30461ca018f0b0e5bddb87e49d6be4fa"
+  },
+  "second_stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-copied-default-publication-reader-v2/stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "second_stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-copied-default-publication-reader-v2/stderr.log",
+    "bytes": 1018,
+    "sha256": "ff5ceff884711248e810e3c490e5926fe410929f09943dde45a6393acf992985"
+  },
+  "parent_command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-complete-copy-v2/command.json",
+    "bytes": 608,
+    "sha256": "8daaedbfe43fee9e512354fdcca154b4cbb12d7cb4133cc7587e9a30d69ecb15"
+  },
+  "failed_reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v11-publication-reader-v3.py",
+    "bytes": 4213,
+    "sha256": "b555e493b1aa6b012d96e020831916570dd5698ee634d135eeab3dfc85c94e81"
+  },
+  "successor_reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v11-publication-reader-v4.py",
+    "bytes": 4344,
+    "sha256": "4a73fbf86ba978c131a32e203d25276814c189f618a78bd646f83028d4464e7e"
+  },
+  "reason": "Wrapper imported common only for hashing, which imported the command runner and absent scripts/test_suite_rationalization.py. The second copied reader failed before semantic replay.",
+  "correction": "Replace wrapper-only common import with standard-library hashlib; strengthen all outer stage fields. Unchanged sealed source/CIL/validation modules perform the actual semantic replay.",
+  "copies_retained": [
+    ".c11p.tmp",
+    ".c11q.tmp"
+  ],
+  "original_queries": 0
+}

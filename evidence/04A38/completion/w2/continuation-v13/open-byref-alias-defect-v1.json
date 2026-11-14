@@ -1,0 +1,301 @@
+{
+  "status": "OPEN_NOT_REPAIRED_NOT_WAIVED",
+  "blocked": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|eebf3a7ea1cd9878@12848:2474",
+      "name": "ROC_POINTS",
+      "current_ids": [
+        "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|eebf3a7ea1cd9878@12848:2474"
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|8b3d082e82a70cd2@17066:2383",
+      "name": "ROC_STATS",
+      "current_ids": [
+        "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|8b3d082e82a70cd2@17066:2383"
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5b63d0ff64a1d271@521:3241",
+      "name": "TryGetRocInput",
+      "current_ids": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5b63d0ff64a1d271@750:3241"
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f@6803:2097",
+      "name": "GuessPositiveClass",
+      "current_ids": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f@6898:745"
+      ]
+    }
+  ],
+  "original_record": {
+    "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f@6655:2048",
+    "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f",
+    "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+    "name": "GuessPositiveClass",
+    "kind": "FunctionBlock",
+    "owner": "BESHStatNG.UdfDataImport",
+    "signature": "Private Function GuessPositiveClass(statusCol(,) As Object, explicitPositive As Object, ByRef positiveLabel As String) As Boolean",
+    "span_start": 6655,
+    "span_length": 2048,
+    "start_line": 149,
+    "end_line": 198,
+    "body_sha256": "b701eb3d98f9a3fa5b52b7de43df7244c38afd8091ad78d922f83c968d011376",
+    "body_token_sha256": "ec0c5414f80b5ae2c3346a6782a3220776e0042acee1dcd27c64c828e926e9bf",
+    "source_sha256": "ba47ad4de91894ea1f81ea7627723e7d98ba9a568e21e5961dd1d541b62e5fb8",
+    "exported": false,
+    "parent_member": null,
+    "invocations": [
+      {
+        "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(explicitPositive)",
+        "line": 153
+      },
+      {
+        "text": "String.IsNullOrWhiteSpace(explicitText)",
+        "line": 154
+      },
+      {
+        "text": "statusCol.GetLength(0)",
+        "line": 163
+      },
+      {
+        "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(statusCol(i, 0))",
+        "line": 164
+      },
+      {
+        "text": "statusCol(i, 0)",
+        "line": 164
+      },
+      {
+        "text": "String.IsNullOrWhiteSpace(s)",
+        "line": 165
+      },
+      {
+        "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusCol(i, 0), iv)",
+        "line": 168
+      },
+      {
+        "text": "statusCol(i, 0)",
+        "line": 168
+      },
+      {
+        "text": "NormalizeOptionKey(s)",
+        "line": 172
+      },
+      {
+        "text": "distinctNormalized.Contains(norm)",
+        "line": 173
+      },
+      {
+        "text": "distinctNormalized.Add(norm)",
+        "line": 174
+      },
+      {
+        "text": "distinctTokens.Add(s)",
+        "line": 175
+      },
+      {
+        "text": "distinctTokens.Select(Function(x) NormalizeOptionKey(x)).ToArray()",
+        "line": 185
+      },
+      {
+        "text": "distinctTokens.Select(Function(x) NormalizeOptionKey(x))",
+        "line": 185
+      },
+      {
+        "text": "norms(i)",
+        "line": 187
+      },
+      {
+        "text": "distinctTokens(i)",
+        "line": 189
+      },
+      {
+        "text": "distinctTokens(0)",
+        "line": 193
+      }
+    ]
+  },
+  "original_source": {
+    "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportPlot.vb.txt",
+    "bytes": 8917,
+    "sha256": "ca8ce9338405315b73a81ec3c7f48a5667cd67c0059121094b2cff12ff501ff3"
+  },
+  "original_whole_body": "Private Function GuessPositiveClass(statusCol(,) As Object,\n                                        explicitPositive As Object,\n                                        ByRef positiveLabel As String) As Boolean\n        positiveLabel = Nothing\n        Dim explicitText As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(explicitPositive)\n        If Not String.IsNullOrWhiteSpace(explicitText) Then\n            positiveLabel = explicitText\n            Return True\n        End If\n\n        Dim distinctTokens As New List(Of String)()\n        Dim distinctNormalized As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)\n        Dim allBinary01 As Boolean = True\n\n        For i As Integer = 0 To statusCol.GetLength(0) - 1\n            Dim s As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(statusCol(i, 0))\n            If String.IsNullOrWhiteSpace(s) Then Continue For\n\n            Dim iv As Integer\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusCol(i, 0), iv) Then\n                allBinary01 = False\n            End If\n\n            Dim norm As String = NormalizeOptionKey(s)\n            If Not distinctNormalized.Contains(norm) Then\n                distinctNormalized.Add(norm)\n                distinctTokens.Add(s)\n            End If\n        Next\n\n        If allBinary01 Then\n            positiveLabel = \"1\"\n            Return True\n        End If\n\n        If distinctTokens.Count = 2 Then\n            Dim norms = distinctTokens.Select(Function(x) NormalizeOptionKey(x)).ToArray()\n            For i As Integer = 0 To norms.Length - 1\n                Select Case norms(i)\n                    Case \"positive\", \"pos\", \"case\", \"cases\", \"event\", \"events\", \"yes\", \"true\"\n                        positiveLabel = distinctTokens(i)\n                        Return True\n                End Select\n            Next\n            positiveLabel = distinctTokens(0)\n            Return True\n        End If\n\n        Return False\n    End Function",
+  "current_record": {
+    "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f@5192:745",
+    "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f",
+    "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+    "name": "GuessPositiveClass",
+    "kind": "FunctionBlock",
+    "owner": "BESHStatNG.UdfDataImport",
+    "signature": "Private Function GuessPositiveClass(statusCol(,) As Object, explicitPositive As Object, ByRef positiveLabel As String) As Boolean",
+    "span_start": 5192,
+    "span_length": 745,
+    "start_line": 101,
+    "end_line": 110,
+    "body_sha256": "a103ffecb09cd2152fe492098fb56dc29233e17f7b976d857857a083b913bf6b",
+    "body_token_sha256": "284d3e05c868deeb9aafcc1383c468360bf9acfca9910a655ff3afa4d66af1a1",
+    "source_sha256": "69ccf917e4b74ab0b6f02727dbf918bfc875b4b16692a07f6636dac5acf6a354",
+    "exported": false,
+    "parent_member": null,
+    "invocations": [
+      {
+        "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(explicitPositive)",
+        "line": 105
+      },
+      {
+        "text": "Global.BESHStatNG.ExcelCommon.UdfClassLabelPreparation38.GuessPositiveClass( explicitText, Function() statusCol.GetLength(0), Function(row) Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(statusCol(row, 0)), Function(row) IsStatusBinaryCell38(statusCol(row, 0)), positiveLabel)",
+        "line": 106
+      }
+    ]
+  },
+  "current_whole_body": "Private Function GuessPositiveClass(statusCol(,) As Object,\r\n                                        explicitPositive As Object,\r\n                                        ByRef positiveLabel As String) As Boolean\r\n        positiveLabel = Nothing\r\n        Dim explicitText As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(explicitPositive)\r\n        Return Global.BESHStatNG.ExcelCommon.UdfClassLabelPreparation38.GuessPositiveClass(\r\n            explicitText, Function() statusCol.GetLength(0),\r\n            Function(row) Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(statusCol(row, 0)),\r\n            Function(row) IsStatusBinaryCell38(statusCol(row, 0)), positiveLabel)\r\n    End Function",
+  "portable_record": {
+    "symbol_id": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb|BESHStatNG.ExcelCommon.UdfClassLabelPreparation38|FunctionBlock|25fe60380d499ed2@240:2115",
+    "signature_key": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb|BESHStatNG.ExcelCommon.UdfClassLabelPreparation38|FunctionBlock|25fe60380d499ed2",
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb",
+    "name": "GuessPositiveClass",
+    "kind": "FunctionBlock",
+    "owner": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38",
+    "signature": "Public Shared Function GuessPositiveClass(explicitText As String, rowCount As Func(Of Integer), text As Func(Of Integer, String), binary As Func(Of Integer, Boolean), ByRef positiveLabel As String) As Boolean",
+    "span_start": 240,
+    "span_length": 2115,
+    "start_line": 13,
+    "end_line": 51,
+    "body_sha256": "90d3f1c003547ee6250260403312e6f9608fd8e4009b14b3c57fa8938c75c864",
+    "body_token_sha256": "2608d8c0d94d96888b03b1eff6af3d7efe68927e00c978f1a2609215a4f4802e",
+    "source_sha256": "fe57f8a20ad0ddc4fb3f890be05c277bf9b5535ba5b6c6db50bfc727145a6c75",
+    "exported": false,
+    "parent_member": null,
+    "invocations": [
+      {
+        "text": "String.IsNullOrWhiteSpace(explicitText)",
+        "line": 17
+      },
+      {
+        "text": "rowCount()",
+        "line": 24
+      },
+      {
+        "text": "text(i)",
+        "line": 25
+      },
+      {
+        "text": "String.IsNullOrWhiteSpace(token)",
+        "line": 26
+      },
+      {
+        "text": "binary(i)",
+        "line": 27
+      },
+      {
+        "text": "UdfDataImportOptions38.NormalizeOptionKey(token)",
+        "line": 28
+      },
+      {
+        "text": "distinctNormalized.Contains(normalized)",
+        "line": 29
+      },
+      {
+        "text": "distinctNormalized.Add(normalized)",
+        "line": 30
+      },
+      {
+        "text": "distinctTokens.Add(token)",
+        "line": 31
+      },
+      {
+        "text": "distinctTokens.Select(Function(token) UdfDataImportOptions38.NormalizeOptionKey(token)).ToArray()",
+        "line": 39
+      },
+      {
+        "text": "distinctTokens.Select(Function(token) UdfDataImportOptions38.NormalizeOptionKey(token))",
+        "line": 39
+      },
+      {
+        "text": "LegacyUdfText38.CaseToken(norms(i), {\"positive\", \"pos\", \"case\", \"cases\", \"event\", \"events\", \"yes\", \"true\"})",
+        "line": 41
+      },
+      {
+        "text": "norms(i)",
+        "line": 41
+      },
+      {
+        "text": "distinctTokens(i)",
+        "line": 43
+      },
+      {
+        "text": "distinctTokens(0)",
+        "line": 47
+      }
+    ]
+  },
+  "portable_whole_body": "Public Shared Function GuessPositiveClass(explicitText As String, rowCount As Func(Of Integer),\n                                                   text As Func(Of Integer, String), binary As Func(Of Integer, Boolean),\n                                                   ByRef positiveLabel As String) As Boolean\n            positiveLabel = Nothing\n            If Not String.IsNullOrWhiteSpace(explicitText) Then\n                positiveLabel = explicitText\n                Return True\n            End If\n            Dim distinctTokens As New List(Of String)()\n            Dim distinctNormalized As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)\n            Dim allBinary01 As Boolean = True\n            For i As Integer = 0 To rowCount() - 1\n                Dim token As String = text(i)\n                If String.IsNullOrWhiteSpace(token) Then Continue For\n                If Not binary(i) Then allBinary01 = False\n                Dim normalized As String = UdfDataImportOptions38.NormalizeOptionKey(token)\n                If Not distinctNormalized.Contains(normalized) Then\n                    distinctNormalized.Add(normalized)\n                    distinctTokens.Add(token)\n                End If\n            Next\n            If allBinary01 Then\n                positiveLabel = \"1\"\n                Return True\n            End If\n            If distinctTokens.Count = 2 Then\n                Dim norms As String() = distinctTokens.Select(Function(token) UdfDataImportOptions38.NormalizeOptionKey(token)).ToArray()\n                For i As Integer = 0 To norms.Length - 1\n                    Select Case LegacyUdfText38.CaseToken(norms(i), {\"positive\", \"pos\", \"case\", \"cases\", \"event\", \"events\", \"yes\", \"true\"})\n                        Case \"positive\", \"pos\", \"case\", \"cases\", \"event\", \"events\", \"yes\", \"true\"\n                            positiveLabel = distinctTokens(i)\n                            Return True\n                    End Select\n                Next\n                positiveLabel = distinctTokens(0)\n                Return True\n            End If\n            Return False\n        End Function",
+  "condition": "Custom explicit-positive cell ToString mutates the ByRef output alias while returning an empty string; prepared labels red/green/blue cannot infer a positive label.",
+  "original_source_prediction": {
+    "result": false,
+    "positiveLabel": "converted",
+    "executed": false
+  },
+  "current_only_measurement": {
+    "result": false,
+    "positiveLabel": null,
+    "conversionCalls": 1
+  },
+  "probes": [
+    {
+      "version": 1,
+      "files": [
+        {
+          "path": ".test-rationalization-04A38.tmp/completion-w2-cont13/current-byref-alias-probe-v1/CurrentGuessAlias.cs",
+          "bytes": 1971,
+          "sha256": "7d745713881556c5a956596373ceee6f4862b1c11f216beee7ee709d3ca5e29b"
+        },
+        {
+          "path": ".test-rationalization-04A38.tmp/completion-w2-cont13/current-byref-alias-probe-v1/CurrentGuessAlias.exe",
+          "bytes": 10240,
+          "sha256": "4a50111db0821db0e9e98bba24feb5881504b0e88c7f2e3758ec25308942fa37"
+        },
+        {
+          "path": ".test-rationalization-04A38.tmp/completion-w2-cont13/current-byref-alias-probe-v1/execution.json",
+          "bytes": 2422,
+          "sha256": "449d51bae6cda5fa325046e150f93087f5c4311454d4ebe12f5023fce4fc5c7e"
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "files": [
+        {
+          "path": ".test-rationalization-04A38.tmp/completion-w2-cont13/current-byref-alias-probe-v2/CurrentGuessAlias.cs",
+          "bytes": 2064,
+          "sha256": "d9db264a993c07616a8895522a36b0dbe6df2b256dc80e8a1bea50581dd67bcf"
+        },
+        {
+          "path": ".test-rationalization-04A38.tmp/completion-w2-cont13/current-byref-alias-probe-v2/CurrentGuessAlias.exe",
+          "bytes": 10752,
+          "sha256": "a1c1d1d315729546076a07401e26d61e87f1dc5eb85199ff0744b206a52a82e3"
+        },
+        {
+          "path": ".test-rationalization-04A38.tmp/completion-w2-cont13/current-byref-alias-probe-v2/execution.json",
+          "bytes": 2420,
+          "sha256": "4a3d3d3d0835419cca18bae7c3c516093654e209d05b87bc81ae55ad031667ce"
+        },
+        {
+          "path": ".test-rationalization-04A38.tmp/completion-w2-cont13/current-byref-alias-probe-v2/observer-source-transition.json",
+          "bytes": 666,
+          "sha256": "0f58667fd7c853249421e9c67fd63431d76421dcd651b913b127532d9160baa6"
+        }
+      ]
+    }
+  ],
+  "cause": "Original resets once before conversion. The existing current Common GuessPositiveClass resets again after conversion, erasing the alias mutation. This adapter preceded C13 and was not previously closed.",
+  "action": "Keep all four transitive parents and PlotData module OPEN. Preserve ordinary current compatibility and independently proved callbacks. No production/test amendment after freeze.",
+  "supplemental_current_managed_probes": 2,
+  "unit_test_identities_added": 0,
+  "original_queries": 0,
+  "scientific_changes": 0
+}

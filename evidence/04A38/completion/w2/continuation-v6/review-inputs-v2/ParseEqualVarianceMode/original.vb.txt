@@ -1,0 +1,15 @@
+othing</c>, the other input is returned unchanged.
+        ''' </returns>
+        Friend Function StackWithBlankRow(a As Object(,), b As Object(,)) As Object(,)
+            If a Is Nothing Then Return b
+            If b Is Nothing Then Return a
+
+            Dim rowsA As Integer = a.GetLength(0)
+            Dim colsA As Integer = a.GetLength(1)
+            Dim rowsB As Integer = b.GetLength(0)
+            Dim colsB As Integer = b.GetLength(1)
+            Dim cols As Integer = Math.Max(colsA, colsB)
+
+            Dim out(rowsA + 1 + rowsB - 1, cols - 1) As Object
+
+            For i As Integer = 0 To r

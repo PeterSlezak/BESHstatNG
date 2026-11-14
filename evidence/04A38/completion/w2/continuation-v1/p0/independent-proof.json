@@ -1,0 +1,28 @@
+{
+  "status": "P0_DESCRIPTION_AND_MASK_CONTRACT_PASS_NOT_BATCH_READY",
+  "original_ids": [
+    "FunctionBlock|9465ac0daaaabaa5@86828:701",
+    "FunctionBlock|e8eabf0f978b1297@83928:2886"
+  ],
+  "new_historical_proof_supported": 2,
+  "prior_historical_proof_supported": 47,
+  "historical_remaining_OPEN": 655,
+  "configurations": [
+    {
+      "configuration": "Debug",
+      "exports": 268,
+      "Common_tests": 32,
+      "shipping_adapter_tests": 17
+    },
+    {
+      "configuration": "Release",
+      "exports": 268,
+      "Common_tests": 32,
+      "shipping_adapter_tests": 17
+    }
+  ],
+  "source_operation_equivalence": "Visit then insertion order; null/nonfinite/overflow preserved; lazy model access and all ByRef/guard/formatter phases match original/prior independently proved Core loop",
+  "new_original_queries": 0,
+  "science": "NOT_GOLDEN",
+  "native": "NOT_RUN"
+}

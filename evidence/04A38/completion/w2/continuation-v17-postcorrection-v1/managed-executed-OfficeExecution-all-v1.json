@@ -1,0 +1,30 @@
+{
+  "suite": "OfficeExecution",
+  "part": "all",
+  "selection": null,
+  "outcomes": {
+    "Passed": 45
+  },
+  "trx_sha256": "be840885768253b3adce592327d90b8dad5e643d28d30f3b088078d58854c507",
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeExecution\\sandbox\\Execution\\bin\\Debug\\net10.0\\Execution.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeExecution\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeExecution\\results",
+      "/Logger:trx;LogFileName=OfficeExecution.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 1.7868979000049876,
+    "stdout_sha256": "7ff1fbec0bceb5c458b08e7b98e778b71e3a7a1b55f8c69462513e9531002c21",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-OfficeExecution/cases.json",
+    "bytes": 15556,
+    "sha256": "3dff25329f43ff30fe79a1eb63823f516637d07f7010e989a6b1c0ea56d8d4f2"
+  }
+}

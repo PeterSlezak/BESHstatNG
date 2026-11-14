@@ -1,0 +1,25 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/build_contracts_v2.py",
+    "bytes": 12937,
+    "sha256": "4736a82aca5d4d3621b8cd43997a43550276e8c7de3f177de34dac4676a918f6"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/build_contracts_v3.py",
+    "bytes": 13148,
+    "sha256": "6c663c20c24eaddb3c77a19f1f6777194f0e09fc9b92b6cb57c270c8bb6f78b9"
+  },
+  "failure": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/contract-builder-execution-v2.json",
+    "bytes": 476,
+    "sha256": "bfd2bbcae95acee7f23b2ab18cf7a83e319c54bdd68a7886f02f836522fe2973"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-contracts-v2/stderr.log",
+    "bytes": 1021,
+    "sha256": "9ab3b5e893e3d905dd9ada762fdbb3f2004da6f9190542906f286e292fe51756"
+  },
+  "cause": "Portable census includes unrelated PlotData classes in the same physical source. The builder tried to bind them before limiting the set to actual graph owners.",
+  "correction": "Select actually reached owner/name pairs before full parameter/rank/ByRef binding. All901 reached constructed methods and every C11 portable API remain required; no assertion or test changes.",
+  "original_queries": 0
+}

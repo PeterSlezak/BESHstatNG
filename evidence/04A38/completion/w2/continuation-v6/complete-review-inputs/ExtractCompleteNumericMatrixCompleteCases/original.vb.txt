@@ -1,0 +1,44 @@
+Friend Function ExtractCompleteNumericMatrixCompleteCases(input As Object, ByRef mat As Double(,),
+                                                              ByRef noRows As Integer, ByRef noCols As Integer) As Boolean
+        mat = Nothing
+        noRows = 0
+        noCols = 0
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim r As Integer = arr.GetLength(0)
+        Dim c As Integer = arr.GetLength(1)
+        If c < 2 Then Return False
+
+        Dim rows As New List(Of Double())()
+
+        For i As Integer = 0 To r - 1
+            Dim rowVals(c - 1) As Double
+            Dim ok As Boolean = True
+
+            For j As Integer = 0 To c - 1
+                Dim d As Double? = TryGetDouble(arr(i, j))
+                If Not d.HasValue Then
+                    ok = False
+                    Exit For
+                End If
+                rowVals(j) = d.Value
+            Next
+
+            If ok Then rows.Add(rowVals)
+        Next
+
+        noRows = rows.Count
+        noCols = c
+        If noRows < 2 Then Return True
+
+        mat = New Double(noRows - 1, c - 1) {}
+        For i As Integer = 0 To noRows - 1
+            For j As Integer = 0 To c - 1
+                mat(i, j) = rows(i)(j)
+            Next
+        Next
+
+        Return True
+    End Function

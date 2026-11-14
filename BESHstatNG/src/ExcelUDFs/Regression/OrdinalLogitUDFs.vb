@@ -331,53 +331,7 @@ Namespace WorksheetFunctions
                 End If
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim q As Integer = h.Model.results.Coeffs_est.Length
-                Dim outRows As Integer = If(hdr, q + 1, q)
-                Dim out(outRows - 1, 8) As Object
-
-                Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)
-                Dim r0 As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Parameter"
-                    out(0, 1) = "Type"
-                    out(0, 2) = "Coef"
-                    out(0, 3) = "SE"
-                    out(0, 4) = "Z"
-                    out(0, 5) = "P-value"
-                    out(0, 6) = "OR"
-                    out(0, 7) = "OR " & $"{100.0 * (1.0 - alphaValue):0.##}%" & " LCL"
-                    out(0, 8) = "OR " & $"{100.0 * (1.0 - alphaValue):0.##}%" & " UCL"
-                    r0 = 1
-                End If
-
-                For i As Integer = 0 To q - 1
-                    Dim beta As Double = h.Model.results.Coeffs_est(i)
-                    Dim se As Double = h.Model.results.Coeffs_SEs(i)
-                    Dim z As Double = If(se > 0.0, beta / se, Double.NaN)
-                    Dim pv As Double = If(se > 0.0, 2.0 * distributions.PNorm(-Math.Abs(z)), Double.NaN)
-
-                    Dim isSlope As Boolean = (i < h.PredictorCount)
-
-                    out(r0 + i, 0) = h.VarNames(i)
-                    out(r0 + i, 1) = If(isSlope, "Slope", "Threshold")
-                    out(r0 + i, 2) = beta
-                    out(r0 + i, 3) = se
-                    out(r0 + i, 4) = z
-                    out(r0 + i, 5) = pv
-
-                    If isSlope Then
-                        out(r0 + i, 6) = ExpForDisplay(beta)
-                        out(r0 + i, 7) = ExpForDisplay(beta - zCrit * se)
-                        out(r0 + i, 8) = ExpForDisplay(beta + zCrit * se)
-                    Else
-                        out(r0 + i, 6) = ""
-                        out(r0 + i, 7) = ""
-                        out(r0 + i, 8) = ""
-                    End If
-                Next
-
-                Return PreparePValueTableForUdf(out, 6)
+                Return PreparePValueTableForUdf(Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalSummary(h.Model.results, h.VarNames, h.PredictorCount, hdr, alphaValue, AddressOf ExpForDisplay), 6)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_SUMMARY", ex)
@@ -425,26 +379,7 @@ Namespace WorksheetFunctions
 
                 Dim n As Integer = labels.Length
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, n + 1, n)
-                Dim out(outRows - 1, 3) As Object
-
-                Dim r0 As Integer = 0
-                If hdr Then
-                    out(0, 0) = "Item"
-                    out(0, 1) = "Value"
-                    out(0, 2) = "df"
-                    out(0, 3) = "P-value"
-                    r0 = 1
-                End If
-
-                For i As Integer = 0 To n - 1
-                    out(r0 + i, 0) = labels(i)
-                    out(r0 + i, 1) = vals(i, 0)
-                    out(r0 + i, 2) = vals(i, 1)
-                    out(r0 + i, 3) = vals(i, 2)
-                Next
-
-                Return PreparePValueTableForUdf(out, 4)
+                Return PreparePValueTableForUdf(Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalTests(n, labels, vals, hdr), 4)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_TESTS", ex)
@@ -490,41 +425,7 @@ Namespace WorksheetFunctions
 
                 Dim k As Integer = cls.Categories.Length
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, k + 3, k + 2)
-                Dim outCols As Integer = k + 2
-                Dim out(outRows - 1, outCols - 1) As Object
-
-                Dim r As Integer = 0
-                If hdr Then
-                    out(0, 0) = "Observed \ Predicted"
-                    For j As Integer = 0 To k - 1
-                        out(0, j + 1) = cls.Categories(j)
-                    Next
-                    out(0, outCols - 1) = "Recall %"
-                    r = 1
-                End If
-
-                For i As Integer = 0 To k - 1
-                    out(r + i, 0) = cls.Categories(i)
-                    For j As Integer = 0 To k - 1
-                        out(r + i, j + 1) = cls.Counts(i, j)
-                    Next
-                    out(r + i, outCols - 1) = cls.RecallPct(i)
-                Next
-
-                out(r + k, 0) = "Precision %"
-                For j As Integer = 0 To k - 1
-                    out(r + k, j + 1) = cls.PrecisionPct(j)
-                Next
-                out(r + k, outCols - 1) = ""
-
-                out(r + k + 1, 0) = "Overall accuracy %"
-                out(r + k + 1, 1) = cls.OverallAccuracyPct
-                For j As Integer = 2 To outCols - 1
-                    out(r + k + 1, j) = ""
-                Next
-
-                Return out
+                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalClassification(cls, k, hdr)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_CLASS", ex)
@@ -699,42 +600,7 @@ Namespace WorksheetFunctions
 
                 Dim nRows As Integer = imported.nRows
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, nRows + 1, nRows)
-                Dim outCols As Integer = cats.Length + 2
-                Dim out(outRows - 1, outCols - 1) As Object
-
-                Dim r0 As Integer = 0
-                If hdr Then
-                    out(0, 0) = "PredictedCategory"
-                    out(0, 1) = "LinearPredictor"
-                    For k As Integer = 0 To cats.Length - 1
-                        out(0, k + 2) = "P(Y=" & cats(k).ToString(CultureInfo.InvariantCulture) & ")"
-                    Next
-                    r0 = 1
-                End If
-
-                For i As Integer = 0 To nRows - 1
-                    Dim eta As Double = 0.0
-                    For j As Integer = 0 To h.PredictorCount - 1
-                        Dim xv As Double = expandedX(i, j)
-                        If Double.IsNaN(xv) OrElse Double.IsInfinity(xv) Then Return ExcelError.ExcelErrorValue
-                        eta += xv * b(j)
-                    Next
-                    If offsetVals IsNot Nothing Then
-                        eta += offsetVals(i)
-                    End If
-
-                    Dim probs() As Double = ComputeOrdinalProbabilities(b, h.PredictorCount, cats.Length, eta)
-                    Dim predIdx As Integer = regression.CategoricalLogitUtils.ArgMax(probs, True)
-
-                    out(r0 + i, 0) = cats(predIdx)
-                    out(r0 + i, 1) = eta
-                    For k As Integer = 0 To cats.Length - 1
-                        out(r0 + i, k + 2) = probs(k)
-                    Next
-                Next
-
-                Return out
+                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalPrediction(expandedX, b, cats, offsetVals, nRows, hdr, h.PredictorCount, ExcelError.ExcelErrorValue)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_PRED", ex)
@@ -778,31 +644,7 @@ Namespace WorksheetFunctions
                                                      p As Integer,
                                                      k As Integer,
                                                      eta As Double) As Double()
-            Dim probs(k - 1) As Double
-            Dim prev As Double = 0.0R
-
-            For thr As Integer = 0 To k - 2
-                Dim alpha As Double = b(p + thr)
-                Dim Fk As Double = regression.Logit.LogisticStable(alpha - eta)
-                Dim pk As Double = If(thr = 0, Fk, Fk - prev)
-                probs(thr) = Math.Max(0.0R, pk)
-                prev = Fk
-            Next
-
-            probs(k - 1) = Math.Max(0.0R, 1.0R - prev)
-
-            Dim s As Double = 0.0R
-            For i As Integer = 0 To k - 1
-                s += probs(i)
-            Next
-
-            If s > 0.0R Then
-                For i As Integer = 0 To k - 1
-                    probs(i) /= s
-                Next
-            End If
-
-            Return probs
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeOrdinalProbabilities(b, p, k, eta)
         End Function
 
         ''' <summary>
@@ -811,31 +653,7 @@ Namespace WorksheetFunctions
         ''' <param name="v">Worksheet residual-type argument.</param>
         ''' <returns>A canonical residual-output key.</returns>
         Private Function ParseOrdinalResidualType(v As Object) As String
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return "all"
-
-            Select Case s.Trim().ToLowerInvariant()
-                Case "all"
-                    Return "all"
-                Case "fittedmean", "mean", "fittedmeans"
-                    Return "fittedmean"
-                Case "prob", "probability", "probabilities", "fittedprob", "fittedprobability"
-                    Return "prob"
-                Case "response", "raw"
-                    Return "response"
-                Case "pearson"
-                    Return "pearson"
-                Case "stdpearson", "standardizedpearson"
-                    Return "stdpearson"
-                Case "deviance", "dev"
-                    Return "deviance"
-                Case "stddeviance", "standardizeddeviance"
-                    Return "stddeviance"
-                Case "leverage", "hat"
-                    Return "leverage"
-                Case Else
-                    Return "all"
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.OrdinalLogitUDFsOptions38.ParseOrdinalResidualType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         ''' <summary>
@@ -846,59 +664,7 @@ Namespace WorksheetFunctions
         ''' <returns>A spilled-object array containing the full residual output.</returns>
         Private Function BuildAllResidualOutput(res As regression.MultinomialResiduals,
                                                 includeHeader As Boolean) As Object
-            If res Is Nothing Then Return ExcelError.ExcelErrorNA
-
-            Dim cats() As Integer = res.Categories
-            Dim n As Integer = res.FittedMeans.GetLength(0)
-            Dim k As Integer = cats.Length
-
-            Dim headers As New List(Of String)()
-            headers.AddRange(CategoryHeaders("FittedMean", cats))
-            headers.AddRange(CategoryHeaders("Prob", cats))
-            headers.AddRange(CategoryHeaders("Response", cats))
-            headers.AddRange(CategoryHeaders("Pearson", cats))
-            headers.AddRange(CategoryHeaders("StdPearson", cats))
-            headers.Add("DevianceResidual")
-            headers.Add("StdDevianceResidual")
-            headers.Add("Leverage")
-
-            Dim outRows As Integer = If(includeHeader, n + 1, n)
-            Dim outCols As Integer = headers.Count
-            Dim out(outRows - 1, outCols - 1) As Object
-            Dim r0 As Integer = 0
-
-            If includeHeader Then
-                For j As Integer = 0 To outCols - 1
-                    out(0, j) = headers(j)
-                Next
-                r0 = 1
-            End If
-
-            For i As Integer = 0 To n - 1
-                Dim c As Integer = 0
-
-                For j As Integer = 0 To k - 1
-                    out(r0 + i, c) = res.FittedMeans(i, j) : c += 1
-                Next
-                For j As Integer = 0 To k - 1
-                    out(r0 + i, c) = res.Probabilities(i, j) : c += 1
-                Next
-                For j As Integer = 0 To k - 1
-                    out(r0 + i, c) = res.ResponseResiduals(i, j) : c += 1
-                Next
-                For j As Integer = 0 To k - 1
-                    out(r0 + i, c) = res.PearsonResiduals(i, j) : c += 1
-                Next
-                For j As Integer = 0 To k - 1
-                    out(r0 + i, c) = res.StdPearsonResiduals(i, j) : c += 1
-                Next
-
-                out(r0 + i, c) = res.DevianceResiduals(i) : c += 1
-                out(r0 + i, c) = res.StdDevianceResiduals(i) : c += 1
-                out(r0 + i, c) = res.Leverage(i)
-            Next
-
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalResidualOutput(res, includeHeader, ExcelError.ExcelErrorNA)
         End Function
 
     End Module

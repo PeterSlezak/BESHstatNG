@@ -1,0 +1,802 @@
+Option Explicit On
+Option Strict On
+Imports ExcelDna.Integration
+
+' UDF-facing data import facade. Public worksheet UDFs should call this module first, then pass the
+' resulting DataObj-derived objects to the analysis/model layer. Batch 2 starts routing existing UDF
+' call sites through this boundary while preserving existing worksheet signatures and behavior.
+Partial Friend Module UdfDataImport
+
+    ''' <summary>
+    ''' Imports a generic numeric worksheet block into a DataObj, using the shared DataObj cleaning path.
+    ''' </summary>
+    Friend Function TryGetNumericData(input As Object,
+                                      varNames As Object,
+                                      allowMissing As Boolean,
+                                      ByRef data As DataObj) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|e11ee95d391bece7@559:343")
+        Return TryBuildNumericDataObject(input, varNames, allowMissing, data)
+    End Function
+
+    ''' <summary>
+    ''' Returns True when every supplied value is finite; optionally requires strictly positive values.
+    ''' A Nothing array is treated as valid to preserve optional offset/weight semantics.
+    ''' </summary>
+    Friend Function HasOnlyFinite(values() As Double, Optional requirePositive As Boolean = False) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|934bdf82e5ca5d64@1145:395")
+        If values Is Nothing Then Return True
+
+        For Each v As Double In values
+            If Double.IsNaN(v) OrElse Double.IsInfinity(v) Then Return False
+            If requirePositive AndAlso v <= 0.0R Then Return False
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Parses an optional Cox ties-method argument.
+    ''' </summary>
+    Friend Function GetCoxTieMethod(arg As Object, defaultValue As TieMethod) As TieMethod
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|da5320dac0b0b170@1641:597")
+        Dim s As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg)
+        If String.IsNullOrWhiteSpace(s) Then Return defaultValue
+
+        Select Case s.Trim().ToLowerInvariant()
+            Case "breslow"
+                Return TieMethod.Breslow
+            Case "efron"
+                Return TieMethod.Efron
+            Case "exact"
+                Return TieMethod.Exact
+            Case Else
+                Return defaultValue
+        End Select
+    End Function
+
+    ''' <summary>
+    ''' Extracts an integer response column from the first column of an imported regression DataObj.
+    ''' Values must be finite and exactly integer-valued after normal DataObj row screening.
+    ''' </summary>
+    Friend Function TryGetIntegerOutcomeColumn(data As DataObj, ByRef values As List(Of Integer)) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|d2c9536cf347e99c@2481:653")
+        values = New List(Of Integer)()
+
+        If data Is Nothing OrElse data.nRows < 1 OrElse data.nCols < 1 Then Return False
+
+        For i As Integer = 0 To data.nRows - 1
+            Dim d As Double = CDbl(data.FinalData(i, 0))
+            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return False
+
+            Dim rounded As Double = Math.Round(d)
+            If Math.Abs(d - rounded) > 0.0000001R Then Return False
+
+            values.Add(CInt(rounded))
+        Next
+
+        Return values.Count > 0
+    End Function
+
+    ''' <summary>
+    ''' Extracts a non-negative integer response vector from the first column of a numeric data matrix.
+    ''' Used by count-model UDFs where the response must be a valid count.
+    ''' </summary>
+    Friend Function TryGetNonnegativeIntegerResponse(data(,) As Double, ByRef response() As Integer) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|a95b2462d2da09f9@3362:684")
+        response = Nothing
+        If data Is Nothing Then Return False
+
+        Dim n As Integer = data.GetLength(0)
+        If n < 1 Then Return False
+
+        ReDim response(n - 1)
+        For i As Integer = 0 To n - 1
+            Dim yi As Double = data(i, 0)
+            If Double.IsNaN(yi) OrElse Double.IsInfinity(yi) Then Return False
+
+            Dim yr As Double = Math.Round(yi)
+            If yi < 0.0R OrElse Math.Abs(yi - yr) > 0.0000001R Then Return False
+
+            response(i) = CInt(yr)
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports a single numeric sample column for scalar diagnostics such as normality and outlier tests.
+    ''' Non-numeric cells are ignored, and a first non-numeric cell is treated as a header when numeric values follow.
+    ''' </summary>
+    Friend Function TryGetSingleNumericColumn(input As Object,
+                                              ByRef values() As Double,
+                                              ByRef detectedName As String) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|c59b5d6f8668964e@4321:1055")
+        values = Nothing
+        detectedName = String.Empty
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+        If arr.GetLength(1) <> 1 Then Return False
+
+        Dim hasHeader As Boolean = LooksLikeSingleColumnHeader(arr)
+        If hasHeader Then detectedName = Convert.ToString(arr(0, 0)).Trim()
+
+        Dim startRow As Integer = If(hasHeader, 1, 0)
+        Dim list As New List(Of Double)()
+        For r As Integer = startRow To arr.GetLength(0) - 1
+            Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 0))
+            If d.HasValue AndAlso Not Double.IsNaN(d.Value) AndAlso Not Double.IsInfinity(d.Value) Then list.Add(d.Value)
+        Next
+
+        values = list.ToArray()
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports independent grouped data from a wide range where each column is a group.
+    ''' This preserves the existing UDF semantics: numeric values are collected column-wise and non-numeric cells are ignored.
+    ''' </summary>
+    Friend Function TryGetGroupedNumericColumns(input As Object,
+                                                ByRef groups()() As Double,
+                                                ByRef names() As String) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307")
+        Return TryReadGroupedNumericColumns(input, groups, names)
+    End Function
+
+    ''' <summary>
+    ''' Imports two independent one-column samples. Each column is filtered independently, so unequal group sizes are allowed.
+    ''' </summary>
+    Friend Function TryGetIndependentNumericColumns(x As Object,
+                                                    y As Object,
+                                                    ByRef groups()() As Double,
+                                                    ByRef names() As String) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|38553d53fa898b31@6123:384")
+        Return TryReadIndependentNumericColumns(x, y, groups, names)
+    End Function
+
+    ''' <summary>
+    ''' Imports two aligned one-column samples for paired tests, retaining only complete numeric pairs.
+    ''' </summary>
+    Friend Function TryGetPairedNumericColumns(x As Object,
+                                               y As Object,
+                                               ByRef mat As Double(,),
+                                               ByRef names() As String) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|aa365271f2be42e6@6659:352")
+        Return TryReadPairedNumericColumns(x, y, mat, names)
+    End Function
+
+    ''' <summary>
+    ''' Imports a complete numeric matrix and optional header row for repeated-measures and multivariate UDFs.
+    ''' </summary>
+    Friend Function TryGetCompleteNumericMatrixWithHeaders(input As Object,
+                                                           ByRef mat As Double(,),
+                                                           ByRef names() As String) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|d28552d10468faf1@7170:344")
+        Return TryReadCompleteNumericMatrixWithHeaders(input, mat, names)
+    End Function
+
+    ''' <summary>
+    ''' Imports a single numeric column, preserving row alignment by returning Double.NaN for invalid/non-numeric cells.
+    ''' </summary>
+    Friend Function TryGetNumericColumn(input As Object, ByRef values As List(Of Double)) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|8f9c8413b1a15cf8@7683:166")
+        Return TryReadNumericColumn(input, values)
+    End Function
+
+    ''' <summary>
+    ''' Imports a required offset-only prediction column for count-model prediction paths.
+    ''' </summary>
+    Friend Function TryGetRequiredOffsetPredictionInputs(newOffset As Object,
+                                                         ByRef offsetVals() As Double,
+                                                         ByRef nRows As Integer) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|97558bb2651ed875@7988:802")
+        offsetVals = Nothing
+        nRows = 0
+
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(newOffset) Then Return False
+
+        Dim values As List(Of Double) = Nothing
+        If Not TryGetNumericColumn(newOffset, values) Then Return False
+        If values Is Nothing OrElse values.Count < 1 Then Return False
+
+        offsetVals = values.ToArray()
+        If Not UdfDataImport.HasOnlyFinite(offsetVals) Then Return False
+
+        nRows = offsetVals.Length
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports a one-dimensional numeric vector from comma/semicolon/space/tab-delimited text or a one-row / one-column range.
+    ''' This preserves legacy GEE start-parameter parsing semantics.
+    ''' </summary>
+    Friend Function TryGetLooseNumericVector(input As Object, ByRef values() As Double) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|abb43260f6d62556@9036:2321")
+        values = Nothing
+
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(input) Then Return False
+
+        Dim s As String = TryCast(input, String)
+        If s IsNot Nothing Then
+            Dim parts As String() = s.Split({","c, ";"c, " "c, ChrW(9)}, StringSplitOptions.RemoveEmptyEntries)
+            If parts.Length < 1 Then Return False
+
+            ReDim values(parts.Length - 1)
+            For i As Integer = 0 To parts.Length - 1
+                Dim parsed As Double
+                If Not Double.TryParse(parts(i), Global.System.Globalization.NumberStyles.Float Or Global.System.Globalization.NumberStyles.AllowThousands, Global.System.Globalization.CultureInfo.InvariantCulture, parsed) AndAlso
+                   Not Double.TryParse(parts(i), Global.System.Globalization.NumberStyles.Float Or Global.System.Globalization.NumberStyles.AllowThousands, Global.System.Globalization.CultureInfo.CurrentCulture, parsed) Then
+                    values = Nothing
+                    Return False
+                End If
+                If Double.IsNaN(parsed) OrElse Double.IsInfinity(parsed) Then
+                    values = Nothing
+                    Return False
+                End If
+                values(i) = parsed
+            Next
+            Return True
+        End If
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If rows < 1 OrElse cols < 1 Then Return False
+        If rows <> 1 AndAlso cols <> 1 Then Return False
+
+        Dim count As Integer = rows * cols
+        ReDim values(count - 1)
+        Dim k As Integer = 0
+        For i As Integer = 0 To rows - 1
+            For j As Integer = 0 To cols - 1
+                Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(i, j))
+                If Not d.HasValue Then
+                    values = Nothing
+                    Return False
+                End If
+                values(k) = d.Value
+                k += 1
+            Next
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports offset values for intercept-only prediction UDF paths.
+    ''' When an offset is required, the argument must be supplied as a finite numeric column.
+    ''' When no offset is supplied, one prediction row is implied.
+    ''' </summary>
+    Friend Function TryGetInterceptOnlyPredictionInputs(newOffset As Object,
+                                                        requireOffset As Boolean,
+                                                        ByRef nRows As Integer,
+                                                        ByRef offsetVals() As Double) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|4c57e566d0b0ae51@11639:1076")
+        nRows = 0
+        offsetVals = Nothing
+
+        Dim hasOffsetArg As Boolean = Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(newOffset)
+        If requireOffset AndAlso Not hasOffsetArg Then Return False
+
+        If hasOffsetArg Then
+            Dim values As List(Of Double) = Nothing
+            If Not TryGetNumericColumn(newOffset, values) Then Return False
+            If values Is Nothing OrElse values.Count < 1 Then Return False
+            offsetVals = values.ToArray()
+            If Not UdfDataImport.HasOnlyFinite(offsetVals) Then Return False
+            nRows = offsetVals.Length
+            Return True
+        End If
+
+        nRows = 1
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports a numeric matrix with no header handling.
+    ''' </summary>
+    Friend Function TryGetNumericMatrix(input As Object,
+                                        ByRef mat As Double(,),
+                                        ByRef rows As Integer,
+                                        ByRef cols As Integer) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|539389f9d976a593@12821:335")
+        Return TryReadNumericMatrix(input, mat, rows, cols)
+    End Function
+
+    ''' <summary>
+    ''' Imports a trimmed single-column text range and returns any inferred header/name.
+    ''' This is used for aligned categorical/group inputs while keeping raw range parsing behind the import facade.
+    ''' </summary>
+    Friend Function TryGetTextColumn(input As Object,
+                                     ByRef column(,) As Object,
+                                     ByRef inferredName As String) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|74a3a6d16d5df127@13410:290")
+        Return TryGetTrimmedColumnObject(input, column, inferredName, "text")
+    End Function
+
+    ''' <summary>
+    ''' Imports a single-column sample for legacy nonparametric UDFs, ignoring non-numeric cells.
+    ''' </summary>
+    Friend Function GetNumericColumnIgnoringNonNumeric(input As Object, ByRef err As ExcelError?) As Double()
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|914e7001aa1dc51a@13846:190")
+        Return ExtractNumericColumnIgnoringNonNumeric(input, err)
+    End Function
+
+    ''' <summary>
+    ''' Imports two paired single-column samples for legacy nonparametric UDFs, retaining complete numeric pairs only.
+    ''' </summary>
+    Friend Function GetPairedNumericColumnsIgnoringNonNumeric(x As Object,
+                                                              y As Object,
+                                                              ByRef err As ExcelError?) As Double(,)
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|c277ea1b27b049c1@14203:339")
+        Return ExtractPairedNumericColumnsIgnoringNonNumeric(x, y, err)
+    End Function
+
+    ''' <summary>
+    ''' Imports grouped wide-column samples for legacy nonparametric UDFs, ignoring non-numeric cells column-wise.
+    ''' </summary>
+    Friend Function GetNumericGroupsFromColumnsIgnoringNonNumeric(input As Object,
+                                                                  ByRef err As ExcelError?) As Double()()
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|7cca71bfc8debfd9@14705:281")
+        Return ExtractNumericGroupsFromColumnsIgnoringNonNumeric(input, err)
+    End Function
+
+    ''' <summary>
+    ''' Imports a repeated-measures matrix for legacy nonparametric UDFs, keeping complete numeric rows only.
+    ''' </summary>
+    Friend Function TryGetCompleteNumericMatrixCompleteCases(input As Object,
+                                                             ByRef mat As Double(,),
+                                                             ByRef noRows As Integer,
+                                                             ByRef noCols As Integer) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|e70d7bbb522d6987@15144:448")
+        Return ExtractCompleteNumericMatrixCompleteCases(input, mat, noRows, noCols)
+    End Function
+
+    ''' <summary>
+    ''' Imports a scalar, single-row, or single-column numeric vector. A leading text header is allowed and skipped.
+    ''' Unlike TryGetNumericColumn, this is strict: interior blanks and non-numeric values fail the import.
+    ''' </summary>
+    Friend Function TryGetNumericVector(input As Object, ByRef values() As Double) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|3b499de95fe78c2a@15866:980")
+        values = Nothing
+
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(input) Then Return False
+
+        Dim scalar As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(input)
+        If scalar.HasValue Then
+            ReDim values(0)
+            values(0) = scalar.Value
+            Return True
+        End If
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If rows < 1 OrElse cols < 1 Then Return False
+        If rows > 1 AndAlso cols > 1 Then Return False
+
+        If rows = 1 Then
+            Return TryReadStrictNumericVectorFromSingleRow(arr, values)
+        End If
+        Return TryReadStrictNumericVectorFromSingleColumn(arr, values)
+    End Function
+
+    ''' <summary>
+    ''' Imports an optional numeric vector. Missing or empty arguments are accepted and return Nothing.
+    ''' </summary>
+    Friend Function TryGetOptionalNumericVector(input As Object, ByRef values() As Double) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|5119e5dc9cd5e0b2@16998:297")
+        values = Nothing
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(input) Then Return True
+        Return TryGetNumericVector(input, values)
+    End Function
+
+    Private Function TryReadStrictNumericVectorFromSingleColumn(arr As Object(,), ByRef values() As Double) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|c3d33bf07cff0af9@17303:1251")
+        values = Nothing
+        Dim rows As Integer = arr.GetLength(0)
+        If rows < 1 Then Return False
+
+        Dim last As Integer = rows - 1
+        While last >= 0 AndAlso Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(last, 0))
+            last -= 1
+        End While
+        If last < 0 Then Return False
+
+        Dim start As Integer = 0
+        If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(0, 0)).HasValue Then
+            If last = 0 Then Return False
+            start = 1
+        End If
+        If start > last Then Return False
+
+        Dim out As New List(Of Double)()
+        For i As Integer = start To last
+            If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(i, 0)) Then Return False
+            Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(i, 0))
+            If Not d.HasValue Then Return False
+            out.Add(d.Value)
+        Next
+
+        If out.Count = 0 Then Return False
+        values = out.ToArray()
+        Return True
+    End Function
+
+    Private Function TryReadStrictNumericVectorFromSingleRow(arr As Object(,), ByRef values() As Double) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|1b0ce83406f1e636@18562:1248")
+        values = Nothing
+        Dim cols As Integer = arr.GetLength(1)
+        If cols < 1 Then Return False
+
+        Dim last As Integer = cols - 1
+        While last >= 0 AndAlso Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(0, last))
+            last -= 1
+        End While
+        If last < 0 Then Return False
+
+        Dim start As Integer = 0
+        If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(0, 0)).HasValue Then
+            If last = 0 Then Return False
+            start = 1
+        End If
+        If start > last Then Return False
+
+        Dim out As New List(Of Double)()
+        For j As Integer = start To last
+            If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(0, j)) Then Return False
+            Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(0, j))
+            If Not d.HasValue Then Return False
+            out.Add(d.Value)
+        Next
+
+        If out.Count = 0 Then Return False
+        values = out.ToArray()
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports a data matrix and aligned group labels, retaining rows with a nonblank label and complete numeric data.
+    ''' Used by Box's M and future grouped multivariate UDFs.
+    ''' </summary>
+    Friend Function TryGetGroupedCompleteMatrix(data As Object,
+                                                groups As Object,
+                                                ByRef groupMatrices As List(Of Double(,)),
+                                                ByRef groupNames As List(Of String)) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|bf285e1e5738931d@20041:2827")
+        groupMatrices = Nothing
+        groupNames = Nothing
+
+        Dim dataArr As Object(,) = Get2D(data)
+        Dim groupArr As Object(,) = Get2D(groups)
+        If dataArr Is Nothing OrElse groupArr Is Nothing Then Return False
+        If groupArr.GetLength(1) <> 1 Then Return False
+
+        Dim dataRows As Integer = dataArr.GetLength(0)
+        Dim dataCols As Integer = dataArr.GetLength(1)
+        If dataRows < 1 OrElse dataCols < 1 Then Return False
+
+        Dim dataColIndexes(dataCols - 1) As Integer
+        For c As Integer = 0 To dataCols - 1
+            dataColIndexes(c) = c
+        Next
+
+        Dim dataHasHeader As Boolean = LooksLikeHeaderRow(dataArr, dataColIndexes)
+        Dim startData As Integer = If(dataHasHeader, 1, 0)
+
+        Dim usableRows As Integer = dataRows - startData
+        Dim groupRows As Integer = groupArr.GetLength(0)
+
+        Dim startGroup As Integer
+        If groupRows = usableRows Then
+            startGroup = 0
+        ElseIf groupRows = usableRows + 1 Then
+            startGroup = 1
+        Else
+            Return False
+        End If
+
+        Dim buckets As New Dictionary(Of String, List(Of Double()))(StringComparer.OrdinalIgnoreCase)
+        Dim order As New List(Of String)()
+
+        For i As Integer = 0 To usableRows - 1
+            Dim label As String = Convert.ToString(groupArr(startGroup + i, 0)).Trim()
+            If String.IsNullOrWhiteSpace(label) Then Continue For
+
+            Dim row(dataCols - 1) As Double
+            Dim ok As Boolean = True
+            For c As Integer = 0 To dataCols - 1
+                Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(dataArr(startData + i, c))
+                If Not d.HasValue OrElse Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then
+                    ok = False
+                    Exit For
+                End If
+                row(c) = d.Value
+            Next
+            If Not ok Then Continue For
+
+            If Not buckets.ContainsKey(label) Then
+                buckets(label) = New List(Of Double())()
+                order.Add(label)
+            End If
+            buckets(label).Add(row)
+        Next
+
+        groupMatrices = New List(Of Double(,))()
+        groupNames = New List(Of String)(order)
+        For Each label As String In order
+            groupMatrices.Add(RowsToMatrix(buckets(label), dataCols))
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports a three-column nested-ANOVA block: group, subgroup, response. A leading header row is allowed.
+    ''' Rows with blank labels or nonnumeric responses are skipped.
+    ''' </summary>
+    Friend Function TryGetNestedThreeColumnData(input As Object,
+                                                ByRef data(,) As Object,
+                                                ByRef names() As String) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|071563e12190ade8@23096:2284")
+        data = Nothing
+        names = Nothing
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If cols <> 3 OrElse rows < 1 Then Return False
+
+        Dim hasHeader As Boolean = False
+        If rows >= 2 Then
+            Dim firstRespNumeric As Boolean = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(0, 2)).HasValue
+            Dim belowRespNumeric As Boolean = False
+            For r As Integer = 1 To rows - 1
+                If Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 2)).HasValue Then
+                    belowRespNumeric = True
+                    Exit For
+                End If
+            Next
+            hasHeader = (Not firstRespNumeric) AndAlso belowRespNumeric
+        End If
+        Dim startRow As Integer = If(hasHeader, 1, 0)
+
+        names = New String() {
+            If(hasHeader, Convert.ToString(arr(0, 0)).Trim(), "Group"),
+            If(hasHeader, Convert.ToString(arr(0, 1)).Trim(), "Subgroup"),
+            If(hasHeader, Convert.ToString(arr(0, 2)).Trim(), "Response")
+        }
+
+        Dim rowsOut As New List(Of Object())()
+        For r As Integer = startRow To rows - 1
+            Dim g As String = Convert.ToString(arr(r, 0)).Trim()
+            Dim sg As String = Convert.ToString(arr(r, 1)).Trim()
+            Dim y As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 2))
+            If g <> "" AndAlso sg <> "" AndAlso y.HasValue Then
+                rowsOut.Add(New Object() {g, sg, y.Value})
+            End If
+        Next
+
+        If rowsOut.Count < 1 Then Return False
+        data = New Object(rowsOut.Count - 1, 2) {}
+        For r As Integer = 0 To rowsOut.Count - 1
+            data(r, 0) = rowsOut(r)(0)
+            data(r, 1) = rowsOut(r)(1)
+            data(r, 2) = rowsOut(r)(2)
+        Next
+        Return True
+    End Function
+
+    Private Function RowsToMatrix(rows As List(Of Double()), cols As Integer) As Double(,)
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|6f3b40d3f7657b52@25388:343")
+        Dim out(rows.Count - 1, cols - 1) As Double
+        For r As Integer = 0 To rows.Count - 1
+            For c As Integer = 0 To cols - 1
+                out(r, c) = rows(r)(c)
+            Next
+        Next
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Imports response, predictor, optional offset, and optional weight inputs into a GLM-ready data object.
+    ''' </summary>
+    Friend Function TryGetGlmData(y As Object,
+                                  x As Object,
+                                  varNames As Object,
+                                  offset As Object,
+                                  weights As Object,
+                                  ByRef data As glmData) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|714faf489b3ca417@25890:421")
+        Return TryBuildGlmDataFromUdfArgs(y, x, varNames, offset, weights, data)
+    End Function
+
+    ''' <summary>
+    ''' Imports prediction-time predictors and optional offset into a GLM-compatible data object.
+    ''' </summary>
+    Friend Function TryGetPredictorData(x As Object,
+                                        expectedPredictorNames As String(),
+                                        offset As Object,
+                                        requireOffset As Boolean,
+                                        ByRef data As glmData) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|b783cb06e0143700@26457:449")
+        Return TryBuildPredictorDataFromUdfArgs(x, expectedPredictorNames, offset, requireOffset, data)
+    End Function
+
+    ''' <summary>
+    ''' Imports response, predictors, cluster id, and optional GEE time/order, offset, and weight inputs.
+    ''' </summary>
+    Friend Function TryGetGeeData(y As Object,
+                                  x As Object,
+                                  clusterId As Object,
+                                  time As Object,
+                                  varNames As Object,
+                                  offset As Object,
+                                  weights As Object,
+                                  ByRef data As geeData) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|2b09fa43bf1eed76@27060:545")
+        Return TryBuildGeeDataFromUdfArgs(y, x, clusterId, time, varNames, offset, weights, data)
+    End Function
+
+    ''' <summary>
+    ''' Imports Cox PH time, status, predictors, and optional strata inputs into a CoxPHData object.
+    ''' </summary>
+    Friend Function TryGetCoxData(time As Object,
+                                  status As Object,
+                                  x As Object,
+                                  varNames As Object,
+                                  strata As Object,
+                                  ByRef data As CoxPHData) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|5f6f9d8e2f926541@27754:427")
+        Return TryBuildCoxDataFromUdfArgs(time, status, x, varNames, strata, data)
+    End Function
+
+    ''' <summary>
+    ''' Imports and jointly row-aligns Zero-Inflated Poisson count and zero-component UDF inputs.
+    ''' </summary>
+    Friend Function TryGetZipData(y As Object,
+                                  xCount As Object,
+                                  xZero As Object,
+                                  countVarNames As Object,
+                                  zeroVarNames As Object,
+                                  offset As Object,
+                                  ByRef countData As glmData,
+                                  ByRef zeroData As glmData) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|c00ab7aed2b5e5ba@28327:4923")
+        countData = Nothing
+        zeroData = Nothing
+
+        Dim yCol(,) As Object = Nothing
+        Dim xCountMat(,) As Object = Nothing
+        Dim xZeroMat(,) As Object = Nothing
+        Dim offsetCol(,) As Object = Nothing
+
+        Dim yName As String = Nothing
+        Dim offsetName As String = Nothing
+        Dim inferredCountNames() As String = Nothing
+        Dim inferredZeroNames() As String = Nothing
+
+        If Not TryGetTrimmedColumnObject(y, yCol, yName, "numeric") Then Return False
+        If Not TryGetTrimmedNumericMatrixObject(xCount, xCountMat, inferredCountNames) Then Return False
+        If Not TryGetTrimmedNumericMatrixObject(xZero, xZeroMat, inferredZeroNames) Then Return False
+
+        Dim rowCount As Integer = yCol.GetLength(0)
+        If xCountMat.GetLength(0) <> rowCount Then Return False
+        If xZeroMat.GetLength(0) <> rowCount Then Return False
+
+        Dim hasOffset As Boolean = Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(offset)
+        If hasOffset Then
+            If Not TryGetTrimmedColumnObject(offset, offsetCol, offsetName, "numeric") Then Return False
+            If offsetCol.GetLength(0) <> rowCount Then Return False
+        End If
+
+        Dim countPredictorNames As String() = ResolveImportedPredictorNames(countVarNames, inferredCountNames)
+        Dim zeroPredictorNames As String() = ResolveImportedPredictorNames(zeroVarNames, inferredZeroNames)
+
+        Dim countCols As Integer = xCountMat.GetLength(1)
+        Dim zeroCols As Integer = xZeroMat.GetLength(1)
+
+        Dim rawCount(rowCount - 1, countCols + If(hasOffset, 1, 0)) As Object
+        Dim countNames(countCols + If(hasOffset, 1, 0)) As String
+        countNames(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
+
+        For i As Integer = 0 To rowCount - 1
+            rawCount(i, 0) = yCol(i, 0)
+        Next
+        For j As Integer = 0 To countCols - 1
+            countNames(j + 1) = countPredictorNames(j)
+            For i As Integer = 0 To rowCount - 1
+                rawCount(i, j + 1) = xCountMat(i, j)
+            Next
+        Next
+        If hasOffset Then
+            countNames(countCols + 1) = If(String.IsNullOrWhiteSpace(offsetName), "Offset", offsetName)
+            For i As Integer = 0 To rowCount - 1
+                rawCount(i, countCols + 1) = offsetCol(i, 0)
+            Next
+        End If
+
+        Dim rawZero(rowCount - 1, zeroCols) As Object
+        Dim zeroNames(zeroCols) As String
+        zeroNames(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
+
+        For i As Integer = 0 To rowCount - 1
+            rawZero(i, 0) = yCol(i, 0)
+        Next
+        For j As Integer = 0 To zeroCols - 1
+            zeroNames(j + 1) = zeroPredictorNames(j)
+            For i As Integer = 0 To rowCount - 1
+                rawZero(i, j + 1) = xZeroMat(i, j)
+            Next
+        Next
+
+        Dim countOut As New glmData With {.bOffset = hasOffset, .bWeights = False}
+        countOut.DataImportRawMatrix(rawCount, countNames)
+        If countOut.bZeroValid OrElse countOut.nRows < 1 Then Return False
+
+        Dim zeroOut As New glmData With {.bOffset = False, .bWeights = False}
+        zeroOut.DataImportRawMatrix(rawZero, zeroNames)
+        If zeroOut.bZeroValid OrElse zeroOut.nRows < 1 Then Return False
+
+        Dim keepCount As Dictionary(Of Integer, Integer) = CommonItems(countOut.RowIds, zeroOut.RowIds)
+        Dim keepZero As Dictionary(Of Integer, Integer) = CommonItems(zeroOut.RowIds, countOut.RowIds)
+        If keepCount Is Nothing OrElse keepZero Is Nothing Then Return False
+        If keepCount.Count < 1 OrElse keepZero.Count < 1 Then Return False
+        If keepCount.Count <> keepZero.Count Then Return False
+
+        countOut.SubsetByRowIdValues(keepCount)
+        zeroOut.SubsetByRowIdValues(keepZero)
+        If countOut.nRows <> zeroOut.nRows Then Return False
+        If countOut.nRows < 1 Then Return False
+
+        If Not ResponseColumnsMatchObjects(countOut.FinalData, zeroOut.FinalData) Then Return False
+        Dim response() As Integer = Nothing
+        If Not TryExtractNonnegativeIntegerResponseObjects(countOut.FinalData, response) Then Return False
+        If hasOffset AndAlso Not UdfDataImport.HasOnlyFinite(countOut.OffsetData) Then Return False
+
+        countData = countOut
+        zeroData = zeroOut
+        Return True
+    End Function
+
+    Private Function ResponseColumnsMatchObjects(countData(,) As Object, zeroData(,) As Object) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|013cd13bfa27bedf@33258:756")
+        If countData Is Nothing OrElse zeroData Is Nothing Then Return False
+        If countData.GetLength(0) <> zeroData.GetLength(0) Then Return False
+
+        For i As Integer = 0 To countData.GetLength(0) - 1
+            Dim yc As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(countData(i, 0))
+            Dim yz As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(zeroData(i, 0))
+            If Not yc.HasValue OrElse Not yz.HasValue Then Return False
+            If Math.Abs(yc.Value - yz.Value) > 0.0000001R Then Return False
+        Next
+
+        Return True
+    End Function
+
+    Private Function TryExtractNonnegativeIntegerResponseObjects(data(,) As Object, ByRef response() As Integer) As Boolean
+        Global.BESHStatNG.UdfTrace38.Hit("BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|cb5135c4a29715ff@34022:746")
+        response = Nothing
+        If data Is Nothing Then Return False
+        Dim n As Integer = data.GetLength(0)
+        If n < 1 Then Return False
+
+        ReDim response(n - 1)
+        For i As Integer = 0 To n - 1
+            Dim yi As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(data(i, 0))
+            If Not yi.HasValue Then Return False
+            Dim yr As Double = Math.Round(yi.Value)
+            If yi.Value < 0.0R OrElse Math.Abs(yi.Value - yr) > 0.0000001R Then Return False
+            response(i) = CInt(yr)
+        Next
+
+        Return True
+    End Function
+
+End Module

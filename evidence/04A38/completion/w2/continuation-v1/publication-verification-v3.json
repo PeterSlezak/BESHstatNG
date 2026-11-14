@@ -1,0 +1,109 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v1",
+      "-p",
+      "test_publication_v2.py",
+      "-v"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 190.25081460000365,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "311dca9d12c03cd15137dee2afc6b3dd104a6319c4ebb3310772a38dce1d51f0",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "adverse": {
+    "label": "w2c1-publication-adverse-v2",
+    "total": 15,
+    "passed": 4,
+    "failed": 11,
+    "errors": 0,
+    "stderr_sha256": "311dca9d12c03cd15137dee2afc6b3dd104a6319c4ebb3310772a38dce1d51f0",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 1,
+    "identities": [
+      "test_casefold_collision (test_publication_v2.PublicationTests.test_casefold_collision)",
+      "test_duplicate (test_publication_v2.PublicationTests.test_duplicate)",
+      "test_intact (test_publication_v2.PublicationTests.test_intact)",
+      "test_manifest_truncation (test_publication_v2.PublicationTests.test_manifest_truncation)",
+      "test_missing_payload (test_publication_v2.PublicationTests.test_missing_payload)",
+      "test_null_payload (test_publication_v2.PublicationTests.test_null_payload)",
+      "test_prior_manifest_mutation (test_publication_v2.PublicationTests.test_prior_manifest_mutation)",
+      "test_ready_promotion (test_publication_v2.PublicationTests.test_ready_promotion)",
+      "test_recursive_self (test_publication_v2.PublicationTests.test_recursive_self)",
+      "test_reserved_name (test_publication_v2.PublicationTests.test_reserved_name)",
+      "test_reviewed_synthetic_source_hash_cannot_be_extended (test_publication_v2.PublicationTests.test_reviewed_synthetic_source_hash_cannot_be_extended)",
+      "test_self_consistent_forged_ownership (test_publication_v2.PublicationTests.test_self_consistent_forged_ownership)",
+      "test_self_consistent_native_promotion (test_publication_v2.PublicationTests.test_self_consistent_native_promotion)",
+      "test_self_consistent_privacy_leak (test_publication_v2.PublicationTests.test_self_consistent_privacy_leak)",
+      "test_traversal (test_publication_v2.PublicationTests.test_traversal)"
+    ],
+    "nonpasses": [
+      {
+        "outcome": "FAIL",
+        "identity": "test_casefold_collision (test_publication_v2.PublicationTests.test_casefold_collision)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_duplicate (test_publication_v2.PublicationTests.test_duplicate)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_manifest_truncation (test_publication_v2.PublicationTests.test_manifest_truncation)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_missing_payload (test_publication_v2.PublicationTests.test_missing_payload)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_null_payload (test_publication_v2.PublicationTests.test_null_payload)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_ready_promotion (test_publication_v2.PublicationTests.test_ready_promotion)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_recursive_self (test_publication_v2.PublicationTests.test_recursive_self)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_reserved_name (test_publication_v2.PublicationTests.test_reserved_name)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_reviewed_synthetic_source_hash_cannot_be_extended (test_publication_v2.PublicationTests.test_reviewed_synthetic_source_hash_cannot_be_extended)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_self_consistent_native_promotion (test_publication_v2.PublicationTests.test_self_consistent_native_promotion)",
+        "subtest": ""
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_traversal (test_publication_v2.PublicationTests.test_traversal)",
+        "subtest": ""
+      }
+    ]
+  },
+  "status": "PARTIAL_PACKET_ADVERSE_FAILED_NOT_READY",
+  "reviewed_literal": "privacy-reviewed-adverse-literal.json",
+  "old_failed_privacy_receipt": "attempts/export-v2-synthetic-source-literal.json"
+}

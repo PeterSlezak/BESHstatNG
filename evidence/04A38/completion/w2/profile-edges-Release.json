@@ -1,0 +1,106 @@
+{
+  "exports_exact": 268,
+  "actual_direct_edges": [
+    {
+      "caller": "BESHStatNG.WorksheetFunctions.GEEUDFs.TryGetGeeLsmEstimateSpec(System.Object,System.String[],System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.GEEUDFs+GeeLsmEstimateComponent, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]&,System.String&)",
+      "call": {
+        "offset": 69,
+        "opcode": "newobj",
+        "target": "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38+FiniteDoubleReader..ctor(System.Object,System.IntPtr)",
+        "assembly": "BESHStat.Excel.Common",
+        "metadata_token": 167773682
+      }
+    },
+    {
+      "caller": "BESHStatNG.WorksheetFunctions.GEEUDFs.TryGetGeeLsmEstimateSpec(System.Object,System.String[],System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.GEEUDFs+GeeLsmEstimateComponent, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]&,System.String&)",
+      "call": {
+        "offset": 76,
+        "opcode": "call",
+        "target": "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.TryGetGeeSpec(System.Object[,],System.String[],System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],BESHStatNG.ExcelCommon.UdfModelProfilePreparation38+FiniteDoubleReader,System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.GEEUDFs+GeeLsmEstimateComponent, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]&,System.String&)",
+        "assembly": "BESHStat.Excel.Common",
+        "metadata_token": 721420346
+      }
+    },
+    {
+      "caller": "BESHStatNG.WorksheetFunctions.GEEUDFs.TryGetGeeLsmEstimateAtSpec(System.Object,System.String[],BESHStatNG.WorksheetFunctions.GEEUDFs+GeeLsmEstimateAtProfile&,System.String&)",
+      "call": {
+        "offset": 82,
+        "opcode": "newobj",
+        "target": "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38+FiniteDoubleReader..ctor(System.Object,System.IntPtr)",
+        "assembly": "BESHStat.Excel.Common",
+        "metadata_token": 167773682
+      }
+    },
+    {
+      "caller": "BESHStatNG.WorksheetFunctions.GEEUDFs.TryGetGeeLsmEstimateAtSpec(System.Object,System.String[],BESHStatNG.WorksheetFunctions.GEEUDFs+GeeLsmEstimateAtProfile&,System.String&)",
+      "call": {
+        "offset": 89,
+        "opcode": "call",
+        "target": "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.TryGetGeeAtSpec(System.Object[,],System.String[],System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],BESHStatNG.ExcelCommon.UdfModelProfilePreparation38+FiniteDoubleReader,BESHStatNG.WorksheetFunctions.GEEUDFs+GeeLsmEstimateAtProfile&,System.String&)",
+        "assembly": "BESHStat.Excel.Common",
+        "metadata_token": 721420347
+      }
+    },
+    {
+      "caller": "BESHStatNG.WorksheetFunctions.MixedModelUDFs.TryBuildMmrmAtProfileRowMask(BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmHandle,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile,System.Boolean[]&,System.String&,System.String&)",
+      "call": {
+        "offset": 253,
+        "opcode": "call",
+        "target": "BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38.FillRowMask(System.Double[,],System.Double[],System.Boolean,System.Double,System.Collections.Generic.IEnumerable`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]],System.Func`2[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null],[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`3[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Boolean[]&,System.Int32&)",
+        "assembly": "BESHStat.Core",
+        "metadata_token": 721420356
+      }
+    },
+    {
+      "caller": "BESHStatNG.WorksheetFunctions.MixedModelUDFs.TryGetDesignColumnValues(BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmHandle,System.String,System.String&,System.Double[]&,System.String&)",
+      "call": {
+        "offset": 50,
+        "opcode": "call",
+        "target": "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.TryGetMmrmDesignColumnValues(System.Double[,],System.String[],System.String,System.String&,System.Double[]&,System.String&)",
+        "assembly": "BESHStat.Excel.Common",
+        "metadata_token": 167773880
+      }
+    },
+    {
+      "caller": "BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateSpec(System.Object,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmHandle,System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]&,System.String&)",
+      "call": {
+        "offset": 93,
+        "opcode": "newobj",
+        "target": "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38+FiniteDoubleReader..ctor(System.Object,System.IntPtr)",
+        "assembly": "BESHStat.Excel.Common",
+        "metadata_token": 167773682
+      }
+    },
+    {
+      "caller": "BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateSpec(System.Object,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmHandle,System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]&,System.String&)",
+      "call": {
+        "offset": 100,
+        "opcode": "call",
+        "target": "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.TryGetMmrmSpec(System.Object[,],System.Func`1[[System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],BESHStatNG.ExcelCommon.UdfModelProfilePreparation38+FiniteDoubleReader,System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]&,System.String&)",
+        "assembly": "BESHStat.Excel.Common",
+        "metadata_token": 721420371
+      }
+    },
+    {
+      "caller": "BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateAtSpec(System.Object,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmHandle,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile&,System.String&)",
+      "call": {
+        "offset": 115,
+        "opcode": "newobj",
+        "target": "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38+FiniteDoubleReader..ctor(System.Object,System.IntPtr)",
+        "assembly": "BESHStat.Excel.Common",
+        "metadata_token": 167773682
+      }
+    },
+    {
+      "caller": "BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateAtSpec(System.Object,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmHandle,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile&,System.String&)",
+      "call": {
+        "offset": 122,
+        "opcode": "call",
+        "target": "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.TryGetMmrmAtSpec(System.Object[,],System.Boolean,System.Func`1[[System.String[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],BESHStatNG.ExcelCommon.UdfModelProfilePreparation38+FiniteDoubleReader,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile&,System.String&)",
+        "assembly": "BESHStat.Excel.Common",
+        "metadata_token": 721420372
+      }
+    }
+  ],
+  "whole_body_closure": "NOT_INFERRED_FROM_EDGE"
+}

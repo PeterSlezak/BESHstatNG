@@ -1,0 +1,127 @@
+{
+  "status": "SELECTED_PAYLOAD_PRIVACY_POLICY_PASS_NOT_READY",
+  "manifest": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/publication-manifest-v2.json",
+    "bytes": 5127583,
+    "sha256": "8649d6d4ea86293fc6e18e78f508972cb747307b72a2e15b4c5c3bbed4d481bd"
+  },
+  "files": 10155,
+  "findings": [
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+      "kind": "credential_uri",
+      "view": "raw",
+      "whole_file_sha256": "78ef6a5e623e69cd0196fa1da48eb36f223b4de7ed509c2eff358c17d7d24f4d",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273": 1
+      },
+      "classification": "EXACT_INHERITED_SYNTHETIC_ADVERSE_FIXTURE;NOT_MACHINE_OR_REAL_CREDENTIAL"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/test_publication.py",
+      "kind": "home",
+      "view": "raw",
+      "whole_file_sha256": "77db10fd2989f6f8b688f603e89ed280d1582fe397f82aa31f8ba0b460f174f1",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "72583f66d242718f0660aa45b4199099a0988fa5435b1b9cffd26b953df197b0": 1
+      },
+      "classification": "EXACT_INHERITED_SYNTHETIC_ADVERSE_FIXTURE;NOT_MACHINE_OR_REAL_CREDENTIAL"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "kind": "home",
+      "view": "raw",
+      "whole_file_sha256": "170397d7e4d18f03f4de34f4a92799bdb362b6dadeaf65e326cbb0e5b539401a",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "46097bcfd10a6fd1d8837abf6bf72ebce141869e357df7a2b79d0130bc231bc3": 1
+      },
+      "classification": "EXACT_C8_SYNTHETIC_ADVERSE_CONTROL_SOURCE_NOT_PRIVATE_MACHINE_OR_CREDENTIAL_DATA"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "kind": "credential_uri",
+      "view": "raw",
+      "whole_file_sha256": "170397d7e4d18f03f4de34f4a92799bdb362b6dadeaf65e326cbb0e5b539401a",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "dba1c37886f0a5c6453f4db1ef1770eb2cbaa8a4dbf2bf432f7aaecb57cddfb5": 1
+      },
+      "classification": "EXACT_C8_SYNTHETIC_ADVERSE_CONTROL_SOURCE_NOT_PRIVATE_MACHINE_OR_CREDENTIAL_DATA"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_privacy_v2.py",
+      "kind": "private_key",
+      "view": "raw",
+      "whole_file_sha256": "731bf697c55b0709f821e69d35d286a267d40f3d71d2be0bfe9ecbf865b096b9",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "3021d90eb9437b2d8f30e8363695c4418b5e5f1870801b5c317e9398ee0f572d": 1
+      },
+      "classification": "EXACT_C8_SYNTHETIC_ADVERSE_CONTROL_SOURCE_NOT_PRIVATE_MACHINE_OR_CREDENTIAL_DATA"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "kind": "home",
+      "view": "raw",
+      "whole_file_sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524",
+      "occurrences": 2,
+      "fragment_sha256_counts": {
+        "a6093b455175f7559f655a7afd39462693cc3450cbe00e43576e9a44c378b652": 2
+      },
+      "classification": "EXACT_C8_SYNTHETIC_ADVERSE_CONTROL_SOURCE_NOT_PRIVATE_MACHINE_OR_CREDENTIAL_DATA"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "kind": "credential_uri",
+      "view": "raw",
+      "whole_file_sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "dba1c37886f0a5c6453f4db1ef1770eb2cbaa8a4dbf2bf432f7aaecb57cddfb5": 1
+      },
+      "classification": "EXACT_C8_SYNTHETIC_ADVERSE_CONTROL_SOURCE_NOT_PRIVATE_MACHINE_OR_CREDENTIAL_DATA"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_publication_privacy_v1.py",
+      "kind": "private_key",
+      "view": "raw",
+      "whole_file_sha256": "8e805faacdb75c0f2431a50ce6d0b78970fb6ebf483a2249ed29855a0c23eeac",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "3021d90eb9437b2d8f30e8363695c4418b5e5f1870801b5c317e9398ee0f572d": 1
+      },
+      "classification": "EXACT_C8_SYNTHETIC_ADVERSE_CONTROL_SOURCE_NOT_PRIVATE_MACHINE_OR_CREDENTIAL_DATA"
+    },
+    {
+      "path": "evidence/04A38/managed-test-identities-entry.csv",
+      "kind": "credential_uri",
+      "view": "raw",
+      "whole_file_sha256": "7bec5946a791584dcc548bcfc5adb9550c9ecb7d3f92d004414e6b4e31b9d2d3",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273": 1
+      },
+      "classification": "EXACT_INHERITED_SYNTHETIC_ADVERSE_FIXTURE;NOT_MACHINE_OR_REAL_CREDENTIAL"
+    }
+  ],
+  "base_policy": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/publication_policy.py",
+    "bytes": 3641,
+    "sha256": "66d2fd72c558857083121ea8f27f870f3763d4ce0ad3509b153b556f186c4039"
+  },
+  "stats": {
+    "prior_exact": 9732,
+    "current_exact": 378,
+    "fresh": 45
+  },
+  "checkpoint": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/publication-privacy-decisions-v1.json",
+    "bytes": 2446209,
+    "sha256": "30d9df9873f33c93218c19bd6254bf7a684be70255680f8298c311017b236fb7"
+  },
+  "scope": "Review-only exclusions preserve raw bytes. Both historical Python privacy JSON ERRORs remain ERROR and are not waived.",
+  "original_queries": 0
+}

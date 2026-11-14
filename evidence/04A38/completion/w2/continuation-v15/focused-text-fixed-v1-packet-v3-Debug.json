@@ -1,0 +1,248 @@
+{
+  "results": [
+    {
+      "kind": "BUILD",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<REPO_ROOT>\\BESHStat.Excel.Common.Tests\\BESHStat.Excel.Common.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v3-focus-text-fixed-v1\\Debug\\tests-Common\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v3-focus-text-fixed-v1\\Debug\\obj\\tests-Common\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 4.975693100001081,
+        "stdout_sha256": "254d816390ce69ac4ddc3987e9759f93fd687dfea3e57a8c6f330091687ce010",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v3-focus-text-fixed-v1\\Debug\\tests-Common\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~CoxBaseline",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont15\\packet-v3-focus-text-fixed-v1\\Debug\\results-Common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.1524142999987816,
+        "stdout_sha256": "32de28a01c6d5cb6fcc0c4a8c934d7d7e93935514a678c1ef74355e2764d45fb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase",
+            "test_name": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase (\"ＣＵＭＨＡＺ\",3,0.2)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003798",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselinePreservesRepeatedKeyConversionAndPartialByRefRow",
+            "test_name": "CoxBaselinePreservesRepeatedKeyConversionAndPartialByRefRow",
+            "outcome": "Passed",
+            "duration": "00:00:00.0015476",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase",
+            "test_name": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase (\"ｈａｚａｒｄ\",4,0.2)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000262",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"survival\",3)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000133",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"cumhaz\",3)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000251",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"plot\",4)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003244",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"other\",4)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000135",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"hazard\",4)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004758",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase",
+            "test_name": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase (\"ｓｕｒｖｉｖａｌ\",3,0.8)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003216",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"table\",4)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0057666",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 10
+        },
+        "counters": {
+          "total": "10",
+          "executed": "10",
+          "passed": "10",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "8062d35e13f9e59b7fd8f9f28ad414b68220eb81893658e3957ec0d0cf394f8f"
+      }
+    },
+    {
+      "kind": "BUILD",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<REPO_ROOT>\\BESHStatNG.Test\\BESHStatNG.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v3-focus-text-fixed-v1\\Debug\\tests-Legacy\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v3-focus-text-fixed-v1\\Debug\\obj\\tests-Legacy\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.5061335999998846,
+        "stdout_sha256": "443a5d0414685e7fa5f802f6e59f63109b319b6a735d68aed863718922053172",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v3-focus-text-fixed-v1\\Debug\\tests-Legacy\\BESHStatNG.Test.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~Continuation15CoxBaselineTextPolicy",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont15\\packet-v3-focus-text-fixed-v1\\Debug\\results-Legacy",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 4.684887700001127,
+        "stdout_sha256": "bc49207d826f7f3dd45bb89427a79d0279b1ce47b2497319eda520c66405942a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15CoxBaselineTextPolicyUsesWindowsWidthAndCase",
+            "test_name": "Continuation15CoxBaselineTextPolicyUsesWindowsWidthAndCase ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0173228",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15CoxBaselineTextPolicyUsesWindowsWidthAndCase",
+            "test_name": "Continuation15CoxBaselineTextPolicyUsesWindowsWidthAndCase (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001270",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 2
+        },
+        "counters": {
+          "total": "2",
+          "executed": "2",
+          "passed": "2",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "85667050612eb43897197c51471cf9b8435eb77aba45b4adfeb8da3d16a0209e"
+      }
+    }
+  ],
+  "original_queries": 0
+}

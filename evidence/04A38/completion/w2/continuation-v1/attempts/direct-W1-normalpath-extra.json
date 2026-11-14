@@ -1,0 +1,18 @@
+{
+  "exit_code": 1,
+  "tests": 0,
+  "errors": 1,
+  "command": [
+    "<PYTHON>",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    ".test-rationalization-04A38.tmp/w2-before-v2/evidence/04A38/completion/w1",
+    "-p",
+    "test_w1_v2.py",
+    "-v"
+  ],
+  "classification": "Repeated normal-path setup attempt exceeded Windows fixture path length; no test condition reached. Broad longpath replay already retains canonical v2 PASS and invalid old v1 ERROR separately. No expectation changed."
+}

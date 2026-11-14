@@ -1,0 +1,74 @@
+{
+  "status": "ALL_ADVERSE_CONTROLS_REJECTED",
+  "controls": [
+    {
+      "name": "missing actual source",
+      "status": "REJECTED"
+    },
+    {
+      "name": "modified actual source",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsupported closure without whole-body proof",
+      "status": "REJECTED"
+    },
+    {
+      "name": "invented canonical source identity",
+      "status": "REJECTED"
+    },
+    {
+      "name": "late-reference provenance relabel",
+      "status": "REJECTED"
+    },
+    {
+      "name": "frozen typed-input tamper",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe path ../escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe path /absolute",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe path C:/drive",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe path safe/../escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe path safe\\escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "casefold path collision",
+      "status": "REJECTED"
+    },
+    {
+      "name": "excluded giant payload injection",
+      "status": "REJECTED"
+    },
+    {
+      "name": "actual synthetic private-file byte tamper",
+      "status": "REJECTED"
+    }
+  ],
+  "real_historical_mutations": 0,
+  "original_queries": 0,
+  "test_or_scanner_campaigns": 0,
+  "synthetic_private_original": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont17/private-adverse-controls-v2/original.txt",
+    "bytes": 9,
+    "sha256": "9b2bbce6c72dd9bbd9c7a9976d5d76d1fcc2bb9832dec246375bb92006beccc3"
+  },
+  "synthetic_private_modified": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont17/private-adverse-controls-v2/modified.txt",
+    "bytes": 8,
+    "sha256": "d121be3103007b41edf96f8262925f8c7d61894afe9a041843b631f69445bc57"
+  }
+}

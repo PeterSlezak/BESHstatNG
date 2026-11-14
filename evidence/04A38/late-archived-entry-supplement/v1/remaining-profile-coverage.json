@@ -1,0 +1,289 @@
+{
+  "status": "NOT_READY_04A38",
+  "reason": "NEW_ESSENTIAL_GEE_PROFILE_GAP_OUTSIDE_APPROVED432",
+  "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4a1806f9c5baa4a2@99887:2213",
+  "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+  "source_signature": "Private Function AddGeeLsmEstimateAtValue(atProfile As GeeLsmEstimateAtProfile, parameterNames() As String, requestedName As String, value As Double, sourceDescription As String, ByRef errorMessage As String) As Boolean",
+  "counts": {
+    "Debug": {
+      "public_cases": 100,
+      "at_default_nothing": 96,
+      "one_row_at_rejected_before_header_parser": 2,
+      "helper_entry_cases": 2,
+      "wide_X1_at": 2
+    },
+    "Release": {
+      "public_cases": 100,
+      "at_default_nothing": 96,
+      "one_row_at_rejected_before_header_parser": 2,
+      "helper_entry_cases": 2,
+      "wide_X1_at": 2
+    }
+  },
+  "witnesses": [
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "case_id": "BESH.REGR.GEE_LSMESTIMATE.a46decb7165a483633023e9f",
+      "cohort": "real_model_at_profile",
+      "at_descriptor": "at_gee_name_value",
+      "recorded_at": "System.Object[0:1,0:2]{SWDE=|D3FFA4EB734A30CDC}",
+      "outcome": "RETURN_TEXT",
+      "source_member_entered": false,
+      "recorded_result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgbXVzdCBjb250YWluIGEgaGVhZGVyIHJvdyBhbmQgYXQgbGVhc3Qgb25lIGRhdGEgcm93LCBvciBiZSBvbWl0dGVkLg==",
+      "decoded_return_text": "BESH.REGR.GEE_LSMESTIMATE error: at must contain a header row and at least one data row, or be omitted."
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "case_id": "BESH.REGR.GEE_LSMESTIMATE.b096886bae568b3f4bf601dd",
+      "cohort": "real_model_at_profile",
+      "at_descriptor": "at_gee_wide",
+      "recorded_at": "System.Object[0:2,0:1]{SWDE=|D3FFA4EB734A30CDC}",
+      "outcome": "RETURN_ARRAY",
+      "source_member_entered": true,
+      "recorded_result": "System.Object[0:2,0:9]{STGFiZWw=|SRXN0aW1hdGU=|SU3RkLiBFcnJvcg==|SWg==|SUC12YWx1ZQ==|SOTUlIENJIExvd2Vy|SOTUlIENJIFVwcGVy|SU2NhbGU=|SQ292YXJpYW5jZQ==|STA==|DBFDECF427D28350D|D3FD4A4C2C728DCD6|DBFF7E116E6639DE8|SMC4xMzU1ODAzMA==|DBFF1D14CD794808E|D3FC34D5CC803303A|STGluaw==|SUm9idXN0}",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "case_id": "BESH.REGR.GEE_LSMESTIMATE.988ee4326f083ff2c5273434",
+      "cohort": "real_model_at_profile",
+      "at_descriptor": "at_gee_name_value",
+      "recorded_at": "System.Object[0:1,0:2]{SWDE=|D3FFA4EB734A30CDC}",
+      "outcome": "RETURN_TEXT",
+      "source_member_entered": false,
+      "recorded_result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgbXVzdCBjb250YWluIGEgaGVhZGVyIHJvdyBhbmQgYXQgbGVhc3Qgb25lIGRhdGEgcm93LCBvciBiZSBvbWl0dGVkLg==",
+      "decoded_return_text": "BESH.REGR.GEE_LSMESTIMATE error: at must contain a header row and at least one data row, or be omitted."
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "case_id": "BESH.REGR.GEE_LSMESTIMATE.7917ae2790b2bb9f5fa9c022",
+      "cohort": "real_model_at_profile",
+      "at_descriptor": "at_gee_wide",
+      "recorded_at": "System.Object[0:2,0:1]{SWDE=|D3FFA4EB734A30CDC}",
+      "outcome": "RETURN_ARRAY",
+      "source_member_entered": true,
+      "recorded_result": "System.Object[0:2,0:9]{STGFiZWw=|SRXN0aW1hdGU=|SU3RkLiBFcnJvcg==|SWg==|SUC12YWx1ZQ==|SOTUlIENJIExvd2Vy|SOTUlIENJIFVwcGVy|SU2NhbGU=|SQ292YXJpYW5jZQ==|STA==|DBFDECF427D28350D|D3FD4A4C2C728DCD6|DBFF7E116E6639DE8|SMCwxMzU1ODAzMA==|DBFF1D14CD794808E|D3FC34D5CC803303A|STGluaw==|SUm9idXN0}",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "case_id": "BESH.REGR.GEE_LSMESTIMATE.a46decb7165a483633023e9f",
+      "cohort": "real_model_at_profile",
+      "at_descriptor": "at_gee_name_value",
+      "recorded_at": "System.Object[0:1,0:2]{SWDE=|D3FFA4EB734A30CDC}",
+      "outcome": "RETURN_TEXT",
+      "source_member_entered": false,
+      "recorded_result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgbXVzdCBjb250YWluIGEgaGVhZGVyIHJvdyBhbmQgYXQgbGVhc3Qgb25lIGRhdGEgcm93LCBvciBiZSBvbWl0dGVkLg==",
+      "decoded_return_text": "BESH.REGR.GEE_LSMESTIMATE error: at must contain a header row and at least one data row, or be omitted."
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "case_id": "BESH.REGR.GEE_LSMESTIMATE.b096886bae568b3f4bf601dd",
+      "cohort": "real_model_at_profile",
+      "at_descriptor": "at_gee_wide",
+      "recorded_at": "System.Object[0:2,0:1]{SWDE=|D3FFA4EB734A30CDC}",
+      "outcome": "RETURN_ARRAY",
+      "source_member_entered": true,
+      "recorded_result": "System.Object[0:2,0:9]{STGFiZWw=|SRXN0aW1hdGU=|SU3RkLiBFcnJvcg==|SWg==|SUC12YWx1ZQ==|SOTUlIENJIExvd2Vy|SOTUlIENJIFVwcGVy|SU2NhbGU=|SQ292YXJpYW5jZQ==|STA==|DBFDECF427D28350D|D3FD4A4C2C728DCD6|DBFF7E116E6639DE8|SMC4xMzU1ODAzMA==|DBFF1D14CD794808E|D3FC34D5CC803303A|STGluaw==|SUm9idXN0}",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "case_id": "BESH.REGR.GEE_LSMESTIMATE.988ee4326f083ff2c5273434",
+      "cohort": "real_model_at_profile",
+      "at_descriptor": "at_gee_name_value",
+      "recorded_at": "System.Object[0:1,0:2]{SWDE=|D3FFA4EB734A30CDC}",
+      "outcome": "RETURN_TEXT",
+      "source_member_entered": false,
+      "recorded_result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgbXVzdCBjb250YWluIGEgaGVhZGVyIHJvdyBhbmQgYXQgbGVhc3Qgb25lIGRhdGEgcm93LCBvciBiZSBvbWl0dGVkLg==",
+      "decoded_return_text": "BESH.REGR.GEE_LSMESTIMATE error: at must contain a header row and at least one data row, or be omitted."
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "case_id": "BESH.REGR.GEE_LSMESTIMATE.7917ae2790b2bb9f5fa9c022",
+      "cohort": "real_model_at_profile",
+      "at_descriptor": "at_gee_wide",
+      "recorded_at": "System.Object[0:2,0:1]{SWDE=|D3FFA4EB734A30CDC}",
+      "outcome": "RETURN_ARRAY",
+      "source_member_entered": true,
+      "recorded_result": "System.Object[0:2,0:9]{STGFiZWw=|SRXN0aW1hdGU=|SU3RkLiBFcnJvcg==|SWg==|SUC12YWx1ZQ==|SOTUlIENJIExvd2Vy|SOTUlIENJIFVwcGVy|SU2NhbGU=|SQ292YXJpYW5jZQ==|STA==|DBFDECF427D28350D|D3FD4A4C2C728DCD6|DBFF7E116E6639DE8|SMCwxMzU1ODAzMA==|DBFF1D14CD794808E|D3FC34D5CC803303A|STGluaw==|SUm9idXN0}",
+      "decoded_return_text": null
+    }
+  ],
+  "inputs": [
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+      "bytes": 11751614,
+      "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/capture-v10/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 18048262,
+      "sha256": "bd40803eb02dcbbd5fdd1446cfea0d12587f31afd56ea5ead420c216e2e8563c"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/original-Debug.tsv",
+      "bytes": 17065755,
+      "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+      "bytes": 3168046,
+      "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 5649627,
+      "sha256": "676f6c553f6b16e2cff324a734a887dd15f3ba4b513b86b47a0d428fb39bf359"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-original-v1.tsv",
+      "bytes": 6942877,
+      "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+      "bytes": 191201,
+      "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 81062,
+      "sha256": "a30ccab8b951c98e9a16b740c43f484ece7be83156569778c5ce8bdfda47c8e3"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-original-v1.tsv",
+      "bytes": 76370,
+      "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+      "bytes": 751343,
+      "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 2653004,
+      "sha256": "1fadd5d8635307eaa20dc46448bbbb270db388a385586d806f25cf3ef071d69c"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-original-v1.tsv",
+      "bytes": 6357582,
+      "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+      "bytes": 286237,
+      "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 128706,
+      "sha256": "88d255ba86b752377d2fdab64fef6ef6bc44862f8b89da1ccc31af8583b95e82"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-original-v1.tsv",
+      "bytes": 174484,
+      "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+      "bytes": 11751614,
+      "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/capture-v10/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 18048262,
+      "sha256": "bd40803eb02dcbbd5fdd1446cfea0d12587f31afd56ea5ead420c216e2e8563c"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/original-Release.tsv",
+      "bytes": 17067771,
+      "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+      "bytes": 3168046,
+      "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 5649627,
+      "sha256": "676f6c553f6b16e2cff324a734a887dd15f3ba4b513b86b47a0d428fb39bf359"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-original-v1.tsv",
+      "bytes": 6942877,
+      "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+      "bytes": 191201,
+      "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 81062,
+      "sha256": "a30ccab8b951c98e9a16b740c43f484ece7be83156569778c5ce8bdfda47c8e3"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-original-v1.tsv",
+      "bytes": 76370,
+      "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+      "bytes": 751343,
+      "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 2653004,
+      "sha256": "1fadd5d8635307eaa20dc46448bbbb270db388a385586d806f25cf3ef071d69c"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-original-v1.tsv",
+      "bytes": 6357582,
+      "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+      "bytes": 286237,
+      "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 128706,
+      "sha256": "88d255ba86b752377d2fdab64fef6ef6bc44862f8b89da1ccc31af8583b95e82"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-original-v1.tsv",
+      "bytes": 174484,
+      "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+    }
+  ],
+  "earliest_missing": "BESH.REGR.GEE_LSMESTIMATE with valid fitted handle/spec and at={{\"Name\",\"Value\"},{\"time\",1.0}} in Invariant; then sk-SK",
+  "absent_branches": [
+    "Valid name/value AT parser",
+    "AddGeeLsmEstimateAtValue time/visit setting",
+    "Duplicate time/visit rejection",
+    "Duplicate fitted-design-column rejection"
+  ],
+  "actual_frozen_name_value_attempt": "at_gee_name_value is one row/two columns and returns at-header minimum-row error before AddGee; its label/intended phase is not positive coverage",
+  "source_reason": "TryGetGeeLsmEstimateAtSpec requires at least2 rows, recognizes Name/Value headers; AddGee time/visit and duplicate branches are required remaining04A38 reusable behavior",
+  "late432_gap_fixed": true,
+  "late432_additional_profile_cases": 0,
+  "additional_reference_execution": "NOT_AUTHORIZED; NONE_PERFORMED",
+  "next_action": "Separate owner decision for bounded GEE-profile reference coverage, or remain NOT_READY. Do not silently expand432, relabel branches HOST_ONLY/deferred, or treat new tests as genuine pre-edit reference.",
+  "no_production_changes": true,
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

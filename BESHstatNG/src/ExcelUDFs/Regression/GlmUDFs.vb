@@ -420,37 +420,7 @@ Namespace WorksheetFunctions
 
                 Dim names() As String = BuildParameterNames(h, beta.Length)
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)
-                Dim out(outRows - 1, 7) As Object
-                Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)
-                Dim ciLabel As String = (100.0R * (1.0R - alphaValue)).ToString("0.##", CultureInfo.InvariantCulture) & "%"
-                Dim r0 As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Parameter"
-                    out(0, 1) = "Type"
-                    out(0, 2) = "Coef"
-                    out(0, 3) = "SE"
-                    out(0, 4) = "Z"
-                    out(0, 5) = "P-value"
-                    out(0, 6) = ciLabel & " CI Lower"
-                    out(0, 7) = ciLabel & " CI Upper"
-                    r0 = 1
-                End If
-
-                For i As Integer = 0 To beta.Length - 1
-                    Dim z As Double = If(se(i) > 0.0R, beta(i) / se(i), Double.NaN)
-                    Dim pv As Double = If(se(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)
-
-                    out(r0 + i, 0) = names(i)
-                    out(r0 + i, 1) = If(h.InterceptIncluded AndAlso i = 0, "Intercept", "Slope")
-                    out(r0 + i, 2) = beta(i)
-                    out(r0 + i, 3) = se(i)
-                    out(r0 + i, 4) = z
-                    out(r0 + i, 5) = pv
-                    out(r0 + i, 6) = beta(i) - zCrit * se(i)
-                    out(r0 + i, 7) = beta(i) + zCrit * se(i)
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildGlmCoefficientTable(beta, se, names, hdr, alphaValue, h.InterceptIncluded)
 
                 Return PreparePValueTableForUdf(out, 6)
 
@@ -509,25 +479,8 @@ Namespace WorksheetFunctions
                 If Not String.IsNullOrWhiteSpace(h.Model.strError) Then extraRows += 1
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, labels.Length + extraRows + 1, labels.Length + extraRows)
-                Dim out(outRows - 1, 3) As Object
                 Dim r As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Item"
-                    out(0, 1) = "Value"
-                    out(0, 2) = "df"
-                    out(0, 3) = "P-value"
-                    r = 1
-                End If
-
-                For i As Integer = 0 To labels.Length - 1
-                    out(r, 0) = labels(i)
-                    out(r, 1) = vals(i, 0)
-                    out(r, 2) = vals(i, 1)
-                    out(r, 3) = vals(i, 2)
-                    r += 1
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildRegressionTestsPrefix(labels, vals, hdr, extraRows, r)
 
                 If TypeOf h.Model.pFamily Is regression.Binomial Then
                     out(r, 0) = "Cases where Y>0"
@@ -739,15 +692,8 @@ Namespace WorksheetFunctions
                 If beta Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, nRows + 1, nRows)
-                Dim out(outRows - 1, 1) As Object
                 Dim r0 As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "PredictedResponse"
-                    out(0, 1) = "LinearPredictor"
-                    r0 = 1
-                End If
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateGeePredictionTable(nRows, hdr, r0)
 
                 For i As Integer = 0 To nRows - 1
                     Dim eta As Double = ComputeLinearPredictor(expandedX, i, beta, h.InterceptIncluded, offsetVals)
@@ -1100,27 +1046,7 @@ Namespace WorksheetFunctions
         ''' The unweighted or weighted mean of <paramref name="y"/>. Returns <see cref="Double.NaN"/> when no valid denominator is available.
         ''' </returns>
         Friend Function ComputeBinaryEventRate(y() As Double, Optional weights() As Double = Nothing) As Double
-            If y Is Nothing OrElse y.Length = 0 Then Return Double.NaN
-
-            If weights Is Nothing OrElse weights.Length <> y.Length Then
-                Dim sumY As Double = 0.0
-                For i As Integer = 0 To y.Length - 1
-                    sumY += y(i)
-                Next
-                Return sumY / y.Length
-            End If
-
-            Dim sumW As Double = 0.0
-            Dim sumWY As Double = 0.0
-            For i As Integer = 0 To y.Length - 1
-                Dim wi As Double = weights(i)
-                If wi <= 0.0 Then Continue For
-                sumW += wi
-                sumWY += wi * y(i)
-            Next
-
-            If sumW <= 0.0 Then Return Double.NaN
-            Return sumWY / sumW
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeBinaryEventRate(y, weights)
         End Function
 
         Private Function BuildParameterNames(h As GlmHandle, coefficientCount As Integer) As String()
@@ -1132,46 +1058,12 @@ Namespace WorksheetFunctions
                 nextIndex = 1
             End If
 
-            Dim predictorNames() As String = If(h.VarNames, New String() {})
-            For i As Integer = 0 To predictorNames.Length - 1
-                If nextIndex + i <= UBound(out) Then
-                    out(nextIndex + i) = predictorNames(i)
-                End If
-            Next
+            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.CompleteRegressionParameterNames(out, nextIndex, h.VarNames)
 
-            For i As Integer = 0 To UBound(out)
-                If String.IsNullOrWhiteSpace(out(i)) Then
-                    out(i) = "Param" & (i + 1).ToString(CultureInfo.InvariantCulture)
-                End If
-            Next
-
-            Return out
         End Function
 
         Friend Function ParseGlmResidualType(v As Object) As String
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return "all"
-
-            Select Case NormalizeKey(s)
-                Case "all"
-                    Return "all"
-                Case "raw", "response"
-                    Return "raw"
-                Case "deviance", "dev"
-                    Return "deviance"
-                Case "pearson"
-                    Return "pearson"
-                Case "stdpearson", "standardizedpearson"
-                    Return "stdpearson"
-                Case "stddeviance", "standardizeddeviance"
-                    Return "stddeviance"
-                Case "leverage", "hat"
-                    Return "leverage"
-                Case "cook", "cooksdistance", "cookdistance"
-                    Return "cook"
-                Case Else
-                    Return "all"
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.GLMUDFsOptions38.ParseGlmResidualType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         Friend Function BuildAllResidualOutput(model As GLM, includeHeader As Boolean) As Object
@@ -1182,33 +1074,8 @@ Namespace WorksheetFunctions
                 Return ExcelError.ExcelErrorNA
             End If
 
-            Dim n As Integer = model.pRaw_res.Length
-            Dim outRows As Integer = If(includeHeader, n + 1, n)
-            Dim out(outRows - 1, 6) As Object
-            Dim r0 As Integer = 0
+            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildAllGlmResidualTable(model.pRaw_res, model.pDeviance_res, model.pPearsChisq_res, model.pLeverage, model.pStDeviance_res, model.pStPearsChisq_res, model.pCookDistance, includeHeader)
 
-            If includeHeader Then
-                out(0, 0) = "RawResidual"
-                out(0, 1) = "DevianceResidual"
-                out(0, 2) = "PearsonResidual"
-                out(0, 3) = "Leverage"
-                out(0, 4) = "StdDevianceResidual"
-                out(0, 5) = "StdPearsonResidual"
-                out(0, 6) = "CookDistance"
-                r0 = 1
-            End If
-
-            For i As Integer = 0 To n - 1
-                out(r0 + i, 0) = model.pRaw_res(i)
-                out(r0 + i, 1) = model.pDeviance_res(i)
-                out(r0 + i, 2) = model.pPearsChisq_res(i)
-                out(r0 + i, 3) = model.pLeverage(i)
-                out(r0 + i, 4) = model.pStDeviance_res(i)
-                out(r0 + i, 5) = model.pStPearsChisq_res(i)
-                out(r0 + i, 6) = model.pCookDistance(i)
-            Next
-
-            Return out
         End Function
 
     End Module

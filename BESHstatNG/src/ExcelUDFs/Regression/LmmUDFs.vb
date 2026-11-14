@@ -65,7 +65,7 @@ Namespace WorksheetFunctions
             Public Property DroppedRows As Integer
             Public ReadOnly Property N As Integer
                 Get
-                    Return If(Y Is Nothing, 0, Y.Length)
+                    Return Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.ObservationCount(Y)
                 End Get
             End Property
         End Class
@@ -691,19 +691,7 @@ Namespace WorksheetFunctions
                 If fitted.Length <= 0 Then Return ExcelError.ExcelErrorNA
 
                 Dim hdr As Boolean = ExcelArgNumeric.GetOptionalBool(includeHeader, True)
-                Dim out(fitted.Length - 1 + If(hdr, 1, 0), 1) As Object
-                Dim r As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Row"
-                    out(0, 1) = "Fitted"
-                    r = 1
-                End If
-
-                For i As Integer = 0 To fitted.Length - 1
-                    out(r + i, 0) = i + 1
-                    out(r + i, 1) = fitted(i)
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.BuildFittedTable(fitted, hdr)
 
                 Return out
 
@@ -745,20 +733,7 @@ Namespace WorksheetFunctions
                 If n <= 0 Then Return ExcelError.ExcelErrorNA
 
                 Dim hdr As Boolean = ExcelArgNumeric.GetOptionalBool(includeHeader, True)
-                Dim out(n - 1 + If(hdr, 1, 0), 2) As Object
-                Dim r As Integer = 0
-                If hdr Then
-                    out(0, 0) = "Row"
-                    out(0, 1) = "Fitted"
-                    out(0, 2) = "Residual"
-                    r = 1
-                End If
-
-                For i As Integer = 0 To n - 1
-                    out(r + i, 0) = i + 1
-                    out(r + i, 1) = If(i < fitted.Length, CType(fitted(i), Object), String.Empty)
-                    out(r + i, 2) = If(i < resid.Length, CType(resid(i), Object), String.Empty)
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.BuildResidualTable(fitted, resid, n, hdr)
 
                 Return out
 
@@ -886,100 +861,23 @@ Namespace WorksheetFunctions
             Dim zLetters() As String = Nothing
             If zSupplied Then Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(z, pZ, zLetters)
 
-            Dim yList As New List(Of Double)()
-            Dim xRows As New List(Of Double())()
-            Dim zRows As New List(Of Double())()
-            Dim subjectList As New List(Of Object)()
-            Dim visitList As New List(Of Double)()
-            Dim dropped As Integer = 0
-
-            For i As Integer = 0 To n - 1
-                Dim yi As Double? = ExcelArgNumeric.TryGetDouble(yCol(i, 0))
-                Dim subjectText As String = ExcelArgReaders.CellToTrimmedText(subjectCol(i, 0))
-                Dim valid As Boolean = yi.HasValue AndAlso Not String.IsNullOrWhiteSpace(subjectText)
-
-                Dim xRow(pX - 1) As Double
-                If valid Then
-                    For j As Integer = 0 To pX - 1
-                        Dim xij As Double? = ExcelArgNumeric.TryGetDouble(xRaw(i, j))
-                        If Not xij.HasValue Then
-                            valid = False
-                            Exit For
-                        End If
-                        xRow(j) = xij.Value
-                    Next
-                End If
-
-                Dim zRow() As Double = Nothing
-                If valid AndAlso zSupplied Then
-                    ReDim zRow(pZ - 1)
-                    For j As Integer = 0 To pZ - 1
-                        Dim zij As Double? = ExcelArgNumeric.TryGetDouble(zRaw(i, j))
-                        If Not zij.HasValue Then
-                            valid = False
-                            Exit For
-                        End If
-                        zRow(j) = zij.Value
-                    Next
-                End If
-
-                Dim vi As Double = Double.NaN
-                If valid AndAlso visitSupplied Then
-                    Dim parsedVisit As Double? = ExcelArgNumeric.TryGetDouble(visitCol(i, 0))
-                    If Not parsedVisit.HasValue Then
-                        valid = False
-                    Else
-                        vi = parsedVisit.Value
-                    End If
-                End If
-
-                If valid Then
-                    yList.Add(yi.Value)
-                    xRows.Add(xRow)
-                    If zSupplied Then zRows.Add(zRow)
-                    subjectList.Add(subjectText)
-                    If visitSupplied Then visitList.Add(vi)
-                Else
-                    dropped += 1
-                End If
-            Next
-
-            If yList.Count = 0 Then
-                errorMessage = "no valid complete rows remain after removing rows with missing/invalid y, x, z, subject, or visit values."
-                Return False
-            End If
-
-            Dim xValues(yList.Count - 1, pX - 1) As Double
-            For i As Integer = 0 To yList.Count - 1
-                For j As Integer = 0 To pX - 1
-                    xValues(i, j) = xRows(i)(j)
-                Next
-            Next
-
-            Dim zValues(,) As Double = Nothing
-            If zSupplied Then
-                ReDim zValues(yList.Count - 1, pZ - 1)
-                For i As Integer = 0 To yList.Count - 1
-                    For j As Integer = 0 To pZ - 1
-                        zValues(i, j) = zRows(i)(j)
-                    Next
-                Next
-            End If
-
-            Dim finalVisit() As Double = Nothing
-            If visitSupplied Then finalVisit = visitList.ToArray()
+            Dim prepared As Global.BESHStatNG.ExcelCommon.UdfLmmPreparedRows38 = Nothing
+            If Not Global.BESHStatNG.ExcelCommon.UdfLmmInputPreparation38.TryPrepareRows(
+                yCol, xRaw, zRaw, subjectCol, visitCol, zSupplied, visitSupplied, n, pX, pZ,
+                AddressOf ExcelArgNumeric.TryGetDouble, AddressOf ExcelArgReaders.CellToTrimmedText,
+                prepared, errorMessage) Then Return False
 
             imported = New LmmImportedInputs With {
-                .Y = yList.ToArray(),
-                .X = xValues,
-                .Z = zValues,
-                .Subject = subjectList.ToArray(),
-                .Visit = finalVisit,
+                .Y = prepared.Y,
+                .X = prepared.X,
+                .Z = prepared.Z,
+                .Subject = prepared.Subject,
+                .Visit = prepared.Visit,
                 .InferredXNames = inferredXNames,
                 .InferredZNames = If(zSupplied, inferredZNames, New String() {}),
                 .InferredXAbsoluteLetters = xLetters,
                 .InferredZAbsoluteLetters = zLetters,
-                .DroppedRows = dropped
+                .DroppedRows = prepared.DroppedRows
             }
             Return True
         End Function
@@ -996,51 +894,8 @@ Namespace WorksheetFunctions
                                                    ByRef design(,) As Double,
                                                    ByRef designNames() As String,
                                                    ByRef errorMessage As String) As Boolean
-            design = Nothing
-            designNames = New String() {}
-            errorMessage = Nothing
+            Return Global.BESHStatNG.ExcelCommon.UdfLmmInputPreparation38.TryBuildExpandedDesign(raw, rawNames, formulaText, absoluteColumnLetters, allowRelativeColumnLetters, allowAbsoluteColumnLetters, allowQuotedVariableNames, role, fallbackPrefix, design, designNames, errorMessage)
 
-            If raw Is Nothing OrElse raw.GetLength(0) <= 0 OrElse raw.GetLength(1) <= 0 Then
-                errorMessage = role & " requires a non-empty predictor matrix."
-                Return False
-            End If
-
-            Dim p As Integer = raw.GetLength(1)
-            Dim prefix As String = If(String.IsNullOrWhiteSpace(fallbackPrefix), "X", fallbackPrefix.Trim())
-            Dim names() As String = NormalizeNameList(rawNames, p, prefix)
-
-            If String.IsNullOrWhiteSpace(formulaText) Then
-                design = raw
-                designNames = names
-                Return True
-            End If
-
-            Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing
-            Dim designErr As String = Nothing
-
-            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=raw,
-                                                                                            result:=designBuild,
-                                                                                            errorMessage:=designErr,
-                                                                                            predictorNames:=names,
-                                                                                            formulaText:=formulaText,
-                                                                                            absoluteColumnLetters:=absoluteColumnLetters,
-                                                                                            allowRelativeColumnLetters:=allowRelativeColumnLetters,
-                                                                                            allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,
-                                                                                            allowQuotedVariableNames:=allowQuotedVariableNames,
-                                                                                            omitCategoricalReference:=True) Then
-                errorMessage = role & " could not be parsed or expanded: " & If(designErr, String.Empty)
-                Return False
-            End If
-
-            If designBuild Is Nothing OrElse designBuild.ExpandedPredictorMatrix Is Nothing OrElse designBuild.ExpandedPredictorMatrix.GetLength(1) <= 0 Then
-                errorMessage = role & " expansion did not produce any design columns."
-                Return False
-            End If
-
-            design = designBuild.ExpandedPredictorMatrix
-            designNames = If(designBuild.ExpandedPredictorNames, New String() {})
-            If designNames.Length <> design.GetLength(1) Then designNames = regression.MixedModelFrontEndHelpers.DefaultNames(design.GetLength(1), prefix)
-            Return True
         End Function
 
         Private Function ResolveImportedNames(varNames As Object,
@@ -1060,43 +915,23 @@ Namespace WorksheetFunctions
         End Function
 
         Private Function NormalizeNameList(inputNames() As String, expectedCount As Integer, fallbackPrefix As String) As String()
-            If expectedCount <= 0 Then Return New String() {}
-            Dim out(expectedCount - 1) As String
-            For i As Integer = 0 To expectedCount - 1
-                Dim nm As String = Nothing
-                If inputNames IsNot Nothing AndAlso i < inputNames.Length Then nm = inputNames(i)
-                nm = If(nm, String.Empty).Trim()
-                If nm = String.Empty OrElse String.Equals(nm, "X" & (i + 1).ToString(CultureInfo.InvariantCulture), StringComparison.OrdinalIgnoreCase) Then
-                    nm = fallbackPrefix & (i + 1).ToString(CultureInfo.InvariantCulture)
-                End If
-                out(i) = nm
-            Next
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.LmmUDFsMetadata38.NormalizeNameList(inputNames, expectedCount, fallbackPrefix)
         End Function
 
         Private Function MatrixColumnCount(mat(,) As Double) As Integer
-            If mat Is Nothing Then Return 0
-            Return mat.GetLength(1)
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.MatrixColumnCount(mat)
         End Function
 
         Private Function DefaultRandomCovarianceName(includeRandomIntercept As Boolean,
                                                      authoredRandomColumnCount As Integer,
                                                      totalRandomColumnCount As Integer) As String
-            If includeRandomIntercept AndAlso authoredRandomColumnCount = 0 AndAlso totalRandomColumnCount = 1 Then
-                Return "Random Intercept"
-            End If
-
-            Return "Variance Components (VC/Diag)"
+            Return Global.BESHStatNG.ExcelCommon.LmmUDFsMetadata38.DefaultRandomCovarianceName(includeRandomIntercept, authoredRandomColumnCount, totalRandomColumnCount)
         End Function
 
         Private Sub EnsureLmmResultUsesHandleNames(h As LmmHandle)
             If h Is Nothing OrElse h.Result Is Nothing Then Exit Sub
-            If h.FixedEffectNames IsNot Nothing AndAlso h.FixedEffectNames.Length > 0 Then
-                h.Result.FixedEffectNames = CType(h.FixedEffectNames.Clone(), String())
-            End If
-            If h.RandomEffectNames IsNot Nothing AndAlso h.RandomEffectNames.Length > 0 Then
-                h.Result.RandomCovarianceLabels = CType(h.RandomEffectNames.Clone(), String())
-            End If
+            Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.ApplyHandleNames(h.Result, h.FixedEffectNames, h.RandomEffectNames)
+
         End Sub
 
     End Module

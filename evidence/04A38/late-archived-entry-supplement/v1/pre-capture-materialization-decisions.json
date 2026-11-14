@@ -1,0 +1,21 @@
+{
+  "status": "BEFORE_FIRST_SUPPLEMENTAL_REFERENCE_CAPTURE",
+  "proposal": {
+    "path": "evidence/04A38/continuation/v1/proposed-missing-case-matrix.json",
+    "bytes": 232994,
+    "sha256": "78aed977f3ae6929f6920a12aa830c43dcea822b7c5d6f488f96df633d10f626"
+  },
+  "case_ids_changed": 0,
+  "case_count_changed": false,
+  "decisions": [
+    "Resolve hyphenated weight profile IDs to the already proposed underscore-keyed vectors; values unchanged.",
+    "Missing calibration weights are explicit ExcelMissing.Value, not a numeric substitute; all array cells/types/bounds are serialized.",
+    "Grouped/nested parametric rows are fully materialized with four observations and the approved header/row-state axes. No case family expanded.",
+    "Blank headers use Nothing/empty strings; nonfinite grouped state includes unread ExcelEmpty/error cells on the blank-label row, preserving the source early skip.",
+    "Nested mixed-case labels include numeric subgroup1.25 to exercise the existing current-culture label conversion; no worksheet row is inferred.",
+    "Grouped preparation is recorded on the public BOX_M path and corroborated privately. Four rows/two columns do not establish a successful covariance/report; later guards never count as failed import or successful statistical output."
+  ],
+  "raw_proposal_preserved": true,
+  "reference_execution_yet": false,
+  "current_execution_yet": false
+}

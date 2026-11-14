@@ -1,0 +1,40 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Microsoft.VisualBasic.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont4\\runtime-metadata\\RuntimeMetadata.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\RuntimeMetadata.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.29879000000073574,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont4\\runtime-metadata\\RuntimeMetadata.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\metadata-v6\\MethodMetadata38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\framework-runtime-metadata.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.17273890000069514,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "result": {
+    "path": "evidence/04A38/completion/w2/continuation-v4/framework-runtime-metadata.json",
+    "bytes": 18931,
+    "sha256": "1574233f1253a7fa2ecbe97c1c06c19e76ec830ba7e585e5ae444e37ccff33cc"
+  },
+  "scope": "Current Framework metadata only; no statistical/helper method invoked"
+}

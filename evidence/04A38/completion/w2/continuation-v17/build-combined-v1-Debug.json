@@ -1,0 +1,107 @@
+{
+  "stage": "combined-v1",
+  "configuration": "Debug",
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Core\\BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont17\\combined-v1\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont17\\combined-v1\\Debug\\obj\\core\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.6194536999973934,
+      "stdout_sha256": "588a01acd96de5eefa744dabf0920ea295f31483c144f2ff47cce441b6ff08ac",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Excel.Common\\BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont17\\combined-v1\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont17\\combined-v1\\Debug\\obj\\common\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.612799399998039,
+      "stdout_sha256": "72a83aae33c19d6c0452c98f4a187998b05295b54d6cfc4772a59350134cb0d8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "<REPO_ROOT>\\BESHstatNG\\BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont17\\combined-v1\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont17\\combined-v1\\Debug\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.361613600005512,
+      "stdout_sha256": "69a438a6dbfbdcfdb898ee2cde1513ab90a5eb954dc450399c8c6701a9a90617",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "all_exit_zero": true,
+  "assemblies": [
+    {
+      "name": "BESHStat.Core.dll",
+      "bytes": 2088448,
+      "sha256": "1eac959b14b9f5b8c09e44a2947f4b3795e40592d65450e32d77163f84945189"
+    },
+    {
+      "name": "BESHStat.Excel.Common.dll",
+      "bytes": 1205760,
+      "sha256": "489d100a0d808f6c50a5b50c236fbd0f78809b6132497b08d02627e53741df99"
+    },
+    {
+      "name": "BESHStatNG.dll",
+      "bytes": 2626560,
+      "sha256": "a20ecc2d4b9d0bdb80df27dd593ff32bcf82e7911825278d5e816b58dfadeaf2"
+    },
+    {
+      "name": "ExcelDna.Integration.dll",
+      "bytes": 308224,
+      "sha256": "c92fcabda2f18eb68d0d1e91cfa4bf05ea079eb66eecb9762884ab576a84f41f"
+    }
+  ],
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/production-test-freeze-v1.json",
+    "bytes": 97052,
+    "sha256": "70e905b211f320ac60dceff9df95062a6e6bcdb8bc4521ddc62d1fd70262bcf1"
+  },
+  "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_unit_suites": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_ABI_CIL_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "restore": "NOT_RUN",
+  "packaging": "NOT_RUN",
+  "original_queries": 0
+}

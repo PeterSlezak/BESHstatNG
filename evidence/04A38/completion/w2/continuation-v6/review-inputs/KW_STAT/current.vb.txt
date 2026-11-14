@@ -1,0 +1,36 @@
+         Dim err? As ExcelError = Nothing
+            Dim data = Global.BESHStatNG.UdfDataImport.GetNumericGroupsFromColumnsIgnoringNonNumeric(groups, err)
+            If err.HasValue Then Return err.Value
+            If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+
+            Dim names(data.Length - 1) As String
+            For i As Integer = 0 To data.Length - 1
+                names(i) = "G" & (i + 1).ToString()
+            Next
+
+            Dim which As Integer = ParseKwType(statType, defaultTieCorrected:=True, err:=err)
+            If err.HasValue Then Return err.Value
+
+            Dim test = New KruskallWalis(data, names)
+            Dim res = test.compute()
+
+            If which = 0 Then
+                Return res.TestStatistics1   ' H
+            Else
+                Return res.TestStatistics2   ' Hcor
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Kruskal-Wallis p-value for comparing 2 or more independent groups.
+        ''' </summary>
+        ''' <param name="groups">
+        ''' Input data arranged as one column per group (a multi-column Excel range).
+        ''' Each column represents an independent group of observations.
+        ''' Non-numeric cells (empty, text, logical, error) are ignored within each column.
+        ''' </param>
+        ''' <param name="pType">
+        ''' Select which p-value to return:
+        ''' <list type="bullet">
+        ''' <item><description><c>"H"</c> - p-value based on the uncorrected H statistic</description></item>
+        ''' <item><description><c>"Hcor"</c

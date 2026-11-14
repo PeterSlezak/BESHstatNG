@@ -1,0 +1,214 @@
+{
+  "results": [
+    {
+      "kind": "BUILD",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<REPO_ROOT>\\BESHStatNG.Test\\BESHStatNG.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont14\\packet-v1-focus-legacy-v2\\Debug\\tests-Legacy\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont14\\packet-v1-focus-legacy-v2\\Debug\\obj\\tests-Legacy\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.1153111000021454,
+        "stdout_sha256": "a486fa3736838e1303ed1746cd643dcdeb535f58d0a877bf5be741d46b7abddd",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont14\\packet-v1-focus-legacy-v2\\Debug\\tests-Legacy\\BESHStatNG.Test.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~Continuation14",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont14\\packet-v1-focus-legacy-v2\\Debug\\results-Legacy",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 4.660774500000116,
+        "stdout_sha256": "dacafa870632f9590c52096b738650aac6db9f526195f7272f636ab2a8400d99",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14NativeStatusConversionAndLowerBoundsKeepAlias",
+            "test_name": "Continuation14NativeStatusConversionAndLowerBoundsKeepAlias",
+            "outcome": "Passed",
+            "duration": "00:00:00.0032240",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+            "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.UdfDataImport,TryGetPsmData,BESHStatNG.ExcelCommon.UdfPsmDataPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001480",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14PsmHandleAlphaCacheReferenceAndSpecificCleanup",
+            "test_name": "Continuation14PsmHandleAlphaCacheReferenceAndSpecificCleanup",
+            "outcome": "Passed",
+            "duration": "00:00:00.0024462",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14PsmNativeOptionsKeepCoercionAndDiagnosticPrecedence",
+            "test_name": "Continuation14PsmNativeOptionsKeepCoercionAndDiagnosticPrecedence ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0141406",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14PsmNativeOptionsKeepCoercionAndDiagnosticPrecedence",
+            "test_name": "Continuation14PsmNativeOptionsKeepCoercionAndDiagnosticPrecedence (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005140",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14ActualNativeAliasIsRetainedOnFalse",
+            "test_name": "Continuation14ActualNativeAliasIsRetainedOnFalse (sk-SK,False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003497",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14ActualNativeAliasIsRetainedOnFalse",
+            "test_name": "Continuation14ActualNativeAliasIsRetainedOnFalse (,False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0917846",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14NativeFailureKeepsConversionEffectsAndExactException",
+            "test_name": "Continuation14NativeFailureKeepsConversionEffectsAndExactException",
+            "outcome": "Passed",
+            "duration": "00:00:00.0014897",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14NativeBinaryAndExplicitErrorsKeepPolicy",
+            "test_name": "Continuation14NativeBinaryAndExplicitErrorsKeepPolicy ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004613",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+            "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.UdfDataImport,GuessPositiveClass,BESHStatNG.ExcelCommon.UdfClassLabelPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0023978",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14ActualNativeAliasIsRetainedOnFalse",
+            "test_name": "Continuation14ActualNativeAliasIsRetainedOnFalse (,True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000815",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14ActualNativeAliasIsRetainedOnFalse",
+            "test_name": "Continuation14ActualNativeAliasIsRetainedOnFalse (sk-SK,True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000749",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+            "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.WorksheetFunctions.PropensityScoreUDFs,BuildFitOptions,BESHStatNG.ExcelCommon.UdfPsmDataPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000119",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14NativeBinaryAndExplicitErrorsKeepPolicy",
+            "test_name": "Continuation14NativeBinaryAndExplicitErrorsKeepPolicy (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000821",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14PsmUnknownTableDoesNotReadMissingHandleState",
+            "test_name": "Continuation14PsmUnknownTableDoesNotReadMissingHandleState",
+            "outcome": "Passed",
+            "duration": "00:00:00.0032360",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+            "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.WorksheetFunctions.PropensityScoreUDFs,ResolveNamedTable,BESHStatNG.ExcelCommon.UdfPsmDataPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000131",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+            "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.WorksheetFunctions.PropensityScoreUDFs,DataImportSummaryTable,BESHStatNG.ExcelCommon.UdfPsmDataPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001229",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 17
+        },
+        "counters": {
+          "total": "17",
+          "executed": "17",
+          "passed": "17",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "ad42bf6e0a0b5b730bec72ecfe569ede63a823ec02187d7c038076805a2c4aae"
+      }
+    }
+  ],
+  "original_queries": 0
+}

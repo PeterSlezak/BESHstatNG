@@ -1,0 +1,62 @@
+"""Independent stdlib fixed-authority/type/source reader; no producer imports."""
+import hashlib,json,re
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[4]
+PREFIX='evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/'
+BASE='ba1636f5356ac761509c2cfa16fc66b92430935d'
+INPUT_SEAL='01cc313340fec74a06951d8456cfaea06562c46ba3b3f7fd3b490e160ad8dec'
+FACTORY='7f0bf7491d95b6214420b6ee502694b11f6d69d0964dd33089a39fad9c4b4ded'
+class InvalidEvidence(ValueError):pass
+def need(value,message):
+ if not value:raise InvalidEvidence(message)
+def digest(data):return hashlib.sha256(data).hexdigest()
+def load(path):
+ def unique(pairs):
+  result={}
+  for k,v in pairs:need(k not in result,'Duplicate JSON key');result[k]=v
+  return result
+ return json.loads(path.read_bytes(),object_pairs_hook=unique)
+def check_pin(root,row):
+ p=(root/row['path']).resolve();need(p.is_relative_to(root.resolve()),'Escaping source/input path')
+ data=p.read_bytes();need(len(data)==row['bytes'] and digest(data)==row['sha256'],'Changed frozen field/source: '+row['path'])
+def inspect(root=ROOT):
+ root=Path(root);here=root/PREFIX
+ raw=(here/'input-seal.json').read_bytes();need(digest(raw)==INPUT_SEAL,'Changed input seal')
+ seal=load(here/'input-seal.json')
+ need(seal['status']=='INPUT_SEALED' and seal['sequence']==1 and seal['source_commit']==BASE and seal['reference_class']=='LATE_ARCHIVED_ENTRY_SUPPLEMENT','Wrong input/source/late class')
+ need(seal['original_executions']==seal['current_executions']==0 and seal['not_preedit_frozen'] is True,'False initial chronology')
+ for row in seal['files']:check_pin(root,row)
+ approval=load(here/'owner-authorization.json')
+ need(approval['owner_quote']=='I approve the proposed two-case authorization.' and approval['owner_decision_date']=='2026-11-09','Separate MMRM approval missing')
+ need(approval['cases_per_configuration']==2 and approval['cultures']==['Invariant','sk-SK'] and approval['public_entry']=='BESH.REGR.MMRM_LSMESTIMATE','Unapproved scope')
+ need(digest((here/'factory-inputs.json').read_bytes())==FACTORY,'Original fitted-model input factory changed')
+ factory=load(here/'factory-inputs.json')
+ spec=factory['spec'];need(spec['kind']=='Array' and spec['element_type']=='System.Object' and spec['rank']==2 and spec['lengths']==[2,4] and spec['lower_bounds']==[0,0],'Wrong archived spec')
+ expected_spec=[{'kind':'String','value':v} for v in ['Label','Weight','visit','treatment_active','L']]+[{'kind':'Double','bits':'3FF0000000000000'}]*3
+ need(spec['values']==expected_spec,'Changed original spec cells')
+ expected=[{'kind':'String','value':v} for v in ['Name','Value','treatment_active']]+[{'kind':'Double','bits':'3FF0000000000000'},{'kind':'String','value':'visit'},{'kind':'Double','bits':'3FF0000000000000'}]
+ for config in ['Debug','Release']:
+  cases=[json.loads(line) for line in (here/('inputs-'+config+'.jsonl')).read_bytes().splitlines()]
+  need([c['case_id'] for c in cases]==['AUTHORIZED-MMRM-HEADERED/'+culture+'/treatment-visit' for culture in ['Invariant','sk-SK']],'Extra/missing/reordered case')
+  for i,c in enumerate(cases):
+   need(c['culture']==c['ui_culture']==('' if i==0 else 'sk-SK') and c['configuration']==config,'Wrong culture/configuration')
+   need(c['reference_class']=='LATE_ARCHIVED_ENTRY_SUPPLEMENT' and len(c['operations'])==2,'Wrong capture class/operation count')
+   fit,query=c['operations'];need(fit==dict(role='PUBLIC_EXPORT',target='BESH.REGR.MMRM_FIT',arguments=factory['fit_arguments']),'Lost/changed real fitted model factory')
+   need(query['target']=='BESH.REGR.MMRM_LSMESTIMATE' and [a['name'] for a in query['arguments']]==['handle','spec','alpha','at'],'Wrong public path/argument position')
+   args=[a['value'] for a in query['arguments']]
+   need(args[:3]==[dict(kind='HandleReference',session='fresh-case'),spec,dict(kind='Nothing')],'Fake handle/changed spec or alpha')
+   a=args[3];need(a['kind']=='Array' and a['element_type']=='System.Object' and a['rank']==2 and a['lengths']==[3,2] and a['lower_bounds']==[0,0] and a['upper_bounds']==[2,1],'Not genuine zero-based rank2 Object3x2')
+   need(a['values']==expected,'Header/cell runtime type/IEEE bits changed')
+   need(c['session']['expected_parameter_names']==['Intercept','treatment_active','visit2','visit3','treatment_active:visit2','treatment_active:visit3'],'Lost fitted-design provenance')
+ entry=load(here/'entry-inspection.json');need(len(entry['original_tree_files'])==4695 and len(entry['udf_snapshots'])==41 and entry['source_commit']==BASE,'Lost original authentication')
+ for row in entry['udf_snapshots']:check_pin(root,row['snapshot'])
+ source=next(r for r in entry['udf_snapshots'] if r['path'].endswith('/UdfDataImportMixedModel.vb'))
+ need(source['snapshot']['bytes']==38595 and source['snapshot']['sha256']=='5297574cab59e631cf880807903a206f76dfb1509818a1825c1ca6798332071a','Wrong original MMRM snapshot')
+ for config in ['Debug','Release']:
+  built=load(here/('build-original-'+config+'.json'));need(built['current_production_assemblies_consumed'] is False and built['source_commit']==BASE,'Source contamination')
+  for mode in ['plain','trace']:
+   compiled=load(here/('compile-original-'+config+'-'+mode+'.json'))
+   for row in compiled['sources']:
+    p=row['path'];need(p.startswith(('<ORIGINAL_TREE>/','<ISOLATED_HARNESS>/','evidence/04A38/preedit/native-safety/')),'Current source in original library')
+ return dict(status='MMRM_TYPED_INPUT_SOURCE_SEAL_PASS',cases_per_configuration=2)
+if __name__=='__main__':print(json.dumps(inspect()))

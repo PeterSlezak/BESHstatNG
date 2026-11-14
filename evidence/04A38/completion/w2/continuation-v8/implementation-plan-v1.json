@@ -1,0 +1,69 @@
+{
+  "source_before": [
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+        "bytes": 67232,
+        "sha256": "14707e09a16f7798919e2ef7c94411f755b9163f0e37689715737fd691149f80"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/source-before/BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb.txt",
+        "bytes": 67232,
+        "sha256": "14707e09a16f7798919e2ef7c94411f755b9163f0e37689715737fd691149f80"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 41085,
+        "sha256": "fc1c6b3f04543eb4a8f049d899ff36ac20a4b4e9cbeb7acc71a008021268b843"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 41085,
+        "sha256": "fc1c6b3f04543eb4a8f049d899ff36ac20a4b4e9cbeb7acc71a008021268b843"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 62277,
+        "sha256": "cce6c5cddc52836ce6f682aaff002a31b6d0691cbf7b9534c951b98c70fde231"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "bytes": 62277,
+        "sha256": "cce6c5cddc52836ce6f682aaff002a31b6d0691cbf7b9534c951b98c70fde231"
+      }
+    }
+  ],
+  "new_sources": [
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb",
+      "entry_state": "ABSENT"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfModelImportPreparation38.vb",
+      "entry_state": "ABSENT"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation8Tests.vb",
+      "entry_state": "ABSENT"
+    }
+  ],
+  "source_paths": [
+    "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+    "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb",
+    "BESHStat.Excel.Common/src/Analysis/UdfModelImportPreparation38.vb",
+    "BESHStat.Excel.Common.Tests/src/UdfContinuation8Tests.vb"
+  ],
+  "queue": {
+    "path": "evidence/04A38/completion/w2/continuation-v7/remaining-work-queue-v1.json",
+    "bytes": 328081,
+    "sha256": "f3b7de25afb1fe0b00c3d76e1cfa33c045dec1b2fa80bf0ecc8d8a17a829f353"
+  },
+  "scope": "A complete eight-entry sample-size orchestration with host-owned conversions/logging and unchanged Core engines/reports; B prepared response/predictor/optional/Cox layout and exact aligned-column copy; no scientific correction",
+  "original_queries": 0
+}

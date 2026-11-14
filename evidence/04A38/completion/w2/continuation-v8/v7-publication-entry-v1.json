@@ -1,0 +1,57 @@
+{
+  "status": "LIVE_ALL5914_PAYLOAD_HASH_AND5915_ZIP_SHA_CRC_PASS",
+  "null_self_entries": 1,
+  "archive": {
+    "name": "BESHstatNG_04A38_W2_continuation_v7_review.zip",
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont7/publication-v1/BESHstatNG_04A38_W2_continuation_v7_review.zip",
+    "bytes": 436632124,
+    "sha256": "461d97fa355a0aba6a2593622e460d7328479624ed526934c47af55cedb1d48c",
+    "deterministic_reproduction": {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont7/publication-v1/determinism-reproduction-v1.zip",
+      "bytes": 436632124,
+      "sha256": "461d97fa355a0aba6a2593622e460d7328479624ed526934c47af55cedb1d48c",
+      "byte_exact": true
+    },
+    "policy": "Sorted paths, fixed1980timestamps/mode, DEFLATE6, actual complete second serialization exact"
+  },
+  "publication": {
+    "path": "evidence/04A38/completion/w2/continuation-v7-publication-receipt-v1.json",
+    "bytes": 2807466,
+    "sha256": "19d0e9d97343a18e7deae2c0f839ab2bbab05a727b66cac69bb59567ed7f39ce"
+  },
+  "git": {
+    "path": "evidence/04A38/completion/w2/continuation-v7-final-git-preservation-v1.json",
+    "bytes": 91053,
+    "sha256": "e6799187b72e43b908fd3583c1ffba1f0f3d76ab8bbd7ca3e3d68c92127891a3"
+  },
+  "privacy": "Authenticated exact final C7 privacy-verified bytes; no repeated regex scan",
+  "retained_recovery": {
+    "executor": {
+      "path": "evidence/04A38/completion/w2/continuation-v7-publication-resume-v2.py",
+      "bytes": 3146,
+      "sha256": "89deea36ca805150b9b7e2aeb2017a0b2a4236f84913c7ce6e1aab150f59725d"
+    },
+    "retained_first_attempt": {
+      "command": "w2c7-publication-copied-reader-v1",
+      "exit_code": 1,
+      "reason": "Extended-length Windows path containing authenticated sibling ..",
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c7-publication-copied-reader-v1/stdout.log",
+        "bytes": 349,
+        "sha256": "21845c8abe7fe5584853ae74fdd8ad7dbcc9e2c4728a7da95233ad436c58474b"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c7-publication-copied-reader-v1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "unchanged_manifest": {
+      "path": "evidence/04A38/completion/w2/continuation-v7/publication-manifest-v1.json",
+      "bytes": 1288695,
+      "sha256": "b0c0668625181881e532abf882bcf0bb4653f8695d519f9ebf2970c86aae8109"
+    },
+    "short_copy": ".c7-review-copy-v2.tmp",
+    "sealed_payload_edits": 0
+  }
+}

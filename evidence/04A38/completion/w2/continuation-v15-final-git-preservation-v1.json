@@ -1,0 +1,207 @@
+{
+  "status": "EXACT_GIT_ANCHORS_INDEX_AND_DIFF_CHECK_PASS_NOT_READY",
+  "branch": "codex/04A-38",
+  "HEAD": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "main": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "merge_base": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "index": {
+    "path": ".git/index",
+    "bytes": 620185,
+    "sha256": "2036821003b1e1fb1077e72183e0b6c2fa7d22cdb2e784b760637e6d6fe9bc2c"
+  },
+  "staged": "EMPTY",
+  "diff_check_exit": 0,
+  "status_sha256": "e1f42436759172a3516f8dfaf1f051ce6ef624ab0a273ecde35e0f58148780f7",
+  "raw_commands": [
+    {
+      "label": "git-branch",
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-branch/command.json",
+        "bytes": 287,
+        "sha256": "48157ad4556c1cb28e4186c3212ae6c7b307e67c38d1f9c96c3ee0fb2676f52e"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-branch/stdout.log",
+        "bytes": 13,
+        "sha256": "21e6cef64d0c746dff013d36467aaccfaee4217649e4e00e676958b12c0308cb"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-branch/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "result": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "branch",
+          "--show-current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.039591000000655185
+      }
+    },
+    {
+      "label": "git-head-main",
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-head-main/command.json",
+        "bytes": 292,
+        "sha256": "30832dddada70037c26f19b075c15288b84493afb3cec25a1224d28ad6417c9b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-head-main/stdout.log",
+        "bytes": 82,
+        "sha256": "921bb12f3ea282b494da408a86ef5aa1123871d81a513eef0be3b659be11daa1"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-head-main/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "result": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "rev-parse",
+          "HEAD",
+          "main"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.03481859999737935
+      }
+    },
+    {
+      "label": "git-merge-base",
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-merge-base/command.json",
+        "bytes": 293,
+        "sha256": "b02d442c9deba3635baaf5dd782c635f77dffb44a9c1a6e7bdeecb7a3de84597"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-merge-base/stdout.log",
+        "bytes": 41,
+        "sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-merge-base/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "result": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "merge-base",
+          "HEAD",
+          "main"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.03639119999570539
+      }
+    },
+    {
+      "label": "git-staged-index",
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-staged-index/command.json",
+        "bytes": 299,
+        "sha256": "13f1f5384ca79041a55e42479b5dde188a542fc6f373e1e0651fc3214e5047c9"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-staged-index/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-staged-index/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "result": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "diff",
+          "--cached",
+          "--name-only"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.039922600000863895
+      }
+    },
+    {
+      "label": "git-diff-check",
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-diff-check/command.json",
+        "bytes": 277,
+        "sha256": "9a3a6bb3ce4b677c1ded6d3ba7ef27df7636ab1d2a04510020575870d3a938cf"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-diff-check/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-diff-check/stderr.log",
+        "bytes": 4504,
+        "sha256": "6ff6ded4d2541f8c6f90ed463b604868ca589f769cdb6788126d45bd495475dd"
+      },
+      "result": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "diff",
+          "--check"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.12487500000133878
+      }
+    },
+    {
+      "label": "git-status-short",
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-status-short/command.json",
+        "bytes": 279,
+        "sha256": "1e4377012e0a25915faf3ac4b3cc0dd4a460f636953f108fbbff04531957dc29"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-status-short/stdout.log",
+        "bytes": 4734,
+        "sha256": "e1f42436759172a3516f8dfaf1f051ce6ef624ab0a273ecde35e0f58148780f7"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/postseal-w2c15-v2/git-status-short/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "result": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "status",
+          "--short"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.07063669999479316
+      }
+    }
+  ],
+  "original_queries": 0
+}

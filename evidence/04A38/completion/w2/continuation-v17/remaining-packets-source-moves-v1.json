@@ -1,0 +1,507 @@
+{
+  "moves": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "host": "MNLOGIT_SUMMARY",
+      "original_segment": "                Dim q As Integer = h.Model.results.Coeffs_est.Length\r\n                Dim outRows As Integer = If(hdr, q + 1, q)\r\n                Dim out(outRows - 1, 8) As Object\r\n\r\n                Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\r\n                Dim r0 As Integer = 0\r\n\r\n                If hdr Then\r\n                    out(0, 0) = \"Parameter\"\r\n                    out(0, 1) = \"Type\"\r\n                    out(0, 2) = \"Coef\"\r\n                    out(0, 3) = \"SE\"\r\n                    out(0, 4) = \"Z\"\r\n                    out(0, 5) = \"P-value\"\r\n                    out(0, 6) = \"OR\"\r\n                    out(0, 7) = \"OR \" & $\"{100.0 * (1.0 - alphaValue):0.##}%\" & \" LCL\"\r\n                    out(0, 8) = \"OR \" & $\"{100.0 * (1.0 - alphaValue):0.##}%\" & \" UCL\"\r\n                    r0 = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To q - 1\r\n                    Dim beta As Double = h.Model.results.Coeffs_est(i)\r\n                    Dim se As Double = h.Model.results.Coeffs_SEs(i)\r\n                    Dim z As Double = If(se > 0.0, beta / se, Double.NaN)\r\n                    Dim pv As Double = If(se > 0.0, 2.0 * distributions.PNorm(-Math.Abs(z)), Double.NaN)\r\n                    Dim pname As String = h.VarNames(i)\r\n                    Dim isInterceptParam As Boolean = pname IsNot Nothing AndAlso pname.Trim().EndsWith(\": Intercept\", StringComparison.OrdinalIgnoreCase)\r\n\r\n                    out(r0 + i, 0) = pname\r\n                    out(r0 + i, 1) = If(isInterceptParam, \"Intercept\", \"Slope\")\r\n                    out(r0 + i, 2) = beta\r\n                    out(r0 + i, 3) = se\r\n                    out(r0 + i, 4) = z\r\n                    out(r0 + i, 5) = pv\r\n\r\n                    If isInterceptParam Then\r\n                        out(r0 + i, 6) = \"\"\r\n                        out(r0 + i, 7) = \"\"\r\n                        out(r0 + i, 8) = \"\"\r\n                    Else\r\n                        out(r0 + i, 6) = ExpForDisplay(beta)\r\n                        out(r0 + i, 7) = ExpForDisplay(beta - zCrit * se)\r\n                        out(r0 + i, 8) = ExpForDisplay(beta + zCrit * se)\r\n                    End If\r\n                Next\r\n\r\n                Return PreparePValueTableForUdf(out, 6)",
+      "native_call": "                Return PreparePValueTableForUdf(Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildMultinomialSummary(h.Model.results, h.VarNames, 0, hdr, alphaValue, AddressOf ExpForDisplay), 6)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildMultinomialSummary(result As LMresult, names() As String, predictorCount As Integer, hdr As Boolean, alphaValue As Double, expForDisplay As Func(Of Double, Object)) As Object(,)",
+        "body": "                Dim q As Integer = result.Coeffs_est.Length\n                Dim outRows As Integer = If(hdr, q + 1, q)\n                Dim out(outRows - 1, 8) As Object\n\n                Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\n                Dim r0 As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Parameter\"\n                    out(0, 1) = \"Type\"\n                    out(0, 2) = \"Coef\"\n                    out(0, 3) = \"SE\"\n                    out(0, 4) = \"Z\"\n                    out(0, 5) = \"P-value\"\n                    out(0, 6) = \"OR\"\n                    out(0, 7) = \"OR \" & $\"{100.0 * (1.0 - alphaValue):0.##}%\" & \" LCL\"\n                    out(0, 8) = \"OR \" & $\"{100.0 * (1.0 - alphaValue):0.##}%\" & \" UCL\"\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To q - 1\n                    Dim beta As Double = result.Coeffs_est(i)\n                    Dim se As Double = result.Coeffs_SEs(i)\n                    Dim z As Double = If(se > 0.0, beta / se, Double.NaN)\n                    Dim pv As Double = If(se > 0.0, 2.0 * distributions.PNorm(-Math.Abs(z)), Double.NaN)\n                    Dim pname As String = names(i)\n                    Dim isInterceptParam As Boolean = pname IsNot Nothing AndAlso pname.Trim().EndsWith(\": Intercept\", StringComparison.OrdinalIgnoreCase)\n\n                    out(r0 + i, 0) = pname\n                    out(r0 + i, 1) = If(isInterceptParam, \"Intercept\", \"Slope\")\n                    out(r0 + i, 2) = beta\n                    out(r0 + i, 3) = se\n                    out(r0 + i, 4) = z\n                    out(r0 + i, 5) = pv\n\n                    If isInterceptParam Then\n                        out(r0 + i, 6) = \"\"\n                        out(r0 + i, 7) = \"\"\n                        out(r0 + i, 8) = \"\"\n                    Else\n                        out(r0 + i, 6) = expForDisplay(beta)\n                        out(r0 + i, 7) = expForDisplay(beta - zCrit * se)\n                        out(r0 + i, 8) = expForDisplay(beta + zCrit * se)\n                    End If\n                Next\n\n                Return out"
+      },
+      "aliases": [
+        {
+          "before": "h.Model.results",
+          "after": "result"
+        },
+        {
+          "before": "h.VarNames",
+          "after": "names"
+        },
+        {
+          "before": "h.PredictorCount",
+          "after": "predictorCount"
+        },
+        {
+          "before": "ExpForDisplay(",
+          "after": "expForDisplay("
+        },
+        {
+          "before": "Return PreparePValueTableForUdf(out, 6)",
+          "after": "Return out"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "host": "MNLOGIT_TESTS",
+      "original_segment": "                Dim outRows As Integer = If(hdr, n + 1, n)\r\n                Dim out(outRows - 1, 3) As Object\r\n\r\n                Dim r0 As Integer = 0\r\n                If hdr Then\r\n                    out(0, 0) = \"Item\"\r\n                    out(0, 1) = \"Value\"\r\n                    out(0, 2) = \"df\"\r\n                    out(0, 3) = \"P-value\"\r\n                    r0 = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To n - 1\r\n                    out(r0 + i, 0) = labels(i)\r\n                    out(r0 + i, 1) = vals(i, 0)\r\n                    out(r0 + i, 2) = vals(i, 1)\r\n                    out(r0 + i, 3) = vals(i, 2)\r\n                Next\r\n\r\n                Return PreparePValueTableForUdf(out, 4)",
+      "native_call": "                Return PreparePValueTableForUdf(Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildMultinomialTests(n, labels, vals, hdr), 4)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildMultinomialTests(n As Integer, labels() As String, vals(,) As Object, hdr As Boolean) As Object(,)",
+        "body": "                Dim outRows As Integer = If(hdr, n + 1, n)\n                Dim out(outRows - 1, 3) As Object\n\n                Dim r0 As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"Item\"\n                    out(0, 1) = \"Value\"\n                    out(0, 2) = \"df\"\n                    out(0, 3) = \"P-value\"\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To n - 1\n                    out(r0 + i, 0) = labels(i)\n                    out(r0 + i, 1) = vals(i, 0)\n                    out(r0 + i, 2) = vals(i, 1)\n                    out(r0 + i, 3) = vals(i, 2)\n                Next\n\n                Return out"
+      },
+      "aliases": [
+        {
+          "before": "Return PreparePValueTableForUdf(out, 4)",
+          "after": "Return out"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "host": "MNLOGIT_CLASS",
+      "original_segment": "                Dim outRows As Integer = If(hdr, k + 2, k + 1)\r\n                Dim outCols As Integer = k + 2\r\n                Dim out(outRows - 1, outCols - 1) As Object\r\n                Dim r0 As Integer = 0\r\n\r\n                If hdr Then\r\n                    out(0, 0) = \"Observed \\ Predicted\"\r\n                    For j As Integer = 0 To k - 1\r\n                        out(0, j + 1) = cats(j)\r\n                    Next\r\n                    out(0, k + 1) = \"Recall %\"\r\n                    r0 = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To k - 1\r\n                    out(r0 + i, 0) = cats(i)\r\n                    For j As Integer = 0 To k - 1\r\n                        out(r0 + i, j + 1) = cls.Counts(i, j)\r\n                    Next\r\n                    out(r0 + i, k + 1) = cls.RecallPct(i)\r\n                Next\r\n\r\n                out(r0 + k, 0) = \"Precision % / Overall\"\r\n                For j As Integer = 0 To k - 1\r\n                    out(r0 + k, j + 1) = cls.PrecisionPct(j)\r\n                Next\r\n                out(r0 + k, k + 1) = cls.OverallAccuracyPct\r\n\r\n                Return out",
+      "native_call": "                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildMultinomialClassification(cls, cats, k, hdr)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildMultinomialClassification(cls As regression.ClassificationCrosstab, cats() As Integer, k As Integer, hdr As Boolean) As Object(,)",
+        "body": "                Dim outRows As Integer = If(hdr, k + 2, k + 1)\n                Dim outCols As Integer = k + 2\n                Dim out(outRows - 1, outCols - 1) As Object\n                Dim r0 As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Observed \\ Predicted\"\n                    For j As Integer = 0 To k - 1\n                        out(0, j + 1) = cats(j)\n                    Next\n                    out(0, k + 1) = \"Recall %\"\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To k - 1\n                    out(r0 + i, 0) = cats(i)\n                    For j As Integer = 0 To k - 1\n                        out(r0 + i, j + 1) = cls.Counts(i, j)\n                    Next\n                    out(r0 + i, k + 1) = cls.RecallPct(i)\n                Next\n\n                out(r0 + k, 0) = \"Precision % / Overall\"\n                For j As Integer = 0 To k - 1\n                    out(r0 + k, j + 1) = cls.PrecisionPct(j)\n                Next\n                out(r0 + k, k + 1) = cls.OverallAccuracyPct\n\n                Return out"
+      },
+      "aliases": [],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "host": "MNLOGIT_PRED",
+      "original_segment": "                Dim outRows As Integer = If(hdr, nRows + 1, nRows)\r\n                Dim outCols As Integer = 1 + (k - 1) + k\r\n                Dim out(outRows - 1, outCols - 1) As Object\r\n\r\n                Dim r0 As Integer = 0\r\n                If hdr Then\r\n                    out(0, 0) = \"PredictedCategory\"\r\n                    Dim c As Integer = 1\r\n                    For j As Integer = 0 To k - 2\r\n                        out(0, c) = \"Eta(\" & cats(j).ToString(CultureInfo.InvariantCulture) & \" vs \" & h.BaselineCategory.ToString(CultureInfo.InvariantCulture) & \")\"\r\n                        c += 1\r\n                    Next\r\n                    For j As Integer = 0 To k - 1\r\n                        out(0, c) = \"P(Y=\" & cats(j).ToString(CultureInfo.InvariantCulture) & \")\"\r\n                        c += 1\r\n                    Next\r\n                    r0 = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To nRows - 1\r\n                    Dim eta() As Double = ComputeMultinomialEtas(expandedX, i, b, h.EquationParameterCount, h.InterceptIncluded, offsetVals, cats.Length)\r\n                    Dim probs() As Double = ComputeMultinomialProbabilities(eta)\r\n                    Dim predIdx As Integer = regression.CategoricalLogitUtils.ArgMax(probs, True)\r\n\r\n                    out(r0 + i, 0) = cats(predIdx)\r\n                    Dim c As Integer = 1\r\n                    For j As Integer = 0 To eta.Length - 1\r\n                        out(r0 + i, c) = eta(j)\r\n                        c += 1\r\n                    Next\r\n                    For j As Integer = 0 To probs.Length - 1\r\n                        out(r0 + i, c) = probs(j)\r\n                        c += 1\r\n                    Next\r\n                Next\r\n\r\n                Return out",
+      "native_call": "                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildMultinomialPrediction(expandedX, b, cats, offsetVals, nRows, hdr, h.EquationParameterCount, h.InterceptIncluded, h.BaselineCategory, k)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildMultinomialPrediction(expandedX(,) As Double, b() As Double, cats() As Integer, offsetVals() As Double, nRows As Integer, hdr As Boolean, equationParameterCount As Integer, interceptIncluded As Boolean, baselineCategory As Integer, k As Integer) As Object",
+        "body": "                Dim outRows As Integer = If(hdr, nRows + 1, nRows)\n                Dim outCols As Integer = 1 + (k - 1) + k\n                Dim out(outRows - 1, outCols - 1) As Object\n\n                Dim r0 As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"PredictedCategory\"\n                    Dim c As Integer = 1\n                    For j As Integer = 0 To k - 2\n                        out(0, c) = \"Eta(\" & cats(j).ToString(CultureInfo.InvariantCulture) & \" vs \" & baselineCategory.ToString(CultureInfo.InvariantCulture) & \")\"\n                        c += 1\n                    Next\n                    For j As Integer = 0 To k - 1\n                        out(0, c) = \"P(Y=\" & cats(j).ToString(CultureInfo.InvariantCulture) & \")\"\n                        c += 1\n                    Next\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To nRows - 1\n                    Dim eta() As Double = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialEtas(expandedX, i, b, equationParameterCount, interceptIncluded, offsetVals, cats.Length)\n                    Dim probs() As Double = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialProbabilities(eta)\n                    Dim predIdx As Integer = regression.CategoricalLogitUtils.ArgMax(probs, True)\n\n                    out(r0 + i, 0) = cats(predIdx)\n                    Dim c As Integer = 1\n                    For j As Integer = 0 To eta.Length - 1\n                        out(r0 + i, c) = eta(j)\n                        c += 1\n                    Next\n                    For j As Integer = 0 To probs.Length - 1\n                        out(r0 + i, c) = probs(j)\n                        c += 1\n                    Next\n                Next\n\n                Return out"
+      },
+      "aliases": [
+        {
+          "before": "h.EquationParameterCount",
+          "after": "equationParameterCount"
+        },
+        {
+          "before": "h.InterceptIncluded",
+          "after": "interceptIncluded"
+        },
+        {
+          "before": "h.BaselineCategory",
+          "after": "baselineCategory"
+        },
+        {
+          "before": "h.PredictorCount",
+          "after": "predictorCount"
+        },
+        {
+          "before": "ComputeMultinomialEtas(",
+          "after": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialEtas("
+        },
+        {
+          "before": "ComputeMultinomialProbabilities(",
+          "after": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialProbabilities("
+        },
+        {
+          "before": "ComputeOrdinalProbabilities(",
+          "after": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeOrdinalProbabilities("
+        },
+        {
+          "before": "ExcelError.ExcelErrorValue",
+          "after": "invalid"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "host": "ORDLOGIT_SUMMARY",
+      "original_segment": "                Dim q As Integer = h.Model.results.Coeffs_est.Length\r\n                Dim outRows As Integer = If(hdr, q + 1, q)\r\n                Dim out(outRows - 1, 8) As Object\r\n\r\n                Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\r\n                Dim r0 As Integer = 0\r\n\r\n                If hdr Then\r\n                    out(0, 0) = \"Parameter\"\r\n                    out(0, 1) = \"Type\"\r\n                    out(0, 2) = \"Coef\"\r\n                    out(0, 3) = \"SE\"\r\n                    out(0, 4) = \"Z\"\r\n                    out(0, 5) = \"P-value\"\r\n                    out(0, 6) = \"OR\"\r\n                    out(0, 7) = \"OR \" & $\"{100.0 * (1.0 - alphaValue):0.##}%\" & \" LCL\"\r\n                    out(0, 8) = \"OR \" & $\"{100.0 * (1.0 - alphaValue):0.##}%\" & \" UCL\"\r\n                    r0 = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To q - 1\r\n                    Dim beta As Double = h.Model.results.Coeffs_est(i)\r\n                    Dim se As Double = h.Model.results.Coeffs_SEs(i)\r\n                    Dim z As Double = If(se > 0.0, beta / se, Double.NaN)\r\n                    Dim pv As Double = If(se > 0.0, 2.0 * distributions.PNorm(-Math.Abs(z)), Double.NaN)\r\n\r\n                    Dim isSlope As Boolean = (i < h.PredictorCount)\r\n\r\n                    out(r0 + i, 0) = h.VarNames(i)\r\n                    out(r0 + i, 1) = If(isSlope, \"Slope\", \"Threshold\")\r\n                    out(r0 + i, 2) = beta\r\n                    out(r0 + i, 3) = se\r\n                    out(r0 + i, 4) = z\r\n                    out(r0 + i, 5) = pv\r\n\r\n                    If isSlope Then\r\n                        out(r0 + i, 6) = ExpForDisplay(beta)\r\n                        out(r0 + i, 7) = ExpForDisplay(beta - zCrit * se)\r\n                        out(r0 + i, 8) = ExpForDisplay(beta + zCrit * se)\r\n                    Else\r\n                        out(r0 + i, 6) = \"\"\r\n                        out(r0 + i, 7) = \"\"\r\n                        out(r0 + i, 8) = \"\"\r\n                    End If\r\n                Next\r\n\r\n                Return PreparePValueTableForUdf(out, 6)",
+      "native_call": "                Return PreparePValueTableForUdf(Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalSummary(h.Model.results, h.VarNames, h.PredictorCount, hdr, alphaValue, AddressOf ExpForDisplay), 6)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildOrdinalSummary(result As LMresult, names() As String, predictorCount As Integer, hdr As Boolean, alphaValue As Double, expForDisplay As Func(Of Double, Object)) As Object(,)",
+        "body": "                Dim q As Integer = result.Coeffs_est.Length\n                Dim outRows As Integer = If(hdr, q + 1, q)\n                Dim out(outRows - 1, 8) As Object\n\n                Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\n                Dim r0 As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Parameter\"\n                    out(0, 1) = \"Type\"\n                    out(0, 2) = \"Coef\"\n                    out(0, 3) = \"SE\"\n                    out(0, 4) = \"Z\"\n                    out(0, 5) = \"P-value\"\n                    out(0, 6) = \"OR\"\n                    out(0, 7) = \"OR \" & $\"{100.0 * (1.0 - alphaValue):0.##}%\" & \" LCL\"\n                    out(0, 8) = \"OR \" & $\"{100.0 * (1.0 - alphaValue):0.##}%\" & \" UCL\"\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To q - 1\n                    Dim beta As Double = result.Coeffs_est(i)\n                    Dim se As Double = result.Coeffs_SEs(i)\n                    Dim z As Double = If(se > 0.0, beta / se, Double.NaN)\n                    Dim pv As Double = If(se > 0.0, 2.0 * distributions.PNorm(-Math.Abs(z)), Double.NaN)\n\n                    Dim isSlope As Boolean = (i < predictorCount)\n\n                    out(r0 + i, 0) = names(i)\n                    out(r0 + i, 1) = If(isSlope, \"Slope\", \"Threshold\")\n                    out(r0 + i, 2) = beta\n                    out(r0 + i, 3) = se\n                    out(r0 + i, 4) = z\n                    out(r0 + i, 5) = pv\n\n                    If isSlope Then\n                        out(r0 + i, 6) = expForDisplay(beta)\n                        out(r0 + i, 7) = expForDisplay(beta - zCrit * se)\n                        out(r0 + i, 8) = expForDisplay(beta + zCrit * se)\n                    Else\n                        out(r0 + i, 6) = \"\"\n                        out(r0 + i, 7) = \"\"\n                        out(r0 + i, 8) = \"\"\n                    End If\n                Next\n\n                Return out"
+      },
+      "aliases": [
+        {
+          "before": "h.Model.results",
+          "after": "result"
+        },
+        {
+          "before": "h.VarNames",
+          "after": "names"
+        },
+        {
+          "before": "h.PredictorCount",
+          "after": "predictorCount"
+        },
+        {
+          "before": "ExpForDisplay(",
+          "after": "expForDisplay("
+        },
+        {
+          "before": "Return PreparePValueTableForUdf(out, 6)",
+          "after": "Return out"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "host": "ORDLOGIT_TESTS",
+      "original_segment": "                Dim outRows As Integer = If(hdr, n + 1, n)\r\n                Dim out(outRows - 1, 3) As Object\r\n\r\n                Dim r0 As Integer = 0\r\n                If hdr Then\r\n                    out(0, 0) = \"Item\"\r\n                    out(0, 1) = \"Value\"\r\n                    out(0, 2) = \"df\"\r\n                    out(0, 3) = \"P-value\"\r\n                    r0 = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To n - 1\r\n                    out(r0 + i, 0) = labels(i)\r\n                    out(r0 + i, 1) = vals(i, 0)\r\n                    out(r0 + i, 2) = vals(i, 1)\r\n                    out(r0 + i, 3) = vals(i, 2)\r\n                Next\r\n\r\n                Return PreparePValueTableForUdf(out, 4)",
+      "native_call": "                Return PreparePValueTableForUdf(Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalTests(n, labels, vals, hdr), 4)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildOrdinalTests(n As Integer, labels() As String, vals(,) As Object, hdr As Boolean) As Object(,)",
+        "body": "                Dim outRows As Integer = If(hdr, n + 1, n)\n                Dim out(outRows - 1, 3) As Object\n\n                Dim r0 As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"Item\"\n                    out(0, 1) = \"Value\"\n                    out(0, 2) = \"df\"\n                    out(0, 3) = \"P-value\"\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To n - 1\n                    out(r0 + i, 0) = labels(i)\n                    out(r0 + i, 1) = vals(i, 0)\n                    out(r0 + i, 2) = vals(i, 1)\n                    out(r0 + i, 3) = vals(i, 2)\n                Next\n\n                Return out"
+      },
+      "aliases": [
+        {
+          "before": "Return PreparePValueTableForUdf(out, 4)",
+          "after": "Return out"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "host": "ORDLOGIT_CLASS",
+      "original_segment": "                Dim outRows As Integer = If(hdr, k + 3, k + 2)\r\n                Dim outCols As Integer = k + 2\r\n                Dim out(outRows - 1, outCols - 1) As Object\r\n\r\n                Dim r As Integer = 0\r\n                If hdr Then\r\n                    out(0, 0) = \"Observed \\ Predicted\"\r\n                    For j As Integer = 0 To k - 1\r\n                        out(0, j + 1) = cls.Categories(j)\r\n                    Next\r\n                    out(0, outCols - 1) = \"Recall %\"\r\n                    r = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To k - 1\r\n                    out(r + i, 0) = cls.Categories(i)\r\n                    For j As Integer = 0 To k - 1\r\n                        out(r + i, j + 1) = cls.Counts(i, j)\r\n                    Next\r\n                    out(r + i, outCols - 1) = cls.RecallPct(i)\r\n                Next\r\n\r\n                out(r + k, 0) = \"Precision %\"\r\n                For j As Integer = 0 To k - 1\r\n                    out(r + k, j + 1) = cls.PrecisionPct(j)\r\n                Next\r\n                out(r + k, outCols - 1) = \"\"\r\n\r\n                out(r + k + 1, 0) = \"Overall accuracy %\"\r\n                out(r + k + 1, 1) = cls.OverallAccuracyPct\r\n                For j As Integer = 2 To outCols - 1\r\n                    out(r + k + 1, j) = \"\"\r\n                Next\r\n\r\n                Return out",
+      "native_call": "                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalClassification(cls, cats, k, hdr)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildOrdinalClassification(cls As regression.ClassificationCrosstab, cats() As Integer, k As Integer, hdr As Boolean) As Object(,)",
+        "body": "                Dim outRows As Integer = If(hdr, k + 3, k + 2)\n                Dim outCols As Integer = k + 2\n                Dim out(outRows - 1, outCols - 1) As Object\n\n                Dim r As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"Observed \\ Predicted\"\n                    For j As Integer = 0 To k - 1\n                        out(0, j + 1) = cls.Categories(j)\n                    Next\n                    out(0, outCols - 1) = \"Recall %\"\n                    r = 1\n                End If\n\n                For i As Integer = 0 To k - 1\n                    out(r + i, 0) = cls.Categories(i)\n                    For j As Integer = 0 To k - 1\n                        out(r + i, j + 1) = cls.Counts(i, j)\n                    Next\n                    out(r + i, outCols - 1) = cls.RecallPct(i)\n                Next\n\n                out(r + k, 0) = \"Precision %\"\n                For j As Integer = 0 To k - 1\n                    out(r + k, j + 1) = cls.PrecisionPct(j)\n                Next\n                out(r + k, outCols - 1) = \"\"\n\n                out(r + k + 1, 0) = \"Overall accuracy %\"\n                out(r + k + 1, 1) = cls.OverallAccuracyPct\n                For j As Integer = 2 To outCols - 1\n                    out(r + k + 1, j) = \"\"\n                Next\n\n                Return out"
+      },
+      "aliases": [],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "host": "ORDLOGIT_PRED",
+      "original_segment": "                Dim outRows As Integer = If(hdr, nRows + 1, nRows)\r\n                Dim outCols As Integer = cats.Length + 2\r\n                Dim out(outRows - 1, outCols - 1) As Object\r\n\r\n                Dim r0 As Integer = 0\r\n                If hdr Then\r\n                    out(0, 0) = \"PredictedCategory\"\r\n                    out(0, 1) = \"LinearPredictor\"\r\n                    For k As Integer = 0 To cats.Length - 1\r\n                        out(0, k + 2) = \"P(Y=\" & cats(k).ToString(CultureInfo.InvariantCulture) & \")\"\r\n                    Next\r\n                    r0 = 1\r\n                End If\r\n\r\n                For i As Integer = 0 To nRows - 1\r\n                    Dim eta As Double = 0.0\r\n                    For j As Integer = 0 To h.PredictorCount - 1\r\n                        Dim xv As Double = expandedX(i, j)\r\n                        If Double.IsNaN(xv) OrElse Double.IsInfinity(xv) Then Return ExcelError.ExcelErrorValue\r\n                        eta += xv * b(j)\r\n                    Next\r\n                    If offsetVals IsNot Nothing Then\r\n                        eta += offsetVals(i)\r\n                    End If\r\n\r\n                    Dim probs() As Double = ComputeOrdinalProbabilities(b, h.PredictorCount, cats.Length, eta)\r\n                    Dim predIdx As Integer = regression.CategoricalLogitUtils.ArgMax(probs, True)\r\n\r\n                    out(r0 + i, 0) = cats(predIdx)\r\n                    out(r0 + i, 1) = eta\r\n                    For k As Integer = 0 To cats.Length - 1\r\n                        out(r0 + i, k + 2) = probs(k)\r\n                    Next\r\n                Next\r\n\r\n                Return out",
+      "native_call": "                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildOrdinalPrediction(expandedX, b, cats, offsetVals, nRows, hdr, h.PredictorCount, ExcelError.ExcelErrorValue)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildOrdinalPrediction(expandedX(,) As Double, b() As Double, cats() As Integer, offsetVals() As Double, nRows As Integer, hdr As Boolean, predictorCount As Integer, invalid As Object) As Object",
+        "body": "                Dim outRows As Integer = If(hdr, nRows + 1, nRows)\n                Dim outCols As Integer = cats.Length + 2\n                Dim out(outRows - 1, outCols - 1) As Object\n\n                Dim r0 As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"PredictedCategory\"\n                    out(0, 1) = \"LinearPredictor\"\n                    For k As Integer = 0 To cats.Length - 1\n                        out(0, k + 2) = \"P(Y=\" & cats(k).ToString(CultureInfo.InvariantCulture) & \")\"\n                    Next\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To nRows - 1\n                    Dim eta As Double = 0.0\n                    For j As Integer = 0 To predictorCount - 1\n                        Dim xv As Double = expandedX(i, j)\n                        If Double.IsNaN(xv) OrElse Double.IsInfinity(xv) Then Return invalid\n                        eta += xv * b(j)\n                    Next\n                    If offsetVals IsNot Nothing Then\n                        eta += offsetVals(i)\n                    End If\n\n                    Dim probs() As Double = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeOrdinalProbabilities(b, predictorCount, cats.Length, eta)\n                    Dim predIdx As Integer = regression.CategoricalLogitUtils.ArgMax(probs, True)\n\n                    out(r0 + i, 0) = cats(predIdx)\n                    out(r0 + i, 1) = eta\n                    For k As Integer = 0 To cats.Length - 1\n                        out(r0 + i, k + 2) = probs(k)\n                    Next\n                Next\n\n                Return out"
+      },
+      "aliases": [
+        {
+          "before": "h.EquationParameterCount",
+          "after": "equationParameterCount"
+        },
+        {
+          "before": "h.InterceptIncluded",
+          "after": "interceptIncluded"
+        },
+        {
+          "before": "h.BaselineCategory",
+          "after": "baselineCategory"
+        },
+        {
+          "before": "h.PredictorCount",
+          "after": "predictorCount"
+        },
+        {
+          "before": "ComputeMultinomialEtas(",
+          "after": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialEtas("
+        },
+        {
+          "before": "ComputeMultinomialProbabilities(",
+          "after": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialProbabilities("
+        },
+        {
+          "before": "ComputeOrdinalProbabilities(",
+          "after": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeOrdinalProbabilities("
+        },
+        {
+          "before": "ExcelError.ExcelErrorValue",
+          "after": "invalid"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "host": "ResponseColumnsMatchObjects",
+      "original_segment": "    Private Function ResponseColumnsMatchObjects(countData(,) As Object, zeroData(,) As Object) As Boolean\r\n        If countData Is Nothing OrElse zeroData Is Nothing Then Return False\r\n        If countData.GetLength(0) <> zeroData.GetLength(0) Then Return False\r\n\r\n        For i As Integer = 0 To countData.GetLength(0) - 1\r\n            Dim yc As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(countData(i, 0))\r\n            Dim yz As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(zeroData(i, 0))\r\n            If Not yc.HasValue OrElse Not yz.HasValue Then Return False\r\n            If Math.Abs(yc.Value - yz.Value) > 0.0000001R Then Return False\r\n        Next\r\n\r\n        Return True\r\n    End Function",
+      "native_call": "    Private Function ResponseColumnsMatchObjects(countData(,) As Object, zeroData(,) As Object) As Boolean\r\n        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ResponseColumnsMatchObjects(countData, zeroData, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble)\r\n    End Function",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function ResponseColumnsMatchObjects(countData(,) As Object, zeroData(,) As Object, readNumber As Func(Of Object, Double?)) As Boolean",
+        "body": "If countData Is Nothing OrElse zeroData Is Nothing Then Return False\n        If countData.GetLength(0) <> zeroData.GetLength(0) Then Return False\n\n        For i As Integer = 0 To countData.GetLength(0) - 1\n            Dim yc As Double? = readNumber(countData(i, 0))\n            Dim yz As Double? = readNumber(zeroData(i, 0))\n            If Not yc.HasValue OrElse Not yz.HasValue Then Return False\n            If Math.Abs(yc.Value - yz.Value) > 0.0000001R Then Return False\n        Next\n\n        Return True"
+      },
+      "aliases": [
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble",
+          "after": "readNumber"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "host": "TryExtractNonnegativeIntegerResponseObjects",
+      "original_segment": "    Private Function TryExtractNonnegativeIntegerResponseObjects(data(,) As Object, ByRef response() As Integer) As Boolean\r\n        response = Nothing\r\n        If data Is Nothing Then Return False\r\n        Dim n As Integer = data.GetLength(0)\r\n        If n < 1 Then Return False\r\n\r\n        ReDim response(n - 1)\r\n        For i As Integer = 0 To n - 1\r\n            Dim yi As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(data(i, 0))\r\n            If Not yi.HasValue Then Return False\r\n            Dim yr As Double = Math.Round(yi.Value)\r\n            If yi.Value < 0.0R OrElse Math.Abs(yi.Value - yr) > 0.0000001R Then Return False\r\n            response(i) = CInt(yr)\r\n        Next\r\n\r\n        Return True\r\n    End Function",
+      "native_call": "    Private Function TryExtractNonnegativeIntegerResponseObjects(data(,) As Object, ByRef response() As Integer) As Boolean\r\n        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.TryExtractNonnegativeIntegerResponseObjects(data, response, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble)\r\n    End Function",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function TryExtractNonnegativeIntegerResponseObjects(data(,) As Object, ByRef response() As Integer, readNumber As Func(Of Object, Double?)) As Boolean",
+        "body": "response = Nothing\n        If data Is Nothing Then Return False\n        Dim n As Integer = data.GetLength(0)\n        If n < 1 Then Return False\n\n        ReDim response(n - 1)\n        For i As Integer = 0 To n - 1\n            Dim yi As Double? = readNumber(data(i, 0))\n            If Not yi.HasValue Then Return False\n            Dim yr As Double = Math.Round(yi.Value)\n            If yi.Value < 0.0R OrElse Math.Abs(yi.Value - yr) > 0.0000001R Then Return False\n            response(i) = CInt(yr)\n        Next\n\n        Return True"
+      },
+      "aliases": [
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble",
+          "after": "readNumber"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+      "host": "TryGetKaplanMeierRecords",
+      "original_segment": "        Dim map As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)\r\n        Dim nextId As Integer = 0\r\n        Dim out As New List(Of survival.SurvivalRecord)()\r\n\r\n        For i As Integer = 0 To tArr.GetLength(0) - 1\r\n            Dim tVal As Double\r\n            Dim sVal As Integer\r\n\r\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible(tArr(i, 0), tVal) Then Continue For\r\n            If tVal < 0.0R Then Continue For\r\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(sArr(i, 0), sVal) Then Continue For\r\n\r\n            Dim gKey As String = \"All\"\r\n            If hasGroup Then\r\n                gKey = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(gArr(i, 0))\r\n                If String.IsNullOrWhiteSpace(gKey) Then Continue For\r\n                gKey = gKey.Trim()\r\n            End If\r\n\r\n            Dim gid As Integer\r\n            If Not map.TryGetValue(gKey, gid) Then\r\n                gid = nextId\r\n                map(gKey) = gid\r\n                nextId += 1\r\n            End If\r\n\r\n            out.Add(New survival.SurvivalRecord With {\r\n                    .Time = tVal,\r\n                    .Censorship = sVal,\r\n                    .Group = gid,\r\n                    .strGroup = gKey,\r\n                    .Stratum = \"\",\r\n                    .strStratum = \"\"\r\n                })\r\n        Next\r\n\r\n        records = out\r\n        Return records.Count > 0\r\n",
+      "native_call": "        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.PrepareKaplanMeierRecords(tArr, sArr, gArr, hasGroup, records, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function PrepareKaplanMeierRecords(tArr(,) As Object, sArr(,) As Object, gArr(,) As Object, hasGroup As Boolean, ByRef records As List(Of survival.SurvivalRecord), readFinite As UdfReadFiniteDouble38, readStatus As UdfReadStatusInteger38, readText As Func(Of Object, String)) As Boolean",
+        "body": "        Dim map As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)\n        Dim nextId As Integer = 0\n        Dim out As New List(Of survival.SurvivalRecord)()\n\n        For i As Integer = 0 To tArr.GetLength(0) - 1\n            Dim tVal As Double\n            Dim sVal As Integer\n\n            If Not readFinite(tArr(i, 0), tVal) Then Continue For\n            If tVal < 0.0R Then Continue For\n            If Not readStatus(sArr(i, 0), sVal) Then Continue For\n\n            Dim gKey As String = \"All\"\n            If hasGroup Then\n                gKey = readText(gArr(i, 0))\n                If String.IsNullOrWhiteSpace(gKey) Then Continue For\n                gKey = gKey.Trim()\n            End If\n\n            Dim gid As Integer\n            If Not map.TryGetValue(gKey, gid) Then\n                gid = nextId\n                map(gKey) = gid\n                nextId += 1\n            End If\n\n            out.Add(New survival.SurvivalRecord With {\n                    .Time = tVal,\n                    .Censorship = sVal,\n                    .Group = gid,\n                    .strGroup = gKey,\n                    .Stratum = \"\",\n                    .strStratum = \"\"\n                })\n        Next\n\n        records = out\n        Return records.Count > 0"
+      },
+      "aliases": [
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible",
+          "after": "readFinite"
+        },
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible",
+          "after": "readStatus"
+        },
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText",
+          "after": "readText"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+      "host": "TryComputeSurvivalMedianCi",
+      "original_segment": "        Dim tList As New List(Of Double)()\r\n        Dim sList As New List(Of Integer)()\r\n        Dim gList As New List(Of String)()\r\n\r\n        For i As Integer = 0 To nRows - 1\r\n            Dim t As Double\r\n            Dim s As Integer\r\n\r\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For\r\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For\r\n            If t < 0.0R Then Return False\r\n\r\n            Dim g As String = \"ALL\"\r\n            If hasGroup Then\r\n                g = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(groupArr(i, 0))\r\n                If String.IsNullOrWhiteSpace(g) Then Continue For\r\n                g = g.Trim()\r\n            End If\r\n\r\n            tList.Add(t)\r\n            sList.Add(s)\r\n            gList.Add(g)\r\n        Next\r\n\r\n        If tList.Count < 3 Then Return False\r\n\r\n        Dim err As String = Nothing\r\n        Dim stratAll() As String = Enumerable.Repeat(\"ALL\", tList.Count).ToArray()\r\n        Dim recs = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratAll, err)\r\n        If recs Is Nothing Then Return False\r\n\r\n        Dim lr As New survival.Survival_KM_LR(recs)\r\n        Dim mci As Object(,) = lr.BrookmeyerCrowleyMedianSurvivalCI(alpha)\r\n        If mci Is Nothing OrElse mci.GetLength(0) < 1 Then Return False\r\n\r\n        Dim groupIds = gList.Distinct().ToList()\r\n        Dim k As Integer = mci.GetLength(0)\r\n        Dim out As Object(,) = New Object(k - 1, 3) {}\r\n\r\n        For j As Integer = 0 To k - 1\r\n            Dim med As Double = CDbl(mci(j, 0))\r\n            Dim ll As Double = CDbl(mci(j, 1))\r\n            Dim ul As Double = CDbl(mci(j, 2))\r\n\r\n            out(j, 0) = groupIds(j)\r\n            out(j, 1) = If(Double.IsNaN(med) OrElse Double.IsInfinity(med), CType(ExcelError.ExcelErrorNA, Object), CType(med, Object))\r\n            out(j, 2) = If(Double.IsNaN(ll) OrElse Double.IsInfinity(ll), CType(ExcelError.ExcelErrorNA, Object), CType(ll, Object))\r\n            out(j, 3) = If(Double.IsNaN(ul) OrElse Double.IsInfinity(ul), CType(ExcelError.ExcelErrorNA, Object), CType(ul, Object))\r\n        Next\r\n\r\n        outTable = out\r\n        Return True\r\n",
+      "native_call": "        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ComputeSurvivalMedianCi(timeArr, statusArr, groupArr, hasGroup, alpha, outTable, ExcelError.ExcelErrorNA, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function ComputeSurvivalMedianCi(timeArr(,) As Object, statusArr(,) As Object, groupArr(,) As Object, hasGroup As Boolean, alpha As Double, ByRef outTable(,) As Object, unavailable As Object, readFinite As UdfReadFiniteDouble38, readStatus As UdfReadStatusInteger38, readText As Func(Of Object, String)) As Boolean",
+        "body": "        Dim tList As New List(Of Double)()\n        Dim sList As New List(Of Integer)()\n        Dim gList As New List(Of String)()\n\n        For i As Integer = 0 To nRows - 1\n            Dim t As Double\n            Dim s As Integer\n\n            If Not readFinite(timeArr(i, 0), t) Then Continue For\n            If Not readStatus(statusArr(i, 0), s) Then Continue For\n            If t < 0.0R Then Return False\n\n            Dim g As String = \"ALL\"\n            If hasGroup Then\n                g = readText(groupArr(i, 0))\n                If String.IsNullOrWhiteSpace(g) Then Continue For\n                g = g.Trim()\n            End If\n\n            tList.Add(t)\n            sList.Add(s)\n            gList.Add(g)\n        Next\n\n        If tList.Count < 3 Then Return False\n\n        Dim err As String = Nothing\n        Dim stratAll() As String = Enumerable.Repeat(\"ALL\", tList.Count).ToArray()\n        Dim recs = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratAll, err)\n        If recs Is Nothing Then Return False\n\n        Dim lr As New survival.Survival_KM_LR(recs)\n        Dim mci As Object(,) = lr.BrookmeyerCrowleyMedianSurvivalCI(alpha)\n        If mci Is Nothing OrElse mci.GetLength(0) < 1 Then Return False\n\n        Dim groupIds = gList.Distinct().ToList()\n        Dim k As Integer = mci.GetLength(0)\n        Dim out As Object(,) = New Object(k - 1, 3) {}\n\n        For j As Integer = 0 To k - 1\n            Dim med As Double = CDbl(mci(j, 0))\n            Dim ll As Double = CDbl(mci(j, 1))\n            Dim ul As Double = CDbl(mci(j, 2))\n\n            out(j, 0) = groupIds(j)\n            out(j, 1) = If(Double.IsNaN(med) OrElse Double.IsInfinity(med), unavailable, CType(med, Object))\n            out(j, 2) = If(Double.IsNaN(ll) OrElse Double.IsInfinity(ll), unavailable, CType(ll, Object))\n            out(j, 3) = If(Double.IsNaN(ul) OrElse Double.IsInfinity(ul), unavailable, CType(ul, Object))\n        Next\n\n        outTable = out\n        Return True"
+      },
+      "aliases": [
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible",
+          "after": "readFinite"
+        },
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible",
+          "after": "readStatus"
+        },
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText",
+          "after": "readText"
+        },
+        {
+          "before": "CType(ExcelError.ExcelErrorNA, Object)",
+          "after": "unavailable"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+      "host": "TryComputeSurvivalLogRank",
+      "original_segment": "        Dim tList As New List(Of Double)()\r\n        Dim sList As New List(Of Integer)()\r\n        Dim gList As New List(Of String)()\r\n        Dim stratList As New List(Of String)()\r\n\r\n        For i As Integer = 0 To nRows - 1\r\n            Dim t As Double\r\n            Dim s As Integer\r\n            Dim st As String = \"ALL\"\r\n\r\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For\r\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For\r\n\r\n            Dim g As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(groupArr(i, 0))\r\n            If String.IsNullOrWhiteSpace(g) Then Continue For\r\n\r\n            If hasStrata Then\r\n                st = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(strataArr(i, 0))\r\n                If String.IsNullOrWhiteSpace(st) Then st = \"ALL\"\r\n            End If\r\n\r\n            If t < 0.0R Then Return False\r\n\r\n            tList.Add(t)\r\n            sList.Add(s)\r\n            gList.Add(g.Trim())\r\n            stratList.Add(st.Trim())\r\n        Next\r\n\r\n        If tList.Count < 3 Then Return False\r\n        If gList.Distinct().Count() < 2 Then Return False\r\n\r\n        Dim err As String = Nothing\r\n        Dim recs = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)\r\n        If recs Is Nothing Then\r\n            errText = err\r\n            Return False\r\n        End If\r\n\r\n        Dim lr As New survival.Survival_KM_LR(recs)\r\n        result = lr.WeightedLogRankTest(weightMethod)\r\n        Return result IsNot Nothing\r\n",
+      "native_call": "        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ComputeSurvivalLogRank(timeArr, statusArr, groupArr, strataArr, hasStrata, weightMethod, result, errText, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function ComputeSurvivalLogRank(timeArr(,) As Object, statusArr(,) As Object, groupArr(,) As Object, strataArr(,) As Object, hasStrata As Boolean, weightMethod As String, ByRef result As TestResult, ByRef errText As String, readFinite As UdfReadFiniteDouble38, readStatus As UdfReadStatusInteger38, readText As Func(Of Object, String)) As Boolean",
+        "body": "        Dim tList As New List(Of Double)()\n        Dim sList As New List(Of Integer)()\n        Dim gList As New List(Of String)()\n        Dim stratList As New List(Of String)()\n\n        For i As Integer = 0 To nRows - 1\n            Dim t As Double\n            Dim s As Integer\n            Dim st As String = \"ALL\"\n\n            If Not readFinite(timeArr(i, 0), t) Then Continue For\n            If Not readStatus(statusArr(i, 0), s) Then Continue For\n\n            Dim g As String = readText(groupArr(i, 0))\n            If String.IsNullOrWhiteSpace(g) Then Continue For\n\n            If hasStrata Then\n                st = readText(strataArr(i, 0))\n                If String.IsNullOrWhiteSpace(st) Then st = \"ALL\"\n            End If\n\n            If t < 0.0R Then Return False\n\n            tList.Add(t)\n            sList.Add(s)\n            gList.Add(g.Trim())\n            stratList.Add(st.Trim())\n        Next\n\n        If tList.Count < 3 Then Return False\n        If gList.Distinct().Count() < 2 Then Return False\n\n        Dim err As String = Nothing\n        Dim recs = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)\n        If recs Is Nothing Then\n            errText = err\n            Return False\n        End If\n\n        Dim lr As New survival.Survival_KM_LR(recs)\n        result = lr.WeightedLogRankTest(weightMethod)\n        Return result IsNot Nothing"
+      },
+      "aliases": [
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible",
+          "after": "readFinite"
+        },
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible",
+          "after": "readStatus"
+        },
+        {
+          "before": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText",
+          "after": "readText"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+      "host": "ParseSurvivalWeightMethod",
+      "original_segment": "        Select Case s.Trim().ToLowerInvariant()\r\n            Case \"logrank\", \"lr\"\r\n                Return \"logrank\"\r\n            Case \"gehan-breslow\", \"gehan\", \"breslow\", \"wilcoxon\"\r\n                Return \"gehan-breslow\"\r\n            Case \"tarone-ware\", \"tarone\", \"ware\"\r\n                Return \"tarone-ware\"\r\n            Case \"peto\", \"peto-peto\"\r\n                Return \"peto\"\r\n            Case \"modified peto\", \"modifiedpeto\", \"anderson\", \"modpeto\"\r\n                Return \"modified peto\"\r\n            Case Else\r\n                Return Nothing\r\n        End Select\r\n",
+      "native_call": "        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ParseSurvivalWeightText(s)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function ParseSurvivalWeightText(s As String) As String",
+        "body": "        Select Case s.Trim().ToLowerInvariant()\n            Case \"logrank\", \"lr\"\n                Return \"logrank\"\n            Case \"gehan-breslow\", \"gehan\", \"breslow\", \"wilcoxon\"\n                Return \"gehan-breslow\"\n            Case \"tarone-ware\", \"tarone\", \"ware\"\n                Return \"tarone-ware\"\n            Case \"peto\", \"peto-peto\"\n                Return \"peto\"\n            Case \"modified peto\", \"modifiedpeto\", \"anderson\", \"modpeto\"\n                Return \"modified peto\"\n            Case Else\n                Return Nothing\n        End Select"
+      },
+      "aliases": [],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+      "host": "KM_TABLE",
+      "original_segment": "                Dim totalRows As Integer = 0\r\n                For Each g In outObj\r\n                    If g Is Nothing Then Continue For\r\n                    Dim lst = TryCast(g, System.Collections.IEnumerable)\r\n                    If lst Is Nothing Then Continue For\r\n                    totalRows += lst.Cast(Of Object)().Count()\r\n                Next\r\n\r\n                If totalRows = 0 Then Return ExcelError.ExcelErrorNum\r\n\r\n                Dim result(totalRows - 1, 6) As Object\r\n\r\n                Dim r As Integer = 0\r\n                For Each g In outObj\r\n                    If g Is Nothing Then Continue For\r\n                    Dim lst = TryCast(g, System.Collections.IEnumerable)\r\n                    If lst Is Nothing Then Continue For\r\n\r\n                    For Each itemObj In lst\r\n                        Dim rec As survival.SurvivalTableRecord = CType(itemObj, survival.SurvivalTableRecord)\r\n                        result(r, 0) = rec.strGroup\r\n                        result(r, 1) = rec.Time\r\n                        result(r, 2) = rec.AtRisk\r\n                        result(r, 3) = rec.Prob\r\n                        result(r, 4) = rec.SE\r\n                        result(r, 5) = rec.ProbCILL\r\n                        result(r, 6) = rec.ProbCIUL\r\n                        r += 1\r\n                    Next\r\n                Next\r\n\r\n                Return result",
+      "native_call": "                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildKaplanMeierTable(outObj, ExcelError.ExcelErrorNum)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildKaplanMeierTable(outObj As Object(), noRows As Object) As Object",
+        "body": "                Dim totalRows As Integer = 0\n                For Each g In outObj\n                    If g Is Nothing Then Continue For\n                    Dim lst = TryCast(g, System.Collections.IEnumerable)\n                    If lst Is Nothing Then Continue For\n                    totalRows += lst.Cast(Of Object)().Count()\n                Next\n\n                If totalRows = 0 Then Return noRows\n\n                Dim result(totalRows - 1, 6) As Object\n\n                Dim r As Integer = 0\n                For Each g In outObj\n                    If g Is Nothing Then Continue For\n                    Dim lst = TryCast(g, System.Collections.IEnumerable)\n                    If lst Is Nothing Then Continue For\n\n                    For Each itemObj In lst\n                        Dim rec As survival.SurvivalTableRecord = CType(itemObj, survival.SurvivalTableRecord)\n                        result(r, 0) = rec.strGroup\n                        result(r, 1) = rec.Time\n                        result(r, 2) = rec.AtRisk\n                        result(r, 3) = rec.Prob\n                        result(r, 4) = rec.SE\n                        result(r, 5) = rec.ProbCILL\n                        result(r, 6) = rec.ProbCIUL\n                        r += 1\n                    Next\n                Next\n\n                Return result"
+      },
+      "aliases": [
+        {
+          "before": "ExcelError.ExcelErrorNum",
+          "after": "noRows"
+        }
+      ],
+      "original_queries": 0
+    }
+  ],
+  "before": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "bytes": 49383,
+        "sha256": "128643ed6a06f4a1630adbfc7dbb9ff4576ae882690e6cccb89a962a02fed32a"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/remaining-packets-before/BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "bytes": 49383,
+        "sha256": "128643ed6a06f4a1630adbfc7dbb9ff4576ae882690e6cccb89a962a02fed32a"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "bytes": 45968,
+        "sha256": "8a592a8990633458b5e02aadccc1d013e218d58bf92f2d6b6dfb7659ca1d66a5"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/remaining-packets-before/BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "bytes": 45968,
+        "sha256": "8a592a8990633458b5e02aadccc1d013e218d58bf92f2d6b6dfb7659ca1d66a5"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "bytes": 27439,
+        "sha256": "af5b488d05d5886c4dd1cdfafa5bf56115e1f690c2de806daca456ce168220b6"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/remaining-packets-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "bytes": 27439,
+        "sha256": "af5b488d05d5886c4dd1cdfafa5bf56115e1f690c2de806daca456ce168220b6"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+        "bytes": 11730,
+        "sha256": "4d06a35bc858d6174143e7a9042dc4f15de89ebf805b1655a31677ae5b287037"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/remaining-packets-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+        "bytes": 11730,
+        "sha256": "4d06a35bc858d6174143e7a9042dc4f15de89ebf805b1655a31677ae5b287037"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+        "bytes": 18862,
+        "sha256": "dc848cfe4fad16878d31f758657a4aef77ca269390ffa53fbd3b2ea17a8d6ed1"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/remaining-packets-before/BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+        "bytes": 18862,
+        "sha256": "dc848cfe4fad16878d31f758657a4aef77ca269390ffa53fbd3b2ea17a8d6ed1"
+      }
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+        "bytes": 7788,
+        "sha256": "4db32788c5bdbd6928f863cb89bce4f915b46b82b04af75a6334e8d3814931f4"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/remaining-packets-before/BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+        "bytes": 7788,
+        "sha256": "4db32788c5bdbd6928f863cb89bce4f915b46b82b04af75a6334e8d3814931f4"
+      }
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 8216,
+        "sha256": "267e7a4e80f42019681528e108afe76a613fcd95fbd1975537529794f0b74747"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/remaining-packets-before/BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 8216,
+        "sha256": "267e7a4e80f42019681528e108afe76a613fcd95fbd1975537529794f0b74747"
+      }
+    }
+  ],
+  "current": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "bytes": 44235,
+      "sha256": "28d8ee9be92ad072745883e28eb26789da4752668c1020804674ea8e8d4f0f8b"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "bytes": 40833,
+      "sha256": "6c66cabea4f530c755bb7158053c3f0f307104b4dca7ffa1d806fb7bf9c54ad6"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "bytes": 26607,
+      "sha256": "1fe93a15fd979814fac0cc150f2dc3acb502fba874f801ee79bcbad9b0a6468b"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+      "bytes": 6999,
+      "sha256": "ad947421d770dfdb37559d55b2485e0d5fca7f04e11b5b20eb5c599a2c33a729"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+      "bytes": 17619,
+      "sha256": "367b8f2f624324aa6cfbf993843bfc6975740bed0cec9a5488105541daac13fa"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+      "bytes": 22335,
+      "sha256": "da4248b32230ba56c96ecd677baca0d342b5d40145cf74b9e56b56b3214592c8"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "bytes": 16325,
+      "sha256": "c45dc91926f47ef6f134591cf11b07c68017eee8720d16a71eef3ba69b22885e"
+    }
+  ],
+  "original_queries": 0,
+  "tests_run": false
+}

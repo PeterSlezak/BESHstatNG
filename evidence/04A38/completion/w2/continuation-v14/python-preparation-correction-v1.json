@@ -1,0 +1,19 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/source-provisional/common-before-library-pin-fix-v1.py",
+    "bytes": 1859,
+    "sha256": "8460b86590618343f886992fc79ade53caa124dc4fa5e41227a303e92fdd9042"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/common.py",
+    "bytes": 1930,
+    "sha256": "585e789435570d047989932488723f7ff605723dbbbccf50d5c3927bca1ee058"
+  },
+  "failed": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/scanner-base-proof-v1-execution.json",
+    "bytes": 486,
+    "sha256": "1e8c939f5a35778505060c4c2dbdc933d0d6da608cd6d63e1ef2223a7336bff2"
+  },
+  "reason": "Tooling library_pin must hash external Python/tool binaries without requiring them to be repository-relative payloads. Restore the exact predecessor implementation. No scanner or assertion changes; preserve the failed small fixture directory and use a distinct v2 directory for the corrective proof.",
+  "original_queries": 0
+}

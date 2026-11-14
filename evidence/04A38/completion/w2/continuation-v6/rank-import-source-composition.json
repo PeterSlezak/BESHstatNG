@@ -1,0 +1,35 @@
+{
+  "preimages": [
+    {
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+        "bytes": 14616,
+        "sha256": "3e9fa93f70d522ca90da5454ce9c805ad47ecabcb485c1d1c1aa3eac1d9d372f"
+      },
+      "retained": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/intermediate-preimages/rank-imports/BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb.txt",
+        "bytes": 14616,
+        "sha256": "3e9fa93f70d522ca90da5454ce9c805ad47ecabcb485c1d1c1aa3eac1d9d372f"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 41331,
+        "sha256": "7dfcf7ebda854d2f3cacaf210c035c2d5e17e0caba86e05e66a66d72804b20ab"
+      },
+      "retained": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/intermediate-preimages/rank-imports/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 41331,
+        "sha256": "7dfcf7ebda854d2f3cacaf210c035c2d5e17e0caba86e05e66a66d72804b20ab"
+      }
+    }
+  ],
+  "changes": [
+    "ReadNumericColumnIgnoringNonNumeric consumes the C6 ReadFiniteColumn helper with the original list capacity",
+    "ExtractPairedNumericColumnsIgnoringNonNumeric consumes existing Core RowsToMatrix(pairs,2)"
+  ],
+  "domain_proof": "Native TryGetDouble returns only finite Double?; the shared helper finite checks add no callback or exception and cannot reject a native present value. Preserve native sentinel/coercion/error branches, order and original list capacity. Single-column reader retains default-capacity path. No caller arrays are copied or mutated by callbacks.",
+  "public_api_scope": "ReadFiniteColumn was first introduced in this C6 execution; no v5/public UDF signature is changed. Earlier C6 signature/build receipts remain.",
+  "original_queries": 0
+}

@@ -1,0 +1,251 @@
+{
+  "checks": [
+    {
+      "check": "branch",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "branch",
+          "--show-current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.06389660000058939,
+        "stdout_sha256": "21e6cef64d0c746dff013d36467aaccfaee4217649e4e00e676958b12c0308cb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "raw_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-branch-v1/command.json",
+        "bytes": 536,
+        "sha256": "bbd072ead97c93894adf0f18851831039e62891ec82f4c5d90b02ca4f36534a0"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-branch-v1/stdout.log",
+        "bytes": 13,
+        "sha256": "21e6cef64d0c746dff013d36467aaccfaee4217649e4e00e676958b12c0308cb"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-branch-v1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "check": "HEAD",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "rev-parse",
+          "HEAD"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.051859900002455106,
+        "stdout_sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "raw_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-HEAD-v1/command.json",
+        "bytes": 530,
+        "sha256": "5eb75c9197cabd03be8bbd655b9096475aab4363278a99a3707fd8f6376108c0"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-HEAD-v1/stdout.log",
+        "bytes": 41,
+        "sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-HEAD-v1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "check": "main",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "rev-parse",
+          "main"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.055939800000487594,
+        "stdout_sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "raw_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-main-v1/command.json",
+        "bytes": 530,
+        "sha256": "bafd1de29234ae7db29239d9bd7a37e790e3d82a3ad2f8faaef07fa40158c7c7"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-main-v1/stdout.log",
+        "bytes": 41,
+        "sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-main-v1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "check": "merge-base",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "merge-base",
+          "HEAD",
+          "main"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.0515637999997125,
+        "stdout_sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "raw_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-merge-base-v1/command.json",
+        "bytes": 541,
+        "sha256": "e1966f56a62b92ea79248b2921782ace6860f0fb1ed0f22fd27fcd30662cedb8"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-merge-base-v1/stdout.log",
+        "bytes": 41,
+        "sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-merge-base-v1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "check": "index",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "diff",
+          "--cached",
+          "--name-status"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.05001789999732864,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "raw_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-index-v1/command.json",
+        "bytes": 549,
+        "sha256": "4d6b502cf4f1b9c4abd379008bfd96cb1d32aa219aaf2aae6a97895185661ea0"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-index-v1/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-index-v1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "check": "status",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "status",
+          "--porcelain=v1"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.09537569999883999,
+        "stdout_sha256": "038247e932dde2a5bb3ec185f86ffe8062f770633c117630396b5c7cdee248a7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "raw_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-status-v1/command.json",
+        "bytes": 536,
+        "sha256": "21268fba5a28af5217dd72989451038ca832ea53096acbd46415eb22f7f46b64"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-status-v1/stdout.log",
+        "bytes": 4172,
+        "sha256": "038247e932dde2a5bb3ec185f86ffe8062f770633c117630396b5c7cdee248a7"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-status-v1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "check": "diff-check",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "diff",
+          "--check"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.14846939999915776,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0654102ada8f3235089e72c98e74bc373173f9c51a2fe5b4f9738ed773030648",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "raw_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-diff-check-v1/command.json",
+        "bytes": 527,
+        "sha256": "17b212bb74904145994621f57f79ad9a6e22a5435de95ec8d9bd6c6a12958bf7"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-diff-check-v1/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-git-diff-check-v1/stderr.log",
+        "bytes": 4353,
+        "sha256": "0654102ada8f3235089e72c98e74bc373173f9c51a2fe5b4f9738ed773030648"
+      }
+    }
+  ],
+  "index_file": {
+    "path": ".git/index",
+    "bytes": 620185,
+    "sha256": "2036821003b1e1fb1077e72183e0b6c2fa7d22cdb2e784b760637e6d6fe9bc2c"
+  },
+  "base": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "production_edits": 0
+}

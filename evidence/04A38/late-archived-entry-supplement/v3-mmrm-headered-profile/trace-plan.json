@@ -1,0 +1,222 @@
+{
+  "plan": {
+    "source_members": [
+      "TryGetMmrmLsmEstimateAtSpec",
+      "AddMmrmLsmEstimateAtValue",
+      "MMRM_LSMESTIMATE"
+    ],
+    "required_ordered_events": [
+      "spec.accepted=Intercept|treatment_active|visit2|visit3|treatment_active:visit2|treatment_active:visit3",
+      "parser.entry=True",
+      "headerless.attempted=False",
+      "header.name_col=0",
+      "header.value_col=1",
+      "branch.headered_name_value=True",
+      "headered.row=1",
+      "helper.entry=treatment_active",
+      "helper.value=D3FF0000000000000",
+      "selection.design=treatment_active",
+      "headered.row=2",
+      "helper.entry=visit",
+      "helper.value=D3FF0000000000000",
+      "selection.visit=visit",
+      "selection.visit_value=D3FF0000000000000",
+      "profile.formed=True",
+      "profile.applied=True",
+      "row_selection.enter=True"
+    ],
+    "forbidden_events": [
+      "branch.headerless_success=True",
+      "branch.wide=True"
+    ],
+    "statistical_result": "UNKNOWN_NOT_CAPTURED; row match count/report/later error must be observed, not forced"
+  },
+  "source_map": [
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 968,
+      "source_anchor": "Dim atProfile As MmrmLsmEstimateAtProfile = Nothing",
+      "event": "spec.accepted",
+      "value_expression": "String.Join(\"|\", h.FixedEffectNames)",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 975,
+      "source_anchor": "Dim labels As New List(Of String)()",
+      "event": "profile.applied",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 983,
+      "source_anchor": "Dim matchedCount As Integer = 0",
+      "event": "row_selection.enter",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 985,
+      "source_anchor": "If lProfile Is Nothing Then",
+      "event": "row_selection.matched",
+      "value_expression": "matchedCount",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 1010,
+      "source_anchor": "Dim table As ResultTable = regression.MixedModelPostEstimation.BuildLinearContrastResultTable(",
+      "event": "contrast.report_enter",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 1019,
+      "source_anchor": "Return PrepareResultTableForUdf(table)",
+      "event": "report.returned",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 487,
+      "source_anchor": "atProfile = Nothing",
+      "event": "parser.entry",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 511,
+      "source_anchor": "If attemptedHeaderlessAt Then Return False",
+      "event": "headerless.attempted",
+      "value_expression": "attemptedHeaderlessAt",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 526,
+      "source_anchor": "Dim parsed As New Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile()",
+      "event": "header.name_col",
+      "value_expression": "nameCol",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 526,
+      "source_anchor": "Dim parsed As New Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile()",
+      "event": "header.value_col",
+      "value_expression": "valueCol",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 528,
+      "source_anchor": "If nameCol >= 0 AndAlso valueCol >= 0 AndAlso nameCol <> valueCol Then",
+      "event": "branch.headered_name_value",
+      "value_expression": "True",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 539,
+      "source_anchor": "Dim requestedName As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(r, nameCol))",
+      "event": "headered.row",
+      "value_expression": "r",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 559,
+      "source_anchor": "Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()",
+      "event": "branch.wide",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 508,
+      "source_anchor": "atProfile = headerlessAt",
+      "event": "branch.headerless_success",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 639,
+      "source_anchor": "atProfile = parsed",
+      "event": "profile.formed",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "AddMmrmLsmEstimateAtValue",
+      "archived_source_line": 718,
+      "source_anchor": "If atProfile Is Nothing Then",
+      "event": "helper.entry",
+      "value_expression": "requestedName",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "AddMmrmLsmEstimateAtValue",
+      "archived_source_line": 718,
+      "source_anchor": "If atProfile Is Nothing Then",
+      "event": "helper.value",
+      "value_expression": "value",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "AddMmrmLsmEstimateAtValue",
+      "archived_source_line": 731,
+      "source_anchor": "atProfile.VisitSpecified = True",
+      "event": "selection.visit",
+      "value_expression": "requestedName",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "AddMmrmLsmEstimateAtValue",
+      "archived_source_line": 732,
+      "source_anchor": "atProfile.VisitValue = value",
+      "event": "selection.visit_value",
+      "value_expression": "value",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "AddMmrmLsmEstimateAtValue",
+      "archived_source_line": 750,
+      "source_anchor": "atProfile.ProfileValues.Add(New Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateProfileValue With {",
+      "event": "selection.design",
+      "value_expression": "h.FixedEffectNames(idx)",
+      "after_anchor": false
+    }
+  ],
+  "source_snapshot": {
+    "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportMixedModel.vb.txt",
+    "bytes": 38595,
+    "sha256": "5297574cab59e631cf880807903a206f76dfb1509818a1825c1ca6798332071a"
+  },
+  "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859"
+}

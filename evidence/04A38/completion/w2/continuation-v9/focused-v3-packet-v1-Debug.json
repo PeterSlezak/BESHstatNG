@@ -1,0 +1,843 @@
+{
+  "results": [
+    {
+      "kind": "BUILD",
+      "suite": "Core",
+      "command": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<REPO_ROOT>\\BESHStat.Core.Tests\\BESHStat.Core.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\tests-Core\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\obj\\tests-Core\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.3952952999970876,
+        "stdout_sha256": "3f68539a4811d6d25fde26d038b3df537cc846bab96ca33f392a1277473f2fa6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Core",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\tests-Core\\BESHStat.Core.Tests.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~Agreement|FullyQualifiedName~BinaryClassification|FullyQualifiedName~Contingency",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\results-Core"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.9894277000275906,
+        "stdout_sha256": "282779bfeca3ed76f050de9d070d84793fd4037b4f021fc8d753e500c9dcfa86",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Core.Tests.BinaryClassificationCoreTests",
+            "method": "Default_thresholds_are_sorted_bounded_and_thinned_deterministically",
+            "test_name": "Default_thresholds_are_sorted_bounded_and_thinned_deterministically",
+            "outcome": "Passed",
+            "duration": "00:00:00.0098785",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "MantelHaenszel_wrong_dimensions_throws",
+            "test_name": "MantelHaenszel_wrong_dimensions_throws",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003582",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ScalarResamplingResult_BCa_interval_is_finite_and_not_identical_to_percentile_for_skewed_input",
+            "test_name": "ScalarResamplingResult_BCa_interval_is_finite_and_not_identical_to_percentile_for_skewed_input",
+            "outcome": "Passed",
+            "duration": "00:00:00.0028813",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedDeming_constructor_and_parameter_validation",
+            "test_name": "WeightedDeming_constructor_and_parameter_validation",
+            "outcome": "Passed",
+            "duration": "00:00:00.0015027",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "BlandAltman_bootstrap_BCa_simple_pairs_is_reproducible_with_fixed_seed_and_records_seed_in_notes",
+            "test_name": "BlandAltman_bootstrap_BCa_simple_pairs_is_reproducible_with_fixed_seed_and_records_seed_in_notes",
+            "outcome": "Passed",
+            "duration": "00:00:00.0033360",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.AgreementPlotPayloadTests",
+            "method": "PassingBablok_PlotPayload_ContainsFitAndRawPairs",
+            "test_name": "PassingBablok_PlotPayload_ContainsFitAndRawPairs",
+            "outcome": "Passed",
+            "duration": "00:00:00.0149811",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "cTableORDINALassoc_matches_reference",
+            "test_name": "cTableORDINALassoc_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0013758",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ICC2_and_ICC3_throw_when_MSE_is_zero_or_negative",
+            "test_name": "ICC2_and_ICC3_throw_when_MSE_is_zero_or_negative",
+            "outcome": "Passed",
+            "duration": "00:00:00.0009443",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "Liddell_McNemar_matches_reference",
+            "test_name": "Liddell_McNemar_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0009546",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "BlandAltman_simple_pairs_returns_expected_bias_and_limits",
+            "test_name": "BlandAltman_simple_pairs_returns_expected_bias_and_limits",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005686",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "Chi2TESTindependence_matches_reference",
+            "test_name": "Chi2TESTindependence_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006648",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedDeming_constant_CV_point_estimate_on_perfect_line",
+            "test_name": "WeightedDeming_constant_CV_point_estimate_on_perfect_line",
+            "outcome": "Passed",
+            "duration": "00:00:00.0016740",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.BinaryClassificationCoreTests",
+            "method": "Summary_and_Brier_match_reference_values",
+            "test_name": "Summary_and_Brier_match_reference_values",
+            "outcome": "Passed",
+            "duration": "00:00:00.0023362",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "MantelHaenszel_matches_reference",
+            "test_name": "MantelHaenszel_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0013137",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ICC2k_ShroutFleiss1979_example_matches_reference",
+            "test_name": "ICC2k_ShroutFleiss1979_example_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0131987",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ICC11_throws_on_too_few_or_empty_groups",
+            "test_name": "ICC11_throws_on_too_few_or_empty_groups",
+            "outcome": "Passed",
+            "duration": "00:00:00.0131312",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.AgreementPlotPayloadTests",
+            "method": "Deming_PlotPayload_ContainsRegressionLineParameters",
+            "test_name": "Deming_PlotPayload_ContainsRegressionLineParameters",
+            "outcome": "Passed",
+            "duration": "00:00:00.0146405",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedDeming_constant_lambda_preserves_legacy_perfect_line_behavior",
+            "test_name": "WeightedDeming_constant_lambda_preserves_legacy_perfect_line_behavior",
+            "outcome": "Passed",
+            "duration": "00:00:00.0092747",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.BinaryClassificationCoreTests",
+            "method": "Weighted_threshold_calibration_and_result_tables_are_consistent",
+            "test_name": "Weighted_threshold_calibration_and_result_tables_are_consistent",
+            "outcome": "Passed",
+            "duration": "00:00:00.0182215",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "FisherExact2x2_matches_reference_definition",
+            "test_name": "FisherExact2x2_matches_reference_definition",
+            "outcome": "Passed",
+            "duration": "00:00:00.0013960",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "LinCCC_bootstrap_BCa_is_reproducible_with_fixed_seed",
+            "test_name": "LinCCC_bootstrap_BCa_is_reproducible_with_fixed_seed",
+            "outcome": "Passed",
+            "duration": "00:00:00.0062783",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "CochranArmitage_matches_reference",
+            "test_name": "CochranArmitage_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006099",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedKappa_unweighted_matches_manual_reference",
+            "test_name": "WeightedKappa_unweighted_matches_manual_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0103364",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.BinaryClassificationCoreTests",
+            "method": "Percentile_cutpoint_bins_collapse_tied_cutpoints_and_cover_all_rows",
+            "test_name": "Percentile_cutpoint_bins_collapse_tied_cutpoints_and_cover_all_rows",
+            "outcome": "Passed",
+            "duration": "00:00:00.0099005",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "OddsRatio_matches_reference",
+            "test_name": "OddsRatio_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0007212",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedKappa_jackknife_produces_finite_interval_and_does_not_claim_analytical_fallback",
+            "test_name": "WeightedKappa_jackknife_produces_finite_interval_and_does_not_claim_analytical_fallback",
+            "outcome": "Passed",
+            "duration": "00:00:00.0087911",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ICC1k_ShroutFleiss1979_example_matches_reference",
+            "test_name": "ICC1k_ShroutFleiss1979_example_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0131974",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "TwoIndependentProportions_matches_reference",
+            "test_name": "TwoIndependentProportions_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005034",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.BinaryClassificationCoreTests",
+            "method": "Validation_rejects_nonbinary_outcomes_invalid_probabilities_and_negative_weights",
+            "test_name": "Validation_rejects_nonbinary_outcomes_invalid_probabilities_and_negative_weights",
+            "outcome": "Passed",
+            "duration": "00:00:00.0007229",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "LinCCC_matches_independent_reference_calculation",
+            "test_name": "LinCCC_matches_independent_reference_calculation",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006910",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "PairedProportions_matches_reference",
+            "test_name": "PairedProportions_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004954",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "RepeatabilityCoefficient_OneWay_ICC1k_scales_by_sqrt_n0_in_balanced_design",
+            "test_name": "RepeatabilityCoefficient_OneWay_ICC1k_scales_by_sqrt_n0_in_balanced_design",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002798",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ICC2_and_ICC3_throw_on_invalid_dimensions",
+            "test_name": "ICC2_and_ICC3_throw_on_invalid_dimensions",
+            "outcome": "Passed",
+            "duration": "00:00:00.0014978",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "RepeatabilityCoefficient_OneWay_ICC11_ShroutFleiss_example_matches_reference",
+            "test_name": "RepeatabilityCoefficient_OneWay_ICC11_ShroutFleiss_example_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0017625",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedDeming_known_pointwise_sd_handles_filtered_pairs",
+            "test_name": "WeightedDeming_known_pointwise_sd_handles_filtered_pairs",
+            "outcome": "Passed",
+            "duration": "00:00:00.0007216",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ICC11_ShroutFleiss1979_example_matches_reference",
+            "test_name": "ICC11_ShroutFleiss1979_example_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0131787",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedDeming_bootstrap_BCa_is_reproducible_with_fixed_seed_and_notes_do_not_claim_fallback",
+            "test_name": "WeightedDeming_bootstrap_BCa_is_reproducible_with_fixed_seed_and_notes_do_not_claim_fallback",
+            "outcome": "Passed",
+            "duration": "00:00:00.0022649",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "BlandAltman_repeated_by_subject_uses_within_subject_variance",
+            "test_name": "BlandAltman_repeated_by_subject_uses_within_subject_variance",
+            "outcome": "Passed",
+            "duration": "00:00:00.0055187",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "RepeatabilityCoefficient_TwoWay_consistency_matches_manual_MSE_and_CI",
+            "test_name": "RepeatabilityCoefficient_TwoWay_consistency_matches_manual_MSE_and_CI",
+            "outcome": "Passed",
+            "duration": "00:00:00.0012618",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ICC3k_ShroutFleiss1979_example_matches_reference",
+            "test_name": "ICC3k_ShroutFleiss1979_example_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0131305",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedDeming_analyticalCI_throws_when_Sxy_zero",
+            "test_name": "WeightedDeming_analyticalCI_throws_when_Sxy_zero",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006161",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "SingleProportion_matches_reference",
+            "test_name": "SingleProportion_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004968",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ICC31_ShroutFleiss1979_example_matches_reference",
+            "test_name": "ICC31_ShroutFleiss1979_example_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0131669",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "PassingBablok_throws_when_no_valid_slopes",
+            "test_name": "PassingBablok_throws_when_no_valid_slopes",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003321",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "PassingBablok_perfect_line_returns_exact_slope_and_intercept",
+            "test_name": "PassingBablok_perfect_line_returns_exact_slope_and_intercept",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002499",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedKappa_bootstrap_BCa_is_reproducible_with_fixed_seed",
+            "test_name": "WeightedKappa_bootstrap_BCa_is_reproducible_with_fixed_seed",
+            "outcome": "Passed",
+            "duration": "00:00:00.0041725",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.AgreementPlotPayloadTests",
+            "method": "LinConcordance_PlotPayload_UsesCommonAxisRange",
+            "test_name": "LinConcordance_PlotPayload_UsesCommonAxisRange",
+            "outcome": "Passed",
+            "duration": "00:00:00.0144948",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "PassingBablok_constructor_validates_inputs",
+            "test_name": "PassingBablok_constructor_validates_inputs",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003478",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ContingencyTable_Function_Tests",
+            "method": "RiskRatio_matches_reference",
+            "test_name": "RiskRatio_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003297",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.AgreementPlotPayloadTests",
+            "method": "BlandAltman_PlotPayload_ContainsAgreementReferenceLines",
+            "test_name": "BlandAltman_PlotPayload_ContainsAgreementReferenceLines",
+            "outcome": "Passed",
+            "duration": "00:00:00.0167816",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "ICC21_ShroutFleiss1979_example_matches_reference",
+            "test_name": "ICC21_ShroutFleiss1979_example_matches_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0131259",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "RepeatabilityCoefficient_TwoWay_agreement_includes_rater_variance_and_scales_for_average_measures",
+            "test_name": "RepeatabilityCoefficient_TwoWay_agreement_includes_rater_variance_and_scales_for_average_measures",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003402",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.Agreement_Tests",
+            "method": "WeightedKappa_linear_matches_manual_reference",
+            "test_name": "WeightedKappa_linear_matches_manual_reference",
+            "outcome": "Passed",
+            "duration": "00:00:00.0094098",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 53
+        },
+        "counters": {
+          "total": "53",
+          "executed": "53",
+          "passed": "53",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "1fb43bea35f63dfcbbc224db11ab888f9e7404508f7238ed5a53849aa205b20e"
+      }
+    },
+    {
+      "kind": "BUILD",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<REPO_ROOT>\\BESHStat.Excel.Common.Tests\\BESHStat.Excel.Common.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\tests-Common\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\obj\\tests-Common\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.9895546000043396,
+        "stdout_sha256": "d10da7dc38c42a20381c5450b0e78f59bc1ac1752064ea7e567ed53c6043e024",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\tests-Common\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~UdfContinuation9Tests",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\results-Common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.9774903999932576,
+        "stdout_sha256": "771728aca10d953508b5b197c2620222856809b3de746f6b345e92717e035302",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "CoefficientsPreserveAliasedCachedIntervalInstances",
+            "test_name": "CoefficientsPreserveAliasedCachedIntervalInstances",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005003",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "ConfidenceFormattingUsesCurrentCultureWithoutEagerCopies",
+            "test_name": "ConfidenceFormattingUsesCurrentCultureWithoutEagerCopies",
+            "outcome": "Passed",
+            "duration": "00:00:00.0020220",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "BlandAltmanStatisticsKeepBlankSpacerCellsAndRowOrder",
+            "test_name": "BlandAltmanStatisticsKeepBlankSpacerCellsAndRowOrder",
+            "outcome": "Passed",
+            "duration": "00:00:00.0019012",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "ChiSquaredBodyRetainsCoreStatisticDfAndRawPValue",
+            "test_name": "ChiSquaredBodyRetainsCoreStatisticDfAndRawPValue",
+            "outcome": "Passed",
+            "duration": "00:00:00.0033432",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "ContingencyFiniteGuardIsLazyAndExceptionsPropagate",
+            "test_name": "ContingencyFiniteGuardIsLazyAndExceptionsPropagate",
+            "outcome": "Passed",
+            "duration": "00:00:00.0013195",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "RepeatabilityKeepsSemAndOriginalHeaderBoundary",
+            "test_name": "RepeatabilityKeepsSemAndOriginalHeaderBoundary",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003858",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "BrierRowsOmitOnlyNanOptionalScalars",
+            "test_name": "BrierRowsOmitOnlyNanOptionalScalars",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005984",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "FisherBodyKeepsOriginalOrientationAndMidPFields",
+            "test_name": "FisherBodyKeepsOriginalOrientationAndMidPFields",
+            "outcome": "Passed",
+            "duration": "00:00:00.0014774",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "FreemanHaltonUsesTheExistingCoreEngine",
+            "test_name": "FreemanHaltonUsesTheExistingCoreEngine",
+            "outcome": "Passed",
+            "duration": "00:00:00.0480369",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "ConfusionRowsRetainThresholdTiesAndNumericClassOrder",
+            "test_name": "ConfusionRowsRetainThresholdTiesAndNumericClassOrder",
+            "outcome": "Passed",
+            "duration": "00:00:00.0029816",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "NominalAssociationKeepsEveryCoreCoefficient",
+            "test_name": "NominalAssociationKeepsEveryCoreCoefficient",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003529",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "MissingPercentRetainsOpaqueSentinelAndOverflowBehavior",
+            "test_name": "MissingPercentRetainsOpaqueSentinelAndOverflowBehavior",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004973",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "MissingSlopeFailsBeforeInterceptFormatting",
+            "test_name": "MissingSlopeFailsBeforeInterceptFormatting",
+            "outcome": "Passed",
+            "duration": "00:00:00.0019422",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "ThresholdReportsKeepCoreOrderingAndFourteenColumns",
+            "test_name": "ThresholdReportsKeepCoreOrderingAndFourteenColumns",
+            "outcome": "Passed",
+            "duration": "00:00:00.0077667",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "EmptyThresholdAndCalibrationOutputsKeepTheSameSentinel",
+            "test_name": "EmptyThresholdAndCalibrationOutputsKeepTheSameSentinel",
+            "outcome": "Passed",
+            "duration": "00:00:00.0017739",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "ReportsReturnFreshArraysWithoutChangingSourceRows",
+            "test_name": "ReportsReturnFreshArraysWithoutChangingSourceRows",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005045",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "CoefficientsRetainLabelsTypesAndConfidenceMetadata",
+            "test_name": "CoefficientsRetainLabelsTypesAndConfidenceMetadata",
+            "outcome": "Passed",
+            "duration": "00:00:00.0114312",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation9Tests",
+            "method": "CalibrationKeepsRawNanLimitsAndWeightedCounts",
+            "test_name": "CalibrationKeepsRawNanLimitsAndWeightedCounts",
+            "outcome": "Passed",
+            "duration": "00:00:00.0007723",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 18
+        },
+        "counters": {
+          "total": "18",
+          "executed": "18",
+          "passed": "18",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "775922aad7172e2df0db2bd6f1caea53824b830d93f238da6b22dba52086ec39"
+      }
+    },
+    {
+      "kind": "BUILD",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<REPO_ROOT>\\BESHStatNG.Test\\BESHStatNG.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\tests-Legacy\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\obj\\tests-Legacy\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.417767199978698,
+        "stdout_sha256": "29597f1dcb1c79eaa98cfe79f061477a6fafc0ac51292cbfad9d08cf680dec00",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\tests-Legacy\\BESHStatNG.Test.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~Continuation9",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1-focus-v3\\Debug\\results-Legacy",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 5.393972299993038,
+        "stdout_sha256": "ed8ce0f5791af733b297cc427af8559a2deedce3fef7235c9e765c153729ea92",
+        "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation9ClassificationKeepsRowVectorsHeadersAndMissingErrors",
+            "test_name": "Continuation9ClassificationKeepsRowVectorsHeadersAndMissingErrors",
+            "outcome": "Passed",
+            "duration": "00:00:00.0331653",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation9RealCompiledConsumersCallEachPortableFamily",
+            "test_name": "Continuation9RealCompiledConsumersCallEachPortableFamily",
+            "outcome": "Passed",
+            "duration": "00:00:00.0032971",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation9BlandAltmanAndRepeatabilityKeepNativeMaterialization",
+            "test_name": "Continuation9BlandAltmanAndRepeatabilityKeepNativeMaterialization",
+            "outcome": "Passed",
+            "duration": "00:00:00.0296394",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation9BrierValidationPrecedesHeaderAndLowerBoundsStayNative",
+            "test_name": "Continuation9BrierValidationPrecedesHeaderAndLowerBoundsStayNative",
+            "outcome": "Failed",
+            "duration": "00:00:00.1495463",
+            "message": "Assert.IsInstanceOfType failed.  Expected type:<System.String>. Actual type:<System.Object[,]>."
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation9CoefficientAdaptersKeepRowsAndTypedEstimates",
+            "test_name": "Continuation9CoefficientAdaptersKeepRowsAndTypedEstimates",
+            "outcome": "Passed",
+            "duration": "00:00:00.1458464",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation9ContingencyKeepsShapeFailuresAndPValueTypes",
+            "test_name": "Continuation9ContingencyKeepsShapeFailuresAndPValueTypes",
+            "outcome": "Passed",
+            "duration": "00:00:00.0491109",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 5,
+          "Failed": 1
+        },
+        "counters": {
+          "total": "6",
+          "executed": "6",
+          "passed": "5",
+          "failed": "1",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "4e845b673c3cb0838e14c29cd79858aa39f33cebb9de163ec2a71c5df3dbc063"
+      }
+    }
+  ],
+  "original_queries": 0
+}

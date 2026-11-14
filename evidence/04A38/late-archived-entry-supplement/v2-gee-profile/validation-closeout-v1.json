@@ -1,0 +1,60 @@
+{
+  "mmrm_gap_reader": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/verify_remaining_mmrm.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 2.682590100004745,
+    "stdout_sha256": "56ec26deeea1ec3d9965d5f103bf97910c8d84cfd1440c5c28e295eef85f5717",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "mmrm_gap_adverse": {
+    "label": "gee38-v2-mmrm-gap-adverse",
+    "total": 9,
+    "passed": 9,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "f5ad022438031e7eb08258f5ae8a8b6c573ef47c285ecd03d125e16d3d6d9337",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_fabricated_expected_output (test_mmrm_gap.MmrmGapTests.test_fabricated_expected_output)",
+      "test_false_headered_witness (test_mmrm_gap.MmrmGapTests.test_false_headered_witness)",
+      "test_forged_ready (test_mmrm_gap.MmrmGapTests.test_forged_ready)",
+      "test_headerless_mislabeled_headered (test_mmrm_gap.MmrmGapTests.test_headerless_mislabeled_headered)",
+      "test_intact_stop_decision (test_mmrm_gap.MmrmGapTests.test_intact_stop_decision)",
+      "test_lost_witness (test_mmrm_gap.MmrmGapTests.test_lost_witness)",
+      "test_production_before_owner_decision (test_mmrm_gap.MmrmGapTests.test_production_before_owner_decision)",
+      "test_unapproved_capture (test_mmrm_gap.MmrmGapTests.test_unapproved_capture)",
+      "test_wrong_member (test_mmrm_gap.MmrmGapTests.test_wrong_member)"
+    ],
+    "nonpasses": []
+  },
+  "gee_gate_validation": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/gee-gate-validation.json",
+    "bytes": 21834,
+    "sha256": "db47f112523d6d1f1da5f5a4617ae54c0173fcddfc6ea0ad5902437de5c5569e"
+  },
+  "new_adverse_tests_total": 87,
+  "unchanged_prior_adverse_tests_total": 98,
+  "complete_managed_node_python_strict_profile_mkdocs": "NOT_RUN: evidence-only work and mandatory missing-original-reference stop",
+  "inherited_receipts_only": {
+    "managed_debug": "20556 PASS /14 inherited FAIL",
+    "managed_release": "20556 PASS /14 inherited FAIL",
+    "node": "916 PASS",
+    "python": "767 PASS /178 FAIL /11 ERROR",
+    "strict": 1,
+    "profile": 1,
+    "mkdocs": 0
+  },
+  "full_ready_verifier": "NOT_COMPLETED_NOT_RUN",
+  "native": "NOT_RUN",
+  "r_oracle": "NOT_RUN",
+  "office_mac_manual": "NOT_RUN",
+  "packaging_signing_installation_deployment": "NOT_RUN",
+  "not_ready_reason": "New independent MMRM reference coverage decision required; previous ownership/extraction remains unfinished"
+}

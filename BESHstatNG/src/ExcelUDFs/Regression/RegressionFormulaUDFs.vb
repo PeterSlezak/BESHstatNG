@@ -141,26 +141,7 @@ Namespace WorksheetFunctions
                     End If
                 End If
 
-                Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing
-                Dim designErr As String = Nothing
-                If RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=xMat,
-                                                                                           result:=designBuild,
-                                                                                           errorMessage:=designErr,
-                                                                                           predictorNames:=rawVarNames,
-                                                                                           formulaText:=formulaText,
-                                                                                           absoluteColumnLetters:=absoluteColumnLetters,
-                                                                                           allowRelativeColumnLetters:=allowRelativeColumnLetters,
-                                                                                           allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,
-                                                                                           allowQuotedVariableNames:=allowQuotedVariableNames,
-                                                                                           omitCategoricalReference:=True) Then
-                    Return True
-                End If
-
-                Return BuildValidationFailureMessage(formulaText:=formulaText,
-                                                     addressingMode:=addressingMode,
-                                                     rawVarNames:=rawVarNames,
-                                                     absoluteColumnLetters:=absoluteColumnLetters,
-                                                     parserOrBuilderMessage:=designErr)
+                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ValidateWorksheetFormula(xMat, rawVarNames, formulaText, addressingMode, absoluteColumnLetters, allowRelativeColumnLetters, allowAbsoluteColumnLetters, allowQuotedVariableNames)
 
             Catch ex As Exception
                 Return LoggedUdfError("BESH.REGR.FORMULA_VALIDATE", ex, Nothing, "Validation failed: ")
@@ -182,43 +163,7 @@ Namespace WorksheetFunctions
                                                        absoluteColumnLetters As String(),
                                                        parserOrBuilderMessage As String) As String
 
-            Dim sb As New StringBuilder()
-            Dim msg As String = If(parserOrBuilderMessage, "Unknown validation error.").Trim()
-
-            sb.Append("Validation failed: ")
-            sb.Append(msg)
-
-            Dim fragment As String = Nothing
-            Dim fragmentPos As Integer = -1
-            If TryLocateOffendingFragment(formulaText, msg, fragment, fragmentPos) Then
-                sb.Append(" Offending fragment: ")
-                sb.Append(fragment)
-                If fragmentPos >= 0 Then
-                    sb.Append(" (starting near character ")
-                    sb.Append((fragmentPos + 1).ToString(CultureInfo.InvariantCulture))
-                    sb.Append(").")
-                Else
-                    sb.Append(".")
-                End If
-            End If
-
-            If Not String.IsNullOrWhiteSpace(formulaText) Then
-                sb.Append(" Formula: ")
-                sb.Append(formulaText.Trim())
-                sb.Append(".")
-            End If
-
-            sb.Append(" Addressing mode: ")
-            sb.Append(addressingMode)
-            sb.Append(".")
-
-            Dim refs As String = BuildAvailableReferenceSummary(addressingMode, rawVarNames, absoluteColumnLetters)
-            If refs <> String.Empty Then
-                sb.Append(" ")
-                sb.Append(refs)
-            End If
-
-            Return sb.ToString()
+            Return Global.BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.BuildValidationFailureMessage(formulaText, addressingMode, rawVarNames, absoluteColumnLetters, parserOrBuilderMessage)
         End Function
 
         ''' <summary>
@@ -234,62 +179,7 @@ Namespace WorksheetFunctions
                                                     ByRef fragment As String,
                                                     ByRef position As Integer) As Boolean
 
-            fragment = Nothing
-            position = -1
-
-            Dim formula As String = If(formulaText, String.Empty)
-            Dim err As String = If(errorMessage, String.Empty)
-            If formula = String.Empty OrElse err = String.Empty Then Return False
-
-            Dim candidates As New List(Of String)()
-
-            For Each m As Match In Regex.Matches(err, "'((?:[^']|'')*)'")
-                If m.Success Then
-                    Dim body As String = m.Groups(1).Value
-                    If body <> String.Empty Then candidates.Add(body)
-                End If
-            Next
-
-            For Each candidate As String In candidates.Distinct(StringComparer.Ordinal)
-                Dim exactQuoted As String = "'" & candidate.Replace("'", "''") & "'"
-                Dim idx As Integer = formula.IndexOf(exactQuoted, StringComparison.OrdinalIgnoreCase)
-                If idx >= 0 Then
-                    fragment = exactQuoted
-                    position = idx
-                    Return True
-                End If
-
-                idx = formula.IndexOf(candidate, StringComparison.OrdinalIgnoreCase)
-                If idx >= 0 Then
-                    fragment = candidate
-                    position = idx
-                    Return True
-                End If
-            Next
-
-            Dim factorIx As Integer = err.IndexOf("factor(", StringComparison.OrdinalIgnoreCase)
-            If factorIx >= 0 Then
-                Dim factorFormulaIx As Integer = formula.IndexOf("factor(", StringComparison.OrdinalIgnoreCase)
-                If factorFormulaIx >= 0 Then
-                    fragment = ExtractBalancedFunctionCall(formula, factorFormulaIx)
-                    position = factorFormulaIx
-                    Return fragment <> String.Empty
-                End If
-            End If
-
-            If err.IndexOf("interaction", StringComparison.OrdinalIgnoreCase) >= 0 AndAlso formula.IndexOf(":"c) >= 0 Then
-                fragment = formula.Trim()
-                position = formula.IndexOf(":"c)
-                Return True
-            End If
-
-            If err.IndexOf("polynomial", StringComparison.OrdinalIgnoreCase) >= 0 AndAlso formula.IndexOf("^"c) >= 0 Then
-                fragment = formula.Trim()
-                position = formula.IndexOf("^"c)
-                Return True
-            End If
-
-            Return False
+            Return Global.BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.TryLocateOffendingFragment(formulaText, errorMessage, fragment, position)
         End Function
 
         ''' <summary>
@@ -299,42 +189,7 @@ Namespace WorksheetFunctions
         ''' <param name="startIndex">The zero-based index of the first character of the function name.</param>
         ''' <returns>The balanced function-call text when it can be extracted; otherwise, an empty string.</returns>
         Private Function ExtractBalancedFunctionCall(text As String, startIndex As Integer) As String
-            Dim s As String = If(text, String.Empty)
-            If startIndex < 0 OrElse startIndex >= s.Length Then Return String.Empty
-
-            Dim depth As Integer = 0
-            Dim inQuotes As Boolean = False
-            Dim i As Integer = startIndex
-
-            While i < s.Length
-                Dim ch As Char = s(i)
-
-                If ch = "'"c Then
-                    If inQuotes Then
-                        If i + 1 < s.Length AndAlso s(i + 1) = "'"c Then
-                            i += 2
-                            Continue While
-                        Else
-                            inQuotes = False
-                        End If
-                    Else
-                        inQuotes = True
-                    End If
-                ElseIf Not inQuotes Then
-                    If ch = "("c Then
-                        depth += 1
-                    ElseIf ch = ")"c Then
-                        depth -= 1
-                        If depth = 0 Then
-                            Return s.Substring(startIndex, i - startIndex + 1).Trim()
-                        End If
-                    End If
-                End If
-
-                i += 1
-            End While
-
-            Return s.Substring(startIndex).Trim()
+            Return Global.BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.ExtractBalancedFunctionCall(text, startIndex)
         End Function
 
         ''' <summary>
@@ -348,24 +203,7 @@ Namespace WorksheetFunctions
                                                         rawVarNames As String(),
                                                         absoluteColumnLetters As String()) As String
 
-            Dim names As List(Of String) = If(rawVarNames, Array.Empty(Of String)()).Select(Function(x) If(x, String.Empty).Trim()).Where(Function(x) x <> String.Empty).ToList()
-            Dim p As Integer = names.Count
-            If p = 0 Then Return String.Empty
-
-            Select Case addressingMode
-                Case "absolute"
-                    If absoluteColumnLetters IsNot Nothing AndAlso absoluteColumnLetters.Length = p Then
-                        Return "Available absolute worksheet columns: " & FormatSampleList(absoluteColumnLetters) & "."
-                    End If
-                    Return "Available predictors: " & FormatSampleList(names.Select(Function(n) "'" & n.Replace("'", "''") & "'").ToArray()) & "."
-
-                Case "names"
-                    Return "Available variable names: " & FormatSampleList(names.Select(Function(n) "'" & n.Replace("'", "''") & "'").ToArray()) & "."
-
-                Case Else
-                    Dim rel As String() = Enumerable.Range(1, p).Select(Function(i) RegressionVariableCatalog.NumberToLetters(i)).ToArray()
-                    Return "Available relative X-columns: " & FormatSampleList(rel) & "."
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.BuildAvailableReferenceSummary(addressingMode, rawVarNames, absoluteColumnLetters)
         End Function
 
         ''' <summary>
@@ -374,15 +212,7 @@ Namespace WorksheetFunctions
         ''' <param name="items">The values to format.</param>
         ''' <returns>A concise comma-separated list with truncation when needed.</returns>
         Private Function FormatSampleList(items As IEnumerable(Of String)) As String
-            Dim vals As List(Of String) = If(items, Array.Empty(Of String)()).Where(Function(x) Not String.IsNullOrWhiteSpace(x)).ToList()
-            If vals.Count = 0 Then Return String.Empty
-
-            Const maxShown As Integer = 8
-            If vals.Count <= maxShown Then
-                Return String.Join(", ", vals)
-            End If
-
-            Return String.Join(", ", vals.Take(maxShown)) & ", ..."
+            Return Global.BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.FormatSampleList(items)
         End Function
 
     End Module

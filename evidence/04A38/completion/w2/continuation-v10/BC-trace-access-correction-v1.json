@@ -1,0 +1,65 @@
+{
+  "before": [
+    {
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb",
+        "bytes": 7258,
+        "sha256": "f0a456e418ac8774651ee9fbc2244d48d6dc4371676bc764203c15c9f09ff3f3"
+      },
+      "snapshot": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/source-attempts/bc-trace-access-v1/BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb.txt",
+        "bytes": 7258,
+        "sha256": "f0a456e418ac8774651ee9fbc2244d48d6dc4371676bc764203c15c9f09ff3f3"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 216645,
+        "sha256": "9f0785d420b69a1cf81f3bc1f278bde8acb33d30dae7492095d18316f8fa5774"
+      },
+      "snapshot": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/source-attempts/bc-trace-access-v1/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb.txt",
+        "bytes": 216645,
+        "sha256": "9f0785d420b69a1cf81f3bc1f278bde8acb33d30dae7492095d18316f8fa5774"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation10Tests.vb",
+        "bytes": 13566,
+        "sha256": "a10a3881227fcd4ed6de45be962dee1213dd2f980abd8eb3d342272c4eca56bd"
+      },
+      "snapshot": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/source-attempts/bc-trace-access-v1/BESHStat.Excel.Common.Tests/src/UdfContinuation10Tests.vb.txt",
+        "bytes": 13566,
+        "sha256": "a10a3881227fcd4ed6de45be962dee1213dd2f980abd8eb3d342272c4eca56bd"
+      }
+    }
+  ],
+  "after": [
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb",
+      "bytes": 7261,
+      "sha256": "c337b6cb24525669eb3834c995fc11be708886abcd53ab2ec20f3cf52217ad59"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "bytes": 216708,
+      "sha256": "d35b3d2965dc004744f73378a08bb8ccc4dbb16875d451368c81e1a9a649a15b"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation10Tests.vb",
+      "bytes": 14103,
+      "sha256": "765a80d32c660c2acf385faef89dedbe9e02add9b25447ee6a33d9be1f4494cf"
+    }
+  ],
+  "first_build": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/build-packet-v1-Debug.json",
+    "bytes": 2957,
+    "sha256": "2e7f54372841cc1caf00fada8f067b67aab5d989663b557926b3a81a65abf08c"
+  },
+  "reason": "Core MatrixArithmeticCore is Friend to Windows, not Common. Preserve its visibility and exact algorithm. Windows passes its actual original Trace method as a typed named delegate, evaluated at the original point inside Common. Common tests bind that same current Core method by metadata; no duplicate trace implementation or original execution.",
+  "Core_changes": 0,
+  "original_queries": 0
+}

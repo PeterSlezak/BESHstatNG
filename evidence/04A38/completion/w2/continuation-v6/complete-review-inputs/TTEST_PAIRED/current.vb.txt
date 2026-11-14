@@ -1,0 +1,25 @@
+<ExcelFunction(
+            Name:="BESH.PAR.TTEST_PAIRED",
+            Category:="BESHStatNG - Parametric",
+            Description:="Paired t-test for two matched samples. Returns a labeled result table.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function TTEST_PAIRED(
+            <ExcelArgument(Name:="x", Description:="First paired sample as a single-column range. Values are paired by row; first cell may be a header.")> x As Object,
+            <ExcelArgument(Name:="y", Description:="Second paired sample as a single-column range. Values are paired by row; first cell may be a header.")> y As Object,
+            <ExcelArgument(Name:="varNames", Description:="Optional names as comma-separated text or 1-row/1-column range.")> Optional varNames As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetPairedNumericColumns(x, y, mat, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If mat Is Nothing OrElse mat.GetLength(0) < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(varNames, detectedNames, 2, "Sample")
+                Dim mdl As New parametric.PairedTtest(mat, names)
+                mdl.compute()
+                Dim tables = mdl.wrapResults()
+                Return PrepareResultTableForUdf(tables(0))
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.TTEST_PAIRED", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function

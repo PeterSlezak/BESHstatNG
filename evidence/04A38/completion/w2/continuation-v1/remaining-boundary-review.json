@@ -1,0 +1,22 @@
+{
+  "status": "OPEN_CURRENT_04A38_WORK_NOT_FUTURE_DEFERRAL",
+  "owner_decision_needed": false,
+  "new_reference_needed": false,
+  "items": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+      "name": "TryParseLeveneCenter",
+      "observation": "Original resets useMedian/title before NormalizeText/AsString. Current direct delegation evaluates native AsString before portable resets. Exceptional ToString reachability and partial ByRef order require source-backed compatible extraction review."
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb",
+      "name": "EqualText",
+      "observation": "Current runtime comparison control:Nothing versus U+00AD or U+0000 differs from Framework Operators.CompareString Text policy, in both directions and both cultures.8/1352 pair differences/config;0 differences for nonnull pairs. Many callers normalize Nothing to String.Empty; prove every relevant domain before closure. No original BESH query run."
+    },
+    {
+      "path": "ALL_41_UDF_SOURCES",
+      "name": "W1 remaining schedule",
+      "observation": "644 historical and654 current bodies plus303 distinct support declarations remain OPEN. Complete family report/import/preparation and statement/inline dependencies, not only the most recent model profiles. No unsupported HOST_ONLY shortcut."
+    }
+  ]
+}

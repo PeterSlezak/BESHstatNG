@@ -1,0 +1,3756 @@
+{
+  "status": "ALL_NEW_STATIC_FUNCTIONS_HAVE_REAL_REGISTERED_CALL_PATHS",
+  "portable_files": [
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "bytes": 20491,
+      "sha256": "152acbbb6cb98ad06c9ddfcc19b4990aaf0245941934cf3e897e5914c82108dc"
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfProfilePreparation38.vb",
+      "bytes": 2454,
+      "sha256": "16259f2803067ab31a957f21a73fa80d8f464c006b0c58a6a4df5aec65868943"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb",
+      "bytes": 968,
+      "sha256": "d42882ab96ae198e6e8c2c260f38d3e59439ab1adbe7c49e1c4f9347fb1c46cf"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb",
+      "bytes": 2384,
+      "sha256": "fe57f8a20ad0ddc4fb3f890be05c277bf9b5535ba5b6c6db50bfc727145a6c75"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "bytes": 21256,
+      "sha256": "d25479efe0244f28e0a6c0949ffc869d8f92b81eefae49ac3fa17c5d0864afa5"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+      "bytes": 5394,
+      "sha256": "a5690a7954ab979e98b8fc646d05a4a5d476f3bafc8a1804684912f91b77ab6e"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "bytes": 74366,
+      "sha256": "bfb370d2fb7dcda19d4da5ce7c387c1d67de4d62e065d7fcea6d51669c5b09fe"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfPsmPreparation38.vb",
+      "bytes": 9400,
+      "sha256": "2bb3787697e6fd34a2a31d0f1bd38b02c79657ac328faba46949add01bdd3ed1"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+      "bytes": 3912,
+      "sha256": "d92986a427d2925aea257dad77edf532aff28ea372d9a35bc7a8f3b66ee0fc7a"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "bytes": 5771,
+      "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb",
+      "bytes": 5564,
+      "sha256": "8c9edb6f3f91d92acc976909ab12c5c2096cce3c45ba4e595a0cacd3046cf8ef"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb",
+      "bytes": 1931,
+      "sha256": "3e5a243b4a2349ccaa702d1ec1062afea1cf7fe15c0e71412376a3dbbf5060ec"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+      "bytes": 3209,
+      "sha256": "c653e8fbb1413d72a3852738e4e0a482855c2d63aae3c47113aeda4ac824f94e"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "bytes": 38363,
+      "sha256": "23f42be3cb87430edf39052548330c7d378183f6bf3b30c10a760ccecb4a2093"
+    }
+  ],
+  "public_static_functions": 196,
+  "callable_methods_in_cross_assembly_closure": 6227,
+  "functions": [
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeWeightedEventRate",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeWeightedEventRate(System.Double[],System.Double[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CLASS.BRIER"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.Is2x2",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.Is2x2(System.Int32[,])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CT.FISHER_2X2",
+        "BESH.CT.MCNEMAR_EXACT",
+        "BESH.CT.ODDS_RATIO",
+        "BESH.CT.RISK_RATIO"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TableTotal",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TableTotal(System.Int32[,])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CT.CHI2",
+        "BESH.CT.FFH_EXACT",
+        "BESH.CT.NOMINAL_ASSOC"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.EffectiveDf",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.EffectiveDf(System.Int32[,])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CT.CHI2"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TransposeIntMatrix",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TransposeIntMatrix(System.Int32[,])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CT.TREND"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.PercentOfTotal",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.PercentOfTotal(System.Double[],System.Double)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_EIGEN"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.Cumulative",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.Cumulative(System.Double[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_EIGEN"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ColumnSumsOfSquares",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ColumnSumsOfSquares(System.Double[,],System.Double[,])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_EIGEN"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.LookupStepValue",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.LookupStepValue(System.Double[,],System.Double,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SURV.COX_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.BuildGeeFittedDesignWithIntercept",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.BuildGeeFittedDesignWithIntercept(System.Double[,])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.CloneDoubleArray",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.CloneDoubleArray(System.Double[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.NearlyEqual",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.NearlyEqual(System.Double,System.Double)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_LSMESTIMATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeBinaryEventRate",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeBinaryEventRate(System.Double[],System.Double[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_BRIER",
+        "BESH.REGR.GLM_BRIER"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.MatrixColumnCount",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.MatrixColumnCount(System.Double[,])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.AddInterceptIfRequested",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.AddInterceptIfRequested(System.Double[,],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.GetCategoriesInModelOrder",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.GetCategoriesInModelOrder(System.Double[,],BESHStatNG.regression.ReferenceCategory)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MNLOGIT_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialEtas",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialEtas(System.Double[,],System.Int32,System.Double[],System.Int32,System.Boolean,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MNLOGIT_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialProbabilities",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeMultinomialProbabilities(System.Double[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MNLOGIT_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeOrdinalProbabilities",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeOrdinalProbabilities(System.Double[],System.Int32,System.Int32,System.Double)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.ORDLOGIT_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeLinearPredictor",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeLinearPredictor(System.Double[,],System.Int32,System.Double[],System.Boolean,System.Double[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.ZIP_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ResponseColumnsMatch",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ResponseColumnsMatch(System.Double[,],System.Double[,])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.ZIP_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.CountZeros",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.CountZeros(System.Int32[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.ZIP_TESTS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.HasOnlyFinite",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.HasOnlyFinite(System.Double[],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_PRED",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_PRED",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_PRED",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TryGetNonnegativeIntegerResponse",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TryGetNonnegativeIntegerResponse(System.Double[,],System.Int32[]&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.ZIP_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.RowsToMatrix",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.RowsToMatrix(System.Collections.Generic.List`1[[System.Double[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.ASM.BOX_M"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.IsValidProbability",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.IsValidProbability(System.Double)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CLASS.CONFUSION",
+        "BESH.CLASS.THRESH",
+        "BESH.REGR.GEE_CLASS",
+        "BESH.REGR.GEE_THRESH",
+        "BESH.REGR.GLM_CLASS",
+        "BESH.REGR.GLM_THRESH"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ClampProbabilityValue",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ClampProbabilityValue(System.Double)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CLASS.CONFUSION",
+        "BESH.CLASS.THRESH",
+        "BESH.NP.KW_P",
+        "BESH.NP.MW_P_EXACT",
+        "BESH.NP.WILCOX_P_EXACT",
+        "BESH.NP.WILCOX_P_NORM",
+        "BESH.REGR.GEE_CLASS",
+        "BESH.REGR.GEE_THRESH",
+        "BESH.REGR.GLM_CLASS",
+        "BESH.REGR.GLM_THRESH"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.CountDistinctOutcomeCategories",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.CountDistinctOutcomeCategories(System.Double[,])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TryInvertMatrix",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TryInvertMatrix(System.Double[,],System.Double[,]&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SURV.COX_TESTS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfProfilePreparation38.vb",
+      "portable_method": "BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38.AverageDesign",
+      "compiled_bindings": [
+        "BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38.AverageDesign(System.Double[,],System.Double[],System.Boolean,System.Double,System.Collections.Generic.IEnumerable`1[[BESHStatNG.WorksheetFunctions.GEEUDFs+GeeLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]],System.Func`2[[BESHStatNG.WorksheetFunctions.GEEUDFs+GeeLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[BESHStatNG.WorksheetFunctions.GEEUDFs+GeeLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null],[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`3[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Int32&)",
+        "BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38.AverageDesign(System.Double[,],System.Double[],System.Boolean,System.Double,System.Collections.Generic.IEnumerable`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]],System.Func`2[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null],[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`3[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Int32&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_LSMESTIMATE",
+        "BESH.REGR.MMRM_LSMESTIMATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.LegacyUdfText38.EqualText",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.LegacyUdfText38.EqualText(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE",
+        "BESH.ASM.LEVENE",
+        "BESH.ASM.SYMMETRY",
+        "BESH.CLASS.BRIER",
+        "BESH.CLASS.CALIB",
+        "BESH.CLASS.CONFUSION",
+        "BESH.CLASS.THRESH",
+        "BESH.MULTI.CA_COLUMNS",
+        "BESH.MULTI.CA_COL_CONTRIB",
+        "BESH.MULTI.CA_COL_COORD",
+        "BESH.MULTI.CA_COL_COS2",
+        "BESH.MULTI.CA_EIGEN",
+        "BESH.MULTI.CA_ROWS",
+        "BESH.MULTI.CA_ROW_CONTRIB",
+        "BESH.MULTI.CA_ROW_COORD",
+        "BESH.MULTI.CA_ROW_COS2",
+        "BESH.MULTI.CA_SUMMARY",
+        "BESH.MULTI.DA_CANONCOEF",
+        "BESH.MULTI.DA_CANONICAL",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_CENTROIDS",
+        "BESH.MULTI.DA_CONFUSION",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.DA_FUNCTIONS",
+        "BESH.MULTI.DA_GROUPSUMMARY",
+        "BESH.MULTI.DA_MEANS",
+        "BESH.MULTI.DA_PREDICT",
+        "BESH.MULTI.DA_PREPROCESS",
+        "BESH.MULTI.DA_REMOVED",
+        "BESH.MULTI.DA_SUMMARY",
+        "BESH.MULTI.FA_COMMUNALITIES",
+        "BESH.MULTI.FA_EIGEN",
+        "BESH.MULTI.FA_FACTORABILITY",
+        "BESH.MULTI.FA_FACTORCORR",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.FA_LOADINGS",
+        "BESH.MULTI.FA_MATRIX",
+        "BESH.MULTI.FA_SCORES",
+        "BESH.MULTI.FA_STRUCTURE",
+        "BESH.MULTI.FA_SUMMARY",
+        "BESH.MULTI.HCLUST_AGGLOM",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.HCLUST_LEAFORDER",
+        "BESH.MULTI.HCLUST_MEMBERSHIP",
+        "BESH.MULTI.HCLUST_PREPROCESS",
+        "BESH.MULTI.HCLUST_REMOVED",
+        "BESH.MULTI.HCLUST_SUMMARY",
+        "BESH.MULTI.KMEANS_ASSIGNMENTS",
+        "BESH.MULTI.KMEANS_CENTERS",
+        "BESH.MULTI.KMEANS_FIT",
+        "BESH.MULTI.KMEANS_PREPROCESS",
+        "BESH.MULTI.KMEANS_REMOVED",
+        "BESH.MULTI.KMEANS_SUMMARY",
+        "BESH.MULTI.MCA_BURT",
+        "BESH.MULTI.MCA_CATEGORIES",
+        "BESH.MULTI.MCA_CONTRIB",
+        "BESH.MULTI.MCA_COORD",
+        "BESH.MULTI.MCA_COS2",
+        "BESH.MULTI.MCA_EIGEN",
+        "BESH.MULTI.MCA_FIT",
+        "BESH.MULTI.MCA_INDICATOR",
+        "BESH.MULTI.MCA_SUMMARY",
+        "BESH.MULTI.PCA_EIGEN",
+        "BESH.MULTI.PCA_FIT",
+        "BESH.MULTI.PCA_LOADINGS",
+        "BESH.MULTI.PCA_MATRIX",
+        "BESH.MULTI.PCA_SCORES",
+        "BESH.MULTI.PCA_SUMMARY",
+        "BESH.NP.FRIEDMAN_P",
+        "BESH.NP.FRIEDMAN_STAT",
+        "BESH.NP.KW_P",
+        "BESH.NP.KW_STAT",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI",
+        "BESH.PLOT.HIST_BINS",
+        "BESH.PLOT.HIST_NORMAL",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.PS.BALANCE",
+        "BESH.PS.EFFECT",
+        "BESH.PS.FIT",
+        "BESH.PS.LOVEPLOT_DATA",
+        "BESH.PS.SCORES",
+        "BESH.PS.TABLE",
+        "BESH.PS.WEIGHTS",
+        "BESH.PSM.MATCHES",
+        "BESH.REGR.FORMULA_VALIDATE",
+        "BESH.REGR.GEE_BRIER",
+        "BESH.REGR.GEE_CALIB",
+        "BESH.REGR.GEE_CLASS",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_LSMESTIMATE",
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GEE_RESID",
+        "BESH.REGR.GEE_SUMMARY",
+        "BESH.REGR.GEE_TESTS",
+        "BESH.REGR.GEE_THRESH",
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GEE_WCORR",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLMNB_SUMMARY",
+        "BESH.REGR.GLMNB_TESTS",
+        "BESH.REGR.GLM_BRIER",
+        "BESH.REGR.GLM_CALIB",
+        "BESH.REGR.GLM_CLASS",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.GLM_RESID",
+        "BESH.REGR.GLM_SUMMARY",
+        "BESH.REGR.GLM_TESTS",
+        "BESH.REGR.GLM_THRESH",
+        "BESH.REGR.LMM_COEF",
+        "BESH.REGR.LMM_COVPARMS",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LMM_FITSTATS",
+        "BESH.REGR.LMM_FITTED",
+        "BESH.REGR.LMM_G_CORR",
+        "BESH.REGR.LMM_G_COV",
+        "BESH.REGR.LMM_RANEF",
+        "BESH.REGR.LMM_RESID",
+        "BESH.REGR.LMM_RESULTS",
+        "BESH.REGR.LMM_R_CORR",
+        "BESH.REGR.LMM_R_COV",
+        "BESH.REGR.LMM_TYPE3",
+        "BESH.REGR.LM_ANOVA",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_PRED",
+        "BESH.REGR.LM_RESID",
+        "BESH.REGR.LM_SUMMARY",
+        "BESH.REGR.LM_TESTS",
+        "BESH.REGR.LM_VIF",
+        "BESH.REGR.MMRM_COEF",
+        "BESH.REGR.MMRM_COVPARMS",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MMRM_FITSTATS",
+        "BESH.REGR.MMRM_FITTED",
+        "BESH.REGR.MMRM_RESID",
+        "BESH.REGR.MMRM_RESULTS",
+        "BESH.REGR.MMRM_R_CORR",
+        "BESH.REGR.MMRM_R_COV",
+        "BESH.REGR.MMRM_TYPE3",
+        "BESH.REGR.MNLOGIT_CLASS",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_PRED",
+        "BESH.REGR.MNLOGIT_RESID",
+        "BESH.REGR.MNLOGIT_SUMMARY",
+        "BESH.REGR.MNLOGIT_TESTS",
+        "BESH.REGR.ORDLOGIT_CLASS",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_PRED",
+        "BESH.REGR.ORDLOGIT_RESID",
+        "BESH.REGR.ORDLOGIT_SUMMARY",
+        "BESH.REGR.ORDLOGIT_TESTS",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_PRED",
+        "BESH.REGR.ZIP_RESID",
+        "BESH.REGR.ZIP_SUMMARY",
+        "BESH.REGR.ZIP_TESTS",
+        "BESH.SSIZE.COX_BINARY",
+        "BESH.SSIZE.COX_CONTINUOUS",
+        "BESH.SSIZE.LOGRANK",
+        "BESH.SSIZE.PROP_INDEP",
+        "BESH.SSIZE.TTEST_UNPAIRED",
+        "BESH.SURV.COX_FIT",
+        "BESH.SURV.COX_RESID",
+        "BESH.SURV.COX_SUMMARY",
+        "BESH.SURV.COX_TESTS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.LegacyUdfText38.CaseToken",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.LegacyUdfText38.CaseToken(System.String,System.String[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE",
+        "BESH.ASM.LEVENE",
+        "BESH.ASM.SYMMETRY",
+        "BESH.CLASS.BRIER",
+        "BESH.CLASS.CALIB",
+        "BESH.CLASS.CONFUSION",
+        "BESH.CLASS.THRESH",
+        "BESH.MULTI.CA_COLUMNS",
+        "BESH.MULTI.CA_COL_CONTRIB",
+        "BESH.MULTI.CA_COL_COORD",
+        "BESH.MULTI.CA_COL_COS2",
+        "BESH.MULTI.CA_EIGEN",
+        "BESH.MULTI.CA_ROWS",
+        "BESH.MULTI.CA_ROW_CONTRIB",
+        "BESH.MULTI.CA_ROW_COORD",
+        "BESH.MULTI.CA_ROW_COS2",
+        "BESH.MULTI.CA_SUMMARY",
+        "BESH.MULTI.DA_CANONCOEF",
+        "BESH.MULTI.DA_CANONICAL",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_CENTROIDS",
+        "BESH.MULTI.DA_CONFUSION",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.DA_FUNCTIONS",
+        "BESH.MULTI.DA_GROUPSUMMARY",
+        "BESH.MULTI.DA_MEANS",
+        "BESH.MULTI.DA_PREDICT",
+        "BESH.MULTI.DA_PREPROCESS",
+        "BESH.MULTI.DA_REMOVED",
+        "BESH.MULTI.DA_SUMMARY",
+        "BESH.MULTI.FA_COMMUNALITIES",
+        "BESH.MULTI.FA_EIGEN",
+        "BESH.MULTI.FA_FACTORABILITY",
+        "BESH.MULTI.FA_FACTORCORR",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.FA_LOADINGS",
+        "BESH.MULTI.FA_MATRIX",
+        "BESH.MULTI.FA_SCORES",
+        "BESH.MULTI.FA_STRUCTURE",
+        "BESH.MULTI.FA_SUMMARY",
+        "BESH.MULTI.HCLUST_AGGLOM",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.HCLUST_LEAFORDER",
+        "BESH.MULTI.HCLUST_MEMBERSHIP",
+        "BESH.MULTI.HCLUST_PREPROCESS",
+        "BESH.MULTI.HCLUST_REMOVED",
+        "BESH.MULTI.HCLUST_SUMMARY",
+        "BESH.MULTI.KMEANS_ASSIGNMENTS",
+        "BESH.MULTI.KMEANS_CENTERS",
+        "BESH.MULTI.KMEANS_FIT",
+        "BESH.MULTI.KMEANS_PREPROCESS",
+        "BESH.MULTI.KMEANS_REMOVED",
+        "BESH.MULTI.KMEANS_SUMMARY",
+        "BESH.MULTI.MCA_BURT",
+        "BESH.MULTI.MCA_CATEGORIES",
+        "BESH.MULTI.MCA_CONTRIB",
+        "BESH.MULTI.MCA_COORD",
+        "BESH.MULTI.MCA_COS2",
+        "BESH.MULTI.MCA_EIGEN",
+        "BESH.MULTI.MCA_FIT",
+        "BESH.MULTI.MCA_INDICATOR",
+        "BESH.MULTI.MCA_SUMMARY",
+        "BESH.MULTI.PCA_EIGEN",
+        "BESH.MULTI.PCA_FIT",
+        "BESH.MULTI.PCA_LOADINGS",
+        "BESH.MULTI.PCA_MATRIX",
+        "BESH.MULTI.PCA_SCORES",
+        "BESH.MULTI.PCA_SUMMARY",
+        "BESH.NP.FRIEDMAN_P",
+        "BESH.NP.FRIEDMAN_STAT",
+        "BESH.NP.KW_P",
+        "BESH.NP.KW_STAT",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI",
+        "BESH.PLOT.HIST_BINS",
+        "BESH.PLOT.HIST_NORMAL",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.PS.BALANCE",
+        "BESH.PS.EFFECT",
+        "BESH.PS.FIT",
+        "BESH.PS.LOVEPLOT_DATA",
+        "BESH.PS.SCORES",
+        "BESH.PS.TABLE",
+        "BESH.PS.WEIGHTS",
+        "BESH.PSM.MATCHES",
+        "BESH.REGR.FORMULA_VALIDATE",
+        "BESH.REGR.GEE_BRIER",
+        "BESH.REGR.GEE_CALIB",
+        "BESH.REGR.GEE_CLASS",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_LSMESTIMATE",
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GEE_RESID",
+        "BESH.REGR.GEE_SUMMARY",
+        "BESH.REGR.GEE_TESTS",
+        "BESH.REGR.GEE_THRESH",
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GEE_WCORR",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLMNB_SUMMARY",
+        "BESH.REGR.GLMNB_TESTS",
+        "BESH.REGR.GLM_BRIER",
+        "BESH.REGR.GLM_CALIB",
+        "BESH.REGR.GLM_CLASS",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.GLM_RESID",
+        "BESH.REGR.GLM_SUMMARY",
+        "BESH.REGR.GLM_TESTS",
+        "BESH.REGR.GLM_THRESH",
+        "BESH.REGR.LMM_COEF",
+        "BESH.REGR.LMM_COVPARMS",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LMM_FITSTATS",
+        "BESH.REGR.LMM_FITTED",
+        "BESH.REGR.LMM_G_CORR",
+        "BESH.REGR.LMM_G_COV",
+        "BESH.REGR.LMM_RANEF",
+        "BESH.REGR.LMM_RESID",
+        "BESH.REGR.LMM_RESULTS",
+        "BESH.REGR.LMM_R_CORR",
+        "BESH.REGR.LMM_R_COV",
+        "BESH.REGR.LMM_TYPE3",
+        "BESH.REGR.LM_ANOVA",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_PRED",
+        "BESH.REGR.LM_RESID",
+        "BESH.REGR.LM_SUMMARY",
+        "BESH.REGR.LM_TESTS",
+        "BESH.REGR.LM_VIF",
+        "BESH.REGR.MMRM_COEF",
+        "BESH.REGR.MMRM_COVPARMS",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MMRM_FITSTATS",
+        "BESH.REGR.MMRM_FITTED",
+        "BESH.REGR.MMRM_RESID",
+        "BESH.REGR.MMRM_RESULTS",
+        "BESH.REGR.MMRM_R_CORR",
+        "BESH.REGR.MMRM_R_COV",
+        "BESH.REGR.MMRM_TYPE3",
+        "BESH.REGR.MNLOGIT_CLASS",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_PRED",
+        "BESH.REGR.MNLOGIT_RESID",
+        "BESH.REGR.MNLOGIT_SUMMARY",
+        "BESH.REGR.MNLOGIT_TESTS",
+        "BESH.REGR.ORDLOGIT_CLASS",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_PRED",
+        "BESH.REGR.ORDLOGIT_RESID",
+        "BESH.REGR.ORDLOGIT_SUMMARY",
+        "BESH.REGR.ORDLOGIT_TESTS",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_PRED",
+        "BESH.REGR.ZIP_RESID",
+        "BESH.REGR.ZIP_SUMMARY",
+        "BESH.REGR.ZIP_TESTS",
+        "BESH.SSIZE.COX_BINARY",
+        "BESH.SSIZE.COX_CONTINUOUS",
+        "BESH.SSIZE.LOGRANK",
+        "BESH.SSIZE.PROP_INDEP",
+        "BESH.SSIZE.TTEST_UNPAIRED",
+        "BESH.SURV.COX_FIT",
+        "BESH.SURV.COX_RESID",
+        "BESH.SURV.COX_SUMMARY",
+        "BESH.SURV.COX_TESTS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38.GuessPositiveClass",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38.GuessPositiveClass(System.String,System.Func`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.String&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.CoxUDFsMetadata38.ResidualLabel",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.CoxUDFsMetadata38.ResidualLabel(BESHStatNG.ResidualType)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SURV.COX_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.GeeFindHeaderIndex",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.GeeFindHeaderIndex(System.String[],System.String[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_LSMESTIMATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.GeeFindDesignColumnIndex",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.GeeFindDesignColumnIndex(System.String[],System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_LSMESTIMATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.GeeNormalizeDesignColumnName",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.GeeNormalizeDesignColumnName(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_LSMESTIMATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.BuildGeeTimeLabels",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.BuildGeeTimeLabels(BESHStatNG.GEE,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_WCORR"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.BuildParameterNames",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsMetadata38.BuildParameterNames(System.String[],System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_LSMESTIMATE",
+        "BESH.REGR.GEE_SUMMARY",
+        "BESH.REGR.GEE_VCOV"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.LmmUDFsMetadata38.NormalizeNameList",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.LmmUDFsMetadata38.NormalizeNameList(System.String[],System.Int32,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.LmmUDFsMetadata38.DefaultRandomCovarianceName",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.LmmUDFsMetadata38.DefaultRandomCovarianceName(System.Boolean,System.Int32,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.DefaultNames",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.DefaultNames(System.Int32,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.NormalizeMmrmNameList",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.NormalizeMmrmNameList(System.String[],System.Int32,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.AddInterceptNameIfRequested",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.AddInterceptNameIfRequested(System.String[],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.FindDesignColumnIndex",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.FindDesignColumnIndex(System.String[],System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_CONTRASTS",
+        "BESH.REGR.MMRM_LSMEANS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.BuildValidationFailureMessage",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.BuildValidationFailureMessage(System.String,System.String,System.String[],System.String[],System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.FORMULA_VALIDATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.TryLocateOffendingFragment",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.TryLocateOffendingFragment(System.String,System.String,System.String&,System.Int32&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.FORMULA_VALIDATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.ExtractBalancedFunctionCall",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.ExtractBalancedFunctionCall(System.String,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.FORMULA_VALIDATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.BuildAvailableReferenceSummary",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.BuildAvailableReferenceSummary(System.String,System.String[],System.String[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.FORMULA_VALIDATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.FormatSampleList",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38.FormatSampleList(System.Collections.Generic.IEnumerable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.FORMULA_VALIDATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.ZIPUDFsMetadata38.BuildParameterNames",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.ZIPUDFsMetadata38.BuildParameterNames(System.String[],System.Boolean,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.ZIP_SUMMARY"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.SequenceEqualStrings",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.SequenceEqualStrings(System.String[],System.String[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.NormalizeMmrmNameList",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.NormalizeMmrmNameList(System.String[],System.Int32,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.DefaultMmrmNames",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.DefaultMmrmNames(System.Int32,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.MmrmFindHeaderIndex",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.MmrmFindHeaderIndex(System.String[],System.String[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_LSMEANS",
+        "BESH.REGR.MMRM_LSMESTIMATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.MmrmFindDesignColumnIndex",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.MmrmFindDesignColumnIndex(System.String[],System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_LSMEANS",
+        "BESH.REGR.MMRM_LSMESTIMATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.MmrmNormalizeDesignColumnName",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportMetadata38.MmrmNormalizeDesignColumnName(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_LSMEANS",
+        "BESH.REGR.MMRM_LSMESTIMATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesMetadata38.CloneStringArray",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesMetadata38.CloneStringArray(System.String[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.CA_FIT",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.KMEANS_FIT",
+        "BESH.MULTI.MCA_FIT",
+        "BESH.MULTI.PCA_FIT",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.ZIP_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryStrictVector",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryStrictVector(System.Int32,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Double[]&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CLASS.BRIER",
+        "BESH.CLASS.CALIB",
+        "BESH.CLASS.CONFUSION",
+        "BESH.CLASS.THRESH"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix(System.Int32,System.Int32,System.Int32,System.Boolean,System.String,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Double[][]&,System.String[]&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.ASM.BARTLETT",
+        "BESH.ASM.FLIGNER_KILLEEN",
+        "BESH.ASM.LEVENE",
+        "BESH.ASM.SQUARED_RANKS",
+        "BESH.NP.KW_MCP",
+        "BESH.NP.KW_P",
+        "BESH.NP.KW_STAT",
+        "BESH.PAR.ANOVA1",
+        "BESH.PAR.ANOVA1_MCP",
+        "BESH.PAR.ANOVA1_WELCH",
+        "BESH.PLOT.HIST_BINS",
+        "BESH.PLOT.HIST_NORMAL"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.ExtractCompleteNumericMatrixCompleteCases",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.ExtractCompleteNumericMatrixCompleteCases(System.Int32,System.Int32,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Double[,]&,System.Int32&,System.Int32&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.NP.FRIEDMAN_P",
+        "BESH.NP.FRIEDMAN_STAT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryReadCompleteNumericMatrixWithHeaders",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryReadCompleteNumericMatrixWithHeaders(System.Int32,System.Int32,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Double[,]&,System.String[]&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE",
+        "BESH.ASM.MAUCHLY",
+        "BESH.NP.FRIEDMAN_MCP",
+        "BESH.PAR.RMANOVA1",
+        "BESH.PAR.RMANOVA1_MCP"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38.TryParseLeveneCenter",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38.TryParseLeveneCenter(System.String,System.Boolean&,System.String&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.ASM.LEVENE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38.TryParseSymmetryMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38.TryParseSymmetryMethod(System.String,System.String&,System.String&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.ASM.SYMMETRY"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParsePcaMatrixType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParsePcaMatrixType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.PCA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParsePcaRetentionMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParsePcaRetentionMethod(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.PCA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaMatrixType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaMatrixType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaExtractionMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaExtractionMethod(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaRetentionMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaRetentionMethod(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaRotationMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaRotationMethod(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaScoreMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaScoreMethod(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaCommunalityInitialization",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaCommunalityInitialization(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaMissingPolicy",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaMissingPolicy(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseClusterStandardizationMode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseClusterStandardizationMode(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.KMEANS_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseClusterMissingValuePolicy",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseClusterMissingValuePolicy(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.KMEANS_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseKMeansInitialization",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseKMeansInitialization(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.KMEANS_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseKMeansDistanceMetric",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseKMeansDistanceMetric(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.KMEANS_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseEmptyClusterHandling",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseEmptyClusterHandling(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.KMEANS_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseHierarchicalLinkage",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseHierarchicalLinkage(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.HCLUST_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseHierarchicalDistanceMetric",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseHierarchicalDistanceMetric(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.HCLUST_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseHierarchicalMembershipDisplayMode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseHierarchicalMembershipDisplayMode(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.HCLUST_MEMBERSHIP"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseOutputScaleUseOriginal",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseOutputScaleUseOriginal(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_MEANS",
+        "BESH.MULTI.KMEANS_CENTERS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseDiscriminantMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseDiscriminantMethod(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseDiscriminantPriorMode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseDiscriminantPriorMode(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseDiscriminantValidationMode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseDiscriminantValidationMode(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.DA_SUMMARY"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.ParametricUDFsOptions38.ParseEqualVarianceMode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.ParametricUDFsOptions38.ParseEqualVarianceMode(System.String,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseRunMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseRunMethod(System.String,BESHStatNG.CausalInference.PsmBackendRunMethod)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseScoreMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseScoreMethod(System.String,BESHStatNG.CausalInference.PsmScoreMethod)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseDistance",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseDistance(System.String,BESHStatNG.CausalInference.PsmDistanceMetric)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseCaliperScale",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseCaliperScale(System.String,BESHStatNG.CausalInference.PsmCaliperScale)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseOrder",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseOrder(System.String,BESHStatNG.CausalInference.PsmMatchingOrder)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseSupport",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseSupport(System.String,BESHStatNG.CausalInference.PsmCommonSupportMode)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseBoolean",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseBoolean(System.String,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseInteger",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseInteger(System.String,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseDouble",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseDouble(System.String,System.Double)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.NormalizeOptionKey",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.NormalizeOptionKey(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT",
+        "BESH.PS.TABLE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.CoxUDFsOptions38.ParseResidualType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.CoxUDFsOptions38.ParseResidualType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SURV.COX_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeLsmEstimateScale",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeLsmEstimateScale(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_LSMESTIMATE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeCovarianceName",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeCovarianceName(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeStandardErrorType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeStandardErrorType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_LSMESTIMATE",
+        "BESH.REGR.GEE_VCOV"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeResidualType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeResidualType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GLMUDFsOptions38.ParseGlmResidualType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GLMUDFsOptions38.ParseGlmResidualType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLM_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.LinearModelUDFsOptions38.ParseLmAnovaScope",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.LinearModelUDFsOptions38.ParseLmAnovaScope(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LM_ANOVA"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.LinearModelUDFsOptions38.ParseLmResidualType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.LinearModelUDFsOptions38.ParseLmResidualType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LM_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MixedModelUDFsOptions38.NormalizeDesignColumnName",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MixedModelUDFsOptions38.NormalizeDesignColumnName(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MMRM_CONTRASTS",
+        "BESH.REGR.MMRM_LSMEANS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultinomialLogitUDFsOptions38.ParseMultinomialResidualType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultinomialLogitUDFsOptions38.ParseMultinomialResidualType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MNLOGIT_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.OrdinalLogitUDFsOptions38.ParseOrdinalResidualType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.OrdinalLogitUDFsOptions38.ParseOrdinalResidualType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.ORDLOGIT_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.ZIPUDFsOptions38.ParseZipComponent",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.ZIPUDFsOptions38.ParseZipComponent(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.ZIP_SUMMARY"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.ZIPUDFsOptions38.ParseZipResidualType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.ZIPUDFsOptions38.ParseZipResidualType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.ZIP_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsOptions38.ResolveSampleSizeHypothesisType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsOptions38.ResolveSampleSizeHypothesisType(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.PROP_INDEP",
+        "BESH.SSIZE.TTEST_UNPAIRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetCoxTieMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetCoxTieMethod(System.String,BESHStatNG.TieMethod)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SURV.COX_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseAgreementCiMethod",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseAgreementCiMethod(System.String,BESHStatNG.Agreement.AgreementCiMethod)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanMode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanMode(System.String,BESHStatNG.Agreement.RepeatedBlandAltmanMode)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+        "BESH.AGREE.BLANDALTMAN_STATS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanScale",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanScale(System.String,BESHStatNG.Agreement.BlandAltmanScale)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+        "BESH.AGREE.BLANDALTMAN_STATS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanXAxisMode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanXAxisMode(System.String,BESHStatNG.Agreement.BlandAltmanXAxisMode)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+        "BESH.AGREE.BLANDALTMAN_STATS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanPlotMode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanPlotMode(System.String,BESHStatNG.Agreement.RepeatedBlandAltmanPlotMode)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseKappaWeighting",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseKappaWeighting(System.String,BESHStatNG.Agreement.KappaWeightingScheme)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseDemingVarianceModel",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseDemingVarianceModel(System.String,BESHStatNG.Agreement.DemingVarianceModel)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseIccModel",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseIccModel(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetFormulaAddressingMode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetFormulaAddressingMode(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT",
+        "BESH.REGR.FORMULA_VALIDATE",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.SURV.COX_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.NormalizeOptionKey",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.NormalizeOptionKey(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PLOT.HIST_BINS",
+        "BESH.PLOT.HIST_NORMAL",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetHistogramBinRule",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetHistogramBinRule(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PLOT.HIST_BINS",
+        "BESH.PLOT.HIST_NORMAL"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseRocDirection",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseRocDirection(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetRegressionFamilyCode",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetRegressionFamilyCode(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GLM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetRegressionLinkName",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetRegressionLinkName(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.NormalizeRegressionOptionKey",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfDataImportOptions38.NormalizeRegressionOptionKey(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfOutputTablesOptions38.NormalizeResultTableTitle",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfOutputTablesOptions38.NormalizeResultTableTitle(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_COEF",
+        "BESH.REGR.LMM_COVPARMS",
+        "BESH.REGR.LMM_FITSTATS",
+        "BESH.REGR.LMM_G_CORR",
+        "BESH.REGR.LMM_G_COV",
+        "BESH.REGR.LMM_RANEF",
+        "BESH.REGR.LMM_RESULTS",
+        "BESH.REGR.LMM_R_CORR",
+        "BESH.REGR.LMM_R_COV",
+        "BESH.REGR.LMM_TYPE3",
+        "BESH.REGR.MMRM_COEF",
+        "BESH.REGR.MMRM_COVPARMS",
+        "BESH.REGR.MMRM_FITSTATS",
+        "BESH.REGR.MMRM_RESULTS",
+        "BESH.REGR.MMRM_R_CORR",
+        "BESH.REGR.MMRM_R_COV",
+        "BESH.REGR.MMRM_TYPE3"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeMatchToken",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeMatchToken(System.String,System.Boolean,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE",
+        "BESH.ASM.LEVENE",
+        "BESH.ASM.SYMMETRY",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_CONFUSION",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.DA_MEANS",
+        "BESH.MULTI.DA_SUMMARY",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.HCLUST_MEMBERSHIP",
+        "BESH.MULTI.KMEANS_CENTERS",
+        "BESH.MULTI.KMEANS_FIT",
+        "BESH.MULTI.PCA_FIT",
+        "BESH.NP.FRIEDMAN_MCP",
+        "BESH.PAR.ANOVA1_MCP",
+        "BESH.PAR.ANOVA2_NESTED",
+        "BESH.PAR.RMANOVA1",
+        "BESH.PAR.RMANOVA1_MCP",
+        "BESH.PAR.TTEST_UNPAIRED",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_LSMESTIMATE",
+        "BESH.REGR.GEE_RESID",
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLM_RESID",
+        "BESH.REGR.ZIP_RESID",
+        "BESH.REGR.ZIP_SUMMARY"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeText",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeText(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.ASM.LEVENE",
+        "BESH.ASM.SYMMETRY",
+        "BESH.NP.FRIEDMAN_MCP",
+        "BESH.PAR.ANOVA1_MCP",
+        "BESH.PAR.ANOVA2_NESTED",
+        "BESH.PAR.RMANOVA1",
+        "BESH.PAR.RMANOVA1_MCP",
+        "BESH.PAR.TTEST_UNPAIRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeToken",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeToken(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_CONFUSION",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.DA_MEANS",
+        "BESH.MULTI.DA_SUMMARY",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.HCLUST_MEMBERSHIP",
+        "BESH.MULTI.KMEANS_CENTERS",
+        "BESH.MULTI.KMEANS_FIT",
+        "BESH.MULTI.PCA_FIT",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeKey",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeKey(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_LSMESTIMATE",
+        "BESH.REGR.GEE_RESID",
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLM_RESID",
+        "BESH.REGR.ZIP_RESID",
+        "BESH.REGR.ZIP_SUMMARY"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeMixedModelOptionToken",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeMixedModelOptionToken(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelFitMethodStrict",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelFitMethodStrict(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelInferenceMethodStrict",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelInferenceMethodStrict(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelCovarianceOptimizerModeStrict",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelCovarianceOptimizerModeStrict(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelCovarianceGradientModeStrict",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelCovarianceGradientModeStrict(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeMixedModelResidualCovarianceName",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeMixedModelResidualCovarianceName(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.MMRM_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfPsmPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfPsmPreparation38.ParseEstimand",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfPsmPreparation38.ParseEstimand(System.String,BESHStatNG.CausalInference.PsmEstimand)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PS.FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfRangePreparation38.FindLastNonBlankRow",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfRangePreparation38.FindLastNonBlankRow(System.Int32,System.Int32,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE",
+        "BESH.CT.CHI2",
+        "BESH.CT.FFH_EXACT",
+        "BESH.CT.FISHER_2X2",
+        "BESH.CT.MANTEL_HAENSZEL",
+        "BESH.CT.MCNEMAR_EXACT",
+        "BESH.CT.NOMINAL_ASSOC",
+        "BESH.CT.ODDS_RATIO",
+        "BESH.CT.ORDINAL_ASSOC",
+        "BESH.CT.RISK_RATIO",
+        "BESH.CT.TREND",
+        "BESH.MULTI.CA_FIT",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.DA_PREDICT",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.KMEANS_FIT",
+        "BESH.MULTI.MCA_FIT",
+        "BESH.MULTI.PCA_FIT",
+        "BESH.PLOT.CALIB_POINTS",
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.PS.FIT",
+        "BESH.REGR.FORMULA_VALIDATE",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_PRED",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_PRED",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_PRED",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_PRED",
+        "BESH.SURV.COX_FIT",
+        "BESH.SURV.COX_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfRangePreparation38.HasNumericColumnHeader",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfRangePreparation38.HasNumericColumnHeader(System.Int32,System.Int32,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_FIT",
+        "BESH.PLOT.CALIB_POINTS",
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.PS.FIT",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_PRED",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_PRED",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_PRED",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_PRED",
+        "BESH.SURV.COX_FIT",
+        "BESH.SURV.COX_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfRangePreparation38.HasBinaryColumnHeader",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfRangePreparation38.HasBinaryColumnHeader(System.Int32,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_FIT",
+        "BESH.PLOT.CALIB_POINTS",
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.PS.FIT",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_PRED",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_PRED",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_PRED",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_PRED",
+        "BESH.SURV.COX_FIT",
+        "BESH.SURV.COX_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfRangePreparation38.HasNumericMatrixHeader",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfRangePreparation38.HasNumericMatrixHeader(System.Int32,System.Int32,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CT.CHI2",
+        "BESH.CT.FFH_EXACT",
+        "BESH.CT.FISHER_2X2",
+        "BESH.CT.MANTEL_HAENSZEL",
+        "BESH.CT.MCNEMAR_EXACT",
+        "BESH.CT.NOMINAL_ASSOC",
+        "BESH.CT.ODDS_RATIO",
+        "BESH.CT.ORDINAL_ASSOC",
+        "BESH.CT.RISK_RATIO",
+        "BESH.CT.TREND",
+        "BESH.MULTI.CA_FIT",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.DA_PREDICT",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.KMEANS_FIT",
+        "BESH.MULTI.PCA_FIT",
+        "BESH.PS.FIT",
+        "BESH.REGR.FORMULA_VALIDATE",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_PRED",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_PRED",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_PRED",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_PRED",
+        "BESH.SURV.COX_FIT",
+        "BESH.SURV.COX_PRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeHeaderRow",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeHeaderRow(System.Int32,System.Int32[],System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE",
+        "BESH.ASM.BARTLETT",
+        "BESH.ASM.BOX_M",
+        "BESH.ASM.FLIGNER_KILLEEN",
+        "BESH.ASM.LEVENE",
+        "BESH.ASM.MAUCHLY",
+        "BESH.ASM.SQUARED_RANKS",
+        "BESH.NP.FRIEDMAN_MCP",
+        "BESH.NP.KW_MCP",
+        "BESH.PAR.ANOVA1",
+        "BESH.PAR.ANOVA1_MCP",
+        "BESH.PAR.ANOVA1_WELCH",
+        "BESH.PAR.RMANOVA1",
+        "BESH.PAR.RMANOVA1_MCP",
+        "BESH.PLOT.HIST_BINS",
+        "BESH.PLOT.HIST_NORMAL"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeSingleColumnHeader",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeSingleColumnHeader(System.Int32,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE",
+        "BESH.AGREE.PASSINGBABLOK_COEF",
+        "BESH.AGREE.PASSINGBABLOK_FIT",
+        "BESH.ASM.ANDERSON_DARLING",
+        "BESH.ASM.DAGOSTINO_PEARSON",
+        "BESH.ASM.GRUBBS",
+        "BESH.ASM.ROSNER",
+        "BESH.ASM.SHAPIRO_WILK",
+        "BESH.ASM.SYMMETRY",
+        "BESH.PAR.TTEST_PAIRED",
+        "BESH.PAR.TTEST_UNPAIRED",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalBoolean",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalBoolean(System.String,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.ICC_FIT",
+        "BESH.CLASS.BRIER",
+        "BESH.CLASS.CALIB",
+        "BESH.CLASS.CONFUSION",
+        "BESH.CLASS.THRESH",
+        "BESH.MULTI.CA_COLUMNS",
+        "BESH.MULTI.CA_COL_CONTRIB",
+        "BESH.MULTI.CA_COL_COORD",
+        "BESH.MULTI.CA_COL_COS2",
+        "BESH.MULTI.CA_EIGEN",
+        "BESH.MULTI.CA_ROWS",
+        "BESH.MULTI.CA_ROW_CONTRIB",
+        "BESH.MULTI.CA_ROW_COORD",
+        "BESH.MULTI.CA_ROW_COS2",
+        "BESH.MULTI.CA_SUMMARY",
+        "BESH.MULTI.DA_CANONCOEF",
+        "BESH.MULTI.DA_CANONICAL",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_CENTROIDS",
+        "BESH.MULTI.DA_CONFUSION",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.DA_FUNCTIONS",
+        "BESH.MULTI.DA_GROUPSUMMARY",
+        "BESH.MULTI.DA_MEANS",
+        "BESH.MULTI.DA_PREDICT",
+        "BESH.MULTI.DA_PREPROCESS",
+        "BESH.MULTI.DA_REMOVED",
+        "BESH.MULTI.DA_SUMMARY",
+        "BESH.MULTI.FA_COMMUNALITIES",
+        "BESH.MULTI.FA_EIGEN",
+        "BESH.MULTI.FA_FACTORABILITY",
+        "BESH.MULTI.FA_FACTORCORR",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.FA_LOADINGS",
+        "BESH.MULTI.FA_MATRIX",
+        "BESH.MULTI.FA_SCORES",
+        "BESH.MULTI.FA_STRUCTURE",
+        "BESH.MULTI.FA_SUMMARY",
+        "BESH.MULTI.HCLUST_AGGLOM",
+        "BESH.MULTI.HCLUST_LEAFORDER",
+        "BESH.MULTI.HCLUST_MEMBERSHIP",
+        "BESH.MULTI.HCLUST_PREPROCESS",
+        "BESH.MULTI.HCLUST_REMOVED",
+        "BESH.MULTI.HCLUST_SUMMARY",
+        "BESH.MULTI.KMEANS_ASSIGNMENTS",
+        "BESH.MULTI.KMEANS_CENTERS",
+        "BESH.MULTI.KMEANS_PREPROCESS",
+        "BESH.MULTI.KMEANS_REMOVED",
+        "BESH.MULTI.KMEANS_SUMMARY",
+        "BESH.MULTI.MCA_BURT",
+        "BESH.MULTI.MCA_CATEGORIES",
+        "BESH.MULTI.MCA_CONTRIB",
+        "BESH.MULTI.MCA_COORD",
+        "BESH.MULTI.MCA_COS2",
+        "BESH.MULTI.MCA_EIGEN",
+        "BESH.MULTI.MCA_FIT",
+        "BESH.MULTI.MCA_INDICATOR",
+        "BESH.MULTI.MCA_SUMMARY",
+        "BESH.MULTI.PCA_EIGEN",
+        "BESH.MULTI.PCA_LOADINGS",
+        "BESH.MULTI.PCA_MATRIX",
+        "BESH.MULTI.PCA_SCORES",
+        "BESH.MULTI.PCA_SUMMARY",
+        "BESH.PS.BALANCE",
+        "BESH.PS.EFFECT",
+        "BESH.PS.LOVEPLOT_DATA",
+        "BESH.PS.SCORES",
+        "BESH.PS.TABLE",
+        "BESH.PS.WEIGHTS",
+        "BESH.PSM.MATCHES",
+        "BESH.REGR.GEE_BRIER",
+        "BESH.REGR.GEE_CALIB",
+        "BESH.REGR.GEE_CLASS",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GEE_RESID",
+        "BESH.REGR.GEE_SUMMARY",
+        "BESH.REGR.GEE_TESTS",
+        "BESH.REGR.GEE_THRESH",
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GEE_WCORR",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLMNB_SUMMARY",
+        "BESH.REGR.GLMNB_TESTS",
+        "BESH.REGR.GLM_BRIER",
+        "BESH.REGR.GLM_CALIB",
+        "BESH.REGR.GLM_CLASS",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.GLM_RESID",
+        "BESH.REGR.GLM_SUMMARY",
+        "BESH.REGR.GLM_TESTS",
+        "BESH.REGR.GLM_THRESH",
+        "BESH.REGR.LMM_COEF",
+        "BESH.REGR.LMM_COVPARMS",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LMM_FITSTATS",
+        "BESH.REGR.LMM_FITTED",
+        "BESH.REGR.LMM_G_CORR",
+        "BESH.REGR.LMM_G_COV",
+        "BESH.REGR.LMM_RANEF",
+        "BESH.REGR.LMM_RESID",
+        "BESH.REGR.LMM_RESULTS",
+        "BESH.REGR.LMM_R_CORR",
+        "BESH.REGR.LMM_R_COV",
+        "BESH.REGR.LMM_TYPE3",
+        "BESH.REGR.LM_ANOVA",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_PRED",
+        "BESH.REGR.LM_RESID",
+        "BESH.REGR.LM_SUMMARY",
+        "BESH.REGR.LM_TESTS",
+        "BESH.REGR.LM_VIF",
+        "BESH.REGR.MMRM_COEF",
+        "BESH.REGR.MMRM_COVPARMS",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MMRM_FITSTATS",
+        "BESH.REGR.MMRM_FITTED",
+        "BESH.REGR.MMRM_RESID",
+        "BESH.REGR.MMRM_RESULTS",
+        "BESH.REGR.MMRM_R_CORR",
+        "BESH.REGR.MMRM_R_COV",
+        "BESH.REGR.MMRM_TYPE3",
+        "BESH.REGR.MNLOGIT_CLASS",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_PRED",
+        "BESH.REGR.MNLOGIT_RESID",
+        "BESH.REGR.MNLOGIT_SUMMARY",
+        "BESH.REGR.MNLOGIT_TESTS",
+        "BESH.REGR.ORDLOGIT_CLASS",
+        "BESH.REGR.ORDLOGIT_PRED",
+        "BESH.REGR.ORDLOGIT_RESID",
+        "BESH.REGR.ORDLOGIT_SUMMARY",
+        "BESH.REGR.ORDLOGIT_TESTS",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_PRED",
+        "BESH.REGR.ZIP_RESID",
+        "BESH.REGR.ZIP_SUMMARY",
+        "BESH.REGR.ZIP_TESTS",
+        "BESH.SSIZE.COX_BINARY",
+        "BESH.SSIZE.COX_CONTINUOUS",
+        "BESH.SSIZE.LOGRANK",
+        "BESH.SURV.COX_FIT",
+        "BESH.SURV.COX_SUMMARY",
+        "BESH.SURV.COX_TESTS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalInteger",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalInteger(System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.HCLUST_MEMBERSHIP",
+        "BESH.MULTI.KMEANS_FIT",
+        "BESH.MULTI.PCA_FIT",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.SURV.COX_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalDouble",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalDouble(System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Double)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE",
+        "BESH.CT.MANTEL_HAENSZEL",
+        "BESH.CT.MCNEMAR_EXACT",
+        "BESH.CT.ODDS_RATIO",
+        "BESH.CT.ORDINAL_ASSOC",
+        "BESH.CT.PAIRED_PROPORTIONS",
+        "BESH.CT.RISK_RATIO",
+        "BESH.CT.SINGLE_PROPORTION",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS",
+        "BESH.MULTI.DA_FIT",
+        "BESH.MULTI.FA_FIT",
+        "BESH.MULTI.HCLUST_FIT",
+        "BESH.MULTI.HCLUST_MEMBERSHIP",
+        "BESH.MULTI.KMEANS_FIT",
+        "BESH.MULTI.PCA_FIT",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.SURV.COX_FIT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.IsOpenProbability",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.IsOpenProbability(System.Double)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE",
+        "BESH.AGREE.PASSINGBABLOK_COEF",
+        "BESH.AGREE.PASSINGBABLOK_FIT",
+        "BESH.ASM.GRUBBS",
+        "BESH.ASM.ROSNER",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI",
+        "BESH.NP.FRIEDMAN_MCP",
+        "BESH.NP.KENDALL_P",
+        "BESH.NP.KENDALL_TAU",
+        "BESH.NP.KW_MCP",
+        "BESH.NP.SPEARMAN_P",
+        "BESH.NP.SPEARMAN_RHO",
+        "BESH.PAR.ANOVA1_MCP",
+        "BESH.PAR.RMANOVA1_MCP",
+        "BESH.PAR.TTEST_UNPAIRED",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI",
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.PS.FIT",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_LSMESTIMATE",
+        "BESH.REGR.GEE_SUMMARY",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_SUMMARY",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_SUMMARY",
+        "BESH.REGR.LMM_COEF",
+        "BESH.REGR.LMM_COVPARMS",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LMM_FITSTATS",
+        "BESH.REGR.LMM_G_CORR",
+        "BESH.REGR.LMM_G_COV",
+        "BESH.REGR.LMM_RANEF",
+        "BESH.REGR.LMM_RESULTS",
+        "BESH.REGR.LMM_R_CORR",
+        "BESH.REGR.LMM_R_COV",
+        "BESH.REGR.LMM_TYPE3",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_SUMMARY",
+        "BESH.REGR.MMRM_COEF",
+        "BESH.REGR.MMRM_CONTRASTS",
+        "BESH.REGR.MMRM_COVPARMS",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MMRM_FITSTATS",
+        "BESH.REGR.MMRM_LSMEANS",
+        "BESH.REGR.MMRM_LSMESTIMATE",
+        "BESH.REGR.MMRM_RESULTS",
+        "BESH.REGR.MMRM_R_CORR",
+        "BESH.REGR.MMRM_R_COV",
+        "BESH.REGR.MMRM_TYPE3",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_SUMMARY",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_SUMMARY",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_SUMMARY",
+        "BESH.SURV.COX_SUMMARY",
+        "BESH.SURV.KM_TABLE",
+        "BESH.SURV.MEDIAN_CI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryAlphaText",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryAlphaText(System.String,System.Double&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.ICC_VALUE",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.KAPPA_VALUE",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.LINCCC_VALUE",
+        "BESH.AGREE.PASSINGBABLOK_COEF",
+        "BESH.AGREE.PASSINGBABLOK_FIT",
+        "BESH.ASM.GRUBBS",
+        "BESH.ASM.ROSNER",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI",
+        "BESH.NP.FRIEDMAN_MCP",
+        "BESH.NP.KENDALL_P",
+        "BESH.NP.KENDALL_TAU",
+        "BESH.NP.KW_MCP",
+        "BESH.NP.SPEARMAN_P",
+        "BESH.NP.SPEARMAN_RHO",
+        "BESH.PAR.ANOVA1_MCP",
+        "BESH.PAR.RMANOVA1_MCP",
+        "BESH.PAR.TTEST_UNPAIRED",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI",
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.PS.FIT",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_LSMESTIMATE",
+        "BESH.REGR.GEE_SUMMARY",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_SUMMARY",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_SUMMARY",
+        "BESH.REGR.LMM_COEF",
+        "BESH.REGR.LMM_COVPARMS",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LMM_FITSTATS",
+        "BESH.REGR.LMM_G_CORR",
+        "BESH.REGR.LMM_G_COV",
+        "BESH.REGR.LMM_RANEF",
+        "BESH.REGR.LMM_RESULTS",
+        "BESH.REGR.LMM_R_CORR",
+        "BESH.REGR.LMM_R_COV",
+        "BESH.REGR.LMM_TYPE3",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_SUMMARY",
+        "BESH.REGR.MMRM_COEF",
+        "BESH.REGR.MMRM_CONTRASTS",
+        "BESH.REGR.MMRM_COVPARMS",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MMRM_FITSTATS",
+        "BESH.REGR.MMRM_LSMEANS",
+        "BESH.REGR.MMRM_LSMESTIMATE",
+        "BESH.REGR.MMRM_RESULTS",
+        "BESH.REGR.MMRM_R_CORR",
+        "BESH.REGR.MMRM_R_COV",
+        "BESH.REGR.MMRM_TYPE3",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_SUMMARY",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_SUMMARY",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_SUMMARY",
+        "BESH.SURV.COX_SUMMARY",
+        "BESH.SURV.KM_TABLE",
+        "BESH.SURV.MEDIAN_CI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryKwType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryKwType(System.String,System.Boolean,System.Int32&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.NP.KW_P",
+        "BESH.NP.KW_STAT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.FriedmanType",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.FriedmanType(System.String,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.NP.FRIEDMAN_P",
+        "BESH.NP.FRIEDMAN_STAT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryBinary",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryBinary(System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Int32&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_FIT",
+        "BESH.PLOT.CALIB_POINTS",
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.PS.FIT",
+        "BESH.REGR.GEE_FIT",
+        "BESH.REGR.GEE_PRED",
+        "BESH.REGR.GLMNB_FIT",
+        "BESH.REGR.GLMNB_PRED",
+        "BESH.REGR.GLM_FIT",
+        "BESH.REGR.GLM_PRED",
+        "BESH.REGR.LMM_FIT",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_PRED",
+        "BESH.REGR.MMRM_FIT",
+        "BESH.REGR.MNLOGIT_FIT",
+        "BESH.REGR.MNLOGIT_PRED",
+        "BESH.REGR.ORDLOGIT_FIT",
+        "BESH.REGR.ORDLOGIT_PRED",
+        "BESH.REGR.ZIP_FIT",
+        "BESH.REGR.ZIP_PRED",
+        "BESH.SURV.COX_FIT",
+        "BESH.SURV.COX_PRED",
+        "BESH.SURV.KM_TABLE",
+        "BESH.SURV.LOGRANK_P",
+        "BESH.SURV.LOGRANK_STAT",
+        "BESH.SURV.MEDIAN_CI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryWholeNumber",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryWholeNumber(System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Int32&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CT.PAIRED_PROPORTIONS",
+        "BESH.CT.SINGLE_PROPORTION",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryFiniteText",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryFiniteText(System.String,System.Double&)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.SURV.KM_TABLE",
+        "BESH.SURV.LOGRANK_P",
+        "BESH.SURV.LOGRANK_STAT",
+        "BESH.SURV.MEDIAN_CI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryPositiveInteger",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfScalarChoice38.TryPositiveInteger(System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Boolean,System.Int32&,System.Int32,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.CLASS.CALIB",
+        "BESH.PLOT.CALIB_POINTS",
+        "BESH.REGR.GEE_CALIB",
+        "BESH.REGR.GLM_CALIB"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfReportProjection38.FromFault",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfReportProjection38.FromFault(BESHStatNG.ExcelCommon.UdfReportFault38)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.CA_COL_CONTRIB",
+        "BESH.MULTI.CA_COL_COORD",
+        "BESH.MULTI.CA_COL_COS2",
+        "BESH.MULTI.CA_EIGEN",
+        "BESH.MULTI.CA_ROW_CONTRIB",
+        "BESH.MULTI.CA_ROW_COORD",
+        "BESH.MULTI.CA_ROW_COS2",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.FA_FACTORCORR",
+        "BESH.MULTI.FA_LOADINGS",
+        "BESH.MULTI.FA_MATRIX",
+        "BESH.MULTI.FA_SCORES",
+        "BESH.MULTI.FA_STRUCTURE",
+        "BESH.MULTI.MCA_BURT",
+        "BESH.MULTI.MCA_CONTRIB",
+        "BESH.MULTI.MCA_COORD",
+        "BESH.MULTI.MCA_COS2",
+        "BESH.MULTI.MCA_EIGEN",
+        "BESH.MULTI.MCA_INDICATOR",
+        "BESH.MULTI.PCA_LOADINGS",
+        "BESH.MULTI.PCA_MATRIX",
+        "BESH.MULTI.PCA_SCORES",
+        "BESH.REGR.GEE_RESID",
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GEE_WCORR",
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLM_RESID",
+        "BESH.REGR.MNLOGIT_RESID",
+        "BESH.REGR.ORDLOGIT_RESID",
+        "BESH.REGR.ZIP_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfReportProjection38.SafeNumber",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfReportProjection38.SafeNumber(System.Double)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GEE_WCORR"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfSpillLayout38.WrappedTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfSpillLayout38.WrappedTable(System.Int32,System.Int32,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_CANONCOEF",
+        "BESH.MULTI.DA_CANONICAL",
+        "BESH.MULTI.DA_CENTROIDS",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FUNCTIONS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfSpillLayout38.ExistingTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfSpillLayout38.ExistingTable(System.Int32,System.Int32,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_CANONCOEF",
+        "BESH.MULTI.DA_CANONICAL",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_CENTROIDS",
+        "BESH.MULTI.DA_CONFUSION",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FUNCTIONS",
+        "BESH.MULTI.DA_GROUPSUMMARY",
+        "BESH.MULTI.DA_MEANS",
+        "BESH.MULTI.DA_PREDICT",
+        "BESH.MULTI.DA_PREPROCESS",
+        "BESH.MULTI.DA_REMOVED",
+        "BESH.MULTI.DA_SUMMARY",
+        "BESH.MULTI.HCLUST_AGGLOM",
+        "BESH.MULTI.HCLUST_LEAFORDER",
+        "BESH.MULTI.HCLUST_MEMBERSHIP",
+        "BESH.MULTI.HCLUST_PREPROCESS",
+        "BESH.MULTI.HCLUST_REMOVED",
+        "BESH.MULTI.KMEANS_ASSIGNMENTS",
+        "BESH.MULTI.KMEANS_CENTERS",
+        "BESH.MULTI.KMEANS_PREPROCESS",
+        "BESH.MULTI.KMEANS_REMOVED",
+        "BESH.PS.BALANCE",
+        "BESH.PS.EFFECT",
+        "BESH.PS.LOVEPLOT_DATA",
+        "BESH.PS.SCORES",
+        "BESH.PS.TABLE",
+        "BESH.PS.WEIGHTS",
+        "BESH.PSM.MATCHES"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfSpillPreparation38.TwoValueTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfSpillPreparation38.TwoValueTable(System.String,System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.ASM.ANDERSON_DARLING",
+        "BESH.ASM.BARTLETT",
+        "BESH.ASM.BOX_M",
+        "BESH.ASM.DAGOSTINO_PEARSON",
+        "BESH.ASM.FLIGNER_KILLEEN",
+        "BESH.ASM.LEVENE",
+        "BESH.ASM.MAUCHLY",
+        "BESH.ASM.SHAPIRO_WILK",
+        "BESH.ASM.SQUARED_RANKS",
+        "BESH.ASM.SYMMETRY"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfSpillPreparation38.PvalueCells",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfSpillPreparation38.PvalueCells(BESHStatNG.ResultTableOutputModel,System.Int32,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.AGREE.BLANDALTMAN_FIT",
+        "BESH.AGREE.BLANDALTMAN_STATS",
+        "BESH.AGREE.DEMING_COEF",
+        "BESH.AGREE.DEMING_FIT",
+        "BESH.AGREE.ICC_FIT",
+        "BESH.AGREE.ICC_RC",
+        "BESH.AGREE.KAPPA_FIT",
+        "BESH.AGREE.LINCCC_FIT",
+        "BESH.AGREE.PASSINGBABLOK_COEF",
+        "BESH.AGREE.PASSINGBABLOK_FIT",
+        "BESH.ASM.ANDERSON_DARLING",
+        "BESH.ASM.BARTLETT",
+        "BESH.ASM.BOX_M",
+        "BESH.ASM.DAGOSTINO_PEARSON",
+        "BESH.ASM.FLIGNER_KILLEEN",
+        "BESH.ASM.GRUBBS",
+        "BESH.ASM.LEVENE",
+        "BESH.ASM.MAUCHLY",
+        "BESH.ASM.ROSNER",
+        "BESH.ASM.SHAPIRO_WILK",
+        "BESH.ASM.SQUARED_RANKS",
+        "BESH.ASM.SYMMETRY",
+        "BESH.CT.CHI2",
+        "BESH.CT.FFH_EXACT",
+        "BESH.CT.FISHER_2X2",
+        "BESH.CT.MANTEL_HAENSZEL",
+        "BESH.CT.MCNEMAR_EXACT",
+        "BESH.CT.NOMINAL_ASSOC",
+        "BESH.CT.ODDS_RATIO",
+        "BESH.CT.ORDINAL_ASSOC",
+        "BESH.CT.PAIRED_PROPORTIONS",
+        "BESH.CT.RISK_RATIO",
+        "BESH.CT.SINGLE_PROPORTION",
+        "BESH.CT.TREND",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI",
+        "BESH.MULTI.CA_COLUMNS",
+        "BESH.MULTI.CA_COL_CONTRIB",
+        "BESH.MULTI.CA_COL_COORD",
+        "BESH.MULTI.CA_COL_COS2",
+        "BESH.MULTI.CA_EIGEN",
+        "BESH.MULTI.CA_ROWS",
+        "BESH.MULTI.CA_ROW_CONTRIB",
+        "BESH.MULTI.CA_ROW_COORD",
+        "BESH.MULTI.CA_ROW_COS2",
+        "BESH.MULTI.DA_CANONCOEF",
+        "BESH.MULTI.DA_CANONICAL",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_CENTROIDS",
+        "BESH.MULTI.DA_CONFUSION",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FUNCTIONS",
+        "BESH.MULTI.DA_GROUPSUMMARY",
+        "BESH.MULTI.DA_MEANS",
+        "BESH.MULTI.DA_PREPROCESS",
+        "BESH.MULTI.DA_REMOVED",
+        "BESH.MULTI.FA_FACTORCORR",
+        "BESH.MULTI.FA_LOADINGS",
+        "BESH.MULTI.FA_MATRIX",
+        "BESH.MULTI.FA_SCORES",
+        "BESH.MULTI.FA_STRUCTURE",
+        "BESH.MULTI.HCLUST_LEAFORDER",
+        "BESH.MULTI.HCLUST_PREPROCESS",
+        "BESH.MULTI.HCLUST_REMOVED",
+        "BESH.MULTI.KMEANS_PREPROCESS",
+        "BESH.MULTI.KMEANS_REMOVED",
+        "BESH.MULTI.MCA_BURT",
+        "BESH.MULTI.MCA_CATEGORIES",
+        "BESH.MULTI.MCA_CONTRIB",
+        "BESH.MULTI.MCA_COORD",
+        "BESH.MULTI.MCA_COS2",
+        "BESH.MULTI.MCA_EIGEN",
+        "BESH.MULTI.MCA_INDICATOR",
+        "BESH.MULTI.PCA_LOADINGS",
+        "BESH.MULTI.PCA_MATRIX",
+        "BESH.MULTI.PCA_SCORES",
+        "BESH.NP.FRIEDMAN_MCP",
+        "BESH.NP.KW_MCP",
+        "BESH.PAR.ANOVA1",
+        "BESH.PAR.ANOVA1_MCP",
+        "BESH.PAR.ANOVA1_WELCH",
+        "BESH.PAR.ANOVA2_NESTED",
+        "BESH.PAR.RMANOVA1",
+        "BESH.PAR.RMANOVA1_MCP",
+        "BESH.PAR.TTEST_PAIRED",
+        "BESH.PAR.TTEST_UNPAIRED",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI",
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.PS.SUMMARY",
+        "BESH.REGR.GEE_RESID",
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GEE_WCORR",
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLM_RESID",
+        "BESH.REGR.LMM_COEF",
+        "BESH.REGR.LMM_COVPARMS",
+        "BESH.REGR.LMM_FITSTATS",
+        "BESH.REGR.LMM_G_CORR",
+        "BESH.REGR.LMM_G_COV",
+        "BESH.REGR.LMM_RANEF",
+        "BESH.REGR.LMM_RESULTS",
+        "BESH.REGR.LMM_R_CORR",
+        "BESH.REGR.LMM_R_COV",
+        "BESH.REGR.LMM_TYPE3",
+        "BESH.REGR.LM_ANOVA",
+        "BESH.REGR.LM_FIT",
+        "BESH.REGR.LM_VIF",
+        "BESH.REGR.MMRM_COEF",
+        "BESH.REGR.MMRM_CONTRASTS",
+        "BESH.REGR.MMRM_COVPARMS",
+        "BESH.REGR.MMRM_FITSTATS",
+        "BESH.REGR.MMRM_LSMEANS",
+        "BESH.REGR.MMRM_LSMESTIMATE",
+        "BESH.REGR.MMRM_RESULTS",
+        "BESH.REGR.MMRM_R_CORR",
+        "BESH.REGR.MMRM_R_COV",
+        "BESH.REGR.MMRM_TYPE3",
+        "BESH.REGR.MNLOGIT_RESID",
+        "BESH.REGR.ORDLOGIT_RESID",
+        "BESH.REGR.ZIP_RESID",
+        "BESH.SSIZE.BLANDALTMAN",
+        "BESH.SSIZE.COX_BINARY",
+        "BESH.SSIZE.COX_CONTINUOUS",
+        "BESH.SSIZE.ICC",
+        "BESH.SSIZE.LOGRANK",
+        "BESH.SSIZE.PROP_INDEP",
+        "BESH.SSIZE.PROP_SINGLE",
+        "BESH.SSIZE.TTEST_PAIRED",
+        "BESH.SSIZE.TTEST_UNPAIRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfSpillPreparation38.IsPValueLabel",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfSpillPreparation38.IsPValueLabel(System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.ASM.ANDERSON_DARLING",
+        "BESH.ASM.BARTLETT",
+        "BESH.ASM.BOX_M",
+        "BESH.ASM.DAGOSTINO_PEARSON",
+        "BESH.ASM.FLIGNER_KILLEEN",
+        "BESH.ASM.GRUBBS",
+        "BESH.ASM.LEVENE",
+        "BESH.ASM.MAUCHLY",
+        "BESH.ASM.ROSNER",
+        "BESH.ASM.SHAPIRO_WILK",
+        "BESH.ASM.SQUARED_RANKS",
+        "BESH.ASM.SYMMETRY",
+        "BESH.CT.CHI2",
+        "BESH.CT.FFH_EXACT",
+        "BESH.CT.FISHER_2X2",
+        "BESH.CT.MANTEL_HAENSZEL",
+        "BESH.CT.MCNEMAR_EXACT",
+        "BESH.CT.NOMINAL_ASSOC",
+        "BESH.CT.ODDS_RATIO",
+        "BESH.CT.ORDINAL_ASSOC",
+        "BESH.CT.PAIRED_PROPORTIONS",
+        "BESH.CT.RISK_RATIO",
+        "BESH.CT.SINGLE_PROPORTION",
+        "BESH.CT.TREND",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI",
+        "BESH.MULTI.CA_COLUMNS",
+        "BESH.MULTI.CA_COL_CONTRIB",
+        "BESH.MULTI.CA_COL_COORD",
+        "BESH.MULTI.CA_COL_COS2",
+        "BESH.MULTI.CA_EIGEN",
+        "BESH.MULTI.CA_ROWS",
+        "BESH.MULTI.CA_ROW_CONTRIB",
+        "BESH.MULTI.CA_ROW_COORD",
+        "BESH.MULTI.CA_ROW_COS2",
+        "BESH.MULTI.DA_CANONCOEF",
+        "BESH.MULTI.DA_CANONICAL",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_CENTROIDS",
+        "BESH.MULTI.DA_CONFUSION",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FUNCTIONS",
+        "BESH.MULTI.DA_GROUPSUMMARY",
+        "BESH.MULTI.DA_MEANS",
+        "BESH.MULTI.DA_PREPROCESS",
+        "BESH.MULTI.DA_REMOVED",
+        "BESH.MULTI.FA_FACTORABILITY",
+        "BESH.MULTI.FA_FACTORCORR",
+        "BESH.MULTI.FA_LOADINGS",
+        "BESH.MULTI.FA_MATRIX",
+        "BESH.MULTI.FA_SCORES",
+        "BESH.MULTI.FA_STRUCTURE",
+        "BESH.MULTI.HCLUST_LEAFORDER",
+        "BESH.MULTI.HCLUST_PREPROCESS",
+        "BESH.MULTI.HCLUST_REMOVED",
+        "BESH.MULTI.KMEANS_PREPROCESS",
+        "BESH.MULTI.KMEANS_REMOVED",
+        "BESH.MULTI.MCA_BURT",
+        "BESH.MULTI.MCA_CATEGORIES",
+        "BESH.MULTI.MCA_CONTRIB",
+        "BESH.MULTI.MCA_COORD",
+        "BESH.MULTI.MCA_COS2",
+        "BESH.MULTI.MCA_EIGEN",
+        "BESH.MULTI.MCA_INDICATOR",
+        "BESH.MULTI.PCA_LOADINGS",
+        "BESH.MULTI.PCA_MATRIX",
+        "BESH.MULTI.PCA_SCORES",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI",
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS",
+        "BESH.REGR.GEE_RESID",
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GEE_WCORR",
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLM_RESID",
+        "BESH.REGR.MNLOGIT_RESID",
+        "BESH.REGR.ORDLOGIT_RESID",
+        "BESH.REGR.ZIP_RESID",
+        "BESH.SSIZE.BLANDALTMAN",
+        "BESH.SSIZE.COX_BINARY",
+        "BESH.SSIZE.COX_CONTINUOUS",
+        "BESH.SSIZE.ICC",
+        "BESH.SSIZE.LOGRANK",
+        "BESH.SSIZE.PROP_INDEP",
+        "BESH.SSIZE.PROP_SINGLE",
+        "BESH.SSIZE.TTEST_PAIRED",
+        "BESH.SSIZE.TTEST_UNPAIRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.BuildGrubbsTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.BuildGrubbsTable(System.Double,BESHStatNG.TestResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.ASM.GRUBBS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.BuildRosnerTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.BuildRosnerTable(System.Double,System.Double[],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.ASM.ROSNER"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildClusterPreprocessingTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildClusterPreprocessingTable(System.String[],System.Double[],System.Double[],BESHStatNG.Multivariate.ClusterStandardizationMode)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_PREPROCESS",
+        "BESH.MULTI.HCLUST_PREPROCESS",
+        "BESH.MULTI.KMEANS_PREPROCESS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildRemovedRowsOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildRemovedRowsOutput(System.Int32[],System.String[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_REMOVED",
+        "BESH.MULTI.HCLUST_REMOVED",
+        "BESH.MULTI.KMEANS_REMOVED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildHierarchicalLeafOrderTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildHierarchicalLeafOrderTable(BESHStatNG.Multivariate.HierarchicalClusterResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.HCLUST_LEAFORDER"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildCaEigenOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildCaEigenOutput(BESHStatNG.Multivariate.CA,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.CA_EIGEN",
+        "BESH.MULTI.MCA_EIGEN"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildCaOverviewOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildCaOverviewOutput(System.String,System.String[],System.Double[],System.Double[],System.Double[],System.Double[],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.CA_COLUMNS",
+        "BESH.MULTI.CA_ROWS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.ResolveAvailableAxisCount",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.ResolveAvailableAxisCount(System.Int32,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Double[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.CA_COL_CONTRIB",
+        "BESH.MULTI.CA_COL_COORD",
+        "BESH.MULTI.CA_COL_COS2",
+        "BESH.MULTI.CA_ROW_CONTRIB",
+        "BESH.MULTI.CA_ROW_COORD",
+        "BESH.MULTI.CA_ROW_COS2",
+        "BESH.MULTI.MCA_CONTRIB",
+        "BESH.MULTI.MCA_COORD",
+        "BESH.MULTI.MCA_COS2"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildCaAxisMetricOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildCaAxisMetricOutput(System.String,System.String[],System.String,System.Int32,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Double[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.CA_COL_CONTRIB",
+        "BESH.MULTI.CA_COL_COORD",
+        "BESH.MULTI.CA_COL_COS2",
+        "BESH.MULTI.CA_ROW_CONTRIB",
+        "BESH.MULTI.CA_ROW_COORD",
+        "BESH.MULTI.CA_ROW_COS2"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaCategoryOverviewOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaCategoryOverviewOutput(System.String[],System.String[],System.Double[],System.Double[],System.Double[],System.Double[],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.MCA_CATEGORIES"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaCategoryAxisMetricOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaCategoryAxisMetricOutput(System.String[],System.String[],System.String,System.Int32,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Double[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.MCA_CONTRIB",
+        "BESH.MULTI.MCA_COORD",
+        "BESH.MULTI.MCA_COS2"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.CombinedCategoryHeaders",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.CombinedCategoryHeaders(System.String[],System.String[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.MCA_BURT",
+        "BESH.MULTI.MCA_INDICATOR"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaBurtOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaBurtOutput(BESHStatNG.Multivariate.CA,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.MCA_BURT"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaIndicatorOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaIndicatorOutput(BESHStatNG.Multivariate.CA,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.MCA_INDICATOR"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildDiscriminantGroupSummaryTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildDiscriminantGroupSummaryTable(BESHStatNG.Multivariate.DiscriminantAnalysis)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_GROUPSUMMARY"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildDiscriminantMeansTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildDiscriminantMeansTable(BESHStatNG.Multivariate.DiscriminantAnalysis,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_MEANS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.GEEUDFsReports38.BuildLabeledMatrixOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.GEEUDFsReports38.BuildLabeledMatrixOutput(System.Double[,],System.String[],System.String[],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_VCOV",
+        "BESH.REGR.GEE_WCORR"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.BuildResidualVectorOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.BuildResidualVectorOutput(System.Double[],System.String,System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.GEE_RESID",
+        "BESH.REGR.GLMNB_RESID",
+        "BESH.REGR.GLM_RESID",
+        "BESH.REGR.MNLOGIT_RESID",
+        "BESH.REGR.ORDLOGIT_RESID",
+        "BESH.REGR.ZIP_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.CategoryHeaders",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.CategoryHeaders(System.String,System.Int32[])"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MNLOGIT_RESID",
+        "BESH.REGR.ORDLOGIT_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.BuildResidualMatrixOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.BuildResidualMatrixOutput(System.Double[,],System.String[],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.REGR.MNLOGIT_RESID",
+        "BESH.REGR.ORDLOGIT_RESID"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeMetricValueTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeMetricValueTable(System.String,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.PROP_SINGLE",
+        "BESH.SSIZE.TTEST_PAIRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeTwoGroupTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeTwoGroupTable(System.String,System.Int32,System.Int32)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.TTEST_UNPAIRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeEquivalenceTwoGroupTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeEquivalenceTwoGroupTable(BESHStatNG.SampleSizeCalc.EquivalenceUnpairedTTestSampleSizeResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.TTEST_UNPAIRED"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeIndependentProportionsTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeIndependentProportionsTable(BESHStatNG.SampleSizeCalc.IndependentProportionsSampleSizeResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.PROP_INDEP"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeEquivalenceIndependentProportionsTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeEquivalenceIndependentProportionsTable(BESHStatNG.SampleSizeCalc.EquivalenceIndependentProportionsSampleSizeResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.PROP_INDEP"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeLogRankPlanningTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeLogRankPlanningTable(BESHStatNG.SampleSizeCalc.LogRankSampleSizeResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.LOGRANK"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeCoxPlanningTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeCoxPlanningTable(System.String,BESHStatNG.SampleSizeCalc.CoxEventCountPlanningResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.COX_BINARY",
+        "BESH.SSIZE.COX_CONTINUOUS"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeIccPlanningTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeIccPlanningTable(BESHStatNG.SampleSizeCalc.IccHypothesisTestSampleSizeResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.ICC"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeBlandAltmanPlanningTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeBlandAltmanPlanningTable(BESHStatNG.SampleSizeCalc.BlandAltmanAgreementStudyPlanningResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.SSIZE.BLANDALTMAN"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.SafeCiLabel",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.SafeCiLabel(BESHStatNG.ConfidenceIntervalResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.SafeCiText",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.SafeCiText(BESHStatNG.ConfidenceIntervalResult)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+        "BESH.AGREE.BLANDALTMAN_DECISION",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+        "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI",
+        "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+        "BESH.PAR.TTEST_UNPAIRED_NI"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildNamedMatrixOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildNamedMatrixOutput(System.String,System.String[],System.String[],System.Double[,],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.FA_FACTORCORR",
+        "BESH.MULTI.FA_LOADINGS",
+        "BESH.MULTI.FA_MATRIX",
+        "BESH.MULTI.FA_STRUCTURE",
+        "BESH.MULTI.PCA_LOADINGS",
+        "BESH.MULTI.PCA_MATRIX"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildCaseMatrixOutput",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildCaseMatrixOutput(System.String,System.Int32[],System.String[],System.Double[,],System.Boolean)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.FA_SCORES",
+        "BESH.MULTI.PCA_SCORES"
+      ],
+      "consumed": true
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "portable_method": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildSimpleNoteTable",
+      "compiled_bindings": [
+        "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildSimpleNoteTable(System.String,System.String)"
+      ],
+      "actual_registered_static_consumers": [
+        "BESH.MULTI.DA_CANONCOEF",
+        "BESH.MULTI.DA_CANONICAL",
+        "BESH.MULTI.DA_CASEWISE",
+        "BESH.MULTI.DA_CENTROIDS",
+        "BESH.MULTI.DA_CONFUSION",
+        "BESH.MULTI.DA_COVARIANCE",
+        "BESH.MULTI.DA_FUNCTIONS",
+        "BESH.PLOT.KM_CURVE",
+        "BESH.PLOT.ROC_POINTS",
+        "BESH.PLOT.ROC_STATS"
+      ],
+      "consumed": true
+    }
+  ],
+  "unconsumed": [],
+  "qualification": "Resolved CIL graph from real registered functions through Windows/Core/Common, including portable-to-portable calls. Static reachability is not proof of successful runtime branch coverage or completion of remaining Windows preparation.",
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

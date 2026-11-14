@@ -1,0 +1,54 @@
+{
+  "status": "LIVE_C6_AUTHENTICATED_BEFORE_C7_SOURCE_EDITS",
+  "historical": {
+    "total": 704,
+    "closed": 248,
+    "OPEN": 456
+  },
+  "current": {
+    "total": 724,
+    "closed": 266,
+    "OPEN": 458
+  },
+  "support": {
+    "raw": 325,
+    "distinct": 303,
+    "distinct_closed": 239,
+    "distinct_OPEN": 64
+  },
+  "fragments": {
+    "current": {
+      "total": 15564,
+      "branches": 3580,
+      "inline": 1080,
+      "covered": 2346,
+      "branches_covered": 434,
+      "inline_covered": 123
+    },
+    "original": {
+      "total": 20683,
+      "branches": 5511,
+      "inline": 1397,
+      "covered": 5331,
+      "branches_covered": 1538,
+      "inline_covered": 289
+    }
+  },
+  "instructions": {
+    "path": "AGENTS.md",
+    "bytes": 3101,
+    "sha256": "9fb0b1351f975c33724fc62a023f66f74ceb8bb0990254731a4c897586955a3b"
+  },
+  "master_plan": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "bytes": 78245,
+    "sha256": "436b66c4307bd1571649c2604f8d90b5f0b5d843df3567b918698392fe5d6e7c"
+  },
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v7/entry_v1.py",
+    "bytes": 6692,
+    "sha256": "ce4a335f903cefc9603aeb12cb39fa178ede413adbe5884d284baaf2d517ae25"
+  },
+  "original_queries": 0,
+  "interruption": "Initial read-only authentication ran before server restart; no C7 source edits or tests existed. The uncompleted exhaustive privacy invocation has no reusable completion receipt. Corrected entry authenticates every stored ZIP member and CRC against final C6 receipt without repeating historical regex scans."
+}

@@ -1,0 +1,1039 @@
+{
+  "status": "ORIGINAL_ONLY_CALLBACK_COMPLETE_SOURCE_NORMALIZER_AND_CIL_RECONCILED",
+  "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@8397:33",
+  "original_record": {
+    "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@8213:33",
+    "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818",
+    "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+    "name": "lambda",
+    "kind": "SingleLineFunctionLambdaExpression",
+    "owner": "BESHStatNG.UdfDataImport",
+    "signature": "Function(x)",
+    "span_start": 8213,
+    "span_length": 33,
+    "start_line": 185,
+    "end_line": 185,
+    "body_sha256": "eb2eb1d9f3040cb402a9676978129bac46b0122367e12d4b1d581c145c6f2c7a",
+    "body_token_sha256": "221c1402f1fda44cf3e5d712f8a22d926efa9f523bbab574cfe165cc2933544a",
+    "source_sha256": "ba47ad4de91894ea1f81ea7627723e7d98ba9a568e21e5961dd1d541b62e5fb8",
+    "exported": false,
+    "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f@6655:2048",
+    "invocations": [
+      {
+        "text": "NormalizeOptionKey(x)",
+        "line": 185
+      }
+    ]
+  },
+  "original_parent": {
+    "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f@6655:2048",
+    "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f",
+    "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+    "name": "GuessPositiveClass",
+    "kind": "FunctionBlock",
+    "owner": "BESHStatNG.UdfDataImport",
+    "signature": "Private Function GuessPositiveClass(statusCol(,) As Object, explicitPositive As Object, ByRef positiveLabel As String) As Boolean",
+    "span_start": 6655,
+    "span_length": 2048,
+    "start_line": 149,
+    "end_line": 198,
+    "body_sha256": "b701eb3d98f9a3fa5b52b7de43df7244c38afd8091ad78d922f83c968d011376",
+    "body_token_sha256": "ec0c5414f80b5ae2c3346a6782a3220776e0042acee1dcd27c64c828e926e9bf",
+    "source_sha256": "ba47ad4de91894ea1f81ea7627723e7d98ba9a568e21e5961dd1d541b62e5fb8",
+    "exported": false,
+    "parent_member": null,
+    "invocations": [
+      {
+        "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(explicitPositive)",
+        "line": 153
+      },
+      {
+        "text": "String.IsNullOrWhiteSpace(explicitText)",
+        "line": 154
+      },
+      {
+        "text": "statusCol.GetLength(0)",
+        "line": 163
+      },
+      {
+        "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(statusCol(i, 0))",
+        "line": 164
+      },
+      {
+        "text": "statusCol(i, 0)",
+        "line": 164
+      },
+      {
+        "text": "String.IsNullOrWhiteSpace(s)",
+        "line": 165
+      },
+      {
+        "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusCol(i, 0), iv)",
+        "line": 168
+      },
+      {
+        "text": "statusCol(i, 0)",
+        "line": 168
+      },
+      {
+        "text": "NormalizeOptionKey(s)",
+        "line": 172
+      },
+      {
+        "text": "distinctNormalized.Contains(norm)",
+        "line": 173
+      },
+      {
+        "text": "distinctNormalized.Add(norm)",
+        "line": 174
+      },
+      {
+        "text": "distinctTokens.Add(s)",
+        "line": 175
+      },
+      {
+        "text": "distinctTokens.Select(Function(x) NormalizeOptionKey(x)).ToArray()",
+        "line": 185
+      },
+      {
+        "text": "distinctTokens.Select(Function(x) NormalizeOptionKey(x))",
+        "line": 185
+      },
+      {
+        "text": "norms(i)",
+        "line": 187
+      },
+      {
+        "text": "distinctTokens(i)",
+        "line": 189
+      },
+      {
+        "text": "distinctTokens(0)",
+        "line": 193
+      }
+    ]
+  },
+  "current_source_record": {
+    "symbol_id": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb|BESHStatNG.ExcelCommon.UdfClassLabelPreparation38|SingleLineFunctionLambdaExpression|4e2da8b1bf60280f@1688:64",
+    "signature_key": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb|BESHStatNG.ExcelCommon.UdfClassLabelPreparation38|SingleLineFunctionLambdaExpression|4e2da8b1bf60280f",
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb",
+    "name": "lambda",
+    "kind": "SingleLineFunctionLambdaExpression",
+    "owner": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38",
+    "signature": "Function(token)",
+    "span_start": 1688,
+    "span_length": 64,
+    "start_line": 39,
+    "end_line": 39,
+    "body_sha256": "099d4040970802ea005a539893d015ab9dff76b0ee073d9a7415cce962a9d652",
+    "body_token_sha256": "2354e15d5d1279c17c85a394161d30342aaaf0185aa8e86972e2285c61942f09",
+    "source_sha256": "fe57f8a20ad0ddc4fb3f890be05c277bf9b5535ba5b6c6db50bfc727145a6c75",
+    "exported": false,
+    "parent_member": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb|BESHStatNG.ExcelCommon.UdfClassLabelPreparation38|FunctionBlock|25fe60380d499ed2@240:2115",
+    "invocations": [
+      {
+        "text": "UdfDataImportOptions38.NormalizeOptionKey(token)",
+        "line": 39
+      }
+    ]
+  },
+  "current_parent": {
+    "symbol_id": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb|BESHStatNG.ExcelCommon.UdfClassLabelPreparation38|FunctionBlock|25fe60380d499ed2@240:2115",
+    "signature_key": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb|BESHStatNG.ExcelCommon.UdfClassLabelPreparation38|FunctionBlock|25fe60380d499ed2",
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb",
+    "name": "GuessPositiveClass",
+    "kind": "FunctionBlock",
+    "owner": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38",
+    "signature": "Public Shared Function GuessPositiveClass(explicitText As String, rowCount As Func(Of Integer), text As Func(Of Integer, String), binary As Func(Of Integer, Boolean), ByRef positiveLabel As String) As Boolean",
+    "span_start": 240,
+    "span_length": 2115,
+    "start_line": 13,
+    "end_line": 51,
+    "body_sha256": "90d3f1c003547ee6250260403312e6f9608fd8e4009b14b3c57fa8938c75c864",
+    "body_token_sha256": "2608d8c0d94d96888b03b1eff6af3d7efe68927e00c978f1a2609215a4f4802e",
+    "source_sha256": "fe57f8a20ad0ddc4fb3f890be05c277bf9b5535ba5b6c6db50bfc727145a6c75",
+    "exported": false,
+    "parent_member": null,
+    "invocations": [
+      {
+        "text": "String.IsNullOrWhiteSpace(explicitText)",
+        "line": 17
+      },
+      {
+        "text": "rowCount()",
+        "line": 24
+      },
+      {
+        "text": "text(i)",
+        "line": 25
+      },
+      {
+        "text": "String.IsNullOrWhiteSpace(token)",
+        "line": 26
+      },
+      {
+        "text": "binary(i)",
+        "line": 27
+      },
+      {
+        "text": "UdfDataImportOptions38.NormalizeOptionKey(token)",
+        "line": 28
+      },
+      {
+        "text": "distinctNormalized.Contains(normalized)",
+        "line": 29
+      },
+      {
+        "text": "distinctNormalized.Add(normalized)",
+        "line": 30
+      },
+      {
+        "text": "distinctTokens.Add(token)",
+        "line": 31
+      },
+      {
+        "text": "distinctTokens.Select(Function(token) UdfDataImportOptions38.NormalizeOptionKey(token)).ToArray()",
+        "line": 39
+      },
+      {
+        "text": "distinctTokens.Select(Function(token) UdfDataImportOptions38.NormalizeOptionKey(token))",
+        "line": 39
+      },
+      {
+        "text": "LegacyUdfText38.CaseToken(norms(i), {\"positive\", \"pos\", \"case\", \"cases\", \"event\", \"events\", \"yes\", \"true\"})",
+        "line": 41
+      },
+      {
+        "text": "norms(i)",
+        "line": 41
+      },
+      {
+        "text": "distinctTokens(i)",
+        "line": 43
+      },
+      {
+        "text": "distinctTokens(0)",
+        "line": 47
+      }
+    ]
+  },
+  "original_source": {
+    "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportPlot.vb.txt",
+    "bytes": 8917,
+    "sha256": "ca8ce9338405315b73a81ec3c7f48a5667cd67c0059121094b2cff12ff501ff3"
+  },
+  "current_source": {
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb",
+    "bytes": 2384,
+    "sha256": "fe57f8a20ad0ddc4fb3f890be05c277bf9b5535ba5b6c6db50bfc727145a6c75"
+  },
+  "compiled": [
+    {
+      "configuration": "Debug",
+      "original_callback": {
+        "method": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__90-0(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__",
+        "member_name": "_Lambda$__90-0",
+        "parameter_types": [
+          "System.String"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "2cff4f4449a28cf279c19cd6c33397bf8176d0862f9656893bd466e4f0736318",
+        "type_initializer": true,
+        "nonliteral_static_fields": 7,
+        "locals": [
+          "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeOptionKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              4
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "current_callback": {
+        "method": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1-0(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__",
+        "member_name": "_Lambda$__1-0",
+        "parameter_types": [
+          "System.String"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "2942944341ed1d4aa72ed55408169949632b64dfb4b44ee50e65a623f85a7c5b",
+        "type_initializer": true,
+        "nonliteral_static_fields": 2,
+        "locals": [
+          "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeOptionKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              4
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "original_parent": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GuessPositiveClass(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "current_parent": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GuessPositiveClass(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "original_normalizer": {
+        "method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeOptionKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.UdfDataImport",
+        "member_name": "NormalizeOptionKey",
+        "parameter_types": [
+          "System.String"
+        ],
+        "attributes": "PrivateScope, Private, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "7bbec24ecec9562dd01a7d2ae5346aabdd0cd82400e5b3b2b865675272da0120",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              9
+            ]
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              23
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToLowerInvariant()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING: "
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:-"
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:_"
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              23
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "current_normalizer": {
+        "method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeOptionKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.ExcelCommon.UdfDataImportOptions38",
+        "member_name": "NormalizeOptionKey",
+        "parameter_types": [
+          "System.String"
+        ],
+        "attributes": "PrivateScope, Public, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "6d66f7a72b35d674036a03c7068a31d052ba735dea549ec752831c1884975b17",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              9
+            ]
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              23
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToLowerInvariant()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING: "
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:-"
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:_"
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              23
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "original_normalizer_source": "Private Function NormalizeOptionKey(value As String) As String\n        If value Is Nothing Then Return String.Empty\n\n        Return value.Trim().ToLowerInvariant().Replace(\" \", String.Empty).Replace(\"-\", String.Empty).Replace(\"_\", String.Empty)\n    End Function",
+      "current_normalizer_source": "Public Shared Function NormalizeOptionKey(value As String) As String\n            If value Is Nothing Then Return String.Empty\n\n            Return value.Trim().ToLowerInvariant().Replace(\" \", String.Empty).Replace(\"-\", String.Empty).Replace(\"_\", String.Empty)\n        End Function",
+      "original_callback_source": "Function(x) NormalizeOptionKey(x)",
+      "current_callback_source": "Function(token) UdfDataImportOptions38.NormalizeOptionKey(token)",
+      "owner_context": {
+        "assembly": "BESHStat.Excel.Common",
+        "type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__",
+        "root_owner": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed, Serializable",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "$I",
+            "type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Public, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "$I1-0",
+            "type": "System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Public, Static",
+            "is_static": true,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "constructors": [
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "dd0e90b48df0fae05378c6c367ec79841aaab21e45ccfe1da5a643168530fddb",
+          "type_initializer": true,
+          "nonliteral_static_fields": 2,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__",
+          "member_name": ".cctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "443cbeb0cbd4322ce95bbcafbf579bb68989ea49c1ef9937d138ff35a400d9f1",
+          "type_initializer": true,
+          "nonliteral_static_fields": 2,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "newobj",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+            },
+            {
+              "op": "stsfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__.$I:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "original_callback": {
+        "method": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__90-0(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__",
+        "member_name": "_Lambda$__90-0",
+        "parameter_types": [
+          "System.String"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "f23c7d3f34d5e958d5e6449b3fab6cad11e2dc459e065bed864605d27697686a",
+        "type_initializer": true,
+        "nonliteral_static_fields": 7,
+        "locals": [],
+        "init_locals": false,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeOptionKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "current_callback": {
+        "method": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1-0(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__",
+        "member_name": "_Lambda$__1-0",
+        "parameter_types": [
+          "System.String"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "25e130044a9cef9c6cf57c71aaf1674e750b10d918b74c516f1d0116435ab757",
+        "type_initializer": true,
+        "nonliteral_static_fields": 2,
+        "locals": [],
+        "init_locals": false,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeOptionKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "original_parent": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GuessPositiveClass(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "current_parent": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GuessPositiveClass(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "original_normalizer": {
+        "method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeOptionKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.UdfDataImport",
+        "member_name": "NormalizeOptionKey",
+        "parameter_types": [
+          "System.String"
+        ],
+        "attributes": "PrivateScope, Private, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "dfdd8207e4742520cd9b55b8f3a9dd3a3f8f54640107313966c39b53ef704ea6",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              5
+            ]
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              18
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToLowerInvariant()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING: "
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:-"
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:_"
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "current_normalizer": {
+        "method": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeOptionKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.ExcelCommon.UdfDataImportOptions38",
+        "member_name": "NormalizeOptionKey",
+        "parameter_types": [
+          "System.String"
+        ],
+        "attributes": "PrivateScope, Public, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "14fdb3f259724c0bff6c9599ba42b4bcfdd685f641a6562ec2f2a25689c8b7e1",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              5
+            ]
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              18
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToLowerInvariant()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING: "
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:-"
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:_"
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Replace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "original_normalizer_source": "Private Function NormalizeOptionKey(value As String) As String\n        If value Is Nothing Then Return String.Empty\n\n        Return value.Trim().ToLowerInvariant().Replace(\" \", String.Empty).Replace(\"-\", String.Empty).Replace(\"_\", String.Empty)\n    End Function",
+      "current_normalizer_source": "Public Shared Function NormalizeOptionKey(value As String) As String\n            If value Is Nothing Then Return String.Empty\n\n            Return value.Trim().ToLowerInvariant().Replace(\" \", String.Empty).Replace(\"-\", String.Empty).Replace(\"_\", String.Empty)\n        End Function",
+      "original_callback_source": "Function(x) NormalizeOptionKey(x)",
+      "current_callback_source": "Function(token) UdfDataImportOptions38.NormalizeOptionKey(token)",
+      "owner_context": {
+        "assembly": "BESHStat.Excel.Common",
+        "type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__",
+        "root_owner": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed, Serializable",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "$I",
+            "type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Public, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "$I1-0",
+            "type": "System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Public, Static",
+            "is_static": true,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "constructors": [
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "e882cf50adfd146d38b45e617896bae7775b8590dc05e2ec1eb1c5be05900e6e",
+          "type_initializer": true,
+          "nonliteral_static_fields": 2,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__",
+          "member_name": ".cctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "357282261135ea10b49fcc976808bb98723b1767aa42fd5d3d58c3e247919aee",
+          "type_initializer": true,
+          "nonliteral_static_fields": 2,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "newobj",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+            },
+            {
+              "op": "stsfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__.$I:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "current_Windows_ids": [],
+  "qualification": "Historical original callback has a real current Common source/compiled counterpart, not a guessed Windows callback ID. Every parameter, normalization body and actual CIL instruction/exception region is authenticated independently. Ledger transition remains separate.",
+  "original_queries": 0
+}

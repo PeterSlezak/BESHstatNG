@@ -1,0 +1,30 @@
+{
+  "previous": {
+    "path": "evidence/04A38/completion/w2/continuation-v5/deferred-compatibility-constraints.json",
+    "bytes": 907,
+    "sha256": "6d531d786fb4f1b08a635a9e4a9efde558dddfbd28c838ff18000ab39737ba1a"
+  },
+  "constraints": [
+    {
+      "identity": "KENDALL_P / KENDALL_TAU",
+      "finding": "Original p-value body requires4 complete pairs; coefficient permits3. Preserved and explicitly tested; no correction."
+    },
+    {
+      "identity": "TTEST_UNPAIRED_NI / TTEST_UNPAIRED_EQUIV / TryParseAlpha",
+      "finding": "Callers initialize alpha.025, but missing alpha still follows the original parser fixed.05 default. Preserve before separately authorized defect work."
+    },
+    {
+      "identity": "EquivalenceNonInferiorityMethods.TestUnpairedMeansEquivalence",
+      "finding": "Observed difference outside supplied margins throws and native UDF returns #VALUE. New invalid fixture corrected, existing engine unchanged."
+    },
+    {
+      "identity": "IndependentTTableSelection / LegacyUdfText38",
+      "finding": "Fullwidth WELCH differs by standard host culture; preserve sk-SK rejection and existing comparison policy. Eight raw null/ignorable synthetic differences remain adverse evidence."
+    },
+    {
+      "identity": "TryGetOptionalProbabilityThresholds",
+      "finding": "Dedup compares each sorted input with its immediate previous input, not the last retained threshold. Preserve strict1e-12 chained tolerance."
+    }
+  ],
+  "disposition": "Deferred04A39–48 source/compatibility constraints only. No new numbered batch, statistical fix, original query or native release."
+}

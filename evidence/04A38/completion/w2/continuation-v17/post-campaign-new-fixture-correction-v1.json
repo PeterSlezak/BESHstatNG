@@ -1,0 +1,57 @@
+{
+  "corrections": [
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation17Tests.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/failed-new-test-fixtures-v1/BESHStat.Excel.Common.Tests/src/UdfContinuation17Tests.vb",
+        "bytes": 9817,
+        "sha256": "cea1071bfc64c1a31bb900207ff33858710fc4f813853c7c0fd3115b4afd1786"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation17Tests.vb",
+        "bytes": 10024,
+        "sha256": "3b8c19ffafc97f9cbc86e5d2cd6291627dd4014cf596594b73a4429052b34069"
+      },
+      "replacements": [
+        {
+          "before": "GetReferenceCategory(\"?????\")",
+          "after": "GetReferenceCategory(Char.ConvertFromUtf32(&HFF26) & Char.ConvertFromUtf32(&HFF29) & Char.ConvertFromUtf32(&HFF32) & Char.ConvertFromUtf32(&HFF33) & Char.ConvertFromUtf32(&HFF34))"
+        },
+        {
+          "before": "ParseSurvivalWeightText(\"??\")",
+          "after": "ParseSurvivalWeightText(Char.ConvertFromUtf32(&HFF2C) & Char.ConvertFromUtf32(&HFF32))"
+        }
+      ]
+    },
+    {
+      "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/failed-new-test-fixtures-v1/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 148377,
+        "sha256": "310f5b4f1b4e71e05be1bbae266f4afa2d662f55866a7e8a0fb691c202d98a9d"
+      },
+      "after": {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 148363,
+        "sha256": "06894433576627a4aa280ea32a29001e052a2f1dbe8e10d5f176846088d83d84"
+      },
+      "replacements": [
+        {
+          "before": "Convert.ToString(ExcelError.ExcelErrorNA).Trim()",
+          "after": "ExcelError.ExcelErrorNA.ToString()"
+        }
+      ]
+    }
+  ],
+  "full_campaign": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/managed-full-execution-v1.json",
+    "bytes": 1143,
+    "sha256": "924b09ac7eb220332dfce4e9d87d5fd375d8fbc4e1791d21784e11421ddc28e0"
+  },
+  "full_campaign_scope": "GENUINE_COMPREHENSIVE_PRODUCTION_AND_TEST_FREEZE4;PRE_TWO_NEW_TEST_FIXTURE_CORRECTIONS;NOT_A_COMPREHENSIVE_FINAL_TEST_FREEZE5_RUN",
+  "production_unchanged": true,
+  "existing_tests_weakened": 0,
+  "reason": "New width fixture had question marks from PowerShell transport encoding, replaced by explicit Unicode code points. New enum expectation accidentally selected Convert.ToString(Integer), while the original Object adapter invokes Object.ToString. The original source/CIL prove the enum-name contract; use enum.ToString. Both genuine failed outcomes remain immutable.",
+  "additional_full_campaigns": 0,
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+}

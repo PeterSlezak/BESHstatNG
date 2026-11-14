@@ -1,0 +1,27 @@
+{
+  "status": "OFFLINE_BUILD_ATTEMPT_RETAINED",
+  "command": {
+    "command": [
+      "dotnet",
+      "msbuild",
+      "<ISOLATED_RUN>\\completion-w2-cont6\\domain-tool-v3\\CallDomains-v3.csproj",
+      "/t:Build",
+      "/p:ProjectAssetsFile=<ISOLATED_RUN>\\completion-w2-cont4\\domain-tool-v2\\obj\\project.assets.json",
+      "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont6\\domain-tool-v3\\bin\\",
+      "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont6\\domain-tool-v3\\obj\\",
+      "/p:UseAppHost=false",
+      "/nr:false",
+      "/v:minimal"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 0.711474099982297,
+    "stdout_sha256": "6321a5b0ddc2f5c4c35850e6f30a8f49813cc297e3a1649794a849e89edca169",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "failure": "NETSDK1004: the old domain-tool output directory has no assets file; it previously used the separately cached census assets.",
+  "correction": "Fresh isolated output uses the same existing census ProjectAssetsFile, with before/after byte authentication. No restore or install.",
+  "dependent_attempt": "Absent run_text_domains_v6.py invocation failed before execution",
+  "original_queries": 0
+}

@@ -1,0 +1,300 @@
+{
+  "actual_result": {
+    "status": "NOT_READY_04A38",
+    "W2": "IN_PROGRESS",
+    "W3": "NOT_STARTED",
+    "historical": {
+      "total": 704,
+      "closed": 402,
+      "OPEN": 302
+    },
+    "current": {
+      "total": 726,
+      "closed": 432,
+      "OPEN": 294
+    },
+    "support": {
+      "raw": 325,
+      "distinct": 303,
+      "distinct_closed": 250,
+      "distinct_OPEN": 53
+    },
+    "fragments": {
+      "current": {
+        "total": 14853,
+        "branches": 3375,
+        "inline": 962,
+        "covered": 5653,
+        "branches_covered": 1261,
+        "inline_covered": 363
+      },
+      "original": {
+        "total": 20683,
+        "branches": 5511,
+        "inline": 1397,
+        "covered": 9776,
+        "branches_covered": 2662,
+        "inline_covered": 664
+      }
+    },
+    "original_queries": 0,
+    "validation": {
+      "Debug": {
+        "Passed": 20803,
+        "Failed": 14
+      },
+      "new_managed_PASS": 29,
+      "inherited_managed_FAIL": 14,
+      "Python_parents": {
+        "PASS": 830,
+        "ERROR": 13,
+        "FAIL": 113
+      },
+      "Python_events": {
+        "ERROR": 13,
+        "FAIL": 180
+      },
+      "Python_exact_once": 956,
+      "privacy_errors": "RETAINED_NOT_REPAIRED_OR_WAIVED",
+      "Node_PASS": 916,
+      "strict_profile_MkDocs": {
+        "strict": 1,
+        "profile": 1,
+        "docs": 0
+      },
+      "Release_unit": "NOT_RUN_OWNER_PREFERENCE"
+    },
+    "compiled_retention": [
+      {
+        "configuration": "Debug",
+        "reached": 901,
+        "owners": 134,
+        "exports": 268
+      },
+      {
+        "configuration": "Release",
+        "reached": 901,
+        "owners": 134,
+        "exports": 268
+      }
+    ],
+    "source_composition": {
+      "status": "FULL_SOURCE_COMPOSITION_PASS_NOT_READY",
+      "rows": [
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c7ac1f550a4c734b@50363:2342",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c7ac1f550a4c734b@45155:1561",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38|FunctionBlock|15d68b14063cb4bd@7262:1136",
+          "mode": "EXACT_NATIVE_PREFIX_LAYOUT_SUFFIX_COMPOSITE",
+          "consumer_arguments": "h.Model, h.VariableNames, factorNames, contrib, p, k, hdr",
+          "original_phase_sha256": "010285762066c244a5c4fdc02a8f6d61eadaed3346c70aedd56c23bf3b0f5984"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|20a9ccdc2bb10779@53401:1994",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|20a9ccdc2bb10779@47412:1224",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38|FunctionBlock|4dbe795d5f1b3c7b@8408:970",
+          "mode": "EXACT_NATIVE_PREFIX_LAYOUT_SUFFIX_COMPOSITE",
+          "consumer_arguments": "h.Model, hdr",
+          "original_phase_sha256": "919e6bb68af86b842744ae534188edef38eb009aab10c8a15f772577c2f9deea"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|f61a486c3bbb9651@56071:1206",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|f61a486c3bbb9651@49312:1206",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|9f5f4baf401ca2e4@62887:7333",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|9f5f4baf401ca2e4@56128:7333",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|20fce4ec25e9c62c@70827:3621",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|20fce4ec25e9c62c@64068:1374",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38|FunctionBlock|38778e314c203d1c@9388:2680",
+          "mode": "EXACT_NATIVE_PREFIX_LAYOUT_SUFFIX_COMPOSITE",
+          "consumer_arguments": "h.Model, h.VariableNames, h.InitializationMethod, h.DistanceMetric, h.Standardization, h.MissingValuePolicy, h.EmptyClusterHandling, h.MaxIterations, h.Tolerance, hdr",
+          "original_phase_sha256": "b7a2b16f7a8cf9bd78342bd64a770aa73bac41dd164c7638c589befbd82157e1"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|08d3c7ecdaeeebf3@75243:1306",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|08d3c7ecdaeeebf3@66237:1306",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|f56b17957bbae7cd@77132:1115",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|f56b17957bbae7cd@68126:1115",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|91bce7662f980573@79037:1544",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|91bce7662f980573@70031:1544",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|9c82f1bf0b2ce322@81226:1201",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|9c82f1bf0b2ce322@72220:1201",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|bc25c1bef4cf1b4c@86887:4288",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|bc25c1bef4cf1b4c@77881:4288",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|fe61c7cccb109036@91778:2946",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|fe61c7cccb109036@82772:1658",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38|FunctionBlock|23a39e0275f2b724@12078:1793",
+          "mode": "EXACT_NATIVE_PREFIX_LAYOUT_SUFFIX_COMPOSITE",
+          "consumer_arguments": "h.Model, h.VariableNames, h.Linkage, h.DistanceMetric, h.MinkowskiPower, h.Standardization, h.MissingValuePolicy, mergeSteps, finalHeight, hdr",
+          "original_phase_sha256": "39aadf0be0fcced00a99aef69a0a6ab02dc2cd51139f362ff14fee2340f923bd"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3a2c7b18a4ce64e6@95280:1109",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3a2c7b18a4ce64e6@84986:1109",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3ca1e52a6eaa1d29@96897:1114",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3ca1e52a6eaa1d29@86603:1114",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|f8badf222d8dc1ec@99229:1892",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|f8badf222d8dc1ec@88935:1892",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c745f1a3ed3bac53@101711:1572",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c745f1a3ed3bac53@91417:1572",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|7d152797287922a8@103947:1232",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|7d152797287922a8@93653:1232",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|e0d3ce451226b036@109314:2167",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|e0d3ce451226b036@99020:2167",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|069342f1f97dfda0@112081:2154",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|069342f1f97dfda0@101787:1279",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38|FunctionBlock|5131c5e7448c8f32@13881:1089",
+          "mode": "EXACT_NATIVE_PREFIX_LAYOUT_SUFFIX_COMPOSITE",
+          "consumer_arguments": "h.Model, eigen, hdr",
+          "original_phase_sha256": "415e0deda17387c12711bcbfd2abd6422986a0012a61b9c2b1252cbac0802a36"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|307ab4952e4623fc@114877:1050",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|307ab4952e4623fc@103708:1050",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8eaa5707c6f766d8@116705:1134",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8eaa5707c6f766d8@105536:1134",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|5b8589fb603b1dd6@118528:1164",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|5b8589fb603b1dd6@107359:1164",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|de9a82d98bc2060e@120288:1151",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|de9a82d98bc2060e@109119:1151",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|6dd3ac20da055d2c@205098:978",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|6dd3ac20da055d2c@193929:978",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|87599131fb506e70@222848:1609",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|87599131fb506e70@201234:452",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|6055de3dc5b34ebb@6455:1829",
+          "mode": "EXACT_ORIGINAL_HELPER_TYPED_PROJECTION_NATIVE_MATERIALIZER",
+          "qualification": "Raw and NormalizeBlanks policies and typed NA fault independently map to the complete native materializer retained in the graph."
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|7327d2bed32a722a@224467:1332",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|7327d2bed32a722a@201696:294",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|782689f172f89da1@8294:1552",
+          "mode": "EXACT_ORIGINAL_HELPER_TYPED_PROJECTION_NATIVE_MATERIALIZER",
+          "qualification": "Raw and NormalizeBlanks policies and typed NA fault independently map to the complete native materializer retained in the graph."
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|45fc101d24a95468@225809:1600",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|45fc101d24a95468@202000:307",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|2a27bb73aafba21b@9856:1820",
+          "mode": "EXACT_ORIGINAL_HELPER_TYPED_PROJECTION_NATIVE_MATERIALIZER",
+          "qualification": "Raw and NormalizeBlanks policies and typed NA fault independently map to the complete native materializer retained in the graph."
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3aea1e90bf561bc9@228898:1015",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3aea1e90bf561bc9@202980:271",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|22dde9df6be7cafe@11686:1162",
+          "mode": "EXACT_ORIGINAL_HELPER_TYPED_PROJECTION_NATIVE_MATERIALIZER",
+          "qualification": "Raw and NormalizeBlanks policies and typed NA fault independently map to the complete native materializer retained in the graph."
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c7d35785f0d8125b@229923:1231",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c7d35785f0d8125b@203261:698",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|4be7a86bf9a39b35@12858:1339",
+          "mode": "EXACT_ORIGINAL_HELPER_TYPED_PROJECTION_NATIVE_MATERIALIZER",
+          "qualification": "Raw and NormalizeBlanks policies and typed NA fault independently map to the complete native materializer retained in the graph."
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|34062f9454ad29d8@232988:1357",
+          "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|34062f9454ad29d8@205432:529",
+          "portable_api": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|6521b524f567e802@14878:1504",
+          "mode": "EXACT_ORIGINAL_HELPER_TYPED_PROJECTION_NATIVE_MATERIALIZER",
+          "qualification": "Raw and NormalizeBlanks policies and typed NA fault independently map to the complete native materializer retained in the graph."
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb|BESHStatNG.UdfDataImport|FunctionBlock|c2393bad97726270@583:2273",
+          "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb|BESHStatNG.UdfDataImport|FunctionBlock|c2393bad97726270@583:2273",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        },
+        {
+          "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb|BESHStatNG.UdfDataImport|FunctionBlock|3d11976a29e4a4cb@9641:2281",
+          "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb|BESHStatNG.UdfDataImport|FunctionBlock|3d11976a29e4a4cb@9641:2281",
+          "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+        }
+      ],
+      "original_queries": 0,
+      "qualification": "Complete source/branch/inline reconstruction; dynamic/native arm execution is not inferred."
+    },
+    "reader_sealed": true,
+    "qualification": "Static/managed compatibility only. W3/native/scientific acceptance remains unmet."
+  },
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_c11_checkpoint_v2.py",
+    "bytes": 91601,
+    "sha256": "7094496660e78b4079deed336ce17b25e7127877e279aac2e9089f956feccd05"
+  },
+  "execution": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/sealed-reader-positive-v2.json",
+    "bytes": 482,
+    "sha256": "60f7c5a1d91540fe92cb0550b663f00f0c1514510f806ce369add79bf8491767"
+  },
+  "raw_command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-sealed-reader-positive-v2/command.json",
+    "bytes": 596,
+    "sha256": "433c594ca9254379d1b0f25c846404d873eef035daf34355b882e4cb61dc564a"
+  },
+  "stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-sealed-reader-positive-v2/stdout.log",
+    "bytes": 17539,
+    "sha256": "7d70d3a75404398692f0139cf8757db4797d681a1d2253d71c225a48fc1013fd"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-sealed-reader-positive-v2/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Actual full sealed successor execution, not a rerun/stitch of managed/Python campaigns or a promotion of the retained failed v1.",
+  "original_queries": 0
+}

@@ -1,0 +1,7 @@
+from common import *
+s=(HERE/'TextDomainProbe.cs').read_text(encoding='utf-8').replace('((object[])doc["calls"])','((System.Collections.IEnumerable)doc["calls"])').replace('(object[])call["choices"]','((System.Collections.IEnumerable)call["choices"]).Cast<object>().ToArray()')
+with (HERE/'TextDomainProbe-v2.cs').open('x',encoding='utf-8') as f:f.write(s)
+runner=(HERE/'run_text_domains.py').read_text(encoding='utf-8').replace("/'text-domains'","/'text-domains-v2'").replace('TextDomainProbe.cs','TextDomainProbe-v2.cs').replace("+'-text-domain-'","+'-text-domain-v2-'").replace("'text-domains-'+stage+'-'","'text-domains-'+stage+'-v2-'").replace("'text-domain-execution-'+stage+'.json'","'text-domain-execution-'+stage+'-v2.json'")
+with (HERE/'run_text_domains_v2.py').open('x',encoding='utf-8') as f:f.write(runner)
+save('attempts/text-domain-json-reader-v1.json',dict(exit_code=1,source=pin(HERE/'TextDomainProbe.cs'),error='JavaScriptSerializer returned ArrayList, not Object[]',stage='Before any comparison observation',original_queries=0,correction='IEnumerable transport arrays; inputs/comparison expectations unchanged'))
+save('attempts/text-probe-setup-v2-encoding.json',dict(exit_code=1,error='Setup read_text omitted UTF-8, attempted cp1252 on Unicode current-only source; subsequent missing runner exit2',source=pin(HERE/'prepare_text_probe_v2.py'),payloads_produced=False,correction='Explicit UTF-8; no source/input/output bytes normalized or rewritten'))

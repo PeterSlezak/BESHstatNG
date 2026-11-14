@@ -1,0 +1,60 @@
+{
+  "role": "original",
+  "configuration": "Release",
+  "mode": "trace",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/input-seal.json",
+    "bytes": 6539,
+    "sha256": "4d8621915832c5a795838e9b2282b75bf75503e6d1dd98b1fa97cb098953c2cb"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 49664,
+    "sha256": "7e068662a8d8bdfd01cee5116c7acd9029659b3db208e4ef13088f1b28e4d234"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Release/trace/execution.json",
+      "bytes": 1019,
+      "sha256": "611365d16bdcc89db064f5879597f927a1c26a01c1a520ceb1596c314305fefe"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Release/trace/results.tsv",
+      "bytes": 31484,
+      "sha256": "086ecf6cc806ad18fad68e19052eef7e523e35598b299939b861c730db871b8d"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Release/trace/results.tsv.branches.json",
+      "bytes": 9460,
+      "sha256": "91cf21de35266e1fb2ad8a7b254aefd7c7661aa3d04f7a62c5827004e6168298"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Release/trace/results.tsv.cultures.json",
+      "bytes": 499,
+      "sha256": "9a740a7a205194e7ea99f261378a9769d10b63939d95f0b76ae52395a4a1680e"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Release/trace/results.tsv.sessions.json",
+      "bytes": 14833,
+      "sha256": "d430eaa5d2ee35664ce08d73947fbfad2a52dc616f0ff321500ef22ec7c416cd"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v5\\original-Release-trace-v2\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v5\\original-Release-trace-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\inputs-Release.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\original-results\\Release\\trace\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\original-results\\Release\\trace\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.5263177000015276,
+    "stdout_sha256": "336d4d7a8f378777eb9ecf6a52ea864055fd08dbbc3063f5d215b337762305a4",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

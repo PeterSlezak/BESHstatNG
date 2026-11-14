@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "label": "w1-independent-reader-v2",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w1\\verify_w1_v2.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 6.955204900004901,
+        "stdout_sha256": "ea387f69ae08cebeda1b51845810f3bb648d324636261600280004c08c9df007",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "w1-adverse-v2",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w1",
+          "-p",
+          "test_w1_v2.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 76.58189499999571,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "d2c31a6ca55743627f740ba425beae49a33cb9f020bcbe35a88ecd86107f40f1",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "all_exit_zero": true
+}

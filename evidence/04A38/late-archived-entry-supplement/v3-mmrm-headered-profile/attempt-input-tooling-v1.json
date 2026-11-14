@@ -1,0 +1,11 @@
+{
+  "phase": "BEFORE_MATERIALIZATION_AND_FREEZE",
+  "command": "<PYTHON> -B evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/seal_inputs.py",
+  "exit_code": 1,
+  "exception": "SyntaxError: unmatched ')' at case metadata construction",
+  "old_source": "seal_inputs-attempt-v1.py.txt",
+  "correction": "Remove extra closing parenthesis; retain materializer execution receipt independently from later compiler loop variable.",
+  "typed_input_changes": 0,
+  "model_executions": 0,
+  "query_executions": 0
+}

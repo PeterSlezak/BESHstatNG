@@ -1,0 +1,18 @@
+Friend Function TryGetOptionalPositiveInteger(arg As Object,
+                                                      ByRef value As Integer,
+                                                      Optional defaultValue As Integer = 10,
+                                                      Optional minValue As Integer = 1) As Boolean
+            value = defaultValue
+            If ExcelArgPredicates.IsMissingArg(arg) Then Return True
+
+            Dim d As Double
+            If Not ExcelArgNumeric.TryGetFiniteDouble(arg, d) Then Return False
+
+            Dim rounded As Double = Math.Round(d)
+            If Math.Abs(d - rounded) > 0.0000001R Then Return False
+            If rounded < minValue Then Return False
+            If rounded > Integer.MaxValue Then Return False
+
+            value = CInt(rounded)
+            Return True
+        End Function

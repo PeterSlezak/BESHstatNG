@@ -1,0 +1,6 @@
+"""Clarify support deltas versus genuine declarations; retain draft key verbatim."""
+from common_v2 import *
+data=json.loads((HERE/'new-closures-v2.json').read_bytes());assert data['new_current_declarations']==0 and data['new_current_callbacks']==5
+data['newly_supported_existing_callbacks']=data.pop('new_current_callbacks');data['new_callback_declarations']=0;data['historical_callback_closures']=1;data['previous_current_only_callback_closures']=4;data['new_portable_method_declarations']=15
+data['terminology']='No new Windows method or anonymous callback was introduced. Four strict-vector callbacks were introduced in earlier extractions and are now individually reconciled to their original parent loops; the unchanged category-list callback receives its own authentic historical proof.'
+save('new-closures-v3.json',data);save('ownership-terminology-v1.json',dict(draft=pin(HERE/'new-closures-v2.json'),authoritative=pin(HERE/'new-closures-v3.json'),historical=pin(HERE/'historical-ownership-v2.json'),current=pin(HERE/'current-ownership-v2.json'),summary=pin(HERE/'ownership-summary-v2.json'),current_declaration_delta=0,current_callback_declaration_delta=0,newly_supported_existing_callbacks=5,new_portable_methods=15,qualification='Only the draft field wording changes; canonical sets, proofs, counts and all source states remain identical.'))

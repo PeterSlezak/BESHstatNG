@@ -1,0 +1,83 @@
+{
+  "files": [
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/parallel_scan_v1.py",
+        "bytes": 10232,
+        "sha256": "cd13641a6d6448dbcf3494136c3ca64bdfbe3b4449b4670d399fe7daf004dc7c"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v12/parallel_scan_v1.py",
+        "bytes": 10232,
+        "sha256": "cd13641a6d6448dbcf3494136c3ca64bdfbe3b4449b4670d399fe7daf004dc7c"
+      },
+      "scope": "Only worker labels/output roots differ; original tests, scanner kernels, assertions and candidate traversal stay unchanged."
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/python_workers_v1.py",
+        "bytes": 17276,
+        "sha256": "14a8ec69df611e12c38d4bede2fb863f8fbf412e3d9b03c5558e4eb57c21a4f4"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v12/python_workers_v1.py",
+        "bytes": 17276,
+        "sha256": "68d2bbc8ccd9891a40979dd868b7fb4752c7954fdf41f6a8871b985d07a8cb48"
+      },
+      "scope": "Only worker labels/output roots differ; original tests, scanner kernels, assertions and candidate traversal stay unchanged."
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/freeze_python_inputs_v1.py",
+        "bytes": 1097,
+        "sha256": "c91942f7ffe1f10914b627a7859035efd85de826b9a2437087423fc4fc017d6d"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v12/freeze_python_inputs_v1.py",
+        "bytes": 1097,
+        "sha256": "c91942f7ffe1f10914b627a7859035efd85de826b9a2437087423fc4fc017d6d"
+      },
+      "scope": "Only worker labels/output roots differ; original tests, scanner kernels, assertions and candidate traversal stay unchanged."
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/run_python_v1.py",
+        "bytes": 763,
+        "sha256": "009c04dddaa944dd93956769b0175ce57a1065f9957641ab49141fa242f5c861"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v12/run_python_v1.py",
+        "bytes": 763,
+        "sha256": "009c04dddaa944dd93956769b0175ce57a1065f9957641ab49141fa242f5c861"
+      },
+      "scope": "Only worker labels/output roots differ; original tests, scanner kernels, assertions and candidate traversal stay unchanged."
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/prove_scanner_deferral_v1.py",
+        "bytes": 3639,
+        "sha256": "38d7a8351d7a5c1561dead1cc986750ebdf55b6153b54d8f0cc868eb71856686"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v12/prove_scanner_deferral_v1.py",
+        "bytes": 3639,
+        "sha256": "38d7a8351d7a5c1561dead1cc986750ebdf55b6153b54d8f0cc868eb71856686"
+      },
+      "scope": "Only worker labels/output roots differ; original tests, scanner kernels, assertions and candidate traversal stay unchanged."
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v4.py",
+        "bytes": 5742,
+        "sha256": "61c1a5b7af9058c7bb8a93c46f09df0f89555582080ea8b4da0ddfb5a80f77ca"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v12/prove_parallel_scan_base_v1.py",
+        "bytes": 6645,
+        "sha256": "b2535fe11b8f5ac192eb2b2290f969b10e53670ca2ed1adc10cee519487182a6"
+      },
+      "scope": "Same adverse/equivalence assertions in a fresh C12 directory. Add actual synthetic preimage capture before the deliberate stale-cache mutation; no recovery or historical rewrite."
+    }
+  ],
+  "original_queries": 0
+}

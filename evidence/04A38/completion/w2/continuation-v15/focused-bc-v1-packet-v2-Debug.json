@@ -1,0 +1,240 @@
+{
+  "results": [
+    {
+      "kind": "BUILD",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<REPO_ROOT>\\BESHStat.Excel.Common.Tests\\BESHStat.Excel.Common.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-bc-v1\\Debug\\tests-Common\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-bc-v1\\Debug\\obj\\tests-Common\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.6870804999998654,
+        "stdout_sha256": "a29752809c9b11b9134049a57e3a229770de3fe182d307a38737868be02617ae",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-bc-v1\\Debug\\tests-Common\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~LooseNumericText",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-bc-v1\\Debug\\results-Common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.8810427999997046,
+        "stdout_sha256": "6bd037f2bb6e2601ce9454bcb8c210bf8760c989a72fe5552eb108d7ee133e20",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput",
+            "test_name": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput (\"NaN\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001286",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "LooseNumericTextKeepsDelimiterAndInvariantFirstCultureRules",
+            "test_name": "LooseNumericTextKeepsDelimiterAndInvariantFirstCultureRules (\"\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0043695",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "LooseNumericTextKeepsDelimiterAndInvariantFirstCultureRules",
+            "test_name": "LooseNumericTextKeepsDelimiterAndInvariantFirstCultureRules (\"sk-SK\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003579",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput",
+            "test_name": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput (\"1;NaN\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000064",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "LooseNumericTextEmptyBranchLeavesCallerOwnedResetUntouched",
+            "test_name": "LooseNumericTextEmptyBranchLeavesCallerOwnedResetUntouched (\" ,; \")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001520",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput",
+            "test_name": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput (\"1;bad\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000074",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "LooseNumericTextEmptyBranchLeavesCallerOwnedResetUntouched",
+            "test_name": "LooseNumericTextEmptyBranchLeavesCallerOwnedResetUntouched (\"\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003251",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput",
+            "test_name": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput (\"Infinity\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000068",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput",
+            "test_name": "LooseNumericTextRejectsInvalidOrNonfiniteTokensAndResetsOutput (\"bad\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003252",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 9
+        },
+        "counters": {
+          "total": "9",
+          "executed": "9",
+          "passed": "9",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "58f09b39d1c8a517d45a9613e985ff67f0c719e94f2023841ef709aa22734435"
+      }
+    },
+    {
+      "kind": "BUILD",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<REPO_ROOT>\\BESHStatNG.Test\\BESHStatNG.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-bc-v1\\Debug\\tests-Legacy\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-bc-v1\\Debug\\obj\\tests-Legacy\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.3560029000000213,
+        "stdout_sha256": "f58efac233d353274ebfa88e7fac678fc4c3dfd38b077b76709bca28afdb0d0b",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-bc-v1\\Debug\\tests-Legacy\\BESHStatNG.Test.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~Continuation15Loose",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-bc-v1\\Debug\\results-Legacy",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 4.56981739999901,
+        "stdout_sha256": "e7b8edab2797a6866dfe9461667ee3629ade76c75b990f4967831e67d30fef56",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15LooseNumericImportKeepsNativeResetAndCulture",
+            "test_name": "Continuation15LooseNumericImportKeepsNativeResetAndCulture ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.1159929",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15LooseNumericImportKeepsNativeResetAndCulture",
+            "test_name": "Continuation15LooseNumericImportKeepsNativeResetAndCulture (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002828",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 2
+        },
+        "counters": {
+          "total": "2",
+          "executed": "2",
+          "passed": "2",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "8f3719ca594c61f01d157e4e2660368ef18956a4ce3ab3543196a156bd8a02b9"
+      }
+    }
+  ],
+  "original_queries": 0
+}

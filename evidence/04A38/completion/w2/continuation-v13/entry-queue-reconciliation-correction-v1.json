@@ -1,0 +1,36 @@
+{
+  "status": "UNDERDISCRIMINATED_CALLBACK_RESOLVER_REJECTION_RETAINED_SOURCE_BACKED_SUCCESSOR",
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/entry_queue_v1.py",
+    "bytes": 15247,
+    "sha256": "6bea020f99c4a0655401e8c3a6bf421a73cff50062b30500121de2dd56b0fda9"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/entry_queue_v2.py",
+    "bytes": 15926,
+    "sha256": "2fc1249560f717ca8d5e67d49160593c7b56dc1d358077d19f733ce5a6705688"
+  },
+  "first_attempt": "Initial direct tool execution exited1 with the same AMBIGUOUS_CANONICAL_ID_STOP at entry_queue_v1.py line48, called at line71. Its exact tool output remains in conversation. The explicitly identified unchanged diagnostic repeat below retains raw process bytes; it is not relabelled as the first execution.",
+  "actual_diagnostic_repeat": {
+    "command.json": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-queue-v1-diagnostic-replay/command.json",
+      "bytes": 586,
+      "sha256": "9b49c3c9f571e3eba598123eab90f0627f59399ff9238cffea2af2d46b5ea64d"
+    },
+    "stdout.log": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-queue-v1-diagnostic-replay/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.log": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-queue-v1-diagnostic-replay/stderr.log",
+      "bytes": 772,
+      "sha256": "bb726cd9daf857de5ef7f344240dfb7dfb7ae19138a6ae2d7ff55802d2dccbd4"
+    }
+  },
+  "source_authority": "Both candidate parents have the same full source bytes and SHA256 as the archived parent. Exact relative UTF16 spans466:50 and1457:50 resolve the two bodies; the successor independently binds separate original/current source sibling positions to actual ldftn CIL targets.",
+  "guessed_ids": 0,
+  "original_queries": 0,
+  "production_edits": 0,
+  "tests_rerun": 0
+}

@@ -1,0 +1,80 @@
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub CellConversion38RetainsLegacyRoundingAndTypeDomains(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Assert.AreEqual("a", UdfCellConversion38.CellToTrimmedText(" " & vbTab & "a" & ChrW(&HA0)))
+            Assert.AreEqual("", UdfCellConversion38.CellToTrimmedText(DBNull.Value))
+            Assert.AreEqual("True", UdfCellConversion38.CellToTrimmedText(True))
+            Assert.AreEqual("0.5", UdfCellConversion38.CellToTrimmedText(0.5R))
+            Assert.AreEqual("0", UdfCellConversion38.CellToTrimmedText(-0.0R))
+            Assert.AreEqual("0", UdfCellConversion38.CellToTrimmedText(0.0000000000004R))
+            Assert.AreEqual("18446744073709551615", UdfCellConversion38.CellToTrimmedText(ULong.MaxValue))
+            For Each value As Object In {Double.NaN, Double.PositiveInfinity, Single.NegativeInfinity}
+                Assert.AreEqual("", UdfCellConversion38.CellToTrimmedText(value))
+            Next
+            Assert.ThrowsException(Of OverflowException)(Sub() UdfCellConversion38.CellToTrimmedText(Long.MaxValue))
+            Assert.ThrowsException(Of OverflowException)(Sub() UdfCellConversion38.CellToTrimmedText(Double.MaxValue))
+            Dim input As Object(,) = {{1.0R, "x"}}
+            Assert.AreEqual("System.Object[,]", UdfCellConversion38.CellToTrimmedText(input))
+            Assert.AreEqual(1.0R, input(0, 0))
+            Assert.AreEqual("x", input(0, 1))
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub UncaughtNumericConversion38PreservesCultureAndFailureBoundary(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Assert.AreEqual(1.25R, UdfCellConversion38.ConvertFiniteNumber(1.25D).Value)
+            Assert.AreEqual(Convert.ToDouble("1,5"), UdfCellConversion38.ConvertFiniteNumber("1,5").Value)
+            Assert.IsFalse(UdfCellConversion38.ConvertFiniteNumber(Double.NaN).HasValue)
+            Assert.IsFalse(UdfCellConversion38.ConvertFiniteNumber(Double.PositiveInfinity).HasValue)
+            Assert.ThrowsException(Of InvalidCastException)(Sub() UdfCellConversion38.ConvertFiniteNumber(DBNull.Value))
+            Assert.ThrowsException(Of InvalidCastException)(Sub() UdfCellConversion38.ConvertFiniteNumber(New Object(,) {{1}}))
+            Assert.ThrowsException(Of InvalidCastException)(Sub() UdfCellConversion38.ConvertFiniteNumber(DateTime.MinValue))
+            For Each code As TypeCode In [Enum].GetValues(GetType(TypeCode))
+                Dim expected As Boolean = code >= TypeCode.SByte AndAlso code <= TypeCode.Decimal
+                Assert.AreEqual(expected, UdfCellConversion38.IsNumericTypeCode(code), code.ToString())
+            Next
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub GroupedImport38PreservesColumnCompactionAndLazyHeaderOrder()
+        Dim calls As New List(Of String)()
+        Dim groups()() As Double = {New Double() {99}}
+        Dim names() As String = {"old"}
+        Dim read As Func(Of Integer, Integer, Double?) =
+            Function(row, column)
+                calls.Add("n" & row.ToString() & column.ToString())
+                If column = 1 OrElse row = 2 Then Return Nothing
+                Return CDbl(10 * column + row)
+            End Function
+        Dim text As Func(Of Integer, Integer, String) =
+            Function(row, column)
+                calls.Add("t" & row.ToString() & column.ToString())
+                Return "H" & column.ToString()
+            End Function
+        Assert.IsTrue(UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix(3, 3, 1, True, "Group ", read, text, groups, names))
+        CollectionAssert.AreEqual(New String() {"H0", "H2"}, names)
+        CollectionAssert.AreEqual(New Double() {1}, groups(0))
+        CollectionAssert.AreEqual(New Double() {21}, groups(1))
+        CollectionAssert.AreEqual(New String() {"n10", "n20", "t00", "n11", "n21", "n12", "n22", "t02"}, calls.ToArray())
+        Dim fail As Func(Of Integer, Integer, String) =
+            Function(row, column)
+                Throw New FormatException("header")
+            End Function
+        Assert.ThrowsException(Of FormatException)(Sub() UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix(3, 3, 1, True, "", read, fail, groups, names))
+        Assert.IsNull(groups)
+        Assert.IsNull(names)
+    End Sub

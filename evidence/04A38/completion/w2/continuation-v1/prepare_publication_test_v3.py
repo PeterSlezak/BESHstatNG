@@ -1,0 +1,4 @@
+from common import *
+s=(HERE/'test_publication_v2.py').read_text().replace('reader.inspect(cls.view)','reader.inspect(cls.view,reader.SELF)').replace('reader.inspect(self.view)','reader.inspect(self.view,reader.SELF)')
+with (HERE/'test_publication_v3.py').open('x',encoding='utf-8') as f:f.write(s)
+save('attempts/publication-adverse-v2-default-manifest.json',dict(status='INVALID_MUTATION_CONTEXT_NOT_ACCEPTED',test_source=pin(HERE/'test_publication_v2.py'),cause='Fixture changed reader.SELF to v3 after import, but Python function default manifest_path was already bound to v1. Mutations affected v3 while inspect() read v1. Those failures are fixture setup errors and cannot count as adverse rejection coverage.',correction='v3 test source passes the chosen manifest explicitly to every inspect call. Reader code and its fail-closed rules are unchanged; preserve failed v2 source/raw outcomes.'))

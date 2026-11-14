@@ -1,0 +1,45 @@
+{
+  "raw_local": {
+    "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+    "bytes": 7343036,
+    "sha256": "c393596b344d0d253e44c7eb4232db66dc8eea905ea057b4eb342fd1758b04ca"
+  },
+  "public": {
+    "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-public-v2.json",
+    "bytes": 7343057,
+    "sha256": "3fdd38d9ba8010544071ef36ffa3a96297c243f7f6f2ce7380a1b224ed9720f4"
+  },
+  "changes": [
+    {
+      "pointer": [
+        "results",
+        1,
+        "records",
+        2964,
+        "test_name"
+      ],
+      "original_label_sha256": "bf8e62e4bacba5ac40ccdfdff36fb18945f30ac94b53e6d9d642702346b07997",
+      "public_label_sha256": "366b706ab0b046f4062601041876a891631d07b0a52e6a5323570a690e003461",
+      "public_label": "UnsafeLinkTargetsRejected (\"<SYNTHETIC_URI:9d1e17b7aec858924620>\")",
+      "reason": "Diagnostic display name contains inherited synthetic URI/path data-row parameter; actual source fixture and raw identity digest preserved elsewhere"
+    },
+    {
+      "pointer": [
+        "results",
+        1,
+        "records",
+        8178,
+        "test_name"
+      ],
+      "original_label_sha256": "56b0b654dc663e63f7941d15e51f0701180aa05ad400405af733b6ab812aa73a",
+      "public_label_sha256": "a88b31d6c226cc6fd9debe57750a93ce8b5889aabef6d4337e66330f8bb1b4d5",
+      "public_label": "FieldPathsAreClosedVocabularyAndBoundedIndexes (\"<SYNTHETIC_PATH:1ed0403ec945eb069c62>\")",
+      "reason": "Diagnostic display name contains inherited synthetic URI/path data-row parameter; actual source fixture and raw identity digest preserved elsewhere"
+    }
+  ],
+  "exact_change_scope": "Only test_name display labels through existing accepted safe_label policy. All other JSON values, outcomes, messages, source pins, scientific/reference inputs/results/traces remain unchanged. Raw local receipt retained byte-for-byte; raw identity+occurrence hashes in managed-Debug-identities.json.",
+  "source_fixture": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb has an inherited intentional malicious-URI DataRow; no real credential was published and no URL whitelist added",
+  "review_copy_exclusion": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+  "prior_manifest": "publication-manifest-v1.json is a rejected privacy attempt, immutable; its excluded local raw diagnostic cannot be hash-checked from public derivative alone",
+  "actual_changed_display_labels": 2
+}

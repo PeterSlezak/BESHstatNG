@@ -1,0 +1,268 @@
+{
+  "status": "NOT_READY_04A38",
+  "W2": "IN_PROGRESS",
+  "W3": "NOT_STARTED",
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET",
+  "C3": "UNAPPROVED",
+  "science": "NOT_GOLDEN",
+  "phase04A39": "BLOCKED",
+  "Git": [
+    {
+      "check": "branch",
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "--no-optional-locks",
+        "branch",
+        "--show-current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.059048200000688666,
+      "stdout": "codex/04A-38\n",
+      "stderr": "",
+      "stdout_sha256": "21e6cef64d0c746dff013d36467aaccfaee4217649e4e00e676958b12c0308cb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exact_raw_predecessor_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-branch-v1/command.json",
+        "bytes": 536,
+        "sha256": "b295b90d1cd2c565e33a88c1996a4e11b52f4401c8cda5b25032d5309c7acec8"
+      },
+      "exact_raw_predecessor_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-branch-v1/stdout.log",
+        "bytes": 13,
+        "sha256": "21e6cef64d0c746dff013d36467aaccfaee4217649e4e00e676958b12c0308cb"
+      },
+      "exact_stdout_equal": true
+    },
+    {
+      "check": "HEAD",
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "--no-optional-locks",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "seconds": 0.04087989999970887,
+      "stdout": "ba1636f5356ac761509c2cfa16fc66b92430935d\n",
+      "stderr": "",
+      "stdout_sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exact_raw_predecessor_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-HEAD-v1/command.json",
+        "bytes": 529,
+        "sha256": "d75a863fe45052defe26c6b22ee3e1f6ac02e44996fd98b29a1a720dea8ca0ec"
+      },
+      "exact_raw_predecessor_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-HEAD-v1/stdout.log",
+        "bytes": 41,
+        "sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401"
+      },
+      "exact_stdout_equal": true
+    },
+    {
+      "check": "main",
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "--no-optional-locks",
+        "rev-parse",
+        "main"
+      ],
+      "exit_code": 0,
+      "seconds": 0.033247299998038216,
+      "stdout": "ba1636f5356ac761509c2cfa16fc66b92430935d\n",
+      "stderr": "",
+      "stdout_sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exact_raw_predecessor_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-main-v1/command.json",
+        "bytes": 528,
+        "sha256": "dd2a88e48cc033af5ade1b5fba931ac09f99b0aa68f970e154d7fa76d6c70ab2"
+      },
+      "exact_raw_predecessor_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-main-v1/stdout.log",
+        "bytes": 41,
+        "sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401"
+      },
+      "exact_stdout_equal": true
+    },
+    {
+      "check": "merge-base",
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "--no-optional-locks",
+        "merge-base",
+        "HEAD",
+        "main"
+      ],
+      "exit_code": 0,
+      "seconds": 0.03954100000191829,
+      "stdout": "ba1636f5356ac761509c2cfa16fc66b92430935d\n",
+      "stderr": "",
+      "stdout_sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exact_raw_predecessor_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-merge-base-v1/command.json",
+        "bytes": 542,
+        "sha256": "817f0bec47df028b5955c6179e6b6fc653a9c09c99d702f4acc2226fb3e56147"
+      },
+      "exact_raw_predecessor_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-merge-base-v1/stdout.log",
+        "bytes": 41,
+        "sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401"
+      },
+      "exact_stdout_equal": true
+    },
+    {
+      "check": "index",
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "--no-optional-locks",
+        "diff",
+        "--cached",
+        "--name-status"
+      ],
+      "exit_code": 0,
+      "seconds": 0.043813599997520214,
+      "stdout": "",
+      "stderr": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exact_raw_predecessor_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-index-v1/command.json",
+        "bytes": 549,
+        "sha256": "bdc18b58ee7d3dd9b36b01d8368922ca9e000e671601dc2c6d9a3930872c6703"
+      },
+      "exact_raw_predecessor_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-index-v1/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exact_stdout_equal": true
+    },
+    {
+      "check": "status",
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "--no-optional-locks",
+        "status",
+        "--porcelain=v1"
+      ],
+      "exit_code": 0,
+      "seconds": 0.08759750000172062,
+      "stdout": " M BESHStatNG.Test/BESHStatNG.Tests.vbproj\n M BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb\n M BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb\n M BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb\n M BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb\n M BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb\n M BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb\n M BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb\n M BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb\n M BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb\n M BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb\n M BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb\n M BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb\n M BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb\n M BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb\n M BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb\n M BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb\n M BESHstatNG/src/RegModels/BinaryClassificationReporting.vb\n?? BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb\n?? BESHStat.Core.Tests/src/UdfRowMaskPreparation38Tests.vb\n?? BESHStat.Core/src/WorksheetFunctions/\n?? BESHStat.Excel.Common.Tests/src/UdfContinuation10Tests.vb\n?? BESHStat.Excel.Common.Tests/src/UdfContinuation11Tests.vb\n?? BESHStat.Excel.Common.Tests/src/UdfContinuation12Tests.vb\n?? BESHStat.Excel.Common.Tests/src/UdfContinuation13Tests.vb\n?? BESHStat.Excel.Common.Tests/src/UdfContinuation8Tests.vb\n?? BESHStat.Excel.Common.Tests/src/UdfContinuation9Tests.vb\n?? BESHStat.Excel.Common.Tests/src/UdfModelProfilePreparation38Tests.vb\n?? BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb\n?? BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfCellConversion38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfContingencyPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfModelImportPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfPlotDataPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfPsmPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb\n?? BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb\n?? BESHStat.Excel.Common/src/Results/UdfClassificationReportPreparation38.vb\n?? BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb\n?? BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb\n?? BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb\n?? BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb\n?? BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb\n?? BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb\n?? BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb\n?? docs/architecture/batch-04A-38-owner-review.md\n?? evidence/04A38/\n",
+      "stderr": "",
+      "stdout_sha256": "4b6024fb7809c7e5f281fd6db7193481041aed8480e7c2c79a210602c8a2c616",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exact_raw_predecessor_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-status-v1/command.json",
+        "bytes": 536,
+        "sha256": "912726d84958b48df61133db05e22c0ccc6ae42e0ef55a0e215374efb7fffbd3"
+      },
+      "exact_raw_predecessor_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-status-v1/stdout.log",
+        "bytes": 4299,
+        "sha256": "4b6024fb7809c7e5f281fd6db7193481041aed8480e7c2c79a210602c8a2c616"
+      },
+      "exact_stdout_equal": true
+    },
+    {
+      "check": "diff-check",
+      "command": [
+        "git",
+        "-c",
+        "safe.directory=<REPO_ROOT>",
+        "--no-optional-locks",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.16366520000156015,
+      "stdout": "",
+      "stderr": "warning: in the working copy of 'BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb', CRLF will be replaced by LF the next time Git touches it\n",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0654102ada8f3235089e72c98e74bc373173f9c51a2fe5b4f9738ed773030648",
+      "exact_raw_predecessor_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-diff-check-v1/command.json",
+        "bytes": 527,
+        "sha256": "fc6699347b58e902ae48c70a82adf6457bac51e1433c3489eb24e002c680d66d"
+      },
+      "exact_raw_predecessor_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c13-exit-git-diff-check-v1/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exact_stdout_equal": true
+    }
+  ],
+  "index_file": {
+    "path": ".git/index",
+    "bytes": 620185,
+    "sha256": "2036821003b1e1fb1077e72183e0b6c2fa7d22cdb2e784b760637e6d6fe9bc2c"
+  },
+  "private_preservation": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-retained-private-preservation-v1.json",
+    "bytes": 3135673,
+    "sha256": "223b3c6f3aec07382d892c8b20dd661a07dd268ae4501e02436c7bf391f061ba"
+  },
+  "private_verification": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-private-reader-verification-v1.json",
+    "bytes": 986,
+    "sha256": "7b01ef140e2c8537f9c7fb460ecce92aa0f2cbdf5c2483a448c12b060c34d094"
+  },
+  "live_preservation": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-live-preservation-v1.json",
+    "bytes": 137561,
+    "sha256": "265077a091a8276679642ecc00b770f73f3102cefb790e2bb5ea3415bd01181c"
+  },
+  "publication": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-publication-receipt-v1.json",
+    "bytes": 5165,
+    "sha256": "b113fe0c738ee40d180007d2213b42d62f969aadd681372d254ecead2a8e1255"
+  },
+  "privacy_checkpoint": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-publication-privacy-receipt-v1.json",
+    "bytes": 5182,
+    "sha256": "db582940ba68aff22f7cd87abe9c771fdb3144fe4acd5f58e2a90581fe39ce9d"
+  },
+  "parts_index": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-review-parts-index-v1.json",
+    "bytes": 3433333,
+    "sha256": "22a28081a479b61fca7c6f0458984ba294ecc8545ef68d2b62892cf75e9528a5"
+  },
+  "copied_reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-copied-review-reader-v1.json",
+    "bytes": 115724,
+    "sha256": "9bd21a7ce6d9ba7c44bd8230831173c3bb84d1a24268c26ffec26cf6d3e739b7"
+  },
+  "post_publication_artifacts": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-post-publication-artifacts-v1.json",
+    "bytes": 17271,
+    "sha256": "a7b96aecc2fa531eda8808aa6965db6e5d0bf92c3154afc5e738815c5db6af8f"
+  },
+  "postseal_addendum": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-postseal-handover-addendum-v1.md",
+    "bytes": 9231,
+    "sha256": "20c8b6013c48306c3ee40234a63ffa9c78a861a06c226805540c5129fbb65f1f"
+  },
+  "postseal_tool": {
+    "path": "evidence/04A38/completion/w2/continuation-v13-finalize-external-v2.py",
+    "bytes": 10879,
+    "sha256": "5c8c9953b918062c276a3941e409b8cdd5d81fdfacfbc601d00a24b9f19118ff"
+  },
+  "original_queries": 0
+}

@@ -1,0 +1,32 @@
+{
+  "status": "V1_ACCOUNTING_REJECTION_RETAINED_ADDITIVE_V2_NO_TEST_RERUN",
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v12/postprocess_v1.py",
+    "bytes": 10686,
+    "sha256": "be4c66770d4dc9e958785e09893fd238dfbbcea7a383145aaf316a8f0b2faf02"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v12/postprocess_v2.py",
+    "bytes": 13926,
+    "sha256": "4cc80906dc0fcce3ccd447914962931fb8d8efb8cd1620fae8f58a98d47744ca"
+  },
+  "unsuccessful_attempt": {
+    "command.json": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c12-postscan-identity-reconciliation-v1/command.json",
+      "bytes": 587,
+      "sha256": "645b3f33af65bfc7f3adf0542c5e972477a851e9d81a02b306bfadd8aaf85d60"
+    },
+    "stdout.log": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c12-postscan-identity-reconciliation-v1/stdout.log",
+      "bytes": 43,
+      "sha256": "e359ec6a3aea289fa43fe3a10d649a11d0a1d21d215f902aa9bedc29175cff69"
+    },
+    "stderr.log": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c12-postscan-identity-reconciliation-v1/stderr.log",
+      "bytes": 568,
+      "sha256": "d57423fc1358d96545eee1b8823eb2ea6ce807e08bb5b815cf134fbabdeb52e7"
+    }
+  },
+  "reason": "V1 anticipated hash-pin deltas but correctly refused five previously unclassified historical membership/list messages. Actual change is exactly one newly edited authorized importer path. V2 independently checks set/bytes membership or unchanged baseline equality transitions and +1 count. No test/assertion/input or outcome changed.",
+  "original_queries": 0
+}

@@ -1,0 +1,16 @@
+t IsNumericValue(value) Then Return value
+
+        Dim pvalue As Double
+        Try
+            pvalue = Convert.ToDouble(value, CultureInfo.InvariantCulture)
+        Catch ex As Exception
+            Return value
+        End Try
+
+        Return PValuePresentation.FormatForDisplay(pvalue, AppGlobals.PValuePresentation)
+    End Function
+
+    Private Function IsNumericValue(value As Object) As Boolean
+        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is Boolean Then Return False
+
+        Select Case Type.GetTypeCode(value

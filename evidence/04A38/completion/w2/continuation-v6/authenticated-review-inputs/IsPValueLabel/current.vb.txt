@@ -1,0 +1,4 @@
+Private Function IsPValueLabel(value As Object) As Boolean
+        If value Is Nothing OrElse TypeOf value Is DBNull Then Return False
+        Return Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.IsPValueLabel(Convert.ToString(value, CultureInfo.InvariantCulture))
+    End Function

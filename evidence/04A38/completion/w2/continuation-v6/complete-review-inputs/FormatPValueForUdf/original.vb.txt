@@ -1,0 +1,11 @@
+IsNullOrWhiteSpace(label) Then Return False
+
+        Dim normalized As New System.Text.StringBuilder(label.Length)
+        For Each ch As Char In label
+            If Char.IsLetterOrDigit(ch) Then normalized.Append(Char.ToLowerInvariant(ch))
+        Next
+        Return normalized.ToString().Contains("pvalue")
+    End Function
+
+    Private Function FormatPValueForUdf(value As Object) As Object
+       

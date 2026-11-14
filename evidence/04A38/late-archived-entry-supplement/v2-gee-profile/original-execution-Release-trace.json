@@ -1,0 +1,61 @@
+{
+  "status": "ORIGINAL_EXECUTED_BEFORE_CURRENT",
+  "configuration": "Release",
+  "mode": "trace",
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/input-seal.json",
+    "bytes": 5357,
+    "sha256": "447f63197515c8ab460900da32a137f586d032e68d850d60325da87097ed2ba8"
+  },
+  "executable": {
+    "name": "GeeCapture38-trace-v2.exe",
+    "bytes": 36864,
+    "sha256": "17be71724e3a2c0aebe608ee7e0e53d6caf675a6e873a0d507e5bada62be0e30"
+  },
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\GeeCapture38-trace-v2.exe",
+      "<ISOLATED_RUN>\\gee38-v2\\original-Release-trace",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Release.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Release\\trace-v2\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Release\\trace-v2\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.4433184000008623,
+    "stdout_sha256": "47d108601741f91ef808d99798501325fba817fc4a0d2d644e387fd91340ad5f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Release/trace-v2/execution.json",
+      "bytes": 1022,
+      "sha256": "5a8f32de164c4925e58a66dbb5863f9f346211e733ee55b66e3e7329f2123346"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Release/trace-v2/results.tsv",
+      "bytes": 68076,
+      "sha256": "871d9a0c606015a705ded209429c8e425734148218fdc513997d60564543a24a"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Release/trace-v2/results.tsv.branches.json",
+      "bytes": 5205,
+      "sha256": "e08a1afac337207063936aa4d56f12b2f42e48c80ee3a1a1737ff380461e6882"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Release/trace-v2/results.tsv.sessions.json",
+      "bytes": 27033,
+      "sha256": "b3dff35a87a5594cc6330cadb8f166e0fcdeefdbb8bb70613e1f0e2e20330a54"
+    }
+  ],
+  "recorder_tooling_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/recorder-tooling-seal.json",
+    "bytes": 1761,
+    "sha256": "9e668e6409f095476bd85cc953fe64046235dfc4ade56bc3b41596afb8eded97"
+  },
+  "current_executions": 0
+}

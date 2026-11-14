@@ -1,0 +1,5 @@
+Public Function GetOptionalInt(v As Object, defaultValue As Integer) As Integer
+            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
+            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalInteger(d, defaultValue)
+        End Function

@@ -1,0 +1,20 @@
+{
+  "preimage": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/source-before-focused-fix-v1/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+    "bytes": 69726,
+    "sha256": "fcb100a045aaefb9647a3c014979c4582d294de980cf656befcd178894ec4922"
+  },
+  "after": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 70057,
+    "sha256": "0e70534b047119058a8ef2ea008a84d06b0a16c29ccb98208d4122af44ce11d9"
+  },
+  "unchanged_core": {
+    "path": "BESHStat.Core/src/DM/GeeData.vb",
+    "bytes": 6479,
+    "sha256": "ff8966052d0b91bf80d8ff7d93bf643f81b39f87140c6ddeecf1808fa0ae4aae"
+  },
+  "first_attempt": "focused-v3-packet-v1-Debug.json",
+  "reason": "New test incorrectly assumed source order after geeData.OnDataImported. Authentic unchanged Core sorts by cluster/time and carries RowIds, offsets, weights and time together. Replace that new assertion with the complete sorted cluster/row/offset/time contract. No production or historical test assertion changed.",
+  "original_queries": 0
+}

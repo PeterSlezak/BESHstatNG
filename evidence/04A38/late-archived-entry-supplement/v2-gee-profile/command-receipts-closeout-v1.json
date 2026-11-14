@@ -1,0 +1,1346 @@
+{
+  "commands": [
+    {
+      "lane": "gee38-v2-adverse-corrected",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_gee.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 20.52430479999748,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "b6d2a92969bd868f136a68640fd7ca6a03e4b8afbca162c38645f519b546d353",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-compile-original-Debug-plain",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize-",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5623066999978619,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-compile-original-Debug-trace",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize-",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\GeeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\GeeBranch38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5115826000037487,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-compile-original-Release-plain",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize+",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.48891120000189403,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-compile-original-Release-trace",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize+",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\GeeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\GeeBranch38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4824395999967237,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-current-Debug-execute",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\GeeCurrentCapture38.exe",
+          "<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\current-results\\Debug\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\current-results\\Debug\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.110557100000733,
+        "stdout_sha256": "f4ce8127bd26ed607c967770322517c91265de6cd566d8a22b6c652825f45b0a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-current-Debug-recorder",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\GeeCurrentCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\GeeCapture38-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3398505000004661,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-current-Debug-source-compile",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize-",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\GeeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<ISOLATED_RUN>\\gee38-v2\\current-Debug-trace\\GeeBranch38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.48505419999855803,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-current-Release-execute",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\GeeCurrentCapture38.exe",
+          "<ISOLATED_RUN>\\gee38-v2\\current-Release-trace",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\current-results\\Release\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\current-results\\Release\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.1759920000040438,
+        "stdout_sha256": "f4ce8127bd26ed607c967770322517c91265de6cd566d8a22b6c652825f45b0a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-current-Release-recorder",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\GeeCurrentCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\GeeCapture38-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3426973999958136,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-current-Release-source-compile",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize+",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\GeeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<ISOLATED_RUN>\\gee38-v2\\current-Release-trace\\GeeBranch38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5251123999987612,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-final-independent-gate",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/verify_gee.py",
+          "--publication"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.897320399999444,
+        "stdout_sha256": "b73825b75d7ac65db326cd27b7f89420296265037f8b5b19f86b103dbd704e04",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-manifest-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_manifest.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 8.681637900001078,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "106ff93b8e012c734245e34eaa0c20676780e9f8cafac788e582089828779e60",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-materialize-compile",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/main:MaterializeGee38",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\MaterializeGee38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\MaterializeGee38.cs",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\frozen-v2\\Capture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4093538000015542,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-materialize-inputs",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\MaterializeGee38.exe",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\factory-inputs.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3253100000001723,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-mmrm-gap-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_mmrm_gap.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 16.444631099999242,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "f5ad022438031e7eb08258f5ae8a8b6c573ef47c285ecd03d125e16d3d6d9337",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-mmrm-gap-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/verify_remaining_mmrm.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.682590100004745,
+        "stdout_sha256": "56ec26deeea1ec3d9965d5f103bf97910c8d84cfd1440c5c28e295eef85f5717",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-common",
+      "receipt": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHStat.Excel.Common\\BESHStat.Excel.Common.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\gee38-v2\\original-build\\Debug\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\gee38-v2\\obj\\Debug\\common\\",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 2.4574638999984018,
+        "stdout_sha256": "5245465239a6eb42c1dc5e228fbf46dad2502823945c2acd75cc18420e4727db",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-core",
+      "receipt": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHStat.Core\\BESHStat.Core.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\gee38-v2\\original-build\\Debug\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\gee38-v2\\obj\\Debug\\core\\",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 4.803712500004622,
+        "stdout_sha256": "aad682cb754fb90756b751b534f908ddfce9185d5f81cd7ac0b8522ad88937c5",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-host",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\BESHstatNG.vbproj",
+          "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\gee38-v2\\original-build\\Debug\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\gee38-v2\\obj\\Debug\\host\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 3.5649321999953827,
+        "stdout_sha256": "438cc0c2b06fc539bd154ea9d9c26d7600b3e1dbe0e24d21e6bdb37e548cfc0e",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-plain-execute-v2",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\GeeCapture38-plain-v2.exe",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Debug\\plain-v2\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Debug\\plain-v2\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3927897999965353,
+        "stdout_sha256": "47d108601741f91ef808d99798501325fba817fc4a0d2d644e387fd91340ad5f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-plain-recorder",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\GeeCapture38-plain.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\GeeCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 0.30924420000519603,
+        "stdout_sha256": "3d51f69dca7652b60fe0ed92f027337e5c584ba1e95a95e185066c72690ad530",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-plain-recorder-v2",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\GeeCapture38-plain-v2.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\GeeCapture38-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.33066949999920325,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-repeat-execute-v2",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\GeeCapture38-repeat-v2.exe",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Debug\\repeat-v2\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Debug\\repeat-v2\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.43790769999759505,
+        "stdout_sha256": "47d108601741f91ef808d99798501325fba817fc4a0d2d644e387fd91340ad5f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-repeat-recorder-v2",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\GeeCapture38-repeat-v2.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\GeeCapture38-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3366143999955966,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-trace-execute-v2",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\GeeCapture38-trace-v2.exe",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Debug\\trace-v2\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Debug\\trace-v2\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.38832620000175666,
+        "stdout_sha256": "47d108601741f91ef808d99798501325fba817fc4a0d2d644e387fd91340ad5f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Debug-trace-recorder-v2",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Debug-trace\\GeeCapture38-trace-v2.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\GeeCapture38-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3263611999936984,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Release-common",
+      "receipt": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHStat.Excel.Common\\BESHStat.Excel.Common.vbproj",
+          "/t:Build",
+          "/p:Configuration=Release",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\gee38-v2\\original-build\\Release\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\gee38-v2\\obj\\Release\\common\\",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 1.884372299995448,
+        "stdout_sha256": "722842057a726127234fa737ecad75c5725443d22c32ed86da51a408f0709e3b",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Release-core",
+      "receipt": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHStat.Core\\BESHStat.Core.vbproj",
+          "/t:Build",
+          "/p:Configuration=Release",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\gee38-v2\\original-build\\Release\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\gee38-v2\\obj\\Release\\core\\",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 2.3427634999970905,
+        "stdout_sha256": "514697aa4202c16713acca9cb27f2a0d42f5dd21ad16d006ede5a1c544e5d8cb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Release-host",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<ISOLATED_RUN>\\late38-v1\\original-tree\\BESHstatNG\\BESHstatNG.vbproj",
+          "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+          "/p:Configuration=Release",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\gee38-v2\\original-build\\Release\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\gee38-v2\\obj\\Release\\host\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "exit_code": 0,
+        "seconds": 2.3770724999994854,
+        "stdout_sha256": "c00e3853fb5f4b57e5e414f11e751b6ab83356bb2f6d0422def6535846e51c75",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Release-plain-execute-v2",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\GeeCapture38-plain-v2.exe",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Release-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Release\\plain-v2\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Release\\plain-v2\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4319748999987496,
+        "stdout_sha256": "47d108601741f91ef808d99798501325fba817fc4a0d2d644e387fd91340ad5f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Release-plain-recorder-v2",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\GeeCapture38-plain-v2.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\GeeCapture38-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3331344000034733,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Release-repeat-execute-v2",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\GeeCapture38-repeat-v2.exe",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Release-plain",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Release\\repeat-v2\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Release\\repeat-v2\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4236613999964902,
+        "stdout_sha256": "47d108601741f91ef808d99798501325fba817fc4a0d2d644e387fd91340ad5f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Release-repeat-recorder-v2",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Release-plain\\GeeCapture38-repeat-v2.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\GeeCapture38-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.33048369999596616,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Release-trace-execute-v2",
+      "receipt": {
+        "command": [
+          "<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\GeeCapture38-trace-v2.exe",
+          "<ISOLATED_RUN>\\gee38-v2\\original-Release-trace",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Release\\trace-v2\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Release\\trace-v2\\execution.json",
+          "original"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4433184000008623,
+        "stdout_sha256": "47d108601741f91ef808d99798501325fba817fc4a0d2d644e387fd91340ad5f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-original-Release-trace-recorder-v2",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\gee38-v2\\original-Release-trace\\GeeCapture38-trace-v2.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\GeeCapture38-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.33972589999757474,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-addendum-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/preedit_addendum_reader.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.7794567000019015,
+        "stdout_sha256": "630bbf880da9b4c267baf9a6372711604f01ed961f3ad15214efcb9e6df4fcf2",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-checkpoint-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38",
+          "-p",
+          "test_review_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.23467810000147438,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "1b99d10bd6035147644f66e44312b51a750c3a1b82edf9a9d69623d8ab6c3b2e",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-checkpoint-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/verify_review_packet.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 7.152515899993887,
+        "stdout_sha256": "9d41abe5f91877508f497acac60a8c67840f6c6a83f2a49680122b4f9f2f047a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-continuation-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/continuation/v1",
+          "-p",
+          "test_branch_audit.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.0288232999955653,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "f39ed3a34907830973ee4bf6bb4a4c44a1539b468381f6b93692bd755a2d796c",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-continuation-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/continuation/v1/verify_continuation.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.8568928000022424,
+        "stdout_sha256": "e79b35c77b672256598c8970a8bb32365ecd69ba3153e271f0e22e8d35770e2f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-late432-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v1",
+          "-p",
+          "test_supplement.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.2057268999997177,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "ef9d865a676c7a9c4ea8b199f05441139237fe73864993967228f36b11d4611d",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-late432-manifest-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v1",
+          "-p",
+          "test_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 7.977108299994143,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "b3e2a80b6c56a73ddb73d484302b0d17c105f389eaca5e68babb9095462e1fa5",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-late432-packet-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v1/verify_packet.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.5972295999963535,
+        "stdout_sha256": "88cd6bc4810e7484f2db6acd8212ba3c040c31a8bdce1bcf9e3b6ce9e55b5e95",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-late432-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v1/verify_supplement.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.19770969999808585,
+        "stdout_sha256": "66ade008e6d76de6fc5e694e8bc7cec166a2708287cd6a264a48888de88582e6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-preedit-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v1/replay_preedit_adverse.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 13.747572699998273,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "09840f2fca270e851bfd43f7a7f91c5f26af83924facb3d9d8c68dcea7158898",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-prior-preedit-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/preedit_reader.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.831569900001341,
+        "stdout_sha256": "44818d302730ce8739a7521d5e769aecdd3e2f6f72e5f00d8767171371166293",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee38-v2-protected-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_preservation.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.6650389999995241,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3be24a1e872aed2fee7ef17d0d51c84715c5101f589b1c9910e8182a414226b9",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "manual_source_only_failures": [
+    "attempt-trace-preflight-v1.json",
+    "attempt-adverse-v1.json",
+    "attempt-mmrm-readonly-audit-v1.json"
+  ],
+  "raw_logs": "Retained private isolated outputs; byte digests and exact sanitized commands above",
+  "compiler_failure": "gee38-v2-original-Debug-plain-recorder; exit1 retained; corrected recorder uses a separately sealed new source file"
+}

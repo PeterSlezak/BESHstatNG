@@ -69,10 +69,7 @@ Namespace WorksheetFunctions
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
-                Dim mdl As New parametric.OneWayANOVA(data, names)
-                mdl.compute()
-                Dim tables = mdl.wrapResults()
-                Return PrepareResultTableForUdf(tables(0))
+                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayAnovaTable(data, names))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.ANOVA1", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -126,22 +123,7 @@ Namespace WorksheetFunctions
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
-                Dim mdl As New parametric.OneWayANOVA(data, names)
-                mdl.compute()
-                Dim w = mdl.WelshANOVA()
-
-                Dim body(0, 3) As Object
-                body(0, 0) = data.Length - 1
-                body(0, 1) = w.DF1
-                body(0, 2) = w.TestStatistics1
-                body(0, 3) = w.Pvalue
-
-                Dim t As New ResultTable
-                t.SetBody(body)
-                t.AddPvalueToFormat(4)
-                t.AddHeaderLeftRow({"Welch ANOVA"})
-                t.AddHeaderTopRow({"Source", "df numerator", "df denominator", "F", "P-value"})
-                Return PrepareResultTableForUdf(t)
+                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildWelchAnovaTable(data, names))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.ANOVA1_WELCH", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -212,19 +194,7 @@ Namespace WorksheetFunctions
                 mdl.compute()
 
                 Dim which As String = NormalizeText(correction)
-                Select Case which
-                    Case "", "NONE"
-                        ' no correction
-                    Case "GG", "GREENHOUSE", "GREENHOUSE-GEISSER", "GREENHOUSEGEISSER"
-                        mdl.GreenhouseGeisser()
-                    Case "HF", "HUYNH", "HUYNH-FELDT", "HUYNHFELDT"
-                        mdl.HuyhnFeldt()
-                    Case "BOTH", "ALL"
-                        mdl.GreenhouseGeisser()
-                        mdl.HuyhnFeldt()
-                    Case Else
-                        Return ExcelError.ExcelErrorValue
-                End Select
+                If Not Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ApplyRepeatedCorrection(mdl, which) Then Return ExcelError.ExcelErrorValue
 
                 Dim tables = mdl.wrapResults()
                 Return PrepareResultTableForUdf(tables(0))
@@ -300,15 +270,16 @@ Namespace WorksheetFunctions
                 Dim tables = mdl.wrapResults()
                 Dim which As String = NormalizeText(outputType)
 
-                If which = "" OrElse which = "BOTH" OrElse which = "ALL" Then
-                    Return StackWithBlankRow(PrepareResultTableForUdf(tables(0)), PrepareResultTableForUdf(tables(1)))
-                ElseIf which = "MAIN" OrElse which = "CLASSICAL" Then
-                    Return PrepareResultTableForUdf(tables(0))
-                ElseIf which = "SATTERTHWAITE" OrElse which = "SW" OrElse which = "ADJUSTED" Then
-                    Return PrepareResultTableForUdf(tables(1))
-                Else
-                    Return ExcelError.ExcelErrorValue
-                End If
+                Select Case Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.NestedTableSelection(which)
+                    Case 0
+                        Return StackWithBlankRow(PrepareResultTableForUdf(tables(0)), PrepareResultTableForUdf(tables(1)))
+                    Case 1
+                        Return PrepareResultTableForUdf(tables(0))
+                    Case 2
+                        Return PrepareResultTableForUdf(tables(1))
+                    Case Else
+                        Return ExcelError.ExcelErrorValue
+                End Select
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.ANOVA2_NESTED", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -371,46 +342,15 @@ Namespace WorksheetFunctions
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
                 Dim which As String = NormalizeText(method)
-                Dim mdl As New parametric.OneWayANOVA(data, names)
-                mdl.compute()
-
-                Select Case which
-                    Case "", "TUKEY", "TUKEYKRAMER", "TUKEY-KRAMER", "TK"
-                        mdl.TukeyKramer(alphaValue)
-                        Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1))
-
-                    Case "GAMESHOWELL", "GAMES-HOWELL", "GH", "GAMES"
-                        mdl.GamesHowell(alphaValue)
-                        Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1))
-
-                    Case "LSD", "FISHER", "FISHERLSD", "FISHER-LSD"
-                        mdl.FisherLSD(False, alphaValue)
-                        Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1))
-
-                    Case "BONF", "BONFERRONI"
-                        mdl.FisherLSD(True, alphaValue)
-                        Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1))
-
-                    Case "ALL", "BOTH"
-                        mdl.FisherLSD(False, alphaValue)
-                        mdl.FisherLSD(True, alphaValue)
-                        mdl.TukeyKramer(alphaValue)
-                        mdl.GamesHowell(alphaValue)
-
-                        Dim tables = mdl.wrapResults()
-                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))
-                        For i As Integer = 2 To tables.Count - 1
-                            stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))
-                        Next
-                        Return PrepareResultTableForUdf(stacked)
-
-                    Case Else
-                        Return ExcelError.ExcelErrorValue
-                End Select
+                Dim stackAll As Boolean = False
+                Dim tables = Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayMcpTables(data, names, which, alphaValue, stackAll)
+                If tables Is Nothing Then Return ExcelError.ExcelErrorValue
+                If Not stackAll Then Return PrepareResultTableForUdf(tables(1))
+                Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))
+                For i As Integer = 2 To tables.Count - 1
+                    stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))
+                Next
+                Return PrepareResultTableForUdf(stacked)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.ANOVA1_MCP", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -469,34 +409,15 @@ Namespace WorksheetFunctions
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
                 Dim which As String = NormalizeText(method)
-                Dim mdl As New parametric.OneWayRmANOVA(mat, names)
-                mdl.compute()
-
-                Select Case which
-                    Case "", "RM2", "TUKEYRM2", "TUKEY-RM2", "RECOMMENDED", "NOSPHERICITY", "NO-SPHERICITY"
-                        mdl.TukeyKramerRM2(alphaValue)
-                        Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1))
-
-                    Case "TUKEY", "SPHERICITY", "ASSUME-SPHERICITY", "ASSUMESPHERICITY", "CLASSICAL"
-                        mdl.Tukey(alphaValue)
-                        Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1))
-
-                    Case "ALL", "BOTH"
-                        mdl.TukeyKramerRM2(alphaValue)
-                        mdl.Tukey(alphaValue)
-
-                        Dim tables = mdl.wrapResults()
-                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))
-                        For i As Integer = 2 To tables.Count - 1
-                            stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))
-                        Next
-                        Return PrepareResultTableForUdf(stacked)
-
-                    Case Else
-                        Return ExcelError.ExcelErrorValue
-                End Select
+                Dim stackAll As Boolean = False
+                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildRepeatedMcpTables(mat, names, which, alphaValue, stackAll)
+                If tables Is Nothing Then Return ExcelError.ExcelErrorValue
+                If Not stackAll Then Return PrepareResultTableForUdf(tables(1))
+                Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))
+                For i As Integer = 2 To tables.Count - 1
+                    stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))
+                Next
+                Return PrepareResultTableForUdf(stacked)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.RMANOVA1_MCP", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -594,12 +515,12 @@ Namespace WorksheetFunctions
                 Dim tables = mdl.wrapResults()
 
                 Dim which As String = NormalizeText(outputType)
-                Select Case which
-                    Case "", "BOTH", "ALL"
+                Select Case Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.IndependentTTableSelection(which)
+                    Case 0
                         Return StackWithBlankRow(PrepareResultTableForUdf(tables(0)), PrepareResultTableForUdf(tables(1)))
-                    Case "EQUAL", "POOLED", "STUDENT", "ASSUME-EQUAL", "ASSUMEEQUAL"
+                    Case 1
                         Return PrepareResultTableForUdf(tables(0))
-                    Case "UNEQUAL", "WELCH", "ASSUME-UNEQUAL", "ASSUMEUNEQUAL"
+                    Case 2
                         Return PrepareResultTableForUdf(tables(1))
                     Case Else
                         Return ExcelError.ExcelErrorValue
@@ -778,30 +699,7 @@ Namespace WorksheetFunctions
                 Dim result As MeanNonInferiorityResult = EquivalenceNonInferiorityMethods.TestUnpairedMeansNonInferiority(
                     data(0), data(1), marginValue, alphaValue, assumeEqual)
 
-                Dim body As Object(,) = {
-                    {"Control group", names(0)},
-                    {"Experimental group", names(1)},
-                    {"Variance model", If(result.AssumeEqualVariances, "Equal variances (pooled Student t)", "Unequal variances (Welch)")},
-                    {"Observations in control", result.NumberOfControls},
-                    {"Observations in experimental", result.NumberOfExperimental},
-                    {"Mean control", result.MeanControl},
-                    {"Mean experimental", result.MeanExperimental},
-                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
-                    {"Standard error of the difference", result.StandardError},
-                    {"Degrees of freedom", result.DegreesOfFreedom},
-                    {"Non-inferiority margin magnitude", result.NonInferiorityMargin},
-                    {"Null boundary on difference scale", result.NonInferiorityLimit},
-                    {"One-sided alpha", result.AlphaOneSided},
-                    {"Test statistic", result.TestStatistic},
-                    {"One-sided p-value", result.PValue},
-                    {"Lower one-sided confidence limit", result.LowerOneSidedConfidenceLimit},
-                    {SafeCiLabel(result.TwoSidedEquivalentConfidenceInterval), SafeCiText(result.TwoSidedEquivalentConfidenceInterval)},
-                    {"Point estimate within stated limits", result.CiAssessment.IsPointEstimateWithinMargins},
-                    {"Confidence interval within stated limits", result.CiAssessment.IsConfidenceIntervalWithinMargins},
-                    {"Lower-bound non-inferiority supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
-                    {"Upper-bound non-inferiority supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
-                    {"Conclusion", result.Conclusion}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.MeanNonInferiorityBody(result, names)
 
                 Return BuildResultTable("Unpaired Means Non-Inferiority", body)
             Catch ex As Exception
@@ -891,33 +789,7 @@ Namespace WorksheetFunctions
                 Dim result As MeanEquivalenceResult = EquivalenceNonInferiorityMethods.TestUnpairedMeansEquivalence(
                     data(0), data(1), lowerValue, upperValue, alphaValue, assumeEqual)
 
-                Dim body As Object(,) = {
-                    {"Control group", names(0)},
-                    {"Experimental group", names(1)},
-                    {"Variance model", If(result.AssumeEqualVariances, "Equal variances (pooled Student t)", "Unequal variances (Welch)")},
-                    {"Observations in control", result.NumberOfControls},
-                    {"Observations in experimental", result.NumberOfExperimental},
-                    {"Mean control", result.MeanControl},
-                    {"Mean experimental", result.MeanExperimental},
-                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
-                    {"Standard error of the difference", result.StandardError},
-                    {"Degrees of freedom", result.DegreesOfFreedom},
-                    {"Lower equivalence margin", result.LowerMargin},
-                    {"Upper equivalence margin", result.UpperMargin},
-                    {"One-sided alpha", result.AlphaOneSided},
-                    {"Lower TOST statistic", result.LowerComponentStatistic},
-                    {"Lower TOST p-value", result.LowerComponentPValue},
-                    {"Upper TOST statistic", result.UpperComponentStatistic},
-                    {"Upper TOST p-value", result.UpperComponentPValue},
-                    {"TOST p-value = max(component p-values)", result.TostPValue},
-                    {SafeCiLabel(result.EquivalentConfidenceInterval), SafeCiText(result.EquivalentConfidenceInterval)},
-                    {"Point estimate within margins", result.CiAssessment.IsPointEstimateWithinMargins},
-                    {"Confidence interval within margins", result.CiAssessment.IsConfidenceIntervalWithinMargins},
-                    {"Lower margin supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
-                    {"Upper margin supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
-                    {"Supports equivalence", result.SupportsEquivalence},
-                    {"Conclusion", result.Conclusion}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.MeanEquivalenceBody(result, names)
 
                 Return BuildResultTable("Unpaired Means Equivalence (TOST)", body)
             Catch ex As Exception
@@ -951,26 +823,9 @@ Namespace WorksheetFunctions
         Friend Function ResolveNames(explicitNames As Object, detectedNames() As String, expectedCount As Integer, prefix As String) As String()
             If Not IsMissingArg(explicitNames) Then
                 Dim names = Global.BESHStatNG.UdfDataImport.GetVariableNames(explicitNames, expectedCount)
-                For i As Integer = 0 To names.Length - 1
-                    If String.IsNullOrWhiteSpace(names(i)) Then names(i) = prefix & " " & (i + 1).ToString()
-                Next
-                Return names
+                Return Global.BESHStatNG.ExcelCommon.UdfNamePreparation38.FillExplicitNames(names, prefix)
             End If
-
-            If detectedNames IsNot Nothing AndAlso detectedNames.Length = expectedCount Then
-                Dim names(expectedCount - 1) As String
-                For i As Integer = 0 To expectedCount - 1
-                    names(i) = detectedNames(i)
-                    If String.IsNullOrWhiteSpace(names(i)) Then names(i) = prefix & " " & (i + 1).ToString()
-                Next
-                Return names
-            End If
-
-            Dim fallback(expectedCount - 1) As String
-            For i As Integer = 0 To expectedCount - 1
-                fallback(i) = prefix & " " & (i + 1).ToString()
-            Next
-            Return fallback
+            Return Global.BESHStatNG.ExcelCommon.UdfNamePreparation38.ResolveDetectedNames(detectedNames, expectedCount, prefix)
         End Function
 
         ''' <summary>
@@ -984,43 +839,11 @@ Namespace WorksheetFunctions
         ''' If either input is <c>Nothing</c>, the other input is returned unchanged.
         ''' </returns>
         Friend Function StackWithBlankRow(a As Object(,), b As Object(,)) As Object(,)
-            If a Is Nothing Then Return b
-            If b Is Nothing Then Return a
-
-            Dim rowsA As Integer = a.GetLength(0)
-            Dim colsA As Integer = a.GetLength(1)
-            Dim rowsB As Integer = b.GetLength(0)
-            Dim colsB As Integer = b.GetLength(1)
-            Dim cols As Integer = Math.Max(colsA, colsB)
-
-            Dim out(rowsA + 1 + rowsB - 1, cols - 1) As Object
-
-            For i As Integer = 0 To rowsA - 1
-                For j As Integer = 0 To colsA - 1
-                    out(i, j) = a(i, j)
-                Next
-            Next
-
-            For i As Integer = 0 To rowsB - 1
-                For j As Integer = 0 To colsB - 1
-                    out(rowsA + 1 + i, j) = b(i, j)
-                Next
-            Next
-
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.StackWithBlankRow(a, b)
         End Function
 
         Private Function ParseEqualVarianceMode(arg As Object, defaultEqual As Boolean) As Boolean
-            Dim s As String = NormalizeToken(arg)
-            If s = "" Then Return defaultEqual
-            Select Case s
-                Case "WELCH", "UNEQUAL", "ASSUMEUNEQUAL", "ASSUME-UNEQUAL"
-                    Return False
-                Case "EQUAL", "POOLED", "STUDENT", "ASSUMEEQUAL", "ASSUME-EQUAL"
-                    Return True
-                Case Else
-                    Throw New ArgumentException("Unsupported variance method. Use welch or equal/pooled/student.")
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.ParametricUDFsOptions38.ParseEqualVarianceMode(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultEqual)
         End Function
 
     End Module

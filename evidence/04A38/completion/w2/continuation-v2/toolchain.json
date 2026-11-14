@@ -1,0 +1,71 @@
+{
+  "Python": "3.14.7",
+  "commands": [
+    {
+      "tool": "dotnet",
+      "command": {
+        "command": [
+          "dotnet",
+          "--info"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4985924999928102,
+        "stdout_sha256": "2445435f5a93be4f509272289eb7d3140a67af125143073f050213088a32ec9d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": ".NET SDK:\n Version:           10.0.403\n Commit:            5a2162bea6\n Workload version:  10.0.400-manifests.899c35d8\n MSBuild version:   18.9.15+5a2162bea\n\nRuntime Environment:\n OS Name:     Windows\n OS Version:  10.0.26300\n OS Platform: Windows\n RID:         win-x64\n Base Path:   <PROGRAM_FILES>/dotnet\\sdk\\10.0.403\\\n\n.NET workloads installed:\n [wasm-tools]\n   Installation Source: VS 18.11.12324.101\n   Manifest Version:    10.0.114/10.0.100\n   Manifest Path:       <PROGRAM_FILES>/dotnet\\sdk-manifests\\10.0.100\\microsoft.net.workload.mono.toolchain.current\\10.0.114\\WorkloadManifest.json\n   Install Type:              Msi\n\nConfigured to use workload sets when installing new manifests.\nNo workload sets are installed. Run \"dotnet workload restore\" to install a workload set.\n\nHost:\n  Version:      10.0.14\n  Architecture: x64\n  Commit:       0427b9abbe\n\n.NET SDKs installed:\n  10.0.403 [<PROGRAM_FILES>/dotnet\\sdk]\n\n.NET runtimes installed:\n  Microsoft.AspNetCore.App 8.0.33 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.22 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.14 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.NETCore.App 8.0.33 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.22 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.1 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.14 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.WindowsDesktop.App 8.0.33 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 9.0.22 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.1 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.14 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.WindowsDesktop.App]\n\nOther architectures found:\n  x86   [<PROGRAM_FILES>/dotnet]\n    registered at [HKLM\\SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\InstallLocation]\n\nEnvironment variables:\n  DOTNET_CLI_TELEMETRY_OPTOUT              [1]\n  DOTNET_CLI_UI_LANGUAGE                   [en-US]\n  DOTNET_GCCONCURRENT                      [0]\n  DOTNET_GCHEAPCOUNT                       [2]\n  DOTNET_GCNOAFFINITIZE                    [1]\n  DOTNET_MULTILEVEL_LOOKUP                 [0]\n  DOTNET_SKIP_FIRST_TIME_EXPERIENCE        [1]\n  DOTNET_TC_CALLCOUNTTHRESHOLD             [1000]\n  DOTNET_THREADPOOL_UNFAIRSEMAPHORESPINLIMIT [0]\n  Detected COMPlus_* environment variable(s). Consider transitioning to DOTNET_* equivalent.\n\nglobal.json file:\n  Not found\n\nLearn more:\n  https://aka.ms/dotnet/info\n\nDownload .NET:\n  https://aka.ms/dotnet/download\n"
+    },
+    {
+      "tool": "node",
+      "command": {
+        "command": [
+          "node",
+          "--version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.06178869999712333,
+        "stdout_sha256": "a18ba454716b5449eabf6c34a4418c2678b600d8c81c01d5ca876f529ea4d626",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": "v24.20.0\n"
+    },
+    {
+      "tool": "msbuild",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "-nologo",
+          "-version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.17934740000055172,
+        "stdout_sha256": "4ba5f9f90faf22b04646c58336c4c6458db0b0bd3c1375728cab215b09c91fb0",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": "18.11.1.51303\n"
+    }
+  ],
+  "compiler": [
+    {
+      "tool": "vbc.exe",
+      "bytes": 67400,
+      "sha256": "75be1417f8d839564ee864ef4fae0344d724b5c6963b4d8bb8cbaedfb2830c23"
+    },
+    {
+      "tool": "csc.exe",
+      "bytes": 67400,
+      "sha256": "a13d1edf3ef5dd0d0e09886251f03fa18877d46ba2dacee075b4c8a5add21457"
+    }
+  ],
+  "targets": [
+    "netstandard2.0",
+    "net48"
+  ],
+  "restore_install": "NOT_RUN"
+}

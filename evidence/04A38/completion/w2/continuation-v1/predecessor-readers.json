@@ -1,0 +1,364 @@
+{
+  "scope": "HISTORICAL_MANIFEST_COPY_WITH_EXACT_FORMER_SOURCE_VERSIONS;NOT_LIVE_SOURCE_TESTS",
+  "results": [
+    {
+      "label": "preedit",
+      "files": [
+        "test_preedit_reader.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38",
+          "-p",
+          "test_preedit_reader.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 1,
+        "seconds": 0.36755409999750555,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "9ddda482138eac3ce02b3e4a6203756d203b3eb3b9cb00fd4048f425de8d37f4",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "checkpoint",
+      "files": [
+        "test_review_packet.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38",
+          "-p",
+          "test_review_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 0,
+        "seconds": 0.4061191999935545,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e843f00f704570ea122fab1afdccd1a951d76c73ce7aa50ffd088af310eab27e",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "continuation",
+      "files": [
+        "test_branch_audit.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/continuation/v1",
+          "-p",
+          "test_branch_audit.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 0,
+        "seconds": 2.7262549999868497,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "7f0a13664e2885a8c3a3372d72d74be0d27b32255942a8af88bfec23e6854ca2",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "A",
+      "files": [
+        "test_supplement.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v1",
+          "-p",
+          "test_supplement.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 1,
+        "seconds": 1.506997999997111,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "af93400eb13ea38a9bc96cb95a513492519b813b9947664d3b674d3bfe539e3d",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "A-manifest",
+      "status": "NOT_RUN_NO_MATCH",
+      "pattern": "test_publication.py"
+    },
+    {
+      "label": "B",
+      "files": [
+        "test_gee.py",
+        "test_manifest.py",
+        "test_mmrm_gap.py",
+        "test_preservation.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 1,
+        "seconds": 16.542303399997763,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "c837f29d01646d1d3622051e67f03b423155d047f4d518c3a3d8a61846e4e036",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "C",
+      "files": [
+        "test_guard_gap.py",
+        "test_packet.py",
+        "test_supplement.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 1,
+        "seconds": 11.744476599997142,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "58e68265c4829d6162a25a05b4713e80759df93d8f05436453d95bffcec30b47",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "D",
+      "files": [
+        "test_mask_gap.py",
+        "test_packet.py",
+        "test_supplement.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 1,
+        "seconds": 12.294445999985328,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "9643da183514a7c947e2962b5ea896d49b907ffd35bbf230ebddd3a7401cf7fc",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "E",
+      "files": [
+        "test_closeout.py",
+        "test_group_gap.py",
+        "test_packet.py",
+        "test_supplement.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 1,
+        "seconds": 15.248188700003084,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "adfa68fe8885e30997cf3c283fca3050cdea42cfc5d3848f1adff85adc35f3b7",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "F",
+      "files": [
+        "test_packet.py",
+        "test_supplement.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 1,
+        "seconds": 12.101314600004116,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "5570509753ed5c7513ec45250d877a9c6a841ddf05d44d46e00a87c2b76b1569",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "W1",
+      "files": [
+        "test_publication.py",
+        "test_w1.py",
+        "test_w1_v2.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/completion/w1",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 1,
+        "seconds": 10.142311100004008,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "011ae68738413be3e6a6c638126b3c6f7f781f71993dc03f51e7df629ab3a4c8",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "G",
+      "files": [
+        "test_packet.py",
+        "test_supplement.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 1,
+        "seconds": 14.911400799988769,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "a2b6a045cf5d44d5397d2ca614b21881835a059e3497ce86076066dfff0a7b42",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "old-W2-bodies",
+      "files": [
+        "test_independent_slice_v3.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/completion/w2",
+          "-p",
+          "test_independent_slice_v3.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 0,
+        "seconds": 27.055660699988948,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "256284ec41c018ddabf6f472af94fef1ceb919dae438055cff5c819307e24999",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "old-W2-publication",
+      "files": [
+        "test_publication.py"
+      ],
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/completion/w2",
+          "-p",
+          "test_publication.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\.w2c1-predecessor-v1.tmp",
+        "exit_code": 0,
+        "seconds": 30.401172999991104,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "aa2cd80a3e1521faff3c1068c6368a3d01730f8324c72760ea0ee0dac9df2f07",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "original_queries": 0,
+  "invalid_failed_attempt_test_files": "Preserved; broad test discovery may re-expose deliberately archived setup errors; inspect identities, never convert to PASS"
+}

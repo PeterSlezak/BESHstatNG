@@ -1,0 +1,24 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/reconcile_source_v2.py",
+    "bytes": 10088,
+    "sha256": "364f8de2ad84aa01716e5cd97f2579fb56c6d5082334993f756ebb418651b3f1"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\reconcile_source_v2.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.8177734999990207,
+    "stdout_sha256": "6c625f5eb4e223033f767acf2e740e812469faf7b468bb1e2fa8a79dbc723f14",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

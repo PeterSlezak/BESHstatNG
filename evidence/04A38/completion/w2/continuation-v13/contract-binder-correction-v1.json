@@ -1,0 +1,24 @@
+{
+  "rejected_source": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/build_contracts_v4.py",
+    "bytes": 14035,
+    "sha256": "81ce97c4a30a5b84d2a3806bca436e79e9dccef2128094a23977a697a14031fd"
+  },
+  "successor": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/build_contracts_v5.py",
+    "bytes": 14035,
+    "sha256": "193e3f1e837fd5fd828e2a675534a5c0a357ba1142f308e49516d351fc091dca"
+  },
+  "binder": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/proof_kernel_v6.py",
+    "bytes": 886,
+    "sha256": "5522b6c36a73fecdb3e79fb68b7834d497f3dd0e032502a31c86f5000dc6e1d4"
+  },
+  "reason": "VB UdfModelProfilePreparation38.FiniteDoubleReader is the actual compiled nested type UdfModelProfilePreparation38+FiniteDoubleReader. Require measured type membership, full owner/name/parameter/ByRef/rank and unique candidate. No ordinal guessing.",
+  "premature_consumers": [
+    "postscan-nonpass-deltas-v1",
+    "source-composition-v1"
+  ],
+  "qualification": "Those two attempts stopped at missing contract/transition inputs. Both failures and raw streams remain.",
+  "original_queries": 0
+}

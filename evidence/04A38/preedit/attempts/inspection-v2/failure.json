@@ -1,0 +1,12 @@
+{
+  "status": "INVALID_METADATA_HARNESS_ATTEMPT",
+  "error": "System.InvalidCastException: System.Collections.ArrayList cannot be cast to System.Object[]",
+  "phase": "Parsing entry syntax JSON before UDF invocation",
+  "command": "inspect-entry-Debug-run",
+  "exit_code": 4294967295,
+  "seconds": 142.8,
+  "cleanup": "Stopped only the failed inspector whose executable path matched the newly created private harness. No application/security/user settings changed.",
+  "correction": "Use IEnumerable deserialization and top-level exception reporting/exit to avoid an unhandled Framework process fault. Preserve original failed source and raw private command receipt.",
+  "native_excel": "NOT_RUN",
+  "product_unchanged": true
+}

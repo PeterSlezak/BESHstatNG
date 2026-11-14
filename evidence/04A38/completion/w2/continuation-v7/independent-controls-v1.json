@@ -1,0 +1,159 @@
+{
+  "controls": [
+    {
+      "name": "False READY",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed ownership-summary-v1.json"
+    },
+    {
+      "name": "Dropped historical identity",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed historical-ownership-v1.json"
+    },
+    {
+      "name": "Duplicate current identity",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed current-ownership-v1.json"
+    },
+    {
+      "name": "Missing callback",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed callback-proofs-v1.json"
+    },
+    {
+      "name": "Changed callback captured field",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed callback-proofs-v1.json"
+    },
+    {
+      "name": "Removed full source body contract",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed whole-body-contracts-v1.json"
+    },
+    {
+      "name": "Forged original canonical ID",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed proof-inputs-v1.json"
+    },
+    {
+      "name": "Dropped original fragment",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed original-fragment-parent-crosswalk-v1.json"
+    },
+    {
+      "name": "False module closure",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed current-ownership-v1.json"
+    },
+    {
+      "name": "Wrong export default",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed inspection/packet-v1/Inspect38-Debug.json"
+    },
+    {
+      "name": "Changed frozen input record",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed compatibility-packet-v1.json"
+    },
+    {
+      "name": "Changed actual consumer context",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed metadata-all/packet-v1-context-v3/current-Debug.json"
+    },
+    {
+      "name": "Changed nonpass identity",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed python-first-failures-v1.json"
+    },
+    {
+      "name": "Dropped Python worker",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed python-worker-accounting-v1.json"
+    },
+    {
+      "name": "Skipped Python method",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed python-effective-identities-v1.json"
+    },
+    {
+      "name": "Relabelled C6-introduced source-pin failure",
+      "status": "REJECTED",
+      "reason": "Authenticated C7 input changed python-first-failures-v1.json"
+    },
+    {
+      "name": "Actual current body byte mutation",
+      "status": "REJECTED",
+      "reason": "Source/evidence pin mismatch BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb"
+    },
+    {
+      "name": "Altered genuine C7 source preimage",
+      "status": "REJECTED",
+      "reason": "Source/evidence pin mismatch evidence/04A38/completion/w2/continuation-v7/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb.txt"
+    },
+    {
+      "name": "Missing old evidence",
+      "status": "REJECTED",
+      "reason": "Authenticated proof/census changed whole-body-contracts-v1.json"
+    },
+    {
+      "name": "Actual frozen typed input mutation",
+      "status": "REJECTED",
+      "reason": "Source/evidence pin mismatch evidence/04A38/preedit/frozen-v2/cases.jsonl"
+    },
+    {
+      "name": "Actual compiled consumer DLL byte mutation",
+      "status": "REJECTED",
+      "reason": "Compiled current DLL bytes differ"
+    },
+    {
+      "name": "Pure complete call graph missing real portable target",
+      "status": "REJECTED",
+      "reason": "Unresolved actual internal constructed/interface/compiler context"
+    },
+    {
+      "name": "Pure actual ldftn callback target missing",
+      "status": "REJECTED",
+      "reason": "Unresolved actual internal constructed/interface/compiler context"
+    },
+    {
+      "name": "Pure original parent source composition threshold mutation",
+      "status": "REJECTED",
+      "reason": "Complete source reconstruction differs BOX_M entire original body; exact MatCovar facade target separately verified"
+    },
+    {
+      "name": "Pure validation reader dropped worker",
+      "status": "REJECTED",
+      "reason": "Dropped Python worker"
+    },
+    {
+      "name": "Pure validation reader changed nonpass identity",
+      "status": "REJECTED",
+      "reason": "Changed Python nonpass identity/classification/occurrence"
+    },
+    {
+      "name": "Actual partial source/CIL/frozen/validation positive",
+      "status": "PASS_NOT_READY",
+      "historical": {
+        "total": 704,
+        "closed": 274,
+        "OPEN": 430
+      },
+      "current": {
+        "total": 724,
+        "closed": 299,
+        "OPEN": 425
+      },
+      "support": {
+        "raw": 325,
+        "distinct": 303,
+        "distinct_closed": 240,
+        "distinct_OPEN": 63
+      }
+    }
+  ],
+  "passed": 27,
+  "failed": 0,
+  "physical_protected_mutations": 0,
+  "original_queries": 0,
+  "scope": "Sealed executable tamper controls plus direct semantic full-call-graph, whole-source-composition and independent validation-reader mutations. First attempts and source versions retained."
+}

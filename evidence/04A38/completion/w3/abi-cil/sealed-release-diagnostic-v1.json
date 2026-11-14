@@ -1,0 +1,74 @@
+{
+  "method": "BESHStatNG.AppInfrastructure.DefaultErrorReporter @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LogAndThrow(System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+  "keys": [
+    "signature",
+    "raw_IL_sha256"
+  ],
+  "differences": {
+    "signature": {
+      "before": null,
+      "after": {
+        "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "parameters": [
+          {
+            "name": "err",
+            "type": "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "bThrow",
+            "type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": true,
+            "has_default": true,
+            "default_type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "default_value": "True",
+            "attributes": [
+              "System.Runtime.InteropServices.OptionalAttribute"
+            ]
+          },
+          {
+            "name": "bShowMsg",
+            "type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": true,
+            "has_default": true,
+            "default_type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "default_value": "False",
+            "attributes": [
+              "System.Runtime.InteropServices.OptionalAttribute"
+            ]
+          },
+          {
+            "name": "context",
+            "type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": true,
+            "has_default": true,
+            "default_type": null,
+            "default_value": "",
+            "attributes": [
+              "System.Runtime.InteropServices.OptionalAttribute"
+            ]
+          }
+        ],
+        "generic_definition": false,
+        "generic_arguments": null,
+        "attributes": []
+      }
+    },
+    "raw_IL_sha256": {
+      "before": "59d191e3b036d1321904977fc07896f6e71068346288172e2455aa1b0523a0e5",
+      "after": "72bb4770c71c6ecf7abdad333a30e6ae8df049cecd0a35e738e3c0829c9538bb"
+    }
+  }
+}

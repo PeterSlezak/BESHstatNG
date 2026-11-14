@@ -39,23 +39,7 @@ Friend Module UdfRegressionOutput
     ''' <param name="includeHeader">Whether to include a header row.</param>
     ''' <returns>A spilled-object array containing the requested vector.</returns>
     Friend Function BuildResidualVectorOutput(vec() As Double, header As String, includeHeader As Boolean) As Object
-        If vec Is Nothing Then Return ExcelError.ExcelErrorNA
-
-        Dim n As Integer = vec.Length
-        Dim outRows As Integer = If(includeHeader, n + 1, n)
-        Dim out(outRows - 1, 0) As Object
-        Dim r0 As Integer = 0
-
-        If includeHeader Then
-            out(0, 0) = header
-            r0 = 1
-        End If
-
-        For i As Integer = 0 To n - 1
-            out(r0 + i, 0) = vec(i)
-        Next
-
-        Return out
+        Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.BuildResidualVectorOutput(vec, header, includeHeader))
     End Function
 
     Friend Function ComputeLinearPredictor(expandedX(,) As Double,
@@ -63,26 +47,7 @@ Friend Module UdfRegressionOutput
                                             beta() As Double,
                                             includeIntercept As Boolean,
                                             offsetVals() As Double) As Double
-        Dim eta As Double = 0.0R
-        Dim startBeta As Integer = 0
-
-        If includeIntercept AndAlso beta IsNot Nothing AndAlso beta.Length > 0 Then
-            eta = beta(0)
-            startBeta = 1
-        End If
-
-        If expandedX IsNot Nothing Then
-            Dim p As Integer = expandedX.GetLength(1)
-            For j As Integer = 0 To p - 1
-                eta += expandedX(rowIndex, j) * beta(startBeta + j)
-            Next
-        End If
-
-        If offsetVals IsNot Nothing AndAlso rowIndex >= 0 AndAlso rowIndex < offsetVals.Length Then
-            eta += offsetVals(rowIndex)
-        End If
-
-        Return eta
+        Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeLinearPredictor(expandedX, rowIndex, beta, includeIntercept, offsetVals)
     End Function
 
     Friend Function SafeExcelNumber(value As Double) As Object
@@ -97,12 +62,7 @@ Friend Module UdfRegressionOutput
     ''' <param name="categories">Outcome categories in model order.</param>
     ''' <returns>An array of column labels aligned with the category-specific matrix.</returns>
     Friend Function CategoryHeaders(prefix As String, categories() As Integer) As String()
-        If categories Is Nothing Then Return New String() {}
-        Dim out(categories.Length - 1) As String
-        For i As Integer = 0 To categories.Length - 1
-            out(i) = prefix & "(" & categories(i).ToString(CultureInfo.InvariantCulture) & ")"
-        Next
-        Return out
+        Return Global.BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.CategoryHeaders(prefix, categories)
     End Function
 
     ''' <summary>
@@ -113,27 +73,6 @@ Friend Module UdfRegressionOutput
     ''' <param name="includeHeader">Whether to include a header row.</param>
     ''' <returns>A spilled-object array containing the requested residual matrix.</returns>
     Friend Function BuildResidualMatrixOutput(mat(,) As Double, headers() As String, includeHeader As Boolean) As Object
-        If mat Is Nothing Then Return ExcelError.ExcelErrorNA
-
-        Dim n As Integer = mat.GetLength(0)
-        Dim p As Integer = mat.GetLength(1)
-        Dim outRows As Integer = If(includeHeader, n + 1, n)
-        Dim out(outRows - 1, p - 1) As Object
-        Dim r0 As Integer = 0
-
-        If includeHeader Then
-            For j As Integer = 0 To p - 1
-                out(0, j) = headers(j)
-            Next
-            r0 = 1
-        End If
-
-        For i As Integer = 0 To n - 1
-            For j As Integer = 0 To p - 1
-                out(r0 + i, j) = mat(i, j)
-            Next
-        Next
-
-        Return out
+        Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.BuildResidualMatrixOutput(mat, headers, includeHeader))
     End Function
 End Module

@@ -1,0 +1,67 @@
+{
+  "assemblies": [
+    {
+      "actual_managed": {
+        "path": ".test-rationalization-04A38.tmp/builds/w2c11-checkpoint-v1/Debug/legacy/BESHStatNG.dll",
+        "bytes": 2654208,
+        "sha256": "08e98c8825058d821a37b678333b51fbe77879bbed02ba0c8a96462752f81fe8"
+      },
+      "measured_shipping": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/packet-v2/Debug/lib/BESHStatNG.dll",
+        "bytes": 2654208,
+        "sha256": "337747828fa7f1b93f2b17631246c82775be131a2fede4070868db1ec3d68ce8"
+      },
+      "physical_bytes_equal": false
+    },
+    {
+      "actual_managed": {
+        "path": ".test-rationalization-04A38.tmp/builds/w2c11-checkpoint-v1/Debug/legacy/BESHStat.Core.dll",
+        "bytes": 2088448,
+        "sha256": "8cff0a484e5032f48cf1ecf38a403bc78a427055c2a9c40728df97671c00dbfb"
+      },
+      "measured_shipping": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/packet-v2/Debug/lib/BESHStat.Core.dll",
+        "bytes": 2088448,
+        "sha256": "f3b4df184d7b1d4e116858775400775e79f7646fa7b92bd22484a0e204a74f4f"
+      },
+      "physical_bytes_equal": false
+    },
+    {
+      "actual_managed": {
+        "path": ".test-rationalization-04A38.tmp/builds/w2c11-checkpoint-v1/Debug/legacy/BESHStat.Excel.Common.dll",
+        "bytes": 1156608,
+        "sha256": "b30ffe5ccb0f873ea31cf72a42f318851ef6d064077628889a31fb5f9e2779f8"
+      },
+      "measured_shipping": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/packet-v2/Debug/lib/BESHStat.Excel.Common.dll",
+        "bytes": 1156608,
+        "sha256": "cd0650612d3560e91a6020eb62b338e8d76beed405b7b41a5edcfa67bf678fd4"
+      },
+      "physical_bytes_equal": false
+    }
+  ],
+  "actual": {
+    "metadata": {
+      "path": "evidence/04A38/completion/w2/continuation-v11/metadata-managed-Debug-v1.json",
+      "bytes": 67157306,
+      "sha256": "21bf8b2ae87a77415c57a2bfa934d78fb70c02394d433a505557d0b81adebfac"
+    },
+    "command": {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont11\\packet-v2\\metadata-all-v5\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\builds\\w2c11-checkpoint-v1\\Debug\\legacy",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\metadata-managed-Debug-v1.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\native-metadata-owners-v3.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 6.382866899999499,
+      "stdout_sha256": "167141b14b03bc5ed8f56fe80d89c4f3966ec1ce61d87125437e00af35b99c02",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    "all_actual_method_semantics_equal": true
+  },
+  "scope": "Independent actual full Debug test-consumer production assemblies match the measured shipping method/parameter/local/exception/CIL context, with physical equality where present. No original assembly load/execution.",
+  "original_queries": 0
+}

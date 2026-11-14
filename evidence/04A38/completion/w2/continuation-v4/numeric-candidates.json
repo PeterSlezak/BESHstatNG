@@ -1,0 +1,161 @@
+{
+  "scope": "Conservative full-body/real-consumer/native-context equality candidates; dependency/source review still required before closure",
+  "rows": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs|FunctionBlock|6fa4312f86d98b0d@45355:893",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "name": "GetCategoriesInModelOrder",
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "original_method": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "native_wrapper": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "native_type_and_initializers_exact": true,
+          "entire_instructions_locals_EH_and_parameters_exact": true,
+          "portable_static_state": false,
+          "calls": [
+            "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Collections.Generic.SortedSet`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()",
+            "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Math @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Round(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Collections.Generic.SortedSet`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray``1(System.Collections.Generic.IEnumerable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Copy(System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          ]
+        },
+        {
+          "configuration": "Release",
+          "original_method": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "native_wrapper": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "native_type_and_initializers_exact": true,
+          "entire_instructions_locals_EH_and_parameters_exact": true,
+          "portable_static_state": false,
+          "calls": [
+            "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Collections.Generic.SortedSet`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()",
+            "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Math @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Round(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Collections.Generic.SortedSet`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray``1(System.Collections.Generic.IEnumerable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Copy(System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          ]
+        }
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs|FunctionBlock|7c7675f79a0802e5@47103:1886",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "name": "ComputeMultinomialEtas",
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "original_method": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_wrapper": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_type_and_initializers_exact": true,
+          "entire_instructions_locals_EH_and_parameters_exact": true,
+          "portable_static_state": false,
+          "calls": [
+            "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.ArgumentException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Item(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.ArgumentException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          ]
+        },
+        {
+          "configuration": "Release",
+          "original_method": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_wrapper": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_type_and_initializers_exact": true,
+          "entire_instructions_locals_EH_and_parameters_exact": true,
+          "portable_static_state": false,
+          "calls": [
+            "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.ArgumentException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Item(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.ArgumentException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          ]
+        }
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb|BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs|FunctionBlock|b29807c4b39d75b5@44193:1084",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "name": "ComputeOrdinalProbabilities",
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "original_method": "BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_wrapper": "BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_type_and_initializers_exact": true,
+          "entire_instructions_locals_EH_and_parameters_exact": true,
+          "portable_static_state": false,
+          "calls": [
+            "METHOD:BESHStatNG.regression.Logit @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LogisticStable(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Math @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Max(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Math @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Max(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          ]
+        },
+        {
+          "configuration": "Release",
+          "original_method": "BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_wrapper": "BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_type_and_initializers_exact": true,
+          "entire_instructions_locals_EH_and_parameters_exact": true,
+          "portable_static_state": false,
+          "calls": [
+            "METHOD:BESHStatNG.regression.Logit @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LogisticStable(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Math @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Max(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Math @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Max(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          ]
+        }
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb|BESHStatNG.UdfRegressionOutput|FunctionBlock|70d7310463f2da36@2197:1017",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+      "name": "ComputeLinearPredictor",
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "original_method": "BESHStatNG.UdfRegressionOutput @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_wrapper": "BESHStatNG.UdfRegressionOutput @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_type_and_initializers_exact": true,
+          "entire_instructions_locals_EH_and_parameters_exact": true,
+          "portable_static_state": false,
+          "calls": [
+            "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          ]
+        },
+        {
+          "configuration": "Release",
+          "original_method": "BESHStatNG.UdfRegressionOutput @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_wrapper": "BESHStatNG.UdfRegressionOutput @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "native_type_and_initializers_exact": true,
+          "entire_instructions_locals_EH_and_parameters_exact": true,
+          "portable_static_state": false,
+          "calls": [
+            "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          ]
+        }
+      ]
+    }
+  ]
+}

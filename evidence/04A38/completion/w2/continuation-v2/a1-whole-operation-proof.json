@@ -1,0 +1,24 @@
+{
+  "status": "A1_ORIGINAL_PARSER_NORMALIZER_OPERATIONS_AND_EXCEPTION_BOUNDARY_PASS",
+  "scenarios": [
+    {
+      "configuration": "Debug",
+      "production_route_tests": 14,
+      "host_argument_reader_callbacks": 1,
+      "actual_reset_before_callback": true,
+      "actual_local_parse_then_copyback": true
+    },
+    {
+      "configuration": "Release",
+      "production_route_tests": 14,
+      "host_argument_reader_callbacks": 1,
+      "actual_reset_before_callback": true,
+      "actual_local_parse_then_copyback": true
+    }
+  ],
+  "original_queries": 0,
+  "Levene": "Reset before reader allocation/invocation; one AsString evaluation; invalid/throw retain conversion mutations; accepted branch overwrites outputs in original order",
+  "Symmetry": "No pre-conversion output initialization in original or current; conversion throw and invalid token preserve original/callback state; long normalized aliases retain their original rejection",
+  "text_domain": "Fixed-literal Option Compare Text proof and A2 current-runtime observations; not arbitrary custom CultureInfo equivalence",
+  "whole_parent_closure": "Levene counted by bounded slice; Symmetry exception boundary reviewed here but its ledger remains OPEN until formally incorporated into all-dependency ownership"
+}

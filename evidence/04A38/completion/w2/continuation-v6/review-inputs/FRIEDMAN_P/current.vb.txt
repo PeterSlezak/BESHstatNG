@@ -1,0 +1,42 @@
+rt.TryGetCompleteNumericMatrixCompleteCases(data, mat, b, k) Then Return ExcelError.ExcelErrorValue
+                If b < 2 OrElse k < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names(k - 1) As String
+                For j = 0 To k - 1
+                    names(j) = $"G{j + 1}"
+                Next
+
+                Dim test = New Friedman(mat, names)
+                Dim res = test.compute()
+
+                Dim which As Integer = ParseFriedmanType(pType, defaultToT1:=True)
+                If which = 2 Then
+                    Dim pv As Double = res.Pvalue2
+                    If Double.IsNaN(pv) OrElse Double.IsInfinity(pv) Then Return ExcelError.ExcelErrorNum
+                    Return pv
+                End If
+
+                Dim pv1 As Double = res.Pvalue
+                If Double.IsNaN(pv1) OrElse Double.IsInfinity(pv1) Then Return ExcelError.ExcelErrorNum
+                Return pv1
+
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+
+        End Function
+
+        ' -------------------------------------------------------------------------------------------------------------
+        ' Kruskal-Wallis multiple comparisons
+        ' -------------------------------------------------------------------------------------------------------------
+
+        ''' <summary>
+        ''' Dunn's post-hoc multiple comparisons following a Kruskal-Wallis test.
+        ''' </summary>
+        ''' <param name="groups">
+        ''' Multi-column Excel range where each column represents one independent group.
+        ''' Non-numeric cells inside a group column are ignored. Columns with no numeric observations are ignored.
+        ''' If the first row contains non-numeric labels, it is treated as a header row and used as group names.
+        ''' </param>
+        ''' <param name="groupNames">
+        ''' Optional group names supplied as a comma-separated string or as a one-row/o

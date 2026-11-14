@@ -1,0 +1,809 @@
+{
+  "status": "IMPLEMENTED_NOT_YET_VALIDATED",
+  "members": [
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb|BESHStatNG.WorksheetFunctions.AssumptionsUDFs|FunctionBlock|6b98d763b674784c@41773:774",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb|BESHStatNG.WorksheetFunctions.AssumptionsUDFs|FunctionBlock|6b98d763b674784c@41773:774",
+      "source_path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+      "signature": "Private Function TryParseLeveneCenter(arg As Object, ByRef useMedian As Boolean, ByRef title As String) As Boolean",
+      "portable_owner": "BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38.TryParseLeveneCenter",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.AssumptionsUDFs.TryParseLeveneCenter"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb|BESHStatNG.WorksheetFunctions.AssumptionsUDFs|FunctionBlock|58035cf796fe0cde@42559:779",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb|BESHStatNG.WorksheetFunctions.AssumptionsUDFs|FunctionBlock|58035cf796fe0cde@42559:779",
+      "source_path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+      "signature": "Private Function TryParseSymmetryMethod(arg As Object, ByRef methodInternal As String, ByRef title As String) As Boolean",
+      "portable_owner": "BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38.TryParseSymmetryMethod",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.AssumptionsUDFs.TryParseSymmetryMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3ac27578477df175@206086:534",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3ac27578477df175@206086:534",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParsePcaMatrixType(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParsePcaMatrixType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParsePcaMatrixType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|aeb0a7d79b487bb5@206630:607",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|aeb0a7d79b487bb5@206630:607",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParsePcaRetentionMethod(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParsePcaRetentionMethod",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParsePcaRetentionMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|4b3f9e60ef05e0ee@207247:636",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|4b3f9e60ef05e0ee@207247:636",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseFaMatrixType(v As Object) As Multivariate.FactorAnalysisMatrixType",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaMatrixType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseFaMatrixType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3e12b05bbcb4c439@207893:1226",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3e12b05bbcb4c439@207893:1226",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseFaExtractionMethod(v As Object) As Multivariate.FactorAnalysisExtractionMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaExtractionMethod",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseFaExtractionMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|243eecfc4a84c49c@209129:765",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|243eecfc4a84c49c@209129:765",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseFaRetentionMethod(v As Object) As Multivariate.FactorAnalysisRetentionMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaRetentionMethod",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseFaRetentionMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|33ce5da9a28148d6@209904:921",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|33ce5da9a28148d6@209904:921",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseFaRotationMethod(v As Object) As Multivariate.FactorAnalysisRotationMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaRotationMethod",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseFaRotationMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|f0ac68724c999bba@210835:676",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|f0ac68724c999bba@210835:676",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseFaScoreMethod(v As Object) As Multivariate.FactorAnalysisScoreMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaScoreMethod",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseFaScoreMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8830f99090759c73@211521:693",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8830f99090759c73@211521:693",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseFaCommunalityInitialization(v As Object) As Multivariate.FactorAnalysisCommunalityInitialization",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaCommunalityInitialization",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseFaCommunalityInitialization"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1c92851a6b253058@212224:655",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1c92851a6b253058@212224:655",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseFaMissingPolicy(v As Object) As Multivariate.FactorAnalysisMissingValuePolicy",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseFaMissingPolicy",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseFaMissingPolicy"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c23c37d8a09017be@212889:840",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c23c37d8a09017be@212889:840",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseClusterStandardizationMode(v As Object) As Multivariate.ClusterStandardizationMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseClusterStandardizationMode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseClusterStandardizationMode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|9297c186425f0c18@213739:644",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|9297c186425f0c18@213739:644",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseClusterMissingValuePolicy(v As Object) As Multivariate.ClusterMissingValuePolicy",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseClusterMissingValuePolicy",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseClusterMissingValuePolicy"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|74896d134a57cf76@214393:975",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|74896d134a57cf76@214393:975",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseKMeansInitialization(v As Object) As Multivariate.KMeansInitializationMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseKMeansInitialization",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseKMeansInitialization"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8d5734445be9f149@215378:601",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8d5734445be9f149@215378:601",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseKMeansDistanceMetric(v As Object) As Multivariate.KMeansDistanceMetric",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseKMeansDistanceMetric",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseKMeansDistanceMetric"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|216c45ac3d7b4157@215989:831",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|216c45ac3d7b4157@215989:831",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseEmptyClusterHandling(v As Object) As Multivariate.EmptyClusterHandlingStrategy",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseEmptyClusterHandling",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseEmptyClusterHandling"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|78c9a6f3fe9bb3dc@216830:1276",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|78c9a6f3fe9bb3dc@216830:1276",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseHierarchicalLinkage(v As Object) As Multivariate.HierarchicalLinkageMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseHierarchicalLinkage",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseHierarchicalLinkage"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1af48ca321b7055f@218116:1263",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1af48ca321b7055f@218116:1263",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseHierarchicalDistanceMetric(v As Object) As Multivariate.HierarchicalDistanceMetric",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseHierarchicalDistanceMetric",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseHierarchicalDistanceMetric"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8a836584e6e105c5@219389:655",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8a836584e6e105c5@219389:655",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseHierarchicalMembershipDisplayMode(v As Object) As Multivariate.HierarchicalMembershipDisplayMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseHierarchicalMembershipDisplayMode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseHierarchicalMembershipDisplayMode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|7ff7743da62f4f56@220054:489",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|7ff7743da62f4f56@220054:489",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseOutputScaleUseOriginal(v As Object) As Boolean",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseOutputScaleUseOriginal",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseOutputScaleUseOriginal"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|e03f7eb02b7249f7@220553:567",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|e03f7eb02b7249f7@220553:567",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseDiscriminantMethod(v As Object) As Multivariate.DiscriminantAnalysisMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseDiscriminantMethod",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseDiscriminantMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|84c55c1cb2b022ec@221130:789",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|84c55c1cb2b022ec@221130:789",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseDiscriminantPriorMode(v As Object) As Multivariate.DiscriminantPriorMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseDiscriminantPriorMode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseDiscriminantPriorMode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|a72297718e3f804c@221929:909",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|a72297718e3f804c@221929:909",
+      "source_path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ParseDiscriminantValidationMode(v As Object) As Multivariate.DiscriminantValidationMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38.ParseDiscriminantValidationMode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ParseDiscriminantValidationMode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|7167bd65dd336bac@61430:630",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|7167bd65dd336bac@61430:630",
+      "source_path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "signature": "Private Function ParseEqualVarianceMode(arg As Object, defaultEqual As Boolean) As Boolean",
+      "portable_owner": "BESHStatNG.ExcelCommon.ParametricUDFsOptions38.ParseEqualVarianceMode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.ParametricUDFs.ParseEqualVarianceMode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d521fef63ad9e043@51939:1065",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d521fef63ad9e043@51939:1065",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function ParseRunMethod(value As String, defaultValue As PsmBackendRunMethod) As PsmBackendRunMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseRunMethod",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.ParseRunMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|6bbfbb3cd115c227@53239:556",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|6bbfbb3cd115c227@53239:556",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function ParseScoreMethod(value As String, defaultValue As PsmScoreMethod) As PsmScoreMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseScoreMethod",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.ParseScoreMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|675a03c3687b0bda@53807:872",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|675a03c3687b0bda@53807:872",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function ParseDistance(value As String, defaultValue As PsmDistanceMetric) As PsmDistanceMetric",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseDistance",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.ParseDistance"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|2485a76036aa8e22@54691:1012",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|2485a76036aa8e22@54691:1012",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function ParseCaliperScale(value As String, defaultValue As PsmCaliperScale) As PsmCaliperScale",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseCaliperScale",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.ParseCaliperScale"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|a4c067785b072089@55715:882",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|a4c067785b072089@55715:882",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function ParseOrder(value As String, defaultValue As PsmMatchingOrder) As PsmMatchingOrder",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseOrder",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.ParseOrder"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d05992834cd8c5aa@56609:900",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d05992834cd8c5aa@56609:900",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function ParseSupport(value As String, defaultValue As PsmCommonSupportMode) As PsmCommonSupportMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseSupport",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.ParseSupport"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|3838b7ccbc018d3d@57890:509",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|3838b7ccbc018d3d@57890:509",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function ParseBoolean(value As String, defaultValue As Boolean) As Boolean",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseBoolean",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.ParseBoolean"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|264e91352870dabf@58411:291",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|264e91352870dabf@58411:291",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function ParseInteger(value As String, defaultValue As Integer) As Integer",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseInteger",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.ParseInteger"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|267c69b4ffc64d5f@58714:460",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|267c69b4ffc64d5f@58714:460",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function ParseDouble(value As String, defaultValue As Double) As Double",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseDouble",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.ParseDouble"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|ff25a1167e816e49@59186:386",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|ff25a1167e816e49@59186:386",
+      "source_path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "signature": "Private Function NormalizeOptionKey(value As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.NormalizeOptionKey",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.NormalizeOptionKey"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|01ddf637104dda0c@54828:606",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|01ddf637104dda0c@54828:606",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "signature": "Private Function ParseResidualType(v As Object) As ResidualType",
+      "portable_owner": "BESHStatNG.ExcelCommon.CoxUDFsOptions38.ParseResidualType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.CoxUDFs.ParseResidualType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|6354f4c72882a598@86334:405",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|6354f4c72882a598@85944:405",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "signature": "Private Function ParseGeeLsmEstimateScale(v As Object) As Boolean",
+      "portable_owner": "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeLsmEstimateScale",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.GEEUDFs.ParseGeeLsmEstimateScale"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|186295d45df321c2@110326:992",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|186295d45df321c2@109899:992",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "signature": "Private Function ParseGeeCovarianceName(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeCovarianceName",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.GEEUDFs.ParseGeeCovarianceName"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|8f8a24bf3015ac1c@111328:618",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|8f8a24bf3015ac1c@110901:618",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "signature": "Private Function ParseGeeStandardErrorType(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeStandardErrorType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.GEEUDFs.ParseGeeStandardErrorType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|05305e32de729f83@111956:893",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|05305e32de729f83@111529:893",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "signature": "Private Function ParseGeeResidualType(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeResidualType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.GEEUDFs.ParseGeeResidualType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|2e1244d59ae5e84c@68332:977",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|2e1244d59ae5e84c@67700:977",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+      "signature": "Friend Function ParseGlmResidualType(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.GLMUDFsOptions38.ParseGlmResidualType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.GLMUDFs.ParseGlmResidualType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|fb4d504a88468bdb@43952:529",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|fb4d504a88468bdb@43952:529",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "signature": "Private Function ParseLmAnovaScope(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.LinearModelUDFsOptions38.ParseLmAnovaScope",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.LinearModelUDFs.ParseLmAnovaScope"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|bc0a8e187bc59f94@44616:929",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|bc0a8e187bc59f94@44616:929",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "signature": "Private Function ParseLmResidualType(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.LinearModelUDFsOptions38.ParseLmResidualType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.LinearModelUDFs.ParseLmResidualType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|114c024ced2c9330@90282:256",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|114c024ced2c9330@89915:256",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "signature": "Private Function NormalizeDesignColumnName(s As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.MixedModelUDFsOptions38.NormalizeDesignColumnName",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MixedModelUDFs.NormalizeDesignColumnName"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs|FunctionBlock|437e7d389c95c146@50120:1208",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs|FunctionBlock|437e7d389c95c146@48195:1208",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "signature": "Private Function ParseMultinomialResidualType(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.MultinomialLogitUDFsOptions38.ParseMultinomialResidualType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs.ParseMultinomialResidualType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb|BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs|FunctionBlock|8c2a48d29d640b22@45573:1132",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb|BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs|FunctionBlock|8c2a48d29d640b22@44914:1132",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "signature": "Private Function ParseOrdinalResidualType(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.OrdinalLogitUDFsOptions38.ParseOrdinalResidualType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs.ParseOrdinalResidualType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb|BESHStatNG.WorksheetFunctions.ZIPUDFs|FunctionBlock|a9aa48c9225644f0@56396:600",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb|BESHStatNG.WorksheetFunctions.ZIPUDFs|FunctionBlock|a9aa48c9225644f0@55939:600",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "signature": "Private Function ParseZipComponent(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.ZIPUDFsOptions38.ParseZipComponent",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.ZIPUDFs.ParseZipComponent"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb|BESHStatNG.WorksheetFunctions.ZIPUDFs|FunctionBlock|7d1b726911230ed1@57008:522",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb|BESHStatNG.WorksheetFunctions.ZIPUDFs|FunctionBlock|7d1b726911230ed1@56551:522",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "signature": "Private Function ParseZipResidualType(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.ZIPUDFsOptions38.ParseZipResidualType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.ZIPUDFs.ParseZipResidualType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|c994b9a30ec19408@68666:733",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|c994b9a30ec19408@68666:733",
+      "source_path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function ResolveSampleSizeHypothesisType(value As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsOptions38.ResolveSampleSizeHypothesisType",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.ResolveSampleSizeHypothesisType"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|da5320dac0b0b170@1641:597",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|da5320dac0b0b170@1489:597",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "signature": "Friend Function GetCoxTieMethod(arg As Object, defaultValue As TieMethod) As TieMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetCoxTieMethod",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.GetCoxTieMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|ce563298be0f0d64@13261:911",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|ce563298be0f0d64@13261:911",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+      "signature": "Friend Function ParseAgreementCiMethod(arg As Object, defaultValue As Agreement.AgreementCiMethod) As Agreement.AgreementCiMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseAgreementCiMethod",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.ParseAgreementCiMethod"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|87cb7db8290a0fc2@14180:770",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|87cb7db8290a0fc2@14180:770",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+      "signature": "Friend Function ParseBlandAltmanMode(arg As Object, defaultValue As Agreement.RepeatedBlandAltmanMode) As Agreement.RepeatedBlandAltmanMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanMode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.ParseBlandAltmanMode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|61eefe4d50b146fe@14958:1042",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|61eefe4d50b146fe@14958:1042",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+      "signature": "Friend Function ParseBlandAltmanScale(arg As Object, defaultValue As Agreement.BlandAltmanScale) As Agreement.BlandAltmanScale",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanScale",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.ParseBlandAltmanScale"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|c03d38c011bfa6a7@16008:713",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|c03d38c011bfa6a7@16008:713",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+      "signature": "Friend Function ParseBlandAltmanXAxisMode(arg As Object, defaultValue As Agreement.BlandAltmanXAxisMode) As Agreement.BlandAltmanXAxisMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanXAxisMode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.ParseBlandAltmanXAxisMode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|6c9554b02dd0d7c3@16729:838",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|6c9554b02dd0d7c3@16729:838",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+      "signature": "Friend Function ParseBlandAltmanPlotMode(arg As Object, defaultValue As Agreement.RepeatedBlandAltmanPlotMode) As Agreement.RepeatedBlandAltmanPlotMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanPlotMode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.ParseBlandAltmanPlotMode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|d6de5d9132e15b4a@17575:1021",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|d6de5d9132e15b4a@17575:1021",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+      "signature": "Friend Function ParseKappaWeighting(arg As Object, defaultValue As Agreement.KappaWeightingScheme) As Agreement.KappaWeightingScheme",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseKappaWeighting",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.ParseKappaWeighting"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|700acac27474a17f@18604:762",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|700acac27474a17f@18604:762",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+      "signature": "Friend Function ParseDemingVarianceModel(arg As Object, defaultValue As Agreement.DemingVarianceModel) As Agreement.DemingVarianceModel",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseDemingVarianceModel",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.ParseDemingVarianceModel"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|efcf20225d4429c4@19988:757",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|efcf20225d4429c4@19988:757",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+      "signature": "Friend Function ParseIccModel(arg As Object, defaultValue As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseIccModel",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.ParseIccModel"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|3ce4b0754121ccbb@487:656",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|3ce4b0754121ccbb@487:656",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+      "signature": "Friend Function GetFormulaAddressingMode(arg As Object, defaultMode As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetFormulaAddressingMode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.GetFormulaAddressingMode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|ff25a1167e816e49@465:265",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|ff25a1167e816e49@465:265",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+      "signature": "Private Function NormalizeOptionKey(value As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.NormalizeOptionKey",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.NormalizeOptionKey"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|24d3193da5f51d04@872:664",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|24d3193da5f51d04@872:664",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+      "signature": "Friend Function GetHistogramBinRule(arg As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetHistogramBinRule",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.GetHistogramBinRule"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|15c7e8ca42e9986d@6416:379",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|15c7e8ca42e9986d@6416:379",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+      "signature": "Private Function ParseRocDirection(direction As Object) As Boolean",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseRocDirection",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.ParseRocDirection"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|a2960f8b44479538@471:794",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|a2960f8b44479538@471:794",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+      "signature": "Friend Function GetRegressionFamilyCode(arg As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetRegressionFamilyCode",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.GetRegressionFamilyCode"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|a4e37404006b505f@1410:923",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|a4e37404006b505f@1410:923",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+      "signature": "Friend Function GetRegressionLinkName(arg As Object, familyDisplayName As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetRegressionLinkName",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.GetRegressionLinkName"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|9ffb0f0c5deb7bfe@3558:372",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|9ffb0f0c5deb7bfe@3399:372",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+      "signature": "Private Function NormalizeRegressionOptionKey(value As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfDataImportOptions38.NormalizeRegressionOptionKey",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.UdfDataImport.NormalizeRegressionOptionKey"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|62184ed669adf170@19424:255",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|62184ed669adf170@19424:255",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "signature": "Friend Function NormalizeResultTableTitle(title As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfOutputTablesOptions38.NormalizeResultTableTitle",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.UdfOutputTables.NormalizeResultTableTitle"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|c153721ea7532907@311:562",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|c153721ea7532907@311:562",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function NormalizeMatchToken(value As String, Optional toUpper As Boolean = True, Optional removeUnderscore As Boolean = False) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeMatchToken",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.NormalizeMatchToken"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|603632dd8d74d641@1004:159",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|603632dd8d74d641@1004:159",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function NormalizeText(v As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeText",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.NormalizeText"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|4f02f5d31aad2dbb@1310:164",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|4f02f5d31aad2dbb@1310:164",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function NormalizeToken(arg As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeToken",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.NormalizeToken"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|85ca50ff31c8e32d@1599:156",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|85ca50ff31c8e32d@1599:156",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function NormalizeKey(value As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeKey",
+      "native_string_boundary": false,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.NormalizeKey"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|49d32f28afb18f5c@2082:329",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|49d32f28afb18f5c@2082:329",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function NormalizeMixedModelOptionToken(arg As Object) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeMixedModelOptionToken",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.NormalizeMixedModelOptionToken"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|fc195a11b44740bb@2801:621",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|fc195a11b44740bb@2801:621",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function ParseMixedModelFitMethodStrict(arg As Object, analysisLabel As String) As regression.MixedModelFitMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelFitMethodStrict",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.ParseMixedModelFitMethodStrict"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|65ba76d89527230d@3856:1277",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|65ba76d89527230d@3856:1277",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function ParseMixedModelInferenceMethodStrict(arg As Object, analysisLabel As String) As regression.MixedModelFixedInferenceMethod",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelInferenceMethodStrict",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.ParseMixedModelInferenceMethodStrict"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|eb5ec70fb627cb2b@5598:1769",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|eb5ec70fb627cb2b@5598:1769",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function ParseMixedModelCovarianceOptimizerModeStrict(arg As Object, analysisLabel As String) As regression.MixedModelCovarianceOptimizerMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelCovarianceOptimizerModeStrict",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.ParseMixedModelCovarianceOptimizerModeStrict"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|0aa7ac88cca81bf1@7811:1529",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|0aa7ac88cca81bf1@7811:1529",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function ParseMixedModelCovarianceGradientModeStrict(arg As Object, analysisLabel As String) As regression.MixedModelCovarianceGradientMode",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ParseMixedModelCovarianceGradientModeStrict",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.ParseMixedModelCovarianceGradientModeStrict"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|SubBlock|79582ab0592a6e0a@9702:857",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|SubBlock|79582ab0592a6e0a@9702:857",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Sub ApplyMixedModelOptimizerShortcutToGradient(optimizerArg As Object, ByRef gradientMode As regression.MixedModelCovarianceGradientMode)",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.ApplyMixedModelOptimizerShortcutToGradient",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.ApplyMixedModelOptimizerShortcutToGradient"
+    },
+    {
+      "original_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@11023:1530",
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@11023:1530",
+      "source_path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "signature": "Friend Function NormalizeMixedModelResidualCovarianceName(arg As Object, defaultValue As String) As String",
+      "portable_owner": "BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38.NormalizeMixedModelResidualCovarianceName",
+      "native_string_boundary": true,
+      "consuming_windows_helper": "BESHStatNG.UdfScalarUtilities.NormalizeMixedModelResidualCovarianceName"
+    }
+  ],
+  "common": [
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+      "bytes": 73952,
+      "sha256": "bf77671c2489cdea0776798d503e271ad9f439d2f54b4a327376883c36f9ef98"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb",
+      "bytes": 968,
+      "sha256": "d42882ab96ae198e6e8c2c260f38d3e59439ab1adbe7c49e1c4f9347fb1c46cf"
+    }
+  ],
+  "windows": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+      "bytes": 42526,
+      "sha256": "e17ec79b72688fecc42f1ddc419362cdae3904966d8fc2302e37ce9df3a634c9"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "bytes": 232463,
+      "sha256": "a33ef6ef11aa6b00c79ca7c5224bb9a6408668234190934018740ea20b9089a0"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "bytes": 61831,
+      "sha256": "cb332a988344ddf69959e1a0349b8be849d8e28d5b49265973199960f591495d"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "bytes": 54952,
+      "sha256": "f98b926a1db53019e8d89f328c9d43be0db23d1a0729cf2b6d28f665211999f7"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "bytes": 55804,
+      "sha256": "d240816b21ca8a5476f583ec3256e4b7758b3a51bc018de00db5f670b6498172"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "bytes": 112467,
+      "sha256": "b5e969d824651f7dba08c9c862fa2f3ed0948e254979f6c13533790a511f60b2"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+      "bytes": 69744,
+      "sha256": "dd5b8f8a273ec2a44cc2acd84516394cfef9bac6207b47f9b9c0d88792fb95b3"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "bytes": 46860,
+      "sha256": "652563256df92cecbe9b7425766f7863f7e6e62ff1f64d9e68a4690a35983816"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "bytes": 92271,
+      "sha256": "a5c43b5c7588389e5fb7da2a23d5786f43d08de92fcf8798bd0fffe97ebe9013"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "bytes": 51591,
+      "sha256": "ae7ba18a58279ebc948c39d2481afed671f00f58d1dcd9b8e58af6f3f0f5478e"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "bytes": 47996,
+      "sha256": "594723690f162f9c35cbdf677f9c8da51cf9031f81ee33c9dcd12ecc37d659de"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "bytes": 57711,
+      "sha256": "dbc6126bf99cbe0e8e50247327330c4fc9db167875c66418c48f37af0e8df692"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "bytes": 72733,
+      "sha256": "5cbc0bca6f8aed7c59d6c65a7c7f72e74ec946695d2889d99eb210c176a7fdf3"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "bytes": 33745,
+      "sha256": "0b438cdeed43b409997b11e193a0fe73da9d69bbbca1def1eb659ebc03b1febd"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+      "bytes": 22371,
+      "sha256": "c8420c2c62bc80cb55d57ce6846ece8b5ed283220ef4e5a22451801591c4e088"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+      "bytes": 8958,
+      "sha256": "5e97086c2b04bd43e8e5497b8c1610b8f6d61e104b1857fd5b9fef1673e52da9"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+      "bytes": 6254,
+      "sha256": "f96f6f10f562b857337bb74e94bf76f597eca0afebe77cb08f3d9a8b68814ece"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+      "bytes": 8783,
+      "sha256": "3afc0383d565ccda3dbb280ff363cbaa614b972e9458f1911b1142b63bb7feaf"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+      "bytes": 2424,
+      "sha256": "726834fdd1192ce956bc8d3f464a1b38698644a06ab5563e7bf850c26a616f2f"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "bytes": 19631,
+      "sha256": "41b47cfc863b689605a3e211d772333528635879becce4cc18fdfc468feb60ff"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "bytes": 7131,
+      "sha256": "9faeaf584b4b97eb8cf109d56c387b7d9afa9e102d5ef8368fed8eafb13874a5"
+    }
+  ],
+  "string_comparison_intent": "Explicit CurrentCulture IgnoreCase/IgnoreKanaType/IgnoreWidth matching, preserving Windows Option Compare Text behavior; no culture normalization."
+}

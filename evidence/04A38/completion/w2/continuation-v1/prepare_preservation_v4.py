@@ -1,0 +1,6 @@
+from common import *
+s=(HERE/'verify_preservation_v3.py').read_text()
+s=s.replace("for row in protection['owner_documents_excluded']:check(row,transition=False)","owner_checked=0\n for row in protection['owner_documents_excluded']:\n  if live or (root/row['path']).is_file():check(row,transition=False);owner_checked+=1")
+s=s.replace("owner_documents=len(protection['owner_documents_excluded'])", "owner_documents_in_ledger=len(protection['owner_documents_excluded']),owner_documents_checked=owner_checked,owner_copy_scope='LIVE_ALL16' if live else 'ONLY_INCLUDED_PAYLOADS;OMITTED_OWNER_DOCUMENTS_REQUIRE_LIVE_RECEIPT'")
+with (HERE/'verify_preservation_v4.py').open('x',encoding='utf-8') as f:f.write(s)
+save('public-copy-boundary.json',dict(status='EXPLICIT_LIMITED_COPY_SCOPE',local_reader='verify_preservation_v4.py',live_scope='All4695 tracked paths,278 pins,100 captures,16 owner docs,41 snapshots',public_scope='All manifest payloads and their exact predecessor source graph; omitted owner docs/live Git/private package cache/loaded DLLs/ignored history require separate live receipts',reason='A derivative archive cannot independently establish files it omits. No evidence bytes redacted or owner document edited.'))

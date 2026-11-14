@@ -1,0 +1,88 @@
+{
+  "configuration": "Debug",
+  "attempt": "profiles-v1",
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Core\\BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2\\profiles-v1\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2\\profiles-v1\\Debug\\obj\\core\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.75249790000089,
+      "stdout_sha256": "478f84444af8f77d1fb16fc373c1d9ae8d88b93597579fa4e15a683bf8babbf5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Excel.Common\\BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2\\profiles-v1\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2\\profiles-v1\\Debug\\obj\\common\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 2.479768899996998,
+      "stdout_sha256": "799860054e70820b49c50dba327f93ecc5c8008f15151aea2052ca10286ea66b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "all_exit_zero": false,
+  "assemblies": [
+    {
+      "name": "BESHStat.Core.dll",
+      "bytes": 2086400,
+      "sha256": "b8cee290dd0e2c51de03541b9e644263ee25f7ee1f0730c709e71d9b592386e7"
+    }
+  ],
+  "source_before": {
+    "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+    "bytes": 1685339,
+    "sha256": "17ffefe2e45af70e5011fe4e4b379055f383f434bf775ca70fe0f303b8b692bc"
+  },
+  "changed_source": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "bytes": 99589,
+      "sha256": "337eaa0d2a4381e6a44d8ca8f943186e11bb9772954ccc8fa8c22f7725323cb5"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "bytes": 88544,
+      "sha256": "a25dcb6634505a88f673267d003ce9145b907e02cf041d42bb8f82e5c05f90e4"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "bytes": 24827,
+      "sha256": "f406e71770177d3cc6f132ecabde1d20391b3785472a4594f96406363348b638"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+      "bytes": 24053,
+      "sha256": "a08fcb2180e6481f822b9b66f78e02a47cfadd6e203a63f516d220fc17f916bf"
+    }
+  ],
+  "restore": "NOT_RUN",
+  "packaging": "NOT_RUN",
+  "native": "NOT_RUN"
+}

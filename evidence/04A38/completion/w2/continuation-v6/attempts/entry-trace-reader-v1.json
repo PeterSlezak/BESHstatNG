@@ -1,0 +1,11 @@
+{
+  "status": "FAILED_READER_ATTEMPT_RETAINED",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/investigate_python_delta.py",
+    "bytes": 2824,
+    "sha256": "5ad298479cf87ebc7cf65cdc2e3bf4a80465723eec4f6f0d2e52ef9d866e9a18"
+  },
+  "failure": "AssertionError len(matches)==1: bytes.decode retained CRLF while the split delimiter assumed normalized LF",
+  "correction": "v2 uses explicit CRLF-to-LF for trace splitting only; raw stderr bytes/hashes remain unchanged",
+  "source_changes": 0
+}

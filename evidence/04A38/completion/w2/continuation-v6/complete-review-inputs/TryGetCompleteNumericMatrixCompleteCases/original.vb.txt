@@ -1,0 +1,9 @@
+                                    ByRef err As ExcelError?) As Double()()
+        Return ExtractNumericGroupsFromColumnsIgnoringNonNumeric(input, err)
+    End Function
+
+    ''' <summary>
+    ''' Imports a repeated-measures matrix for legacy nonparametric UDFs, keeping complete numeric rows only.
+    ''' </summary>
+    Friend Function TryGetCompleteNumericMatrixCompleteCases(input As Object,
+                                       

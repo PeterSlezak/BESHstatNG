@@ -1,0 +1,30 @@
+{
+  "suite": "Core",
+  "part": "all",
+  "selection": null,
+  "outcomes": {
+    "Passed": 1280
+  },
+  "trx_sha256": "5a1010433dce18e676e73c444211346188a01837d753f93b23ecc150f5a36188",
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w2c13-checkpoint-v1-Debug-serial-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c13-checkpoint-v1-Debug-serial-Core\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c13-checkpoint-v1-Debug-serial-Core\\results",
+      "/Logger:trx;LogFileName=Core.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 5.831606499999907,
+    "stdout_sha256": "b3151329ac20920b0871e33a867282961535f3146097d6f7eda7e3c7d31393ec",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c13-checkpoint-v1-Debug-serial-Core/cases.json",
+    "bytes": 389016,
+    "sha256": "03c871ffe85424aa0c7297f9680795ece16dfda7557bdc8a3935d4b8711b3ddb"
+  }
+}

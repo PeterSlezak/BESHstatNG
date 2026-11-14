@@ -1,0 +1,18 @@
+"""Keep the failed sealed candidate; fix the publication-only inherited import."""
+from common import *
+source=(HERE/'verify_c8_publication_v3.py').read_text(encoding='utf-8')
+source=source.replace("sys.path.append(str(HERE))","sys.path.insert(0,str(HERE.parent/'continuation-v7'))\nsys.path.insert(0,str(HERE))")
+source=source.replace('from verify_c8_checkpoint_v1 import compute',"from verify_c8_checkpoint_v1 import compute,AUTH\nimport verify_validation_v1 as prior_validation\nneed(Path(prior_validation.__file__).resolve()==(HERE.parent/'continuation-v7/verify_validation_v1.py').resolve(),'Wrong inherited validation helper module')\nneed(sha(Path(prior_validation.__file__).read_bytes())==AUTH['../continuation-v7/verify_validation_v1.py'],'Wrong inherited validation helper source')")
+source=source.replace('publication-manifest-v1.json','publication-manifest-v2.json').replace('file-inventory-v1.json','file-inventory-v2.json')
+with (HERE/'verify_c8_publication_v4.py').open('x',encoding='utf-8',newline='\n') as f:f.write(source)
+publisher=(HERE/'publish_v4.py').read_text(encoding='utf-8').replace('verify_c8_publication_v3','verify_c8_publication_v4').replace('publication-manifest-v1.json','publication-manifest-v2.json').replace('file-inventory-v1.json','file-inventory-v2.json')
+# Only the C8 top-level successor is v2. Prior C7 publication authority stays v1.
+publisher=publisher.replace("(PREVIOUS/'publication-manifest-v2.json')","(PREVIOUS/'publication-manifest-v1.json')")
+with (HERE/'publish_v5.py').open('x',encoding='utf-8',newline='\n') as f:f.write(publisher)
+assert not (PRIVATE/'publication-v1').exists()
+save('failed-publication-attempt-v1.json',dict(status='FAILED_CANDIDATE_RETAINED_NO_ZIP_CREATED',candidate_manifest=pin(HERE/'publication-manifest-v1.json'),candidate_inventory=pin(HERE/'file-inventory-v1.json'),publisher=pin(HERE/'publish_v4.py'),verifier=pin(HERE/'verify_c8_publication_v3.py'),first_error='ValueError: New managed test unsupported',cause='Publication policy appended C6 to sys.path before inherited C7 compute appended its own folder; same helper basename resolved to C6. Standalone source reader had correctly resolved C7. No actual validation population changed.',raw='Conversation tool execution receipt for publish_v4.py export; no separate original raw stream is fabricated.',correction=dict(verifier=pin(HERE/'verify_c8_publication_v4.py'),publisher=pin(HERE/'publish_v5.py'),scope='Put C7 ahead of C6 and require exact inherited helper file path and sealed C7 source hash; reject an already cached wrong helper. No generic alias and no change to prior checkpoint files.'),source_or_test_changes=0,original_queries=0))
+with (HERE/'PUBLICATION_CORRECTION.md').open('x',encoding='utf-8',newline='\n') as f:f.write('''NOT_READY_04A38; W2_IN_PROGRESS; W3_NOT_STARTED
+
+The first6297-entry manifest remains an immutable failed candidate. Publication stopped before any ZIP was created because C6/C7 used the same validation-helper basename and publication policy import order selected C6. The independent sealed C8 source reader had passed in its correct import context. Final publication verifier v4 explicitly selects and source-pins C7 and rejects a cached wrong helper. Final publisher v5 uses top-level file-inventory-v2/publication-manifest-v2; both earlier candidate files are retained as ordinary hashed payloads, with exactly one null self-entry in the final manifest. Production/test inputs, completed validation and ownership evidence remain unchanged. The successful external receipt alone establishes final physical publication.
+''')
+print('Failed candidate preserved; final publication helper binding corrected')

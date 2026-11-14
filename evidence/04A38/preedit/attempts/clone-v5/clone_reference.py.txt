@@ -1,0 +1,69 @@
+"""Compile original UDF sources with an explicit native boundary test double.
+
+No production assembly/project is rewritten. Friend access uses the already
+authorized test assembly identity. This captures the wizard-false pure path;
+wizard-true, ExcelReference/XlCall and actual registration remain NATIVE_NOT_RUN.
+"""
+from pathlib import Path
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+from run import ROOT,HERE,PRIVATE,m
+from preflight import pin,save
+
+def main():
+    mode,config,attempt=sys.argv[1:4]
+    assert mode in ['entry','final'] and config in ['Debug','Release']
+    folder=PRIVATE/('udf-clone-'+mode+'-'+config+'-'+attempt);folder.mkdir(exist_ok=False)
+    library=PRIVATE/'builds'/mode/config/'legacy'
+    for p in library.glob('*.dll'):
+        if p.name not in ['BESHStatNG.Test.dll','BESHStat.Core.Tests.dll']:shutil.copy2(p,folder/p.name)
+    locator=Path(os.environ['ProgramFiles(x86)'])/'Microsoft Visual Studio/Installer/vswhere.exe'
+    vbc=subprocess.check_output([str(locator),'-products','*','-version','[18.0,19.0)','-find','MSBuild/Current/Bin/Roslyn/vbc.exe'],text=True).splitlines()[0]
+    originals=json.loads((HERE/'preedit/entry-source-snapshot.json').read_bytes())['files']
+    sources=[]
+    for row in originals:
+        if mode=='entry':
+            source=ROOT/row['snapshot']['path'];assert pin(row['snapshot']['path'])==row['snapshot']
+        else:source=ROOT/row['source']['path']
+        sources.append(source)
+    transport=ROOT/'BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb'
+    sources.append(transport)
+    sources.append(ROOT/'BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb')
+    # The synthetic repeated-model input methods are copied verbatim apart from
+    # test-only visibility. They contain no fit/request/result implementation.
+    fixture_source=ROOT/'BESHStatNG.Test/src/MixedModels/MixedModelOutputAndUdfTests.vb'
+    text=fixture_source.read_bytes().decode('utf-8-sig');blocks=[]
+    for name in ['BuildSyntheticMmrmInputs','BuildSyntheticLmmInputs']:
+        match=re.search(r'^\s*Private Shared Sub '+name+r'\([\s\S]*?^\s*End Sub',text,re.M)
+        assert match;original=match.group(0)
+        blocks.append(original.replace('Private Shared Sub '+name,'Public Shared Sub '+name,1))
+    fixture='Option Strict On\nImports System\nImports System.Globalization\nPublic NotInheritable Class UdfFixtureInputs38\n'+'\n'.join(blocks)+'\nEnd Class\n'
+    fixture_path=HERE/'preedit/native-safety/FixtureInputs38.vb'
+    if fixture_path.exists():assert fixture_path.read_text(encoding='utf-8')==fixture.replace('\r\n','\n')
+    else:fixture_path.write_text(fixture.replace('\r\n','\n'),encoding='utf-8',newline='\n')
+    runner=m.Runner(PRIVATE);tag='udf-clone-'+mode+'-'+config+'-'+attempt
+    facade=Path(os.environ['ProgramFiles(x86)'])/'Reference Assemblies/Microsoft/Framework/.NETFramework/v4.8/Facades/netstandard.dll'
+    references=[folder/n for n in ['BESHStatNG.dll','BESHStat.Core.dll','BESHStat.Excel.Common.dll','ExcelDna.Integration.dll']]+[facade]
+    args=[vbc,'/nologo','/target:library','/rootnamespace:BESHStatNG','/optioncompare:text','/optioninfer+','/optionexplicit+',
+        '/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization',
+        '/optimize'+('+' if config=='Release' else '-'),'/out:'+str(folder/'BESHStat.Core.Tests.dll'),
+        '/reference:System.Core.dll','/reference:System.dll','/reference:System.Data.dll','/reference:System.Xml.Linq.dll',
+        *['/reference:'+str(p) for p in references],*map(str,sources),
+        str(HERE/'preedit/native-safety/NativeBoundary38.vb'),str(fixture_path),str(HERE/'preedit/native-safety/DependencySlices38.vb')]
+    result=runner.command(tag,args)
+    assert result['exit_code']==0
+    save(('preedit' if mode=='entry' else 'compatibility')+'/clone-'+config+'-receipt.json',dict(mode=mode,configuration=config,
+        library_sha256=hashlib.sha256((folder/'BESHStat.Core.Tests.dll').read_bytes()).hexdigest(),library_bytes=(folder/'BESHStat.Core.Tests.dll').stat().st_size,
+        source_files=[pin(p.relative_to(ROOT).as_posix()) for p in sources],native_stub=pin('evidence/04A38/preedit/native-safety/NativeBoundary38.vb'),
+        native_binding='Original shipping XlCall.xlCoerce binding remains frozen source/compiled metadata only. Test-only xlCoerce getter and Excel call both count and block native attempts; zero required.',fixture_source=pin(fixture_source.relative_to(ROOT).as_posix()),fixture=pin(fixture_path.relative_to(ROOT).as_posix()),
+        command_label='udf-clone-'+mode+'-'+config+'-'+attempt,
+        semantics='Actual UDF source compiled with entry/final dependencies and native wizard-false test double. No mock statistical/result calculation. xlCoerce callback throws and counts any accidental native request; zero attempts required.',
+        native='NOT_RUN',scientific='NOT_GOLDEN'))
+    print('Compiled isolated',mode,config,'original UDF source library; native branch test double only')
+
+if __name__=='__main__':main()

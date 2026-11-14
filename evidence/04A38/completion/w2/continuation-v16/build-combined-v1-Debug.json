@@ -1,0 +1,70 @@
+{
+  "stage": "combined-v1",
+  "configuration": "Debug",
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Core\\BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont16\\combined-v1\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont16\\combined-v1\\Debug\\obj\\core\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 4.493692700001702,
+      "stdout_sha256": "7440577401b1c379df6d036a9b2f40ccaed7e954410caaaece0689743a264ee4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Excel.Common\\BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont16\\combined-v1\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont16\\combined-v1\\Debug\\obj\\common\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 2.3119883999970625,
+      "stdout_sha256": "01180c2798d80abdad7c99c787c929a8149be33b537329830bf125603205807d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "all_exit_zero": false,
+  "assemblies": [
+    {
+      "name": "BESHStat.Core.dll",
+      "bytes": 2088448,
+      "sha256": "79c9c6f055802a5762baf424b32598da2327ed39b3f23fe4df97fbe3b53c394a"
+    }
+  ],
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/production-test-freeze-v1.json",
+    "bytes": 18010,
+    "sha256": "46e501f1735275b63b9400faa2b7569f1f17e184a1f8774e7f31ecb43ae67723"
+  },
+  "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_unit_suites": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_ABI_CIL_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "restore": "NOT_RUN",
+  "packaging": "NOT_RUN",
+  "original_queries": 0
+}

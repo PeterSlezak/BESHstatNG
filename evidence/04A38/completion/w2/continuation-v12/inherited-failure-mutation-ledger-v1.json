@@ -1,0 +1,239 @@
+{
+  "nonzero_commands": [
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-Debug-serial-Common-main/command.json",
+        "bytes": 1106,
+        "sha256": "b4b83c5310fb43ec182a1ec885e267416d8ef6dcc58a6387dc164a3dcf0a8468"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-Debug-serial-Common-main/stdout.log",
+        "bytes": 4270,
+        "sha256": "423f71ad7b2ba21bef26d8b63c48eecf6755a34fa56f5da307054e3b7f98d471"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-Debug-serial-Common-main/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 1,
+      "args": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\w2c12-checkpoint-v1-Debug-serial-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\w2c12-checkpoint-v1-Debug-serial-Common-main\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c12-checkpoint-v1-Debug-serial-Common-main\\results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-Debug-serial-Legacy/command.json",
+        "bytes": 1228,
+        "sha256": "30a2d27c5a85f3ae43f8f5cda546a8748a5a83517fda624c76dfaaac4659f267"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-Debug-serial-Legacy/stdout.log",
+        "bytes": 795467,
+        "sha256": "0c83d3772ef7583e330e06adbc176cb9d38fde2dcc7e6a14b93dfb6eff07c76e"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-Debug-serial-Legacy/stderr.log",
+        "bytes": 18,
+        "sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\w2c12-checkpoint-v1-Debug-serial-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\w2c12-checkpoint-v1-Debug-serial-Legacy\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c12-checkpoint-v1-Debug-serial-Legacy\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=Legacy.trx"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-profile/command.json",
+        "bytes": 588,
+        "sha256": "f9186519a540905fa074791df68815e481ad54108acea7ec6c2747d6663b6fae"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-profile/stdout.log",
+        "bytes": 46,
+        "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-profile/stderr.log",
+        "bytes": 4353,
+        "sha256": "0654102ada8f3235089e72c98e74bc373173f9c51a2fe5b4f9738ed773030648"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "scripts/windows-migration-audit/owner_closeout.py",
+        "--profile",
+        "inventory-complete-with-approved-deferrals"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-strict/command.json",
+        "bytes": 568,
+        "sha256": "24656e63d4ec93fc45d2b47157f487b23f886507aa07d70f04633be8f748edb6"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-strict/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-checkpoint-v1-strict/stderr.log",
+        "bytes": 529,
+        "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+      },
+      "exit_code": 1,
+      "args": [
+        "dotnet",
+        "<REPO_ROOT>\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+        "--check",
+        "--strict"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-postscan-identity-reconciliation-v1/command.json",
+        "bytes": 587,
+        "sha256": "645b3f33af65bfc7f3adf0542c5e972477a851e9d81a02b306bfadd8aaf85d60"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-postscan-identity-reconciliation-v1/stdout.log",
+        "bytes": 43,
+        "sha256": "e359ec6a3aea289fa43fe3a10d649a11d0a1d21d215f902aa9bedc29175cff69"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-postscan-identity-reconciliation-v1/stderr.log",
+        "bytes": 568,
+        "sha256": "d57423fc1358d96545eee1b8823eb2ea6ce807e08bb5b815cf134fbabdeb52e7"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\postprocess_v1.py"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-1-main/command.json",
+        "bytes": 694,
+        "sha256": "b5939aeb735428d5caaffca33634f6a0dfd9ad08198f3884f0d6f5c60cdb9e8b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-1-main/stdout.log",
+        "bytes": 50,
+        "sha256": "6e57207ed9a25f15e78aafc475686e1636a0163314beb1d637bfaffbe3abd8d9"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-1-main/stderr.log",
+        "bytes": 41338,
+        "sha256": "8f97f2bdd086fe2c710fce96eea3347859f668e716f301996c8addd76f965a4d"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\python_workers_v1.py",
+        "worker",
+        "1",
+        "MAIN"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-4-main/command.json",
+        "bytes": 693,
+        "sha256": "aaed0b1bd518fac0fe65290314c703a78d424048055c462ec95f846d5ee42b5d"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-4-main/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-4-main/stderr.log",
+        "bytes": 340089,
+        "sha256": "4ccd7db7ee9949f92afa565d979b5df9836d71d666c76eaec82186933e6caf5f"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\python_workers_v1.py",
+        "worker",
+        "4",
+        "MAIN"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-5-main/command.json",
+        "bytes": 693,
+        "sha256": "13cba8706ba140c941ffeb5870e70506da57226b31d404a7ef0fcfcf91c4af62"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-5-main/stdout.log",
+        "bytes": 2,
+        "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-5-main/stderr.log",
+        "bytes": 238647,
+        "sha256": "00a684fd313a86e6c600bc7bd8cccb76e8a890ce078a09b5224372529c717136"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\python_workers_v1.py",
+        "worker",
+        "5",
+        "MAIN"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-6-main/command.json",
+        "bytes": 694,
+        "sha256": "759371c62201505046ff8400318fdfdd1dfb31d8ba6fb7a9b2ac4ada572a804f"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-6-main/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c12-python-worker-v1-6-main/stderr.log",
+        "bytes": 123013,
+        "sha256": "b09412ac52542ce4671cd6f2b032a0ccbb027cb97ae0939b2b1edc663e312a0c"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v12\\python_workers_v1.py",
+        "worker",
+        "6",
+        "MAIN"
+      ]
+    }
+  ],
+  "direct_observed_tool_attempts": [],
+  "source_attempts": "All source preimages and failed proof/tool versions retained. Initial direct shell diagnostics are explicitly observational; raw Runner streams are separately pinned.",
+  "production_defects_fixed": 0,
+  "historical_assertions_changed": 0,
+  "old_artifacts_rewritten": 0,
+  "original_queries": 0
+}

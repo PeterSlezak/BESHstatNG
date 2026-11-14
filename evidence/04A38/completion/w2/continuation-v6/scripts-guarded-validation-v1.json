@@ -1,0 +1,19 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\run_scripts_guarded.py",
+      "worker"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 4294967295,
+    "seconds": 523.1204848999914,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "cd28ba81bd799cee5230a49bfc8658a49e3b425cdba7a032d3f7496c98dbc6d5",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "tests": "Every original scripts/tests test and assertion, no filtering or outcome relabeling",
+  "optimization": "Only historical publication scanners: skip the full email regex when its mandatory @domain suffix has no match. Positive suffix uses the original finditer and Match objects. Mathematical containment and randomized/actual-slice controls recorded separately.",
+  "original_queries": 0
+}

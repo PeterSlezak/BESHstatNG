@@ -1,0 +1,61 @@
+{
+  "gate_validation": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/gate-validation.json",
+    "bytes": 30098,
+    "sha256": "3ebb043c21fe544d3ecf6b3515e045eb6361c56656c24d8f7e303641e44e9c75"
+  },
+  "guard_gap_adverse": {
+    "label": "mmrm38-v3-guard-gap-adverse",
+    "total": 10,
+    "passed": 10,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "723a31a54593b6500ca0354bfbc300202d487e4b025129d7403d550db41d7dbb",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_duplicate_flag_fabricated (test_guard_gap.GuardGapTests.test_duplicate_flag_fabricated)",
+      "test_fake_guard_count (test_guard_gap.GuardGapTests.test_fake_guard_count)",
+      "test_forged_ready (test_guard_gap.GuardGapTests.test_forged_ready)",
+      "test_headered_positive_as_guard (test_guard_gap.GuardGapTests.test_headered_positive_as_guard)",
+      "test_intact (test_guard_gap.GuardGapTests.test_intact)",
+      "test_invented_expected_output (test_guard_gap.GuardGapTests.test_invented_expected_output)",
+      "test_lost_witness (test_guard_gap.GuardGapTests.test_lost_witness)",
+      "test_production_past_stop (test_guard_gap.GuardGapTests.test_production_past_stop)",
+      "test_unapproved_new_reference (test_guard_gap.GuardGapTests.test_unapproved_new_reference)",
+      "test_wrong_source_line (test_guard_gap.GuardGapTests.test_wrong_source_line)"
+    ],
+    "nonpasses": []
+  },
+  "guard_gap_reader": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/verify_guard_gap.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 3.162149400006456,
+    "stdout_sha256": "e33d0a421ab5cd4280bb363573dcf42905eaa280b35f986409b4a6bc99334229",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "new_test_total": 79,
+  "old_test_total": 185,
+  "full_suites": "NOT_RUN: evidence-only; no production/test/project edit; required stop on essential missing original reference",
+  "inherited_receipts_only": {
+    "managed_Debug": "20556 PASS /14 inherited FAIL",
+    "managed_Release": "20556 PASS /14 inherited FAIL",
+    "Node": "916 PASS",
+    "Python": "767 PASS /178 FAIL /11 ERROR",
+    "strict": 1,
+    "profile": 1,
+    "MkDocs": 0
+  },
+  "wrappers": "Inspected;NOT_RUN due implicit restore/shared TestResults and Legacy dependency packaging;isolated offline original builds and focused lanes executed",
+  "native": "NOT_RUN",
+  "independent_R": "NOT_RUN",
+  "Office_Mac_manual": "NOT_RUN",
+  "packaging_signing_installation_deployment": "NOT_RUN",
+  "full_ready_verifier": "NOT_COMPLETED_NOT_RUN"
+}

@@ -1,0 +1,3036 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont17\\assembly-reference-inspection\\References17.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont17\\assembly-reference-inspection\\References17.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.28042149999237154,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont17\\assembly-reference-inspection\\References17.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont17\\combined-v7\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\portable-assembly-references-v1.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.1212290999974357,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "tool_source": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont17/assembly-reference-inspection/References17.cs",
+    "bytes": 464,
+    "sha256": "0b0b75170067d71ff07b02d8adcdcb1293ccb7449518835c383fe234513e09ab"
+  },
+  "current_assemblies": [
+    {
+      "name": "BESHStat.Core.dll",
+      "bytes": 2088448,
+      "sha256": "187bb6454743b245bab7c081ea557e5701d81c43a2d2b62c50a7ad9d19fb66cc"
+    },
+    {
+      "name": "BESHStat.Excel.Common.dll",
+      "bytes": 1206784,
+      "sha256": "275d4e7cef57d4ca2aaaf0fe3e87c73bc48e58d1a9588180e3c7f2eb636826e8"
+    }
+  ],
+  "reference_inspection": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/portable-assembly-references-v1.json",
+    "bytes": 330,
+    "sha256": "4b17827307fd75d9a66054e685da3a4c51fd9c2d44fba4102298e5c807f89014"
+  },
+  "original_native_method": {
+    "method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryComputeSurvivalMedianCi(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "declaring_type": "BESHStatNG.UdfDataImport",
+    "member_name": "TryComputeSurvivalMedianCi",
+    "parameter_types": [
+      "System.Object",
+      "System.Object",
+      "System.Object",
+      "System.Double",
+      "System.Object[,]&"
+    ],
+    "attributes": "PrivateScope, Assembly, Static",
+    "implementation_flags": "Managed",
+    "raw_IL_sha256": "ee07b4c72633d26962b0063d8b5f9479f29ab5d39bec8bb87a87356b3a810fce",
+    "type_initializer": false,
+    "nonliteral_static_fields": 0,
+    "locals": [
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[BESHStatNG.survival.SurvivalRecord, BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "BESHStatNG.survival.Survival_KM_LR @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+      "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+    ],
+    "init_locals": true,
+    "exceptions": [],
+    "instructions": [
+      {
+        "op": "ldarg.s",
+        "operand": 4
+      },
+      {
+        "op": "ldnull",
+        "operand": null
+      },
+      {
+        "op": "stind.ref",
+        "operand": null
+      },
+      {
+        "op": "ldnull",
+        "operand": null
+      },
+      {
+        "op": "stloc.1",
+        "operand": null
+      },
+      {
+        "op": "ldnull",
+        "operand": null
+      },
+      {
+        "op": "stloc.2",
+        "operand": null
+      },
+      {
+        "op": "ldnull",
+        "operand": null
+      },
+      {
+        "op": "stloc.3",
+        "operand": null
+      },
+      {
+        "op": "ldarg.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloca.s",
+        "operand": 1
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetSurvival2D(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          21
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldarg.1",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloca.s",
+        "operand": 2
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetSurvival2D(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          33
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "bne.un",
+        "operand": [
+          46
+        ]
+      },
+      {
+        "op": "ldloc.2",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          47
+        ]
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 19
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 19
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          53
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 4
+      },
+      {
+        "op": "ldloc.2",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 4
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 20
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 20
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          70
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldarg.2",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgPredicates @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsMissingArg(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 5
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 5
+      },
+      {
+        "op": "stloc.s",
+        "operand": 21
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 21
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          112
+        ]
+      },
+      {
+        "op": "ldarg.2",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloca.s",
+        "operand": 3
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetSurvival2D(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 22
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 22
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          92
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldloc.3",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "bne.un",
+        "operand": [
+          105
+        ]
+      },
+      {
+        "op": "ldloc.3",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 4
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          106
+        ]
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 23
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 23
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          112
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 6
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 7
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 8
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 4
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "sub.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 24
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 25
+      },
+      {
+        "op": "br",
+        "operand": [
+          195
+        ]
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 25
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloca.s",
+        "operand": 26
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgNumeric @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetFiniteDoubleFlexible(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 29
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 29
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          138
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          191
+        ]
+      },
+      {
+        "op": "ldloc.2",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 25
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloca.s",
+        "operand": 27
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgNumeric @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetStatus01Flexible(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 30
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 30
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          151
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          191
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldc.r8",
+        "operand": "0000000000000000"
+      },
+      {
+        "op": "clt",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 31
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 31
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          160
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:ALL"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 28
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 5
+      },
+      {
+        "op": "stloc.s",
+        "operand": 32
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 32
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          182
+        ]
+      },
+      {
+        "op": "ldloc.3",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 25
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgReaders @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CellToTrimmedText(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 28
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 28
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNullOrWhiteSpace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 33
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 33
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          179
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          191
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 28
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 28
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 7
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 27
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 28
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 25
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "add.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 25
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 25
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 24
+      },
+      {
+        "op": "ble",
+        "operand": [
+          125
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Count()"
+      },
+      {
+        "op": "ldc.i4.3",
+        "operand": null
+      },
+      {
+        "op": "clt",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 34
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 34
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          208
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldnull",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 9
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:ALL"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Count()"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Repeat``1(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray``1(System.Collections.Generic.IEnumerable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 10
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray()"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 7
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray()"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray()"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 10
+      },
+      {
+        "op": "ldloca.s",
+        "operand": 9
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.survival.Survival @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CreatSurvivalData(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 11
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 11
+      },
+      {
+        "op": "ldnull",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 35
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 35
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          235
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 11
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:BESHStatNG.survival.Survival_KM_LR @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(System.Collections.Generic.List`1[[BESHStatNG.survival.SurvivalRecord, BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 12
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 12
+      },
+      {
+        "op": "ldarg.3",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:BESHStatNG.survival.Survival_KM_LR @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BrookmeyerCrowleyMedianSurvivalCI(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          250
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "clt",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          251
+        ]
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 36
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 36
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          257
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Distinct``1(System.Collections.Generic.IEnumerable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToList``1(System.Collections.Generic.IEnumerable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 14
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 15
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 15
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "sub.ovf",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "add.ovf",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.4",
+        "operand": null
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 15
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "sub.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 37
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 38
+      },
+      {
+        "op": "br",
+        "operand": [
+          357
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.Conversions @ Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a.ToDouble(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 39
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.Conversions @ Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a.ToDouble(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 40
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldc.i4.2",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.Conversions @ Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a.ToDouble(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 41
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 14
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Item(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 39
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          317
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 39
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          317
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 39
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "br",
+        "operand": [
+          319
+        ]
+      },
+      {
+        "op": "ldc.i4.s",
+        "operand": 42
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldc.i4.2",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 40
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          333
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 40
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          333
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 40
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "br",
+        "operand": [
+          335
+        ]
+      },
+      {
+        "op": "ldc.i4.s",
+        "operand": 42
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldc.i4.3",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 41
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          349
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 41
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          349
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 41
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "br",
+        "operand": [
+          351
+        ]
+      },
+      {
+        "op": "ldc.i4.s",
+        "operand": 42
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "add.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 38
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 37
+      },
+      {
+        "op": "ble",
+        "operand": [
+          280
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 4
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "stind.ref",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          366
+        ]
+      },
+      {
+        "op": "ldloc.0",
+        "operand": null
+      },
+      {
+        "op": "ret",
+        "operand": null
+      }
+    ]
+  },
+  "current_constructed_portable_method": {
+    "method": "BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeSurvivalMedianCi``1(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe,BESHStatNG.ExcelCommon.UdfReadFiniteDouble38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.ExcelCommon.UdfReadStatusInteger38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "signature": {
+      "return_type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "parameters": [
+        {
+          "name": "nRows",
+          "type": "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "timeArr",
+          "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "statusArr",
+          "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "groupArr",
+          "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "hasGroup",
+          "type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "alpha",
+          "type": "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "outTable",
+          "type": "System.Object[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "byref": true,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "unavailable",
+          "type": "ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "readFinite",
+          "type": "BESHStatNG.ExcelCommon.UdfReadFiniteDouble38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "readStatus",
+          "type": "BESHStatNG.ExcelCommon.UdfReadStatusInteger38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        },
+        {
+          "name": "readText",
+          "type": "System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "byref": false,
+          "is_out": false,
+          "optional": false,
+          "has_default": false,
+          "default_type": null,
+          "default_value": null,
+          "attributes": []
+        }
+      ],
+      "generic_definition": false,
+      "generic_arguments": [
+        {
+          "name": "ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe",
+          "is_parameter": false,
+          "attributes": null,
+          "constraints": []
+        }
+      ],
+      "attributes": []
+    },
+    "declaring_type": "BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38",
+    "member_name": "ComputeSurvivalMedianCi",
+    "parameter_types": [
+      "System.Int32",
+      "System.Object[,]",
+      "System.Object[,]",
+      "System.Object[,]",
+      "System.Boolean",
+      "System.Double",
+      "System.Object[,]&",
+      "ExcelDna.Integration.ExcelError",
+      "BESHStatNG.ExcelCommon.UdfReadFiniteDouble38",
+      "BESHStatNG.ExcelCommon.UdfReadStatusInteger38",
+      "System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
+    ],
+    "attributes": "PrivateScope, Public, Static",
+    "implementation_flags": "Managed",
+    "raw_IL_sha256": "f330d440c7bb9e38bdab85c1440afabd2c1cfc37f93ef54f19372f2c11aa2400",
+    "type_initializer": false,
+    "nonliteral_static_fields": 0,
+    "locals": [
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[BESHStatNG.survival.SurvivalRecord, BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "BESHStatNG.survival.Survival_KM_LR @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+      "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+    ],
+    "init_locals": true,
+    "exceptions": [],
+    "instructions": [
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+      },
+      {
+        "op": "stloc.1",
+        "operand": null
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+      },
+      {
+        "op": "stloc.2",
+        "operand": null
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+      },
+      {
+        "op": "stloc.3",
+        "operand": null
+      },
+      {
+        "op": "ldarg.0",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "sub.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 12
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 13
+      },
+      {
+        "op": "br",
+        "operand": [
+          86
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 8
+      },
+      {
+        "op": "ldarg.1",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloca.s",
+        "operand": 14
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:BESHStatNG.ExcelCommon.UdfReadFiniteDouble38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Invoke(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          27
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          82
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 9
+      },
+      {
+        "op": "ldarg.2",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloca.s",
+        "operand": 15
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:BESHStatNG.ExcelCommon.UdfReadStatusInteger38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Invoke(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          41
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          82
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 14
+      },
+      {
+        "op": "ldc.r8",
+        "operand": "0000000000000000"
+      },
+      {
+        "op": "clt",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 19
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 19
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          50
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          257
+        ]
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:ALL"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 4
+      },
+      {
+        "op": "stloc.s",
+        "operand": 20
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 20
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          73
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 10
+      },
+      {
+        "op": "ldarg.3",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Invoke(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNullOrWhiteSpace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 21
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 21
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          70
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          82
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 14
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.2",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 15
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.3",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "add.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 12
+      },
+      {
+        "op": "ble",
+        "operand": [
+          13
+        ]
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Count()"
+      },
+      {
+        "op": "ldc.i4.3",
+        "operand": null
+      },
+      {
+        "op": "clt",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 22
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 22
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          99
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          257
+        ]
+      },
+      {
+        "op": "ldnull",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 4
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:ALL"
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Count()"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Repeat``1(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray``1(System.Collections.Generic.IEnumerable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 5
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray()"
+      },
+      {
+        "op": "ldloc.2",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray()"
+      },
+      {
+        "op": "ldloc.3",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray()"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 5
+      },
+      {
+        "op": "ldloca.s",
+        "operand": 4
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.survival.Survival @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CreatSurvivalData(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 6
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "ldnull",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 23
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 23
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          126
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          257
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:BESHStatNG.survival.Survival_KM_LR @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(System.Collections.Generic.List`1[[BESHStatNG.survival.SurvivalRecord, BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 7
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 7
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 5
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:BESHStatNG.survival.Survival_KM_LR @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BrookmeyerCrowleyMedianSurvivalCI(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 8
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          141
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "clt",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          142
+        ]
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 24
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 24
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          148
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          257
+        ]
+      },
+      {
+        "op": "ldloc.3",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Distinct``1(System.Collections.Generic.IEnumerable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToList``1(System.Collections.Generic.IEnumerable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 9
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 10
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 10
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "sub.ovf",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "add.ovf",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.4",
+        "operand": null
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 11
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 10
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "sub.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 25
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 26
+      },
+      {
+        "op": "br",
+        "operand": [
+          248
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "unbox.any",
+        "operand": "TYPE:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 27
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "unbox.any",
+        "operand": "TYPE:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 28
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldc.i4.2",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "unbox.any",
+        "operand": "TYPE:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 29
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 11
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 9
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Item(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 11
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 27
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          208
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 27
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          208
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 27
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "br",
+        "operand": [
+          210
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 7
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 11
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldc.i4.2",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 28
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          224
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 28
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          224
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 28
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "br",
+        "operand": [
+          226
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 7
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 11
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldc.i4.3",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 29
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNaN(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          240
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 29
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsInfinity(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brtrue",
+        "operand": [
+          240
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 29
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "br",
+        "operand": [
+          242
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 7
+      },
+      {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "add.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 26
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 25
+      },
+      {
+        "op": "ble",
+        "operand": [
+          171
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 6
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 11
+      },
+      {
+        "op": "stind.ref",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          257
+        ]
+      },
+      {
+        "op": "ldloc.0",
+        "operand": null
+      },
+      {
+        "op": "ret",
+        "operand": null
+      }
+    ]
+  },
+  "original_box_sites": [
+    {
+      "index": 318,
+      "instruction": {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      }
+    },
+    {
+      "index": 334,
+      "instruction": {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      }
+    },
+    {
+      "index": 350,
+      "instruction": {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      }
+    }
+  ],
+  "current_box_sites": [
+    {
+      "index": 209,
+      "instruction": {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      }
+    },
+    {
+      "index": 225,
+      "instruction": {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      }
+    },
+    {
+      "index": 241,
+      "instruction": {
+        "op": "box",
+        "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+      }
+    }
+  ],
+  "decision": "Three original conditional enum-box sites retained in the constructed Common method. The enum type is supplied by the Windows caller as a generic value argument; neither portable assembly statically references Excel-DNA/Office/WinForms. Native consumer and portable custom-enum tests both PASS distinct-box checks.",
+  "final_focused": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/error-cell-focused-final-recheck-v1.json",
+    "bytes": 6777,
+    "sha256": "440693660473bdce98dfb7b1781aabc89e80c7e097296a6d931670b82416d4af"
+  },
+  "original_queries": 0,
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+}

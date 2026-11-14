@@ -1,0 +1,112 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+
+Namespace ExcelCommon
+    Public NotInheritable Class UdfModelImportPreparation38
+        Private Sub New()
+        End Sub
+
+        Public Shared Sub InitializeResponsePredictorsPrepared(rowCount As Integer, _
+            totalCols As Integer, _
+            xCols As Integer, _
+            yName As String, _
+            predictorNames As String(), _
+            yCol As Object(,), _
+            xMat As Object(,), _
+            ByRef raw As Object(,), _
+            ByRef names As String())
+            ReDim raw(rowCount - 1, totalCols - 1)
+            ReDim names(totalCols - 1)
+
+            names(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, 0) = yCol(i, 0)
+            Next
+
+            For j As Integer = 0 To xCols - 1
+                names(j + 1) = predictorNames(j)
+                For i As Integer = 0 To rowCount - 1
+                    raw(i, j + 1) = xMat(i, j)
+                Next
+            Next
+
+        End Sub
+
+        Public Shared Sub CopyNamedColumnPrepared(raw As Object(,), _
+            names As String(), _
+            rowCount As Integer, _
+            nextCol As Integer, _
+            columnName As String, _
+            fallbackName As String, _
+            column As Object(,))
+            names(nextCol) = If(String.IsNullOrWhiteSpace(columnName), fallbackName, columnName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, nextCol) = column(i, 0)
+            Next
+        End Sub
+
+        Public Shared Sub InitializePredictorsPrepared(rowCount As Integer, _
+            totalCols As Integer, _
+            xCols As Integer, _
+            expectedPredictorNames As String(), _
+            xMat As Object(,), _
+            ByRef raw As Object(,), _
+            ByRef names As String())
+            ReDim raw(rowCount - 1, totalCols - 1)
+            ReDim names(totalCols - 1)
+
+            For j As Integer = 0 To xCols - 1
+                names(j) = expectedPredictorNames(j)
+                For i As Integer = 0 To rowCount - 1
+                    raw(i, j) = xMat(i, j)
+                Next
+            Next
+
+        End Sub
+
+        Public Shared Sub InitializeCoxPrepared(rowCount As Integer, _
+            totalCols As Integer, _
+            xCols As Integer, _
+            timeName As String, _
+            statusName As String, _
+            strataName As String, _
+            predictorNames As String(), _
+            timeCol As Object(,), _
+            statusCol As Object(,), _
+            strataCol As Object(,), _
+            xMat As Object(,), _
+            hasStrata As Boolean, _
+            ByRef raw As Object(,), _
+            ByRef names As String())
+            ReDim raw(rowCount - 1, totalCols - 1)
+            ReDim names(totalCols - 1)
+
+            names(0) = If(String.IsNullOrWhiteSpace(timeName), "Time", timeName)
+            names(1) = If(String.IsNullOrWhiteSpace(statusName), "Status", statusName)
+
+            For i As Integer = 0 To rowCount - 1
+                raw(i, 0) = timeCol(i, 0)
+                raw(i, 1) = statusCol(i, 0)
+            Next
+
+            Dim firstPredictorCol As Integer = 2
+            If hasStrata Then
+                names(2) = If(String.IsNullOrWhiteSpace(strataName), "Strata", strataName)
+                For i As Integer = 0 To rowCount - 1
+                    raw(i, 2) = strataCol(i, 0)
+                Next
+                firstPredictorCol = 3
+            End If
+
+            For j As Integer = 0 To xCols - 1
+                names(firstPredictorCol + j) = predictorNames(j)
+                For i As Integer = 0 To rowCount - 1
+                    raw(i, firstPredictorCol + j) = xMat(i, j)
+                Next
+            Next
+
+        End Sub
+    End Class
+End Namespace

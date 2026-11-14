@@ -1,0 +1,22 @@
+) = detectedNames(i)
+                    If String.IsNullOrWhiteSpace(names(i)) Then names(i) = prefix & " " & (i + 1).ToString()
+                Next
+                Return names
+            End If
+
+            Dim fallback(expectedCount - 1) As String
+            For i As Integer = 0 To expectedCount - 1
+                fallback(i) = prefix & " " & (i + 1).ToString()
+            Next
+            Return fallback
+        End Function
+
+        ''' <summary>
+        ''' Vertically stacks two 2D object arrays with a blank separator row between them.
+        ''' </summary>
+        ''' <param name="a">The first table.</param>
+        ''' <param name="b">The second table.</param>
+        ''' <returns>
+        ''' A new 2D object array containing <paramref name="a"/>, followed by one blank row,
+        ''' followed by <paramref name="b"/>.
+        ''' If either inp

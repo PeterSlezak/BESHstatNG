@@ -1,0 +1,315 @@
+﻿Option Explicit On
+
+Imports System
+Imports System.Collections.Generic
+
+Namespace regression
+
+    ''' <summary>
+    ''' Summary metrics for binary classification at a single threshold.
+    ''' Framework compatibility facade plus Excel/UDF/ROC host integration for binary classification reporting.
+    ''' </summary>
+    Public Module BinaryClassificationReporting
+
+        ''' <summary>
+        ''' Host-neutral sentinel used in portable tabular outputs to indicate that a cell
+        ''' should be rendered as a missing/not-available value by the caller. Excel UDF
+        ''' wrappers convert this sentinel to <c>ExcelErrorNA</c>; non-Excel callers can
+        ''' map it to <c>null</c>, <c>DBNull</c>, JSON <c>null</c>, or another host-specific
+        ''' missing-value representation.
+        ''' </summary>
+        Public ReadOnly MissingOutputValue As Object = New BinaryClassificationMissingOutputValue()
+
+        ''' <summary>
+        ''' Returns <c>True</c> when <paramref name="value"/> is the host-neutral missing-output sentinel.
+        ''' </summary>
+        Public Function IsMissingOutputValue(value As Object) As Boolean
+            Return Object.ReferenceEquals(value, MissingOutputValue)
+        End Function
+
+        Private NotInheritable Class BinaryClassificationMissingOutputValue
+            Public Overrides Function ToString() As String
+                Return "N/A"
+            End Function
+        End Class
+
+        ' Portable section selection/composition; UDF conversion and ROC/chart methods stay here.
+        Public Function ComposeGlmReport(y() As Double, p() As Double, weights() As Double,
+                                         options As ExcelCommon.RegressionOptions,
+                                         Optional eventRate As Double = Double.NaN) As ExcelCommon.RegressionClassificationReport
+            Return ExcelCommon.RegressionClassificationPolicy.Compose(y, p, weights, options, eventRate)
+        End Function
+
+        Public Function ComputeBinarySummary(y() As Double,
+                                             p() As Double,
+                                             Optional threshold As Double = 0.5,
+                                             Optional weights() As Double = Nothing) As BinaryClassificationSummary
+            Return BinaryClassificationCore.ComputeBinarySummary(y, p, threshold, weights)
+        End Function
+
+        Public Function BuildThresholdTable(y() As Double,
+                                            p() As Double,
+                                            Optional thresholds() As Double = Nothing,
+                                            Optional weights() As Double = Nothing,
+                                            Optional maxRows As Integer = 500) As List(Of BinaryThresholdRow)
+            Return BinaryClassificationCore.BuildThresholdTable(y, p, thresholds, weights, maxRows)
+        End Function
+
+        Public Function ComputeBrierScore(y() As Double, p() As Double, Optional weights() As Double = Nothing) As Double
+            Return BinaryClassificationCore.ComputeBrierScore(y, p, weights)
+        End Function
+
+        Public Function BuildCalibrationBins(y() As Double,
+                                             p() As Double,
+                                             Optional bins As Integer = 10,
+                                             Optional weights() As Double = Nothing,
+                                             Optional method As String = "quantile") As List(Of CalibrationBinSummary)
+            Return BinaryClassificationCore.BuildCalibrationBins(y, p, bins, weights, method)
+        End Function
+
+        ''' <summary>
+        ''' Parses and normalizes a calibration-binning method supplied from Excel.
+        ''' Supported return values are <c>quantile</c> and <c>equalwidth</c>.
+        ''' </summary>
+        Public Function ParseCalibrationMethod(arg As Object,
+                                               Optional defaultValue As String = "quantile") As String
+            If BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return defaultValue
+
+            Dim s As String = BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg)
+            If String.IsNullOrWhiteSpace(s) Then Return defaultValue
+
+            Select Case s.Trim().ToLowerInvariant()
+                Case "quantile", "quantiles", "decile", "deciles"
+                    Return "quantile"
+                Case "equalwidth", "equal-width", "equal_width", "equal width"
+                    Return "equalwidth"
+                Case Else
+                    Return defaultValue
+            End Select
+        End Function
+
+        Public Function WrapResults(summary As BinaryClassificationSummary,
+                                    Optional thresholdRows As IList(Of BinaryThresholdRow) = Nothing,
+                                    Optional calibrationRows As IList(Of CalibrationBinSummary) = Nothing,
+                                    Optional brierScore As Double = Double.NaN,
+                                    Optional eventRate As Double = Double.NaN,
+                                    Optional analysisLabel As String = "Binary Classification") As List(Of ResultTable)
+            Return BinaryClassificationCore.WrapResults(summary, thresholdRows, calibrationRows, brierScore, eventRate, analysisLabel)
+        End Function
+
+
+        ''' <summary>
+        ''' Builds an Excel spill range for a binary confusion-matrix style crosstab.
+        ''' </summary>
+        Public Function BuildBinaryCrosstabUdfOutput(summary As BinaryClassificationSummary,
+                                                     Optional includeHeader As Boolean = True) As Object
+            Return Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.BuildBinaryCrosstabUdfOutput(summary, MissingOutputValue, includeHeader)
+        End Function
+
+        ''' <summary>
+        ''' Builds an Excel spill range for threshold-performance rows.
+        ''' </summary>
+        Public Function BuildThresholdTableUdfOutput(rows As IList(Of BinaryThresholdRow),
+                                                     Optional includeHeader As Boolean = True) As Object
+            Return Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.BuildThresholdTableUdfOutput(rows, MissingOutputValue, includeHeader)
+        End Function
+
+        ''' <summary>
+        ''' Builds an Excel spill range for calibration-bin rows.
+        ''' </summary>
+        Public Function BuildCalibrationTableUdfOutput(rows As IList(Of CalibrationBinSummary),
+                                                       Optional includeHeader As Boolean = True) As Object
+            Return Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.BuildCalibrationTableUdfOutput(rows, MissingOutputValue, includeHeader)
+        End Function
+
+        ''' <summary>
+        ''' Builds an Excel spill range for chart-ready calibration points.
+        ''' </summary>
+        Public Function BuildCalibrationPointsUdfOutput(rows As IList(Of CalibrationBinSummary)) As Object
+            If rows Is Nothing OrElse rows.Count = 0 Then Return MissingOutputValue
+
+            Dim out(rows.Count, 7) As Object
+            out(0, 0) = "Bin"
+            out(0, 1) = "N"
+            out(0, 2) = "MeanPredicted"
+            out(0, 3) = "ObservedRate"
+            out(0, 4) = "LowerCI"
+            out(0, 5) = "UpperCI"
+            out(0, 6) = "ErrorMinus"
+            out(0, 7) = "ErrorPlus"
+
+            For i As Integer = 0 To rows.Count - 1
+                Dim r As CalibrationBinSummary = rows(i)
+                out(i + 1, 0) = r.BinIndex
+                out(i + 1, 1) = r.N
+                out(i + 1, 2) = r.MeanPredicted
+                out(i + 1, 3) = r.ObservedRate
+                out(i + 1, 4) = r.LowerCI
+                out(i + 1, 5) = r.UpperCI
+                out(i + 1, 6) = If(Double.IsNaN(r.LowerCI), MissingOutputValue, r.ObservedRate - r.LowerCI)
+                out(i + 1, 7) = If(Double.IsNaN(r.UpperCI), MissingOutputValue, r.UpperCI - r.ObservedRate)
+            Next
+
+            Return PrepareResultTableForUdfLocal(out)
+        End Function
+
+        ''' <summary>
+        ''' Builds an Excel spill range for the Brier score and optional supporting scalars.
+        ''' </summary>
+        Public Function BuildBrierScoreUdfOutput(score As Double,
+                                                 Optional n As Double = Double.NaN,
+                                                 Optional eventRate As Double = Double.NaN,
+                                                 Optional includeHeader As Boolean = True) As Object
+            Return Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.BuildBrierScoreUdfOutput(score, MissingOutputValue, n, eventRate, includeHeader)
+        End Function
+
+        ''' <summary>
+        ''' Builds the two-group numeric arrays required by <see cref="graphics.ROC"/> from
+        ''' binary outcomes and fitted probabilities.
+        '''
+        ''' Group layout expected by <see cref="graphics.ROC"/>:
+        ''' <list type="bullet">
+        '''   <item><description><c>x(0)</c> = positive / event group (<c>y = 1</c>)</description></item>
+        '''   <item><description><c>x(1)</c> = negative / non-event group (<c>y = 0</c>)</description></item>
+        ''' </list>
+        '''
+        ''' Each group contains the predicted probabilities for the corresponding observations.
+        ''' The ROC class then interprets those probabilities as marker values.
+        '''
+        ''' <para>
+        ''' Returns <c>Nothing</c> when the input does not contain at least one event and one
+        ''' non-event observation, because an ROC curve cannot be computed in that case.
+        ''' </para>
+        ''' </summary>
+        ''' <param name="y">Observed binary outcomes encoded as 0/1.</param>
+        ''' <param name="p">Predicted probabilities on the interval [0,1].</param>
+        ''' <returns>
+        ''' A jagged array with two elements:
+        ''' <list type="bullet">
+        '''   <item><description><c>result(0)</c> = probabilities for observations with <c>y = 1</c></description></item>
+        '''   <item><description><c>result(1)</c> = probabilities for observations with <c>y = 0</c></description></item>
+        ''' </list>
+        ''' or <c>Nothing</c> if an ROC curve cannot be constructed.
+        ''' </returns>
+        Public Function BuildRocInputFromBinaryProbabilities(y() As Double, p() As Double) As Double()()
+            If y Is Nothing OrElse p Is Nothing Then Return Nothing
+            If y.Length <> p.Length OrElse y.Length = 0 Then Return Nothing
+
+            Dim positive As New List(Of Double)()
+            Dim negative As New List(Of Double)()
+
+            For i As Integer = 0 To y.Length - 1
+                If y(i) >= 0.5R Then
+                    positive.Add(p(i))
+                Else
+                    negative.Add(p(i))
+                End If
+            Next
+
+            If positive.Count = 0 OrElse negative.Count = 0 Then Return Nothing
+
+            Return New Double()() {positive.ToArray(), negative.ToArray()}
+        End Function
+
+        ''' <summary>
+        ''' Computes an ROC analysis object from observed binary outcomes and fitted probabilities.
+        ''' </summary>
+        ''' <param name="y">Observed binary outcomes encoded as 0/1.</param>
+        ''' <param name="p">Predicted probabilities on the interval [0,1].</param>
+        ''' <param name="alphaValue">
+        ''' Two-sided significance level used for the ROC confidence intervals and AUC test.
+        ''' </param>
+        ''' <returns>
+        ''' A computed <see cref="graphics.ROC"/> instance, or <c>Nothing</c> if an ROC curve
+        ''' cannot be constructed from the supplied data.
+        ''' </returns>
+        Private Function BuildRocFromBinaryProbabilities(y() As Double,
+                                                 p() As Double,
+                                                 alphaValue As Double) As graphics.ROC
+            Dim rocInput As Double()() = BuildRocInputFromBinaryProbabilities(y, p)
+            If rocInput Is Nothing Then Return Nothing
+
+            Dim varNames() As String = {"Event (y = 1)", "Non-event (y = 0)"}
+            Dim roc As New graphics.ROC(rocInput, varNames)
+            roc.compute(alphaValue)
+            Return roc
+        End Function
+
+        ''' <summary>
+        ''' Computes an ROC curve from observed binary outcomes and fitted probabilities,
+        ''' writes the tabular ROC results to the current classification worksheet, and
+        ''' adds the ROC chart below the written tables.
+        '''
+        ''' The tabular results are taken directly from <see cref="graphics.ROC.wrapResults"/>
+        ''' and therefore include:
+        ''' <list type="bullet">
+        '''   <item><description>overall ROC summary (AUC, confidence intervals, standard errors, and p-value)</description></item>
+        '''   <item><description>cut-off table (cut-off, sensitivity, specificity)</description></item>
+        ''' </list>
+        '''
+        ''' <para>
+        ''' The ROC chart is then added to the same worksheet and positioned below the last
+        ''' written ROC table, using the writer’s updated row pointer.
+        ''' </para>
+        ''' </summary>
+        ''' <param name="writer">
+        ''' <see cref="ExcelDnaResultWriter"/> instance already pointing at the classification worksheet.
+        ''' The current row pointer is used as the insertion location for the ROC tables.
+        ''' </param>
+        ''' <param name="y">Observed binary outcomes encoded as 0/1.</param>
+        ''' <param name="p">Predicted probabilities on the interval [0,1].</param>
+        ''' <param name="alphaValue">
+        ''' Two-sided significance level used for ROC confidence intervals and the AUC test.
+        ''' The default is <c>0.05</c>.
+        ''' </param>
+        ''' <returns>
+        ''' <c>True</c> if the ROC results were successfully computed and written; otherwise <c>False</c>.
+        ''' </returns>
+        Public Function AddRocResultsAndPlotToClassificationSheet(writer As ExcelDnaResultWriter, y() As Double, p() As Double,
+                                                                  Optional alphaValue As Double = 0.05R) As Boolean
+            If writer Is Nothing OrElse writer.ws Is Nothing Then Return False
+
+            Dim roc As graphics.ROC = BuildRocFromBinaryProbabilities(y, p, alphaValue)
+            If roc Is Nothing Then Return False
+
+            Dim rocRes As List(Of ResultTable) = roc.wrapResults()
+            If rocRes IsNot Nothing AndAlso rocRes.Count > 0 Then
+                writer.shiftRowPointer() 'blank row separator before ROC output
+                Dim rrRoc As New ProcessListofResultTables(rocRes)
+                rrRoc.writeToSheet(writer, True)
+            End If
+
+            roc.addROCplot(writer.ws)
+
+            Return True
+        End Function
+
+        Private Function PercentOrMissingValue(value As Double) As Object
+            If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return MissingOutputValue
+            Return 100.0R * value
+        End Function
+
+        Private Function PrepareResultTableForUdfLocal(table As Object(,)) As Object(,)
+            If table Is Nothing Then Return Nothing
+
+            Dim rows As Integer = table.GetLength(0)
+            Dim cols As Integer = table.GetLength(1)
+            Dim out(rows - 1, cols - 1) As Object
+
+            For r As Integer = 0 To rows - 1
+                For c As Integer = 0 To cols - 1
+                    Dim v As Object = table(r, c)
+
+                    If v Is Nothing OrElse TypeOf v Is DBNull Then
+                        out(r, c) = String.Empty
+                    Else
+                        out(r, c) = v
+                    End If
+                Next
+            Next
+
+            Return out
+        End Function
+
+    End Module
+End Namespace

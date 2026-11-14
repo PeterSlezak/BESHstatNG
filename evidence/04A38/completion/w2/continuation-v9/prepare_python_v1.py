@@ -1,0 +1,12 @@
+"""Version C8 proven process-cache executor for C9 private paths; no test edits."""
+from common_v2 import *
+kernel=(PREVIOUS/'parallel_scan_v2.py').read_text(encoding='utf-8').replace('from common import *','from common_v2 import *').replace('parallel_scan_v2.py','parallel_scan_v1.py')
+with (HERE/'parallel_scan_v1.py').open('x',encoding='utf-8',newline='\n') as f:f.write(kernel)
+proof=(PREVIOUS/'prove_parallel_scan_v2.py').read_text(encoding='utf-8').replace('from common import *','from common_v2 import *').replace('from parallel_scan_v2 import','from parallel_scan_v1 import').replace('parallel_scan_v2.py','parallel_scan_v1.py').replace('prove_parallel_scan_v2.py','prove_parallel_scan_v1.py').replace('parallel-scanner-equivalence-v2.json','parallel-scanner-equivalence-v1.json').replace('parallel-scan-proof-v2','parallel-scan-proof-v1')
+with (HERE/'prove_parallel_scan_v1.py').open('x',encoding='utf-8',newline='\n') as f:f.write(proof)
+source=(PREVIOUS/'python_workers_v2.py').read_text(encoding='utf-8').replace('from common import *','from common_v2 import *').replace('python_workers_v2.py','python_workers_v1.py').replace('parallel_scan_v2','parallel_scan_v1').replace('parallel-scanner-equivalence-v2','parallel-scanner-equivalence-v1').replace('w2c8','w2c9').replace('cont8','cont9').replace('continuation-v8','continuation-v9')
+old="prior_copy=json.loads((PREVIOUS/'python-environment-corrections-v1.json').read_bytes())['copy_provenance']"
+new="prior_copy=next(r['copy_provenance'] for r in json.loads((PREVIOUS/'python-worker-accounting-v1.json').read_bytes())['executions'] if r['phase']=='DISPOSABLE')"
+assert old in source;source=source.replace(old,new)
+with (HERE/'python_workers_v1.py').open('x',encoding='utf-8',newline='\n') as f:f.write(source)
+save('python-executor-crosswalk-v1.json',dict(kernel=dict(before=pin(PREVIOUS/'parallel_scan_v2.py'),after=pin(HERE/'parallel_scan_v1.py')),equivalence=dict(before=pin(PREVIOUS/'prove_parallel_scan_v2.py'),after=pin(HERE/'prove_parallel_scan_v1.py')),worker=dict(before=pin(PREVIOUS/'python_workers_v2.py'),after=pin(HERE/'python_workers_v1.py')),differences='C9 module/import/self-pin/private labels only; source scanner AST, traversal, assertions and cache algorithm are unchanged. Reexecute all equivalence/adverse controls before the full campaign. Disposable-copy provenance binds the actual authenticated C8 planned copy, not a nonexistent correction attempt.',original_queries=0))

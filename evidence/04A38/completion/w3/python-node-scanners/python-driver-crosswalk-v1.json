@@ -1,0 +1,103 @@
+{
+  "status": "PATH_ONLY_ADAPTATION_BEFORE_ANY_PYTHON_PARENT",
+  "changes": [
+    {
+      "authority": {
+        "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/common.py",
+        "bytes": 2092,
+        "sha256": "d2679fea0f454c96eb795a88df78b351c3c8e964035dabf17f6b7c8cb54143f5"
+      },
+      "adapted": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/common.py",
+        "bytes": 2082,
+        "sha256": "1151bae4be442ab6a352ef2dcc6961515aa0d66b76361485ffe8ab50b56b2700"
+      },
+      "substitutions": [
+        {
+          "before": "ROOT=Path(__file__).resolve().parents[5]",
+          "after": "ROOT=Path(__file__).resolve().parents[6]"
+        },
+        {
+          "before": "W2=HERE.parent",
+          "after": "W2=ROOT/'evidence/04A38/completion/w2'"
+        },
+        {
+          "before": "PRIVATE=RUNROOT/'completion-w2-cont17-postcorrection-v1'",
+          "after": "PRIVATE=RUNROOT/'w3pyv1'"
+        },
+        {
+          "before": "'w2c17pc1-'+label",
+          "after": "'w3pyv1-'+label"
+        }
+      ]
+    },
+    {
+      "authority": {
+        "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/python_workers_v4.py",
+        "bytes": 17830,
+        "sha256": "43b8fd77629236ea4b64e4d80022674f4642ec5815456d33d81dc72744e05769"
+      },
+      "adapted": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/python_workers_v4.py",
+        "bytes": 17835,
+        "sha256": "3e5bb96c1b94a0b3dcda8d61e8f9e9ced61a87ffda419313fe2ce51728e69bc8"
+      },
+      "substitutions": [
+        {
+          "before": "PRIVATE=RUNROOT/'c17pc1-py'",
+          "after": "PRIVATE=RUNROOT/'w3pyv1'"
+        },
+        {
+          "before": "RUNROOT/'executions/w2c17pc1-CS/observations'",
+          "after": "RUNROOT/'executions/w3D-Common-semantic/observations'"
+        }
+      ]
+    },
+    {
+      "authority": {
+        "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "adapted": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "substitutions": []
+    },
+    {
+      "authority": {
+        "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "adapted": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "substitutions": []
+    },
+    {
+      "authority": {
+        "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "adapted": {
+        "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "substitutions": []
+    }
+  ],
+  "assertions_changed": 0,
+  "expected_parents": 956,
+  "workers_at_peak": 3,
+  "scanner_helpers": 0,
+  "shared_scanners": "Serial after all ordinary/disposable parts; no mutable evidence writers during execution",
+  "decision": "Fresh full W3 campaign required: new W3 Git candidates affect scanner domain, so whole-campaign carry-forward cannot be asserted.",
+  "retained_success_cache": "Only exact per-file bytes/policy/kernel/environment matches, with existing adverse controls; failures/errors never cached as PASS."
+}

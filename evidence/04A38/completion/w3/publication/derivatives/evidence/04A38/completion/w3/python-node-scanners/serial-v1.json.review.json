@@ -1,0 +1,106 @@
+{
+  "results": [
+    {
+      "category": "strict",
+      "result": {
+        "command": [
+          "dotnet",
+          "<REPO_ROOT>\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+          "--check",
+          "--strict"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 14.19947009999305,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-strict/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-strict/stderr.log",
+        "bytes": 529,
+        "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+      },
+      "disposition": "INHERITED_RESTRICTED;EXPLICIT_OWNER_DECISION_REQUIRED"
+    },
+    {
+      "category": "profile",
+      "result": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "scripts/windows-migration-audit/owner_closeout.py",
+          "--profile",
+          "inventory-complete-with-approved-deferrals"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 54.82785469997907,
+        "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+        "stderr_sha256": "fc6ab2fb12bb18cf0d4ed89d3d7b80675728520d883eafdf4ab863bc57a6304a",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-profile/stdout.log",
+        "bytes": 46,
+        "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-profile/stderr.log",
+        "bytes": 4934,
+        "sha256": "fc6ab2fb12bb18cf0d4ed89d3d7b80675728520d883eafdf4ab863bc57a6304a"
+      },
+      "disposition": "INHERITED_RESTRICTED;EXPLICIT_OWNER_DECISION_REQUIRED"
+    },
+    {
+      "category": "docs",
+      "result": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "mkdocs",
+          "build",
+          "--config-file",
+          "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+          "--site-dir",
+          "<ISOLATED_RUN>\\w3v1-serial\\site",
+          "--strict"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 11.351364900008775,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "ff0d0cf47cb7290b39959160af2863a5df348afed6d8d70a038b9b3f79d87e9e",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-docs/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w3v1-serial-docs/stderr.log",
+        "bytes": 780,
+        "sha256": "ff0d0cf47cb7290b39959160af2863a5df348afed6d8d70a038b9b3f79d87e9e"
+      },
+      "disposition": "VERIFIED_PASS"
+    }
+  ],
+  "audit_assembly": {
+    "path": "scripts/windows-migration-audit/bin/Debug/net10.0/WindowsMigrationAudit.dll",
+    "bytes": 116736,
+    "sha256": "2b57349f8cab90aa63c450904c52123674112b74f2abd7ab2216feaab95c5e38"
+  },
+  "prior_exits": {
+    "strict": 1,
+    "profile": 1,
+    "docs": 0
+  },
+  "NormalPlot": "Preserve actual strict ambiguity; no gate waiver or source normalization"
+}

@@ -1,0 +1,14 @@
+{
+  "before": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/verify_c14_checkpoint_template_v1.py",
+    "bytes": 18434,
+    "sha256": "3cf6f2587d954aefb5ff8cc2d9a44635984e3d8407440252557996e99e51899d"
+  },
+  "after": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/verify_c14_checkpoint_template_v2.py",
+    "bytes": 18460,
+    "sha256": "e0b56e114f39f9728db02fbf1b7baeaa2ad0de0f6bac0224b98e7df35b3b8e2b"
+  },
+  "reason": "Apply the all-child support check only to newly CLOSED modules. The first draft incorrectly required explicitly OPEN unrelated modules to have all members closed. Keep their exact OPEN status and complement; no eligibility or count rule relaxed.",
+  "original_queries": 0
+}

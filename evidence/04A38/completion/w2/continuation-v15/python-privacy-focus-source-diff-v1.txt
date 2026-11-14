@@ -1,0 +1,29 @@
+--- UNCHANGED_FULL_EXECUTOR_V1
++++ FOCUSED_EXECUTOR_V1
+@@ -74,7 +74,7 @@
+ 
+ 
+ def worker(number,phase='MAIN'):
+-    plan=json.loads((HERE/'python-discovery-inventory-v1.json').read_bytes());expected=[r for r in plan['entries'] if r['lane']==number and r['phase']==phase]
++    plan=json.loads((HERE/'python-discovery-inventory-v1.json').read_bytes());expected=[r for r in plan['entries'] if r['lane']==number and r['phase']==phase and r['id'] in ['test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values', 'test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy']]
+     work=Path.cwd().resolve();assert work.is_relative_to(PRIVATE/'python-v1')
+     for row in expected:assert sha((ROOT/row['module_path']).read_bytes())==row['module_sha256']
+     mutations=[];launches=[]
+@@ -102,7 +102,7 @@
+     if number==2:exec(compile((HERE/'tools-hook-ast-v1.py').read_text(encoding='utf-8'),'C7 unchanged C6 tools hook','exec'),hook)
+     accelerator=None
+     if number==1:
+-        from parallel_scan_v1 import Accelerator
++        from retained_scan_cache_v1 import Accelerator
+         accelerator=Accelerator(hook,work);accelerator.install()
+     selected=[]
+     if phase=='DISPOSABLE':
+@@ -142,7 +142,7 @@
+     for row in expected:assert sha((ROOT/row['module_path']).read_bytes())==row['module_sha256']
+     report=dict(lane=number,phase=phase,pid=os.getpid(),start_utc=start_utc,end_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),records=records,testsRun=result.testsRun,outcomes=dict(collections.Counter(r['outcome'] for r in records)),unittest_failures=len(result.failures),unittest_errors=len(result.errors),seconds=time.monotonic()-start,exit_code=0 if result.wasSuccessful() else 1,mutations=mutations,launches=launches,discovery_inventory=pin(HERE/'python-discovery-inventory-v1.json'))
+     if number==1:report['scanner']=dict(stats=hook['stats'],authority=hook['authority'],proxies=[dict(source=n,skips=p.skips,fallbacks=p.fallbacks) for n,p in hook['proxies']],sources=hook['source_pins'])
+-    if accelerator is not None:report['parallel_scanner']=dict(fresh=accelerator.fresh,attempts=accelerator.attempts,kernel=pin(HERE/'parallel_scan_v1.py'),proof=pin(HERE/'parallel-scanner-equivalence-v1.json'),max_helpers=5,deferred_to_original_sequential=accelerator.deferred)
++    if accelerator is not None:report['parallel_scanner']=dict(fresh=accelerator.fresh,attempts=accelerator.attempts,kernel=pin(Path(__file__).with_name('retained_scan_cache_v1.py')),proof=pin(PRIVATE/'final-drafts/retained-cache-controls-v1.json'),max_helpers=0,deferred_to_original_sequential=accelerator.deferred)
+     if number==2:report['tools']=dict(counters=hook['counters'],audit_source_unchanged=hook['before']==sha(Path(hook['audit'].__file__).read_bytes()))
+     with (work/'raw-result.json').open('x',encoding='utf-8',newline='\n') as stream:json.dump(report,stream,ensure_ascii=False,indent=2);stream.write('\n')
+     raise SystemExit(report['exit_code'])

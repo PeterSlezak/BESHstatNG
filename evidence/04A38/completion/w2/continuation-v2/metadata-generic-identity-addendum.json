@@ -1,0 +1,7 @@
+{
+  "status": "STRONGER_PASSIVE_READER_REQUIRED",
+  "old": "MethodMetadata-v3.cs",
+  "new": "MethodMetadata-v4.cs",
+  "reason": "Constructed generic DeclaringType.FullName can be Nothing; v4 uses the existing TypeName fallback/assembly identity rather than dropping the owner. Actual host method identities/counts unchanged; prior tool outputs retained, fresh original metadata only/current reads required.",
+  "original_semantic_queries": 0
+}

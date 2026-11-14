@@ -1,0 +1,24 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/fragment_correspondence_v3.py",
+    "bytes": 5024,
+    "sha256": "d7eab7e02c85e7030936fd94615b2d27413533f591a7686c0b57b1d711b93ddb"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\fragment_correspondence_v3.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 5.008897599996999,
+    "stdout_sha256": "0bc01aced2cea42e9c357ae22ac5038e01f18686d4e9d9b81217a19ea4a87c23",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

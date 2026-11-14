@@ -1,0 +1,56 @@
+{
+  "source": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v1/LateCapture38.cs",
+    "bytes": 11155,
+    "sha256": "e1764c0c009151473e0c515573ac44e83483c2429c3cab756eed13da630dd3fc"
+  },
+  "derived": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38.cs",
+    "bytes": 13251,
+    "sha256": "f3aa8772ca66398757155baa0a2dae8b1f10be37525d8ec314360a207b4034a6"
+  },
+  "edits": [
+    {
+      "original": "public static class LateCapture38 {",
+      "replacement": "public static class GeeCapture38 {\n static string ActiveHandle;\n static readonly List<object> Sessions=new List<object>();"
+    },
+    {
+      "original": "case \"Nothing\":return null;",
+      "replacement": "case \"Nothing\":return null;\n   case \"HandleReference\":if((string)d[\"session\"]!=\"fresh-case\"||ActiveHandle==null)throw new Exception(\"MISSING_FITTED_HANDLE\");return ActiveHandle;"
+    },
+    {
+      "original": "if(value==null)return \"N\";",
+      "replacement": "if(value==null)return \"N\";\n  if(value is string && ActiveHandle!=null && (string)value==ActiveHandle)return \"HANDLE:GEE:SESSION1\";"
+    },
+    {
+      "original": "if(result==null)return \"RETURN_NULL\";",
+      "replacement": "if(result==null)return \"RETURN_NULL\";if(result is string && ActiveHandle!=null && (string)result==ActiveHandle)return \"HANDLE_CREATED\";if(result is string)return \"RETURN_TEXT\";"
+    },
+    {
+      "original": "Branch=Library.GetType(\"BESHStatNG.LateBranch38\");",
+      "replacement": "Branch=Library.GetType(\"BESHStatNG.GeeBranch38\");"
+    },
+    {
+      "original": "var operations=new List<object>();var witnesses=new List<object>();",
+      "replacement": "var operations=new List<object>();var witnesses=new List<object>();\n    ActiveHandle=null;\n    var gee=Library.GetType(\"BESHStatNG.WorksheetFunctions.GEEUDFs\",true);\n    var cache=gee.GetField(\"_geeCache\",BindingFlags.NonPublic|BindingFlags.Static).GetValue(null);\n    cache.GetType().GetMethod(\"Clear\").Invoke(cache,null);\n    int modelCreations=0;"
+    },
+    {
+      "original": "var actual=target.Invoke(null,supplied);kind=Kind(actual);result=Snap(actual);",
+      "replacement": "var actual=target.Invoke(null,supplied);\n      if((string)op[\"target\"]==\"BESH.REGR.GEE_FIT\") {\n       ActiveHandle=actual as string;\n       if(ActiveHandle==null||!System.Text.RegularExpressions.Regex.IsMatch(ActiveHandle,@\"^GEE:[0-9a-f]{32}$\"))throw new Exception(\"FIT_DID_NOT_SUCCEED:\"+Snap(actual));\n       modelCreations++;\n       var h=cache.GetType().GetProperty(\"Item\").GetValue(cache,new object[]{ActiveHandle});\n       Func<string,object> property=name=>h.GetType().GetProperty(name).GetValue(h,null);\n       var names=(string[])property(\"VarNames\");\n       var parameters=(string[])gee.GetMethod(\"BuildParameterNames\",BindingFlags.NonPublic|BindingFlags.Static).Invoke(null,new object[]{names,((double[,])property(\"FittedDesign\")).GetLength(1)});\n       if(!parameters.Contains(\"X1\"))throw new Exception(\"APPROVED_DESIGN_COLUMN_X1_MISSING\");\n       Sessions.Add(new{case_id=(string)c[\"case_id\"],raw_handle=ActiveHandle,symbol=\"HANDLE:GEE:SESSION1\",parameter_names=parameters,\n        fitted_design=Snap(property(\"FittedDesign\")),fitted_time=Snap(property(\"FittedTimeValues\")),has_time=Snap(property(\"HasTime\")),alpha=Snap(property(\"Alpha\")),creation_order=modelCreations});\n      }\n      kind=Kind(actual);result=Snap(actual);"
+    },
+    {
+      "original": "writer.WriteLine((string)c[\"case_id\"]",
+      "replacement": "if(modelCreations!=1)throw new Exception(\"EXACTLY_ONE_SUCCESSFUL_FIT_REQUIRED\");\n    writer.WriteLine((string)c[\"case_id\"]"
+    },
+    {
+      "original": "if(count!=432)throw new Exception(\"CASE_COUNT_MISMATCH\");",
+      "replacement": "if(count!=12)throw new Exception(\"CASE_COUNT_MISMATCH\");\n  File.WriteAllText(output+\".sessions.json\",json.Serialize(Sessions),new UTF8Encoding(false));"
+    },
+    {
+      "original": "Console.WriteLine(\"Captured432 \"+role",
+      "replacement": "Console.WriteLine(\"Captured12 \"+role"
+    }
+  ],
+  "handle_encoding": "Raw random GUID handle retained in sessions sidecar; output uses a declared session-relative symbol bound to exactly one successful actual GEE_FIT. No statistical value normalization.",
+  "replaced_statistical_logic": false
+}

@@ -1,0 +1,88 @@
+{
+  "result": {
+    "records": [
+      {
+        "class_name": "BESHStat.Excel.Common.Tests.MigrationFixture04A02Tests",
+        "method": "TypedService_CandidateObservationOnly",
+        "test_name": "TypedService_CandidateObservationOnly (\"C30-SYN-ANOVA\",\"sk-SK\")",
+        "outcome": "Passed",
+        "duration": "00:00:00.0080496",
+        "message": ""
+      },
+      {
+        "class_name": "BESHStat.Excel.Common.Tests.MigrationFixture04A02Tests",
+        "method": "TypedService_CandidateObservationOnly",
+        "test_name": "TypedService_CandidateObservationOnly (\"C30-SYN-KW\",\"sk-SK\")",
+        "outcome": "Passed",
+        "duration": "00:00:00.0049062",
+        "message": ""
+      },
+      {
+        "class_name": "BESHStat.Excel.Common.Tests.MigrationFixture04A02Tests",
+        "method": "TypedService_CandidateObservationOnly",
+        "test_name": "TypedService_CandidateObservationOnly (\"C30-SYN-ANOVA\",\"\")",
+        "outcome": "Passed",
+        "duration": "00:00:00.1048820",
+        "message": ""
+      },
+      {
+        "class_name": "BESHStat.Excel.Common.Tests.MigrationFixture04A02Tests",
+        "method": "TypedService_CandidateObservationOnly",
+        "test_name": "TypedService_CandidateObservationOnly (\"C30-SYN-KW\",\"\")",
+        "outcome": "Passed",
+        "duration": "00:00:00.0190734",
+        "message": ""
+      }
+    ],
+    "outcomes": {
+      "Passed": 4
+    },
+    "counters": {
+      "total": "4",
+      "executed": "4",
+      "passed": "4",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "sha256": "228a53eb9eb6fb82d557d1799fbfb2476b032b614aa847543afdeb2b75d97cb7",
+    "configuration": "Debug",
+    "suite": "Common",
+    "command": {
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\w2c7-corrected-fixture-env-v1\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\w2c7-corrected-fixture-env-v1\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c7-corrected-fixture-env-v1\\results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName~MigrationFixture04A02Tests.TypedService_CandidateObservationOnly"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.576695700001437,
+      "stdout_sha256": "718a0cbe073304156830240c64861dddc5ff1c532abea45482fa8d23f47dfc18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  },
+  "first_full_run": "managed-full-execution-v1.json",
+  "first_raw_TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c7-checkpoint-v1-Debug-serial-Common/results/Common.trx",
+    "bytes": 332723772,
+    "sha256": "fd26a98edab16651ba740dff450076a74f4c0b7607238ab08e741c29fb5aa86b"
+  },
+  "correction": "Use unchanged standard runner; BESHSTAT_04A02_OBSERVATIONS is empty. The full-suite optimization in validate_managed_v1.py enabled that variable for two unrelated observation classes. Four MigrationFixture cases reject paths outside their explicit TestResults/04A-02-initial-fixtures-* contract. Only the four rejected cases are rerun; the full initial run and its18 nonpasses are retained.",
+  "source_unchanged": true,
+  "Release": "NOT_RUN_OWNER_PREFERENCE"
+}

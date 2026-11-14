@@ -1,0 +1,12 @@
+"""Append-only intended publication. Previous manifests remain ordinary hashed files."""
+from common import *
+version=sys.argv[1];name='publication-manifest-'+version+'.json';inventory='file-inventory-'+version+'.json'
+paths={r['path'] for r in json.loads((PREVIOUS/'publication-manifest-v4.json').read_bytes())['entries']}
+paths.update(p.relative_to(ROOT).as_posix() for p in HERE.rglob('*') if p.is_file() and '__pycache__' not in p.parts)
+paths.update(r['path'] for r in json.loads((HERE/'text-call-sites-final.json').read_bytes())['sources'])
+for r in json.loads((HERE/'source-transitions-final.json').read_bytes())['files']:paths.add(r['path'])
+paths.update([ (HERE/name).relative_to(ROOT).as_posix(),(HERE/inventory).relative_to(ROOT).as_posix()]);paths.discard((HERE/'full-managed-Debug-v1.json').relative_to(ROOT).as_posix());paths=sorted(paths)
+save(inventory,dict(paths=paths,scope='COMPLETE_INTENDED_C2_CHECKPOINT_PLUS_PROTECTED_PREDECESSORS;DERIVATIVE_REVIEW_COPY',private_diagnostic_exclusion=json.loads((HERE/'diagnostic-public-derivative.json').read_bytes())['raw_local'],rejected_prior_manifest='v1 is preserved forensic privacy-rejected attempt; its excluded raw diagnostic is unavailable from derivative',included='All current C2 source/inputs/current replay outputs/trace-independent metadata/tests/attempts/decisions and protected predecessor payloads; actual intended source/project/test files from predecessor',excluded=['Live Git index/history machinery','Owner documents/private tracked files not in predecessor publication','Ignored historical TestResults payload','Private current loaded DLLs/package/toolchain cache','Raw machine-path-bearing command logs','Other tracked source/help/older evidence outside this inventory'],boundary='Omitted payloads cannot be verified from copy. Live4695/278/100/16/41 receipts are separate claims. No new original semantic case.'))
+self_path=(HERE/name).relative_to(ROOT).as_posix();rows=[dict(path=p,bytes=None,sha256=None) if p==self_path else pin(ROOT/p) for p in paths]
+save(name,dict(status='NOT_READY_04A38',version=version,readiness='readiness.json',inventory=inventory,entries=rows,self_entry='Exactly one explicitly nonrecursive null hash/size; earlier manifests hashed normally',source_transition_graph='source-transitions-final.json + verify_preservation.py',scope='Partial04A38W2;noW3/owner/scientific/native acceptance'))
+print(name,len(rows)-1,'hashed payloads plus one null self')

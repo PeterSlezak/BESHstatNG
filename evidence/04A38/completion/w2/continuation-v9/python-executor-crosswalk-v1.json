@@ -1,0 +1,40 @@
+{
+  "kernel": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/parallel_scan_v2.py",
+      "bytes": 9705,
+      "sha256": "a4bacd9a574ba5e73b3036aca9a4aeb0a21a1651b405cea6d67a537828e4726d"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v9/parallel_scan_v1.py",
+      "bytes": 9708,
+      "sha256": "b3d297ec321485e9b72eed0de42fc007aaca357bd53b1ca724294c0b519be51e"
+    }
+  },
+  "equivalence": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "bytes": 5732,
+      "sha256": "5b3e59b47392046fbf9061c2c9b5cd15b4b239be921736800597b7072d2505a0"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "bytes": 5735,
+      "sha256": "ec2b1f7f32a9b3e94c2c33a4c159ea072f39ad7275e33286aa1a087518c28367"
+    }
+  },
+  "worker": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/python_workers_v2.py",
+      "bytes": 17168,
+      "sha256": "dd8dd73871ec11ab4692cb0750b3f779d1bb05296dfc1d48685858968a4c8d62"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v9/python_workers_v1.py",
+      "bytes": 17224,
+      "sha256": "697d8534e1e57f7cbe7cf854e420b9119793ed145672ec29bad22945cab2a85c"
+    }
+  },
+  "differences": "C9 module/import/self-pin/private labels only; source scanner AST, traversal, assertions and cache algorithm are unchanged. Reexecute all equivalence/adverse controls before the full campaign. Disposable-copy provenance binds the actual authenticated C8 planned copy, not a nonexistent correction attempt.",
+  "original_queries": 0
+}

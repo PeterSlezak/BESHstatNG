@@ -1,0 +1,877 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
+
+Namespace ExcelCommon
+    ''' <summary>Pure profile values; native model/cache objects never cross this boundary.</summary>
+    Public Class UdfLsmProfileValue38
+        Public Property Name As String
+        Public Property ColumnIndex As Integer
+        Public Property Value As Double
+    End Class
+
+    Public Class UdfGeeAtProfile38(Of TValue)
+        Public Property TimeSpecified As Boolean = False
+        Public Property TimeValue As Double = Double.NaN
+        Public Property ProfileValues As New List(Of TValue)()
+    End Class
+
+    Public Class UdfMmrmAtProfile38(Of TValue)
+        Public Property VisitSpecified As Boolean = False
+        Public Property VisitValue As Double = Double.NaN
+        Public Property ProfileValues As New List(Of TValue)()
+    End Class
+
+    ''' <summary>Legacy family-specific profile grammars; cell interpretation remains a host policy.</summary>
+    Public Class UdfGeeComponent38(Of TValue)
+        Public Property Label As String
+        Public Property Weight As Double
+        Public Property TimeSpecified As Boolean
+        Public Property TimeValue As Double
+        Public Property ProfileValues As New List(Of TValue)()
+    End Class
+
+    Public Class UdfMmrmComponent38(Of TValue)
+        Public Property Label As String
+        Public Property Weight As Double
+        Public Property VisitSpecified As Boolean
+        Public Property VisitValue As Double
+        Public Property ProfileValues As New List(Of TValue)()
+    End Class
+
+    Public NotInheritable Class UdfModelProfilePreparation38
+        Private Sub New()
+        End Sub
+
+        Public Shared Sub ApplyGeeAtProfile(Of TComponent As UdfGeeComponent38(Of TValue), TProfile As UdfGeeAtProfile38(Of TValue), TValue As {UdfLsmProfileValue38, New})(
+            components As List(Of TComponent), atProfile As TProfile)
+            If components Is Nothing OrElse atProfile Is Nothing Then Exit Sub
+
+            For Each component As TComponent In components
+                If component Is Nothing Then Continue For
+
+                If Not component.TimeSpecified AndAlso atProfile.TimeSpecified Then
+                    component.TimeSpecified = True
+                    component.TimeValue = atProfile.TimeValue
+                End If
+
+                For Each atValue As TValue In atProfile.ProfileValues
+                    If Not GeeComponentHasProfileColumn(Of TComponent, TValue)(component, atValue.ColumnIndex) Then
+                        component.ProfileValues.Add(New TValue With {
+                            .Name = atValue.Name,
+                            .ColumnIndex = atValue.ColumnIndex,
+                            .Value = atValue.Value
+                        })
+                    End If
+                Next
+            Next
+        End Sub
+
+        Private Shared Function GeeComponentHasProfileColumn(Of TComponent As UdfGeeComponent38(Of TValue), TValue As UdfLsmProfileValue38)(
+            component As TComponent, columnIndex As Integer) As Boolean
+            If component Is Nothing OrElse component.ProfileValues Is Nothing Then Return False
+            For Each value As TValue In component.ProfileValues
+                If value.ColumnIndex = columnIndex Then Return True
+            Next
+            Return False
+        End Function
+
+        Public Shared Sub ApplyMmrmAtProfile(Of TComponent As UdfMmrmComponent38(Of TValue), TProfile As UdfMmrmAtProfile38(Of TValue), TValue As {UdfLsmProfileValue38, New})(
+            components As List(Of TComponent), atProfile As TProfile)
+            If components Is Nothing OrElse atProfile Is Nothing Then Exit Sub
+
+            For Each component As TComponent In components
+                If component Is Nothing Then Continue For
+
+                If Not component.VisitSpecified AndAlso atProfile.VisitSpecified Then
+                    component.VisitSpecified = True
+                    component.VisitValue = atProfile.VisitValue
+                End If
+
+                For Each atValue As TValue In atProfile.ProfileValues
+                    If Not MmrmComponentHasProfileColumn(Of TComponent, TValue)(component, atValue.ColumnIndex) Then
+                        component.ProfileValues.Add(New TValue With {
+                            .Name = atValue.Name,
+                            .ColumnIndex = atValue.ColumnIndex,
+                            .Value = atValue.Value
+                        })
+                    End If
+                Next
+            Next
+        End Sub
+
+        Private Shared Function MmrmComponentHasProfileColumn(Of TComponent As UdfMmrmComponent38(Of TValue), TValue As UdfLsmProfileValue38)(
+            component As TComponent, columnIndex As Integer) As Boolean
+            If component Is Nothing OrElse component.ProfileValues Is Nothing Then Return False
+
+            For Each value As TValue In component.ProfileValues
+                If value.ColumnIndex = columnIndex Then Return True
+            Next
+
+            Return False
+        End Function
+
+        Public Delegate Function FiniteDoubleReader(cell As Object, ByRef value As Double) As Boolean
+
+        ''' <summary>Describe the selected visit first, then design values in insertion order.</summary>
+        Public Shared Function FormatMmrmAtProfileDescription(Of TProfile As UdfMmrmAtProfile38(Of TValue), TValue As UdfLsmProfileValue38)(
+            atProfile As TProfile) As String
+            If atProfile Is Nothing Then Return String.Empty
+
+            Dim parts As New List(Of String)()
+            If atProfile.VisitSpecified Then
+                parts.Add("visit=" & Global.BESHStatNG.regression.MixedModelPostEstimation.FormatProfileValue(atProfile.VisitValue))
+            End If
+
+            For Each profileValue As TValue In atProfile.ProfileValues
+                parts.Add(profileValue.Name & "=" & Global.BESHStatNG.regression.MixedModelPostEstimation.FormatProfileValue(profileValue.Value))
+            Next
+
+            Return String.Join(", ", parts)
+        End Function
+
+        ''' <summary>
+        ''' Validate saved design/profile state and fill the caller-visible mask.
+        ''' Model access stays lazy at the native boundary; the formatting policy
+        ''' is invoked only after a positive mask, preserving error/ByRef timing.
+        ''' </summary>
+        Public Shared Function TryBuildMmrmAtProfileRowMask(Of TProfile As UdfMmrmAtProfile38(Of TValue), TValue As UdfLsmProfileValue38)(
+            modelAvailable As Boolean, design As Func(Of Double(,)), visits As Func(Of Double()), atProfile As TProfile,
+            format As Func(Of TProfile, String), ByRef rowMask As Boolean(), ByRef profileDescription As String,
+            ByRef errorMessage As String) As Boolean
+            rowMask = Nothing
+            profileDescription = Nothing
+            errorMessage = Nothing
+
+            If Not modelAvailable OrElse design() Is Nothing OrElse visits() Is Nothing Then
+                errorMessage = "the fit does not contain the design rows and visit values required for LS-means profiles."
+                Return False
+            End If
+
+            If atProfile Is Nothing OrElse (Not atProfile.VisitSpecified AndAlso atProfile.ProfileValues.Count = 0) Then
+                errorMessage = "the supplied profile range does not contain any visit or fitted design-column settings."
+                Return False
+            End If
+
+            Dim n As Integer = design().GetLength(0)
+            If visits().Length <> n Then
+                errorMessage = "the fit does not contain usable visit values for the saved design rows."
+                Return False
+            End If
+
+            rowMask = New Boolean(n - 1) {}
+            Dim matchedCount As Integer = 0
+
+            Global.BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38.FillRowMask(
+                design(), visits(), atProfile.VisitSpecified, atProfile.VisitValue,
+                atProfile.ProfileValues, Function(profile) profile.ColumnIndex, Function(profile) profile.Value,
+                AddressOf Global.BESHStatNG.regression.MixedModelPostEstimation.NearlyEqual, rowMask, matchedCount)
+
+            If matchedCount <= 0 Then
+                errorMessage = "no observed design rows matched the supplied LS-means profile."
+                Return False
+            End If
+
+            profileDescription = format(atProfile)
+            Return True
+        End Function
+
+        Public Shared Function TryGetGeeAtSpec(Of TProfile As {UdfGeeAtProfile38(Of TValue), New}, TValue As {UdfLsmProfileValue38, New})(
+            arr As Object(,), parameterNames As String(),
+            isBlank As Func(Of Object, Boolean), cellText As Func(Of Object, String), tryFinite As FiniteDoubleReader,
+            ByRef atProfile As TProfile, ByRef errorMessage As String) As Boolean
+            Dim rows As Integer = arr.GetLength(0)
+            Dim cols As Integer = arr.GetLength(1)
+            If rows < 2 OrElse cols < 1 Then
+                errorMessage = "at must contain a header row and at least one data row, or be omitted."
+                Return False
+            End If
+
+            Dim header(cols - 1) As String
+            For c As Integer = 0 To cols - 1
+                header(c) = cellText(arr(0, c))
+            Next
+
+            Dim nameCol As Integer = GEEUDFsMetadata38.GeeFindHeaderIndex(header, "name", "variable", "effect", "column", "profile", "at")
+            Dim valueCol As Integer = GEEUDFsMetadata38.GeeFindHeaderIndex(header, "value", "val", "setting", "atvalue")
+            Dim parsed As New TProfile()
+
+            If nameCol >= 0 AndAlso valueCol >= 0 AndAlso nameCol <> valueCol Then
+                For r As Integer = 1 To rows - 1
+                    Dim rowHasAny As Boolean = False
+                    For c As Integer = 0 To cols - 1
+                        If Not isBlank(arr(r, c)) Then
+                            rowHasAny = True
+                            Exit For
+                        End If
+                    Next
+                    If Not rowHasAny Then Continue For
+
+                    Dim requestedName As String = cellText(arr(r, nameCol))
+                    If String.IsNullOrWhiteSpace(requestedName) Then
+                        errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing name/variable value."
+                        Return False
+                    End If
+
+                    Dim value As Double
+                    If Not tryFinite(arr(r, valueCol), value) Then
+                        errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
+                                       " has a missing or nonnumeric value for """ & requestedName & """."
+                        Return False
+                    End If
+
+                    If Not AddGeeAtValue(Of TProfile, TValue)(parsed, parameterNames, requestedName, value,
+                                                    "at row " & (r + 1).ToString(CultureInfo.InvariantCulture),
+                                                    errorMessage) Then
+                        Return False
+                    End If
+                Next
+            Else
+                Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()
+                Dim timeCol As Integer = GEEUDFsMetadata38.GeeFindHeaderIndex(header, "time", "visit")
+
+                For c As Integer = 0 To cols - 1
+                    If c = timeCol Then Continue For
+                    If String.IsNullOrWhiteSpace(header(c)) Then Continue For
+
+                    Dim idx As Integer = GEEUDFsMetadata38.GeeFindDesignColumnIndex(parameterNames, header(c))
+                    If idx < 0 Then
+                        errorMessage = "at column header """ & header(c) & """ was not found among fitted design columns: " &
+                                       String.Join(", ", parameterNames) & ". Use header 'time' for the fitted time/order column."
+                        Return False
+                    End If
+
+                    profileColumns.Add(New KeyValuePair(Of Integer, Integer)(c, idx))
+                Next
+
+                If timeCol < 0 AndAlso profileColumns.Count = 0 Then
+                    errorMessage = "at must contain either name/value headers or at least one time/design-column header."
+                    Return False
+                End If
+
+                Dim dataRow As Integer = -1
+                For r As Integer = 1 To rows - 1
+                    Dim rowHasAny As Boolean = False
+                    For c As Integer = 0 To cols - 1
+                        If Not isBlank(arr(r, c)) Then
+                            rowHasAny = True
+                            Exit For
+                        End If
+                    Next
+                    If Not rowHasAny Then Continue For
+
+                    If dataRow >= 0 Then
+                        errorMessage = "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+                        Return False
+                    End If
+                    dataRow = r
+                Next
+
+                If dataRow < 0 Then
+                    errorMessage = "at does not contain any nonblank data row."
+                    Return False
+                End If
+
+                If timeCol >= 0 AndAlso Not isBlank(arr(dataRow, timeCol)) Then
+                    Dim timeValue As Double
+                    If Not tryFinite(arr(dataRow, timeCol), timeValue) Then
+                        errorMessage = "at time value must be numeric and finite."
+                        Return False
+                    End If
+
+                    If Not AddGeeAtValue(Of TProfile, TValue)(parsed, parameterNames, "time", timeValue, "at time column", errorMessage) Then
+                        Return False
+                    End If
+                End If
+
+                For Each pair As KeyValuePair(Of Integer, Integer) In profileColumns
+                    If isBlank(arr(dataRow, pair.Key)) Then Continue For
+
+                    Dim profileValue As Double
+                    If Not tryFinite(arr(dataRow, pair.Key), profileValue) Then
+                        errorMessage = "at value for column """ & header(pair.Key) & """ must be numeric and finite."
+                        Return False
+                    End If
+
+                    If Not AddGeeAtValue(Of TProfile, TValue)(parsed, parameterNames, parameterNames(pair.Value), profileValue,
+                                                    "at column """ & header(pair.Key) & """", errorMessage) Then
+                        Return False
+                    End If
+                Next
+            End If
+
+            If Not parsed.TimeSpecified AndAlso parsed.ProfileValues.Count = 0 Then
+                errorMessage = "at does not specify any nonblank time or fitted design-column values."
+                Return False
+            End If
+
+            atProfile = parsed
+            Return True
+        End Function
+
+        Public Shared Function AddGeeAtValue(Of TProfile As UdfGeeAtProfile38(Of TValue), TValue As {UdfLsmProfileValue38, New})(
+            atProfile As TProfile, parameterNames As String(), requestedName As String, value As Double,
+            sourceDescription As String, ByRef errorMessage As String) As Boolean
+            If atProfile Is Nothing Then
+                errorMessage = "internal error: AT profile was not initialized."
+                Return False
+            End If
+
+            If String.Equals(GEEUDFsMetadata38.GeeNormalizeDesignColumnName(requestedName), GEEUDFsMetadata38.GeeNormalizeDesignColumnName("time"), StringComparison.OrdinalIgnoreCase) OrElse
+               String.Equals(GEEUDFsMetadata38.GeeNormalizeDesignColumnName(requestedName), GEEUDFsMetadata38.GeeNormalizeDesignColumnName("visit"), StringComparison.OrdinalIgnoreCase) Then
+                If atProfile.TimeSpecified Then
+                    errorMessage = "at specifies time more than once."
+                    Return False
+                End If
+                atProfile.TimeSpecified = True
+                atProfile.TimeValue = value
+                Return True
+            End If
+
+            Dim idx As Integer = GEEUDFsMetadata38.GeeFindDesignColumnIndex(parameterNames, requestedName)
+            If idx < 0 Then
+                errorMessage = sourceDescription & " names """ & requestedName & """, which was not found among fitted design columns: " &
+                               String.Join(", ", parameterNames) & "."
+                Return False
+            End If
+
+            For Each existing As TValue In atProfile.ProfileValues
+                If existing.ColumnIndex = idx Then
+                    errorMessage = "at specifies design column """ & parameterNames(idx) & """ more than once."
+                    Return False
+                End If
+            Next
+
+            atProfile.ProfileValues.Add(New TValue With {
+                .Name = parameterNames(idx),
+                .ColumnIndex = idx,
+                .Value = value
+            })
+            Return True
+        End Function
+
+        Public Shared Function TryGetMmrmAtSpec(Of TProfile As {UdfMmrmAtProfile38(Of TValue), New}, TValue As {UdfLsmProfileValue38, New})(
+            arr As Object(,), modelAvailable As Boolean, names As Func(Of String()),
+            isBlank As Func(Of Object, Boolean), cellText As Func(Of Object, String), tryFinite As FiniteDoubleReader,
+            ByRef atProfile As TProfile, ByRef errorMessage As String) As Boolean
+            Dim rows As Integer = arr.GetLength(0)
+            Dim cols As Integer = arr.GetLength(1)
+            If rows < 1 OrElse cols < 1 Then
+                errorMessage = "at must contain at least one nonblank name/value setting, or be omitted."
+                Return False
+            End If
+
+            Dim headerlessAt As New TProfile()
+            Dim attemptedHeaderlessAt As Boolean = False
+            If TryGetMmrmHeaderlessNameValueAtSpec(Of TProfile, TValue)(arr, modelAvailable, names, headerlessAt, isBlank, cellText, tryFinite, errorMessage, attemptedHeaderlessAt) Then
+                atProfile = headerlessAt
+                Return True
+            End If
+            If attemptedHeaderlessAt Then Return False
+
+            If rows < 2 Then
+                errorMessage = "at must contain a header row and at least one data row, or use two-column headerless name/value form."
+                Return False
+            End If
+
+            Dim header(cols - 1) As String
+            For c As Integer = 0 To cols - 1
+                header(c) = cellText(arr(0, c))
+            Next
+
+            Dim nameCol As Integer = UdfDataImportMetadata38.MmrmFindHeaderIndex(header, "name", "variable", "effect", "column", "profile", "at")
+            Dim valueCol As Integer = UdfDataImportMetadata38.MmrmFindHeaderIndex(header, "value", "val", "setting", "atvalue")
+
+            Dim parsed As New TProfile()
+
+            If nameCol >= 0 AndAlso valueCol >= 0 AndAlso nameCol <> valueCol Then
+                For r As Integer = 1 To rows - 1
+                    Dim rowHasAny As Boolean = False
+                    For c As Integer = 0 To cols - 1
+                        If Not isBlank(arr(r, c)) Then
+                            rowHasAny = True
+                            Exit For
+                        End If
+                    Next
+                    If Not rowHasAny Then Continue For
+
+                    Dim requestedName As String = cellText(arr(r, nameCol))
+                    If String.IsNullOrWhiteSpace(requestedName) Then
+                        errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing name/variable value."
+                        Return False
+                    End If
+
+                    Dim value As Double
+                    If Not tryFinite(arr(r, valueCol), value) Then
+                        errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
+                                       " has a missing or nonnumeric value for """ & requestedName & """."
+                        Return False
+                    End If
+
+                    If Not AddMmrmAtValue(Of TProfile, TValue)(parsed, names, requestedName, value,
+                                                     "at row " & (r + 1).ToString(CultureInfo.InvariantCulture),
+                                                     errorMessage) Then
+                        Return False
+                    End If
+                Next
+            Else
+                Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()
+                Dim visitCol As Integer = UdfDataImportMetadata38.MmrmFindHeaderIndex(header, "visit", "time")
+
+                For c As Integer = 0 To cols - 1
+                    If c = visitCol Then Continue For
+                    If String.IsNullOrWhiteSpace(header(c)) Then Continue For
+
+                    Dim idx As Integer = UdfDataImportMetadata38.MmrmFindDesignColumnIndex(names(), header(c))
+                    If idx < 0 Then
+                        errorMessage = "at column header """ & header(c) & """ was not found among fitted design columns: " &
+                                       String.Join(", ", names()) & ". Use header 'visit' for the visit/time column."
+                        Return False
+                    End If
+
+                    profileColumns.Add(New KeyValuePair(Of Integer, Integer)(c, idx))
+                Next
+
+                If visitCol < 0 AndAlso profileColumns.Count = 0 Then
+                    errorMessage = "at must contain either name/value headers or at least one visit/design-column header."
+                    Return False
+                End If
+
+                Dim dataRow As Integer = -1
+                For r As Integer = 1 To rows - 1
+                    Dim rowHasAny As Boolean = False
+                    For c As Integer = 0 To cols - 1
+                        If Not isBlank(arr(r, c)) Then
+                            rowHasAny = True
+                            Exit For
+                        End If
+                    Next
+                    If Not rowHasAny Then Continue For
+
+                    If dataRow >= 0 Then
+                        errorMessage = "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+                        Return False
+                    End If
+
+                    dataRow = r
+                Next
+
+                If dataRow < 0 Then
+                    errorMessage = "at does not contain any nonblank data row."
+                    Return False
+                End If
+
+                If visitCol >= 0 AndAlso Not isBlank(arr(dataRow, visitCol)) Then
+                    Dim visitValue As Double
+                    If Not tryFinite(arr(dataRow, visitCol), visitValue) Then
+                        errorMessage = "at visit value must be numeric and finite."
+                        Return False
+                    End If
+
+                    If Not AddMmrmAtValue(Of TProfile, TValue)(parsed, names, "visit", visitValue, "at visit column", errorMessage) Then
+                        Return False
+                    End If
+                End If
+
+                For Each pair As KeyValuePair(Of Integer, Integer) In profileColumns
+                    If isBlank(arr(dataRow, pair.Key)) Then Continue For
+
+                    Dim profileValue As Double
+                    If Not tryFinite(arr(dataRow, pair.Key), profileValue) Then
+                        errorMessage = "at value for column """ & header(pair.Key) & """ must be numeric and finite."
+                        Return False
+                    End If
+
+                    If Not AddMmrmAtValue(Of TProfile, TValue)(parsed, names, names()(pair.Value), profileValue,
+                                                     "at column """ & header(pair.Key) & """",
+                                                     errorMessage) Then
+                        Return False
+                    End If
+                Next
+            End If
+
+            If Not parsed.VisitSpecified AndAlso parsed.ProfileValues.Count = 0 Then
+                errorMessage = "at does not specify any nonblank visit or fitted design-column values."
+                Return False
+            End If
+
+            atProfile = parsed
+            Return True
+        End Function
+
+        Public Shared Function AddMmrmAtValue(Of TProfile As UdfMmrmAtProfile38(Of TValue), TValue As {UdfLsmProfileValue38, New})(
+            atProfile As TProfile, names As Func(Of String()), requestedName As String, value As Double,
+            sourceDescription As String, ByRef errorMessage As String) As Boolean
+            If atProfile Is Nothing Then
+                errorMessage = "internal error: AT profile was not initialized."
+                Return False
+            End If
+
+            If String.Equals(UdfDataImportMetadata38.MmrmNormalizeDesignColumnName(requestedName), UdfDataImportMetadata38.MmrmNormalizeDesignColumnName("visit"), StringComparison.OrdinalIgnoreCase) OrElse
+               String.Equals(UdfDataImportMetadata38.MmrmNormalizeDesignColumnName(requestedName), UdfDataImportMetadata38.MmrmNormalizeDesignColumnName("time"), StringComparison.OrdinalIgnoreCase) Then
+
+                If atProfile.VisitSpecified Then
+                    errorMessage = "at specifies visit/time more than once."
+                    Return False
+                End If
+
+                atProfile.VisitSpecified = True
+                atProfile.VisitValue = value
+                Return True
+            End If
+
+            Dim idx As Integer = UdfDataImportMetadata38.MmrmFindDesignColumnIndex(names(), requestedName)
+            If idx < 0 Then
+                errorMessage = sourceDescription & " names """ & requestedName & """, which was not found among fitted design columns: " &
+                               String.Join(", ", names()) & "."
+                Return False
+            End If
+
+            For Each existing As TValue In atProfile.ProfileValues
+                If existing.ColumnIndex = idx Then
+                    errorMessage = "at specifies design column """ & names()(idx) & """ more than once."
+                    Return False
+                End If
+            Next
+
+            atProfile.ProfileValues.Add(New TValue With {
+                .Name = names()(idx),
+                .ColumnIndex = idx,
+                .Value = value
+            })
+            Return True
+        End Function
+
+        Private Shared Function TryGetMmrmHeaderlessNameValueAtSpec(Of TProfile As {UdfMmrmAtProfile38(Of TValue), New}, TValue As {UdfLsmProfileValue38, New})(
+            arr As Object(,), modelAvailable As Boolean, names As Func(Of String()), atProfile As TProfile,
+            isBlank As Func(Of Object, Boolean), cellText As Func(Of Object, String), tryFinite As FiniteDoubleReader,
+            ByRef errorMessage As String, ByRef attempted As Boolean) As Boolean
+            attempted = False
+            errorMessage = Nothing
+
+            If arr Is Nothing OrElse Not modelAvailable OrElse atProfile Is Nothing Then Return False
+            If arr.GetLength(1) <> 2 Then Return False
+
+            Dim rows As Integer = arr.GetLength(0)
+            Dim firstNonblankRow As Integer = -1
+            For r As Integer = 0 To rows - 1
+                If Not isBlank(arr(r, 0)) OrElse
+                   Not isBlank(arr(r, 1)) Then
+                    firstNonblankRow = r
+                    Exit For
+                End If
+            Next
+
+            If firstNonblankRow < 0 Then Return False
+
+            Dim firstName As String = cellText(arr(firstNonblankRow, 0))
+            If String.IsNullOrWhiteSpace(firstName) Then Return False
+
+            Dim firstValue As Double
+            If Not tryFinite(arr(firstNonblankRow, 1), firstValue) Then
+                Return False
+            End If
+
+            Dim probe As New TProfile()
+            Dim probeError As String = Nothing
+            If Not AddMmrmAtValue(Of TProfile, TValue)(probe, names, firstName, firstValue,
+                                             "at row " & (firstNonblankRow + 1).ToString(CultureInfo.InvariantCulture),
+                                             probeError) Then
+                Return False
+            End If
+
+            attempted = True
+
+            For r As Integer = 0 To rows - 1
+                Dim nameBlank As Boolean = isBlank(arr(r, 0))
+                Dim valueBlank As Boolean = isBlank(arr(r, 1))
+                If nameBlank AndAlso valueBlank Then Continue For
+
+                Dim requestedName As String = cellText(arr(r, 0))
+                If String.IsNullOrWhiteSpace(requestedName) Then
+                    errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing name/variable value."
+                    Return False
+                End If
+
+                Dim value As Double
+                If Not tryFinite(arr(r, 1), value) Then
+                    errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
+                                   " has a missing or nonnumeric value for """ & requestedName & """."
+                    Return False
+                End If
+
+                If Not AddMmrmAtValue(Of TProfile, TValue)(atProfile, names, requestedName, value,
+                                                 "at row " & (r + 1).ToString(CultureInfo.InvariantCulture),
+                                                 errorMessage) Then
+                    Return False
+                End If
+            Next
+
+            Return atProfile.VisitSpecified OrElse atProfile.ProfileValues.Count > 0
+        End Function
+
+        Public Shared Function TryGetMmrmDesignColumnValues(design As Double(,), names As String(), requestedName As String,
+            ByRef resolvedName As String, ByRef values As Double(), ByRef errorMessage As String) As Boolean
+            If names Is Nothing OrElse names.Length <> design.GetLength(1) Then
+                errorMessage = "the fit does not contain usable fixed-effect column names."
+                Return False
+            End If
+
+            Dim idx As Integer = MixedModelUDFsMetadata38.FindDesignColumnIndex(names, requestedName)
+            If idx < 0 Then
+                errorMessage = "column """ & requestedName & """ was not found among fitted design columns: " &
+                               String.Join(", ", names)
+                Return False
+            End If
+
+            If String.Equals(names(idx), "Intercept", StringComparison.OrdinalIgnoreCase) OrElse
+               String.Equals(names(idx), "(Intercept)", StringComparison.OrdinalIgnoreCase) Then
+                errorMessage = "the intercept column cannot be used as a grouping factor."
+                Return False
+            End If
+
+            Dim n As Integer = design.GetLength(0)
+            ReDim values(n - 1)
+
+            For i As Integer = 0 To n - 1
+                values(i) = design(i, idx)
+            Next
+
+            resolvedName = names(idx)
+            Return True
+        End Function
+
+
+        Public Shared Function TryGetGeeSpec(Of TComponent As {UdfGeeComponent38(Of TValue), New}, TValue As {UdfLsmProfileValue38, New})(
+            arr As Object(,), parameterNames As String(), isBlank As Func(Of Object, Boolean), cellText As Func(Of Object, String), tryFinite As FiniteDoubleReader,
+            ByRef components As List(Of TComponent), ByRef errorMessage As String) As Boolean
+            Dim rows As Integer = arr.GetLength(0)
+            Dim cols As Integer = arr.GetLength(1)
+            If rows < 2 OrElse cols < 2 Then
+                errorMessage = "spec must contain a header row and at least one data row."
+                Return False
+            End If
+
+            Dim header(cols - 1) As String
+            For c As Integer = 0 To cols - 1
+                header(c) = cellText(arr(0, c))
+            Next
+
+            Dim labelCol As Integer = GEEUDFsMetadata38.GeeFindHeaderIndex(header, "label", "contrast", "estimate", "name")
+            Dim weightCol As Integer = GEEUDFsMetadata38.GeeFindHeaderIndex(header, "weight", "coef", "coefficient", "contrastweight")
+            Dim timeCol As Integer = GEEUDFsMetadata38.GeeFindHeaderIndex(header, "time", "visit")
+
+            If weightCol < 0 Then
+                errorMessage = "spec header must include a weight column."
+                Return False
+            End If
+
+            Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()
+            For c As Integer = 0 To cols - 1
+                If c = labelCol OrElse c = weightCol OrElse c = timeCol Then Continue For
+                If String.IsNullOrWhiteSpace(header(c)) Then Continue For
+
+                Dim idx As Integer = GEEUDFsMetadata38.GeeFindDesignColumnIndex(parameterNames, header(c))
+                If idx < 0 Then
+                    errorMessage = "profile column header """ & header(c) & """ was not found among fitted design columns: " &
+                                   String.Join(", ", parameterNames) & ". Use header 'time' for the fitted time/order column."
+                    Return False
+                End If
+
+                If String.Equals(parameterNames(idx), "Intercept", StringComparison.OrdinalIgnoreCase) OrElse
+                   String.Equals(parameterNames(idx), "(Intercept)", StringComparison.OrdinalIgnoreCase) Then
+                    errorMessage = "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+                    Return False
+                End If
+
+                profileColumns.Add(New KeyValuePair(Of Integer, Integer)(c, idx))
+            Next
+
+            If profileColumns.Count = 0 AndAlso timeCol < 0 Then
+                errorMessage = "spec must include at least one profile column: time and/or a fitted design column name."
+                Return False
+            End If
+
+            Dim defaultIndex As Integer = 1
+            For r As Integer = 1 To rows - 1
+                Dim rowHasAny As Boolean = False
+                For c As Integer = 0 To cols - 1
+                    If Not isBlank(arr(r, c)) Then
+                        rowHasAny = True
+                        Exit For
+                    End If
+                Next
+                If Not rowHasAny Then Continue For
+
+                Dim w As Double
+                If Not tryFinite(arr(r, weightCol), w) Then
+                    errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing or nonnumeric weight."
+                    Return False
+                End If
+
+                Dim label As String = Nothing
+                If labelCol >= 0 Then label = cellText(arr(r, labelCol))
+                If String.IsNullOrWhiteSpace(label) Then label = "Estimate " & defaultIndex.ToString(CultureInfo.InvariantCulture)
+
+                Dim comp As New TComponent With {
+                    .Label = label,
+                    .Weight = w,
+                    .TimeSpecified = False,
+                    .TimeValue = Double.NaN
+                }
+
+                If timeCol >= 0 AndAlso Not isBlank(arr(r, timeCol)) Then
+                    Dim tv As Double
+                    If Not tryFinite(arr(r, timeCol), tv) Then
+                        errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a nonnumeric time value."
+                        Return False
+                    End If
+                    comp.TimeSpecified = True
+                    comp.TimeValue = tv
+                End If
+
+                For Each pair As KeyValuePair(Of Integer, Integer) In profileColumns
+                    If isBlank(arr(r, pair.Key)) Then Continue For
+
+                    Dim profileValue As Double
+                    If Not tryFinite(arr(r, pair.Key), profileValue) Then
+                        errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
+                                       " has a nonnumeric value for profile column """ & header(pair.Key) & """."
+                        Return False
+                    End If
+
+                    comp.ProfileValues.Add(New TValue With {
+                        .Name = parameterNames(pair.Value),
+                        .ColumnIndex = pair.Value,
+                        .Value = profileValue
+                    })
+                Next
+
+                components.Add(comp)
+                defaultIndex += 1
+            Next
+
+            If components.Count = 0 Then
+                errorMessage = "spec does not contain any nonblank data rows."
+                Return False
+            End If
+
+            Return True
+        End Function
+
+        Public Shared Function TryGetMmrmSpec(Of TComponent As {UdfMmrmComponent38(Of TValue), New}, TValue As {UdfLsmProfileValue38, New})(
+            arr As Object(,), names As Func(Of String()), isBlank As Func(Of Object, Boolean), cellText As Func(Of Object, String), tryFinite As FiniteDoubleReader,
+            ByRef components As List(Of TComponent), ByRef errorMessage As String) As Boolean
+            Dim rows As Integer = arr.GetLength(0)
+            Dim cols As Integer = arr.GetLength(1)
+            If rows < 2 OrElse cols < 2 Then
+                errorMessage = "spec must contain a header row and at least one data row."
+                Return False
+            End If
+
+            Dim header(cols - 1) As String
+            For c As Integer = 0 To cols - 1
+                header(c) = cellText(arr(0, c))
+            Next
+
+            Dim labelCol As Integer = UdfDataImportMetadata38.MmrmFindHeaderIndex(header, "label", "contrast", "estimate", "name")
+            Dim weightCol As Integer = UdfDataImportMetadata38.MmrmFindHeaderIndex(header, "weight", "coef", "coefficient", "contrastweight")
+            Dim visitCol As Integer = UdfDataImportMetadata38.MmrmFindHeaderIndex(header, "visit", "time")
+
+            If weightCol < 0 Then
+                errorMessage = "spec header must include a weight column."
+                Return False
+            End If
+
+            Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()
+            For c As Integer = 0 To cols - 1
+                If c = labelCol OrElse c = weightCol OrElse c = visitCol Then Continue For
+                If String.IsNullOrWhiteSpace(header(c)) Then Continue For
+
+                Dim idx As Integer = UdfDataImportMetadata38.MmrmFindDesignColumnIndex(names(), header(c))
+                If idx < 0 Then
+                    errorMessage = "profile column header """ & header(c) & """ was not found among fitted design columns: " &
+                                   String.Join(", ", names()) & ". Use header 'visit' for the visit/time column."
+                    Return False
+                End If
+
+                profileColumns.Add(New KeyValuePair(Of Integer, Integer)(c, idx))
+            Next
+
+            If profileColumns.Count = 0 AndAlso visitCol < 0 Then
+                errorMessage = "spec must include at least one profile column: visit and/or a fitted design column name."
+                Return False
+            End If
+
+            Dim defaultIndex As Integer = 1
+
+            For r As Integer = 1 To rows - 1
+                Dim hasAnyText As Boolean = False
+                For c As Integer = 0 To cols - 1
+                    If Not isBlank(arr(r, c)) Then
+                        hasAnyText = True
+                        Exit For
+                    End If
+                Next
+                If Not hasAnyText Then Continue For
+
+                Dim w As Double
+                If Not tryFinite(arr(r, weightCol), w) Then
+                    errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing or nonnumeric weight."
+                    Return False
+                End If
+
+                Dim label As String = Nothing
+                If labelCol >= 0 Then label = cellText(arr(r, labelCol))
+                If String.IsNullOrWhiteSpace(label) Then label = "Estimate " & defaultIndex.ToString(CultureInfo.InvariantCulture)
+
+                Dim comp As New TComponent With {
+                    .Label = label,
+                    .Weight = w,
+                    .VisitSpecified = False,
+                    .VisitValue = Double.NaN
+                }
+
+                If visitCol >= 0 AndAlso Not isBlank(arr(r, visitCol)) Then
+                    Dim v As Double
+                    If Not tryFinite(arr(r, visitCol), v) Then
+                        errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a nonnumeric visit value."
+                        Return False
+                    End If
+                    comp.VisitSpecified = True
+                    comp.VisitValue = v
+                End If
+
+                For Each pair As KeyValuePair(Of Integer, Integer) In profileColumns
+                    If isBlank(arr(r, pair.Key)) Then Continue For
+
+                    Dim profileValue As Double
+                    If Not tryFinite(arr(r, pair.Key), profileValue) Then
+                        errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
+                                       " has a nonnumeric value for profile column """ & header(pair.Key) & """."
+                        Return False
+                    End If
+
+                    comp.ProfileValues.Add(New TValue With {
+                        .Name = names()(pair.Value),
+                        .ColumnIndex = pair.Value,
+                        .Value = profileValue
+                    })
+                Next
+
+                components.Add(comp)
+                defaultIndex += 1
+            Next
+
+            If components.Count = 0 Then
+                errorMessage = "spec does not contain any nonblank data rows."
+                Return False
+            End If
+
+            Return True
+        End Function
+    End Class
+End Namespace

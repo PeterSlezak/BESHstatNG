@@ -1,0 +1,34 @@
+{
+  "status": "PRE_EDIT_EXECUTION_ATTEMPT_NOT_SEALED",
+  "rows": 22964,
+  "cases": {
+    "path": "evidence/04A38/preedit/attempts/capture-v6/cases.jsonl",
+    "bytes": 10957262,
+    "sha256": "0e24d25d83dd7f3a275d685256659e32fd663ddc4d013f35aa72fc31e2eae32d"
+  },
+  "generator": {
+    "path": "evidence/04A38/capture_cases_v6.py",
+    "bytes": 4759,
+    "sha256": "4dc43a469e245b9062f0199c895dcd8b5f19ed16413e212cf1e70f9f19a0f6ae"
+  },
+  "recorder": {
+    "path": "evidence/04A38/helpers/Capture38.cs",
+    "bytes": 28024,
+    "sha256": "0b402c10751040e3968b298ef9607f903ec2379142df5fe8fe8c9aad08f91cba"
+  },
+  "chronology": "BEFORE_ANY_PRODUCT_EDIT; prior pilot attempts retained byte-for-byte",
+  "corrections": [
+    "Use actual accepted listwise option, not unsupported remove alias.",
+    "Do not prepend numeric headers to raw text subject/group identity columns.",
+    "Add generic actual cache helper, real handle case/model variants and repeated operations."
+  ],
+  "comparison": "Per-configuration exact typed/shape/IEEE/string/error records; no tolerance or NaN normalization.",
+  "metadata_policy": {
+    "path": "evidence/04A38/preedit/attempts/capture-v3/specification.json",
+    "bytes": 1577,
+    "sha256": "d0e4f1424a3d7f2b8247dd189913ee1c8ab09f21796d1d4c83255cb77be63eba"
+  },
+  "native": "NOT_RUN; explicit unregistered wizard-false test double; coercion fails closed",
+  "scientific": "NOT_GOLDEN",
+  "remaining_gate": "Independent complete source/ownership/coverage audit must pass before a final freeze or product edit."
+}

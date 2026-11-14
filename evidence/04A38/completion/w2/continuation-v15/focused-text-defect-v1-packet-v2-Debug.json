@@ -1,0 +1,103 @@
+{
+  "results": [
+    {
+      "kind": "BUILD",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<REPO_ROOT>\\BESHStat.Excel.Common.Tests\\BESHStat.Excel.Common.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-text-defect-v1\\Debug\\tests-Common\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-text-defect-v1\\Debug\\obj\\tests-Common\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 6.471314399997937,
+        "stdout_sha256": "f1012e2eeefa6bd0d634a70f2f6c3898e8731fc4d99b9b05aa88c089638d401d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-text-defect-v1\\Debug\\tests-Common\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~CoxBaselineTextComparison",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2-focus-text-defect-v1\\Debug\\results-Common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 1.8615817000027164,
+        "stdout_sha256": "f830e8ebf146e6ea8c137114b9bfc048ea76b5870ee634f141c190e51c9bde73",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase",
+            "test_name": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase (\"ｓｕｒｖｉｖａｌ\",3,0.8)",
+            "outcome": "Failed",
+            "duration": "00:00:00.0203433",
+            "message": "Assert.AreEqual failed. Expected:<3>. Actual:<4>. "
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase",
+            "test_name": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase (\"ＣＵＭＨＡＺ\",3,0.2)",
+            "outcome": "Failed",
+            "duration": "00:00:00.0006209",
+            "message": "Assert.AreEqual failed. Expected:<3>. Actual:<4>. "
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase",
+            "test_name": "CoxBaselineTextComparisonPreservesWindowsWidthAndCase (\"ｈａｚａｒｄ\",4,0.2)",
+            "outcome": "Failed",
+            "duration": "00:00:00.0005397",
+            "message": "Assert.AreEqual failed. Expected:<0.2>. Actual:<0.8>. "
+          }
+        ],
+        "outcomes": {
+          "Failed": 3
+        },
+        "counters": {
+          "total": "3",
+          "executed": "3",
+          "passed": "0",
+          "failed": "3",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "c9db71bed5fed950446668a6fc75606d07ad14057af88debde20c95c77d66708"
+      }
+    }
+  ],
+  "original_queries": 0
+}

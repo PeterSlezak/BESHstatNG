@@ -1,0 +1,55 @@
+{
+  "role": "original",
+  "configuration": "Debug",
+  "mode": "trace",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/input-seal.json",
+    "bytes": 6084,
+    "sha256": "5a78297ef1b45c95f3c4f23dd079a9bcc55ec79c067f1ee27465f6a50bb59708"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 38400,
+    "sha256": "ce0929ba8bae4b667c53b0aa68937194052cb8597a17ef58375af0c1f944953a"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Debug/trace/execution.json",
+      "bytes": 1017,
+      "sha256": "47342c3e8aa1591d63ff70ca3160bab4dc1bc7e5630d68094edbeb9f5949b6c6"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Debug/trace/results.tsv",
+      "bytes": 64486,
+      "sha256": "fb1372bc77b3cb05b8e0c6964522e10ac6b94c04760eb1ba0e8c7d6490005f4c"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Debug/trace/results.tsv.branches.json",
+      "bytes": 3359,
+      "sha256": "b16612ac637d601aa30a2df0da7860eccefb10089df045e42ace9224a107bee1"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Debug/trace/results.tsv.sessions.json",
+      "bytes": 29607,
+      "sha256": "5435a1c9a181e3dde3acda6ed7d8432b7fa775a9148ee3b3c04f77c294907565"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v4\\original-Debug-trace-v2\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v4\\original-Debug-trace-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\inputs-Debug.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\original-results\\Debug\\trace\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\original-results\\Debug\\trace\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.4503718999985722,
+    "stdout_sha256": "5d37f4a223ad596de91c609f6e8ed7ba20ebb58157bbdfb9ec8dd85480c549d0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

@@ -1,0 +1,39 @@
+{
+  "status": "EXACT_POLICY_AND_CALLER_METHOD_CIL_NO_FRONTIER_CHANGE",
+  "configurations": [
+    {
+      "configuration": "Debug",
+      "exact_policy_call_edges": 221,
+      "edge_identity_sha256": "360b610814f3e5a4f62726a3ced79d0416f1d38cd6b0885af336b67f25917a13",
+      "new_policy_edges": 0,
+      "removed_policy_edges": 0
+    },
+    {
+      "configuration": "Release",
+      "exact_policy_call_edges": 221,
+      "edge_identity_sha256": "fc10932f64b0c334523d9673cc454545a1f236c0c7bc330bed97f0007999ca7f",
+      "new_policy_edges": 0,
+      "removed_policy_edges": 0
+    }
+  ],
+  "policy": {
+    "path": "BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb",
+    "bytes": 968,
+    "sha256": "d42882ab96ae198e6e8c2c260f38d3e59439ab1adbe7c49e1c4f9347fb1c46cf"
+  },
+  "source_domain_proof": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/text-domain-proof-v1.json",
+    "bytes": 591,
+    "sha256": "35c2e8c9849dbb04df1ef07e1dbc9c402467d677b0196db820c951df278477be"
+  },
+  "source_domains": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/text-caller-domains-v2.json",
+    "bytes": 563398,
+    "sha256": "0ad57f41e429195a1fab7f670226a1f0ec6c379151bb349879c9568906b69f4c"
+  },
+  "synthetic_out_of_domain_counterexamples_per_configuration": 8,
+  "observations_per_configuration": 1746360,
+  "source_domain_differences": 0,
+  "new_execution": false,
+  "scope": "Existing authenticated C6 domain proof is carried by exact policy/caller CIL and unchanged native conversion methods. Neither a new domain nor a global text equivalence is asserted."
+}

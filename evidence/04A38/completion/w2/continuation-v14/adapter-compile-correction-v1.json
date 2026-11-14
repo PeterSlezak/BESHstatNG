@@ -1,0 +1,17 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/source-provisional/adapter-tests-failed-compile-v1.vb.txt",
+    "bytes": 126337,
+    "sha256": "adb0fd85fa8ba1aa74babd25cee0075b35a9dd398f60c1d063e12076e806beda"
+  },
+  "after": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 126487,
+    "sha256": "11b233c548f8c1a7d1df020b9b8723f2b85ab5005ab7335a8f177b91c5922b6f"
+  },
+  "reason": "The test class already has an Opcodes dictionary. VB is case-insensitive; qualify the five new Reflection.Emit.OpCodes references. No production or existing assertion changed.",
+  "first_Common_PASS": 35,
+  "first_Windows_test_build": "FAIL_BC30456_PRESERVED",
+  "corrective_scope": "Windows focused lane only, distinct paths; retain Common first-pass results without repeating that lane.",
+  "original_queries": 0
+}

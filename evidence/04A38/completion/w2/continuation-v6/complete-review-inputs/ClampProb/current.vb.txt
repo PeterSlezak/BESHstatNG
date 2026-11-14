@@ -1,0 +1,4 @@
+Friend Function ClampProb(p As Double) As Object
+        If Double.IsNaN(p) OrElse Double.IsInfinity(p) Then Return ExcelError.ExcelErrorNum
+        Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ClampProbabilityValue(p)
+    End Function

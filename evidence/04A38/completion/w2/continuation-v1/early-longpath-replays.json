@@ -1,0 +1,122 @@
+{
+  "results": [
+    {
+      "label": "D",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "\\\\?\\<ISOLATED_RUN>\\w2-before-v2\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 0,
+        "seconds": 74.33609520000755,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "79d5809b893f6a3a4ca5479a7f0ddf3da22520c5d23d1a6637ae0636b12bc3f4",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "E",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "\\\\?\\<ISOLATED_RUN>\\w2-before-v2\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 0,
+        "seconds": 109.62690719999955,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3df1d6219301ca8b9f7524d0f65b8c36c0083df6d73d2e989bfac5f591012b34",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "F",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "\\\\?\\<ISOLATED_RUN>\\w2-before-v2\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 0,
+        "seconds": 46.74728499999037,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0985c5e767c36c59e7ae90855774575cf06329a9c834e9bb0776f9aaaa2b0cc6",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "G",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "\\\\?\\<ISOLATED_RUN>\\w2-before-v2\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 0,
+        "seconds": 55.212623599974904,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "1b34bd999c7f57ea94314f2d3ce28a1402b05794b15ee77a6cfb4e81a0b4dc14",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "W1",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "\\\\?\\<ISOLATED_RUN>\\w2-before-v2\\evidence\\04A38\\completion\\w1",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 1,
+        "seconds": 165.56754250000813,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "d7d641d0c41a9f7121e76edc68a8ce6be579cd5b6a692994c333ff3b801389fd",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "original_queries": 0,
+  "source_expectations_changed": false,
+  "method": "Only Windows extended-length namespace. Same authenticated pre-W2 inputs/readers; first normal-path setup errors retained. Broad W1 includes its deliberately archived invalid v1 fixture; distinguish it from canonical v2."
+}

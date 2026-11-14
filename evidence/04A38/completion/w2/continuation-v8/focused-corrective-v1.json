@@ -1,0 +1,75 @@
+{
+  "build": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+      "<REPO_ROOT>\\BESHStatNG.Test\\BESHStatNG.Tests.vbproj",
+      "/t:Build",
+      "/p:Configuration=Debug",
+      "/p:BuildProjectReferences=false",
+      "/p:ProduceReferenceAssembly=false",
+      "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont8\\focused-corrective-v1\\lib\\",
+      "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont8\\focused-corrective-v1\\obj\\",
+      "/m:4",
+      "/v:minimal",
+      "/nr:false"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 2.312885699997423,
+    "stdout_sha256": "088a84892f3d2298ea73f65723c8875c969997944c1794ec2f6da346685e1b76",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "test": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "<ISOLATED_RUN>\\completion-w2-cont8\\focused-corrective-v1\\lib\\BESHStatNG.Test.dll",
+      "/Settings:<REPO_ROOT>\\test.runsettings",
+      "/TestCaseFilter:FullyQualifiedName~Continuation8ImportParentsKeepAlignmentFlagsAndFailureResets",
+      "/Logger:trx;LogFileName=corrective.trx",
+      "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont8\\focused-corrective-v1\\results",
+      "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 5.133670800016262,
+    "stdout_sha256": "382e61857f6c1137861898e8e124fe2357be4f83bffe2163d482e92009b72462",
+    "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "outcomes": {
+    "records": [
+      {
+        "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+        "method": "Continuation8ImportParentsKeepAlignmentFlagsAndFailureResets",
+        "test_name": "Continuation8ImportParentsKeepAlignmentFlagsAndFailureResets",
+        "outcome": "Failed",
+        "duration": "00:00:00.2833037",
+        "message": "Assert.IsTrue failed. "
+      }
+    ],
+    "outcomes": {
+      "Failed": 1
+    },
+    "counters": {
+      "total": "1",
+      "executed": "1",
+      "passed": "0",
+      "failed": "1",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "sha256": "c15ad708c788b0f88dc456806d51ffdf771bb888e78846f673cc33727144a8f3"
+  },
+  "original_queries": 0
+}

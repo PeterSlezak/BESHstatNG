@@ -1,0 +1,30 @@
+{
+  "static_reader": {
+    "result": {
+      "path": "evidence/04A38/completion/w2/continuation-v10/static-reader-execution-v3.json",
+      "bytes": 507,
+      "sha256": "1bcd6370987345e3bd79962b3315c71b9dcfd4a19ecd456b950e881582c84fe3"
+    },
+    "raw": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c10-static-reader-v3/stdout.log",
+      "bytes": 23132,
+      "sha256": "6d4206719cf18b02d94722b89d481a8de5467cfba92a65a38042c54a06e36c00"
+    },
+    "semantic_exit": 0,
+    "reporter_error": "KeyError stdout: command receipt stores a folder; recover unchanged successful raw stdout without rerunning the reader"
+  },
+  "scanner_proof": {
+    "first": {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "bytes": 5737,
+      "sha256": "7b4d2f12a4e6bce3d9f589bbab77c818f3b9d12d44ec79198a0fbb6c8dc01b54"
+    },
+    "corrected": {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "bytes": 5742,
+      "sha256": "ab7dfba8b35c5f35fc9072ae745bfa061a08f5e07e7b40d6035b5d3281f63035"
+    },
+    "reason": "First controls completed but final receipt referred to the pre-versioning proof filename. All first helper artifacts retained; repeat only these small synthetic equivalence controls under a fresh private folder."
+  },
+  "production_test_changes": 0
+}

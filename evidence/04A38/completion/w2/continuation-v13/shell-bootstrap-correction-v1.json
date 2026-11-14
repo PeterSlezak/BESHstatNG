@@ -1,0 +1,8 @@
+{
+  "status": "FAILED_BEFORE_WORK_PRESERVED",
+  "first_command": "PowerShell Python -c runpy bootstrap",
+  "error": "NameError: name '__main__' is not defined",
+  "cause": "PowerShell removed double quotes in the inline -c source.",
+  "remedy": "Actual file-based run_postscan_v1.py install succeeded; no dependency/source/reference execution occurred in the rejected command.",
+  "original_queries": 0
+}

@@ -1,0 +1,32 @@
+s used.
+        ''' </param>
+        ''' <returns>
+        ''' A p-value in the range [0, 1]. Returns an Excel error code if inputs are invalid.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' The p-value is obtained from the chi-square distribution with <c>k-1</c> degrees of freedom,
+        ''' where <c>k</c> is the number of non-empty groups (columns).
+        ''' </para>
+        ''' <para>
+        ''' When there are tied values, the tie-corrected p-value (based on H<sub>cor</sub>) is recommended.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.NP.KW_P(A2:C20, "Hcor")
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.NP.KW_P",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="P-value for Kruskal-Wallis test (based on H or tie-corrected Hcor) for 2+ independent groups.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
+        )>
+        Public Function KW_P(
+            <ExcelArgument(Name:="groups", Description:="Multi-column range: one column per group (independent samples).")> groups As Object,
+            <ExcelArgument(Name:="type", Description:="""H"" for p-value from H; ""Hcor"" for p-value from Hcor (default).")> Optional pType As Object = Nothing
+        ) As Object
+
+            Dim err? As ExcelError = Nothing
+            Dim data = Global.BESHStatNG

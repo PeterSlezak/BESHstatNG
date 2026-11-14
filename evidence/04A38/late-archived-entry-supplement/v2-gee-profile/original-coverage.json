@@ -1,0 +1,499 @@
+{
+  "status": "ORIGINAL_REQUIRED_BRANCHES_OBSERVED",
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "configurations": {
+    "Debug": {
+      "unique_cases": 12,
+      "positive_profile_selection": 6,
+      "intended_guards": 6,
+      "later_statistical_errors": 6,
+      "returned_reports": 0,
+      "reference_executions": {
+        "plain": 12,
+        "repeat": 12,
+        "trace": 12
+      },
+      "repeat_exact": true,
+      "trace_output_exact": true,
+      "cases": [
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/wide-time",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.wide=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/name-value-time",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/name-value-visit",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=visit",
+            "selection.time=visit",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/duplicate-time-visit",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "parser.name_value=True",
+            "helper.entry=visit",
+            "guard.duplicate_time=visit"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgc3BlY2lmaWVzIHRpbWUgbW9yZSB0aGFuIG9uY2Uu",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/duplicate-design",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=X1",
+            "selection.design=X1",
+            "parser.name_value=True",
+            "helper.entry=x1",
+            "guard.duplicate_design=X1"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgc3BlY2lmaWVzIGRlc2lnbiBjb2x1bW4gIlgxIiBtb3JlIHRoYW4gb25jZS4=",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/wide-multiple-rows",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.wide=True",
+            "guard.wide_multiple_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogd2lkZS1mb3JtIGF0IHJhbmdlcyBtdXN0IGNvbnRhaW4gZXhhY3RseSBvbmUgbm9uYmxhbmsgZGF0YSByb3cuIFVzZSBuYW1lL3ZhbHVlIGZvcm0gZm9yIG11bHRpcGxlIEFUIHNldHRpbmdzIGJ5IHJvdy4=",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/wide-time",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.wide=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/name-value-time",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/name-value-visit",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=visit",
+            "selection.time=visit",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/duplicate-time-visit",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "parser.name_value=True",
+            "helper.entry=visit",
+            "guard.duplicate_time=visit"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgc3BlY2lmaWVzIHRpbWUgbW9yZSB0aGFuIG9uY2Uu",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/duplicate-design",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=X1",
+            "selection.design=X1",
+            "parser.name_value=True",
+            "helper.entry=x1",
+            "guard.duplicate_design=X1"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgc3BlY2lmaWVzIGRlc2lnbiBjb2x1bW4gIlgxIiBtb3JlIHRoYW4gb25jZS4=",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/wide-multiple-rows",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.wide=True",
+            "guard.wide_multiple_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogd2lkZS1mb3JtIGF0IHJhbmdlcyBtdXN0IGNvbnRhaW4gZXhhY3RseSBvbmUgbm9uYmxhbmsgZGF0YSByb3cuIFVzZSBuYW1lL3ZhbHVlIGZvcm0gZm9yIG11bHRpcGxlIEFUIHNldHRpbmdzIGJ5IHJvdy4=",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        }
+      ]
+    },
+    "Release": {
+      "unique_cases": 12,
+      "positive_profile_selection": 6,
+      "intended_guards": 6,
+      "later_statistical_errors": 6,
+      "returned_reports": 0,
+      "reference_executions": {
+        "plain": 12,
+        "repeat": 12,
+        "trace": 12
+      },
+      "repeat_exact": true,
+      "trace_output_exact": true,
+      "cases": [
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/wide-time",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.wide=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/name-value-time",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/name-value-visit",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=visit",
+            "selection.time=visit",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/duplicate-time-visit",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "parser.name_value=True",
+            "helper.entry=visit",
+            "guard.duplicate_time=visit"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgc3BlY2lmaWVzIHRpbWUgbW9yZSB0aGFuIG9uY2Uu",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/duplicate-design",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=X1",
+            "selection.design=X1",
+            "parser.name_value=True",
+            "helper.entry=x1",
+            "guard.duplicate_design=X1"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgc3BlY2lmaWVzIGRlc2lnbiBjb2x1bW4gIlgxIiBtb3JlIHRoYW4gb25jZS4=",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/Invariant/wide-multiple-rows",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.wide=True",
+            "guard.wide_multiple_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogd2lkZS1mb3JtIGF0IHJhbmdlcyBtdXN0IGNvbnRhaW4gZXhhY3RseSBvbmUgbm9uYmxhbmsgZGF0YSByb3cuIFVzZSBuYW1lL3ZhbHVlIGZvcm0gZm9yIG11bHRpcGxlIEFUIHNldHRpbmdzIGJ5IHJvdy4=",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/wide-time",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.wide=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/name-value-time",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/name-value-visit",
+          "witness_class": "POSITIVE_PROFILE_SELECTION",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=visit",
+            "selection.time=visit",
+            "selection.time_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "later.no_matching_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogbm8gb2JzZXJ2ZWQgZGVzaWduIHJvd3MgbWF0Y2hlZCBwcm9maWxlIGZvciBsYWJlbCAnTCcu",
+          "exception": "None",
+          "later_statistical_error": true,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/duplicate-time-visit",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=time",
+            "selection.time=time",
+            "selection.time_value=D3FF0000000000000",
+            "parser.name_value=True",
+            "helper.entry=visit",
+            "guard.duplicate_time=visit"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgc3BlY2lmaWVzIHRpbWUgbW9yZSB0aGFuIG9uY2Uu",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/duplicate-design",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.name_value=True",
+            "helper.entry=X1",
+            "selection.design=X1",
+            "parser.name_value=True",
+            "helper.entry=x1",
+            "guard.duplicate_design=X1"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogYXQgc3BlY2lmaWVzIGRlc2lnbiBjb2x1bW4gIlgxIiBtb3JlIHRoYW4gb25jZS4=",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        },
+        {
+          "case_id": "PROPOSED-GEE-PROFILE/sk-SK/wide-multiple-rows",
+          "witness_class": "INTENDED_GUARD",
+          "events": [
+            "spec.accepted=Intercept|X1|X2",
+            "parser.entry=True",
+            "parser.wide=True",
+            "guard.wide_multiple_rows=True"
+          ],
+          "outcome_class": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogd2lkZS1mb3JtIGF0IHJhbmdlcyBtdXN0IGNvbnRhaW4gZXhhY3RseSBvbmUgbm9uYmxhbmsgZGF0YSByb3cuIFVzZSBuYW1lL3ZhbHVlIGZvcm0gZm9yIG11bHRpcGxlIEFUIHNldHRpbmdzIGJ5IHJvdy4=",
+          "exception": "None",
+          "later_statistical_error": false,
+          "returned_report": false
+        }
+      ]
+    }
+  },
+  "source_expectations_sealed_before_reference": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/trace-plan.json",
+    "bytes": 7898,
+    "sha256": "6431687558032f8cd532c9181b6afdaf8adfc15951c235d6f69358c1a62c7458"
+  }
+}

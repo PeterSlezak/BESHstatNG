@@ -1,0 +1,60 @@
+{
+  "role": "original",
+  "configuration": "Release",
+  "mode": "trace",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/input-seal.json",
+    "bytes": 7509,
+    "sha256": "0cce11e2b2de60c5691df4d52d00d535f74df7b1526f63b7f81dc9451751dcdf"
+  },
+  "executable": {
+    "name": "MmrmCapture38-v2.exe",
+    "bytes": 48128,
+    "sha256": "59caabfc59cffcb0408649cdb0d1c0252468278273144f05b2797966f1d960b9"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Release/trace/execution.json",
+      "bytes": 1019,
+      "sha256": "bb0ce4b68949fc5078c0f3c5b56595cf8b81abf0b3e4ab3c79a6da2a1287d72f"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Release/trace/results.tsv",
+      "bytes": 43444,
+      "sha256": "f8ecca980945fdd2757caa8f0394693c0418a14f30bc5dd93f0d2d6a7b43e71e"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Release/trace/results.tsv.branches.json",
+      "bytes": 3385,
+      "sha256": "146872998038a6f12f302bad80d08d1c1bafbc4ab0c11334d4ed4d798e4343a5"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Release/trace/results.tsv.cultures.json",
+      "bytes": 903,
+      "sha256": "b89bba5f6d467e09aed035e23491c4fc2d48c4d63e750077d0b743999db132bf"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Release/trace/results.tsv.sessions.json",
+      "bytes": 19399,
+      "sha256": "f7818b6c9176e7147f0178d59439c38ed1dc8c95e47cd40a8df274d46e656a5f"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\consolidated38-v7\\original-Release-trace-v2\\MmrmCapture38-v2.exe",
+      "<ISOLATED_RUN>\\consolidated38-v7\\original-Release-trace-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide\\inputs-Release.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide\\original-results-v2\\Release\\trace\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide\\original-results-v2\\Release\\trace\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.6626637000008486,
+    "stdout_sha256": "5d37f4a223ad596de91c609f6e8ed7ba20ebb58157bbdfb9ec8dd85480c549d0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

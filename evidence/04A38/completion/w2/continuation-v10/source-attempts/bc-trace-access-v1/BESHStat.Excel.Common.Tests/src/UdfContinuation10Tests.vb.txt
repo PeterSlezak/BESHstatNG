@@ -1,0 +1,271 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
+Imports System.Linq
+Imports BESHStatNG
+Imports BESHStatNG.ExcelCommon
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+
+<TestClass>
+Public Class UdfContinuation10Tests
+    Private Shared Function Finite(value As Double) As Boolean
+        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
+    End Function
+
+    <TestMethod>
+    Public Sub ContingencyMcNemarRetainsExactReportCellsAndTypes()
+        Dim body = UdfContingencyPreparation38.McNemarBody(New Integer(,) {{8, 2}, {3, 7}}, 0.05R, AddressOf Finite)
+        Assert.IsNotNull(body)
+        Assert.AreEqual(3, body.GetLength(0))
+        Assert.AreEqual("Two-sided exact p-value", body(0, 0))
+        Assert.AreEqual("Matched-pairs odds ratio", body(1, 0))
+        Assert.IsInstanceOfType(body(0, 1), GetType(Double))
+        Assert.IsInstanceOfType(body(2, 1), GetType(String))
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencyMcNemarFiniteFailurePrecedesReportFormatting()
+        Dim seen As New List(Of Double)
+        Dim body = UdfContingencyPreparation38.McNemarBody(New Integer(,) {{8, 2}, {3, 7}}, 0.05R,
+            Function(value)
+                seen.Add(value)
+                Return False
+            End Function)
+        Assert.IsNull(body)
+        Assert.AreEqual(1, seen.Count)
+        Assert.IsTrue(Finite(seen(0)))
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencyOddsAndRiskKeepDistinctConfidenceRows()
+        Dim counts As Integer(,) = {{8, 2}, {3, 7}}
+        Dim odds = UdfContingencyPreparation38.OddsRatioBody(counts, 0.05R, AddressOf Finite)
+        Dim risk = UdfContingencyPreparation38.RiskRatioBody(counts, 0.05R, AddressOf Finite)
+        Assert.AreEqual(3, odds.GetLength(0))
+        StringAssert.EndsWith(CStr(odds(1, 0)), " (Woolf)")
+        StringAssert.EndsWith(CStr(odds(2, 0)), " (Cornfield)")
+        Assert.AreEqual(2, risk.GetLength(0))
+        Assert.AreEqual("Risk ratio", risk(0, 0))
+        Assert.IsInstanceOfType(risk(0, 1), GetType(Double))
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencyTrendKeepsTwoByKTransposeOrientation()
+        Dim wide As Integer(,) = {{2, 4, 8}, {9, 6, 3}}
+        Dim tall As Integer(,) = {{2, 9}, {4, 6}, {8, 3}}
+        Dim first = UdfContingencyPreparation38.TrendBody(wide, 2, 3, AddressOf Finite)
+        Dim second = UdfContingencyPreparation38.TrendBody(tall, 3, 2, AddressOf Finite)
+        Assert.IsNotNull(first)
+        CollectionAssert.AreEqual(first.Cast(Of Object)().ToArray(), second.Cast(Of Object)().ToArray())
+        Assert.AreEqual("Two-sided p-value for departure", first(3, 0))
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencyOrdinalConfidenceLabelUsesCurrentCulture()
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("sk-SK")
+            Dim body = UdfContingencyPreparation38.OrdinalAssociationBody(New Integer(,) {{8, 3, 1}, {2, 7, 4}, {1, 3, 9}}, 0.025R, AddressOf Finite)
+            Assert.AreEqual(16, body.GetLength(0))
+            Assert.AreEqual("97,5% CI", body(2, 0))
+            Assert.AreEqual("Somers' D (columns as dependent variable)", body(12, 0))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencyMantelHaenszelKeepsIntegerDfAndPooledRows()
+        Dim body = UdfContingencyPreparation38.MantelHaenszelBody(New Double(,) {{8, 2}, {3, 7}, {5, 4}, {2, 9}}, 0.05R, AddressOf Finite)
+        Assert.IsNotNull(body)
+        Assert.AreEqual(5, body.GetLength(0))
+        Assert.AreEqual(1, body(1, 1))
+        Assert.IsInstanceOfType(body(1, 1), GetType(Integer))
+        Assert.AreEqual("Common odds ratio", body(3, 0))
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencySingleProportionKeepsZeroResponderEndpointAndTypes()
+        Dim body = UdfContingencyPreparation38.SingleProportionBody(0, 10, 0.05R, AddressOf Finite)
+        Assert.IsNotNull(body)
+        Assert.AreEqual(6, body.GetLength(0))
+        Assert.AreEqual(10, body(0, 1))
+        Assert.AreEqual(0, body(1, 1))
+        Assert.AreEqual(0.0R, CDbl(body(2, 1)))
+        Assert.IsInstanceOfType(body(5, 1), GetType(String))
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencyIndependentProportionsKeepOriginalDifferenceDirection()
+        Dim body = UdfContingencyPreparation38.IndependentProportionsBody(0, 10, 3, 10, 0.05R, AddressOf Finite)
+        Assert.AreEqual(10, body.GetLength(0))
+        Assert.AreEqual(0.0R, CDbl(body(2, 1)))
+        Assert.AreEqual(0.3R, CDbl(body(5, 1)), 0.000000000001R)
+        Assert.AreEqual(-0.3R, CDbl(body(6, 1)), 0.000000000001R)
+        Assert.AreEqual("Estimated difference (p1 - p2)", body(6, 0))
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencyPairedProportionsRetainDisjointCountsAndReportOrder()
+        Dim body = UdfContingencyPreparation38.PairedProportionsBody(10, 1, 2, 3, 0.05R, AddressOf Finite)
+        Assert.AreEqual(10, body.GetLength(0))
+        Assert.AreEqual(3, body(3, 1))
+        Assert.AreEqual(0.4R, CDbl(body(4, 1)), 0.000000000001R)
+        Assert.AreEqual(0.5R, CDbl(body(5, 1)), 0.000000000001R)
+        Assert.AreEqual("Estimated difference (p1 - p2)", body(6, 0))
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencyNonInferiorityAndEquivalenceRetainDecisionShapes()
+        Dim ni = UdfContingencyPreparation38.ProportionsNonInferiorityBody(30, 100, 35, 100, 0.2R, 0.025R)
+        Dim eq = UdfContingencyPreparation38.ProportionsEquivalenceBody(30, 100, 35, 100, -0.2R, 0.2R, 0.025R)
+        Assert.AreEqual(20, ni.GetLength(0))
+        Assert.AreEqual(23, eq.GetLength(0))
+        Assert.AreEqual("Difference (experimental - control)", ni(6, 0))
+        Assert.AreEqual(0.05R, CDbl(ni(6, 1)), 0.000000000001R)
+        Assert.IsInstanceOfType(ni(15, 1), GetType(Boolean))
+        Assert.AreEqual("TOST p-value = max(component p-values)", eq(15, 0))
+        Assert.IsInstanceOfType(eq(21, 1), GetType(Boolean))
+        Assert.AreEqual("Conclusion", eq(22, 0))
+    End Sub
+
+    <TestMethod>
+    Public Sub ContingencyFiniteGuardsKeepOriginalShortCircuitCounts()
+        Dim seen As New List(Of Double)
+        Dim body = UdfContingencyPreparation38.SingleProportionBody(2, 10, 0.05R,
+            Function(value)
+                seen.Add(value)
+                Return seen.Count < 2
+            End Function)
+        Assert.IsNull(body)
+        Assert.AreEqual(2, seen.Count)
+        Assert.AreEqual(0.2R, seen(0), 0.000000000001R)
+    End Sub
+    Private Shared Function Continuation10Data() As Double(,)
+        Return New Double(,) {{1, 2, 5}, {2, 1, 7}, {3, 4, 6}, {4, 3, 8}, {5, 6, 9}, {6, 5, 10}, {7, 8, 11}, {8, 7, 12}}
+    End Function
+
+    Private Shared Function Continuation10Pca() As Multivariate.PCA
+        Dim model As New Multivariate.PCA
+        model.dataInputs(Continuation10Data(), New Integer() {17, 3, 9, 4, 5, 6, 7, 8}, New String() {"duplicate", "duplicate", "Z"})
+        model.settingsInputs(250, 0.000001R, "Correlation")
+        model.Calculate("Fixed", 2)
+        Return model
+    End Function
+
+    Private Shared Function Continuation10Factor() As Multivariate.FactorAnalysis
+        Dim model As New Multivariate.FactorAnalysis
+        model.dataInputs(Continuation10Data(), New Integer() {17, 3, 9, 4, 5, 6, 7, 8}, New String() {"duplicate", "duplicate", "Z"})
+        model.settingsInputs(extractionMethod:=Multivariate.FactorAnalysisExtractionMethod.PrincipalComponents,
+                             retentionMethod:=Multivariate.FactorAnalysisRetentionMethod.Fixed, retentionValue:=2)
+        model.Calculate()
+        Return model
+    End Function
+
+    <TestMethod>
+    Public Sub PcaSummaryPreservesHeaderRowsAndTypedRetentionValue()
+        Dim model = Continuation10Pca(), ids = New Integer() {17, 3, 9, 4, 5, 6, 7, 8}, names = New String() {"duplicate", "duplicate", "Z"}
+        Dim headed = UdfMultivariateReportPreparation38.BuildPcaSummary(model, ids, names, "Correlation", "Fixed", 2.0R, True)
+        Dim plain = UdfMultivariateReportPreparation38.BuildPcaSummary(model, ids, names, "Correlation", "Fixed", 2.0R, False)
+        Assert.AreEqual(7, headed.GetLength(0)) : Assert.AreEqual(6, plain.GetLength(0))
+        Assert.AreEqual("Setting", headed(0, 0)) : Assert.AreEqual(8, plain(1, 1))
+        Assert.AreEqual(2, plain(3, 1)) : Assert.IsInstanceOfType(plain(5, 1), GetType(Double))
+    End Sub
+
+    <TestMethod>
+    Public Sub PcaEigenPreservesComponentOrderValuesAndRetainedFlags()
+        Dim model = Continuation10Pca()
+        Dim body = UdfMultivariateReportPreparation38.BuildPcaEigen(model.Eigenvalues, model.PercentExpl, model.PercentExplCum, model, True)
+        Assert.AreEqual(4, body.GetLength(0)) : Assert.AreEqual(5, body.GetLength(1))
+        Assert.AreEqual("PC1", body(1, 0)) : Assert.AreEqual("PC3", body(3, 0))
+        Assert.AreEqual(True, body(2, 4)) : Assert.AreEqual(False, body(3, 4))
+        Assert.IsInstanceOfType(body(1, 1), GetType(Double))
+        Assert.AreEqual(model.Eigenvalues(0), CDbl(body(1, 1)))
+    End Sub
+
+    <TestMethod>
+    Public Sub PcaEigenKeepsOriginalMismatchedArrayFailure()
+        Dim model = Continuation10Pca()
+        Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() UdfMultivariateReportPreparation38.BuildPcaEigen(New Double() {2, 1}, New Double() {60}, New Double() {60, 100}, model, False))
+    End Sub
+
+    <TestMethod>
+    Public Sub PcaEigenEmptyArraysDoNotEagerlyReadModel()
+        Dim body = UdfMultivariateReportPreparation38.BuildPcaEigen(New Double() {}, Nothing, Nothing, Nothing, True)
+        Assert.AreEqual(1, body.GetLength(0))
+        Assert.AreEqual("Component", body(0, 0))
+        body = UdfMultivariateReportPreparation38.BuildPcaEigen(New Double() {}, Nothing, Nothing, Nothing, False)
+        Assert.AreEqual(0, body.GetLength(0))
+    End Sub
+
+    <TestMethod>
+    Public Sub PcaEigenDoesNotInventNonfiniteCellNormalization()
+        Dim model = Continuation10Pca()
+        Dim body = UdfMultivariateReportPreparation38.BuildPcaEigen(New Double() {Double.NaN, Double.PositiveInfinity}, New Double() {Double.NaN, Double.PositiveInfinity}, New Double() {0, 0}, model, False)
+        Assert.IsTrue(Double.IsNaN(CDbl(body(0, 1))))
+        Assert.IsTrue(Double.IsPositiveInfinity(CDbl(body(1, 1))))
+        Assert.IsInstanceOfType(body(0, 4), GetType(Boolean))
+    End Sub
+
+    <TestMethod>
+    Public Sub FactorSummaryKeepsInclusiveArrayBoundsAndConvergenceTypes()
+        Dim model = Continuation10Factor(), names = New String() {"duplicate", "duplicate", "Z"}
+        Dim headed = UdfMultivariateReportPreparation38.BuildFactorSummary(model, names, "Correlation", "PrincipalComponents", "None", "Regression", True)
+        Dim plain = UdfMultivariateReportPreparation38.BuildFactorSummary(model, names, "Correlation", "PrincipalComponents", "None", "Regression", False)
+        Assert.AreEqual(14, headed.GetLength(0)) : Assert.AreEqual(13, plain.GetLength(0))
+        Assert.AreEqual("RMSR", headed(13, 0)) : Assert.AreEqual(8, plain(4, 1))
+        Assert.IsInstanceOfType(plain(8, 1), GetType(Boolean))
+        Assert.AreEqual(model.RMSR, CDbl(plain(12, 1)))
+    End Sub
+
+    <TestMethod>
+    Public Sub FactorEigenPreservesOriginalHeaderCallbackAndBlankCells()
+        Dim model = Continuation10Factor(), reads As Integer = 0, slot As Object = New Object()
+        Dim body = UdfMultivariateReportPreparation38.BuildFactorEigen(model, slot,
+            Function(value, defaultValue)
+                Assert.AreSame(slot, value) : Assert.IsTrue(defaultValue) : reads += 1
+                Return True
+            End Function)
+        Assert.AreEqual(1, reads) : Assert.AreEqual(4, body.GetLength(0)) : Assert.AreEqual(10, body.GetLength(1))
+        Assert.AreEqual("Factor", body(0, 0)) : Assert.AreEqual(1, body(1, 0))
+        Assert.IsNull(body(3, 4)) : Assert.IsInstanceOfType(body(1, 1), GetType(Double))
+    End Sub
+
+    <TestMethod>
+    Public Sub FactorEigenModelFailurePrecedesHeaderConversion()
+        Dim reads As Integer = 0, slot As Object = New Object()
+        Assert.ThrowsException(Of NullReferenceException)(Sub() UdfMultivariateReportPreparation38.BuildFactorEigen(Nothing, slot,
+            Function(value, defaultValue)
+                reads += 1
+                Return True
+            End Function))
+        Assert.AreEqual(0, reads)
+    End Sub
+
+    <TestMethod>
+    Public Sub FactorEigenPropagatesHeaderExceptionAtTheOriginalLateBoundary()
+        Dim model = Continuation10Factor(), reads As Integer = 0, slot As Object = New Object()
+        Assert.ThrowsException(Of InvalidOperationException)(Sub() UdfMultivariateReportPreparation38.BuildFactorEigen(model, slot,
+            Function(value, defaultValue) As Boolean
+                reads += 1
+                Throw New InvalidOperationException("header conversion")
+            End Function))
+        Assert.AreEqual(1, reads)
+    End Sub
+
+    <TestMethod>
+    Public Sub FactorEigenByRefHeaderSlotKeepsReentrantAliasWrites()
+        Dim model = Continuation10Factor(), slot As Object = New Object()
+        Dim body = UdfMultivariateReportPreparation38.BuildFactorEigen(model, slot,
+            Function(value, defaultValue)
+                slot = "callback write"
+                Return False
+            End Function)
+        Assert.AreEqual("callback write", CStr(slot))
+        Assert.AreEqual(3, body.GetLength(0))
+        Assert.AreEqual(1, body(0, 0))
+    End Sub
+End Class

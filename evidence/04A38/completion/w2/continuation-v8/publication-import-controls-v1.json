@@ -1,0 +1,45 @@
+{
+  "status": "EXACT_INHERITED_BINDING_AND_WRONG_CACHED_MODULE_REJECTION_PASS",
+  "commands": [
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v8\\prove_publication_import_v1.py",
+        "positive"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.2694125999987591,
+      "stdout_sha256": "f91c6985c81dbee140e58ad6b4bc026c585e2a160a5051e2157c691c81d3ccc0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v8\\prove_publication_import_v1.py",
+        "wrong"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.29134749999502674,
+      "stdout_sha256": "607ff70cd59267f0449e68e428a20bb99b27119068484cf82b0354de83ff4729",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "verifier": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/verify_c8_publication_v4.py",
+    "bytes": 5282,
+    "sha256": "eb2235fb1eb5ab29f20f963b6c4e0ead5a9e16b00e3b07d783d5f61c1d8a5b08"
+  },
+  "actual_C7_helper": {
+    "path": "evidence/04A38/completion/w2/continuation-v7/verify_validation_v1.py",
+    "bytes": 5247,
+    "sha256": "454301af87a525deca02a5a4076376c9f941c54d872b484be4da7944bc057355"
+  },
+  "production_changes": 0,
+  "original_queries": 0
+}

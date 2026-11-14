@@ -1,0 +1,28 @@
+{
+  "status": "CANDIDATES_ONLY_NOT_IMPLEMENTED_OR_AUTHORIZED",
+  "charter": "planning/BESHStatNG_CrossPlatform_MasterPlan.md Revision2.13; existing04A.39–04A.48 only; allocation/activation requires owner control",
+  "items": [
+    {
+      "candidate": "Nonfinite strict-SVD inverse acceptance",
+      "evidence": "inversion-before-Debug.json and inversion-parametric-v4-Debug.json, nonfinite row; matching Boolean/inverse-bit observations in Release",
+      "finding": "Existing matrix engine can return a successful inverse containing NaN for nonfinite input. C4 preserves this behavior and changes only the native catch/Err boundary.",
+      "future_scope": "04A.39–04A.40 finite-domain/model-request reconciliation; controlled scientific/public-behavior decision before correction",
+      "action_this_batch": "NONE"
+    },
+    {
+      "candidate": "ANOVA GUI/application-service versus legacy-UDF request intent",
+      "evidence": "BESHStat.Excel.Common/src/Analysis/OneWayAnovaApplicationService.vb versus ParametricUdfReports38 and native ParametricUDFs",
+      "finding": "The existing application service performs broader validation/report/plot preparation; it is not a compatibility-preserving drop-in for the legacy UDF orchestration. C4 shares the existing Core engine while preserving UDF intent.",
+      "future_scope": "Existing04A.39–04A.41 argument/default/parity register and04A.46 UI controls, without expanding that charter",
+      "action_this_batch": "No alignment/statistical/default change"
+    },
+    {
+      "candidate": "Native host/session/GUI behavior remains unvalidated",
+      "evidence": "Existing accepted-history restriction and current NOT_RUN ledger",
+      "finding": "Portable compilation/current-only managed compatibility does not demonstrate live Excel/COM/RefEdit, Office/Mac GUI or independent scientific validity.",
+      "future_scope": "Existing04A.43/04A.45–04A.48 controlled lifecycle/native/exit decisions",
+      "action_this_batch": "NOT_RUN;P=NO;N1=NO GO;N2=NO;C2=UNMET;C3=UNAPPROVED;NOT_GOLDEN"
+    }
+  ],
+  "mandatory_W2_scope_is_not_deferred_here": true
+}

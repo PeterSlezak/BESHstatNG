@@ -1,0 +1,25 @@
+{
+  "name": "accepted-checkpoint",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/verify_postcorrection_v3.py",
+    "bytes": 3896,
+    "sha256": "29b5918d505a49c67c9fffa0311c0b8c4d1e5bd9686e8dcdcb8e56c68f27e9fe"
+  },
+  "result": {
+    "command": [
+      "C:\\Users\\peter\\Desktop\\WPy64-31470\\python\\python.exe",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "C:\\Users\\peter\\source\\repos\\BESHstatNG\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1",
+      "C:\\Users\\peter\\source\\repos\\BESHstatNG\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\verify_postcorrection_v3.py"
+    ],
+    "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+    "exit_code": 0,
+    "seconds": 4.178358399978606,
+    "stdout_sha256": "f97674bcb6bbb8dcb5a6936635ffae586256371d97c2ec0633226f9129b6ee23",
+    "stderr_sha256": "fc6ab2fb12bb18cf0d4ed89d3d7b80675728520d883eafdf4ab863bc57a6304a",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

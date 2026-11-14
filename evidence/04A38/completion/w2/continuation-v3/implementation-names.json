@@ -1,0 +1,19 @@
+{
+  "status": "SOURCE_EDITED_AWAITING_COMPILATION_AND_PROOF",
+  "removed_coordinate_methods": [
+    "StackWithBlankRow",
+    "NormalizeBlanks"
+  ],
+  "canonical_coordinate_properties": [
+    "RowOrdinal",
+    "ColumnOrdinal"
+  ],
+  "removed_source_sha256": "9dd3e8f24c385da50d4e2c57ec2a15a9873d7aa8a82d69ee01176cb0985f0eeb",
+  "new_portable_methods": [
+    "FillExplicitNames",
+    "ResolveDetectedNames",
+    "GetVariableNames"
+  ],
+  "native_cell_policy": "Get2D/IsBlankCell/Convert.ToString.Trim only in native callbacks; Common receives strings/dimensions, never ExcelError",
+  "original_queries": 0
+}

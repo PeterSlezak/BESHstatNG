@@ -1,0 +1,99 @@
+{
+  "source_paths": [
+    "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+    "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb",
+    "BESHStat.Excel.Common/src/Analysis/UdfPsmDataPreparation38.vb",
+    "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "BESHStat.Excel.Common.Tests/src/UdfContinuation14Tests.vb"
+  ],
+  "source_before": [
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "bytes": 48126,
+        "sha256": "a6ec6181ac7bea01cf6f264e5eae5555faaae6ea21760035e26bf84d0e60af09"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v14/source-before/BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb.txt",
+        "bytes": 48126,
+        "sha256": "a6ec6181ac7bea01cf6f264e5eae5555faaae6ea21760035e26bf84d0e60af09"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+        "bytes": 5954,
+        "sha256": "69ccf917e4b74ab0b6f02727dbf918bfc875b4b16692a07f6636dac5acf6a354"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v14/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb.txt",
+        "bytes": 5954,
+        "sha256": "69ccf917e4b74ab0b6f02727dbf918bfc875b4b16692a07f6636dac5acf6a354"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+        "bytes": 8679,
+        "sha256": "ca34a806c3222359e7e862097502b20c20e0c958eb5dfbd92f1f5bce27d48309"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v14/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb.txt",
+        "bytes": 8679,
+        "sha256": "ca34a806c3222359e7e862097502b20c20e0c958eb5dfbd92f1f5bce27d48309"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb",
+        "bytes": 2384,
+        "sha256": "fe57f8a20ad0ddc4fb3f890be05c277bf9b5535ba5b6c6db50bfc727145a6c75"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v14/source-before/BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb.txt",
+        "bytes": 2384,
+        "sha256": "fe57f8a20ad0ddc4fb3f890be05c277bf9b5535ba5b6c6db50bfc727145a6c75"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 116553,
+        "sha256": "e8d722f832f781a48a1a2453660b14b07a25af5b1c8e1271d575f54243694fc9"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v14/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "bytes": 116553,
+        "sha256": "e8d722f832f781a48a1a2453660b14b07a25af5b1c8e1271d575f54243694fc9"
+      }
+    }
+  ],
+  "new_sources": [
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfPsmDataPreparation38.vb",
+      "entry_state": "ABSENT"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation14Tests.vb",
+      "entry_state": "ABSENT"
+    }
+  ],
+  "queue": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/entry-queue-receipt-v1.json",
+    "bytes": 5440668,
+    "sha256": "43553131e612b5cec76d2204d3e1c0290908cc143adb78cb35fe43beca35b829"
+  },
+  "entry": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/entry-executable-authentication-v1.json",
+    "bytes": 4696,
+    "sha256": "14c91967241d9fc7dc159d7a059646ded0b807f6652c69acef486630faf9cb32"
+  },
+  "changes": [
+    "Retain old Common GuessPositiveClass body and reset contract byte-for-byte; add post-conversion entry that uses local result and writes the output alias only on True. Native reset and conversion remain in the same order.",
+    "Extract typed PSM option construction/final normalization-validation, named-table routing, raw summary layout, model variable names and model matrix preparation. Native conversions/evaluation order, actual engine/materialization/cache/Guid/time/wizard/exception context stay host-owned.",
+    "No new Windows callable or callback declaration: preserve exact726 native identities. New methods/enumeration are portable only. Add Common tests and append adapter tests without changing existing assertions."
+  ],
+  "original_queries": 0
+}

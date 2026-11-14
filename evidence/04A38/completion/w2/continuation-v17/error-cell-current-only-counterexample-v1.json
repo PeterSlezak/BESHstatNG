@@ -1,0 +1,191 @@
+{
+  "changes": [
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation17Tests.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/error-cell-test-before/BESHStat.Excel.Common.Tests/src/UdfContinuation17Tests.vb",
+        "bytes": 10024,
+        "sha256": "3b8c19ffafc97f9cbc86e5d2cd6291627dd4014cf596594b73a4429052b34069"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation17Tests.vb",
+        "bytes": 11336,
+        "sha256": "1afb5b9da457a3d1372e060aca74a8a3c7f9411f8a8cc2796ccbf3252787c984"
+      }
+    },
+    {
+      "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/error-cell-test-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 148363,
+        "sha256": "06894433576627a4aa280ea32a29001e052a2f1dbe8e10d5f176846088d83d84"
+      },
+      "after": {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 149033,
+        "sha256": "69a6e7894868a07dc22da2330600a294ad31358ee71ffd222799b3ef38cd0450"
+      }
+    }
+  ],
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/production-test-freeze-v6.json",
+    "bytes": 97798,
+    "sha256": "7528002ae1697b290cd0bedc3278a2189568a065b0da0681bcd20bf050978457"
+  },
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\w2c17-error-cell-counterexample-v1\\Debug\\portable\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\w2c17-error-cell-counterexample-v1\\Debug\\obj\\Common\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 6.270458999992115,
+      "stdout_sha256": "eadb4042050394e91ad15deee591c3e38476c054027f462a89e322718e8d6923",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\w2c17-error-cell-counterexample-v1\\Debug\\legacy\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\w2c17-error-cell-counterexample-v1\\Debug\\obj\\Legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.54851239999698,
+      "stdout_sha256": "f9707bee12faaca974e07e0ca417c7bce5bb6a86cdce7c1695df8da22ba81b62",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "results": [
+    {
+      "records": [
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Median17ErrorCellsRetainDistinctOriginalBoxingInPortablePreparation",
+          "test_name": "Median17ErrorCellsRetainDistinctOriginalBoxingInPortablePreparation",
+          "outcome": "Failed",
+          "duration": "00:00:00.0345018",
+          "message": "Assert.AreNotSame failed. "
+        }
+      ],
+      "outcomes": {
+        "Failed": 1
+      },
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "0",
+        "failed": "1",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "sha256": "a0128b031ac4975477473bed2dfd5aa67f4e74f565647aac3e8b60165b35d8ca",
+      "configuration": "Debug",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w2c17-error-cell-counterexample-v1-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w2c17-error-cell-counterexample-v1-Common\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-error-cell-counterexample-v1-Common\\results",
+          "/Logger:trx;LogFileName=Common.trx",
+          "/TestCaseFilter:FullyQualifiedName~Median17ErrorCells"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 1.838206899992656,
+        "stdout_sha256": "a5a6c22bfa3ce0246adae64c9ffe7653124f733d326c64bf45e69f1d0c5d0fba",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "records": [
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Median17ErrorCellsRetainDistinctOriginalBoxesThroughWindowsAdapter",
+          "test_name": "Median17ErrorCellsRetainDistinctOriginalBoxesThroughWindowsAdapter",
+          "outcome": "Failed",
+          "duration": "00:00:00.2274750",
+          "message": "Assert.AreNotSame failed. "
+        }
+      ],
+      "outcomes": {
+        "Failed": 1
+      },
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "0",
+        "failed": "1",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "sha256": "059329e12e3c217a6e09b90fc56faf168df50701ce03b6c527d6972acdee1b97",
+      "configuration": "Debug",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\executions\\w2c17-error-cell-counterexample-v1-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w2c17-error-cell-counterexample-v1-Legacy\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-error-cell-counterexample-v1-Legacy\\results",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+          "/Logger:trx;LogFileName=Legacy.trx",
+          "/TestCaseFilter:FullyQualifiedName~Median17ErrorCells"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 3.4987964000029024,
+        "stdout_sha256": "d371c01519c7d7cb07f20de945e26e01d90499e33faaf5aee5de8bbe6d8602ba",
+        "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "original_queries": 0,
+  "authority": "Existing original native source/CIL boxes each error cell independently. New current-only tests expose reuse of one Object sentinel introduced by extraction. No original implementation is executed.",
+  "full_campaign_scope": "Earlier full managed/Python campaigns predate this correction; retain genuine results and do not call them final-source comprehensive campaigns."
+}

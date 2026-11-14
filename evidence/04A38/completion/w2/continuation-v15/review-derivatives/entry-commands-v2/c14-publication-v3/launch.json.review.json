@@ -1,0 +1,17 @@
+{
+  "command": [
+    "<PYTHON>",
+    "-I",
+    "-B",
+    "-c",
+    "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+    "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v14",
+    "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v14\\verify_c14_publication_v3.py"
+  ],
+  "cwd": "<REPO_ROOT>",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/verify_c14_publication_v3.py",
+    "bytes": 6724,
+    "sha256": "b4dd8e026ea74bfecc681bc68a212af6696ec569b06bed70b466674a55065f21"
+  }
+}

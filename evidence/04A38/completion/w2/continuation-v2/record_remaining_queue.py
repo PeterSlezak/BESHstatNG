@@ -1,0 +1,7 @@
+from common import *
+h=json.loads((HERE/'historical-ownership-v2.json').read_bytes())['members'];schedule=json.loads((W1/'w2-implementation-schedule.json').read_bytes())['sources'];matrix={r['canonical_original_id']:r for r in json.loads((W1/'member-behavior-evidence-target-matrix-v3.json').read_bytes())['members']}
+rows=[]
+for s in schedule:
+ open=[dict(original_id=r['canonical_original_id'],name=r['name'],current_ids=r['current_ids'],original_start_line=matrix[r['canonical_original_id']]['original_start_line'],original_end_line=matrix[r['canonical_original_id']]['original_end_line']) for r in h if r['path']==s['path'] and not r['proof']]
+ rows.append(dict(path=s['path'],priority=s['priority'],wave=s['wave'],source=pin(ROOT/s['path']),OPEN=len(open),members=open,responsibilities=s['responsibilities']))
+save('remaining-work-queue.json',dict(status='NOT_READY_04A38',sources=rows,first_implementation=['BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb::ResolveNames','BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb::GetVariableNames'],first_formal_boundary_closure=['AssumptionsUDFs.TryParseSymmetryMethod (source/exception proof published; ledger remains OPEN)','Original/current option normalization wrappers and root helper modules; use fresh expanded metadata scope, not partial edge counts'],all_families_retained=41,extra_callback=[r for r in h if r['path'] not in {s['path'] for s in schedule}],owner_decision_needed=False,new_original_queries=0))

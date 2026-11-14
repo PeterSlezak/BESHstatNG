@@ -1,0 +1,198 @@
+{
+  "scope": "EXACT_3424_HASH_C3_PROJECTION;NOT_CURRENT_C4_SOURCE",
+  "source_aliases": [
+    {
+      "path": "BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb",
+      "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb.txt"
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+      "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb.txt"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+      "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb.txt"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb.txt"
+    },
+    {
+      "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+      "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb.txt"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+      "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb.txt"
+    }
+  ],
+  "results": [
+    {
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c4-C3-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v3",
+          "-p",
+          "test_readers.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c4-C3-exact-view",
+        "exit_code": 0,
+        "seconds": 29.62787810000009,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0be71ed5aaa547ef5db5a813be10ab5b0ee1103aa1391dc166f1ad67345f2fb9",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c4-C3-reader-source",
+        "total": 26,
+        "passed": 26,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "0be71ed5aaa547ef5db5a813be10ab5b0ee1103aa1391dc166f1ad67345f2fb9",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_broken_inline_parent (test_readers.IndependentControls.test_broken_inline_parent)",
+          "test_changed_CI_enum (test_readers.IndependentControls.test_changed_CI_enum)",
+          "test_changed_CI_getter (test_readers.IndependentControls.test_changed_CI_getter)",
+          "test_changed_original_output (test_readers.IndependentControls.test_changed_original_output)",
+          "test_conversion_before_acquisition (test_readers.IndependentControls.test_conversion_before_acquisition)",
+          "test_dropped_current_callback (test_readers.IndependentControls.test_dropped_current_callback)",
+          "test_dropped_historical_member (test_readers.IndependentControls.test_dropped_historical_member)",
+          "test_dropped_support (test_readers.IndependentControls.test_dropped_support)",
+          "test_duplicate_coordinate_helpers (test_readers.IndependentControls.test_duplicate_coordinate_helpers)",
+          "test_forged_ready (test_readers.IndependentControls.test_forged_ready)",
+          "test_ignored_synthetic_nonpass (test_readers.IndependentControls.test_ignored_synthetic_nonpass)",
+          "test_invented_native_edge (test_readers.IndependentControls.test_invented_native_edge)",
+          "test_missing_generic_default_context (test_readers.IndependentControls.test_missing_generic_default_context)",
+          "test_missing_original_case (test_readers.IndependentControls.test_missing_original_case)",
+          "test_module_header_auto_closure (test_readers.IndependentControls.test_module_header_auto_closure)",
+          "test_names_original_query_forgery (test_readers.IndependentControls.test_names_original_query_forgery)",
+          "test_new_negative_count_guard (test_readers.IndependentControls.test_new_negative_count_guard)",
+          "test_null_text_RHS (test_readers.IndependentControls.test_null_text_RHS)",
+          "test_pvalue_coordinate_property_loss (test_readers.IndependentControls.test_pvalue_coordinate_property_loss)",
+          "test_swapped_text_locale (test_readers.IndependentControls.test_swapped_text_locale)",
+          "test_unreviewed_host_only (test_readers.IndependentControls.test_unreviewed_host_only)",
+          "test_valid_names (test_readers.IndependentControls.test_valid_names)",
+          "test_valid_whole_ownership (test_readers.IndependentControls.test_valid_whole_ownership)",
+          "test_wrong_comma_grammar (test_readers.IndependentControls.test_wrong_comma_grammar)",
+          "test_wrong_explicit_identity (test_readers.IndependentControls.test_wrong_explicit_identity)",
+          "test_wrong_original_transport (test_readers.IndependentControls.test_wrong_original_transport)"
+        ],
+        "nonpasses": []
+      }
+    },
+    {
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c4-C3-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v3",
+          "-p",
+          "test_scope.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c4-C3-exact-view",
+        "exit_code": 0,
+        "seconds": 3.96533089998411,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "f34b70642bbcec806fea22578dde250a64a577715c8e3e4998e9a30e15763a1d",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c4-C3-reader-scope",
+        "total": 7,
+        "passed": 7,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "f34b70642bbcec806fea22578dde250a64a577715c8e3e4998e9a30e15763a1d",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_false_parent_closure (test_scope.ScopeControls.test_false_parent_closure)",
+          "test_host_fields (test_scope.ScopeControls.test_host_fields)",
+          "test_host_method_body (test_scope.ScopeControls.test_host_method_body)",
+          "test_missing_original_branch (test_scope.ScopeControls.test_missing_original_branch)",
+          "test_missing_static_initializer (test_scope.ScopeControls.test_missing_static_initializer)",
+          "test_positive (test_scope.ScopeControls.test_positive)",
+          "test_wrong_count (test_scope.ScopeControls.test_wrong_count)"
+        ],
+        "nonpasses": []
+      }
+    },
+    {
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c4-C3-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v3",
+          "-p",
+          "test_publication.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c4-C3-exact-view",
+        "exit_code": 0,
+        "seconds": 206.4486723000009,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "c6b33a5627ff394a9c51fae81e5b6affa171f999051dfeec8083e88b4de86f14",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c4-C3-reader-publication",
+        "total": 24,
+        "passed": 24,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "c6b33a5627ff394a9c51fae81e5b6affa171f999051dfeec8083e88b4de86f14",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_casefold (test_publication.PublicationControls.test_casefold)",
+          "test_changed_hash (test_publication.PublicationControls.test_changed_hash)",
+          "test_duplicate (test_publication.PublicationControls.test_duplicate)",
+          "test_duplicate_manifest_inside_zip (test_publication.PublicationControls.test_duplicate_manifest_inside_zip)",
+          "test_extra_cache (test_publication.PublicationControls.test_extra_cache)",
+          "test_extra_raw_diagnostic (test_publication.PublicationControls.test_extra_raw_diagnostic)",
+          "test_extra_unmanifested (test_publication.PublicationControls.test_extra_unmanifested)",
+          "test_fixture_changed_or_extra_occurrence (test_publication.PublicationControls.test_fixture_changed_or_extra_occurrence)",
+          "test_inherited_fixture_exact (test_publication.PublicationControls.test_inherited_fixture_exact)",
+          "test_json_escaped_home (test_publication.PublicationControls.test_json_escaped_home)",
+          "test_more_null (test_publication.PublicationControls.test_more_null)",
+          "test_omitted_payload (test_publication.PublicationControls.test_omitted_payload)",
+          "test_physical_hash (test_publication.PublicationControls.test_physical_hash)",
+          "test_physical_safe_minimal (test_publication.PublicationControls.test_physical_safe_minimal)",
+          "test_private_utf16 (test_publication.PublicationControls.test_private_utf16)",
+          "test_raw_diagnostic_banned_even_synthetic_safe (test_publication.PublicationControls.test_raw_diagnostic_banned_even_synthetic_safe)",
+          "test_recursive_self (test_publication.PublicationControls.test_recursive_self)",
+          "test_reserved (test_publication.PublicationControls.test_reserved)",
+          "test_traversal (test_publication.PublicationControls.test_traversal)",
+          "test_true_partial (test_publication.PublicationControls.test_true_partial)",
+          "test_unattested_home_any_prefix (test_publication.PublicationControls.test_unattested_home_any_prefix)",
+          "test_unattested_uri_any_prefix (test_publication.PublicationControls.test_unattested_uri_any_prefix)",
+          "test_unicode_escaped_json_home (test_publication.PublicationControls.test_unicode_escaped_json_home)",
+          "test_wrong_status (test_publication.PublicationControls.test_wrong_status)"
+        ],
+        "nonpasses": []
+      }
+    }
+  ],
+  "original_queries": 0
+}

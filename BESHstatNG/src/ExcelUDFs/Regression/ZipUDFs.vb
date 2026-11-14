@@ -698,22 +698,7 @@ Namespace WorksheetFunctions
                 If betaCount Is Nothing OrElse betaZero Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim rows As New List(Of Object())
-                For i As Integer = 0 To nRows - 1
-                    Dim etaCount As Double = ComputeLinearPredictor(countExpandedX, i, betaCount, h.CountInterceptIncluded, offsetVals)
-                    Dim lambda As Double = Math.Exp(etaCount)
-                    Dim etaZero As Double = ComputeLinearPredictor(zeroExpandedX, i, betaZero, h.ZeroInterceptIncluded, Nothing)
-                    Dim pi As Double = regression.Logit.LogisticStable(etaZero)
-                    Dim mu As Double = (1.0R - pi) * lambda
-
-                    rows.Add(New Object() {
-                        SafeExcelNumber(mu),
-                        SafeExcelNumber(lambda),
-                        SafeExcelNumber(pi),
-                        SafeExcelNumber(etaCount),
-                        SafeExcelNumber(etaZero)
-                    })
-                Next
+                Dim rows As List(Of Object()) = Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildZipPredictionRows(countExpandedX, zeroExpandedX, betaCount, betaZero, h.CountInterceptIncluded, h.ZeroInterceptIncluded, offsetVals, nRows, AddressOf SafeExcelNumber)
 
                 Return MaterializeRows(rows,
                                        hdr,
@@ -758,49 +743,11 @@ Namespace WorksheetFunctions
                                          ses() As Double,
                                          interceptIncluded As Boolean,
                                          ciAlpha As Double)
-            If rows Is Nothing OrElse coeffs Is Nothing OrElse ses Is Nothing Then Exit Sub
-            If coeffs.Length <> ses.Length Then Exit Sub
-
-            Dim zCrit As Double = distributions.ZCritTwoSided(ciAlpha)
-            For i As Integer = 0 To coeffs.Length - 1
-                Dim z As Double = If(ses(i) > 0.0R, coeffs(i) / ses(i), Double.NaN)
-                Dim pv As Double = If(ses(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)
-                rows.Add(New Object() {
-                    componentLabel,
-                    predictorNames(i),
-                    If(interceptIncluded AndAlso i = 0, "Intercept", "Slope"),
-                    coeffs(i),
-                    ses(i),
-                    z,
-                    pv,
-                    coeffs(i) - zCrit * ses(i),
-                    coeffs(i) + zCrit * ses(i)
-                })
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.AppendZipSummaryRows(rows, componentLabel, predictorNames, coeffs, ses, interceptIncluded, ciAlpha)
         End Sub
 
         Private Function MaterializeRows(rows As List(Of Object()), includeHeader As Boolean, headers() As String) As Object
-            Dim bodyCols As Integer = If(headers Is Nothing, If(rows.Count > 0, rows(0).Length, 1), headers.Length)
-            Dim outRows As Integer = rows.Count + If(includeHeader, 1, 0)
-            If outRows < 1 Then outRows = 1
-            Dim out(outRows - 1, bodyCols - 1) As Object
-            Dim r0 As Integer = 0
-
-            If includeHeader AndAlso headers IsNot Nothing Then
-                For j As Integer = 0 To headers.Length - 1
-                    out(0, j) = headers(j)
-                Next
-                r0 = 1
-            End If
-
-            For i As Integer = 0 To rows.Count - 1
-                Dim rowVals() As Object = rows(i)
-                For j As Integer = 0 To Math.Min(bodyCols, rowVals.Length) - 1
-                    out(r0 + i, j) = rowVals(j)
-                Next
-            Next
-
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.MaterializeZipRows(rows, includeHeader, headers)
         End Function
 
         Private Function TryPrepareZipCountPredictionInputs(h As ZipHandle,
@@ -831,24 +778,7 @@ Namespace WorksheetFunctions
             End If
             If imported.nCols <> rawPredictorKeys.Length Then Return False
 
-            Dim expandedNames() As String = Nothing
-            Dim designErr As String = Nothing
-            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,
-                                                                                                fullRawPredictorKeys:=rawPredictorKeys,
-                                                                                                designSpec:=h.CountDesignSpec,
-                                                                                                expandedX:=expandedX,
-                                                                                                expandedPredictorNames:=expandedNames,
-                                                                                                errorMessage:=designErr,
-                                                                                                omitCategoricalReference:=h.CountOmitCategoricalReference) Then
-                Return False
-            End If
-
-            If expandedNames Is Nothing Then expandedNames = New String() {}
-            If expandedNames.Length <> h.CountExpandedPredictorNames.Length Then Return False
-
-            nRows = imported.nRows
-            offsetVals = If(imported.bOffset, imported.OffsetData, Nothing)
-            Return UdfDataImport.HasOnlyFinite(offsetVals)
+            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.PrepareZipCountDesign(imported.DataDbl, rawPredictorKeys, h.CountDesignSpec, h.CountOmitCategoricalReference, h.CountExpandedPredictorNames, imported.nRows, expandedX, nRows, imported.bOffset, imported.OffsetData, offsetVals)
         End Function
 
         Private Function TryPrepareZipZeroPredictionInputs(h As ZipHandle,
@@ -868,103 +798,27 @@ Namespace WorksheetFunctions
             End If
             If imported.nCols <> rawPredictorKeys.Length Then Return False
 
-            Dim expandedNames() As String = Nothing
-            Dim designErr As String = Nothing
-            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,
-                                                                                                fullRawPredictorKeys:=rawPredictorKeys,
-                                                                                                designSpec:=h.ZeroDesignSpec,
-                                                                                                expandedX:=expandedX,
-                                                                                                expandedPredictorNames:=expandedNames,
-                                                                                                errorMessage:=designErr,
-                                                                                                omitCategoricalReference:=h.ZeroOmitCategoricalReference) Then
-                Return False
-            End If
-
-            If expandedNames Is Nothing Then expandedNames = New String() {}
-            If expandedNames.Length <> h.ZeroExpandedPredictorNames.Length Then Return False
-
-            nRows = imported.nRows
-            Return True
+            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.PrepareZipZeroDesign(imported.DataDbl, rawPredictorKeys, h.ZeroDesignSpec, h.ZeroOmitCategoricalReference, h.ZeroExpandedPredictorNames, imported.nRows, expandedX, nRows)
         End Function
 
         Private Function ResponseColumnsMatch(countData(,) As Double, zeroData(,) As Double) As Boolean
-            If countData Is Nothing OrElse zeroData Is Nothing Then Return False
-            If countData.GetLength(0) <> zeroData.GetLength(0) Then Return False
-
-            For i As Integer = 0 To countData.GetLength(0) - 1
-                Dim yc As Double = countData(i, 0)
-                Dim yz As Double = zeroData(i, 0)
-                If Double.IsNaN(yc) OrElse Double.IsInfinity(yc) OrElse Double.IsNaN(yz) OrElse Double.IsInfinity(yz) Then Return False
-                If Math.Abs(yc - yz) > 0.0000001R Then Return False
-            Next
-
-            Return True
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ResponseColumnsMatch(countData, zeroData)
         End Function
 
         Private Function ParseZipComponent(v As Object) As String
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return "all"
-
-            Select Case NormalizeKey(s)
-                Case "all"
-                    Return "all"
-                Case "count", "poisson", "countpart", "poissonpart"
-                    Return "count"
-                Case "zero", "logistic", "zeropart", "inflation", "zeroinflation"
-                    Return "zero"
-                Case Else
-                    Return Nothing
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.ZIPUDFsOptions38.ParseZipComponent(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         Private Function ParseZipResidualType(v As Object) As String
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return "all"
-
-            Select Case NormalizeKey(s)
-                Case "all"
-                    Return "all"
-                Case "raw", "response"
-                    Return "raw"
-                Case "pearson"
-                    Return "pearson"
-                Case Else
-                    Return "all"
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.ZIPUDFsOptions38.ParseZipResidualType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         Private Function BuildParameterNames(varNames() As String, interceptIncluded As Boolean, coefficientCount As Integer) As String()
-            Dim out(coefficientCount - 1) As String
-            Dim nextIndex As Integer = 0
-
-            If interceptIncluded AndAlso coefficientCount > 0 Then
-                out(0) = "Intercept"
-                nextIndex = 1
-            End If
-
-            Dim predictorNames() As String = If(varNames, New String() {})
-            For i As Integer = 0 To predictorNames.Length - 1
-                If nextIndex + i <= UBound(out) Then
-                    out(nextIndex + i) = predictorNames(i)
-                End If
-            Next
-
-            For i As Integer = 0 To UBound(out)
-                If String.IsNullOrWhiteSpace(out(i)) Then
-                    out(i) = "Param" & (i + 1).ToString(CultureInfo.InvariantCulture)
-                End If
-            Next
-
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.ZIPUDFsMetadata38.BuildParameterNames(varNames, interceptIncluded, coefficientCount)
         End Function
 
         Private Function CountZeros(values() As Integer) As Integer
-            If values Is Nothing Then Return 0
-            Dim n As Integer = 0
-            For Each v As Integer In values
-                If v = 0 Then n += 1
-            Next
-            Return n
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.CountZeros(values)
         End Function
 
     End Module

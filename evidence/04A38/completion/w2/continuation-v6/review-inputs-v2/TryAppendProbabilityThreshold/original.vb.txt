@@ -1,0 +1,10 @@
+      thresholds = uniqueValues.ToArray()
+        Return True
+    End Function
+
+    Private Function TryAppendProbabilityThreshold(cell As Object, values As List(Of Double)) As Boolean
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell) Then Return True
+
+        Dim d As Double
+        If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(cell, d) Then Return False
+        If Not IsValidProbability(d) Then Re

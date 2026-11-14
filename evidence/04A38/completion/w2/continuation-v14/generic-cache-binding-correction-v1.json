@@ -1,0 +1,19 @@
+{
+  "before": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/build_contracts_v1.py",
+    "bytes": 11114,
+    "sha256": "300ec0af72e02bd23b23af5a3c03c8e6326a69bd2b606cd7555908494a25a2c8"
+  },
+  "after": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/build_contracts_v2.py",
+    "bytes": 11114,
+    "sha256": "606cd665cfc9dd56e735904a954a4d607aa620125af6a4fab3c0c01c82e1e227"
+  },
+  "binder": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/proof_kernel_v8.py",
+    "bytes": 1385,
+    "sha256": "5103dc6bbd10cd9c1781b3ca23568d709cfcdc2fc2a4b5b45ecc8c658904136a"
+  },
+  "reason": "Reflection FullName is null for open generic parameters/containers. Preserve the rejected attempt. Bind the existing source-declared constrained generic to its exact actual canonical CLR handle, parameter rank/ByRef/arity and recorded declaring/runtime assembly identities; no ordinal or guessed signature.",
+  "original_queries": 0
+}

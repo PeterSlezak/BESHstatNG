@@ -1,0 +1,3067 @@
+{
+  "changed_messages": [
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb')",
+      "occurrence": 0,
+      "old_message": "'0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa' != 'd35b3d2965dc004744f73378a08bb8ccc4dbb16875d451368c81e1a9a649a15b'\n- 0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa\n+ d35b3d2965dc004744f73378a08bb8ccc4dbb16875d451368c81e1a9a649a15b\n",
+      "new_message": "'0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa' != '270ca9504cee0ef8ade3bcb506b9e8f2b9462517ce914e4282b6ad91d8dc8894'\n- 0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa\n+ 270ca9504cee0ef8ade3bcb506b9e8f2b9462517ce914e4282b6ad91d8dc8894\n",
+      "old_message_sha256": "baf567eabd5fed6029a481579421166a6d59e11bfe3a3c88e53cdf80398b11f4",
+      "new_message_sha256": "2e2845463ed43b182f69b588d01645b673c21bb94f155d1de255bf6482b3fd15",
+      "old_traceback_sha256": "98dfa5427479c371f974be615a080ce2f76ed9872e097a1abb65a0842b7a3d56",
+      "new_traceback_sha256": "3b0f8d3636ba3a1e9f55b0d53c4f5bebe6d4db8810c749d4ad0881d0eb08aa63",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a28_output.py\", line 29, in test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_SOURCE_PIN_FAIL_AUTHORIZED_SOURCE_HASH_DELTA_NOT_WAIVED",
+      "transition": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "before": {
+          "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "bytes": 216708,
+          "sha256": "d35b3d2965dc004744f73378a08bb8ccc4dbb16875d451368c81e1a9a649a15b"
+        },
+        "preimage": {
+          "path": "evidence/04A38/completion/w2/continuation-v11/source-before/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb.txt",
+          "bytes": 216708,
+          "sha256": "d35b3d2965dc004744f73378a08bb8ccc4dbb16875d451368c81e1a9a649a15b"
+        },
+        "after": {
+          "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "bytes": 210747,
+          "sha256": "270ca9504cee0ef8ade3bcb506b9e8f2b9462517ce914e4282b6ad91d8dc8894"
+        },
+        "snapshot": {
+          "path": "evidence/04A38/completion/w2/continuation-v11/source-after/final-v1/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb.txt",
+          "bytes": 210747,
+          "sha256": "270ca9504cee0ef8ade3bcb506b9e8f2b9462517ce914e4282b6ad91d8dc8894"
+        }
+      }
+    }
+  ],
+  "new_events": [],
+  "same_clean_messages": 192,
+  "raw_helpers": [
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/python-v1/1/parallel-scan-1/1/raw-result.json",
+      "bytes": 301159,
+      "sha256": "68f96b7295f16b036aa172ce8f37987df9e51b05b3543b4fee4ca1df3a252aba"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/python-v1/1/parallel-scan-1/2/raw-result.json",
+      "bytes": 296885,
+      "sha256": "10b87f8ee0ffa497c93dd395ff7689780fb5cf309606bd228b72c45658f2907a"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/python-v1/1/parallel-scan-1/3/raw-result.json",
+      "bytes": 315376,
+      "sha256": "d02fb49ecc01b7e04221572d608407a0cad9135299924f1a2cf7cee836993aaa"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/python-v1/1/parallel-scan-1/4/raw-result.json",
+      "bytes": 303567,
+      "sha256": "ba5d88e3e2e56bc3ead987e51583b26df7ee20a0e0248909b1aa80ae46b6a048"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/python-v1/1/parallel-scan-1/5/raw-result.json",
+      "bytes": 307570,
+      "sha256": "e08f2aa7c269f57331afd025a8e7fb17e27326541484b728f6591cf30dac7536"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/python-v1/1/parallel-scan-2/1/raw-result.json",
+      "bytes": 1645,
+      "sha256": "d73c5c4ff45ef5f61ee78037bc16430eba76bd77f4fc6be7cb3be608e217753d"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/python-v1/1/parallel-scan-2/2/raw-result.json",
+      "bytes": 1631,
+      "sha256": "c95d32c7a212d37543e5fa3729095119545f9006cc22014d926ce4c71b1ab56d"
+    }
+  ],
+  "all_actual_helper_privacy_findings": [
+    {
+      "path": "evidence/04A38/completion/w1/run_census_v2.py",
+      "origin": "content",
+      "line": 22,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/inspect_stage_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/test_publication.py",
+      "origin": "content",
+      "line": 52,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/toolchain-current.json",
+      "origin": "content",
+      "line": 18,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/toolchain-current.json",
+      "origin": "content",
+      "line": 18,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/toolchain-current.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/toolchain-current.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-branch-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "content",
+      "line": 11,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "content",
+      "line": 11,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-index-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "content",
+      "line": 3,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "content",
+      "line": 8,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "content",
+      "line": 10,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "content",
+      "line": 3,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "content",
+      "line": 10,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-private-reader-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v3.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v3.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v3.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v3.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v3.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v3.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_inversion_probe.py",
+      "origin": "content",
+      "line": 2,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_inversion_probe.py",
+      "origin": "content",
+      "line": 3,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_text_domains_v2.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_text_domains_v5.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/toolchain.json",
+      "origin": "content",
+      "line": 33,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/toolchain.json",
+      "origin": "content",
+      "line": 33,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "content",
+      "line": 24426,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "content",
+      "line": 53298,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "content",
+      "line": 53298,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_final_v3.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continue_profile_capture.py",
+      "origin": "content",
+      "line": 7,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/replay_preedit_current.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/compile_harness.py",
+      "origin": "content",
+      "line": 88,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "content",
+      "line": 11,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "content",
+      "line": 11,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/seal_inputs.py",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w1/run_census.py",
+      "origin": "content",
+      "line": 22,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/capture_current_v2.py",
+      "origin": "content",
+      "line": 18,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 49977,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-diff-check-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "content",
+      "line": 3,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "content",
+      "line": 3,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/packet-preparation-first-failure-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v4.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v4.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v4.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v4.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v4.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v4.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/run_text_domains.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/run_text_domains_v2.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v2.json",
+      "origin": "content",
+      "line": 370,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v2.json",
+      "origin": "content",
+      "line": 427,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v3.json",
+      "origin": "content",
+      "line": 390,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v3.json",
+      "origin": "content",
+      "line": 447,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 81273,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 31721,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 31721,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "content",
+      "line": 66194,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "content",
+      "line": 53178,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "content",
+      "line": 53178,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_cell_probe.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_cell_probe_v3.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/seal_inputs.py",
+      "origin": "content",
+      "line": 19,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/test_manifest.py",
+      "origin": "content",
+      "line": 31,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/managed-test-identities-entry.csv",
+      "origin": "content",
+      "line": 2300,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/managed-test-identities-entry.csv",
+      "origin": "content",
+      "line": 3746,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/managed-test-identities-entry.csv",
+      "origin": "content",
+      "line": 3746,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/test_preedit_reader.py",
+      "origin": "content",
+      "line": 134,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/test_review_packet.py",
+      "origin": "content",
+      "line": 50,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/capture_current.py",
+      "origin": "content",
+      "line": 18,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319170,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 319205,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 357408,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 357408,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 363891,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 672242,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 675371,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 675371,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 675371,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 675371,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 694789,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 695173,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 695445,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 709930,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 769778,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 769933,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 945227,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1253443,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1327705,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1327705,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1327788,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1327788,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1332489,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1332489,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1333700,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1336318,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1336968,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1779837,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "content",
+      "line": 1779904,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-core-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-main-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "content",
+      "line": 11,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "content",
+      "line": 11,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-merge-base-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/run_text_domains_v2.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v1.json",
+      "origin": "content",
+      "line": 370,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v1.json",
+      "origin": "content",
+      "line": 427,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inversion-parametric-v4-commands.json",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inversion-parametric-v4-commands.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_text_domains_v3.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_final_v2.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/prove_privacy_regex_guard.py",
+      "origin": "content",
+      "line": 4,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 13,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 41,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 69,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 97,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 13,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 13,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 12,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 12,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_publication_privacy_v1.py",
+      "origin": "content",
+      "line": 23,
+      "category": "secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/execute_original.py",
+      "origin": "content",
+      "line": 21,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/seal_inputs.py",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/compile_harness-attempt-v1.py.txt",
+      "origin": "content",
+      "line": 98,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/seal_inputs.py",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/seal_inputs.py",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/probe_text_policy.py",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/probe_text_policy.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/probe_text_policy.py",
+      "origin": "content",
+      "line": 7,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 68483,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 68503,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 589743,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 589743,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 589939,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 589939,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591134,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591134,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591204,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591224,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591242,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591261,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591280,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591299,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591318,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591337,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591356,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591375,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591493,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591512,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/dependency-full-common-v2.json",
+      "origin": "content",
+      "line": 591530,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "content",
+      "line": 3,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "content",
+      "line": 8,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "content",
+      "line": 9,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "content",
+      "line": 11,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "content",
+      "line": 3,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "content",
+      "line": 11,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-sealed-reader-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/run_final_domains.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/toolchain.json",
+      "origin": "content",
+      "line": 18,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/toolchain.json",
+      "origin": "content",
+      "line": 18,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 12337,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 62777,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 62777,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inversion-before-commands.json",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inversion-before-commands.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 59650,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 72202,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 72202,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_final.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_final_v4.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_text_domains_v5.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/run_text_domains_v6.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "content",
+      "line": 44,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "content",
+      "line": 44,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "content",
+      "line": 44,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 10,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 10,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/replay_A_current.py",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/test_publication.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/compile_harness.py",
+      "origin": "content",
+      "line": 116,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/repair_observer.py",
+      "origin": "content",
+      "line": 13,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/seal_inputs.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/command-receipts-closeout-v2.json",
+      "origin": "content",
+      "line": 6662,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/command-receipts-closeout-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/command-receipts.json",
+      "origin": "content",
+      "line": 6639,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/command-receipts.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/diagnose_text_policy.py",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-HEAD-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "content",
+      "line": 10,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/entry-git-status-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "content",
+      "line": 3,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "content",
+      "line": 8,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "content",
+      "line": 9,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "content",
+      "line": 11,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "content",
+      "line": 3,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "content",
+      "line": 11,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v11/prior-live-preservation-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 77041,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 35329,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 35329,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/toolchain.json",
+      "origin": "content",
+      "line": 33,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/toolchain.json",
+      "origin": "content",
+      "line": 33,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/final_live.py",
+      "origin": "content",
+      "line": 15,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_runtime_metadata.py",
+      "origin": "content",
+      "line": 2,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_text_domains_v4.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_cell_probe_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_text_domains_v6.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_privacy_v2.py",
+      "origin": "content",
+      "line": 16,
+      "category": "secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 32944,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 32944,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 33027,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 33027,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 37728,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 37728,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 38939,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 41557,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 42207,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/execute_current.py",
+      "origin": "content",
+      "line": 41,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/compile_harness.py",
+      "origin": "content",
+      "line": 91,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/seal_inputs-attempt-v1.py.txt",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/compile_harness.py",
+      "origin": "content",
+      "line": 98,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/compile_harness.py",
+      "origin": "content",
+      "line": 126,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/compile_harness.py",
+      "origin": "content",
+      "line": 101,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    }
+  ],
+  "scope": "Helper precomputation is not a PASS for original whole scanners that error at the protected malformed giant. Exact parent and event counts remain separate."
+}

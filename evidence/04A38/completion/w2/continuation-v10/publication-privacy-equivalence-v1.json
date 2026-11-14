@@ -1,0 +1,73 @@
+{
+  "status": "EXACT_PRIOR_DECISION_CACHE_AND_FRESH_POLICY_REJECTIONS_PASS",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/publication_privacy_c10_v1.py",
+    "bytes": 1678,
+    "sha256": "deb8b61d6e5beab0f3933ccf000091fd62ceb2f84ddcb43565d949d36ae02e81"
+  },
+  "authority": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/publication-privacy-authority-v1.json",
+    "bytes": 769,
+    "sha256": "c77a5f352efcfe518b2ee8ea5ef65d55a0df9719efcc682e0a0e1c3fed0bfc44"
+  },
+  "controls": [
+    {
+      "name": "Exact prior/base equality",
+      "path": "evidence/04A38/completion/w2/continuation-v9/owner-review.md",
+      "status": "PASS"
+    },
+    {
+      "name": "Exact prior/base equality",
+      "path": "BESHStat.Core/src/DM/NumericGuards.vb",
+      "status": "PASS"
+    },
+    {
+      "name": "Exact previously bounded synthetic source decision retained",
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "status": "PASS"
+    },
+    {
+      "name": "changed bytes",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed path",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unattested profile",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Exact previously bounded synthetic source decision retained",
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_publication_privacy_v1.py",
+      "status": "PASS"
+    },
+    {
+      "name": "changed bytes",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed path",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unattested profile",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Fresh key",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Fresh credential",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Wrong policy source pin",
+      "status": "REJECTED"
+    }
+  ],
+  "new_exceptions": 0,
+  "scope": "Cached decisions are explicitly historical exact-input reuse; hashes/CRC remain fresh. All changed/new payloads receive unchanged base policy evaluation. Historical Python scanner failures are never relabelled or waived."
+}

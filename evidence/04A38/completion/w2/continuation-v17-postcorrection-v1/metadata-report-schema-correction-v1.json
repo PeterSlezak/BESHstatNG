@@ -1,0 +1,32 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/reconcile_Debug_v4.py",
+    "bytes": 6054,
+    "sha256": "bceed3ad959604e564b423e9a74a321e6d5f32bff8739eb19dff3d79846e74b6"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/reconcile_Debug_v5.py",
+    "bytes": 6062,
+    "sha256": "43de373adbb9ee5e685e3cf33346c413cd762905598c776383b247a7e2739f8a"
+  },
+  "reason": "Abstract/external members have no raw_IL_sha256 field. Compare absent hash as None in both versions; exact signature/type/normalized IL/exception equality assertions remain unchanged and already passed before the report failed.",
+  "failed_command": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\reconcile_Debug_v4.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 6.454073900007643,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "4c2d7143cfbb1d1ac40483f707eed563a78ecb2c85bf8e23c4ea0270045f5da5",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "test_executions_repeated": 0,
+  "production_or_test_changes": 0
+}

@@ -1,0 +1,308 @@
+{
+  "scope": "PRE_W2_INDEPENDENT_PRIVATE_SNAPSHOT;SOURCE_PINS_AUTHENTICATED;NOT_LIVE_CURRENT_SOURCE",
+  "results": [
+    {
+      "label": "preedit",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38",
+          "-p",
+          "test_preedit_reader.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 0,
+        "seconds": 20.444979899999453,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0111135de305eb36a9d6a154d48223434bae7efcc80f629188a1084eddb48b8a",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_preedit_reader.py"
+      ]
+    },
+    {
+      "label": "checkpoint",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38",
+          "-p",
+          "test_review_packet.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 0,
+        "seconds": 0.3493642999965232,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "b17a2c205de04f1c2ee165398534d8f597f7ba2c2368894fac8d8ace6d8bf5da",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_review_packet.py"
+      ]
+    },
+    {
+      "label": "continuation",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/continuation/v1",
+          "-p",
+          "test_branch_audit.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 0,
+        "seconds": 2.472740099998191,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "bf4cac9af4da05ecc3ee40dcd179783f364556c518b84bf8be783e7e508006ee",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_branch_audit.py"
+      ]
+    },
+    {
+      "label": "A",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v1",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 1,
+        "seconds": 0.9033747000212315,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3f48071987f2ca3d8798a8c6e9555ede1f963541ea2050c0b795ba9cf815ad16",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_packet.py",
+        "test_supplement.py"
+      ]
+    },
+    {
+      "label": "B",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 0,
+        "seconds": 66.18848440001602,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "6fb3944d6ba087c38270ebd10942a07186f7aa62044f500b5c1f6321a74d7704",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_gee.py",
+        "test_manifest.py",
+        "test_mmrm_gap.py",
+        "test_preservation.py"
+      ]
+    },
+    {
+      "label": "C",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 0,
+        "seconds": 70.97035760001745,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "54e9d54fabd195c267a6745c74bb79cc48fbd3aacb59936da6fe3bb094d2775b",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_guard_gap.py",
+        "test_packet.py",
+        "test_supplement.py"
+      ]
+    },
+    {
+      "label": "D",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 1,
+        "seconds": 50.499150999996345,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "a6e42d6d2bb22e0bb49d8142508a042373bf9a3e51f66dd2e2c3d0d1996ad794",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_mask_gap.py",
+        "test_packet.py",
+        "test_supplement.py"
+      ]
+    },
+    {
+      "label": "E",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 1,
+        "seconds": 2.8781733000068925,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "2b9c8f60f9536de39c32d9eed7ade38ada60ad8b71a0e64ae430fdc7b9541ccc",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_closeout.py",
+        "test_group_gap.py",
+        "test_packet.py",
+        "test_supplement.py"
+      ]
+    },
+    {
+      "label": "F",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 1,
+        "seconds": 2.011536400008481,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "89130c5192862fbad07e3074d5c7b0e6cc9a6aef4d972e2a51831b8f40b11ece",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_packet.py",
+        "test_supplement.py"
+      ]
+    },
+    {
+      "label": "G",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 1,
+        "seconds": 3.1173538000148255,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "b90fc526b1cbf3756b3a5e56508c955eefe8d14a4e68ca1d7dc9470d8d69a19f",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_packet.py",
+        "test_supplement.py"
+      ]
+    },
+    {
+      "label": "W1",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/completion/w1",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+        "exit_code": 1,
+        "seconds": 1.034740300005069,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "51b6e83b36c94aaf0e42e2fd2e0da37c8dd1451f0f133b2b4b3665bc850e590b",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "files": [
+        "test_publication.py",
+        "test_w1.py",
+        "test_w1_v2.py"
+      ]
+    }
+  ],
+  "new_original_queries": 0,
+  "limitations": "Older adverse test temporary files may exceed Windows path limits in nested views; preserve those setup errors separately from test-condition passes. No old source/assertion modified."
+}

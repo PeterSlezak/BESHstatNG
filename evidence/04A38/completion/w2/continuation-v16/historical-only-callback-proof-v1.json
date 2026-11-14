@@ -1,0 +1,527 @@
+{
+  "rows": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SingleLineFunctionLambdaExpression|428d1e4fd4aba8cd@107092:37",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SingleLineFunctionLambdaExpression|428d1e4fd4aba8cd@107092:37",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SingleLineFunctionLambdaExpression|428d1e4fd4aba8cd",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+        "signature": "Function(ch)",
+        "span_start": 107092,
+        "span_length": 37,
+        "start_line": 1877,
+        "end_line": 1877,
+        "body_sha256": "0fb5b182502cb53011118f072cf9d5f374f6e6fe99a17073731bc1546ef26a05",
+        "body_token_sha256": "bae2f25be9c11c7893bbebff3e80c165dc83c403ae4a9e61e182284b5d928544",
+        "source_sha256": "35a3a35ddf4dfdb074a082dfe92495969dd1a8532f86af6650d6bde33bcf7649",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|9af7fa1eae0f5e6c@106906:256",
+        "invocations": [
+          {
+            "text": "Char.IsLetterOrDigit(ch)",
+            "line": 1877
+          }
+        ]
+      },
+      "original_source": {
+        "path": "evidence/04A38/preedit/source/Regression/GeeUDFs.vb.txt",
+        "bytes": 114843,
+        "sha256": "35a3a35ddf4dfdb074a082dfe92495969dd1a8532f86af6650d6bde33bcf7649"
+      },
+      "original_whole_body": "Function(ch) Char.IsLetterOrDigit(ch)",
+      "current_ids": [],
+      "current_portable_record": {
+        "symbol_id": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb|BESHStatNG.ExcelCommon.GEEUDFsMetadata38|SingleLineFunctionLambdaExpression|428d1e4fd4aba8cd@2413:37",
+        "signature_key": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb|BESHStatNG.ExcelCommon.GEEUDFsMetadata38|SingleLineFunctionLambdaExpression|428d1e4fd4aba8cd",
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38",
+        "signature": "Function(ch)",
+        "span_start": 2413,
+        "span_length": 37,
+        "start_line": 57,
+        "end_line": 57,
+        "body_sha256": "0fb5b182502cb53011118f072cf9d5f374f6e6fe99a17073731bc1546ef26a05",
+        "body_token_sha256": "bae2f25be9c11c7893bbebff3e80c165dc83c403ae4a9e61e182284b5d928544",
+        "source_sha256": "5629e3325038b2759866c6b951b0d01177c6d149e971b24d395f7d1ddfd3d873",
+        "exported": false,
+        "parent_member": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb|BESHStatNG.ExcelCommon.GEEUDFsMetadata38|FunctionBlock|cc4e9de22c4dbe00@2221:262",
+        "invocations": [
+          {
+            "text": "Char.IsLetterOrDigit(ch)",
+            "line": 57
+          }
+        ]
+      },
+      "current_portable_parent": {
+        "symbol_id": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb|BESHStatNG.ExcelCommon.GEEUDFsMetadata38|FunctionBlock|cc4e9de22c4dbe00@2221:262",
+        "signature_key": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb|BESHStatNG.ExcelCommon.GEEUDFsMetadata38|FunctionBlock|cc4e9de22c4dbe00",
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+        "name": "GeeNormalizeDesignColumnName",
+        "kind": "FunctionBlock",
+        "owner": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38",
+        "signature": "Public Shared Function GeeNormalizeDesignColumnName(s As String) As String",
+        "span_start": 2221,
+        "span_length": 262,
+        "start_line": 55,
+        "end_line": 58,
+        "body_sha256": "76b43ad494b3c8ace75eaf2553cea94bc91b03b008e007a74bd1106c32065ac7",
+        "body_token_sha256": "6e257f961c47d1ffae56d2ca11cf19d9806c0da3f06f880b2d399048eaf33692",
+        "source_sha256": "5629e3325038b2759866c6b951b0d01177c6d149e971b24d395f7d1ddfd3d873",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "s.Trim().ToLowerInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch)).ToArray()",
+            "line": 57
+          },
+          {
+            "text": "s.Trim().ToLowerInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch))",
+            "line": 57
+          },
+          {
+            "text": "s.Trim().ToLowerInvariant()",
+            "line": 57
+          },
+          {
+            "text": "s.Trim()",
+            "line": 57
+          }
+        ]
+      },
+      "current_portable_source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+        "bytes": 25433,
+        "sha256": "5629e3325038b2759866c6b951b0d01177c6d149e971b24d395f7d1ddfd3d873"
+      },
+      "current_whole_body": "Function(ch) Char.IsLetterOrDigit(ch)",
+      "compiled_Debug": {
+        "original_method": {
+          "method": "BESHStatNG.WorksheetFunctions.GEEUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__30-0(System.Char @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.GEEUDFs+_Closure$__",
+          "member_name": "_Lambda$__30-0",
+          "parameter_types": [
+            "System.Char"
+          ],
+          "attributes": "PrivateScope, Assembly, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "8023f341418f8fbad6055a4dc3458ee7c80e81a342d8235ddd878ec1f7d5946b",
+          "type_initializer": true,
+          "nonliteral_static_fields": 2,
+          "locals": [
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "init_locals": true,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Char @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsLetterOrDigit(System.Char @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                4
+              ]
+            },
+            {
+              "op": "ldloc.0",
+              "operand": null
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        "current_method": {
+          "method": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__3-0(System.Char @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "signature": {
+            "return_type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [
+              {
+                "name": "ch",
+                "type": "System.Char @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "byref": false,
+                "is_out": false,
+                "optional": false,
+                "has_default": false,
+                "default_type": null,
+                "default_value": null,
+                "attributes": []
+              }
+            ],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38+_Closure$__",
+          "member_name": "_Lambda$__3-0",
+          "parameter_types": [
+            "System.Char"
+          ],
+          "attributes": "PrivateScope, Assembly, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "ce51cc2de4d1bcf8dd2be814626b70a277942d025890f3334ffa0067b0fbaf63",
+          "type_initializer": true,
+          "nonliteral_static_fields": 2,
+          "locals": [
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "init_locals": true,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Char @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsLetterOrDigit(System.Char @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                4
+              ]
+            },
+            {
+              "op": "ldloc.0",
+              "operand": null
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        "original_typed_parent": {
+          "method": "BESHStatNG.WorksheetFunctions.GEEUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GeeNormalizeDesignColumnName(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+          "member_name": "GeeNormalizeDesignColumnName",
+          "parameter_types": [
+            "System.String"
+          ],
+          "attributes": "PrivateScope, Private, Static",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "a8696a4b8cd254013f8e02c627b8a810744d44cf314c1425e0cf581c9b4e21d9",
+          "type_initializer": true,
+          "nonliteral_static_fields": 1,
+          "locals": [
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "init_locals": true,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldnull",
+              "operand": null
+            },
+            {
+              "op": "ceq",
+              "operand": null
+            },
+            {
+              "op": "stloc.1",
+              "operand": null
+            },
+            {
+              "op": "ldloc.1",
+              "operand": null
+            },
+            {
+              "op": "brfalse",
+              "operand": [
+                9
+              ]
+            },
+            {
+              "op": "ldsfld",
+              "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                26
+              ]
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "callvirt",
+              "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+            },
+            {
+              "op": "callvirt",
+              "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToLowerInvariant()"
+            },
+            {
+              "op": "ldsfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.GEEUDFs+_Closure$__.$I30-0:System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "brfalse",
+              "operand": [
+                16
+              ]
+            },
+            {
+              "op": "ldsfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.GEEUDFs+_Closure$__.$I30-0:System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                21
+              ]
+            },
+            {
+              "op": "ldsfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.GEEUDFs+_Closure$__.$I:BESHStatNG.WorksheetFunctions.GEEUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ldftn",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.GEEUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__30-0(System.Char @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "dup",
+              "operand": null
+            },
+            {
+              "op": "stsfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.GEEUDFs+_Closure$__.$I30-0:System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Where``1(System.Collections.Generic.IEnumerable`1[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray``1(System.Collections.Generic.IEnumerable`1[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Char[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                26
+              ]
+            },
+            {
+              "op": "ldloc.0",
+              "operand": null
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        "current_typed_parent": {
+          "method": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GeeNormalizeDesignColumnName(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "signature": {
+            "return_type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [
+              {
+                "name": "s",
+                "type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "byref": false,
+                "is_out": false,
+                "optional": false,
+                "has_default": false,
+                "default_type": null,
+                "default_value": null,
+                "attributes": []
+              }
+            ],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.GEEUDFsMetadata38",
+          "member_name": "GeeNormalizeDesignColumnName",
+          "parameter_types": [
+            "System.String"
+          ],
+          "attributes": "PrivateScope, Public, Static",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "6afd144185db03acf29333f1e265c6f42a1549db139c4bf002ddb941dc5913b4",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "init_locals": true,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldnull",
+              "operand": null
+            },
+            {
+              "op": "ceq",
+              "operand": null
+            },
+            {
+              "op": "stloc.1",
+              "operand": null
+            },
+            {
+              "op": "ldloc.1",
+              "operand": null
+            },
+            {
+              "op": "brfalse",
+              "operand": [
+                9
+              ]
+            },
+            {
+              "op": "ldsfld",
+              "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                26
+              ]
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "callvirt",
+              "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+            },
+            {
+              "op": "callvirt",
+              "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToLowerInvariant()"
+            },
+            {
+              "op": "ldsfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.GEEUDFsMetadata38+_Closure$__.$I3-0:System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "brfalse",
+              "operand": [
+                16
+              ]
+            },
+            {
+              "op": "ldsfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.GEEUDFsMetadata38+_Closure$__.$I3-0:System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                21
+              ]
+            },
+            {
+              "op": "ldsfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.GEEUDFsMetadata38+_Closure$__.$I:BESHStatNG.ExcelCommon.GEEUDFsMetadata38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ldftn",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.GEEUDFsMetadata38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__3-0(System.Char @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "dup",
+              "operand": null
+            },
+            {
+              "op": "stsfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.GEEUDFsMetadata38+_Closure$__.$I3-0:System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Where``1(System.Collections.Generic.IEnumerable`1[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray``1(System.Collections.Generic.IEnumerable`1[[System.Char, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Char[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                26
+              ]
+            },
+            {
+              "op": "ldloc.0",
+              "operand": null
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        "original_return_authority": "Exact original Func(Char,Boolean) ldftn/constructor and original callback CIL; no invented reflection row or original execution"
+      },
+      "new_support": true,
+      "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+      "original_queries": 0
+    }
+  ],
+  "original_queries": 0
+}

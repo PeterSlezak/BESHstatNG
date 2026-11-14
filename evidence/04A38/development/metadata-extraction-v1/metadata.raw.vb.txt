@@ -1,0 +1,477 @@
+Option Explicit On
+Option Strict On
+Option Infer On
+
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
+Imports System.Linq
+Imports System.Text
+Imports System.Text.RegularExpressions
+Imports BESHStatNG
+
+Namespace ExcelCommon
+    Public NotInheritable Class CoxUDFsMetadata38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function ResidualLabel(rt As ResidualType) As String
+            Select Case rt
+                Case ResidualType.Martingale : Return "Martingale"
+                Case ResidualType.Deviance : Return "Deviance"
+                Case ResidualType.Schoenfeld : Return "Schoenfeld"
+                Case ResidualType.Dfbeta : Return "Dfbeta"
+                Case Else : Return "Residual"
+            End Select
+        End Function
+    End Class
+    Public NotInheritable Class GEEUDFsMetadata38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function GeeFindHeaderIndex(headers() As String, ParamArray acceptedNames() As String) As Integer
+            If headers Is Nothing OrElse acceptedNames Is Nothing Then Return -1
+            For i As Integer = 0 To headers.Length - 1
+                Dim h As String = GeeNormalizeDesignColumnName(headers(i))
+                For Each accepted As String In acceptedNames
+                    If String.Equals(h, GeeNormalizeDesignColumnName(accepted), StringComparison.OrdinalIgnoreCase) Then Return i
+                Next
+            Next
+            Return -1
+        End Function
+
+        Public Shared Function GeeFindDesignColumnIndex(names() As String, requestedName As String) As Integer
+            If names Is Nothing OrElse String.IsNullOrWhiteSpace(requestedName) Then Return -1
+            For i As Integer = 0 To names.Length - 1
+                If String.Equals(names(i), requestedName, StringComparison.OrdinalIgnoreCase) Then Return i
+            Next
+            Dim wanted As String = GeeNormalizeDesignColumnName(requestedName)
+            For i As Integer = 0 To names.Length - 1
+                If String.Equals(GeeNormalizeDesignColumnName(names(i)), wanted, StringComparison.OrdinalIgnoreCase) Then Return i
+            Next
+            Return -1
+        End Function
+
+        Public Shared Function GeeNormalizeDesignColumnName(s As String) As String
+            If s Is Nothing Then Return String.Empty
+            Return New String(s.Trim().ToLowerInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch)).ToArray())
+        End Function
+
+        Public Shared Function BuildGeeTimeLabels(model As GEE, size As Integer) As String()
+            Dim labels(size - 1) As String
+
+            Dim dict = model.TimesDict
+            If dict Is Nothing OrElse dict.Count <> size Then
+                For i As Integer = 0 To size - 1
+                    labels(i) = "t" & (i + 1).ToString(CultureInfo.InvariantCulture)
+                Next
+                Return labels
+            End If
+
+            For Each kvp In dict
+                Dim idx As Integer = kvp.Value
+                If idx >= 0 AndAlso idx < size Then
+                    labels(idx) = "t=" & kvp.Key.ToString("0.###############", CultureInfo.InvariantCulture)
+                End If
+            Next
+
+            For i As Integer = 0 To size - 1
+                If String.IsNullOrWhiteSpace(labels(i)) Then
+                    labels(i) = "t" & (i + 1).ToString(CultureInfo.InvariantCulture)
+                End If
+            Next
+
+            Return labels
+        End Function
+
+        Public Shared Function BuildParameterNames(predictorNames() As String, coefficientCount As Integer) As String()
+            If coefficientCount < 1 Then Return New String() {}
+
+            Dim out(coefficientCount - 1) As String
+            out(0) = "Intercept"
+            Dim source() As String = If(predictorNames, New String() {})
+            For i As Integer = 1 To coefficientCount - 1
+                Dim srcIndex As Integer = i - 1
+                If srcIndex < source.Length Then
+                    out(i) = source(srcIndex)
+                Else
+                    out(i) = "Param" & (i + 1).ToString(CultureInfo.InvariantCulture)
+                End If
+            Next
+            Return out
+        End Function
+    End Class
+    Public NotInheritable Class LmmUDFsMetadata38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function NormalizeNameList(inputNames() As String, expectedCount As Integer, fallbackPrefix As String) As String()
+            If expectedCount <= 0 Then Return New String() {}
+            Dim out(expectedCount - 1) As String
+            For i As Integer = 0 To expectedCount - 1
+                Dim nm As String = Nothing
+                If inputNames IsNot Nothing AndAlso i < inputNames.Length Then nm = inputNames(i)
+                nm = If(nm, String.Empty).Trim()
+                If nm = String.Empty OrElse String.Equals(nm, "X" & (i + 1).ToString(CultureInfo.InvariantCulture), StringComparison.OrdinalIgnoreCase) Then
+                    nm = fallbackPrefix & (i + 1).ToString(CultureInfo.InvariantCulture)
+                End If
+                out(i) = nm
+            Next
+            Return out
+        End Function
+
+        Public Shared Function DefaultRandomCovarianceName(includeRandomIntercept As Boolean,
+                                                     authoredRandomColumnCount As Integer,
+                                                     totalRandomColumnCount As Integer) As String
+            If includeRandomIntercept AndAlso authoredRandomColumnCount = 0 AndAlso totalRandomColumnCount = 1 Then
+                Return "Random Intercept"
+            End If
+
+            Return "Variance Components (VC/Diag)"
+        End Function
+    End Class
+    Public NotInheritable Class MixedModelUDFsMetadata38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function DefaultNames(count As Integer, prefix As String) As String()
+            Dim names(Math.Max(0, count) - 1) As String
+            For i As Integer = 0 To names.Length - 1
+                names(i) = prefix & (i + 1).ToString(CultureInfo.InvariantCulture)
+            Next
+            Return names
+        End Function
+
+        Public Shared Function NormalizeMmrmNameList(inputNames() As String, expectedCount As Integer, fallbackPrefix As String) As String()
+            If expectedCount <= 0 Then Return New String() {}
+            Dim out(expectedCount - 1) As String
+            For i As Integer = 0 To expectedCount - 1
+                Dim nm As String = Nothing
+                If inputNames IsNot Nothing AndAlso i < inputNames.Length Then nm = inputNames(i)
+                nm = If(nm, String.Empty).Trim()
+                If nm = String.Empty Then nm = fallbackPrefix & (i + 1).ToString(CultureInfo.InvariantCulture)
+                out(i) = nm
+            Next
+            Return out
+        End Function
+
+        Public Shared Function AddInterceptNameIfRequested(names() As String, includeIntercept As Boolean) As String()
+            If names Is Nothing Then names = Array.Empty(Of String)()
+            If Not includeIntercept Then Return DirectCast(names.Clone(), String())
+
+            Dim out(names.Length) As String
+            out(0) = "Intercept"
+            For i As Integer = 0 To names.Length - 1
+                out(i + 1) = If(String.IsNullOrWhiteSpace(names(i)), "X" & (i + 1).ToString(CultureInfo.InvariantCulture), names(i))
+            Next
+            Return out
+        End Function
+
+        Public Shared Function FindDesignColumnIndex(names() As String, requestedName As String) As Integer
+            If names Is Nothing OrElse String.IsNullOrWhiteSpace(requestedName) Then Return -1
+
+            For i As Integer = 0 To names.Length - 1
+                If String.Equals(names(i), requestedName, StringComparison.OrdinalIgnoreCase) Then Return i
+            Next
+
+            Dim wanted As String = MixedModelUDFsOptions38.NormalizeDesignColumnName(requestedName)
+            For i As Integer = 0 To names.Length - 1
+                If String.Equals(MixedModelUDFsOptions38.NormalizeDesignColumnName(names(i)), wanted, StringComparison.OrdinalIgnoreCase) Then Return i
+            Next
+
+            Return -1
+        End Function
+    End Class
+    Public NotInheritable Class RegressionFormulaUDFsMetadata38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function BuildValidationFailureMessage(formulaText As String,
+                                                       addressingMode As String,
+                                                       rawVarNames As String(),
+                                                       absoluteColumnLetters As String(),
+                                                       parserOrBuilderMessage As String) As String
+
+            Dim sb As New StringBuilder()
+            Dim msg As String = If(parserOrBuilderMessage, "Unknown validation error.").Trim()
+
+            sb.Append("Validation failed: ")
+            sb.Append(msg)
+
+            Dim fragment As String = Nothing
+            Dim fragmentPos As Integer = -1
+            If TryLocateOffendingFragment(formulaText, msg, fragment, fragmentPos) Then
+                sb.Append(" Offending fragment: ")
+                sb.Append(fragment)
+                If fragmentPos >= 0 Then
+                    sb.Append(" (starting near character ")
+                    sb.Append((fragmentPos + 1).ToString(CultureInfo.InvariantCulture))
+                    sb.Append(").")
+                Else
+                    sb.Append(".")
+                End If
+            End If
+
+            If Not String.IsNullOrWhiteSpace(formulaText) Then
+                sb.Append(" Formula: ")
+                sb.Append(formulaText.Trim())
+                sb.Append(".")
+            End If
+
+            sb.Append(" Addressing mode: ")
+            sb.Append(addressingMode)
+            sb.Append(".")
+
+            Dim refs As String = BuildAvailableReferenceSummary(addressingMode, rawVarNames, absoluteColumnLetters)
+            If refs <> String.Empty Then
+                sb.Append(" ")
+                sb.Append(refs)
+            End If
+
+            Return sb.ToString()
+        End Function
+
+        Public Shared Function TryLocateOffendingFragment(formulaText As String,
+                                                    errorMessage As String,
+                                                    ByRef fragment As String,
+                                                    ByRef position As Integer) As Boolean
+
+            fragment = Nothing
+            position = -1
+
+            Dim formula As String = If(formulaText, String.Empty)
+            Dim err As String = If(errorMessage, String.Empty)
+            If formula = String.Empty OrElse err = String.Empty Then Return False
+
+            Dim candidates As New List(Of String)()
+
+            For Each m As Match In Regex.Matches(err, "'((?:[^']|'')*)'")
+                If m.Success Then
+                    Dim body As String = m.Groups(1).Value
+                    If body <> String.Empty Then candidates.Add(body)
+                End If
+            Next
+
+            For Each candidate As String In candidates.Distinct(StringComparer.Ordinal)
+                Dim exactQuoted As String = "'" & candidate.Replace("'", "''") & "'"
+                Dim idx As Integer = formula.IndexOf(exactQuoted, StringComparison.OrdinalIgnoreCase)
+                If idx >= 0 Then
+                    fragment = exactQuoted
+                    position = idx
+                    Return True
+                End If
+
+                idx = formula.IndexOf(candidate, StringComparison.OrdinalIgnoreCase)
+                If idx >= 0 Then
+                    fragment = candidate
+                    position = idx
+                    Return True
+                End If
+            Next
+
+            Dim factorIx As Integer = err.IndexOf("factor(", StringComparison.OrdinalIgnoreCase)
+            If factorIx >= 0 Then
+                Dim factorFormulaIx As Integer = formula.IndexOf("factor(", StringComparison.OrdinalIgnoreCase)
+                If factorFormulaIx >= 0 Then
+                    fragment = ExtractBalancedFunctionCall(formula, factorFormulaIx)
+                    position = factorFormulaIx
+                    Return fragment <> String.Empty
+                End If
+            End If
+
+            If err.IndexOf("interaction", StringComparison.OrdinalIgnoreCase) >= 0 AndAlso formula.IndexOf(":"c) >= 0 Then
+                fragment = formula.Trim()
+                position = formula.IndexOf(":"c)
+                Return True
+            End If
+
+            If err.IndexOf("polynomial", StringComparison.OrdinalIgnoreCase) >= 0 AndAlso formula.IndexOf("^"c) >= 0 Then
+                fragment = formula.Trim()
+                position = formula.IndexOf("^"c)
+                Return True
+            End If
+
+            Return False
+        End Function
+
+        Public Shared Function ExtractBalancedFunctionCall(text As String, startIndex As Integer) As String
+            Dim s As String = If(text, String.Empty)
+            If startIndex < 0 OrElse startIndex >= s.Length Then Return String.Empty
+
+            Dim depth As Integer = 0
+            Dim inQuotes As Boolean = False
+            Dim i As Integer = startIndex
+
+            While i < s.Length
+                Dim ch As Char = s(i)
+
+                If ch = "'"c Then
+                    If inQuotes Then
+                        If i + 1 < s.Length AndAlso s(i + 1) = "'"c Then
+                            i += 2
+                            Continue While
+                        Else
+                            inQuotes = False
+                        End If
+                    Else
+                        inQuotes = True
+                    End If
+                ElseIf Not inQuotes Then
+                    If ch = "("c Then
+                        depth += 1
+                    ElseIf ch = ")"c Then
+                        depth -= 1
+                        If depth = 0 Then
+                            Return s.Substring(startIndex, i - startIndex + 1).Trim()
+                        End If
+                    End If
+                End If
+
+                i += 1
+            End While
+
+            Return s.Substring(startIndex).Trim()
+        End Function
+
+        Public Shared Function BuildAvailableReferenceSummary(addressingMode As String,
+                                                        rawVarNames As String(),
+                                                        absoluteColumnLetters As String()) As String
+
+            Dim names As List(Of String) = If(rawVarNames, Array.Empty(Of String)()).Select(Function(x) If(x, String.Empty).Trim()).Where(Function(x) x <> String.Empty).ToList()
+            Dim p As Integer = names.Count
+            If p = 0 Then Return String.Empty
+
+            Select Case addressingMode
+                Case "absolute"
+                    If absoluteColumnLetters IsNot Nothing AndAlso absoluteColumnLetters.Length = p Then
+                        Return "Available absolute worksheet columns: " & FormatSampleList(absoluteColumnLetters) & "."
+                    End If
+                    Return "Available predictors: " & FormatSampleList(names.Select(Function(n) "'" & n.Replace("'", "''") & "'").ToArray()) & "."
+
+                Case "names"
+                    Return "Available variable names: " & FormatSampleList(names.Select(Function(n) "'" & n.Replace("'", "''") & "'").ToArray()) & "."
+
+                Case Else
+                    Dim rel As String() = Enumerable.Range(1, p).Select(Function(i) RegressionVariableCatalog.NumberToLetters(i)).ToArray()
+                    Return "Available relative X-columns: " & FormatSampleList(rel) & "."
+            End Select
+        End Function
+
+        Public Shared Function FormatSampleList(items As IEnumerable(Of String)) As String
+            Dim vals As List(Of String) = If(items, Array.Empty(Of String)()).Where(Function(x) Not String.IsNullOrWhiteSpace(x)).ToList()
+            If vals.Count = 0 Then Return String.Empty
+
+            Const maxShown As Integer = 8
+            If vals.Count <= maxShown Then
+                Return String.Join(", ", vals)
+            End If
+
+            Return String.Join(", ", vals.Take(maxShown)) & ", ..."
+        End Function
+    End Class
+    Public NotInheritable Class ZIPUDFsMetadata38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function BuildParameterNames(varNames() As String, interceptIncluded As Boolean, coefficientCount As Integer) As String()
+            Dim out(coefficientCount - 1) As String
+            Dim nextIndex As Integer = 0
+
+            If interceptIncluded AndAlso coefficientCount > 0 Then
+                out(0) = "Intercept"
+                nextIndex = 1
+            End If
+
+            Dim predictorNames() As String = If(varNames, New String() {})
+            For i As Integer = 0 To predictorNames.Length - 1
+                If nextIndex + i <= (out.Length - 1) Then
+                    out(nextIndex + i) = predictorNames(i)
+                End If
+            Next
+
+            For i As Integer = 0 To (out.Length - 1)
+                If String.IsNullOrWhiteSpace(out(i)) Then
+                    out(i) = "Param" & (i + 1).ToString(CultureInfo.InvariantCulture)
+                End If
+            Next
+
+            Return out
+        End Function
+    End Class
+    Public NotInheritable Class UdfDataImportMetadata38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function SequenceEqualStrings(left As String(), right As String()) As Boolean
+            If left Is Nothing OrElse right Is Nothing Then Return left Is right
+            If left.Length <> right.Length Then Return False
+            For i As Integer = 0 To left.Length - 1
+                If Not String.Equals(left(i), right(i), StringComparison.Ordinal) Then Return False
+            Next
+            Return True
+        End Function
+
+        Public Shared Function NormalizeMmrmNameList(inputNames() As String, expectedCount As Integer, fallbackPrefix As String) As String()
+            If expectedCount <= 0 Then Return New String() {}
+            Dim out(expectedCount - 1) As String
+            For i As Integer = 0 To expectedCount - 1
+                Dim nm As String = Nothing
+                If inputNames IsNot Nothing AndAlso i < inputNames.Length Then nm = inputNames(i)
+                nm = If(nm, String.Empty).Trim()
+                If nm = String.Empty Then nm = fallbackPrefix & (i + 1).ToString(CultureInfo.InvariantCulture)
+                out(i) = nm
+            Next
+            Return out
+        End Function
+
+        Public Shared Function DefaultMmrmNames(count As Integer, prefix As String) As String()
+            Dim names(Math.Max(0, count) - 1) As String
+            For i As Integer = 0 To names.Length - 1
+                names(i) = prefix & (i + 1).ToString(CultureInfo.InvariantCulture)
+            Next
+            Return names
+        End Function
+
+        Public Shared Function MmrmFindHeaderIndex(headers() As String, ParamArray acceptedNames() As String) As Integer
+            If headers Is Nothing OrElse acceptedNames Is Nothing Then Return -1
+
+            For i As Integer = 0 To headers.Length - 1
+                Dim h As String = MmrmNormalizeDesignColumnName(headers(i))
+                For Each accepted As String In acceptedNames
+                    If String.Equals(h, MmrmNormalizeDesignColumnName(accepted), StringComparison.OrdinalIgnoreCase) Then Return i
+                Next
+            Next
+
+            Return -1
+        End Function
+
+        Public Shared Function MmrmFindDesignColumnIndex(names() As String, requestedName As String) As Integer
+            If names Is Nothing OrElse String.IsNullOrWhiteSpace(requestedName) Then Return -1
+
+            For i As Integer = 0 To names.Length - 1
+                If String.Equals(names(i), requestedName, StringComparison.OrdinalIgnoreCase) Then Return i
+            Next
+
+            Dim wanted As String = MmrmNormalizeDesignColumnName(requestedName)
+            For i As Integer = 0 To names.Length - 1
+                If String.Equals(MmrmNormalizeDesignColumnName(names(i)), wanted, StringComparison.OrdinalIgnoreCase) Then Return i
+            Next
+
+            Return -1
+        End Function
+
+        Public Shared Function MmrmNormalizeDesignColumnName(s As String) As String
+            If s Is Nothing Then Return String.Empty
+            Return New String(s.Trim().ToLowerInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch)).ToArray())
+        End Function
+    End Class
+    Public NotInheritable Class UdfScalarUtilitiesMetadata38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function CloneStringArray(values() As String) As String()
+            If values Is Nothing Then Return Nothing
+            Return DirectCast(values.Clone(), String())
+        End Function
+    End Class
+End Namespace

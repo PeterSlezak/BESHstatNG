@@ -1,0 +1,80 @@
+{
+  "generated": {
+    "path": "evidence/04A38/preedit/native-safety/DependencySlices38.vb",
+    "bytes": 7958,
+    "sha256": "887c3d7d1b1613efb5e85ce69d32fbf0c29842f9c61db82adc5885caca440192"
+  },
+  "bindings": [
+    {
+      "path": "BESHstatNG/src/RegModels/LinearAlgebra/Matrix.vb",
+      "member": "DotProduct",
+      "source_sha256": "1f4f29eb3a8636473553ef1e1b46e6df60395a7b805686353aefcb38870caeb7",
+      "slice_sha256": "1fa6d4252affcb4d70a290df3dcf16568165cc25338b2fd876a410e263265307",
+      "original": "        Public Function DotProduct(a() As Double, b() As Double) As Double\n            Return MatrixArithmeticCore.DotProduct(a, b)\n        End Function"
+    },
+    {
+      "path": "BESHstatNG/src/RegModels/LinearAlgebra/Matrix.vb",
+      "member": "MatInv",
+      "source_sha256": "1f4f29eb3a8636473553ef1e1b46e6df60395a7b805686353aefcb38870caeb7",
+      "slice_sha256": "ed62cf1874052e30cc790dada399148aa28334d87039b1a503204ae215d09433",
+      "original": "        Public Function MatInv(ByVal mat(,) As Double,\n                               Optional method As String = \"LU\",\n                               ByRef Optional iErr As Integer = 0,\n                               Optional bPseudInverse As Boolean = True) As Double(,)\n            Return MatrixDecompositionCore.InvertMatrix(mat, method, iErr, bPseudInverse)\n        End Function"
+    },
+    {
+      "path": "BESHstatNG/src/RegModels/LinearAlgebra/Matrix.vb",
+      "member": "GetColumnFrom2Darray",
+      "source_sha256": "1f4f29eb3a8636473553ef1e1b46e6df60395a7b805686353aefcb38870caeb7",
+      "slice_sha256": "684ce18fc44317df79be8320321b53e203f709fc1c8bd58909811e27ca10cdd0",
+      "original": "        Public Function GetColumnFrom2Darray(Of T)(x(,) As T, nCol As Integer) As T()\n            Return ArrayUtilities.GetColumn(x, nCol)\n        End Function"
+    },
+    {
+      "path": "BESHstatNG/src/RegModels/LinearAlgebra/Matrix.vb",
+      "member": "MatCovar",
+      "source_sha256": "1f4f29eb3a8636473553ef1e1b46e6df60395a7b805686353aefcb38870caeb7",
+      "slice_sha256": "7a2a08f24570557a36fa6aaa5ba196de3490c9a3335a9733c975f67f7da02773",
+      "original": "        Public Function MatCovar(mat(,) As Double) As Double(,)\n            Return MatrixStatisticsCore.SampleCovariance(mat)\n        End Function"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/ChartingFunc.vb",
+      "member": "HistogramBinsComputation",
+      "source_sha256": "61d3c89e3032d800ec8fb397418a214a3b31157829c22bf68eb56195f11cc234",
+      "slice_sha256": "7b1d1de23c9c961a691a00f191699402034c89c4fa862b06a489af37d3dd5a7c",
+      "original": "        Public Function HistogramBinsComputation(arInput() As Double, strType As String) As Object(,)\n            Return Global.BESHStatNG.HistogramBinningCore.HistogramBinsComputation(arInput, strType)\n        End Function"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/ChartingFunc.vb",
+      "member": "GaussOverlayComputation",
+      "source_sha256": "61d3c89e3032d800ec8fb397418a214a3b31157829c22bf68eb56195f11cc234",
+      "slice_sha256": "f7496022165502a5a28b596175f78632799021a68328bee2eb07b76b16a056e3",
+      "original": "        Function GaussOverlayComputation(arData() As Double, arBinMidVal() As Double) As Double(,)\n            Return Global.BESHStatNG.HistogramBinningCore.GaussOverlayComputation(arData, arBinMidVal)\n        End Function"
+    },
+    {
+      "path": "BESHstatNG/src/DM/ExcelDnaSharedApplicationAdapter.vb",
+      "member": "ValidateAcquisitionReference",
+      "source_sha256": "e3e386b26fd2cfd071fa2e716b500471c424c1b50c0433e85260682ae5d93be1",
+      "slice_sha256": "b4d18adfa61a5503c8b7de70316a93463d17ac941df17b5426973cdd555f22dd",
+      "original": "\n    Friend Shared Function ValidateAcquisitionReference(reference As SpreadsheetRangeReference) As SpreadsheetRangeReference\n        If reference Is Nothing Then Throw New ArgumentNullException(NameOf(reference))\n        If reference.AddressDialect <> SpreadsheetAddressDialect.ExcelA1 Then Throw New ArgumentException(\"Windows acquisition requires Excel A1 references.\")\n        If Not String.IsNullOrEmpty(reference.WorkbookId) Then Throw New ArgumentException(\"A workbook ID cannot be verified by this Windows adapter.\")\n        If Not String.IsNullOrEmpty(reference.SelectionRevision) Then Throw New ArgumentException(\"A selection revision cannot be verified by this Windows adapter.\")\n        Dim normalized As SpreadsheetRangeReference = SpreadsheetRangeReference.FromAddress(reference.Address, reference.WorksheetName, reference.WorkbookName)\n        If String.IsNullOrWhiteSpace(normalized.WorksheetName) Then Throw New ArgumentException(\"A worksheet name is required.\")\n        CheckCoordinate(reference.StartRow, normalized.StartRow)\n        CheckCoordinate(reference.StartColumn, normalized.StartColumn)\n        CheckCoordinate(reference.RowCount, normalized.RowCount)\n        CheckCoordinate(reference.ColumnCount, normalized.ColumnCount)\n        normalized.WorksheetId = If(reference.WorksheetId, String.Empty)\n        normalized.SelectionId = If(reference.SelectionId, String.Empty)\n        Return normalized\n    End Function"
+    },
+    {
+      "path": "BESHstatNG/src/DM/ExcelDnaSharedApplicationAdapter.vb",
+      "member": "CheckCoordinate",
+      "source_sha256": "e3e386b26fd2cfd071fa2e716b500471c424c1b50c0433e85260682ae5d93be1",
+      "slice_sha256": "1bfca28e22acf069589f41c6d04f7729941a60e6a21505c0ae005ebe476bb156",
+      "original": "\n    Private Shared Sub CheckCoordinate(requested As Integer, actual As Integer)\n        If requested <> 0 AndAlso requested <> actual Then Throw New ArgumentException(\"Source coordinates conflict with the requested address.\")\n    End Sub"
+    },
+    {
+      "path": "BESHstatNG/src/DM/ExcelDnaSharedApplicationAdapter.vb",
+      "member": "SnapshotValues",
+      "source_sha256": "e3e386b26fd2cfd071fa2e716b500471c424c1b50c0433e85260682ae5d93be1",
+      "slice_sha256": "7c08d9587a5eae6c0773c2edafced641f18a9aae2a4ceb47d2953b9cab1571be",
+      "original": "    Friend Shared Function SnapshotValues(reference As SpreadsheetRangeReference, values As Object,\n                                         numberFormatAt As Func(Of Integer, Integer, String),\n                                         errorTextAt As Func(Of Integer, Integer, String),\n                                         dateSystem As SpreadsheetDateSystem,\n                                         Optional budget As InputAcquisitionBudget = Nothing) As SpreadsheetRangeData\n        Dim normalized As SpreadsheetRangeReference = ValidateAcquisitionReference(reference)\n        Dim matrix As Array = TryCast(values, Array)\n        If matrix IsNot Nothing Then\n            If matrix.Rank <> 2 OrElse matrix.GetLength(0) <> normalized.RowCount OrElse matrix.GetLength(1) <> normalized.ColumnCount Then\n                Throw New ArgumentException(\"Host values do not match the range dimensions.\", NameOf(values))\n            End If\n        ElseIf normalized.RowCount <> 1 OrElse normalized.ColumnCount <> 1 Then\n            Throw New ArgumentException(\"A multi-cell range requires a two-dimensional host value array.\", NameOf(values))\n        End If\n        Dim result As New SpreadsheetRangeData With {\n            .WorkbookName = normalized.WorkbookName, .WorksheetName = normalized.WorksheetName,\n            .WorksheetId = normalized.WorksheetId, .Address = normalized.Address,\n            .StartRow = normalized.StartRow, .StartColumn = normalized.StartColumn,\n            .RowCount = normalized.RowCount, .ColumnCount = normalized.ColumnCount,\n            .DateSystem = dateSystem, .SelectionId = normalized.SelectionId,\n            .SelectionRevision = String.Empty\n        }\n        For row As Integer = 1 To result.RowCount\n            If budget IsNot Nothing Then budget.Checkpoint()\n            Dim cells As New List(Of SpreadsheetCellValue)()\n            For column As Integer = 1 To result.ColumnCount\n                Dim value As Object = If(matrix Is Nothing, values,\n                    matrix.GetValue(matrix.GetLowerBound(0) + row - 1, matrix.GetLowerBound(1) + column - 1))\n                Dim cell As SpreadsheetCellValue = ToSnapshotCell(value, errorTextAt, row, column)\n                cell.NumberFormat = If(numberFormatAt Is Nothing, String.Empty, If(numberFormatAt(row, column), String.Empty))\n                cells.Add(cell)\n            Next\n            result.Rows.Add(cells)\n        Next\n        Return WindowsSpreadsheetTransport.Require(SpreadsheetSelectionTransport.Capture(result)).Data\n    End Function"
+    },
+    {
+      "path": "BESHstatNG/src/DM/ExcelDnaSharedApplicationAdapter.vb",
+      "member": "ToSnapshotCell",
+      "source_sha256": "e3e386b26fd2cfd071fa2e716b500471c424c1b50c0433e85260682ae5d93be1",
+      "slice_sha256": "833ee171ac4e69a98a19239d5d08db829f24cbe3a8bc59dca425d63d8dcac40c",
+      "original": "\n    Friend Shared Function ToSnapshotCell(value As Object, errorTextAt As Func(Of Integer, Integer, String),\n                                          row As Integer, column As Integer) As SpreadsheetCellValue\n        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is ExcelEmpty OrElse TypeOf value Is ExcelMissing Then Return SpreadsheetCellValue.BlankCell()\n        Dim nativeCode As String = Nothing\n        If TypeOf value Is ExcelError Then\n            nativeCode = CInt(DirectCast(value, ExcelError)).ToString(CultureInfo.InvariantCulture)\n        ElseIf TypeOf value Is ErrorWrapper Then\n            nativeCode = DirectCast(value, ErrorWrapper).ErrorCode.ToString(CultureInfo.InvariantCulture)\n        ElseIf TypeOf value Is Integer AndAlso (CInt(value) And &HFFFF0000) = &H800A0000 Then\n            ' VT_ERROR values returned by Excel COM use the FACILITY_CONTROL HRESULT.\n            ' Preserve the supplied HRESULT, including newer Excel errors, without an error-name lookup.\n            nativeCode = CInt(value).ToString(CultureInfo.InvariantCulture)\n        End If\n        If nativeCode IsNot Nothing Then\n            Return SpreadsheetCellValue.ErrorCell(If(errorTextAt Is Nothing, String.Empty, errorTextAt(row, column)), nativeCode)\n        End If\n        If TypeOf value Is String Then Return SpreadsheetCellValue.TextCell(DirectCast(value, String))\n        If TypeOf value Is Boolean Then Return SpreadsheetCellValue.BooleanCell(CBool(value))\n        Select Case Type.GetTypeCode(value.GetType())\n            Case TypeCode.Byte, TypeCode.SByte, TypeCode.Int16, TypeCode.UInt16, TypeCode.Int32, TypeCode.UInt32,\n                 TypeCode.Int64, TypeCode.UInt64, TypeCode.Single, TypeCode.Double, TypeCode.Decimal\n                Return SpreadsheetCellValue.NumberCell(Convert.ToDouble(value, CultureInfo.InvariantCulture))\n            Case Else\n                Throw New ArgumentException(\"Unsupported host cell value type: \" & value.GetType().FullName)\n        End Select\n    End Function"
+    }
+  ],
+  "policy": "Exact original callable/expression bytes; wrappers supply only original namespace/type/import context. Core existing algorithms remain authoritative. No production API/assembly visibility change."
+}

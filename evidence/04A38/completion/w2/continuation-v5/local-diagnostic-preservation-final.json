@@ -1,0 +1,70 @@
+{
+  "status": "RAW_DIAGNOSTIC_AND_UTF16_ATTEMPT_BYTE_PRESERVATION_PASS",
+  "public_derivative": {
+    "status": "EXHAUSTIVE_RAW_PUBLIC_JSON_DIFF_PASS",
+    "changed_fields": [
+      {
+        "pointer": [
+          "results",
+          1,
+          "records",
+          1600,
+          "test_name"
+        ],
+        "original_label_sha256": "56b0b654dc663e63f7941d15e51f0701180aa05ad400405af733b6ab812aa73a",
+        "public_label_sha256": "a88b31d6c226cc6fd9debe57750a93ce8b5889aabef6d4337e66330f8bb1b4d5",
+        "public_label": "FieldPathsAreClosedVocabularyAndBoundedIndexes (\"<SYNTHETIC_PATH:1ed0403ec945eb069c62>\")"
+      },
+      {
+        "pointer": [
+          "results",
+          1,
+          "records",
+          5209,
+          "test_name"
+        ],
+        "original_label_sha256": "bf8e62e4bacba5ac40ccdfdff36fb18945f30ac94b53e6d9d642702346b07997",
+        "public_label_sha256": "366b706ab0b046f4062601041876a891631d07b0a52e6a5323570a690e003461",
+        "public_label": "UnsafeLinkTargetsRejected (\"<SYNTHETIC_URI:9d1e17b7aec858924620>\")"
+      }
+    ],
+    "all_other_fields_equal": true,
+    "raw_identity": {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "bytes": 7354629,
+      "sha256": "a9f2ff1629352117f4121dedb6c30454c6b427aec3e7b6940a94541e64bb4d8f"
+    },
+    "public_identity": {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-public-v2.json",
+      "bytes": 7354650,
+      "sha256": "f1feca2be1d9783b26b3615818d302e84d9a717839294e7d48f106525d4971f6"
+    },
+    "scope": "LOCAL raw diagnostic comparison; derivative alone cannot rehash omitted raw bytes",
+    "scientific_source_input_output_trace_redactions": 0
+  },
+  "encoding_relocation": {
+    "status": "BYTE_EXACT_NEW_C5_DIAGNOSTIC_RELOCATED_WITH_UTF8_EQUIVALENT",
+    "former": {
+      "path": "evidence/04A38/completion/w2/continuation-v5/preservation.json",
+      "bytes": 96794,
+      "sha256": "a55d8b5ece5436ae9754f11aa7a6b5caba1199bcc307c84ad55c3e37fe0e501b"
+    },
+    "retained_local": {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont5/retained-encoding-attempt/preservation-utf16-original.json",
+      "bytes": 96794,
+      "sha256": "a55d8b5ece5436ae9754f11aa7a6b5caba1199bcc307c84ad55c3e37fe0e501b"
+    },
+    "public_utf8_equivalent": {
+      "path": "evidence/04A38/completion/w2/continuation-v5/preservation-encoding-normalized.json",
+      "bytes": 54343,
+      "sha256": "d73e6dff417039cb85fa645bc95f16e6dba939b68a36d580eeec9983333917e7"
+    },
+    "decoded_JSON_values_equal": true,
+    "reason": "PowerShell5 native redirection produced UTF16. Generic inherited UTF8-only privacy readers may report setup ERROR or cached-path missing after this correction; preserve those receipts and rerun the affected identity without changing its assertion.",
+    "preflight": "publication-preflight.json records the former byte pin and was explicitly preliminary, not final publication authority",
+    "protected_prior_versions": "No C4/earlier evidence, source preimage, corpus, owner document or tracked path moved or changed",
+    "original_queries": 0
+  },
+  "publication_exclusion": "Raw diagnostics and original UTF16 receipt remain local; exact two-label display derivative and value-equivalent UTF8 receipt are public",
+  "original_queries": 0
+}

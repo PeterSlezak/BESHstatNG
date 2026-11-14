@@ -1,0 +1,21 @@
+{
+  "status": "HISTORICAL_GUARD_CORRECTLY_REJECTED_NEW_FRONTIER",
+  "command": {
+    "command": [
+      "dotnet",
+      "<ISOLATED_RUN>\\completion-w2-cont4\\domain-tool-v2\\bin\\CallDomains-v2.dll",
+      "<REPO_ROOT>",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\text-call-sites-v2.json"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 3762504530,
+    "seconds": 5.668215499987127,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "3a6c40a96aee191b535aab4238229ea7c230068e95a9539ed93a392bd75a6c94",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "reason": "Historical C4 tool pins145 direct/59 lines/64 CaseToken/750 choices. C6 adds exactly8 direct comparisons on3 lines plus3 CaseToken sites/38 choices in the reviewed new inference class; observed153/62/67/788.",
+  "correction": "New versioned syntax tool retains all literal/dynamic/null/ASCII guards and pins the specifically reviewed expanded frontier. Historical source/binary unchanged.",
+  "dependent_attempt": "run_text_domains_v6.py was not produced after the guard failed; subsequent shell invocation returned file-not-found before executing any probe",
+  "original_queries": 0
+}

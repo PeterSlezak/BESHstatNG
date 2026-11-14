@@ -1,0 +1,370 @@
+{
+  "status": "NOT_READY_04A38",
+  "ownership": {
+    "status": "NOT_READY_04A38",
+    "W2": "IN_PROGRESS",
+    "W3": "NOT_STARTED",
+    "historical": {
+      "total": 704,
+      "closed": 343,
+      "OPEN": 361
+    },
+    "current": {
+      "total": 726,
+      "closed": 373,
+      "OPEN": 353
+    },
+    "support": {
+      "raw": 325,
+      "distinct": 303,
+      "distinct_closed": 244,
+      "distinct_OPEN": 59
+    },
+    "fragments": {
+      "current": {
+        "total": 15173,
+        "branches": 3430,
+        "inline": 1000,
+        "covered": 4531,
+        "branches_covered": 999,
+        "inline_covered": 282
+      },
+      "original": {
+        "total": 20683,
+        "branches": 5511,
+        "inline": 1397,
+        "covered": 8159,
+        "branches_covered": 2299,
+        "inline_covered": 526
+      }
+    },
+    "original_queries": 0
+  },
+  "validation": {
+    "Debug": {
+      "first_full_outcomes": {
+        "Passed": 20744,
+        "Failed": 14
+      },
+      "outcomes": {
+        "Passed": 20744,
+        "Failed": 14
+      },
+      "effective_outcomes": {
+        "Passed": 20744,
+        "Failed": 14
+      },
+      "corrective_focused": {},
+      "new_passes": 24,
+      "new_nonpasses": [],
+      "inherited_nonpasses": 14,
+      "suites": [
+        {
+          "suite": "Core",
+          "part": "all",
+          "first_full_outcomes": {
+            "Passed": 1280
+          },
+          "outcomes": {
+            "Passed": 1280
+          },
+          "exit_code": 0,
+          "seconds": 6.99850640000659,
+          "trx": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-Core/results/Core.trx",
+            "bytes": 1916413,
+            "sha256": "1ca0972dd3e21417d4d0eb00fae8507624af96012cc92d1372d2245bba665cb5"
+          },
+          "raw_cases": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-Core/cases.json",
+            "bytes": 389012,
+            "sha256": "4b3531553078db427bda62fcdf54fccdab43c0d947e37c092a05cd0c460255f0"
+          }
+        },
+        {
+          "suite": "Common",
+          "part": "main",
+          "first_full_outcomes": {
+            "Passed": 9167,
+            "Failed": 5
+          },
+          "outcomes": {
+            "Passed": 9167,
+            "Failed": 5
+          },
+          "exit_code": 1,
+          "seconds": 119.76746249999269,
+          "trx": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-Common-main/results/Common.trx",
+            "bytes": 332834794,
+            "sha256": "8ea11ffdedc5d560b2f8291991155fd5a0f17ec7d3c24261740e8247e10adc12"
+          },
+          "raw_cases": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-Common-main/cases.json",
+            "bytes": 2951337,
+            "sha256": "d6be2d67978d91dc7e53b306faa955a2dc88a8a9c9378c512e07460e3c3062a0"
+          }
+        },
+        {
+          "suite": "Common",
+          "part": "semantic",
+          "first_full_outcomes": {
+            "Passed": 15
+          },
+          "outcomes": {
+            "Passed": 15
+          },
+          "exit_code": 0,
+          "seconds": 2.298917599982815,
+          "trx": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-Common-semantic/results/Common.trx",
+            "bytes": 24541,
+            "sha256": "665a82c9c17e6d3cdb306e56518788e2133049075dc15e449c31ac5f0de0dd59"
+          },
+          "raw_cases": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-Common-semantic/cases.json",
+            "bytes": 6445,
+            "sha256": "30abe2c81ae31fb1ec2abeff69f4307077d1fe4b6ccc1acba87e60316e10e797"
+          }
+        },
+        {
+          "suite": "Legacy",
+          "part": "all",
+          "first_full_outcomes": {
+            "Passed": 9668,
+            "Failed": 9
+          },
+          "outcomes": {
+            "Passed": 9668,
+            "Failed": 9
+          },
+          "exit_code": 1,
+          "seconds": 192.38906600000337,
+          "trx": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-Legacy/results/Legacy.trx",
+            "bytes": 332668346,
+            "sha256": "102469e0c563b1d79f955a1ca98015e7f17f6c744166f1f695d36cde0628a6b1"
+          },
+          "raw_cases": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-Legacy/cases.json",
+            "bytes": 2983726,
+            "sha256": "a9523c5ecb3aec6f8d068548ef0e6b9702dc86c1282e3fc6239339a514b9ca1f"
+          }
+        },
+        {
+          "suite": "ControlMitigation",
+          "part": "all",
+          "first_full_outcomes": {
+            "Passed": 61
+          },
+          "outcomes": {
+            "Passed": 61
+          },
+          "exit_code": 0,
+          "seconds": 9.780973199987784,
+          "trx": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-ControlMitigation/results/ControlMitigation.trx",
+            "bytes": 94460,
+            "sha256": "ce8435a1a381e5a3d496c4fb3054c2f8b8662a3813ecb9c1dd43fef3208fb919"
+          },
+          "raw_cases": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-ControlMitigation/cases.json",
+            "bytes": 23321,
+            "sha256": "da18bd365af24f19ddea358c3f34fa5fc74891222eec811dac734af6083411bd"
+          }
+        },
+        {
+          "suite": "OfficeAddin",
+          "part": "all",
+          "first_full_outcomes": {
+            "Passed": 508
+          },
+          "outcomes": {
+            "Passed": 508
+          },
+          "exit_code": 0,
+          "seconds": 35.622077700012596,
+          "trx": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-OfficeAddin/results/OfficeAddin.trx",
+            "bytes": 757696,
+            "sha256": "cfadc581f08faa1a5deb32d9d320a55c59acfb2b0572abc17190d9926b9dfd18"
+          },
+          "raw_cases": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-OfficeAddin/cases.json",
+            "bytes": 172827,
+            "sha256": "bfb0c44f20acc53c9f9def5981e9c9267ced080c013d330cf73996ff15f1a8ca"
+          }
+        },
+        {
+          "suite": "OfficeExecution",
+          "part": "all",
+          "first_full_outcomes": {
+            "Passed": 45
+          },
+          "outcomes": {
+            "Passed": 45
+          },
+          "exit_code": 0,
+          "seconds": 1.7330903999973089,
+          "trx": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-OfficeExecution/results/OfficeExecution.trx",
+            "bytes": 67897,
+            "sha256": "cca4616a7216313566bc282c006d23de3b5046bd9d85f7b8f85701da00510735"
+          },
+          "raw_cases": {
+            "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-OfficeExecution/cases.json",
+            "bytes": 15625,
+            "sha256": "16609c2d9215f89bad30546cce57a1dad486cccfd37592c815b4b28f7a759a43"
+          }
+        }
+      ],
+      "identity_occurrence_outcome_message_delta": 0,
+      "Common_partition": "Complementary main/semantic filters; no missing/duplicate/skipped IDs. Original runner assigns observations only to its semantic class."
+    },
+    "Release_full": "NOT_RUN_OWNER_PREFERENCE",
+    "Release_selected": "NOT_RUN_OWNER_PREFERENCE",
+    "Release_compile": "PASS_COMPILE_ONLY",
+    "Python": {
+      "methods": {
+        "PASS": 830,
+        "ERROR": 11,
+        "FAIL": 115
+      },
+      "nonpass_events": {
+        "ERROR": 11,
+        "FAIL": 182
+      },
+      "workers_at_peak": 6,
+      "executed": 956,
+      "delta": {
+        "extra": [
+          {
+            "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+            "outcome": "FAIL",
+            "subtest": "(path='BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb')",
+            "occurrence": 0,
+            "count": 1
+          }
+        ],
+        "lost": []
+      }
+    },
+    "Node": [
+      {
+        "suite": "office-node",
+        "total": 468,
+        "passed": 468,
+        "failed": 0,
+        "command": {
+          "command": [
+            "node",
+            "--test",
+            "--test-concurrency=1",
+            "tests/*.test.mjs"
+          ],
+          "cwd": "<REPO_ROOT>\\BESHStat.OfficeAddin",
+          "exit_code": 0,
+          "seconds": 13.0555844999908,
+          "stdout_sha256": "b9ebb0732d7c5ce1612086025e582a41f0d1ba2f714f77b9f52e5ffa419c782e",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "stdout": {
+          "path": ".test-rationalization-04A38.tmp/commands/w2c9-checkpoint-office-node/stdout.log",
+          "bytes": 37308,
+          "sha256": "b9ebb0732d7c5ce1612086025e582a41f0d1ba2f714f77b9f52e5ffa419c782e"
+        }
+      },
+      {
+        "suite": "resolver",
+        "total": 71,
+        "passed": 71,
+        "failed": 0,
+        "command": {
+          "command": [
+            "node",
+            "--test",
+            "--test-concurrency=1",
+            "BESHStatNG_Help_MkDocs/tests/help-resolver.test.mjs"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.27464980000513606,
+          "stdout_sha256": "86e3a627dab53d5dc4944fd406e4651c804a9b7874a1adf4150bcc4efff157a9",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "stdout": {
+          "path": ".test-rationalization-04A38.tmp/commands/w2c9-checkpoint-resolver/stdout.log",
+          "bytes": 5952,
+          "sha256": "86e3a627dab53d5dc4944fd406e4651c804a9b7874a1adf4150bcc4efff157a9"
+        }
+      },
+      {
+        "suite": "wasm-node",
+        "total": 377,
+        "passed": 377,
+        "failed": 0,
+        "command": {
+          "command": [
+            "node",
+            "--test",
+            "--test-concurrency=1"
+          ],
+          "cwd": "<REPO_ROOT>\\BESHStat.WasmSmoke",
+          "exit_code": 0,
+          "seconds": 2.7646294999867678,
+          "stdout_sha256": "e34ce593b91fe2dbeed3ba2921cc336572f023514b85dddd002c9e93e6d9b355",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "stdout": {
+          "path": ".test-rationalization-04A38.tmp/commands/w2c9-checkpoint-wasm-node/stdout.log",
+          "bytes": 32159,
+          "sha256": "e34ce593b91fe2dbeed3ba2921cc336572f023514b85dddd002c9e93e6d9b355"
+        }
+      }
+    ],
+    "strict_profile_MkDocs": {
+      "strict": 1,
+      "profile": 1,
+      "docs": 0
+    },
+    "original_queries": 0,
+    "native": "NOT_RUN",
+    "science": "NOT_GOLDEN"
+  },
+  "authoritative": {
+    "historical": "historical-ownership-v2.json",
+    "current": "current-ownership-v2.json",
+    "closures": "new-closures-v3.json",
+    "python_nonpasses": "python-first-failures-v2.json",
+    "reader": "verify_c9_checkpoint_v1.py",
+    "controls": "independent-controls-v1.json",
+    "publisher": "publish_v3.py",
+    "private_reader": "../continuation-v9-retained-private-reader-v3.py",
+    "postseal": "postseal_v2.py"
+  },
+  "independent_controls": 35,
+  "privacy_preflight": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/prepublication-fresh-privacy-v1.json",
+    "bytes": 81585,
+    "sha256": "8aa8f0ab9f08c9b1113f8be351d7d5dbaa1cb88dcf2e232ae7845d9225b7d20e"
+  },
+  "first_attempts": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/attempt-accounting-v1.json",
+    "bytes": 4574,
+    "sha256": "03f7a9256aeba15a233300daa4ce99de4711d38d67134c5e60f1faba80e18d7e"
+  },
+  "command_receipts": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/command-receipts-v1.json",
+    "bytes": 333628,
+    "sha256": "345971b1dc12988d2b5f9d6eb7857f795c0443f05b71cc3542c7e23f71ec8c26"
+  },
+  "production_test_changes_after_freeze": 0,
+  "Release_full": "NOT_RUN_OWNER_PREFERENCE",
+  "Release_selected": "NOT_RUN_OWNER_PREFERENCE",
+  "physical_archive_and_live_private": "Established only by later external publication/private/Git receipts, not inferred from this prepublication record.",
+  "correction": "One commentary said36 controls; actual executable receipt contains35, all pass.",
+  "original_queries": 0
+}

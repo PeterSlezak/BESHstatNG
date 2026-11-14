@@ -1,0 +1,51 @@
+[
+  {
+    "command": [
+      "dotnet",
+      "<REPO_ROOT>\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+      "--check",
+      "--strict"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 12.979606399996555,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "scripts/windows-migration-audit/owner_closeout.py",
+      "--profile",
+      "inventory-complete-with-approved-deferrals"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 43.35700139999972,
+    "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+    "stderr_sha256": "6ff6ded4d2541f8c6f90ed463b604868ca589f769cdb6788126d45bd495475dd",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "mkdocs",
+      "build",
+      "--config-file",
+      "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+      "--site-dir",
+      "<ISOLATED_RUN>\\w2c15-checkpoint-v1\\site",
+      "--strict"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 10.233075099997222,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "52a701c9ceeab8e30382ffd78bf8f23723f992f9992142d87967cb168ba49c65",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+]

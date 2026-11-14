@@ -1,0 +1,24 @@
+{
+  "command": [
+    "<PYTHON>",
+    "-I",
+    "-B",
+    "-c",
+    "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+    "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v14",
+    "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v14\\verify_c14_checkpoint_v2.py"
+  ],
+  "cwd": "<REPO_ROOT>",
+  "exit_code": 0,
+  "seconds": 213.81054040000163,
+  "stdout": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/entry-commands-v1/c14-checkpoint-v2/stdout.log",
+    "bytes": 1914,
+    "sha256": "963242ce0fe689ae09bed17f2cf1860b71d22585cc8dc57e718b641032a82441"
+  },
+  "stderr": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/entry-commands-v1/c14-checkpoint-v2/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

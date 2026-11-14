@@ -1,0 +1,8 @@
+Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 2))
+            If g <> "" AndAlso sg <> "" AndAlso y.HasValue Then
+                rowsOut.Add(New Object() {g, sg, y.Value})
+            End If
+        Next
+
+        If rowsOut.Count < 1 Then Return False
+        data = New Object(rowsOut.Count - 1, 2) 

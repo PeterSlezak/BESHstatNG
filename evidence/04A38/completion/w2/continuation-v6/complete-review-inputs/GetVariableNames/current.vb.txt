@@ -1,0 +1,18 @@
+Friend Function GetVariableNames(arg As Object, expectedCount As Integer) As String()
+        If expectedCount <= 0 Then Return New String() {}
+        Return Global.BESHStatNG.ExcelCommon.UdfNamePreparation38.GetVariableNames(expectedCount,
+            Function() Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg),
+            Function() TryCast(arg, String),
+            Function() As Global.BESHStatNG.ExcelCommon.UdfVariableNameRange38
+                Dim arr As Object(,) = Get2D(arg)
+                If arr Is Nothing Then Return Nothing
+                Dim rows As Integer = arr.GetLength(0)
+                Dim cols As Integer = arr.GetLength(1)
+                Return New Global.BESHStatNG.ExcelCommon.UdfVariableNameRange38(rows, cols,
+                    Function(row As Integer, column As Integer) As String
+                        Dim cell As Object = arr(row, column)
+                        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell) Then Return String.Empty
+                        Return Convert.ToString(cell).Trim()
+                    End Function)
+            End Function)
+    End Function

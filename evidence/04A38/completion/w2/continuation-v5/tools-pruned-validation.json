@@ -1,0 +1,20 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\run_tools_pruned.py",
+      "worker"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 124.52987040000153,
+    "stdout_sha256": "04db6167f4885cc085f9296977a9c55aaaf8bfa94a4164c6527fa11bb5724aa6",
+    "stderr_sha256": "68ca22fa18f077869ad68c8f18cdb72cd82305ef399b79b650a4bca47d8a2471",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "source_tests": "UNCHANGED; no tests filtered or assertions edited",
+  "equivalent_scope": "Only audit_transitional_officejs.audit_solution(ROOT): prune its exact existing IGNORED_COMPONENTS before descent instead of filtering them after rglob. Temporary fixture roots use original walker.",
+  "TestResults": "Ignored directory is not descended in this final lane",
+  "original_queries": 0
+}

@@ -1,0 +1,154 @@
+{
+  "results": [
+    {
+      "label": "P0",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "\\\\?\\<ISOLATED_RUN>\\cc2-c1-view\\evidence\\04A38\\completion\\w2\\continuation-v1",
+          "-p",
+          "test_p0.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\cc2-c1-view",
+        "exit_code": 0,
+        "seconds": 3.1570594999939203,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0f0210a6c886d18f2bb5112c660f84a600b7e13708c258bcc410d8edabeead6b",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c2-C1-P0-corrected-v2",
+        "total": 9,
+        "passed": 9,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "0f0210a6c886d18f2bb5112c660f84a600b7e13708c258bcc410d8edabeead6b",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_changed_description_separator (test_p0.P0Tests.test_changed_description_separator)",
+          "test_current_output_mutation (test_p0.P0Tests.test_current_output_mutation)",
+          "test_early_formatter_caller_forged (test_p0.P0Tests.test_early_formatter_caller_forged)",
+          "test_formatter_reimplementation (test_p0.P0Tests.test_formatter_reimplementation)",
+          "test_intact (test_p0.P0Tests.test_intact)",
+          "test_missing_original (test_p0.P0Tests.test_missing_original)",
+          "test_portable_hidden_state (test_p0.P0Tests.test_portable_hidden_state)",
+          "test_reordered_mask_guard (test_p0.P0Tests.test_reordered_mask_guard)",
+          "test_stale_before (test_p0.P0Tests.test_stale_before)"
+        ],
+        "nonpasses": []
+      }
+    },
+    {
+      "label": "P1",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "\\\\?\\<ISOLATED_RUN>\\cc2-c1-view\\evidence\\04A38\\completion\\w2\\continuation-v1",
+          "-p",
+          "test_p1_v3.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\cc2-c1-view",
+        "exit_code": 0,
+        "seconds": 6.25838520002435,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "f3aa49c11245a2410722e3d164f23a6aa143d86d677be1bcf8802175d0f08723",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c2-C1-P1-corrected-v2",
+        "total": 15,
+        "passed": 15,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "f3aa49c11245a2410722e3d164f23a6aa143d86d677be1bcf8802175d0f08723",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_case_omission (test_p1_v3.P1Tests.test_case_omission)",
+          "test_changed_export_name (test_p1_v3.P1Tests.test_changed_export_name)",
+          "test_changed_optional_default (test_p1_v3.P1Tests.test_changed_optional_default)",
+          "test_current_result_changed (test_p1_v3.P1Tests.test_current_result_changed)",
+          "test_extra_case (test_p1_v3.P1Tests.test_extra_case)",
+          "test_failed_tests_not_green (test_p1_v3.P1Tests.test_failed_tests_not_green)",
+          "test_fake_edge (test_p1_v3.P1Tests.test_fake_edge)",
+          "test_hidden_static_state (test_p1_v3.P1Tests.test_hidden_static_state)",
+          "test_intact (test_p1_v3.P1Tests.test_intact)",
+          "test_original_snapshot_lost (test_p1_v3.P1Tests.test_original_snapshot_lost)",
+          "test_ornamental_contains (test_p1_v3.P1Tests.test_ornamental_contains)",
+          "test_self_consistent_changed_column_guard (test_p1_v3.P1Tests.test_self_consistent_changed_column_guard)",
+          "test_self_consistent_error_coercion_change (test_p1_v3.P1Tests.test_self_consistent_error_coercion_change)",
+          "test_self_consistent_group_nonfinite_policy_change (test_p1_v3.P1Tests.test_self_consistent_group_nonfinite_policy_change)",
+          "test_stale_preimage (test_p1_v3.P1Tests.test_stale_preimage)"
+        ],
+        "nonpasses": []
+      }
+    },
+    {
+      "label": "publication",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\cc2-c1-view\\evidence\\04A38\\completion\\w2\\continuation-v1",
+          "-p",
+          "test_publication_v3.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\cc2-c1-view",
+        "exit_code": 0,
+        "seconds": 109.1774194999889,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "9864ca20ca82f1f76d66bcd7f353d9e2f5c7935ae36927f885b3cc3c74220df0",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c2-C1-publication-corrected-v2",
+        "total": 15,
+        "passed": 15,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "9864ca20ca82f1f76d66bcd7f353d9e2f5c7935ae36927f885b3cc3c74220df0",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_casefold_collision (test_publication_v3.PublicationTests.test_casefold_collision)",
+          "test_duplicate (test_publication_v3.PublicationTests.test_duplicate)",
+          "test_intact (test_publication_v3.PublicationTests.test_intact)",
+          "test_manifest_truncation (test_publication_v3.PublicationTests.test_manifest_truncation)",
+          "test_missing_payload (test_publication_v3.PublicationTests.test_missing_payload)",
+          "test_null_payload (test_publication_v3.PublicationTests.test_null_payload)",
+          "test_prior_manifest_mutation (test_publication_v3.PublicationTests.test_prior_manifest_mutation)",
+          "test_ready_promotion (test_publication_v3.PublicationTests.test_ready_promotion)",
+          "test_recursive_self (test_publication_v3.PublicationTests.test_recursive_self)",
+          "test_reserved_name (test_publication_v3.PublicationTests.test_reserved_name)",
+          "test_reviewed_synthetic_source_hash_cannot_be_extended (test_publication_v3.PublicationTests.test_reviewed_synthetic_source_hash_cannot_be_extended)",
+          "test_self_consistent_forged_ownership (test_publication_v3.PublicationTests.test_self_consistent_forged_ownership)",
+          "test_self_consistent_native_promotion (test_publication_v3.PublicationTests.test_self_consistent_native_promotion)",
+          "test_self_consistent_privacy_leak (test_publication_v3.PublicationTests.test_self_consistent_privacy_leak)",
+          "test_traversal (test_publication_v3.PublicationTests.test_traversal)"
+        ],
+        "nonpasses": []
+      }
+    }
+  ],
+  "previous_setup": "Three0-method/1ERROR setups: missing private output parent; publication additionally double extended-path prefix. All raw attempts retained. Only output parent creation/path spelling corrected; no immutable source/assertion changed.",
+  "original_queries": 0,
+  "scope": "EXACT_HISTORICAL_C1_SOURCE_PROJECTION_NOT_LIVE_CURRENT_IMPLEMENTATION"
+}

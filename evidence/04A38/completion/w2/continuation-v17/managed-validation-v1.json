@@ -1,0 +1,278 @@
+{
+  "Debug": {
+    "genuine_full_campaign_outcomes": {
+      "Passed": 21076,
+      "Failed": 16
+    },
+    "effective_identity_outcomes": {
+      "Passed": 21078,
+      "Failed": 14
+    },
+    "inherited_identities": 21053,
+    "inherited_nonpasses": 14,
+    "inherited_identity_outcome_message_drift": 0,
+    "new_tests": 39,
+    "new_tests_focused_PASS": 39,
+    "full_campaign_new_FAIL": 2,
+    "suites": [
+      {
+        "suite": "Core",
+        "part": "all",
+        "outcomes": {
+          "Passed": 1280
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-Core/cases.json",
+          "bytes": 389017,
+          "sha256": "4f9b42d67c58af3ceff3d5c3641db7d84e12e952adf77a23a2ef223282d90e0e"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-Core/results/Core.trx",
+          "bytes": 1918974,
+          "sha256": "5e29d3e4cbe2433499196b76e18f908c576b55c84609b2b0a761a0d7eacf9a3a"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Core\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Core\\results",
+            "/Logger:trx;LogFileName=Core.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 5.9029403000022285,
+          "stdout_sha256": "f25c40aee8c03690a3bbf4406843a784af3670dde39f94e0da23364d0afd7123",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "Common",
+        "part": "main",
+        "outcomes": {
+          "Passed": 9392,
+          "Failed": 6
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-Common-main/cases.json",
+          "bytes": 3025650,
+          "sha256": "3011b2eb92e4f0037d945b725052efd353f9fb5ef148726b4e1036db841074ca"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-Common-main/results/Common.trx",
+          "bytes": 333201077,
+          "sha256": "77a080f6221072077e09107e8b076934acf90009621cca4d5bf9a9e44cb75dc4"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Common-main\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Common-main\\results",
+            "/Logger:trx;LogFileName=Common.trx",
+            "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 1,
+          "seconds": 102.31944819999626,
+          "stdout_sha256": "81182046bb4e373c4e377656d240ffb15ecfe1af59de1e580968c24dc5620611",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "Common",
+        "part": "semantic",
+        "outcomes": {
+          "Passed": 15
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-Common-semantic/cases.json",
+          "bytes": 6449,
+          "sha256": "ffdac5849cf8b60187803557e360525e40f765a876019bab04ad8968b4ac9383"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-Common-semantic/results/Common.trx",
+          "bytes": 24572,
+          "sha256": "b9044072d1bf7511aa79e6f3885f3c588f8036ba029e4efadca9d2aea65f40c0"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Common-semantic\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Common-semantic\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Common-semantic\\results",
+            "/Logger:trx;LogFileName=Common.trx",
+            "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 2.1583792000019457,
+          "stdout_sha256": "f79da5dfc7c24557a7251c298d137f5642cde2be86b1fa7be2ec74a3c8fdee42",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "Legacy",
+        "part": "all",
+        "outcomes": {
+          "Passed": 9775,
+          "Failed": 10
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-Legacy/cases.json",
+          "bytes": 3022077,
+          "sha256": "610e432a1f97dfb2b5b5404de91553cbea7d2bddc0808cd6b152a58070fa8008"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-Legacy/results/Legacy.trx",
+          "bytes": 332851359,
+          "sha256": "e9f271d6559e1c7532b84ac055557025885f003f36a2b9be6212d4b0d46065d9"
+        },
+        "command": {
+          "command": [
+            "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+            "<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Legacy\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-Legacy\\results",
+            "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+            "/Logger:trx;LogFileName=Legacy.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 1,
+          "seconds": 156.12933100000373,
+          "stdout_sha256": "ead54e7b0e1fd28d664f448e9584d3f77328c4997d274c97993bdd85681da8df",
+          "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "ControlMitigation",
+        "part": "all",
+        "outcomes": {
+          "Passed": 61
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-ControlMitigation/cases.json",
+          "bytes": 23323,
+          "sha256": "4df9f7fdeb05f9be6c8a177df88602e244aef8b3ca1e241ece851616676468c4"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-ControlMitigation/results/ControlMitigation.trx",
+          "bytes": 94583,
+          "sha256": "033e67cb7afb1733ce22aca8168746559f9b632d8f89baaa6f143662b3024723"
+        },
+        "command": {
+          "command": [
+            "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+            "<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-ControlMitigation\\sandbox\\ControlMitigation\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-ControlMitigation\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-ControlMitigation\\results",
+            "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+            "/Logger:trx;LogFileName=ControlMitigation.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 8.40354740001203,
+          "stdout_sha256": "84b5b3929f5a64f3d759f74cf73609bd47c3395d1417af8a76565fe45b6a830c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "OfficeAddin",
+        "part": "all",
+        "outcomes": {
+          "Passed": 508
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-OfficeAddin/cases.json",
+          "bytes": 172828,
+          "sha256": "07e6b006f996db5708a819cf2657e021366bd64db82db530045a4561c4341669"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-OfficeAddin/results/OfficeAddin.trx",
+          "bytes": 758711,
+          "sha256": "ec0c131640f65fc4d6d4d97f6348b321b8c686a57a60ba549dcdfbb13398e029"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-OfficeAddin\\sandbox\\tests\\bin\\Debug\\net10.0\\OfficeAddin.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-OfficeAddin\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-OfficeAddin\\results",
+            "/Logger:trx;LogFileName=OfficeAddin.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 35.0423310000042,
+          "stdout_sha256": "b218a5f0723b1113e7a4373d2ef834cf505f89ca493603bb719cfad73175f5bb",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "OfficeExecution",
+        "part": "all",
+        "outcomes": {
+          "Passed": 45
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-OfficeExecution/cases.json",
+          "bytes": 15628,
+          "sha256": "bf3573dd45ea44a836fe0d440773b32f4a636418e509d807e841e46ed422b442"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17-checkpoint-v1-Debug-serial-OfficeExecution/results/OfficeExecution.trx",
+          "bytes": 67988,
+          "sha256": "fc7cd7bc81b5f205c74ce7aaa034de407a1a4d98ed7985817a0e462c47f6a098"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-OfficeExecution\\sandbox\\Execution\\bin\\Debug\\net10.0\\Execution.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-OfficeExecution\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-checkpoint-v1-Debug-serial-OfficeExecution\\results",
+            "/Logger:trx;LogFileName=OfficeExecution.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 1.6223116999899503,
+          "stdout_sha256": "8fca94e4882860741d25b43205d34ec2f83c67c2420c4efd93e28ff186e6a85d",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      }
+    ]
+  },
+  "full_campaign": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/managed-full-execution-v1.json",
+    "bytes": 1143,
+    "sha256": "924b09ac7eb220332dfce4e9d87d5fd375d8fbc4e1791d21784e11421ddc28e0"
+  },
+  "focused_recheck": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/managed-new-fixture-focused-recheck-v1.json",
+    "bytes": 20428,
+    "sha256": "e1fe62bc5f3b407483a804eaa2990b0110c76bdbf39c2f8be37824826b6ac549"
+  },
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/production-test-freeze-v5.json",
+    "bytes": 97798,
+    "sha256": "0e6118900efe7ad0e058ab318b228e755a926c760ebf14d3d18362ba3de1fcb9"
+  },
+  "production_source_identical_to_full_campaign": true,
+  "qualification": "Full campaign used freeze4. Two new test-only fixtures were corrected at freeze5; all39 new identities passed focused Debug rechecks. Full campaign is retained as pre-correction; no claim of a second full campaign or full final-test-freeze run.",
+  "campaigns": 1,
+  "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_full_selected_focused_unit_tests": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_ABI_CIL_signatures_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "original_queries": 0
+}

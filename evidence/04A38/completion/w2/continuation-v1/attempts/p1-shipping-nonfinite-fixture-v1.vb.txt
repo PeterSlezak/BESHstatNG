@@ -1,0 +1,166 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+Imports System.Collections.Concurrent
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Reflection
+Imports System.Reflection.Emit
+Imports System.Globalization
+Imports BESHStatNG.ExcelCommon
+Imports BESHStatNG.WorksheetFunctions
+Imports ExcelDna.Integration
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+
+<TestClass>
+Public Class UdfPreparation38AdapterTests
+    Private Shared ReadOnly Opcodes As Dictionary(Of Short, OpCode) = GetType(OpCodes).GetFields(BindingFlags.Public Or BindingFlags.Static).
+        Where(Function(field) field.FieldType Is GetType(OpCode)).Select(Function(field) DirectCast(field.GetValue(Nothing), OpCode)).ToDictionary(Function(code) code.Value)
+
+    <DataTestMethod>
+    <DataRow("BESHStatNG.WorksheetFunctions.ExcelArgNumeric", "GetOptionalBool", "BESHStatNG.ExcelCommon.UdfScalarChoice38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.ExcelArgNumeric", "TryGetBinary01", "BESHStatNG.ExcelCommon.UdfScalarChoice38")>
+    <DataRow("BESHStatNG.UdfDataImport", "HasNumericColumnHeader", "BESHStatNG.ExcelCommon.UdfRangePreparation38")>
+    <DataRow("BESHStatNG.UdfDataImport", "TryExtractNumericGroupsFromMatrix", "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38")>
+    <DataRow("BESHStatNG.UdfLinearAlgebra", "TryInvertMatrix", "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.AssumptionsUDFs", "BuildTwoValueTable", "BESHStatNG.ExcelCommon.UdfSpillPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.PropensityScoreUDFs", "ApplyOption", "BESHStatNG.ExcelCommon.UdfPsmPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.GEEUDFs", "AverageGeeFittedDesignRowForLsmProfile", "BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.MixedModelUDFs", "AverageFittedDesignRowForLsmProfile", "BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.RegressionFormulaUDFs", "BuildValidationFailureMessage", "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38")>
+    <DataRow("BESHStatNG.UdfOutputTables", "PrepareWrappedResultTableForUdf", "BESHStatNG.ExcelCommon.UdfSpillLayout38")>
+    <DataRow("BESHStatNG.UdfDataImport", "TryGetGroupedCompleteMatrix", "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38")>
+    <DataRow("BESHStatNG.UdfDataImport", "TryGetNestedThreeColumnData", "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.GEEUDFs", "ApplyGeeLsmEstimateAtProfile", "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.MixedModelUDFs", "ApplyMmrmLsmEstimateAtProfile", "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38")>
+    Public Sub CompiledShippingAdapterCallsItsPortablePreparation(owner As String, member As String, portableOwner As String)
+        Dim assembly As Assembly = GetType(UdfLinearAlgebra).Assembly
+        Dim type As Type = assembly.GetType(owner, True)
+        Dim method As MethodInfo = type.GetMethod(member, BindingFlags.Public Or BindingFlags.NonPublic Or BindingFlags.Static)
+        Assert.IsNotNull(method)
+        Assert.IsTrue(Calls(method).Any(Function(target) target.DeclaringType.FullName = portableOwner), owner & "." & member)
+    End Sub
+
+    Private Shared Iterator Function Calls(method As MethodBase) As IEnumerable(Of MethodBase)
+        Dim bytes As Byte() = method.GetMethodBody().GetILAsByteArray()
+        Dim i As Integer = 0
+        While i < bytes.Length
+            Dim key As Short = CShort(bytes(i))
+            i += 1
+            If key = &HFE Then
+                key = CShort(-512 Or CInt(bytes(i)))
+                i += 1
+            End If
+            Dim code As OpCode = Opcodes(key)
+            Dim size As Integer
+            Select Case code.OperandType
+                Case OperandType.InlineNone : size = 0
+                Case OperandType.ShortInlineBrTarget, OperandType.ShortInlineI, OperandType.ShortInlineVar : size = 1
+                Case OperandType.InlineVar : size = 2
+                Case OperandType.InlineI8, OperandType.InlineR : size = 8
+                Case OperandType.InlineSwitch : size = 4 + 4 * BitConverter.ToInt32(bytes, i)
+                Case Else : size = 4
+            End Select
+            If code.OperandType = OperandType.InlineMethod Then
+                Yield method.Module.ResolveMethod(BitConverter.ToInt32(bytes, i), method.DeclaringType.GetGenericArguments(), If(method.IsGenericMethod, method.GetGenericArguments(), Nothing))
+            End If
+            i += size
+        End While
+    End Function
+
+    <TestMethod>
+    Public Sub ShippingSentinelAdapterPreservesNumericAndBooleanDistinctions()
+        Assert.IsTrue(ExcelArgNumeric.GetOptionalBool(ExcelMissing.Value, True))
+        Assert.IsFalse(ExcelArgNumeric.GetOptionalBool(ExcelEmpty.Value, False))
+        Assert.IsFalse(ExcelArgNumeric.TryGetDouble(True).HasValue)
+        Assert.IsFalse(ExcelArgNumeric.TryGetDouble("1").HasValue)
+        Dim result As Integer
+        Assert.IsTrue(ExcelArgNumeric.TryGetBinary01(0.75, result))
+        Assert.AreEqual(0, result)
+        Assert.IsTrue(ExcelArgNumeric.TryGetBinary01(True, result))
+        Assert.AreEqual(1, result)
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingGroupedAndNestedImportsUseNativePoliciesWithPortablePreparation(cultureName As String)
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim owner = GetType(UdfLinearAlgebra).Assembly.GetType("BESHStatNG.UdfDataImport", True)
+            Dim grouped = owner.GetMethod("TryGetGroupedCompleteMatrix", BindingFlags.NonPublic Or BindingFlags.Static)
+            Dim args As Object() = {New Object(,) {{"X"}, {1.0R}, {Double.NaN}, {2.0R}}, New Object(,) {{"G"}, {" a "}, {"bad"}, {"A"}}, Nothing, Nothing}
+            Assert.IsTrue(DirectCast(grouped.Invoke(Nothing, args), Boolean))
+            Dim matrices = DirectCast(args(2), List(Of Double(,)))
+            CollectionAssert.AreEqual(New String() {"a"}, DirectCast(args(3), List(Of String)).ToArray())
+            Assert.AreEqual(2, matrices(0).GetLength(0))
+            Dim nested = owner.GetMethod("TryGetNestedThreeColumnData", BindingFlags.NonPublic Or BindingFlags.Static)
+            args = {New Object(,) {{"G", "S", "Y"}, {"A", "a", Double.NaN}, {"B", "b", ExcelError.ExcelErrorNA}}, Nothing, Nothing}
+            Assert.IsTrue(DirectCast(nested.Invoke(Nothing, args), Boolean))
+            Dim data = DirectCast(args(1), Object(,))
+            Assert.AreEqual(1, data.GetLength(0))
+            Assert.IsTrue(Double.IsNaN(DirectCast(data(0, 2), Double)))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub ShippingReportMaterializerRetainsNativeSourceCellsAndErrorCategory()
+        Dim native As ExcelError = ExcelError.ExcelErrorNA
+        Dim projection As New UdfReportProjection38(New ResultTableOutputModel(New Object(,) {{New UdfSourceCellReference38(0), UdfReportProjection38.SafeNumber(Double.NaN)}}))
+        Dim result As Object(,) = DirectCast(UdfOutputTables.MaterializePortableReport38(projection, {native}), Object(,))
+        Assert.AreEqual(native, DirectCast(result(0, 0), ExcelError))
+        Assert.AreEqual(ExcelError.ExcelErrorNum, DirectCast(result(0, 1), ExcelError))
+        Assert.AreEqual(1, result.GetLength(0))
+        Assert.AreEqual(2, result.GetLength(1))
+    End Sub
+
+    <TestMethod>
+    Public Sub ExistingCacheHelperRetainsDictionaryComparerAndMissingLookupBehavior()
+        Dim cache As New ConcurrentDictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+        cache.TryAdd("pca:sample", "model")
+        Dim result As String = "previous"
+        Assert.IsTrue(UdfCacheHelpers.TryGetCachedHandle(" PCA:SAMPLE ", cache, result))
+        Assert.AreEqual("model", result)
+        Assert.IsFalse(UdfCacheHelpers.TryGetCachedHandle(ExcelMissing.Value, cache, result))
+        Assert.IsNull(result)
+        Assert.AreEqual(1, cache.Count)
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingMmrmDescriptionDelegatesToPortablePolicyWithNativeDto(cultureName As String)
+        Dim original = CultureInfo.CurrentCulture
+        Dim originalUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim assembly = GetType(UdfLinearAlgebra).Assembly
+            Dim owner = assembly.GetType("BESHStatNG.WorksheetFunctions.MixedModelUDFs", True)
+            Dim method = owner.GetMethod("FormatMmrmAtProfileDescription", BindingFlags.NonPublic Or BindingFlags.Static)
+            Dim nativeType = assembly.GetType("BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile", True)
+            Dim profile = Activator.CreateInstance(nativeType)
+            nativeType.GetProperty("VisitSpecified").SetValue(profile, True)
+            nativeType.GetProperty("VisitValue").SetValue(profile, 1.23456789R)
+            Assert.AreEqual("visit=1.23457", method.Invoke(Nothing, New Object() {profile}))
+            Assert.IsTrue(Calls(method).Any(Function(target) target.DeclaringType.FullName = "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38" AndAlso target.Name = "FormatMmrmAtProfileDescription"))
+        Finally
+            CultureInfo.CurrentCulture = original
+            CultureInfo.CurrentUICulture = originalUi
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub RegistrationMetadataHasExactly268DistinctWindowsExports()
+        Dim names As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+        For Each type As Type In GetType(UdfLinearAlgebra).Assembly.GetTypes()
+            For Each method As MethodInfo In type.GetMethods(BindingFlags.Public Or BindingFlags.Static Or BindingFlags.DeclaredOnly)
+                Dim attribute As ExcelFunctionAttribute = method.GetCustomAttribute(Of ExcelFunctionAttribute)()
+                If attribute Is Nothing Then Continue For
+                Assert.IsTrue(names.Add(attribute.Name), attribute.Name)
+                Assert.IsTrue(attribute.Name.StartsWith("BESH.", StringComparison.Ordinal))
+            Next
+        Next
+        Assert.AreEqual(268, names.Count)
+    End Sub
+End Class

@@ -1,0 +1,30 @@
+{
+  "suite": "OfficeAddin",
+  "part": "all",
+  "selection": null,
+  "outcomes": {
+    "Passed": 508
+  },
+  "trx_sha256": "cf092e8a9a7918918479deef0103f03dee93f9e5fe8a2b329c98b0bac894c7d5",
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeAddin\\sandbox\\tests\\bin\\Debug\\net10.0\\OfficeAddin.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeAddin\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeAddin\\results",
+      "/Logger:trx;LogFileName=OfficeAddin.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 35.12149419999332,
+    "stdout_sha256": "2cca08abafaab7d95a8908e06acbb835dcd074d016c0aa5204779db04576b186",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-OfficeAddin/cases.json",
+    "bytes": 172757,
+    "sha256": "12605c6d3b4a7a66550f943d99c2757a726db61b6886e47c253299c41524b03b"
+  }
+}

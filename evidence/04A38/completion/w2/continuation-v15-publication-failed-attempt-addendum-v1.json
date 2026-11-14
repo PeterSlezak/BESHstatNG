@@ -1,0 +1,23 @@
+{
+  "status": "PRESERVED_PUBLICATION_DERIVATIVE_FAILURE_VERSIONED_PATH_ONLY_CORRECTION",
+  "failed_tool": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/copy_c15_review_union_v1.py",
+    "bytes": 2637,
+    "sha256": "4f664749ba925056c9994a96366edbb355ae5d66590c8a84f8dc6db64d3a0fc4"
+  },
+  "exit_code": 1,
+  "error_type": "FileNotFoundError",
+  "errno": 2,
+  "error_path": ".test-rationalization-04A38.tmp/review-copy-w2c15-v1/evidence/04A38/completion/w2/continuation-v15/source-provisional/before-text-compare-correction-v1/BESHStat.Excel.Common/src/Results/UdfCoxGeeReportPreparation38.vb.txt",
+  "cause": "Windows legacy path length during verified archive extraction",
+  "partial_root": ".test-rationalization-04A38.tmp/review-copy-w2c15-v1",
+  "partial_preserved": true,
+  "replacement": {
+    "path": "evidence/04A38/completion/w2/continuation-v15-copy-review-union-v2.py",
+    "bytes": 2672,
+    "sha256": "79364d1515c794ec636dd9b1b855931118936b10052352e3214dff449ccbfeb3"
+  },
+  "diff": "--- sealed-copy-v1\n+++ external-short-path-copy-v2\n@@ -3,7 +3,7 @@\n import zipfile,zlib,stat\n from publication_privacy_c15_v1 import safe_path\n indexpath=W2/'continuation-v15-review-parts-index-v1.json';index=json.loads(indexpath.read_bytes())\n-copyroot=RUNROOT/'review-copy-w2c15-v1';assert copyroot.resolve().is_relative_to(ROOT.resolve());copyroot.mkdir(exist_ok=False)\n+copyroot=RUNROOT/'r2';assert copyroot.resolve().is_relative_to(ROOT.resolve()) and copyroot.name=='r2';copyroot.mkdir(exist_ok=False)\n expected={r['path']:r for r in index['files']};assert len(expected)==len(index['files'])==len({p.casefold() for p in expected})\n assert not any(p.startswith('.git/') for p in expected)\n observed=[]\n@@ -22,8 +22,8 @@\n assert len(observed)==len(set(observed))==len(expected) and set(observed)==set(expected) and not (copyroot/'.git').exists()\n folder=copyroot/'evidence/04A38/completion/w2/continuation-v15'\n bootstrap='import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")'\n-result=command('copied-union-reader-v1',[sys.executable,'-I','-B','-c',bootstrap,str(folder),str(folder/'verify_c15_publication_v2.py'),'--index',str(indexpath)],cwd=copyroot)\n-receipt=W2/'continuation-v15-copied-review-reader-v1.json'\n+result=command('copied-union-reader-v2',[sys.executable,'-I','-B','-c',bootstrap,str(folder),str(folder/'verify_c15_publication_v2.py'),'--index',str(indexpath)],cwd=copyroot)\n+receipt=W2/'continuation-v15-copied-review-reader-v2.json'\n with receipt.open('x',encoding='utf-8') as f:json.dump(dict(status='PASS' if result['exit_code']==0 else 'STOP_COPY_READER_FAILED',command=clean(result),copied_files=len(observed),index=pin(indexpath),git_metadata='ABSENT',standalone='NOT_CREATED',scope='Actual reader in the freshly extracted logical union, isolated imports, current Windows Python. No production installation or cross-platform standalone equivalence claim.',original_queries=0),f,indent=2)\n assert result['exit_code']==0,'Copied reader failed; preserve derivative and STOP'\n print('Actual complementary copied-union reader PASS',len(observed))\n",
+  "scope": "Fresh shorter destination only, unchanged ZIP SHA/member CRC/unique union and actual copied final reader assertions. No source, test, previous reader, sealed tool, archive or historical evidence changed.",
+  "original_queries": 0
+}

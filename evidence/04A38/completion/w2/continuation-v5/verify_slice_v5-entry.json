@@ -1,0 +1,734 @@
+{
+  "passed": true,
+  "result": {
+    "status": "INDEPENDENT_C4_SLICE_PROOFS_PASS_NOT_READY",
+    "proofs": [
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb|BESHStatNG.UdfLinearAlgebra|FunctionBlock|4d1c333cd643ca30@512:910",
+        "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "name": "TryInvertMatrix",
+        "reason": "Original prefix/kernel/real Windows catch composed; runtime metadata and current-only Err/ByRef/control probe; unchanged forwarding engine and actual Cox caller",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "real_Framework_catch": true,
+            "validation_outside_catch": true,
+            "current_only_cases": 8,
+            "unchanged_result_bits": true,
+            "exception_state_fix": "Actual native catch clears only on original caught paths"
+          },
+          {
+            "configuration": "Release",
+            "real_Framework_catch": true,
+            "validation_outside_catch": true,
+            "current_only_cases": 8,
+            "unchanged_result_bits": true,
+            "exception_state_fix": "Actual native catch clears only on original caught paths"
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs|FunctionBlock|6fa4312f86d98b0d@45355:893",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "name": "GetCategoriesInModelOrder",
+        "reason": "Whole instructions/locals/EH/params and actual consumer; native context exact; transitive existing Core source/project dependencies pinned",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "source_method": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "whole_resolved_body": true,
+            "native_fields_and_initializers_exact": true
+          },
+          {
+            "configuration": "Release",
+            "source_method": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetCategoriesInModelOrder(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.regression.ReferenceCategory @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "whole_resolved_body": true,
+            "native_fields_and_initializers_exact": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs|FunctionBlock|7c7675f79a0802e5@47103:1886",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "name": "ComputeMultinomialEtas",
+        "reason": "Whole instructions/locals/EH/params and actual consumer; native context exact; transitive existing Core source/project dependencies pinned",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "source_method": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "whole_resolved_body": true,
+            "native_fields_and_initializers_exact": true
+          },
+          {
+            "configuration": "Release",
+            "source_method": "BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeMultinomialEtas(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Collections.Generic.IList`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "whole_resolved_body": true,
+            "native_fields_and_initializers_exact": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb|BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs|FunctionBlock|b29807c4b39d75b5@44193:1084",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "name": "ComputeOrdinalProbabilities",
+        "reason": "Whole instructions/locals/EH/params and actual consumer; native context exact; transitive existing Core source/project dependencies pinned",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "source_method": "BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "whole_resolved_body": true,
+            "native_fields_and_initializers_exact": true
+          },
+          {
+            "configuration": "Release",
+            "source_method": "BESHStatNG.WorksheetFunctions.OrdinalLogitUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeOrdinalProbabilities(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "whole_resolved_body": true,
+            "native_fields_and_initializers_exact": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb|BESHStatNG.UdfRegressionOutput|FunctionBlock|70d7310463f2da36@2197:1017",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+        "name": "ComputeLinearPredictor",
+        "reason": "Whole instructions/locals/EH/params and actual consumer; native context exact; transitive existing Core source/project dependencies pinned",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "source_method": "BESHStatNG.UdfRegressionOutput @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "whole_resolved_body": true,
+            "native_fields_and_initializers_exact": true
+          },
+          {
+            "configuration": "Release",
+            "source_method": "BESHStatNG.UdfRegressionOutput @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "portable_method": "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeLinearPredictor(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "whole_resolved_body": true,
+            "native_fields_and_initializers_exact": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3ac27578477df175@206086:534",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParsePcaMatrixType",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParsePcaMatrixType(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParsePcaMatrixType(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|aeb0a7d79b487bb5@206630:607",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParsePcaRetentionMethod",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParsePcaRetentionMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParsePcaRetentionMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|4b3f9e60ef05e0ee@207247:636",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseFaMatrixType",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaMatrixType(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaMatrixType(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3e12b05bbcb4c439@207893:1226",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseFaExtractionMethod",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaExtractionMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaExtractionMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|243eecfc4a84c49c@209129:765",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseFaRetentionMethod",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaRetentionMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaRetentionMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|33ce5da9a28148d6@209904:921",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseFaRotationMethod",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaRotationMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaRotationMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|f0ac68724c999bba@210835:676",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseFaScoreMethod",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaScoreMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaScoreMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8830f99090759c73@211521:693",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseFaCommunalityInitialization",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaCommunalityInitialization(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaCommunalityInitialization(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1c92851a6b253058@212224:655",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseFaMissingPolicy",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaMissingPolicy(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseFaMissingPolicy(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c23c37d8a09017be@212889:840",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseClusterStandardizationMode",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseClusterStandardizationMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseClusterStandardizationMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|9297c186425f0c18@213739:644",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseClusterMissingValuePolicy",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseClusterMissingValuePolicy(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseClusterMissingValuePolicy(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|74896d134a57cf76@214393:975",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseKMeansInitialization",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseKMeansInitialization(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseKMeansInitialization(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8d5734445be9f149@215378:601",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseKMeansDistanceMetric",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseKMeansDistanceMetric(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseKMeansDistanceMetric(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|216c45ac3d7b4157@215989:831",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseEmptyClusterHandling",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseEmptyClusterHandling(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseEmptyClusterHandling(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|78c9a6f3fe9bb3dc@216830:1276",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseHierarchicalLinkage",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseHierarchicalLinkage(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseHierarchicalLinkage(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1af48ca321b7055f@218116:1263",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseHierarchicalDistanceMetric",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseHierarchicalDistanceMetric(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseHierarchicalDistanceMetric(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|8a836584e6e105c5@219389:655",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseHierarchicalMembershipDisplayMode",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseHierarchicalMembershipDisplayMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseHierarchicalMembershipDisplayMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|7ff7743da62f4f56@220054:489",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseOutputScaleUseOriginal",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseOutputScaleUseOriginal(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseOutputScaleUseOriginal(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|e03f7eb02b7249f7@220553:567",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseDiscriminantMethod",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseDiscriminantMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseDiscriminantMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|84c55c1cb2b022ec@221130:789",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseDiscriminantPriorMode",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseDiscriminantPriorMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseDiscriminantPriorMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|a72297718e3f804c@221929:909",
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "name": "ParseDiscriminantValidationMode",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseDiscriminantValidationMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseDiscriminantValidationMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 7,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|ce563298be0f0d64@13261:911",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "name": "ParseAgreementCiMethod",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseAgreementCiMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.AgreementCiMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseAgreementCiMethod(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.AgreementCiMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|87cb7db8290a0fc2@14180:770",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "name": "ParseBlandAltmanMode",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseBlandAltmanMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.RepeatedBlandAltmanMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseBlandAltmanMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.RepeatedBlandAltmanMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|61eefe4d50b146fe@14958:1042",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "name": "ParseBlandAltmanScale",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseBlandAltmanScale(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.BlandAltmanScale @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseBlandAltmanScale(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.BlandAltmanScale @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|c03d38c011bfa6a7@16008:713",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "name": "ParseBlandAltmanXAxisMode",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseBlandAltmanXAxisMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.BlandAltmanXAxisMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseBlandAltmanXAxisMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.BlandAltmanXAxisMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|6c9554b02dd0d7c3@16729:838",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "name": "ParseBlandAltmanPlotMode",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseBlandAltmanPlotMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.RepeatedBlandAltmanPlotMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseBlandAltmanPlotMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.RepeatedBlandAltmanPlotMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|d6de5d9132e15b4a@17575:1021",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "name": "ParseKappaWeighting",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseKappaWeighting(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.KappaWeightingScheme @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseKappaWeighting(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.KappaWeightingScheme @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|700acac27474a17f@18604:762",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "name": "ParseDemingVarianceModel",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseDemingVarianceModel(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.DemingVarianceModel @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseDemingVarianceModel(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.Agreement.DemingVarianceModel @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|efcf20225d4429c4@19988:757",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "name": "ParseIccModel",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseIccModel(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseIccModel(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          }
+        ]
+      },
+      {
+        "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|7167bd65dd336bac@61430:630",
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "name": "ParseEqualVarianceMode",
+        "reason": "Whole source decision/default/throw composition; C3 proven normalizers; fresh fixed-RHS/runtime option/boxed-conversion probe; real consumer and native cache fields/initializers",
+        "configurations": [
+          {
+            "configuration": "Debug",
+            "actual_callee": "BESHStatNG.ExcelCommon.ParametricUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseEqualVarianceMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          },
+          {
+            "configuration": "Release",
+            "actual_callee": "BESHStatNG.ExcelCommon.ParametricUDFsOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ParseEqualVarianceMode(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "native_field_count": 0,
+            "initializer_preserved": true
+          }
+        ]
+      }
+    ],
+    "new_supported_bodies": 35,
+    "report_consumers_implemented_but_public_bodies_OPEN": [
+      "ANOVA1",
+      "ANOVA1_WELCH",
+      "ANOVA1_MCP"
+    ],
+    "report_blockers": [
+      "TryGetGroupedNumericColumns/TryReadGroupedNumericColumns/primitive host converter dependency closure",
+      "metadata-bearing PrepareResultTableForUdf and per-cell formatter complete ownership",
+      "MCP alpha parser dependency"
+    ],
+    "original_queries": 0,
+    "scientific": "NOT_GOLDEN"
+  },
+  "seconds": 1.577799300022889
+}

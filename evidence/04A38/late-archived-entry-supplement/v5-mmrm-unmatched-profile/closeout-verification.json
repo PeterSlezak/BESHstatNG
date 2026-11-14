@@ -1,0 +1,143 @@
+{
+  "status": "INDEPENDENT_LOCAL_PUBLIC_COPY_SOURCE_AND_ADVERSE_PASS",
+  "commands": [
+    {
+      "label": "closeout-local-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\verify_closeout.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 10.816844200002379,
+        "stdout_sha256": "5be3d3312fd908f5abaeef09f1e92162b1e7a5ecb33e264e04d63192015de84e",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "closeout-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile",
+          "-p",
+          "test_closeout.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 26.826141300000018,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "f8448c2dc9985f5796bb7f5d7643e62627ac9c74df594852f76455d22a2dc3fe",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "closeout-public-copy-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\verify_public_copy.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 11.758718800003408,
+        "stdout_sha256": "8eaedacda5580a55115dbde29400f582d773bfe5f716e3b452738768685b4e66",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "closeout-original-source-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\verify_original_source.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 17.3833369999993,
+        "stdout_sha256": "ad101252c12e89072ee75c9bf9d9f2ece36c20ae083afda086075a631551854e",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "closeout_adverse": {
+    "label": "mmrm38-v5-closeout-adverse",
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "f8448c2dc9985f5796bb7f5d7643e62627ac9c74df594852f76455d22a2dc3fe",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_extra_reference (test_closeout.CloseoutTests.test_extra_reference)",
+      "test_false_full_run (test_closeout.CloseoutTests.test_false_full_run)",
+      "test_false_ownership (test_closeout.CloseoutTests.test_false_ownership)",
+      "test_intact (test_closeout.CloseoutTests.test_intact)",
+      "test_lost_nonpasses (test_closeout.CloseoutTests.test_lost_nonpasses)",
+      "test_native_promotion (test_closeout.CloseoutTests.test_native_promotion)",
+      "test_production_change (test_closeout.CloseoutTests.test_production_change)",
+      "test_ready (test_closeout.CloseoutTests.test_ready)",
+      "test_ready_verifier_invented (test_closeout.CloseoutTests.test_ready_verifier_invented)",
+      "test_staged_index (test_closeout.CloseoutTests.test_staged_index)",
+      "test_wrong_blocker (test_closeout.CloseoutTests.test_wrong_blocker)",
+      "test_wrong_mask_size (test_closeout.CloseoutTests.test_wrong_mask_size)"
+    ],
+    "nonpasses": []
+  },
+  "public_copy": {
+    "proof": {
+      "status": "VALID_NOT_READY_UNMATCHED_PROFILE_CLOSEOUT",
+      "unmatched_profile_gate": "MMRM_UNMATCHED_PROFILE_GATE_PASS",
+      "exact_each_configuration": "2/2",
+      "original_line1426_true_witnesses": 4,
+      "returned_reports": 0,
+      "earliest_blocker_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1a0bb79d9820bf54@87541:2014",
+      "missing": "Independent original scalar intercept-group guard witness at lines1477-1479",
+      "external_files": 1244,
+      "new_production_changes": 0,
+      "extra_references": 0,
+      "scientific": "NOT_GOLDEN",
+      "native": "NOT_RUN",
+      "review_boundary": "Published bytes verified; copied packet cannot prove live Git/4695 tracked-path preservation/ignored history"
+    },
+    "copy_method": "Hardlinked immutable public inventory; read-only verification, no ZIP created",
+    "copied_entries": 1245,
+    "exclusions": "Existing private raw environment diagnostic, isolated binaries/raw logs, unrelated4695 historical paths not listed by publication manifest, retained TestResults",
+    "boundary": "Published bytes/case/source snapshot/seal/branch data verified; live Git and all4695 historical paths are separate live-only checks"
+  },
+  "original_source": {
+    "status": "PINNED_ORIGINAL_AND_OBSERVATIONAL_MAP_PASS",
+    "git_files": 4695,
+    "production_compilation_inputs_verified": 168,
+    "source_map_hooks_verified": 80,
+    "statistical_logic_substitutions": 0,
+    "native": "NOT_RUN"
+  },
+  "closeout_manifest_verified": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/publication-manifest-closeout-v1.json",
+    "bytes": 268116,
+    "sha256": "c3df86666cd79a5250a4f7d02ad9aca35b283fffc0140ffc1e7c6ccd540157f2"
+  },
+  "new_tests": {
+    "gate_and_stop": 93,
+    "closeout": 12,
+    "total": 105
+  },
+  "unchanged_previous_tests": 352,
+  "all_focused_test_passes": 457,
+  "qualification": "Bounded compatibility and honest stop dossier only; no complete migration or scientific/native/owner acceptance"
+}

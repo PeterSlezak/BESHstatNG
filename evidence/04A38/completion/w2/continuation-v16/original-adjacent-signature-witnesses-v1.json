@@ -1,0 +1,3200 @@
+{
+  "rows": [
+    {
+      "source_record": {
+        "symbol_id": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|f8f603adee393380@9947:605",
+        "signature_key": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|f8f603adee393380",
+        "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "name": "AddInterceptColumn",
+        "kind": "FunctionBlock",
+        "owner": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "signature": "Friend Function AddInterceptColumn(expandedX(,) As Double, nRows As Integer) As Double(,)",
+        "span_start": 9947,
+        "span_length": 605,
+        "start_line": 173,
+        "end_line": 190,
+        "body_sha256": "367cf28ca98c6910cea863eda55316f00b231aa62a78dfb921fa14fb2442490a",
+        "body_token_sha256": "416a122a92779d602fa1f492289d7442f9b51c9da7612dc8340e1d82fa0957f4",
+        "source_sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "expandedX.GetLength(1)",
+            "line": 174
+          },
+          {
+            "text": "out(i, 0)",
+            "line": 178
+          },
+          {
+            "text": "out(i, j + 1)",
+            "line": 184
+          },
+          {
+            "text": "expandedX(i, j)",
+            "line": 184
+          }
+        ]
+      },
+      "authenticated_original_source_header": "Friend Function AddInterceptColumn(expandedX(,) As Double, nRows As Integer) As Double(,)",
+      "captured_original_method": {
+        "method": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptColumn(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "member_name": "AddInterceptColumn",
+        "parameter_types": [
+          "System.Double[,]",
+          "System.Int32"
+        ],
+        "attributes": "PrivateScope, Assembly, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "4e6832f440df74b757661d4af417846294eb2c48a5bb4963976458808aa43894",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              6
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "br",
+            "operand": [
+              7
+            ]
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "sub.ovf",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "sub.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.3",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 4
+          },
+          {
+            "op": "br",
+            "operand": [
+              34
+            ]
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ldc.r8",
+            "operand": "3FF0000000000000"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldloc.3",
+            "operand": null
+          },
+          {
+            "op": "ble",
+            "operand": [
+              25
+            ]
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "cgt",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              81
+            ]
+          },
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "sub.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 6
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 7
+          },
+          {
+            "op": "br",
+            "operand": [
+              78
+            ]
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "sub.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 8
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 9
+          },
+          {
+            "op": "br",
+            "operand": [
+              71
+            ]
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 7
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 9
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 7
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 9
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Set(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 9
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 9
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 9
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 8
+          },
+          {
+            "op": "ble",
+            "operand": [
+              57
+            ]
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 7
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 7
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 7
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 6
+          },
+          {
+            "op": "ble",
+            "operand": [
+              50
+            ]
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              84
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "all_original_captured_typed_callsite_witnesses": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.LmmUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LMM_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "index": 353,
+          "locals": [
+            "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelFitMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFixedInferenceMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceOptimizerMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceGradientMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmImportedInputs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelBlockData @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelRStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelGStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFitRequest @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelControl @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.LMM @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "instructions": [
+            {
+              "op": "ldloc.s",
+              "operand": 24
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 16
+            },
+            {
+              "op": "callvirt",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.LmmUDFs+LmmImportedInputs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_N()"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptColumn(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.s",
+              "operand": 28
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 25
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptName(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.s",
+              "operand": 29
+            }
+          ]
+        },
+        {
+          "caller": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptIfRequested(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "index": 26,
+          "locals": [
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.i4.0",
+              "operand": null
+            },
+            {
+              "op": "callvirt",
+              "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptColumn(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                29
+              ]
+            },
+            {
+              "op": "ldloc.0",
+              "operand": null
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_measured_signature": {
+        "return_type": "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "parameters": [
+          {
+            "name": "expandedX",
+            "type": "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "nRows",
+            "type": "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          }
+        ],
+        "generic_definition": false,
+        "generic_arguments": null,
+        "attributes": []
+      },
+      "qualification": "Original return declaration is authenticated source, with existing captured Debug CIL return locals and typed caller consumption. It is distinguished from a newly measured original return row; no original DLL is loaded, reflected, executed or recompiled. Existing original capture scope remains unchanged."
+    },
+    {
+      "source_record": {
+        "symbol_id": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|79eec6a5774f6931@10562:430",
+        "signature_key": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|79eec6a5774f6931",
+        "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "name": "AddInterceptName",
+        "kind": "FunctionBlock",
+        "owner": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "signature": "Friend Function AddInterceptName(expandedNames() As String) As String()",
+        "span_start": 10562,
+        "span_length": 430,
+        "start_line": 192,
+        "end_line": 204,
+        "body_sha256": "a4878b497893a89e1bc37f2cc9b7faadcec68e8c4f56dceecfa0a1aadd5d52e1",
+        "body_token_sha256": "6b8749f85f95c7a69640439ee135a4f276f21d7968c8398cbc67b3d7cc2b6249",
+        "source_sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "out(0)",
+            "line": 195
+          },
+          {
+            "text": "out(j + 1)",
+            "line": 199
+          },
+          {
+            "text": "expandedNames(j)",
+            "line": 199
+          }
+        ]
+      },
+      "authenticated_original_source_header": "Friend Function AddInterceptName(expandedNames() As String) As String()",
+      "captured_original_method": {
+        "method": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptName(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "member_name": "AddInterceptName",
+        "parameter_types": [
+          "System.String[]"
+        ],
+        "attributes": "PrivateScope, Assembly, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "a4cf3f9ac47446b3cce68c9a97baca5fd7901b1a71719a628b628fba01efa432",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              6
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldlen",
+            "operand": null
+          },
+          {
+            "op": "conv.i4",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              7
+            ]
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "newarr",
+            "operand": "TYPE:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "stloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:Intercept"
+          },
+          {
+            "op": "stelem.ref",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "cgt",
+            "operand": null
+          },
+          {
+            "op": "stloc.3",
+            "operand": null
+          },
+          {
+            "op": "ldloc.3",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              45
+            ]
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "sub.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 5
+          },
+          {
+            "op": "br",
+            "operand": [
+              42
+            ]
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldelem.ref",
+            "operand": null
+          },
+          {
+            "op": "stelem.ref",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ble",
+            "operand": [
+              30
+            ]
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              48
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "all_original_captured_typed_callsite_witnesses": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.LmmUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LMM_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "index": 356,
+          "locals": [
+            "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelFitMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFixedInferenceMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceOptimizerMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceGradientMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmImportedInputs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelBlockData @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelRStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelGStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFitRequest @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelControl @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.LMM @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "instructions": [
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptColumn(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.s",
+              "operand": 28
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 25
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptName(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.s",
+              "operand": 29
+            },
+            {
+              "op": "br",
+              "operand": [
+                384
+              ]
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 24
+            },
+            {
+              "op": "brfalse",
+              "operand": [
+                368
+              ]
+            }
+          ]
+        },
+        {
+          "caller": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptNameIfRequested(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "index": 15,
+          "locals": [
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "instructions": [
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                18
+              ]
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptName(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                18
+              ]
+            },
+            {
+              "op": "ldloc.0",
+              "operand": null
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_measured_signature": {
+        "return_type": "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "parameters": [
+          {
+            "name": "expandedNames",
+            "type": "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          }
+        ],
+        "generic_definition": false,
+        "generic_arguments": null,
+        "attributes": []
+      },
+      "qualification": "Original return declaration is authenticated source, with existing captured Debug CIL return locals and typed caller consumption. It is distinguished from a newly measured original return row; no original DLL is loaded, reflected, executed or recompiled. Existing original capture scope remains unchanged."
+    },
+    {
+      "source_record": {
+        "symbol_id": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|e9d49667d892f7cb@11002:328",
+        "signature_key": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|e9d49667d892f7cb",
+        "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "name": "AddInterceptIfRequested",
+        "kind": "FunctionBlock",
+        "owner": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "signature": "Friend Function AddInterceptIfRequested(x(,) As Double, includeIntercept As Boolean) As Double(,)",
+        "span_start": 11002,
+        "span_length": 328,
+        "start_line": 206,
+        "end_line": 210,
+        "body_sha256": "8af18d9abf242e0a9abcd0c8c3dea194ac4b7553c41a09e740a8a98a894f0e61",
+        "body_token_sha256": "b8033d3b446f2e7c18224c5d501b44a4629eb50e51a12ec34d9a300841834b9e",
+        "source_sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(x)))",
+            "line": 208
+          },
+          {
+            "text": "AddInterceptColumn(x, x.GetLength(0))",
+            "line": 209
+          },
+          {
+            "text": "x.GetLength(0)",
+            "line": 209
+          }
+        ]
+      },
+      "authenticated_original_source_header": "Friend Function AddInterceptIfRequested(x(,) As Double, includeIntercept As Boolean) As Double(,)",
+      "captured_original_method": {
+        "method": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptIfRequested(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "member_name": "AddInterceptIfRequested",
+        "parameter_types": [
+          "System.Double[,]",
+          "System.Boolean"
+        ],
+        "attributes": "PrivateScope, Assembly, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "a58803116ee8eb07a7ca725d47f2181a0adffec7c04c35f5af2735723edfb541",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              9
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              29
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              22
+            ]
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.CoreServices @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Errors()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:x"
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.ArgumentNullException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.IErrorReporter @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LogAndThrow(System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptColumn(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              29
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "all_original_captured_typed_callsite_witnesses": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.LmmUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LMM_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "index": 336,
+          "locals": [
+            "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelFitMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFixedInferenceMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceOptimizerMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceGradientMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmImportedInputs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelBlockData @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelRStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelGStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFitRequest @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelControl @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.LMM @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "instructions": [
+            {
+              "op": "leave",
+              "operand": [
+                697
+              ]
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 22
+            },
+            {
+              "op": "ldloc.3",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptIfRequested(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.s",
+              "operand": 26
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 23
+            },
+            {
+              "op": "ldloc.3",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptNameIfRequested(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            }
+          ]
+        }
+      ],
+      "current_measured_signature": {
+        "return_type": "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "parameters": [
+          {
+            "name": "x",
+            "type": "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "includeIntercept",
+            "type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          }
+        ],
+        "generic_definition": false,
+        "generic_arguments": null,
+        "attributes": []
+      },
+      "qualification": "Original return declaration is authenticated source, with existing captured Debug CIL return locals and typed caller consumption. It is distinguished from a newly measured original return row; no original DLL is loaded, reflected, executed or recompiled. Existing original capture scope remains unchanged."
+    },
+    {
+      "source_record": {
+        "symbol_id": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|aae9b7b991089086@11340:242",
+        "signature_key": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|aae9b7b991089086",
+        "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "name": "AddInterceptNameIfRequested",
+        "kind": "FunctionBlock",
+        "owner": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "signature": "Friend Function AddInterceptNameIfRequested(names() As String, includeIntercept As Boolean) As String()",
+        "span_start": 11340,
+        "span_length": 242,
+        "start_line": 212,
+        "end_line": 215,
+        "body_sha256": "3d2e94dbbf7e0041c10f56328bac190ac3f930191051888b2fa4900ec5af8e62",
+        "body_token_sha256": "9e84451c8cec5422576109efb1979e140287df5b086923a828d023bcef21cb7b",
+        "source_sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "AddInterceptName(names)",
+            "line": 214
+          }
+        ]
+      },
+      "authenticated_original_source_header": "Friend Function AddInterceptNameIfRequested(names() As String, includeIntercept As Boolean) As String()",
+      "captured_original_method": {
+        "method": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptNameIfRequested(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "member_name": "AddInterceptNameIfRequested",
+        "parameter_types": [
+          "System.String[]",
+          "System.Boolean"
+        ],
+        "attributes": "PrivateScope, Assembly, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "47345118208d4a5f1af1623610ba3785cd6f114a885f384db5fa306282c0935f",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              14
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              12
+            ]
+          },
+          {
+            "op": "pop",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "newarr",
+            "operand": "TYPE:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              18
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptName(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              18
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "all_original_captured_typed_callsite_witnesses": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.LmmUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LMM_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "index": 340,
+          "locals": [
+            "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelFitMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFixedInferenceMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceOptimizerMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceGradientMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmImportedInputs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelBlockData @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelRStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelGStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFitRequest @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelControl @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.LMM @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "instructions": [
+            {
+              "op": "stloc.s",
+              "operand": 26
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 23
+            },
+            {
+              "op": "ldloc.3",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.AddInterceptNameIfRequested(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stloc.s",
+              "operand": 27
+            },
+            {
+              "op": "ldnull",
+              "operand": null
+            },
+            {
+              "op": "stloc.s",
+              "operand": 28
+            },
+            {
+              "op": "ldnull",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_measured_signature": {
+        "return_type": "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "parameters": [
+          {
+            "name": "names",
+            "type": "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "includeIntercept",
+            "type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          }
+        ],
+        "generic_definition": false,
+        "generic_arguments": null,
+        "attributes": []
+      },
+      "qualification": "Original return declaration is authenticated source, with existing captured Debug CIL return locals and typed caller consumption. It is distinguished from a newly measured original return row; no original DLL is loaded, reflected, executed or recompiled. Existing original capture scope remains unchanged."
+    },
+    {
+      "source_record": {
+        "symbol_id": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|949500c99dcda34f@11592:365",
+        "signature_key": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|949500c99dcda34f",
+        "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "name": "DefaultNames",
+        "kind": "FunctionBlock",
+        "owner": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "signature": "Friend Function DefaultNames(count As Integer, prefix As String) As String()",
+        "span_start": 11592,
+        "span_length": 365,
+        "start_line": 217,
+        "end_line": 224,
+        "body_sha256": "afab0567e8986a40c50098189b696b825b6ddce167e4fed4c7e699a590586700",
+        "body_token_sha256": "5f1d89e394427896c7ac00dfeb555cf0794fcc4283f7664d66c9effad2fe9ada",
+        "source_sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "names(i)",
+            "line": 221
+          },
+          {
+            "text": "(i + 1).ToString(CultureInfo.InvariantCulture)",
+            "line": 221
+          }
+        ]
+      },
+      "authenticated_original_source_header": "Friend Function DefaultNames(count As Integer, prefix As String) As String()",
+      "captured_original_method": {
+        "method": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.DefaultNames(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "member_name": "DefaultNames",
+        "parameter_types": [
+          "System.Int32",
+          "System.String"
+        ],
+        "attributes": "PrivateScope, Assembly, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "a138a6760ede17319b21905412213f785af1398776c26b61aa739d94c1895bee",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "cgt",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              12
+            ]
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "newarr",
+            "operand": "TYPE:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              48
+            ]
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "sub.ovf",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "newarr",
+            "operand": "TYPE:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "sub.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.3",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 4
+          },
+          {
+            "op": "br",
+            "operand": [
+              42
+            ]
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 5
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Globalization.CultureInfo @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_InvariantCulture()"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToString(System.IFormatProvider @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Concat(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stelem.ref",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "add.ovf",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldloc.3",
+            "operand": null
+          },
+          {
+            "op": "ble",
+            "operand": [
+              26
+            ]
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              48
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "all_original_captured_typed_callsite_witnesses": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.LmmUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryBuildLmmExpandedDesign(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "index": 161,
+          "locals": [
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.RegressionFormulaMatrixBuildResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "instructions": [
+            {
+              "op": "ldc.i4.1",
+              "operand": null
+            },
+            {
+              "op": "callvirt",
+              "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldloc.2",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.DefaultNames(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stind.ref",
+              "operand": null
+            },
+            {
+              "op": "ldc.i4.1",
+              "operand": null
+            },
+            {
+              "op": "stloc.0",
+              "operand": null
+            },
+            {
+              "op": "br",
+              "operand": [
+                166
+              ]
+            }
+          ]
+        }
+      ],
+      "current_measured_signature": {
+        "return_type": "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "parameters": [
+          {
+            "name": "count",
+            "type": "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "prefix",
+            "type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          }
+        ],
+        "generic_definition": false,
+        "generic_arguments": null,
+        "attributes": []
+      },
+      "qualification": "Original return declaration is authenticated source, with existing captured Debug CIL return locals and typed caller consumption. It is distinguished from a newly measured original return row; no original DLL is loaded, reflected, executed or recompiled. Existing original capture scope remains unchanged."
+    },
+    {
+      "source_record": {
+        "symbol_id": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|SubBlock|c48e668bc525935b@19131:1087",
+        "signature_key": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|SubBlock|c48e668bc525935b",
+        "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "name": "ValidateRandomStructureAgainstDesign",
+        "kind": "SubBlock",
+        "owner": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "signature": "Friend Sub ValidateRandomStructureAgainstDesign(randomStructName As String, z(,) As Double, randomNames() As String, Optional randomInterceptChecked As Boolean? = Nothing, Optional authoredRandomEffectCount As Integer? = Nothing, Optional enforceUiInterceptSemantics As Boolean = False)",
+        "span_start": 19131,
+        "span_length": 1087,
+        "start_line": 391,
+        "end_line": 404,
+        "body_sha256": "dc190421178befa22bdf8635d5c41f5b91589ca82e8082c59a12464c1912a2fe",
+        "body_token_sha256": "3c1e0bd8f1d650557f2e49b93fa3342c56df87c8e713f43c5fceac6f6232e5cf",
+        "source_sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "z.GetLength(1)",
+            "line": 397
+          },
+          {
+            "text": "ValidateRandomStructureAgainstColumnCount(randomStructName, q, randomNames, randomInterceptChecked, authoredRandomEffectCount, enforceUiInterceptSemantics)",
+            "line": 398
+          }
+        ]
+      },
+      "authenticated_original_source_header": "Friend Sub ValidateRandomStructureAgainstDesign(randomStructName As String, z(,) As Double, randomNames() As String, Optional randomInterceptChecked As Boolean? = Nothing, Optional authoredRandomEffectCount As Integer? = Nothing, Optional enforceUiInterceptSemantics As Boolean = False)",
+      "captured_original_method": {
+        "method": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ValidateRandomStructureAgainstDesign(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "member_name": "ValidateRandomStructureAgainstDesign",
+        "parameter_types": [
+          "System.String",
+          "System.Double[,]",
+          "System.String[]",
+          "System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+          "System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+          "System.Boolean"
+        ],
+        "attributes": "PrivateScope, Assembly, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "5c321f8b2170e7f0ceda92c64c43c71f95e02c4e1cbf0870b5103000e948a8f9",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              6
+            ]
+          },
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "br",
+            "operand": [
+              7
+            ]
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ldarg.2",
+            "operand": null
+          },
+          {
+            "op": "ldarg.3",
+            "operand": null
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 4
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 5
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ValidateRandomStructureAgainstColumnCount(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "all_original_captured_typed_callsite_witnesses": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.LmmUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LMM_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "index": 432,
+          "locals": [
+            "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelFitMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFixedInferenceMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceOptimizerMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelCovarianceGradientMode @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmImportedInputs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.regression.MixedModelBlockData @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelRStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelGStruct @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelFitRequest @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelControl @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.LMM @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStatNG.regression.MixedModelResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "BESHStatNG.WorksheetFunctions.LmmUDFs+LmmHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "instructions": [
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.LmmUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.MatrixColumnCount(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldc.i4.1",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ValidateRandomStructureAgainstDesign(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 16
+            },
+            {
+              "op": "callvirt",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.LmmUDFs+LmmImportedInputs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Y()"
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 26
+            },
+            {
+              "op": "ldloc.s",
+              "operand": 16
+            }
+          ]
+        }
+      ],
+      "current_measured_signature": {
+        "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "parameters": [
+          {
+            "name": "randomStructName",
+            "type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "z",
+            "type": "System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "randomNames",
+            "type": "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "randomInterceptChecked",
+            "type": "System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": true,
+            "has_default": true,
+            "default_type": null,
+            "default_value": "",
+            "attributes": [
+              "System.Runtime.InteropServices.OptionalAttribute"
+            ]
+          },
+          {
+            "name": "authoredRandomEffectCount",
+            "type": "System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": true,
+            "has_default": true,
+            "default_type": null,
+            "default_value": "",
+            "attributes": [
+              "System.Runtime.InteropServices.OptionalAttribute"
+            ]
+          },
+          {
+            "name": "enforceUiInterceptSemantics",
+            "type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": true,
+            "has_default": true,
+            "default_type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "default_value": "False",
+            "attributes": [
+              "System.Runtime.InteropServices.OptionalAttribute"
+            ]
+          }
+        ],
+        "generic_definition": false,
+        "generic_arguments": null,
+        "attributes": []
+      },
+      "qualification": "Original return declaration is authenticated source, with existing captured Debug CIL return locals and typed caller consumption. It is distinguished from a newly measured original return row; no original DLL is loaded, reflected, executed or recompiled. Existing original capture scope remains unchanged."
+    },
+    {
+      "source_record": {
+        "symbol_id": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|SubBlock|c2463f45096611de@20228:3632",
+        "signature_key": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|SubBlock|c2463f45096611de",
+        "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "name": "ValidateRandomStructureAgainstColumnCount",
+        "kind": "SubBlock",
+        "owner": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "signature": "Friend Sub ValidateRandomStructureAgainstColumnCount(randomStructName As String, q As Integer, randomNames() As String, Optional randomInterceptChecked As Boolean? = Nothing, Optional authoredRandomEffectCount As Integer? = Nothing, Optional enforceUiInterceptSemantics As Boolean = False)",
+        "span_start": 20228,
+        "span_length": 3632,
+        "start_line": 406,
+        "end_line": 443,
+        "body_sha256": "31c0825fc21aaf81b103c836de699ba30adc0cc9fef0ca5f5c3ab38704819cca",
+        "body_token_sha256": "09ef9d4e8cbce329299f1daebc922b0ec9f842795fb3b6add23db9d6afb6cf86",
+        "source_sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "CoreServices.Errors.LogAndThrow(New ApplicationException(\"The random-effects design contains no columns. Add at least one random effect or enable Random Intercepts.\"))",
+            "line": 413
+          },
+          {
+            "text": "String.Equals(randomStructName, \"Random Intercept\", StringComparison.OrdinalIgnoreCase)",
+            "line": 416
+          },
+          {
+            "text": "CoreServices.Errors.LogAndThrow(New ApplicationException(\"Random Intercept covariance requires exactly one expanded random-effect column, but the current random-effects design has \" & q.ToString(CultureInfo.InvariantCulture) & \". Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for multiple random effects or interactions.\"))",
+            "line": 418
+          },
+          {
+            "text": "q.ToString(CultureInfo.InvariantCulture)",
+            "line": 418
+          },
+          {
+            "text": "CoreServices.Errors.LogAndThrow(New ApplicationException(\"Random Intercept covariance requires Random Intercepts enabled and no authored random slopes/effects. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for slope-only, categorical, interaction, polynomial, or multiple random effects.\"))",
+            "line": 425
+          },
+          {
+            "text": "String.Equals(randomStructName, \"Random Intercept + Slope\", StringComparison.OrdinalIgnoreCase)",
+            "line": 430
+          },
+          {
+            "text": "CoreServices.Errors.LogAndThrow(New ApplicationException(\"Random Intercept + Slope covariance requires exactly two expanded random-effect columns, but the current random-effects design has \" & q.ToString(CultureInfo.InvariantCulture) & \". Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for multiple random effects or interactions.\"))",
+            "line": 432
+          },
+          {
+            "text": "q.ToString(CultureInfo.InvariantCulture)",
+            "line": 432
+          },
+          {
+            "text": "CoreServices.Errors.LogAndThrow(New ApplicationException(\"Random Intercept + Slope covariance requires Random Intercepts enabled plus exactly one authored random slope/effect. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for slope-only, categorical, interaction, polynomial, or multiple random effects.\"))",
+            "line": 439
+          }
+        ]
+      },
+      "authenticated_original_source_header": "Friend Sub ValidateRandomStructureAgainstColumnCount(randomStructName As String, q As Integer, randomNames() As String, Optional randomInterceptChecked As Boolean? = Nothing, Optional authoredRandomEffectCount As Integer? = Nothing, Optional enforceUiInterceptSemantics As Boolean = False)",
+      "captured_original_method": {
+        "method": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ValidateRandomStructureAgainstColumnCount(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "member_name": "ValidateRandomStructureAgainstColumnCount",
+        "parameter_types": [
+          "System.String",
+          "System.Int32",
+          "System.String[]",
+          "System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+          "System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+          "System.Boolean"
+        ],
+        "attributes": "PrivateScope, Assembly, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "ae5189509d8803b198cd534622bd5e3fc7bf5324436cc0e3cc48357a054c0ffe",
+        "type_initializer": false,
+        "nonliteral_static_fields": 0,
+        "locals": [
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "cgt",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              15
+            ]
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.CoreServices @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Errors()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:The random-effects design contains no columns. Add at least one random effect or enable Random Intercepts."
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.ApplicationException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.IErrorReporter @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LogAndThrow(System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:Random Intercept"
+          },
+          {
+            "op": "ldc.i4.5",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Equals(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.StringComparison @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              79
+            ]
+          },
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              42
+            ]
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.CoreServices @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Errors()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:Random Intercept covariance requires exactly one expanded random-effect column, but the current random-effects design has "
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 1
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Globalization.CultureInfo @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_InvariantCulture()"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToString(System.IFormatProvider @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for multiple random effects or interactions."
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Concat(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.ApplicationException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.IErrorReporter @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LogAndThrow(System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 5
+          },
+          {
+            "op": "stloc.3",
+            "operand": null
+          },
+          {
+            "op": "ldloc.3",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              79
+            ]
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 3
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_HasValue()"
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              52
+            ]
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 3
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Value()"
+          },
+          {
+            "op": "br",
+            "operand": [
+              53
+            ]
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 4
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_HasValue()"
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              59
+            ]
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              61
+            ]
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 4
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Value()"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              68
+            ]
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "cgt.un",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              69
+            ]
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 6
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 6
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              79
+            ]
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.CoreServices @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Errors()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:Random Intercept covariance requires Random Intercepts enabled and no authored random slopes/effects. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for slope-only, categorical, interaction, polynomial, or multiple random effects."
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.ApplicationException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.IErrorReporter @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LogAndThrow(System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:Random Intercept + Slope"
+          },
+          {
+            "op": "ldc.i4.5",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Equals(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.StringComparison @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 7
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 7
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              145
+            ]
+          },
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.2",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 8
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 8
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              106
+            ]
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.CoreServices @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Errors()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:Random Intercept + Slope covariance requires exactly two expanded random-effect columns, but the current random-effects design has "
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 1
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Globalization.CultureInfo @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_InvariantCulture()"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToString(System.IFormatProvider @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for multiple random effects or interactions."
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Concat(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.ApplicationException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.IErrorReporter @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LogAndThrow(System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 5
+          },
+          {
+            "op": "stloc.s",
+            "operand": 9
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 9
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              145
+            ]
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 3
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_HasValue()"
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              116
+            ]
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 3
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Value()"
+          },
+          {
+            "op": "br",
+            "operand": [
+              117
+            ]
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 10
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 4
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_HasValue()"
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              123
+            ]
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              125
+            ]
+          },
+          {
+            "op": "ldarga.s",
+            "operand": 4
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Value()"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 11
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 10
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              134
+            ]
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 11
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              135
+            ]
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 12
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 12
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              145
+            ]
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.CoreServices @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Errors()"
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:Random Intercept + Slope covariance requires Random Intercepts enabled plus exactly one authored random slope/effect. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for slope-only, categorical, interaction, polynomial, or multiple random effects."
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.ApplicationException @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldc.i4.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.AppInfrastructure.IErrorReporter @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LogAndThrow(System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "all_original_captured_typed_callsite_witnesses": [
+        {
+          "caller": "BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ValidateRandomStructureAgainstDesign(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "index": 14,
+          "locals": [
+            "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "instructions": [
+            {
+              "op": "ldarg.3",
+              "operand": null
+            },
+            {
+              "op": "ldarg.s",
+              "operand": 4
+            },
+            {
+              "op": "ldarg.s",
+              "operand": 5
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.regression.MixedModelFrontEndHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ValidateRandomStructureAgainstColumnCount(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_measured_signature": {
+        "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "parameters": [
+          {
+            "name": "randomStructName",
+            "type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "q",
+            "type": "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "randomNames",
+            "type": "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": false,
+            "has_default": false,
+            "default_type": null,
+            "default_value": null,
+            "attributes": []
+          },
+          {
+            "name": "randomInterceptChecked",
+            "type": "System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": true,
+            "has_default": true,
+            "default_type": null,
+            "default_value": "",
+            "attributes": [
+              "System.Runtime.InteropServices.OptionalAttribute"
+            ]
+          },
+          {
+            "name": "authoredRandomEffectCount",
+            "type": "System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": true,
+            "has_default": true,
+            "default_type": null,
+            "default_value": "",
+            "attributes": [
+              "System.Runtime.InteropServices.OptionalAttribute"
+            ]
+          },
+          {
+            "name": "enforceUiInterceptSemantics",
+            "type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "byref": false,
+            "is_out": false,
+            "optional": true,
+            "has_default": true,
+            "default_type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "default_value": "False",
+            "attributes": [
+              "System.Runtime.InteropServices.OptionalAttribute"
+            ]
+          }
+        ],
+        "generic_definition": false,
+        "generic_arguments": null,
+        "attributes": []
+      },
+      "qualification": "Original return declaration is authenticated source, with existing captured Debug CIL return locals and typed caller consumption. It is distinguished from a newly measured original return row; no original DLL is loaded, reflected, executed or recompiled. Existing original capture scope remains unchanged."
+    }
+  ],
+  "source_authority": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/adjacent-LMM-helper-authority-v1.json",
+    "bytes": 1324,
+    "sha256": "96232af1f7f0ad3cc2f5e35ecc3ed2ce2e9e8d88d759617f22d293f3e35bbbbc"
+  },
+  "original_metadata": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/metadata-all/packet-v1-context-v5/original-Debug.json",
+    "bytes": 65219455,
+    "sha256": "c076947fce3431de339fd5dfbf1f972fb71cb687ca59e8f469c53e9afe4ccc98"
+  },
+  "original_queries": 0,
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+}

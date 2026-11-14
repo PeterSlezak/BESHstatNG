@@ -1,0 +1,36 @@
+<ExcelFunction(
+            Name:="BESH.PAR.ANOVA1_WELCH",
+            Category:="BESHStatNG - Parametric",
+            Description:="Welch one-way ANOVA summary. Input: one column per group.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function ANOVA1_WELCH(
+            <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
+                Dim mdl As New parametric.OneWayANOVA(data, names)
+                mdl.compute()
+                Dim w = mdl.WelshANOVA()
+
+                Dim body(0, 3) As Object
+                body(0, 0) = data.Length - 1
+                body(0, 1) = w.DF1
+                body(0, 2) = w.TestStatistics1
+                body(0, 3) = w.Pvalue
+
+                Dim t As New ResultTable
+                t.SetBody(body)
+                t.AddPvalueToFormat(4)
+                t.AddHeaderLeftRow({"Welch ANOVA"})
+                t.AddHeaderTopRow({"Source", "df numerator", "df denominator", "F", "P-value"})
+                Return PrepareResultTableForUdf(t)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.ANOVA1_WELCH", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function

@@ -61,18 +61,9 @@ Namespace WorksheetFunctions
             ByVal r As Double
         ) As Object
 
-            ' Basic argument validation (avoid hard crashes / misleading output)
-            If Double.IsNaN(q) OrElse Double.IsNaN(v) OrElse Double.IsNaN(r) Then Return ExcelError.ExcelErrorNum
-            If q < 0 OrElse v <= 0 OrElse r < 2 Then Return ExcelError.ExcelErrorNum
-
-            Dim iFault As Integer = 0
-            Dim p As Double = distributions.Distributions.PRTRNG(q, v, r, iFault)
-
-            If iFault <> 0 OrElse Double.IsNaN(p) OrElse Double.IsInfinity(p) Then
-                Return ExcelError.ExcelErrorNum
-            End If
-
-            Return p
+            Dim result As Double? = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.PrepareStudentizedRangeCdf(q, v, r)
+            If Not result.HasValue Then Return ExcelError.ExcelErrorNum
+            Return result.Value
         End Function
 
         ''' <summary>
@@ -116,17 +107,9 @@ Namespace WorksheetFunctions
             ByVal r As Double
         ) As Object
 
-            Dim cdfObj As Object = PRTRNG(q, v, r)
-            If TypeOf cdfObj Is ExcelError Then Return cdfObj
-
-            Dim cdf As Double = CDbl(cdfObj)
-            Dim tail As Double = 1.0 - cdf
-
-            ' Clamp to [0,1] to avoid negative tails due to numerical rounding
-            If tail < 0 Then tail = 0.0
-            If tail > 1 Then tail = 1.0
-
-            Return tail
+            Dim result As Double? = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.PrepareStudentizedRangeTail(q, v, r)
+            If Not result.HasValue Then Return ExcelError.ExcelErrorNum
+            Return result.Value
         End Function
 
 
@@ -185,27 +168,9 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="df2", Description:="Denominator degrees of freedom (df2 > 0).")> df2 As Double
         ) As Object
 
-            If Double.IsNaN(x) OrElse Double.IsNaN(df1) OrElse Double.IsNaN(df2) Then
-                Return ExcelError.ExcelErrorNum
-            End If
-            If x < 0 OrElse df1 <= 0 OrElse df2 <= 0 Then
-                Return ExcelError.ExcelErrorNum
-            End If
-
-            ' Handle x = 0 explicitly (see remarks).
-            If x = 0 Then
-                If df1 > 2 Then Return 0.0
-                If df1 = 2 Then Return 1.0
-                Return ExcelError.ExcelErrorNum
-            End If
-
-            Dim p As Double = distributions.Distributions.F_PDF(x, df1, df2)
-
-            If Double.IsNaN(p) OrElse Double.IsInfinity(p) Then
-                Return ExcelError.ExcelErrorNum
-            End If
-
-            Return p
+            Dim result As Double? = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.PrepareFDistributionDensity(x, df1, df2)
+            If Not result.HasValue Then Return ExcelError.ExcelErrorNum
+            Return result.Value
         End Function
     End Module
 

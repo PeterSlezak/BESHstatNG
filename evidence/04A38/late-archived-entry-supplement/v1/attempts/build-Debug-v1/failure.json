@@ -1,0 +1,11 @@
+{
+  "status": "COMPILES_PASSED_RUNTIME_STAGING_INCOMPLETE",
+  "core_common_host_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "cause": "ExcelDna.Integration Private=False prevents automatic copy to compile-only output",
+  "correction": "Stage the exact DLL from the separately pinned original-tree offline package; never copy current production DLLs",
+  "reference_execution": false
+}

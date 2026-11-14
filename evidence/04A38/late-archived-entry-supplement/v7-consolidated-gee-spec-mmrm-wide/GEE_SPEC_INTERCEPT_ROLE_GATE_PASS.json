@@ -1,0 +1,176 @@
+{
+  "status": "GEE_SPEC_INTERCEPT_ROLE_GATE_PASS",
+  "recorded_utc": "2026-11-09T17:35:49.446320+00:00",
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "approval": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/owner-authorization.json",
+    "bytes": 3062,
+    "sha256": "7a27c30e0c50f04cf8a8267f16f87d85ea295b81843d1a3dacbe09767bd4ca51"
+  },
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/input-seal.json",
+    "bytes": 7509,
+    "sha256": "0cce11e2b2de60c5691df4d52d00d535f74df7b1526f63b7f81dc9451751dcdf"
+  },
+  "original_output_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-output-seal.json",
+    "bytes": 27449,
+    "sha256": "f1913f11c89b9f812df5c8c6584af5cb65753012c2ded8b4e1a63ac7c88ba79d"
+  },
+  "validation": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/gate-validation.json",
+    "bytes": 69242,
+    "sha256": "d3b87364b9c1243569e3db8e3061035d4eca4725eddb3a996c8b530fce4e36fc"
+  },
+  "cases": {
+    "Debug": [
+      {
+        "case_id": "AUTHORIZED-G/Invariant/GEE_SPEC_INTERCEPT_ROLE",
+        "culture": "",
+        "kind": "GEE_SPEC_INTERCEPT_ROLE",
+        "exact": true,
+        "true_guard_original_lines": [
+          1506,
+          1507,
+          1508,
+          1509
+        ],
+        "outcome": "RETURN_TEXT",
+        "returned_report": false,
+        "input_sha256": "7ccebdbfbea98e3d51aea51efec25bc1bf60243e5d27893e5bbc57400fb213c7",
+        "original_query_sha256": "39f54e972239428f8a76a3d7ae1127b9c9a74ff5b0d2a6a8cdad0e98197cc13c",
+        "current_query_sha256": "39f54e972239428f8a76a3d7ae1127b9c9a74ff5b0d2a6a8cdad0e98197cc13c",
+        "decoded_result": "BESH.REGR.GEE_LSMESTIMATE error: the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+        "events": [
+          "G1.spec.entry=True",
+          "G1.header.weight_col=1",
+          "G1.header.label_col=0",
+          "G1.lookup.index=0",
+          "G1.lookup.name=Intercept",
+          "G1.guard.intercept=True",
+          "G1.guard.components_count=0",
+          "G1.guard.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "G1.public.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "G1.public.components_count=0",
+          "G1.public.spec_rejected=True"
+        ],
+        "private_ByRef": {
+          "components_nonnull": true,
+          "components_count": 0,
+          "errorMessage": "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+        }
+      },
+      {
+        "case_id": "AUTHORIZED-G/sk-SK/GEE_SPEC_INTERCEPT_ROLE",
+        "culture": "sk-SK",
+        "kind": "GEE_SPEC_INTERCEPT_ROLE",
+        "exact": true,
+        "true_guard_original_lines": [
+          1506,
+          1507,
+          1508,
+          1509
+        ],
+        "outcome": "RETURN_TEXT",
+        "returned_report": false,
+        "input_sha256": "dbd3a6024c2a173a3011bfa85be87396cc8174a2197bda3cc76d9536f412d1eb",
+        "original_query_sha256": "39f54e972239428f8a76a3d7ae1127b9c9a74ff5b0d2a6a8cdad0e98197cc13c",
+        "current_query_sha256": "39f54e972239428f8a76a3d7ae1127b9c9a74ff5b0d2a6a8cdad0e98197cc13c",
+        "decoded_result": "BESH.REGR.GEE_LSMESTIMATE error: the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+        "events": [
+          "G1.spec.entry=True",
+          "G1.header.weight_col=1",
+          "G1.header.label_col=0",
+          "G1.lookup.index=0",
+          "G1.lookup.name=Intercept",
+          "G1.guard.intercept=True",
+          "G1.guard.components_count=0",
+          "G1.guard.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "G1.public.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "G1.public.components_count=0",
+          "G1.public.spec_rejected=True"
+        ],
+        "private_ByRef": {
+          "components_nonnull": true,
+          "components_count": 0,
+          "errorMessage": "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+        }
+      }
+    ],
+    "Release": [
+      {
+        "case_id": "AUTHORIZED-G/Invariant/GEE_SPEC_INTERCEPT_ROLE",
+        "culture": "",
+        "kind": "GEE_SPEC_INTERCEPT_ROLE",
+        "exact": true,
+        "true_guard_original_lines": [
+          1506,
+          1507,
+          1508,
+          1509
+        ],
+        "outcome": "RETURN_TEXT",
+        "returned_report": false,
+        "input_sha256": "f51621b8ef7010c8d0feb5ed7f8a410af526b89e5404397e4f51cb402d9f18dd",
+        "original_query_sha256": "39f54e972239428f8a76a3d7ae1127b9c9a74ff5b0d2a6a8cdad0e98197cc13c",
+        "current_query_sha256": "39f54e972239428f8a76a3d7ae1127b9c9a74ff5b0d2a6a8cdad0e98197cc13c",
+        "decoded_result": "BESH.REGR.GEE_LSMESTIMATE error: the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+        "events": [
+          "G1.spec.entry=True",
+          "G1.header.weight_col=1",
+          "G1.header.label_col=0",
+          "G1.lookup.index=0",
+          "G1.lookup.name=Intercept",
+          "G1.guard.intercept=True",
+          "G1.guard.components_count=0",
+          "G1.guard.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "G1.public.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "G1.public.components_count=0",
+          "G1.public.spec_rejected=True"
+        ],
+        "private_ByRef": {
+          "components_nonnull": true,
+          "components_count": 0,
+          "errorMessage": "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+        }
+      },
+      {
+        "case_id": "AUTHORIZED-G/sk-SK/GEE_SPEC_INTERCEPT_ROLE",
+        "culture": "sk-SK",
+        "kind": "GEE_SPEC_INTERCEPT_ROLE",
+        "exact": true,
+        "true_guard_original_lines": [
+          1506,
+          1507,
+          1508,
+          1509
+        ],
+        "outcome": "RETURN_TEXT",
+        "returned_report": false,
+        "input_sha256": "dd6fb5803bfe0c6d39720c627fac7eb279962749661ee3127a4b44de89277ea4",
+        "original_query_sha256": "39f54e972239428f8a76a3d7ae1127b9c9a74ff5b0d2a6a8cdad0e98197cc13c",
+        "current_query_sha256": "39f54e972239428f8a76a3d7ae1127b9c9a74ff5b0d2a6a8cdad0e98197cc13c",
+        "decoded_result": "BESH.REGR.GEE_LSMESTIMATE error: the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+        "events": [
+          "G1.spec.entry=True",
+          "G1.header.weight_col=1",
+          "G1.header.label_col=0",
+          "G1.lookup.index=0",
+          "G1.lookup.name=Intercept",
+          "G1.guard.intercept=True",
+          "G1.guard.components_count=0",
+          "G1.guard.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "G1.public.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "G1.public.components_count=0",
+          "G1.public.spec_rejected=True"
+        ],
+        "private_ByRef": {
+          "components_nonnull": true,
+          "components_count": 0,
+          "errorMessage": "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+        }
+      }
+    ]
+  },
+  "batch_status": "NOT_READY_04A38"
+}

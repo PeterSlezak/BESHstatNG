@@ -1,0 +1,13 @@
+Friend Function PreparePValueRowsForUdf(table As Object) As Object(,)
+        Dim out As Object(,) = PrepareResultTableForUdf(table)
+        If out Is Nothing OrElse out.GetLength(1) < 2 Then Return out
+
+        For rowIndex As Integer = 0 To out.GetLength(0) - 1
+            If Not IsPValueLabel(out(rowIndex, 0)) Then Continue For
+            For columnIndex As Integer = 1 To out.GetLength(1) - 1
+                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))
+            Next
+        Next
+
+        Return out
+    End Function

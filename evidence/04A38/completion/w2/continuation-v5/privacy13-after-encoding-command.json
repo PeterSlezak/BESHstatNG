@@ -1,0 +1,27 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/tests",
+      "-p",
+      "test_04a13_survival_workflow.py",
+      "-k",
+      "test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "-v"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 1496.7070187999925,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "dc1515723a46322ee3226ec3c6078d8cfa5e0352fad3bc8a8eec4b039ea6c39b",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "scope": "One unchanged inherited privacy assertion after exact-byte relocation of the new C5 UTF16 diagnostic; raw FAIL remains a FAIL, never waived",
+  "original_queries": 0,
+  "gate": "Use actual identity/outcome/occurrence replacement only if full-suite raw record shows the known encoding/cached-path ERROR"
+}

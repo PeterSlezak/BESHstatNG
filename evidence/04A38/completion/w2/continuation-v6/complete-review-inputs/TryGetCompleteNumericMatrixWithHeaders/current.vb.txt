@@ -1,0 +1,5 @@
+Friend Function TryGetCompleteNumericMatrixWithHeaders(input As Object,
+                                                           ByRef mat As Double(,),
+                                                           ByRef names() As String) As Boolean
+        Return TryReadCompleteNumericMatrixWithHeaders(input, mat, names)
+    End Function

@@ -1,0 +1,58 @@
+{
+  "status": "ACTUAL_CANONICAL_OPEN_BODY_FALSE_CLOSURE_REJECTED_NOT_READY",
+  "name": "DA_MEANS",
+  "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1eae5c2ad10b29ac@174615:1245",
+  "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1eae5c2ad10b29ac@160919:1245",
+  "queue": {
+    "path": "evidence/04A38/completion/w2/continuation-v12/remaining-work-queue-v1.json",
+    "bytes": 219964,
+    "sha256": "cc2215b73abf9c974f19482195a3b7825a852e510406fbfca0a4f962a6fcdf77"
+  },
+  "ownership": {
+    "path": "evidence/04A38/completion/w2/continuation-v12/historical-ownership-v2.json",
+    "bytes": 775534,
+    "sha256": "9cd993935a73009ea4cb19f4f6dd0072a37adf6c3bd31a1c74bcd7744d1a912d"
+  },
+  "actual_closure_ledger": {
+    "path": "evidence/04A38/completion/w2/continuation-v12/new-closures-final-v1.json",
+    "bytes": 31332,
+    "sha256": "af393fce27ef591546119aa686e564b29f10e1691460f417ff20ffe022de0fbc"
+  },
+  "forged_ledger_sha256": "fe075b8c1df947e71f382f55e4c94a49bbe3e150a68c367b83c54dc0ec02c845",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v12/verify_c12_checkpoint_v2.py",
+    "bytes": 84115,
+    "sha256": "2984668ab911008ffaee6ec3d67eb38078c4d7faf1247af50335f65fd38492c9"
+  },
+  "reason": "Sealed C12 input changed evidence/04A38/completion/w2/continuation-v12/new-closures-final-v1.json",
+  "control_source": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont12/bookkeeping-code-v1/final_extra_control_v2.py",
+    "bytes": 3650,
+    "sha256": "88af6469e7ae61c77c9e151c48cec184c0e72281e979472f01dfbb7be93b12a1"
+  },
+  "prior_source": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont12/bookkeeping-code-v1/final_extra_control_v1.py",
+    "bytes": 2724,
+    "sha256": "0a444abc183d4020a03a073636ac06bdc8e361744df1277eb280287bf5fd0d04"
+  },
+  "failed_first_schema_attempt": {
+    "command.json": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c12-actual-open-body-rejection-v1/command.json",
+      "bytes": 837,
+      "sha256": "4ed0942176300b1771d24b6fbdaf9e845c13b77f7b9ca009b0e9e746df52a99e"
+    },
+    "stdout.log": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c12-actual-open-body-rejection-v1/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.log": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c12-actual-open-body-rejection-v1/stderr.log",
+      "bytes": 899,
+      "sha256": "0d1f5c0924cd257ce116ad0bd59c5f1cb08598f692e71e9a706cb89f5ddd0e27"
+    }
+  },
+  "correction": "V1 incorrectly expected current_id on historical-only queue rows. V2 resolves the exact single current counterpart through the authoritative ownership ledger, without a guessed ID. Earlier shell quoting diagnostics and sources remain private preserved. No tests/campaigns or sealed payloads changed.",
+  "mutation_scope": "In-memory overlay only; all actual OPEN dispositions remain unchanged.",
+  "original_queries": 0
+}

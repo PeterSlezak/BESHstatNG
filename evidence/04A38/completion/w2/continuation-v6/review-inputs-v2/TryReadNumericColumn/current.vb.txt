@@ -1,0 +1,19 @@
+Friend Function TryReadNumericColumn(v As Object, ByRef values As List(Of Double)) As Boolean
+        values = New List(Of Double)()
+        Dim col(,) As Object = Nothing
+        Dim inferredName As String = Nothing
+        If Not TryGetTrimmedColumnObject(v, col, inferredName, "numeric") Then Return False
+
+        Dim rows As Integer = col.GetLength(0)
+        If rows < 1 Then Return False
+
+        For i As Integer = 0 To rows - 1
+            Dim d As Double? = TryGetDouble(col(i, 0))
+            If d.HasValue Then
+                values.Add(d.Value)
+            Else
+                values.Add(Double.NaN)
+            End If
+        Next
+        Return values.Count > 0
+    End Function

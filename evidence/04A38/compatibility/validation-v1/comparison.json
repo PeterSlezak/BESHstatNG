@@ -1,0 +1,260 @@
+{
+  "status": "EXACT_SOURCE_COMPATIBILITY_ONLY",
+  "label": "validation-v1",
+  "rows_per_configuration": 28966,
+  "comparison": "Exact UTF-8 TSV bytes, original order and every recorded field; separate Debug/Release oracles; no tolerance or NaN normalization; GUID entropy only under the frozen identity policy.",
+  "chronology": "References sealed before first production edit; current executions after implementation; no late reference exception",
+  "results": [
+    {
+      "configuration": "Debug",
+      "corpus": "original-v1",
+      "rows": 24732,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/frozen-v2/original-Debug.tsv",
+        "bytes": 17065755,
+        "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Debug/original-v1/v1/current.tsv",
+        "bytes": 17065755,
+        "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+      },
+      "outcomes": {
+        "RETURN_ARRAY": 3308,
+        "RETURN_SCALAR": 6750,
+        "HANDLE_CREATED": 114,
+        "RETURN_TEXT": 1878,
+        "RETURN_ERROR_CELL": 10266,
+        "RETURN_NULL": 838,
+        "EXCEPTION": 956,
+        "RETURN_EMPTY_ARRAY": 622
+      },
+      "native_attempts": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "public-options-v1",
+      "rows": 2508,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-original-v1.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Debug/public-options-v1/v1/current.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "outcomes": {
+        "RETURN_ERROR_CELL": 910,
+        "RETURN_ARRAY": 808,
+        "RETURN_SCALAR": 110,
+        "HANDLE_CREATED": 484,
+        "RETURN_TEXT": 196
+      },
+      "native_attempts": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "public-primitives-v1",
+      "rows": 226,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-original-v1.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Debug/public-primitives-v1/v1/current.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "outcomes": {
+        "RETURN_SCALAR": 114,
+        "RETURN_ERROR_CELL": 112
+      },
+      "native_attempts": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "model-inputs-v2",
+      "rows": 882,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-original-v1.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Debug/model-inputs-v2/v1/current.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "outcomes": {
+        "TRANSACTION_FIT_ACCEPTED": 388,
+        "TRANSACTION_FIT_REJECTED": 494
+      },
+      "native_attempts": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "math-edges-v1",
+      "rows": 618,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-original-v1.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Debug/math-edges-v1/v1/current.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "outcomes": {
+        "RETURN_NULL": 16,
+        "RETURN_EMPTY_ARRAY": 72,
+        "RETURN_ARRAY": 120,
+        "RETURN_SCALAR": 366,
+        "EXCEPTION": 38,
+        "RETURN_TEXT": 4,
+        "RETURN_ERROR_CELL": 2
+      },
+      "native_attempts": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "original-v1",
+      "rows": 24732,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/frozen-v2/original-Release.tsv",
+        "bytes": 17067771,
+        "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Release/original-v1/v1/current.tsv",
+        "bytes": 17067771,
+        "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+      },
+      "outcomes": {
+        "RETURN_ARRAY": 3308,
+        "RETURN_SCALAR": 6750,
+        "HANDLE_CREATED": 114,
+        "RETURN_TEXT": 1878,
+        "RETURN_ERROR_CELL": 10266,
+        "RETURN_NULL": 838,
+        "EXCEPTION": 956,
+        "RETURN_EMPTY_ARRAY": 622
+      },
+      "native_attempts": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "public-options-v1",
+      "rows": 2508,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-original-v1.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Release/public-options-v1/v1/current.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "outcomes": {
+        "RETURN_ERROR_CELL": 910,
+        "RETURN_ARRAY": 808,
+        "RETURN_SCALAR": 110,
+        "HANDLE_CREATED": 484,
+        "RETURN_TEXT": 196
+      },
+      "native_attempts": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "public-primitives-v1",
+      "rows": 226,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-original-v1.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Release/public-primitives-v1/v1/current.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "outcomes": {
+        "RETURN_SCALAR": 114,
+        "RETURN_ERROR_CELL": 112
+      },
+      "native_attempts": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "model-inputs-v2",
+      "rows": 882,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-original-v1.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Release/model-inputs-v2/v1/current.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "outcomes": {
+        "TRANSACTION_FIT_ACCEPTED": 388,
+        "TRANSACTION_FIT_REJECTED": 494
+      },
+      "native_attempts": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "math-edges-v1",
+      "rows": 618,
+      "exact_bytes": true,
+      "mismatches": [],
+      "reference": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-original-v1.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "current": {
+        "path": "evidence/04A38/compatibility/validation-v1/Release/math-edges-v1/v1/current.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "outcomes": {
+        "RETURN_NULL": 16,
+        "RETURN_EMPTY_ARRAY": 72,
+        "RETURN_ARRAY": 120,
+        "RETURN_SCALAR": 366,
+        "EXCEPTION": 38,
+        "RETURN_TEXT": 4,
+        "RETURN_ERROR_CELL": 2
+      },
+      "native_attempts": 0
+    }
+  ],
+  "registration": "See per-configuration inspection receipts; native Excel registration NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "production_ready": false
+}

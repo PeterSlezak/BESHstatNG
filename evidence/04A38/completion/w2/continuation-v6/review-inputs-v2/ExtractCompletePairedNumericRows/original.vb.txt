@@ -1,0 +1,3 @@
+Friend Function ExtractCompletePairedNumericRows(ax As Object(,), ay As Object(,)) As List(Of Double())
+        Return WindowsSpreadsheetTransport.ExtractNumericPairs(ax, ay)
+    End Function

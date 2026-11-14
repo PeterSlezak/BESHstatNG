@@ -1,0 +1,11 @@
+from common import *
+s=(HERE/'reconcile.py').read_text(encoding='utf-8')
+s=s.replace("matches=newbykey.get(oldrow['signature_key'],[])\n if len(matches)==1", "matches=[r for r in newbykey.get(oldrow['signature_key'],[]) if r['body_token_sha256']==oldrow['body_token_sha256'] and (r['parent_member'] or '').split('@')[0]==(oldrow['parent_member'] or '').split('@')[0]]\n if len(matches)==1")
+for n in ['carried-dual-IL39','carried-source-operation60','historical-ownership','current-ownership','ownership-summary']:s=s.replace("save('"+n+".json'","save('"+n+"-v2.json'")
+with (HERE/'reconcile_v2.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+v=(HERE/'verify_ownership.py').read_text(encoding='utf-8')
+v=v.replace("prefix+'historical-ownership.json'","prefix+'historical-ownership-v2.json'").replace("prefix+'current-ownership.json'","prefix+'current-ownership-v2.json'").replace("prefix+'ownership-summary.json'","prefix+'ownership-summary-v2.json'")
+v=v.replace("bykey={r['signature_key']:r for r in u['members']}","bykey={}\n for r in u['members']:bykey.setdefault(r['signature_key'],[]).append(r)")
+v=v.replace("need(r['signature_key'] in bykey and bykey[r['signature_key']]['body_token_sha256']==r['body_token_sha256'],'Prior current reviewed body changed')\n   prior_closed.add(bykey[r['signature_key']]['symbol_id'])", "matches=[m for m in bykey.get(r['signature_key'],[]) if m['body_token_sha256']==r['body_token_sha256'] and (m['parent_member'] or '').split('@')[0]==(r['parent_member'] or '').split('@')[0]]\n   need(len(matches)==1,'Prior current body/lambda/parent identity changed or ambiguous')\n   prior_closed.add(matches[0]['symbol_id'])")
+with (HERE/'verify_ownership_v2.py').open('x',encoding='utf-8',newline='\n') as f:f.write(v)
+save('attempts/ownership-reader-v1.json',dict(status='FAILED_CLOSED_LAMBDA_MAPPING',reader=pin(HERE/'verify_ownership.py'),error='The single-key dictionary overwrote repeated lambda signatures. Three already reviewed source-exact callbacks were conservatively reopened by initial C2 reconcile. V2 uses signature+body hash+parent signature, preserving all39priorILproofs and all source-backed accessor identities. No broader body closure inferred.'))

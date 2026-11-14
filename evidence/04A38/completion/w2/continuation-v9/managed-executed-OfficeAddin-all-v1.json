@@ -1,0 +1,30 @@
+{
+  "suite": "OfficeAddin",
+  "part": "all",
+  "selection": null,
+  "outcomes": {
+    "Passed": 508
+  },
+  "trx_sha256": "cfadc581f08faa1a5deb32d9d320a55c59acfb2b0572abc17190d9926b9dfd18",
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w2c9-checkpoint-v1-Debug-serial-OfficeAddin\\sandbox\\tests\\bin\\Debug\\net10.0\\OfficeAddin.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c9-checkpoint-v1-Debug-serial-OfficeAddin\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c9-checkpoint-v1-Debug-serial-OfficeAddin\\results",
+      "/Logger:trx;LogFileName=OfficeAddin.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 35.622077700012596,
+    "stdout_sha256": "88f332b3b011efc41fd3220c64f2c2ae6cdd1f6845987b1af7c689541fe421a7",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c9-checkpoint-v1-Debug-serial-OfficeAddin/cases.json",
+    "bytes": 172827,
+    "sha256": "bfb0c44f20acc53c9f9def5981e9c9267ced080c013d330cf73996ff15f1a8ca"
+  }
+}

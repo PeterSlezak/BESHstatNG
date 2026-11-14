@@ -1,0 +1,14 @@
+{
+  "before": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/build_contracts_v2.py",
+    "bytes": 11114,
+    "sha256": "606cd665cfc9dd56e735904a954a4d607aa620125af6a4fab3c0c01c82e1e227"
+  },
+  "after": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/build_contracts_v3.py",
+    "bytes": 11301,
+    "sha256": "87c9d666cc45adaaffc6b2f98e8cced1dc7a840982bee7a69a696bebf270ca6f"
+  },
+  "reason": "The retained original return ledger renders generic parameter Type.ToString instead of null FullName. Derive that exact legacy key from the already bound actual canonical CLR handle, removing only assembly qualification and generic arity display. Require unique recorded original return row and actual current return equality; no original query.",
+  "original_queries": 0
+}

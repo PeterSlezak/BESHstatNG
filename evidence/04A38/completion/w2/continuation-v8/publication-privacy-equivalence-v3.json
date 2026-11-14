@@ -1,0 +1,86 @@
+{
+  "status": "EXACT_DECISION_CACHE_AND_BOUNDED_SYNTHETIC_CONTROL_POSITIVES_PROVED",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/publication_privacy_v2.py",
+    "bytes": 3196,
+    "sha256": "de87368c58522afc5f2e2a3c94fc4da293a7b5d47c925e205ddb459c42995e54"
+  },
+  "authority": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/privacy-authority-v2.json",
+    "bytes": 2191,
+    "sha256": "c697803111d854000e45cc4823ede59415a249fcc4f34309f8cf6b03d94c25fd"
+  },
+  "controls": [
+    {
+      "name": "Exact prior decision and original policy equality",
+      "path": "evidence/04A38/completion/w2/continuation-v7/owner-review.md",
+      "status": "PASS"
+    },
+    {
+      "name": "Exact prior decision and original policy equality",
+      "path": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+      "status": "PASS"
+    },
+    {
+      "name": "Exact explicitly synthetic source positive findings retained",
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "status": "PASS"
+    },
+    {
+      "name": "Changed bytes rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Changed path rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Injected unrelated profile rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Exact explicitly synthetic source positive findings retained",
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "status": "PASS"
+    },
+    {
+      "name": "Changed bytes rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Changed path rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Injected unrelated profile rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Exact explicitly synthetic source positive findings retained",
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_publication_privacy_v1.py",
+      "status": "PASS"
+    },
+    {
+      "name": "Changed bytes rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Changed path rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Injected unrelated profile rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Fresh private_key rejected",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Fresh credential_uri rejected",
+      "status": "REJECTED"
+    }
+  ],
+  "scope": "Fresh all-payload hashes/CRC remain mandatory. Prior privacy decisions are explicitly historical exact-input cache reuse; C8 new/changed files receive fresh policy evaluation. Original historical Python scanners retain all their actual FAIL/ERROR outcomes.",
+  "original_queries": 0
+}

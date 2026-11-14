@@ -1,0 +1,26 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/focused_v1.py",
+    "bytes": 2459,
+    "sha256": "f008ddd7d51addf07c5be30e1565a9f75c5c89117bd6f8f4be5104dab446ea7f"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\focused_v1.py",
+      "packet-v1",
+      "Debug"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 14.888304300002346,
+    "stdout_sha256": "aaa4cb8ab9293873300a6c6429d4947bb10e66882261cceadaad3c224919170a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "failed_seal": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/review-seal-v1.json",
+    "bytes": 746,
+    "sha256": "66d98fdda0d05f087b36d78b6a1af486e3d515d370a5fd9158206c5be6fa168e"
+  },
+  "failed_reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_c11_checkpoint_v1.py",
+    "bytes": 89287,
+    "sha256": "20ff87d5d6b217c5d1ccab5507151dab991c66cdd4a655392d06409ca715b8fd"
+  },
+  "failed_execution": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/sealed-reader-positive-v1.json",
+    "bytes": 482,
+    "sha256": "432cf154e5dc7b39c879a36819f7a563d0171191257ec3a3bbc470822b30a7cc"
+  },
+  "failed_stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-sealed-reader-positive-v1/stdout.log",
+    "bytes": 110,
+    "sha256": "a8e112003a2cd3999aef65a3706425dcb0a36c580f37464cd6026215880c930d"
+  },
+  "observed_error": "TypeError: unsupported operand type(s) for +: 'function' and 'str'",
+  "cause": "C11 used generic verify_validation_v1, also used by the retained v6/v7 readers with a different parameter order. Prior-reader imports resolved the new C11 module while replaying immutable predecessors.",
+  "prior_diagnosis": {
+    "source": {
+      "path": "evidence/04A38/completion/w2/continuation-v11/correct_reader_argument_order_v2.py",
+      "bytes": 3856,
+      "sha256": "ec0af45ee95018ee8b4c6e48598628b01b2f326c2ce00a40cf214d5ff3006bac"
+    },
+    "observed_exit_code": 1,
+    "result": "The correction assertion failed before any write because the call already had correct argument order. A chained invocation of the not-yet-created seal_controls_v2.py also failed; no source or sealed file was changed."
+  },
+  "correction": "Use unique verify_c11_validation_v1, and remove only the C11 directory during predecessor import/replay, restoring the caller path afterward. Preserve all prior reader bytes and assertions. Authoritative current checkpoint/publication readers are v2.",
+  "template_before": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_c11_checkpoint_template_v2.py",
+    "bytes": 19049,
+    "sha256": "6654626aadf7c1e677c7973960b640e8e2891e37743a622aa3921492fc1c1e15"
+  },
+  "template_after": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_c11_checkpoint_template_v3.py",
+    "bytes": 19312,
+    "sha256": "4c99cbb3c71e37431c65da12c178a736e01dac8970c1c4e99e53f5509ae5a1d0"
+  },
+  "validation_before": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_validation_v1.py",
+    "bytes": 5371,
+    "sha256": "1025d9b6699569ff65ecaed5289e800718e71804b9b3bd8fca65a651627473bc"
+  },
+  "validation_after": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_c11_validation_v1.py",
+    "bytes": 5371,
+    "sha256": "1025d9b6699569ff65ecaed5289e800718e71804b9b3bd8fca65a651627473bc"
+  },
+  "production_test_changes": 0,
+  "test_reruns": 0,
+  "original_queries": 0
+}

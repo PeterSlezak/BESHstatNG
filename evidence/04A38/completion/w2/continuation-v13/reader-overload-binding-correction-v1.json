@@ -1,0 +1,14 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/verify_c13_checkpoint_template_v3.py",
+    "bytes": 19740,
+    "sha256": "37f0b12ee511b111dc5c8b10c095e724d23a976621a6c733ad7fb3b2d81127dc"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/verify_c13_checkpoint_template_v4.py",
+    "bytes": 19794,
+    "sha256": "755d627b0d4e7c3c3ecfd14319f4aa08a09dd2cea823d6f69ab707570513b782"
+  },
+  "reason": "Owner/name alone falsely included the unreached PrepareResultTableForUdf(ResultTable) overload. Require exact full parameter/ByRef/rank source binding and actual method membership. The real reached overloads are already complete contracts; no dependency omission or new closure is permitted.",
+  "original_queries": 0
+}

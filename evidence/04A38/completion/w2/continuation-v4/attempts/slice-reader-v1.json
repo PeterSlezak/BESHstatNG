@@ -1,0 +1,10 @@
+{
+  "status": "FAILED_READER_SCHEMA_ASSUMPTION",
+  "error": "KeyError:offset",
+  "correction": "Passive metadata canonicalizes branch and EH ranges to semantic instruction indices, not raw byte offsets. V2 checks actual instruction indices against the same canonical EH ranges; no method/branch is dropped.",
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v4/verify_slice.py",
+    "bytes": 18984,
+    "sha256": "b767f539300b65d3b8370729632f70a0a4be73767d5d3c5d377fcba6f0a643ea"
+  }
+}

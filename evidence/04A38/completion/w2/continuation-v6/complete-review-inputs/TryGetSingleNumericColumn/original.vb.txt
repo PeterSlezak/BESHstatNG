@@ -1,0 +1,20 @@
+nd a first non-numeric cell is treated as a header when numeric values follow.
+    ''' </summary>
+    Friend Function TryGetSingleNumericColumn(input As Object,
+                                              ByRef values() As Double,
+                                              ByRef detectedName As String) As Boolean
+        values = Nothing
+        detectedName = String.Empty
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+        If arr.GetLength(1) <> 1 Then Return False
+
+        Dim hasHeader As Boolean = LooksLikeSingleColumnHeader(arr)
+        If hasHeader Then detectedName = Convert.ToString(arr(0, 0)).Trim()
+
+        Dim startRow As Integer = If(hasHeader, 1, 0)
+        Dim list As New List(Of Double)()
+        For r As Integer = startRow To arr.GetLength(0) - 1
+            Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 0))
+            If d.HasValue AndAlso Not Double.IsNaN(d.Value) AndAlso Not Double.IsIn

@@ -1,0 +1,144 @@
+{
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w1\\Census.csproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:ProjectAssetsFile=<ISOLATED_RUN>\\mmrm38-v6\\w1-census-tool-v2\\obj\\project.assets.json",
+        "/p:BaseIntermediateOutputPath=<ISOLATED_RUN>\\mmrm38-v6\\w1-census-tool-v2\\obj\\",
+        "/p:MSBuildProjectExtensionsPath=<ISOLATED_RUN>\\mmrm38-v6\\w1-census-tool-v2\\obj\\",
+        "/p:OutputPath=<ISOLATED_RUN>\\mmrm38-v6\\w1-census-tool-v2\\bin\\",
+        "/m:1",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.012548099999549,
+      "stdout_sha256": "7f145ccc972a8d0b1f1c10345e67ce00c921d55f9fedcdb4d163e231aae4c088",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "dotnet",
+        "<ISOLATED_RUN>\\mmrm38-v6\\w1-census-tool-v2\\bin\\Census.dll",
+        "<ISOLATED_RUN>\\late38-v1\\original-tree",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w1\\original-universe.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.5105828999949154,
+      "stdout_sha256": "165138aa90d590739569d37bd5d4fdf50fdb3b549059b73e4d433762b0cd641d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "dotnet",
+        "<ISOLATED_RUN>\\mmrm38-v6\\w1-census-tool-v2\\bin\\Census.dll",
+        "<REPO_ROOT>",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w1\\current-universe.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.2922657000017352,
+      "stdout_sha256": "b7a5d174b750d71c499c92fe551fb73477126040da3b63d48b9704140fefc817",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+        "/out:<ISOLATED_RUN>\\mmrm38-v6\\w1-inspection\\Inspect38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\helpers\\Inspect38.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.32323719999112654,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\mmrm38-v6\\w1-inspection\\Inspect38.exe",
+        "<ISOLATED_RUN>\\builds\\validation-v2\\Debug\\legacy",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w1\\compiled-current.json",
+        "<REPO_ROOT>\\evidence\\04A38\\entry-members.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.6222807000012835,
+      "stdout_sha256": "8010f985b824c126862bbcd1123a15c10fc44f8badb72f63ba766607a1da4f41",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+        "/out:<ISOLATED_RUN>\\mmrm38-v6\\w1-inspection\\PortableConsumerClosure38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\helpers\\PortableConsumerClosure38.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.31722819998685736,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\mmrm38-v6\\w1-inspection\\PortableConsumerClosure38.exe",
+        "<ISOLATED_RUN>\\builds\\validation-v2\\Debug\\legacy",
+        "<REPO_ROOT>\\evidence\\04A38\\entry-members.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w1\\compiled-current-closure.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 4.186334699988947,
+      "stdout_sha256": "184c3439f7740582552b22fb3d9c1dd6063e7cc298408df0eb15ccd770aa055d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "tool_sources": [
+    {
+      "path": "evidence/04A38/completion/w1/Census.csproj",
+      "bytes": 641,
+      "sha256": "03c8c69e660171ec54cd1a15cd7d8b335a72c337ba9801c2e7873fe9612df0cf"
+    },
+    {
+      "path": "evidence/04A38/completion/w1/Census.cs",
+      "bytes": 7750,
+      "sha256": "203d636562a8072a8f7dff641029cc4e64823ad259c661cc55db28d087608197"
+    }
+  ],
+  "compiler": {
+    "name": "csc.exe",
+    "bytes": 67400,
+    "sha256": "a13d1edf3ef5dd0d0e09886251f03fa18877d46ba2dacee075b4c8a5add21457"
+  },
+  "offline_asset_identity": {
+    "name": "project.assets.json",
+    "bytes": 21353,
+    "sha256": "553fe218b3bf311ad271b438940dc79e1f976bd7abf9e554ea1419411dbc686a"
+  },
+  "asset_policy": "Existing no-package net10 syntax-tool assets reused byte-for-byte; no restore/network/install",
+  "source_role": "READ_ONLY_STATIC_AND_COMPILED_METADATA_NOT_REFERENCE_EXECUTION",
+  "new_original_queries": 0,
+  "new_production_changes": 0
+}

@@ -1,0 +1,30 @@
+<ExcelFunction(
+            Name:="BESH.NP.KW_P",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="P-value for Kruskal-Wallis test (based on H or tie-corrected Hcor) for 2+ independent groups.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
+        )>
+        Public Function KW_P(
+            <ExcelArgument(Name:="groups", Description:="Multi-column range: one column per group (independent samples).")> groups As Object,
+            <ExcelArgument(Name:="type", Description:="""H"" for p-value from H; ""Hcor"" for p-value from Hcor (default).")> Optional pType As Object = Nothing
+        ) As Object
+
+            Dim err? As ExcelError = Nothing
+            Dim data = Global.BESHStatNG.UdfDataImport.GetNumericGroupsFromColumnsIgnoringNonNumeric(groups, err)
+            If err.HasValue Then Return err.Value
+            If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+
+            Dim names(data.Length - 1) As String
+            For i As Integer = 0 To data.Length - 1
+                names(i) = "G" & (i + 1).ToString()
+            Next
+
+            Dim which As Integer = ParseKwType(pType, defaultTieCorrected:=True, err:=err)
+            If err.HasValue Then Return err.Value
+
+            Dim test = New KruskallWalis(data, names)
+            Dim res = test.compute()
+
+            Dim p As Double = If(which = 0, res.Pvalue, res.Pvalue2)
+            Return ClampProb(p)
+        End Function

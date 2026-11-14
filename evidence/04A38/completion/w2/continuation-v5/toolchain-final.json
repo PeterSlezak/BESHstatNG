@@ -1,0 +1,71 @@
+{
+  "records": [
+    {
+      "tool": "Python",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "--version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.034283699991647154,
+        "stdout_sha256": "9fc9968e3ae8d82284d7426a87e1426e07246027c7706b0803a1c8d9c60c7a4d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "output": "Python 3.14.7\n"
+    },
+    {
+      "tool": "dotnet",
+      "command": {
+        "command": [
+          "dotnet",
+          "--version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.19373440000345,
+        "stdout_sha256": "e4e6a678725873a4192c048849cd64d852983991bfcb210a40c3b80cc8fcf2eb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "output": "10.0.403\n"
+    },
+    {
+      "tool": "Node",
+      "command": {
+        "command": [
+          "node",
+          "--version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.049999200011370704,
+        "stdout_sha256": "a18ba454716b5449eabf6c34a4418c2678b600d8c81c01d5ca876f529ea4d626",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "output": "v24.20.0\n"
+    },
+    {
+      "tool": "VB compiler",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.15543450001860037,
+        "stdout_sha256": "7406614a03a42a443b7ee76bfccc8bb331d96c697f39921348f7b726f2458704",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "output": "5.11.0-1.26424.5 (fcacacf82e2055472a6ec4060a4be88ebc0e1acf)\n"
+    }
+  ],
+  "frameworks": "netstandard2.0 Core/Common; .NET Framework4.8 Windows/tests, unchanged",
+  "Python": "Owner-configured executable; no package/network/install operation",
+  "canonical_wrappers": "NOT_RUN: inspected scripts/verify-beshstatng.ps1 implicit restore/shared TestResults/Legacy packaging; explicit isolated offline build/test equivalents used"
+}

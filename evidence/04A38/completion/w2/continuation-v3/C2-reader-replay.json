@@ -1,0 +1,187 @@
+{
+  "scope": "EXACT_C2_PUBLICATION_SOURCE_PROJECTION;NOT_LIVE_CURRENT_SOURCE",
+  "source_aliases": [
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+      "preimage": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb.txt"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "preimage": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb.txt"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+      "preimage": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb.txt"
+    },
+    {
+      "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+      "preimage": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "preimage": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb.txt"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+      "preimage": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb.txt"
+    }
+  ],
+  "results": [
+    {
+      "label": "ownership",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c3-C2-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v2",
+          "-p",
+          "test_readers.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c3-C2-exact-view",
+        "exit_code": 5,
+        "seconds": 0.2591993999958504,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "b0281afc5a8f851fedc2bba09c88d720f4dcc47a2a487e40928c779cb967ff8c",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c3-C2-reader-ownership",
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "b0281afc5a8f851fedc2bba09c88d720f4dcc47a2a487e40928c779cb967ff8c",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 5,
+        "identities": [],
+        "nonpasses": []
+      }
+    },
+    {
+      "label": "cache",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c3-C2-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v2",
+          "-p",
+          "test_host_cache_v4.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c3-C2-exact-view",
+        "exit_code": 5,
+        "seconds": 0.2712646999862045,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "b0281afc5a8f851fedc2bba09c88d720f4dcc47a2a487e40928c779cb967ff8c",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c3-C2-reader-cache",
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "b0281afc5a8f851fedc2bba09c88d720f4dcc47a2a487e40928c779cb967ff8c",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 5,
+        "identities": [],
+        "nonpasses": []
+      }
+    },
+    {
+      "label": "text",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c3-C2-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v2",
+          "-p",
+          "test_final_domains.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c3-C2-exact-view",
+        "exit_code": 5,
+        "seconds": 0.26311890000943094,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "b0281afc5a8f851fedc2bba09c88d720f4dcc47a2a487e40928c779cb967ff8c",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c3-C2-reader-text",
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "b0281afc5a8f851fedc2bba09c88d720f4dcc47a2a487e40928c779cb967ff8c",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 5,
+        "identities": [],
+        "nonpasses": []
+      }
+    },
+    {
+      "label": "publication",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c3-C2-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v2",
+          "-p",
+          "test_publication_v2.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c3-C2-exact-view",
+        "exit_code": 0,
+        "seconds": 289.8141985000111,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e16c7f17b10d956d22c314bd2d48cc7d193518309b241a6e6629c8cd07e44aba",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c3-C2-reader-publication",
+        "total": 14,
+        "passed": 14,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "e16c7f17b10d956d22c314bd2d48cc7d193518309b241a6e6629c8cd07e44aba",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_casefold_collision (test_publication_v2.PublicationControls.test_casefold_collision)",
+          "test_duplicate_path (test_publication_v2.PublicationControls.test_duplicate_path)",
+          "test_extra_null (test_publication_v2.PublicationControls.test_extra_null)",
+          "test_false_ready_even_with_rehashed_payload (test_publication_v2.PublicationControls.test_false_ready_even_with_rehashed_payload)",
+          "test_forged_historical_host_only_with_rehash (test_publication_v2.PublicationControls.test_forged_historical_host_only_with_rehash)",
+          "test_hash_mismatch (test_publication_v2.PublicationControls.test_hash_mismatch)",
+          "test_hidden_inherited_nonpass (test_publication_v2.PublicationControls.test_hidden_inherited_nonpass)",
+          "test_positive_partial_packet (test_publication_v2.PublicationControls.test_positive_partial_packet)",
+          "test_private_path_even_with_rehashed_payload (test_publication_v2.PublicationControls.test_private_path_even_with_rehashed_payload)",
+          "test_recursive_self_hash (test_publication_v2.PublicationControls.test_recursive_self_hash)",
+          "test_reserved_windows_name (test_publication_v2.PublicationControls.test_reserved_windows_name)",
+          "test_scientific_promotion (test_publication_v2.PublicationControls.test_scientific_promotion)",
+          "test_traversal (test_publication_v2.PublicationControls.test_traversal)",
+          "test_truncated_manifest_inventory (test_publication_v2.PublicationControls.test_truncated_manifest_inventory)"
+        ],
+        "nonpasses": []
+      }
+    }
+  ],
+  "new_original_queries": 0
+}

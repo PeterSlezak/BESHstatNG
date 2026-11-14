@@ -1,0 +1,81 @@
+{
+  "source_paths": [
+    "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+    "BESHStat.Excel.Common/src/Analysis/UdfCoxInputPreparation38.vb",
+    "BESHStat.Excel.Common/src/Results/UdfCoxGeeReportPreparation38.vb",
+    "BESHStat.Excel.Common.Tests/src/UdfContinuation15Tests.vb",
+    "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb"
+  ],
+  "source_before": [
+    {
+      "live": {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 126487,
+        "sha256": "11b233c548f8c1a7d1df020b9b8723f2b85ab5005ab7335a8f177b91c5922b6f"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v15/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "bytes": 126487,
+        "sha256": "11b233c548f8c1a7d1df020b9b8723f2b85ab5005ab7335a8f177b91c5922b6f"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+        "bytes": 55531,
+        "sha256": "b5d6ce31a3afa51d1b7fdc1d6bd803b7cf074c05ac904f7dc36d961449aebb7d"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v15/source-before/BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb.txt",
+        "bytes": 55531,
+        "sha256": "b5d6ce31a3afa51d1b7fdc1d6bd803b7cf074c05ac904f7dc36d961449aebb7d"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "bytes": 93320,
+        "sha256": "234bb5b7b7f0ab498322195f4aac53222e8242c2b1e971b7932c6e9e26b3533a"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v15/source-before/BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb.txt",
+        "bytes": 93320,
+        "sha256": "234bb5b7b7f0ab498322195f4aac53222e8242c2b1e971b7932c6e9e26b3533a"
+      }
+    }
+  ],
+  "new_sources": [
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfCoxInputPreparation38.vb",
+      "entry_state": "ABSENT"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfCoxGeeReportPreparation38.vb",
+      "entry_state": "ABSENT"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation15Tests.vb",
+      "entry_state": "ABSENT"
+    }
+  ],
+  "entry": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/entry-authentication-v2.json",
+    "bytes": 139214,
+    "sha256": "2f9bfe17dac2f219acee9e487dee22354b816e7f8d4684b7ccafd8c5a7a13ee8"
+  },
+  "queue": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/entry-queue-receipt-v1.json",
+    "bytes": 8663865,
+    "sha256": "79a943609fa9feecec7c2cfa2eab93f958a31ce694b2995f0ed74aec834d2b95"
+  },
+  "changes": [
+    "Extract pure Cox record preparation using existing Core SurvivalRecord, preserving source row identity, censor/stratum values and covariate allocation order.",
+    "Extract Cox/GEE report matrix/header/row preparation, leaving engine fitting/numerics, Excel imports, error policies, handle state, exception logging and materialization in their existing owners.",
+    "Reconcile all selected complete bodies, exact Cox lambda and four moved GEE property accessors with actual constructed Debug/Release consumers; add only source-authenticated coherent dependency closures.",
+    "Keep all original defaults, evaluation order, exceptional paths, source IDs, frozen references and prior supported bodies; unsupported dependencies remain OPEN."
+  ],
+  "Release_full": "NOT_RUN_OWNER_PREFERENCE",
+  "Release_selected": "NOT_RUN_OWNER_PREFERENCE",
+  "original_queries": 0
+}

@@ -1,0 +1,7 @@
+tring,
+                                           mat(,) As Double, includeHeader As Boolean) As Object
+        Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildNamedMatrixOutput(idHeader, rowNames, colNames, mat, includeHeader))
+    End Function
+
+    ''' <summary>
+    ''' Builds a spilled worksheet table from a numeric matrix whose rows are i

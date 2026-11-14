@@ -1,0 +1,38 @@
+NOT_READY_04A38 â€” W2_IN_PROGRESS; W3_NOT_STARTED; Phase04A39 BLOCKED
+
+Read owner-review.md, review-seal-v1.json, source-transitions-final-v1.json, proof-authority-crosswalk-v1.json, the exact remaining-work-queue-v1.json and both external publication/live-Git receipts. Reestablish live .git, private raw evidence and physical standalone ZIP; a derivative review is not a substitute. Preserve every preceding failed/readiness/source/code measurement and every genuine original case and Aâ€“G late provenance.
+
+Branch codex/04A-38; accepted main/HEAD/merge-base ba1636f5356ac761509c2cfa16fc66b92430935d; empty index. No stage/commit/merge/rebase/push/reset/clean. Historical274/704 closed,430 OPEN; current299/724 closed,425 OPEN; support240/303 distinct closed,63 OPEN (325 raw). Current fragments2895/15537; original full-census5939/20683. Public exports268 preserved in both configurations. New canonical closures26, existing current callbacks newly closed6, current-only existing helper newly closed1; no new UDF-census declaration or callback.
+
+The first24 v6 priorities and required HasTextColumnHeaderForWholeColumnReference/MakeMetricValueTable dependencies are supported. Continue the coherent sample-size family in the exact inherited machine order, together with its actual import/option/report/Core dependencies; then remaining range-reader parents. All other OPEN identities remain in their original canonical set. No position guess may replace these IDs:
+
+1. **SSIZE_TTEST_UNPAIRED** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|9a0593beeab04c85@10174:5340`
+2. **SSIZE_PROP_SINGLE** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|108a479e2cf0db1d@17890:2166`
+3. **SSIZE_PROP_INDEP** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|378cb3f7accde250@23854:5568`
+4. **SSIZE_LOGRANK** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|d440e3bc07d6525e@33187:3843`
+5. **SSIZE_COX_BINARY** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|ce084045b51dee07@40772:4527`
+6. **SSIZE_COX_CONTINUOUS** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|fee61d6f17370292@48838:4551`
+7. **SSIZE_ICC** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|562726128385acb4@55778:3044`
+8. **SSIZE_BLANDALTMAN** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|40c76a6f0800f459@61304:2853`
+9. **MakeTwoGroupTable** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|8f93227d9672ca36@64480:411`
+10. **MakeEquivalenceTwoGroupTable** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|004e8c436a7883c7@64903:963`
+11. **MakeIndependentProportionsTable** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|9e05a1164cd1f295@65878:661`
+12. **MakeEquivalenceIndependentProportionsTable** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|eecf6c69e78b7d68@66551:2103`
+13. **ResolveSampleSizeHypothesisType** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|c994b9a30ec19408@68666:733`
+14. **MakeLogRankPlanningTable** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|1b608d871e4b71a4@69411:954`
+15. **MakeCoxPlanningTable** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|064573a86cc3b88a@70377:1239`
+16. **MakeIccPlanningTable** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|efa3f83d964bf70b@71628:708`
+17. **MakeBlandAltmanPlanningTable** â€” `BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|4e1fe341dae76ed4@72348:808`
+18. **lambda** â€” `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|103f86b31077cee4@803:60`
+19. **ResolveImportedPredictorNames** â€” `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|97a8716c90bb1fcd@7350:446`
+20. **TryGetAlignedClusterIdColumnObject** â€” `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|864f504a07e1433c@10366:1472`
+21. **TryBuildGeeDataFromUdfArgs** â€” `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|a8fdeb33a73e3eb1@11844:5102`
+22. **TryBuildGlmDataFromUdfArgs** â€” `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|f986eb52ac8eb451@16952:3164`
+23. **TryBuildPredictorDataFromUdfArgs** â€” `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|f2e64d01e3cee2bb@20122:2296`
+24. **TryBuildCoxDataFromUdfArgs** â€” `BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|834146df7864fff7@22424:2879`
+
+The sealed executable reader is verify_c7_checkpoint_v1.py; it is fail-closed partial and must never report READY while mandatory OPEN bodies/support/fragments remain. Source composition, actual constructed-member CIL, field/closure and every callback proof must accompany parent closure. The original704 canonical identities never change. Containers with unresolved children/state stay OPEN. New current identities are separate. LegacyUdfText38 retains its bounded source domain and eight synthetic counterexamples; no global equivalence or scientific correction is approved.
+
+Validation schedule: one full six-suite Debug run and focused corrections, no routinely repeated Release unit tests. Release compile/export and both frozen comparisons remain mandatory. Debug effective20704/14 with raw first20700/18 and four focused environment corrections retained. Node916 PASS. Python956 actual parent methods830/115/11; raw nonpass events181/11 preserve all subtests, while historical receipt arithmetic764/181/11 remains labelled separately. The C6-introduced04A27 source-pin FAIL is not inherited from v5. The distinct unordered-SPC ERROR and original first attempts remain. Six initial Python workers, exact inventory, private write guard and one serial four-case disposable-copy correction are documented. Keep the expensive scanner in one lane and freeze its final input scope before execution; do not duplicate huge scans or traverse retained TestResults. Tests in test_04a08_evidence_relocation that fix temporary roots under evidence must run in an actual disposable copy, not a shared source tree.
+
+No original archived source execution/fit/query/capture or new oracle, native/manual Excel/Mac/COM/UIA/RefEdit, independent R/scientific work, restore/install, XLL packaging/signing/deployment, W3 or04A39 is authorized. P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN. No new indispensable reference gap has been identified. Stop for specifically scoped owner approval if one is essential; never manufacture a reference or waive a historical nonpass.

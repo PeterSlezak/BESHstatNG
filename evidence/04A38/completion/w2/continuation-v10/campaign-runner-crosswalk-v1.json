@@ -1,0 +1,54 @@
+{
+  "files": [
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v9/validate_managed_v2.py",
+        "bytes": 2452,
+        "sha256": "89808ed86be0f7e662ccc4c37295d71198edca5513268c2cd1925b96fd5ab14a"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/validate_managed_v2.py",
+        "bytes": 2491,
+        "sha256": "a1024f0a7ed2b86f35e5e0916b10b352bf5d0996c22d735cbf860f1d8702a996"
+      }
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v9/report_managed_v1.py",
+        "bytes": 4249,
+        "sha256": "5af4b9b9893f3a3ed8c031910514192a4b0dc8b3cc9aa9e8a077f6335eee438b"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/report_managed_v1.py",
+        "bytes": 4248,
+        "sha256": "939602593942b0d2ba4532c40b5bedebe4d838ff6eac564b3605c5ea2eb91eb5"
+      }
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v9/run_auxiliary_v1.py",
+        "bytes": 791,
+        "sha256": "19de953834db48afb1d8e0f3aedc3937e30ef291e9ce7813b7441bb91a5364f5"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/run_auxiliary_v1.py",
+        "bytes": 789,
+        "sha256": "d362accad56b26edbc8bd1f3d7d97de7a520a987059d557bfe3099c859555c0a"
+      }
+    }
+  ],
+  "reader": {
+    "first": {
+      "path": "evidence/04A38/completion/w2/continuation-v10/verify_c10_checkpoint_template_v1.py",
+      "bytes": 21211,
+      "sha256": "00c8fae1598528eab688bd86a211715cf5c483a4f2708fb8b2a5eb1f864eea15"
+    },
+    "corrected": {
+      "path": "evidence/04A38/completion/w2/continuation-v10/verify_c10_checkpoint_template_v2.py",
+      "bytes": 21209,
+      "sha256": "a6d0701489953226baf2f022f90da8bb20ca737e9dcad85d08c5f68087932bef"
+    }
+  },
+  "scope": "C10 paths/baseline and actual final packet-v2 shipping outputs. No production/test/assertion changes; the first reader remains retained. Comprehensive managed campaign preserves the same complementary Common fixture partition.",
+  "original_queries": 0
+}

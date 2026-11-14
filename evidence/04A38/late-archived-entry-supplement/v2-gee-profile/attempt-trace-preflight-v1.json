@@ -1,0 +1,12 @@
+{
+  "phase": "SOURCE_ONLY_INSTRUMENTATION_PREFLIGHT_BEFORE_INPUT_SEAL",
+  "command": "<PYTHON> -B -c <import compile_harness; instrument frozen GeeUDFs source>",
+  "exit_code": 1,
+  "error": "AssertionError: ('GEE_LSMESTIMATE', 'Return out')",
+  "cause": "The original public entry returns PreparePValueTableForUdf(out, 5), not Return out.",
+  "correction": "Use the exact original source return expression as the observational trace anchor.",
+  "input_case_changes": 0,
+  "model_executions": 0,
+  "reference_executions": 0,
+  "current_executions": 0
+}

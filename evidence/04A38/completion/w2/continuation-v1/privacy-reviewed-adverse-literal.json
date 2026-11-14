@@ -1,0 +1,22 @@
+{
+  "status": "EXACT_SYNTHETIC_NEGATIVE_SOURCE_REVIEWED_NOT_REAL_PRIVATE_DATA",
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/test_publication.py",
+    "bytes": 3603,
+    "sha256": "77db10fd2989f6f8b688f603e89ed280d1582fe397f82aa31f8ba0b460f174f1"
+  },
+  "review": "Only the unchanged source of the publication adversary contains a deliberately fictional EXAMPLE_PRIVATE placeholder. No owner/machine/private path is disclosed by that literal. Other actual paths are not whitelisted. Any modification of this file, or a generated leak in another payload, still fails.",
+  "new_reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/verify_publication_v2.py",
+    "bytes": 6525,
+    "sha256": "d4899d0e6248017361ef472c86d722731fb97ec1a10e01472b3769c10b96d097"
+  },
+  "failed_export_manifest": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/publication-manifest-v2.json",
+    "bytes": 563685,
+    "sha256": "454c519beedb22994385bb824802e9d0a0892358aa1d87cd9436506a91ba7131"
+  },
+  "failed_export_exit": 1,
+  "ZIP_created": false,
+  "source_or_statistical_bytes_rewritten": false
+}

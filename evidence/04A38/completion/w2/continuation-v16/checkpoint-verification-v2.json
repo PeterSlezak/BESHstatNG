@@ -1,0 +1,71 @@
+{
+  "status": "ACTUAL_FINAL_V2_READER_AND_UNCHANGED_PREDECESSOR_CHAIN_PASS",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/verify_c16_checkpoint_v2.py",
+    "bytes": 131227,
+    "sha256": "72136bdb3663e2847296d2130e50a5670c91c6ea5c5b7fd917dd2ed0c0a567cb"
+  },
+  "seal": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/review-seal-v2.json",
+    "bytes": 2042,
+    "sha256": "22ee98f0953123a6823555f1698be213d686a73cd2ad1e537444899313b23b7f"
+  },
+  "result": {
+    "status": "NOT_READY_04A38",
+    "W2": "IN_PROGRESS",
+    "W3": "NOT_STARTED",
+    "historical_supported": 605,
+    "historical_OPEN": 99,
+    "current_supported": 635,
+    "current_OPEN": 91,
+    "support_supported": 271,
+    "support_OPEN": 32,
+    "selected58_closed": 57,
+    "Debug": {
+      "PASS": 21039,
+      "FAIL": 14,
+      "new_PASS": 49
+    },
+    "Debug_frozen": 29424,
+    "exports": 268,
+    "Python": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "Python_subtests": {
+      "FAIL": 183,
+      "ERROR": 13
+    },
+    "Node_PASS": 916,
+    "strict_profile_MkDocs": {
+      "strict": 1,
+      "profile": 1,
+      "docs": 0
+    },
+    "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_full_selected_focused_unit_tests": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_ABI_CIL_signatures_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "predecessor": "UNCHANGED_FINAL_C15_READER_AND_PREDECESSOR_CHAIN_PASS_WITH_EXACT_AUTHORIZED_PREIMAGES",
+    "original_queries": 0,
+    "phase04A39": "BLOCKED"
+  },
+  "command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-final-checkpoint-reader-v2/command.json",
+    "bytes": 860,
+    "sha256": "04569f43d72fedd70a12ecf697fab07371dd3638fce08e37a9fc6c1fba498bcd"
+  },
+  "stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-final-checkpoint-reader-v2/stdout.log",
+    "bytes": 2509,
+    "sha256": "c31a9c5c3d28c0af306527f55d118b2606a8c28546de164f0ee3d413b47f617d"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-final-checkpoint-reader-v2/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "superseded_v1": "Retained positive reader1 and its later failed predecessor-tamper control are not used as final authority.",
+  "original_queries": 0
+}

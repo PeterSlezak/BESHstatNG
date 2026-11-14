@@ -1,0 +1,6 @@
+Friend Function TryGetPairedNumericColumns(x As Object,
+                                               y As Object,
+                                               ByRef mat As Double(,),
+                                               ByRef names() As String) As Boolean
+        Return TryReadPairedNumericColumns(x, y, mat, names)
+    End Function

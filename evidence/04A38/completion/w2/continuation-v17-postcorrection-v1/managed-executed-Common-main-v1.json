@@ -1,0 +1,32 @@
+{
+  "suite": "Common",
+  "part": "main",
+  "selection": "FullyQualifiedName!~MigrationSemantic04A02Tests",
+  "outcomes": {
+    "Passed": 9394,
+    "Failed": 5
+  },
+  "trx_sha256": "4abcac04cf0699ce14d460ed078c26597b028856d0ceb9fc718e3c366c1be13b",
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w2c17pc1-replacement-v1-Debug-serial-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-replacement-v1-Debug-serial-Common-main\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-replacement-v1-Debug-serial-Common-main\\results",
+      "/Logger:trx;LogFileName=Common.trx",
+      "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 103.85504560000845,
+    "stdout_sha256": "79ebe9aecdf31c0758e39f2f20d01ce77b3d5f067338abe7acf7e043dff09732",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-replacement-v1-Debug-serial-Common-main/cases.json",
+    "bytes": 3025954,
+    "sha256": "823f313e95b0a8968d0db69a368ba1fc32eb83e7525fa485ca9df58f0c01af63"
+  }
+}

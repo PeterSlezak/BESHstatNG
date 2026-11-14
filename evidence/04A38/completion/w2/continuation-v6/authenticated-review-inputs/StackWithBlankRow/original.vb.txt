@@ -1,0 +1,26 @@
+Friend Function StackWithBlankRow(a As Object(,), b As Object(,)) As Object(,)
+            If a Is Nothing Then Return b
+            If b Is Nothing Then Return a
+
+            Dim rowsA As Integer = a.GetLength(0)
+            Dim colsA As Integer = a.GetLength(1)
+            Dim rowsB As Integer = b.GetLength(0)
+            Dim colsB As Integer = b.GetLength(1)
+            Dim cols As Integer = Math.Max(colsA, colsB)
+
+            Dim out(rowsA + 1 + rowsB - 1, cols - 1) As Object
+
+            For i As Integer = 0 To rowsA - 1
+                For j As Integer = 0 To colsA - 1
+                    out(i, j) = a(i, j)
+                Next
+            Next
+
+            For i As Integer = 0 To rowsB - 1
+                For j As Integer = 0 To colsB - 1
+                    out(rowsA + 1 + i, j) = b(i, j)
+                Next
+            Next
+
+            Return out
+        End Function

@@ -1,0 +1,60 @@
+{
+  "checks": [
+    {
+      "check": "branch",
+      "exit_code": 0,
+      "stdout": "codex/04A-38\n",
+      "stderr": "",
+      "seconds": 0.042405699990922585
+    },
+    {
+      "check": "HEAD",
+      "exit_code": 0,
+      "stdout": "ba1636f5356ac761509c2cfa16fc66b92430935d\n",
+      "stderr": "",
+      "seconds": 0.03516890000901185
+    },
+    {
+      "check": "main",
+      "exit_code": 0,
+      "stdout": "ba1636f5356ac761509c2cfa16fc66b92430935d\n",
+      "stderr": "",
+      "seconds": 0.03544569999212399
+    },
+    {
+      "check": "merge-base",
+      "exit_code": 0,
+      "stdout": "ba1636f5356ac761509c2cfa16fc66b92430935d\n",
+      "stderr": "",
+      "seconds": 0.03454640001291409
+    },
+    {
+      "check": "index",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.0362664999847766
+    },
+    {
+      "check": "status",
+      "exit_code": 0,
+      "stdout": " M BESHStatNG.Test/BESHStatNG.Tests.vbproj\n M BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb\n M BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb\n M BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb\n M BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb\n M BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb\n M BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb\n M BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb\n M BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb\n M BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb\n M BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb\n M BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb\n M BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb\n M BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb\n M BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb\n M BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb\n M BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb\n M BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb\n?? BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb\n?? BESHStat.Core.Tests/src/UdfRowMaskPreparation38Tests.vb\n?? BESHStat.Core/src/WorksheetFunctions/\n?? BESHStat.Excel.Common.Tests/src/UdfContinuation8Tests.vb\n?? BESHStat.Excel.Common.Tests/src/UdfModelProfilePreparation38Tests.vb\n?? BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb\n?? BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfCellConversion38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfClassLabelPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfModelImportPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfPsmPreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb\n?? BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb\n?? BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb\n?? BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb\n?? BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb\n?? BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb\n?? BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb\n?? BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb\n?? docs/architecture/batch-04A-38-owner-review.md\n?? evidence/04A38/\n",
+      "stderr": "",
+      "seconds": 0.07040470000356436
+    },
+    {
+      "check": "diff-check",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "warning: in the working copy of 'BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb', CRLF will be replaced by LF the next time Git touches it\n",
+      "seconds": 0.1246069000044372
+    }
+  ],
+  "index": "EMPTY",
+  "index_file": {
+    "path": ".git/index",
+    "bytes": 620185,
+    "sha256": "2036821003b1e1fb1077e72183e0b6c2fa7d22cdb2e784b760637e6d6fe9bc2c"
+  },
+  "baseline": "ba1636f5356ac761509c2cfa16fc66b92430935d"
+}

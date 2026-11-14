@@ -1,0 +1,353 @@
+{
+  "status": "ALL_COMPLETED_NONZERO_COMMANDS_RETAINED_NOT_WAIVED",
+  "prior_ledger": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/inherited-failure-mutation-ledger-v1.json",
+    "bytes": 14054,
+    "sha256": "6859a46dffb93b8fe1f63a893d42ba0cd954464e9e9f6f823644c82bd5546449"
+  },
+  "commands": [
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-Debug-serial-Common-main/command.json",
+        "bytes": 1106,
+        "sha256": "8c9017e519117dd1c6876187f2fd324eee57035b99d2bc612a5c8c895b9e4ddc"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-Debug-serial-Common-main/stdout.log",
+        "bytes": 4270,
+        "sha256": "048ab54f912cbf86776a7efef6af08d0cf1069a784b73fc4980d355a463dd4d4"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-Debug-serial-Common-main/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 1,
+      "args": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\executions\\w2c11-checkpoint-v1-Debug-serial-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\w2c11-checkpoint-v1-Debug-serial-Common-main\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c11-checkpoint-v1-Debug-serial-Common-main\\results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-Debug-serial-Legacy/command.json",
+        "bytes": 1229,
+        "sha256": "03069655eaa4899d3f6172771ec8d402bc4441a749af3607b3caccf018c9ed6c"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-Debug-serial-Legacy/stdout.log",
+        "bytes": 794564,
+        "sha256": "1b928c6833c529461b3cb544e931d4d2d96843437c8bb077a11a360b8c7405ee"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-Debug-serial-Legacy/stderr.log",
+        "bytes": 18,
+        "sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\executions\\w2c11-checkpoint-v1-Debug-serial-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<ISOLATED_RUN>\\executions\\w2c11-checkpoint-v1-Debug-serial-Legacy\\serial.runsettings",
+        "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c11-checkpoint-v1-Debug-serial-Legacy\\results",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:trx;LogFileName=Legacy.trx"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-profile/command.json",
+        "bytes": 588,
+        "sha256": "3d419b5738cc07fbaaaea2d65099b5f08945e350025a1d9453f0c78dd05b38aa"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-profile/stdout.log",
+        "bytes": 46,
+        "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-profile/stderr.log",
+        "bytes": 4193,
+        "sha256": "d7960c5e42c5520c56816b522218b8f40bbaae889347a4a00dbc4f97e006e64f"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "scripts/windows-migration-audit/owner_closeout.py",
+        "--profile",
+        "inventory-complete-with-approved-deferrals"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-strict/command.json",
+        "bytes": 568,
+        "sha256": "ea8c971162279562484542f68d595e35118cf29b6bd064c219da6f043182b5e2"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-strict/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-strict/stderr.log",
+        "bytes": 529,
+        "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+      },
+      "exit_code": 1,
+      "args": [
+        "dotnet",
+        "<REPO_ROOT>\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+        "--check",
+        "--strict"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-contracts-v2/command.json",
+        "bytes": 590,
+        "sha256": "d90119cc0f3483aefeb925e780ddbdbab4c5eef5f9b09da10b15507e6c654874"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-contracts-v2/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-contracts-v2/stderr.log",
+        "bytes": 1021,
+        "sha256": "9ab3b5e893e3d905dd9ada762fdbb3f2004da6f9190542906f286e292fe51756"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\build_contracts_v2.py"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-packet-v1-Debug-core/command.json",
+        "bytes": 989,
+        "sha256": "721fd427001a25228e50e972fb77423fa8057870d1a6679a182364cfbcb3395d"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-packet-v1-Debug-core/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-packet-v1-Debug-core/stderr.log",
+        "bytes": 1723,
+        "sha256": "ee39f078dcfb3967dfb1c2fbd242a67ede273fca1d644023849fe7f770faf7ae"
+      },
+      "exit_code": 1,
+      "args": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Core\\BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont11\\packet-v1\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont11\\packet-v1\\Debug\\obj\\core\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-1-main/command.json",
+        "bytes": 694,
+        "sha256": "75cf7c61f908860d5c067b3346ce03d452da95ac1d56a77b128bf42414d72ea4"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-1-main/stdout.log",
+        "bytes": 50,
+        "sha256": "6e57207ed9a25f15e78aafc475686e1636a0163314beb1d637bfaffbe3abd8d9"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-1-main/stderr.log",
+        "bytes": 40858,
+        "sha256": "77fb41e2e3c9c3e4a8be4888ceaa709c69f8dbd58fedec2f69d55fe306d18ae0"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\python_workers_v1.py",
+        "worker",
+        "1",
+        "MAIN"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-4-main/command.json",
+        "bytes": 693,
+        "sha256": "9251afcde8974d5267fd8fa0655ae318a20b61668f2f609fabdc15a745fd5eab"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-4-main/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-4-main/stderr.log",
+        "bytes": 340089,
+        "sha256": "7539ece21d00c52c37a03bd85877785e506f4ab847b610660a7ca6f93150f406"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\python_workers_v1.py",
+        "worker",
+        "4",
+        "MAIN"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-5-main/command.json",
+        "bytes": 693,
+        "sha256": "9d588de359c315ab4ae80122ffad1ff0ac02aebf29f6fc488d6844940fd42eff"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-5-main/stdout.log",
+        "bytes": 2,
+        "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-5-main/stderr.log",
+        "bytes": 236683,
+        "sha256": "4a5f8c3e9b77db4df92e2e6c1108626c010f9f53c2b4a0140dd0fad1c270d451"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\python_workers_v1.py",
+        "worker",
+        "5",
+        "MAIN"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-6-main/command.json",
+        "bytes": 693,
+        "sha256": "985ee78081bffe9dbd924c7b1c82f6d32d6d75935a00d30d282228d3b6d7a4a3"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-6-main/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-python-worker-v1-6-main/stderr.log",
+        "bytes": 122391,
+        "sha256": "84e43790f40368da86817926594a423a3228de438eb8e8540c9564f6ca5040b7"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\python_workers_v1.py",
+        "worker",
+        "6",
+        "MAIN"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-scanner-base-proof-v1/command.json",
+        "bytes": 601,
+        "sha256": "3394d96f8a1f8197ffa0b26ecf3eac90a9951292f58ec118c72063b5a35a0dd7"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-scanner-base-proof-v1/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-scanner-base-proof-v1/stderr.log",
+        "bytes": 2258,
+        "sha256": "1c46fd91409374f5ce60ff85c59e8f0616dfd953276f17b816519835b86c9957"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\prove_parallel_scan_base_v2.py"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-scanner-base-proof-v2/command.json",
+        "bytes": 600,
+        "sha256": "368f40d0a9a580032fd817f4447e6521d7122abd3040192e41ed74e5850ad084"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-scanner-base-proof-v2/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-scanner-base-proof-v2/stderr.log",
+        "bytes": 722,
+        "sha256": "f7d4b1ad0531a8325f8e3ac33766df84c0c77cbc89d4a04a561895b0f3973039"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\prove_parallel_scan_base_v3.py"
+      ]
+    },
+    {
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-sealed-reader-positive-v1/command.json",
+        "bytes": 596,
+        "sha256": "bc6c83782a432c220c44f7753d5aa7ba79cb22572ba085a6fa7a2b1a08be4351"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-sealed-reader-positive-v1/stdout.log",
+        "bytes": 110,
+        "sha256": "a8e112003a2cd3999aef65a3706425dcb0a36c580f37464cd6026215880c930d"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-sealed-reader-positive-v1/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 1,
+      "args": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\verify_c11_checkpoint_v1.py"
+      ]
+    }
+  ],
+  "failed_seal_correction": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/sealed-reader-first-failure-correction-v3.json",
+    "bytes": 2922,
+    "sha256": "1c05a5d785b7ab436862d7356ae1c965aedf685c76f956d247184c8cdf5c36e8"
+  },
+  "actual_successor": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/final-reader-authority-v1.json",
+    "bytes": 2450,
+    "sha256": "c6d73a7fde5225e7147329eb4a66f2069f254429d7734c3108830768de068c9c"
+  },
+  "production_test_changes": 0,
+  "scope": "Includes the late failed sealed v1 and rejected argument-order diagnosis in addition to all completed earlier nonzero Runner commands. Direct shell diagnostics are explicitly observational, not fabricated raw files.",
+  "original_queries": 0
+}

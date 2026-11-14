@@ -1,0 +1,34 @@
+{
+  "suite": "Core",
+  "part": "all",
+  "name": "w3D-Core",
+  "outcomes": {
+    "Passed": 1280
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3D-Core/cases.json",
+    "bytes": 388929,
+    "sha256": "bc0fbd89d02cc4e2cd1180a1c608d715db99967afd4ba7b8560904da193b1b42"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3D-Core/results/Core.trx",
+    "bytes": 1844705,
+    "sha256": "f6a82eb19a4eac316cd11601d685c81c4e70b2417c6e167c1a68e58dbe61f217"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w3D-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w3D-Core\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3D-Core\\results",
+      "/Logger:trx;LogFileName=Core.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 5.996785600000294,
+    "stdout_sha256": "bad69bb6d77c1bef00e61ccfb4fa14baa46970cff08da194c8586fda25999eba",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

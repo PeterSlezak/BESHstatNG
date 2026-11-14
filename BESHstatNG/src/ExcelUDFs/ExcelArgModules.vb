@@ -38,31 +38,12 @@ Namespace WorksheetFunctions
 
         Friend Function CellToTrimmedText(v As Object) As String
             If ExcelArgPredicates.IsMissingArg(v) Then Return ""
-
-            If TypeOf v Is String Then
-                Return CStr(v).Trim()
+            If TypeOf v Is ExcelError Then
+                Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)
+                If s Is Nothing Then Return ""
+                Return s.Trim()
             End If
-
-            If TypeOf v Is Double OrElse
-               TypeOf v Is Single OrElse
-               TypeOf v Is Decimal OrElse
-               TypeOf v Is Integer OrElse
-               TypeOf v Is Long OrElse
-               TypeOf v Is Short Then
-
-                Dim d As Double = Convert.ToDouble(v, CultureInfo.InvariantCulture)
-                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return ""
-
-                If Math.Abs(d - Math.Round(d)) < 0.000000000001R Then
-                    Return CLng(Math.Round(d)).ToString(CultureInfo.InvariantCulture)
-                End If
-
-                Return d.ToString(CultureInfo.InvariantCulture)
-            End If
-
-            Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)
-            If s Is Nothing Then Return ""
-            Return s.Trim()
+            Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.CellToTrimmedText(v)
         End Function
 
     End Module
@@ -80,9 +61,7 @@ Namespace WorksheetFunctions
                 Return Nothing
             End If
             Try
-                Dim d As Double = Convert.ToDouble(v)
-                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return Nothing
-                Return d
+                Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.ConvertFiniteNumber(v)
             Catch
                 Return Nothing
             End Try
@@ -102,31 +81,19 @@ Namespace WorksheetFunctions
             If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
             If TypeOf v Is Boolean Then Return CBool(v)
             Dim s As String = Convert.ToString(v).Trim()
-            If String.IsNullOrEmpty(s) Then Return defaultValue
-            Select Case s.ToLowerInvariant()
-                Case "true", "t", "yes", "y", "1"
-                    Return True
-                Case "false", "f", "no", "n", "0"
-                    Return False
-                Case Else
-                    Return defaultValue
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalBoolean(s, defaultValue)
         End Function
 
         Public Function GetOptionalInt(v As Object, defaultValue As Integer) As Integer
             If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
             Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)
-            If d.HasValue Then
-                Return CInt(Math.Truncate(d.Value))
-            End If
-            Return defaultValue
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalInteger(d, defaultValue)
         End Function
 
         Public Function GetOptionalDouble(v As Object, defaultValue As Double) As Double
             If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
             Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)
-            If d.HasValue Then Return d.Value
-            Return defaultValue
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalDouble(d, defaultValue)
         End Function
 
         Friend Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean
@@ -137,36 +104,16 @@ Namespace WorksheetFunctions
             End If
 
             Dim d As Double? = ExcelArgNumeric.TryGetDouble(cell)
-            If d.HasValue Then
-                Dim iv As Integer = CInt(Math.Truncate(d.Value))
-                If iv = 0 OrElse iv = 1 Then
-                    value = iv
-                    Return True
-                End If
-                Return False
-            End If
-
-            If TypeOf cell Is Boolean Then
-                value = If(CBool(cell), 1, 0)
-                Return True
-            End If
-
-            Return False
+            Dim logicalValue As Boolean? = Nothing
+            If TypeOf cell Is Boolean Then logicalValue = CBool(cell)
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryBinaryPrepared(d, logicalValue, value)
         End Function
 
         Friend Function TryGetWholeNumber(v As Object, ByRef value As Integer) As Boolean
             value = 0
 
             Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)
-            If Not d.HasValue Then Return False
-            If Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then Return False
-
-            Dim rounded As Double = Math.Round(d.Value)
-            If Math.Abs(d.Value - rounded) > 0.0000001R Then Return False
-            If rounded < Integer.MinValue OrElse rounded > Integer.MaxValue Then Return False
-
-            value = CInt(rounded)
-            Return True
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryWholeNumberPrepared(d, value)
         End Function
 
         Friend Function TryGetFiniteDoubleFlexible(v As Object, ByRef x As Double) As Boolean
@@ -181,17 +128,7 @@ Namespace WorksheetFunctions
             If ExcelArgPredicates.IsMissingArg(v) OrElse TypeOf v Is ExcelError OrElse TypeOf v Is Boolean Then Return False
 
             Dim s As String = ExcelArgReaders.CellToTrimmedText(v)
-            If String.IsNullOrWhiteSpace(s) Then Return False
-
-            If Double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, x) Then
-                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-            End If
-
-            If Double.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, x) Then
-                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-            End If
-
-            Return False
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryFiniteText(s, x)
         End Function
 
         Friend Function TryGetStatus01Flexible(v As Object, ByRef value As Integer) As Boolean
@@ -240,14 +177,7 @@ Namespace WorksheetFunctions
 
             Dim d As Double
             If Not ExcelArgNumeric.TryGetFiniteDouble(arg, d) Then Return False
-
-            Dim rounded As Double = Math.Round(d)
-            If Math.Abs(d - rounded) > 0.0000001R Then Return False
-            If rounded < minValue Then Return False
-            If rounded > Integer.MaxValue Then Return False
-
-            value = CInt(rounded)
-            Return True
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryPositiveIntegerPrepared(d, value, minValue)
         End Function
 
     End Module

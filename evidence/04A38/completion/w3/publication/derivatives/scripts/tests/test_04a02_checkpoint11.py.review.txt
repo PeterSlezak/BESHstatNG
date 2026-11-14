@@ -1,0 +1,201 @@
+"""Host-free C11 admission/provenance tests. Never starts R or Excel.
+
+The 807-byte C10 stdout is exact retained evidence. Forward v2 objects below add
+SIMULATED path/version/environment observations for validator tests only. They
+are not a live startup receipt and cannot retrospectively qualify the old run.
+"""
+import copy
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+ROOT=Path(__file__).resolve().parents[2]
+spec=importlib.util.spec_from_file_location('operator11',ROOT/'scripts/04a02/oracle_operator_v5.py')
+r=importlib.util.module_from_spec(spec);spec.loader.exec_module(r)
+FIXTURE=ROOT/'scripts/tests/fixtures/04a02-c11-retained-startup-stdout.json'
+RAW_SHA='1296920a22a1f3778aaa54478a605989004f82865d18454e9fc1f8b5b2f46b5f'
+JOB=Path('<PRIVATE_HOME>/AppData/Local/BESHStatNG-04A02-C09-reference-20261101-7d4a/c10-startup-20261101-v1')
+MANIFEST=ROOT/'docs/architecture/04A02/oracle-proposals/manifest-v5-c11-v1.json'
+
+def policy():return r.v2.strict_json((ROOT/r.POLICY).read_bytes())
+
+def forward_fixture():
+    value=r.v2.strict_json(FIXTURE.read_bytes())
+    value['schema']='04A02-C11-R-startup-v2'
+    package=(r.R_HOME/'library/compiler').as_posix()
+    value['compiler']=dict(namespace_path=package,namespace_version='4.5.1',package_path=package,package_version='4.5.1')
+    empty=(JOB/'empty-startup').as_posix()
+    value['environment']=dict(HOME=(JOB/'home').as_posix(),R_HOME=r.R_HOME.as_posix(),R_PROFILE_USER=empty,R_ENVIRON_USER=empty,R_LIBS='',R_LIBS_USER=(JOB/'user-library').as_posix(),R_LIBS_SITE=(JOB/'site-library').as_posix(),R_DEFAULT_PACKAGES='utils,stats')
+    return value
+
+
+class Namespace11Tests(unittest.TestCase):
+    def test_exact_retained_bytes_reproduce_only_compiler_rejection(self):
+        raw=FIXTURE.read_bytes();self.assertEqual(RAW_SHA,hashlib.sha256(raw).hexdigest())
+        value=r.v2.strict_json(raw)
+        self.assertEqual({'compiler'},set(value['namespaces'])-r.STOCK_NAMESPACES)
+        with self.assertRaisesRegex(r.Refused,'Unapproved loaded package'):r.v4.validate_probe(value,JOB)
+        projected=dict(value,namespaces=[n for n in value['namespaces'] if n!='compiler'])
+        r.v4.validate_probe(projected,JOB)
+        self.assertEqual(raw,FIXTURE.read_bytes())
+
+    def test_stock_observed_namespaces_with_explicit_forward_proof_pass(self):
+        r.validate_probe(forward_fixture(),JOB,policy())
+
+    def test_old_stdout_without_namespace_proof_cannot_be_replayed(self):
+        with self.assertRaisesRegex(r.Refused,'C11 startup schema'):r.validate_probe(r.v2.strict_json(FIXTURE.read_bytes()),JOB,policy())
+
+    def test_extra_third_party_namespace_fails(self):
+        value=forward_fixture();value['namespaces'].append('lme4')
+        with self.assertRaisesRegex(r.Refused,'Unapproved loaded package'):r.validate_probe(value,JOB,policy())
+
+    def test_compiler_without_location_proof_fails(self):
+        value=forward_fixture();value.pop('compiler')
+        with self.assertRaisesRegex(r.Refused,'Compiler namespace'):r.validate_probe(value,JOB,policy())
+
+    def test_unloaded_compiler_cannot_claim_location_proof(self):
+        value=forward_fixture();value['namespaces'].remove('compiler')
+        with self.assertRaisesRegex(r.Refused,'Unloaded compiler'):r.validate_probe(value,JOB,policy())
+
+    def test_original_stock_without_compiler_still_passes(self):
+        value=forward_fixture();value['namespaces'].remove('compiler');value['compiler']=None
+        r.validate_probe(value,JOB,policy())
+
+    def test_duplicate_namespace_fails(self):
+        value=forward_fixture();value['namespaces'].append('compiler')
+        with self.assertRaises(r.Refused):r.validate_probe(value,JOB,policy())
+
+    def test_namespace_policy_cannot_be_widened(self):
+        p=policy();p['allowed_namespaces'].append('lme4')
+        with self.assertRaises(r.Refused):r.validate_probe(forward_fixture(),JOB,p)
+
+    def test_unqualified_462_policy_fails(self):
+        p=policy();p['r']=p['stats']='4.6.2'
+        with self.assertRaises(r.Refused):r.validate_probe(forward_fixture(),JOB,p)
+
+
+class Provenance11Tests(unittest.TestCase):
+    def test_actual_bundled_compiler_files_and_membership_match(self):
+        r.verify_compiler_files(policy())
+
+    def test_spoofed_compiler_hash_fails_without_writing_installation(self):
+        p=policy();p['compiler']['files'][0]['sha256']='0'*64
+        with self.assertRaisesRegex(r.Refused,'Compiler package hash drift'):r.verify_compiler_files(p)
+
+    def test_missing_executable_compiler_pin_fails(self):
+        p=policy();p['compiler']['files']=[e for e in p['compiler']['files'] if e['relative_path']!='library/compiler/R/compiler.rdb']
+        with self.assertRaises(r.Refused):r.verify_compiler_files(p)
+
+    def test_omitted_noncode_compiler_file_is_membership_drift(self):
+        p=policy();p['compiler']['files']=[e for e in p['compiler']['files'] if e['relative_path']!='library/compiler/INDEX']
+        with self.assertRaisesRegex(r.Refused,'membership drift'):r.verify_compiler_files(p)
+
+    def test_compiler_pin_cannot_escape_package(self):
+        p=policy();p['compiler']['files'][0]['relative_path']='library/compiler/../../evil'
+        with self.assertRaises(r.Refused):r.verify_compiler_files(p)
+
+    def test_compiler_pin_duplicates_fail(self):
+        p=policy();p['compiler']['files'].append(copy.deepcopy(p['compiler']['files'][0]))
+        with self.assertRaises(r.Refused):r.verify_compiler_files(p)
+
+    def test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision(self):
+        for case in ['C30-SYN-ANOVA','C30-SYN-KW']:
+            manifest,decision,_,_,p=r.pins(MANIFEST,r.digest(MANIFEST),case)
+            self.assertEqual('C08-OWNER-20261030-S-R-N-v1',decision)
+            self.assertIs(p['runtime_proposal']['scientific_method_approved'],False)
+            self.assertEqual('NO',manifest['P'])
+            self.assertTrue(manifest['R_owner_approved'])
+
+    def test_successor_manifest_wrong_hash_fails(self):
+        with self.assertRaises(r.Refused):r.pins(MANIFEST,'0'*64,'C30-SYN-ANOVA')
+
+    def test_v4_manifest_cannot_substitute_for_successor(self):
+        path=ROOT/r.FROZEN_MANIFEST
+        with self.assertRaises(r.Refused):r.pins(path,r.digest(path),'C30-SYN-ANOVA')
+
+
+class Boundary11Tests(unittest.TestCase):
+    def test_frozen_owner_acl_passes_unchanged_model(self):
+        raw=r.v2.strict_json((ROOT/'TestResults/04A-02-initial-fixtures-c10-20261101T161342Z/r-qualification/owner-acl-raw.json').read_bytes())
+        self.assertEqual([],r.assess_acl(raw,Path(raw['output_root'])))
+
+    def test_wrong_execution_sid_still_refused(self):
+        raw=r.v2.strict_json((ROOT/'TestResults/04A-02-initial-fixtures-c10-20261101T161342Z/r-qualification/owner-acl-raw.json').read_bytes())
+        raw['execution_sid']='<PRIVATE_SID>'
+        self.assertIn('EXECUTION_NOT_NORMAL_OWNER',r.assess_acl(raw,Path(raw['output_root'])))
+
+    def test_unknown_root_writer_still_refused(self):
+        raw=r.v2.strict_json((ROOT/'TestResults/04A-02-initial-fixtures-c10-20261101T161342Z/r-qualification/owner-acl-raw.json').read_bytes())
+        raw['ancestors'][-1]['access'].append(dict(type='Allow',sid='<PRIVATE_SID>',rights=2,propagation='None'))
+        self.assertTrue(any('UNRESOLVED_MODIFY' in p for p in r.assess_acl(raw,Path(raw['output_root']))))
+
+    def test_incomplete_ancestor_chain_still_refused(self):
+        raw=r.v2.strict_json((ROOT/'TestResults/04A-02-initial-fixtures-c10-20261101T161342Z/r-qualification/owner-acl-raw.json').read_bytes())
+        raw['ancestors'].pop(0)
+        self.assertIn('INCOMPLETE_ANCESTOR_CHAIN',r.assess_acl(raw,Path(raw['output_root'])))
+
+    def test_private_environment_excludes_inherited_personal_configuration(self):
+        with tempfile.TemporaryDirectory() as temp,patch.dict(os.environ,{'R_PROFILE':'EVIL','R_LIBS_USER':'PERSONAL','PATH':'INJECT'}):
+            env=r.v3.private_environment(Path(temp),r.R_HOME)
+            self.assertNotIn('EVIL',env.values());self.assertNotIn('PERSONAL',env.values());self.assertNotIn('INJECT',env.values())
+            self.assertEqual('utils,stats',env['R_DEFAULT_PACKAGES'])
+            self.assertEqual(str(Path(temp)/'empty-startup'),env['R_PROFILE_USER'])
+
+    def test_preserved_old_attempt_name_refused_before_any_subprocess(self):
+        with tempfile.TemporaryDirectory() as temp,patch.object(r.subprocess,'run') as launch:
+            with self.assertRaises(r.Refused):r.probe(MANIFEST,r.digest(MANIFEST),Path(temp),'c10-startup-20261101-v1',Path(temp)/'review','0'*64)
+            launch.assert_not_called();self.assertEqual([],list(Path(temp).iterdir()))
+
+    def test_duplicate_attempt_refuses_and_retains_existing_bytes_metadata(self):
+        with tempfile.TemporaryDirectory() as temp,patch.object(r.subprocess,'run') as launch:
+            job=Path(temp)/'c11-startup-used';job.mkdir();evidence=job/'failure.json';evidence.write_bytes(b'RETAINED')
+            before=evidence.stat()
+            with self.assertRaises(r.Refused):r.probe(MANIFEST,r.digest(MANIFEST),Path(temp),job.name,job/'review','0'*64)
+            after=evidence.stat();self.assertEqual(b'RETAINED',evidence.read_bytes())
+            self.assertEqual((before.st_mtime_ns,before.st_ctime_ns,before.st_ino),(after.st_mtime_ns,after.st_ctime_ns,after.st_ino));launch.assert_not_called()
+
+    def test_invalid_attempt_alias_fails(self):
+        for name in ['../old','name.','x:y','CON']:
+            with self.subTest(name=name),self.assertRaises(r.Refused):r.new_attempt_path(Path.cwd(),name)
+
+    def test_locked_input_denies_overwrite_and_retains_bytes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            p=Path(temp)/'input';p.write_bytes(b'PINNED')
+            with r.v2.locked_path(p):
+                with self.assertRaises(PermissionError):p.write_bytes(b'EVIL')
+            self.assertEqual(b'PINNED',p.read_bytes())
+
+    def test_no_replace_publication_retains_rejected_staging(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);r.v2.publish_complete(root,'startup-receipt.json',b'FIRST')
+            with self.assertRaises(FileExistsError):r.v2.publish_complete(root,'startup-receipt.json',b'SECOND')
+            self.assertEqual(b'FIRST',(root/'startup-receipt.json').read_bytes())
+            self.assertEqual({b'FIRST',b'SECOND'},{p.read_bytes() for p in root.glob('pending-*')})
+
+    def test_pending_technical_go_refuses_without_r(self):
+        with tempfile.TemporaryDirectory() as temp,patch.object(r.subprocess,'run') as launch:
+            p=Path(temp)/'go.json';p.write_bytes(r.canonical(dict(status='PENDING')))
+            with self.assertRaises(r.Refused):r.qualification(p,r.digest(p),'0'*64,'C30-SYN-ANOVA',Path(temp),{},policy())
+            launch.assert_not_called()
+
+
+def add_probe_negative(name,mutate):
+    def test(self):
+        value=forward_fixture();mutate(value)
+        with self.assertRaises(r.Refused):r.validate_probe(value,JOB,policy())
+    setattr(Namespace11Tests,'test_reject_'+name,test)
+
+for field,bad in [('r','4.6.2'),('stats','4.4.3'),('arch','i386'),('locale','en_US'),('home','C:/personal'),('r_profile','C:/personal/profile'),('r_environ','C:/personal/environ')]:
+    add_probe_negative(field,lambda v,k=field,b=bad:v.__setitem__(k,b))
+add_probe_negative('personal_library',lambda v:v['libraries'].append('<PRIVATE_HOME>/R/win-library/4.5'))
+for field,bad in [('namespace_path','C:/personal/compiler'),('package_path','C:/site/compiler'),('namespace_version','4.6.2'),('package_version','4.6.2')]:
+    add_probe_negative('spoofed_compiler_'+field,lambda v,k=field,b=bad:v['compiler'].__setitem__(k,b))
+for field in ['HOME','R_HOME','R_PROFILE_USER','R_ENVIRON_USER','R_LIBS','R_LIBS_USER','R_LIBS_SITE','R_DEFAULT_PACKAGES']:
+    add_probe_negative('environment_'+field.lower(),lambda v,k=field:v['environment'].__setitem__(k,'PERSONAL_ESCAPE'))
+
+if __name__=='__main__':unittest.main(verbosity=2)

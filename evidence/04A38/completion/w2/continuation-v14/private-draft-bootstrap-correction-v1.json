@@ -1,0 +1,13 @@
+{
+  "before": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/run_private_v1.py",
+    "bytes": 703,
+    "sha256": "5d076f919917deba8549db46b8b5599d29ed3ea44949ebce8ca6f092de50c66e"
+  },
+  "after": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/run_private_v2.py",
+    "bytes": 768,
+    "sha256": "7c3755f0858ab35b27893c5c03eaebdd1e91010bd208986959294a2a4b914223"
+  },
+  "reason": "The subprocess -c bootstrap must explicitly include the ignored private tool directory for versioned draft imports. Failed import occurred before contract execution; no public or production bytes changed."
+}

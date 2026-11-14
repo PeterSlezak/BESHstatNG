@@ -1,0 +1,146 @@
+{
+  "status": "FRESH_PARTIAL_W2_VALIDATION_NOT_BATCH_READY",
+  "managed_Debug": {
+    "outcomes": {
+      "Passed": 20666,
+      "Failed": 14
+    },
+    "new_passes": 13,
+    "new_nonpasses": [],
+    "inherited_nonpasses": 14,
+    "suites": [
+      {
+        "suite": "Core",
+        "outcomes": {
+          "Passed": 1278
+        },
+        "exit_code": 0,
+        "trx_sha256": "f111722781eb8452a3cb6f6a57fc6a1be831aff7546aeff333f95c57acdbad8d"
+      },
+      {
+        "suite": "Common",
+        "outcomes": {
+          "Passed": 9136,
+          "Failed": 5
+        },
+        "exit_code": 1,
+        "trx_sha256": "8f4a12df2995fcc609b145e1d0271512ef9b9e9bbb2b4725b4545af64f464911"
+      },
+      {
+        "suite": "Legacy",
+        "outcomes": {
+          "Passed": 9638,
+          "Failed": 9
+        },
+        "exit_code": 1,
+        "trx_sha256": "35010efbf0492475ec32b1deea6fb5b3825de9457e9f9ab701d8b831cc2829e1"
+      },
+      {
+        "suite": "ControlMitigation",
+        "outcomes": {
+          "Passed": 61
+        },
+        "exit_code": 0,
+        "trx_sha256": "8aa888d734a6f936f4ab5dddc5345cdd92e997115472cfc3fd0b01e22c38ccc5"
+      },
+      {
+        "suite": "OfficeAddin",
+        "outcomes": {
+          "Passed": 508
+        },
+        "exit_code": 0,
+        "trx_sha256": "11696bbf68a245ec1e4cd9b0a91e0dd150ce6a44a71f1154cb4246dec478e015"
+      },
+      {
+        "suite": "OfficeExecution",
+        "outcomes": {
+          "Passed": 45
+        },
+        "exit_code": 0,
+        "trx_sha256": "13e5fc82648eed7f8f56ec01268970781d2be24bd0f1d7b71206790d607e0ef6"
+      }
+    ],
+    "old_identity_occurrence_outcome_delta": 0
+  },
+  "selected_Release": {
+    "outcomes": {
+      "Passed": 159
+    },
+    "distinct_identities": 159,
+    "full_suite": "NOT_RUN_OWNER_PREFERENCE"
+  },
+  "Node": [
+    {
+      "suite": "office-node",
+      "total": 468,
+      "passed": 468,
+      "failed": 0,
+      "exit_code": 0,
+      "identity_multiset_sha256": "fd95d6ddb84aebf2a1de3074f8540971469961a242dd053bc5caac694e848108",
+      "stdout_sha256": "f1b3f8389f9afb3ee979e4a45ad3fb959b95feedb10de2e1fe9c41ef3267469c"
+    },
+    {
+      "suite": "resolver",
+      "total": 71,
+      "passed": 71,
+      "failed": 0,
+      "exit_code": 0,
+      "identity_multiset_sha256": "edab891307e6a2af9b9231a7475788f0121b7d2e9d311ff3b414a28f5d32903f",
+      "stdout_sha256": "345dc83e0bb8a349ff987d76777d4fdff039618017f637fada0410a0f0425be6"
+    },
+    {
+      "suite": "wasm-node",
+      "total": 377,
+      "passed": 377,
+      "failed": 0,
+      "exit_code": 0,
+      "identity_multiset_sha256": "492bca15d36a96b7032f4fe85ca111f52a03c6aef26a083f3c99c493c54c4f59",
+      "stdout_sha256": "d3316c9cad13dbc903f1146dbe8ede16c7cde1198f420aa6db7fed6a8390059c"
+    }
+  ],
+  "Python": {
+    "total": 956,
+    "passed": 765,
+    "failed": 180,
+    "errors": 11
+  },
+  "Python_occurrence_delta": {
+    "extra": [],
+    "lost": []
+  },
+  "strict_profile_MkDocs": {
+    "strict": 1,
+    "profile": 1,
+    "docs": 0
+  },
+  "current_frozen_comparison_per_configuration": {
+    "preedit": 28966,
+    "late_A_to_G": 458,
+    "total": 29424,
+    "separate_provenance": true
+  },
+  "compiled_exports": {
+    "Debug": 268,
+    "Release": 268
+  },
+  "new_original_queries": 0,
+  "text_domain_policy": "NO_CHANGE;0 source-domain differences/1568736 checks/config;8 out-of-domain raw synthetic nonpasses retained",
+  "NOT_RUN": [
+    "Full managed Release:OWNER_PREFERENCE",
+    "W3 whole-batch READY verifier:W2_NOT_COMPLETE",
+    "Canonical portable/Legacy wrappers:implicit restore/shared outputs/XLL packaging",
+    "Native Excel/COM/UIA/RefEdit/in-workbook smoke",
+    "Independent R/scientific original control",
+    "Office/Mac/manual GUI smoke",
+    "Network/package restore/install/MSI/signing/deployment",
+    "Phase04A39"
+  ],
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "golden": "NOT_GOLDEN"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "extra": [],
+  "lost": [],
+  "parent_outcome_changes": [],
+  "changed_messages": [
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "event_key": [
+        "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "FAIL",
+        "(path='BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb')",
+        0
+      ],
+      "previous": {
+        "source": {
+          "path": "evidence/04A38/completion/w2/continuation-v17/python-first-failures-v1.json",
+          "bytes": 1174259,
+          "sha256": "13331706f57ea8bcf51407c4850b0d74d2c5da8e27733d8e7b03cc548af0d60b"
+        },
+        "event_key": [
+          "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+          "FAIL",
+          "(path='BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb')",
+          0
+        ],
+        "message_sha256": "5f4936db17e5ecf08b92c2af9f616f544ce9fc6e789cdba20c351f47b5530bbb",
+        "traceback_sha256": "a2c912c59a2bab5af2694d97972082d02115606ed1e9d4262dd9063501323a3e"
+      },
+      "current_raw_message_sha256": "cfb55745c8ec019d7c71ba056a8dff9e7cc76a45a6cf2eccf5b9900f67ff1915",
+      "current_raw_traceback_sha256": "4ba4e2aff3d9909dbbd6132cf1960884065f33e002aff09cea112b549904c208",
+      "current_message": "'596071f9fdb00fb94585e929a6899494293d2dc7ee0064faadf098b0d95dc13d' != 'e07c0c18ed85e9d7f1d6ed14159a53213138926ddb351b9f110c64453a48c8ee'\n- 596071f9fdb00fb94585e929a6899494293d2dc7ee0064faadf098b0d95dc13d\n+ e07c0c18ed85e9d7f1d6ed14159a53213138926ddb351b9f110c64453a48c8ee\n",
+      "classification": "CHANGED_RAW_MESSAGE_RETAINED_NOT_WAIVED"
+    }
+  ],
+  "previous_historical_attempts": [
+    "continuation-v15/python-interruption-recovery-v1.json",
+    "continuation-v15/owner-replacement-python-lane-authorization-v1.json",
+    "continuation-v15/owner-focused-privacy-authorization-v1.json",
+    "continuation-v15/python-first-failures-v1.json"
+  ],
+  "scope": "Every old failed/interrupted/error attempt remains immutable. Current errors are not PASS and earlier AssertionError/JSON/Unicode chronology is not collapsed."
+}

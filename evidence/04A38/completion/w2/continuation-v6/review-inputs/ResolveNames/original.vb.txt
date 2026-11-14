@@ -1,0 +1,24 @@
+Friend Function ResolveNames(explicitNames As Object, detectedNames() As String, expectedCount As Integer, prefix As String) As String()
+            If Not IsMissingArg(explicitNames) Then
+                Dim names = Global.BESHStatNG.UdfDataImport.GetVariableNames(explicitNames, expectedCount)
+                For i As Integer = 0 To names.Length - 1
+                    If String.IsNullOrWhiteSpace(names(i)) Then names(i) = prefix & " " & (i + 1).ToString()
+                Next
+                Return names
+            End If
+
+            If detectedNames IsNot Nothing AndAlso detectedNames.Length = expectedCount Then
+                Dim names(expectedCount - 1) As String
+                For i As Integer = 0 To expectedCount - 1
+                    names(i) = detectedNames(i)
+                    If String.IsNullOrWhiteSpace(names(i)) Then names(i) = prefix & " " & (i + 1).ToString()
+                Next
+                Return names
+            End If
+
+            Dim fallback(expectedCount - 1) As String
+            For i As Integer = 0 To expectedCount - 1
+                fallback(i) = prefix & " " & (i + 1).ToString()
+            Next
+            Return fallback
+        End Function

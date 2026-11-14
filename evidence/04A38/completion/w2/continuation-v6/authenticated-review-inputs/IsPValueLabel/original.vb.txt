@@ -1,0 +1,11 @@
+Private Function IsPValueLabel(value As Object) As Boolean
+        If value Is Nothing OrElse TypeOf value Is DBNull Then Return False
+        Dim label As String = Convert.ToString(value, CultureInfo.InvariantCulture)
+        If String.IsNullOrWhiteSpace(label) Then Return False
+
+        Dim normalized As New System.Text.StringBuilder(label.Length)
+        For Each ch As Char In label
+            If Char.IsLetterOrDigit(ch) Then normalized.Append(Char.ToLowerInvariant(ch))
+        Next
+        Return normalized.ToString().Contains("pvalue")
+    End Function

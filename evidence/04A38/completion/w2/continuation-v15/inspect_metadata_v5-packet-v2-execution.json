@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/inspect_metadata_v5.py",
+    "bytes": 1556,
+    "sha256": "3bc7eb34086f359aa06f2098d274b8818e0ceccee2140164324e9eebea5eebea"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\inspect_metadata_v5.py",
+      "packet-v2"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 13.459552399996028,
+    "stdout_sha256": "9c2b64c17a3c8d26f6df0e87b59b1fbe8a5ca60f07f717d9030b4a1c90a76a01",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

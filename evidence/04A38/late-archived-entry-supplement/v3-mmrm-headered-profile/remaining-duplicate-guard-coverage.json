@@ -1,0 +1,569 @@
+{
+  "status": "NOT_READY_04A38",
+  "earliest_failed_phase": "POST_MMRM_GATE_REMAINING_PROFILE_GUARD_REFERENCE_COVERAGE",
+  "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|c30e515a66567d6e@34724:2343",
+  "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+  "signature": "Private Function AddMmrmLsmEstimateAtValue(atProfile As Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile, h As Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmHandle, requestedName As String, value As Double, sourceDescription As String, ByRef errorMessage As String) As Boolean",
+  "source_snapshot": {
+    "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportMixedModel.vb.txt",
+    "bytes": 38595,
+    "sha256": "5297574cab59e631cf880807903a206f76dfb1509818a1825c1ca6798332071a"
+  },
+  "inherited_ownership_row": {
+    "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|c30e515a66567d6e@34724:2343",
+    "historical_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|c30e515a66567d6e@34724:2343",
+    "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+    "signature": "Private Function AddMmrmLsmEstimateAtValue(atProfile As Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile, h As Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmHandle, requestedName As String, value As Double, sourceDescription As String, ByRef errorMessage As String) As Boolean",
+    "kind": "FunctionBlock",
+    "progress": "OPEN_REMAINING_MEMBER_BEHAVIOR_REVIEW",
+    "portable_source_transition": "",
+    "windows_bindings": "[\"BESHStatNG.UdfDataImport.AddMmrmLsmEstimateAtValue(BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmHandle,System.String,System.Double,System.String,System.String&)\"]",
+    "registered_consumers": "[\"BESH.REGR.MMRM_LSMEANS\", \"BESH.REGR.MMRM_LSMESTIMATE\"]",
+    "portable_edges": "[]",
+    "predecessor_plan": "OPEN_PENDING_IMPLEMENTATION_AND_FINAL_CONSUMER_VALIDATION",
+    "ready_disposition": "NOT_CLOSED"
+  },
+  "ownership_ledger": {
+    "path": "evidence/04A38/ownership-progress-validation-v1-v2.csv",
+    "bytes": 1323838,
+    "sha256": "00280c0cf54be7361dbce5d78436a10f369b0098ebf1aa158354ef7ff930e03a"
+  },
+  "configurations": {
+    "Debug": {
+      "original_public_cases": 154,
+      "original_array_profiles": 12,
+      "original_helper_entry_cases": 10,
+      "approved_headered_cases": 2,
+      "approved_headered_helper_entry_cases": 2,
+      "approved_headered_reports": 2,
+      "original_duplicate_selection_candidates": 0,
+      "original_duplicate_guard_outputs": 0,
+      "approved_headered_duplicate_guard_witnesses": 0
+    },
+    "Release": {
+      "original_public_cases": 154,
+      "original_array_profiles": 12,
+      "original_helper_entry_cases": 10,
+      "approved_headered_cases": 2,
+      "approved_headered_helper_entry_cases": 2,
+      "approved_headered_reports": 2,
+      "original_duplicate_selection_candidates": 0,
+      "original_duplicate_guard_outputs": 0,
+      "approved_headered_duplicate_guard_witnesses": 0
+    }
+  },
+  "witnesses": [
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMESTIMATE.2bba629b67529c9361a84563",
+      "target": "BESH.REGR.MMRM_LSMESTIMATE",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|D3FF0000000000000|SdmlzaXQ=|D3FF0000000000000}",
+      "kind": "HEADERLESS_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMESTIMATE.a4e9cc608fc135d0fe5e1929",
+      "target": "BESH.REGR.MMRM_LSMESTIMATE",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|SdmlzaXQ=|D3FF0000000000000|D3FF0000000000000}",
+      "kind": "WIDE_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMESTIMATE.1d928b04fc9dbf42c639dec9",
+      "target": "BESH.REGR.MMRM_LSMESTIMATE",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|D3FF0000000000000|SdmlzaXQ=|D3FF0000000000000}",
+      "kind": "HEADERLESS_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMESTIMATE.2b51e6450b16a7bc02538fe1",
+      "target": "BESH.REGR.MMRM_LSMESTIMATE",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|SdmlzaXQ=|D3FF0000000000000|D3FF0000000000000}",
+      "kind": "WIDE_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.eb939be7cdfdf75ea357b95f",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|D3FF0000000000000|SdmlzaXQ=|D3FF0000000000000}",
+      "kind": "HEADERLESS_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.25e5d0c2f7cd8284ee417704",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|SdmlzaXQ=|D3FF0000000000000|D3FF0000000000000}",
+      "kind": "WIDE_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.c8b6f9a9cd3d541faf070186",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:3,0:1]{D3FF0000000000000|D4000000000000000|D4008000000000000}",
+      "kind": "EARLY_NUMERIC_HEADER_ERROR",
+      "selected_names": [],
+      "duplicate_candidate": false,
+      "helper_entered": false,
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: at column header \"1\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3. Use header 'visit' for the visit/time column."
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.2597909f0d1e02e5578ce1b3",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:3,0:2]{D3FFA4EB734A30CDC|D4001A4C2D3FA2E03|D400329E18C4C1988|D3FFF70976A1F2787|D4005773678F09F4F|D3FF2B1DD9A55673A}",
+      "kind": "EARLY_NUMERIC_HEADER_ERROR",
+      "selected_names": [],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: at column header \"1.64421768723769\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3. Use header 'visit' for the visit/time column."
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.a99ade4cfced7889f86b72fa",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|D3FF0000000000000|SdmlzaXQ=|D3FF0000000000000}",
+      "kind": "HEADERLESS_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.8baf98f1238e67be54041abb",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|SdmlzaXQ=|D3FF0000000000000|D3FF0000000000000}",
+      "kind": "WIDE_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.0aa2a79c87f86de6c08a049d",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:3,0:1]{D3FF0000000000000|D4000000000000000|D4008000000000000}",
+      "kind": "EARLY_NUMERIC_HEADER_ERROR",
+      "selected_names": [],
+      "duplicate_candidate": false,
+      "helper_entered": false,
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: at column header \"1\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3. Use header 'visit' for the visit/time column."
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.43251c0961acde1fe78a18de",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:3,0:2]{D3FFA4EB734A30CDC|D4001A4C2D3FA2E03|D400329E18C4C1988|D3FFF70976A1F2787|D4005773678F09F4F|D3FF2B1DD9A55673A}",
+      "kind": "EARLY_NUMERIC_HEADER_ERROR",
+      "selected_names": [],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: at column header \"1.64421768723769\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3. Use header 'visit' for the visit/time column."
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMESTIMATE.2bba629b67529c9361a84563",
+      "target": "BESH.REGR.MMRM_LSMESTIMATE",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|D3FF0000000000000|SdmlzaXQ=|D3FF0000000000000}",
+      "kind": "HEADERLESS_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMESTIMATE.a4e9cc608fc135d0fe5e1929",
+      "target": "BESH.REGR.MMRM_LSMESTIMATE",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|SdmlzaXQ=|D3FF0000000000000|D3FF0000000000000}",
+      "kind": "WIDE_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMESTIMATE.1d928b04fc9dbf42c639dec9",
+      "target": "BESH.REGR.MMRM_LSMESTIMATE",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|D3FF0000000000000|SdmlzaXQ=|D3FF0000000000000}",
+      "kind": "HEADERLESS_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMESTIMATE.2b51e6450b16a7bc02538fe1",
+      "target": "BESH.REGR.MMRM_LSMESTIMATE",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|SdmlzaXQ=|D3FF0000000000000|D3FF0000000000000}",
+      "kind": "WIDE_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.eb939be7cdfdf75ea357b95f",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|D3FF0000000000000|SdmlzaXQ=|D3FF0000000000000}",
+      "kind": "HEADERLESS_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.25e5d0c2f7cd8284ee417704",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|SdmlzaXQ=|D3FF0000000000000|D3FF0000000000000}",
+      "kind": "WIDE_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.c8b6f9a9cd3d541faf070186",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:3,0:1]{D3FF0000000000000|D4000000000000000|D4008000000000000}",
+      "kind": "EARLY_NUMERIC_HEADER_ERROR",
+      "selected_names": [],
+      "duplicate_candidate": false,
+      "helper_entered": false,
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: at column header \"1\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3. Use header 'visit' for the visit/time column."
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.2597909f0d1e02e5578ce1b3",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:3,0:2]{D3FFA4EB734A30CDC|D4001A4C2D3FA2E03|D400329E18C4C1988|D3FFF70976A1F2787|D4005773678F09F4F|D3FF2B1DD9A55673A}",
+      "kind": "EARLY_NUMERIC_HEADER_ERROR",
+      "selected_names": [],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: at column header \"1.64421768723769\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3. Use header 'visit' for the visit/time column."
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.a99ade4cfced7889f86b72fa",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|D3FF0000000000000|SdmlzaXQ=|D3FF0000000000000}",
+      "kind": "HEADERLESS_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.8baf98f1238e67be54041abb",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:2,0:2]{SdHJlYXRtZW50X2FjdGl2ZQ==|SdmlzaXQ=|D3FF0000000000000|D3FF0000000000000}",
+      "kind": "WIDE_VALID",
+      "selected_names": [
+        "treatment_active",
+        "visit"
+      ],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.0aa2a79c87f86de6c08a049d",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:3,0:1]{D3FF0000000000000|D4000000000000000|D4008000000000000}",
+      "kind": "EARLY_NUMERIC_HEADER_ERROR",
+      "selected_names": [],
+      "duplicate_candidate": false,
+      "helper_entered": false,
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: at column header \"1\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3. Use header 'visit' for the visit/time column."
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.43251c0961acde1fe78a18de",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "recorded_profile": "System.Object[0:3,0:2]{D3FFA4EB734A30CDC|D4001A4C2D3FA2E03|D400329E18C4C1988|D3FFF70976A1F2787|D4005773678F09F4F|D3FF2B1DD9A55673A}",
+      "kind": "EARLY_NUMERIC_HEADER_ERROR",
+      "selected_names": [],
+      "duplicate_candidate": false,
+      "helper_entered": true,
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: at column header \"1.64421768723769\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3. Use header 'visit' for the visit/time column."
+    }
+  ],
+  "inputs": [
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+      "bytes": 11751614,
+      "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/capture-v10/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 18048262,
+      "sha256": "bd40803eb02dcbbd5fdd1446cfea0d12587f31afd56ea5ead420c216e2e8563c"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/original-Debug.tsv",
+      "bytes": 17065755,
+      "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+      "bytes": 3168046,
+      "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 5649627,
+      "sha256": "676f6c553f6b16e2cff324a734a887dd15f3ba4b513b86b47a0d428fb39bf359"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-original-v1.tsv",
+      "bytes": 6942877,
+      "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+      "bytes": 191201,
+      "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 81062,
+      "sha256": "a30ccab8b951c98e9a16b740c43f484ece7be83156569778c5ce8bdfda47c8e3"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-original-v1.tsv",
+      "bytes": 76370,
+      "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+      "bytes": 751343,
+      "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 2653004,
+      "sha256": "1fadd5d8635307eaa20dc46448bbbb270db388a385586d806f25cf3ef071d69c"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-original-v1.tsv",
+      "bytes": 6357582,
+      "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+      "bytes": 286237,
+      "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 128706,
+      "sha256": "88d255ba86b752377d2fdab64fef6ef6bc44862f8b89da1ccc31af8583b95e82"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-original-v1.tsv",
+      "bytes": 174484,
+      "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+      "bytes": 11751614,
+      "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/capture-v10/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 18048262,
+      "sha256": "bd40803eb02dcbbd5fdd1446cfea0d12587f31afd56ea5ead420c216e2e8563c"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/original-Release.tsv",
+      "bytes": 17067771,
+      "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+      "bytes": 3168046,
+      "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 5649627,
+      "sha256": "676f6c553f6b16e2cff324a734a887dd15f3ba4b513b86b47a0d428fb39bf359"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-original-v1.tsv",
+      "bytes": 6942877,
+      "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+      "bytes": 191201,
+      "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 81062,
+      "sha256": "a30ccab8b951c98e9a16b740c43f484ece7be83156569778c5ce8bdfda47c8e3"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-original-v1.tsv",
+      "bytes": 76370,
+      "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+      "bytes": 751343,
+      "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 2653004,
+      "sha256": "1fadd5d8635307eaa20dc46448bbbb270db388a385586d806f25cf3ef071d69c"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-original-v1.tsv",
+      "bytes": 6357582,
+      "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+      "bytes": 286237,
+      "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 128706,
+      "sha256": "88d255ba86b752377d2fdab64fef6ef6bc44862f8b89da1ccc31af8583b95e82"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-original-v1.tsv",
+      "bytes": 174484,
+      "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+    }
+  ],
+  "missing_source_branches": [
+    {
+      "guard": "Duplicate normalized visit/time selection",
+      "line": 727,
+      "condition": "If atProfile.VisitSpecified Then",
+      "message": "at specifies visit/time more than once."
+    },
+    {
+      "guard": "Duplicate resolved fitted-design ColumnIndex",
+      "line": 744,
+      "condition": "If existing.ColumnIndex = idx Then",
+      "message": "at specifies design column <canonical name> more than once."
+    }
+  ],
+  "reason": "Positive headered,headerless,wide parser/helper entry does not exercise either original duplicate rejection. These pure validation branches remain in the reusable Common migration scope.",
+  "required": "Separately authorized original-source negative witnesses on real fitted MMRM public paths before corresponding current comparisons; current tests cannot be their own oracle",
+  "expected_results": "UNKNOWN_NOT_CAPTURED",
+  "new_invalid_profile_materializations": 0,
+  "new_invalid_profile_executions": 0,
+  "new_production_changes": 0,
+  "next_action": "STOP. Separate owner decision for bounded duplicate visit/time and fitted-design reference coverage; do not capture extra cases, weaken guard coverage, mark HOST_ONLY or begin04A39.",
+  "qualification": "First remaining essential gap, not a claim that all other historical/current/support/inline behavior is reviewed",
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

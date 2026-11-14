@@ -1,0 +1,49 @@
+{
+  "status": "ACTUAL_PRIVATE_FILE_IDENTITIES_BYTES_AND_PHYSICAL_ARCHIVE_HASHES_PASS",
+  "manifest": {
+    "path": "evidence/04A38/completion/w2/continuation-v16-retained-private-preservation-v2.json",
+    "bytes": 6936182,
+    "sha256": "1869507ade9cc77c16dd00dd211cf3fb9972121d69487148c003a6cd58880b50"
+  },
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/verify_c16_private_v1.py",
+    "bytes": 4497,
+    "sha256": "47be447d50f98d9669f8abfe672e6b3d8f4b905059eb250265b67cb9d1e5b1c0"
+  },
+  "private_pin_count": 23711,
+  "inherited_private_count": 21208,
+  "inherited_postseal_count": 31,
+  "physical_archives": 133,
+  "inherited_physical_archives": 101,
+  "unique_real_files_hashed": 23724,
+  "real_filesystem_identity_count": 23724,
+  "raw_command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-postseal-private-reader-v2/command.json",
+    "bytes": 760,
+    "sha256": "e48b6aec30f74276b845323a25ff9fc426103c97b0c6b407c2777c2a07d86ba0"
+  },
+  "raw_stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-postseal-private-reader-v2/stdout.log",
+    "bytes": 5271570,
+    "sha256": "191fe55f5871d68d2443a622ced195b2cd2302b2311151376d7172ffb4e12132"
+  },
+  "raw_stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-postseal-private-reader-v2/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "controls": [
+    {
+      "name": "modified private bytes",
+      "status": "REJECTED",
+      "reason": "Private/source/archive byte mismatch .test-rationalization-04A38.tmp/builds/w2c11-checkpoint-v1/Debug/build.json"
+    },
+    {
+      "name": "missing private bytes",
+      "status": "REJECTED",
+      "reason": "Missing private file .test-rationalization-04A38.tmp/builds/w2c11-checkpoint-v1/Debug/build.json"
+    }
+  ],
+  "ignored_TestResults": "NOT_ENUMERATED",
+  "original_queries": 0
+}

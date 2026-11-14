@@ -9,6 +9,11 @@ Imports BESHStatNG.WorksheetFunctions
 Imports ExcelDna.Integration
 
 Partial Friend Module UdfDataImport
+    Private Function IsBinaryCell38(value As Object) As Boolean
+        Dim result As Integer
+        Return TryGetBinary01(value, result)
+    End Function
+
     ''' <summary>
     ''' Attempts to coerce an Excel argument into a two-dimensional object array.
     ''' </summary>
@@ -98,36 +103,10 @@ Partial Friend Module UdfDataImport
                                                   ByRef groups()() As Double, ByRef names() As String) As Boolean
         groups = Nothing
         names = Nothing
-
         If mat Is Nothing Then Return False
-
-        Dim rows As Integer = mat.GetLength(0)
-        Dim cols As Integer = mat.GetLength(1)
-        If rows < 1 OrElse cols < 1 Then Return False
-
-        Dim groupList As New List(Of Double())()
-        Dim nameList As New List(Of String)()
-
-        For c As Integer = 0 To cols - 1
-            Dim values As New List(Of Double)(Math.Max(0, rows - startRow))
-            For r As Integer = startRow To rows - 1
-                Dim d As Double? = TryGetDouble(mat(r, c))
-                If d.HasValue Then values.Add(d.Value)
-            Next
-
-            If values.Count > 0 Then
-                groupList.Add(values.ToArray())
-                If hasHeader Then
-                    nameList.Add(CellToTrimmedText(mat(0, c)))
-                Else
-                    nameList.Add(defaultPrefix & (groupList.Count).ToString(CultureInfo.InvariantCulture))
-                End If
-            End If
-        Next
-
-        groups = groupList.ToArray()
-        names = nameList.ToArray()
-        Return True
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix(
+            mat.GetLength(0), mat.GetLength(1), startRow, hasHeader, defaultPrefix,
+            Function(row, column) TryGetDouble(mat(row, column)), Function(row, column) CellToTrimmedText(mat(row, column)), groups, names)
     End Function
 
     ''' <summary>
@@ -202,10 +181,7 @@ Partial Friend Module UdfDataImport
         Dim rows As Integer = lastRow - startRow + 1
         If rows < 1 Then Return False
 
-        ReDim col(rows - 1, 0)
-        For i As Integer = 0 To rows - 1
-            col(i, 0) = arr(startRow + i, 0)
-        Next
+        Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.CopyTrimmedColumnPrepared(arr, startRow, rows, col)
 
         Return True
     End Function
@@ -237,12 +213,7 @@ Partial Friend Module UdfDataImport
             End If
         Next
 
-        ReDim mat(rows - 1, cols - 1)
-        For i As Integer = 0 To rows - 1
-            For j As Integer = 0 To cols - 1
-                mat(i, j) = arr(startRow + i, j)
-            Next
-        Next
+        Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.CopyTrimmedMatrixPrepared(arr, startRow, rows, cols, mat)
 
         Return True
     End Function
@@ -280,10 +251,7 @@ Partial Friend Module UdfDataImport
             Return False
         End If
 
-        ReDim col(expectedRows - 1, 0)
-        For i As Integer = 0 To expectedRows - 1
-            col(i, 0) = arr(startRow + i, 0)
-        Next
+        Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.CopyTrimmedColumnPrepared(arr, startRow, expectedRows, col)
 
         Return True
     End Function
@@ -343,20 +311,9 @@ Partial Friend Module UdfDataImport
         Dim xCols As Integer = xMat.GetLength(1)
         Dim totalCols As Integer = 2 + xCols + If(hasTime, 1, 0) + If(hasOffset, 1, 0) + If(hasWeights, 1, 0)
 
-        Dim raw(rowCount - 1, totalCols - 1) As Object
-        Dim names(totalCols - 1) As String
-
-        names(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
-        For i As Integer = 0 To rowCount - 1
-            raw(i, 0) = yCol(i, 0)
-        Next
-
-        For j As Integer = 0 To xCols - 1
-            names(j + 1) = predictorNames(j)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, j + 1) = xMat(i, j)
-            Next
-        Next
+        Dim raw(,) As Object = Nothing
+        Dim names() As String = Nothing
+        Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.InitializeResponsePredictorsPrepared(rowCount, totalCols, xCols, yName, predictorNames, yCol, xMat, raw, names)
 
         Dim nextCol As Integer = 1 + xCols
         names(nextCol) = If(String.IsNullOrWhiteSpace(clusterName), "ClusterID", clusterName)
@@ -377,26 +334,17 @@ Partial Friend Module UdfDataImport
         nextCol += 1
 
         If hasTime Then
-            names(nextCol) = If(String.IsNullOrWhiteSpace(timeName), "Time", timeName)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, nextCol) = timeCol(i, 0)
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.CopyNamedColumnPrepared(raw, names, rowCount, nextCol, timeName, "Time", timeCol)
             nextCol += 1
         End If
 
         If hasOffset Then
-            names(nextCol) = If(String.IsNullOrWhiteSpace(offsetName), "Offset", offsetName)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, nextCol) = offsetCol(i, 0)
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.CopyNamedColumnPrepared(raw, names, rowCount, nextCol, offsetName, "Offset", offsetCol)
             nextCol += 1
         End If
 
         If hasWeights Then
-            names(nextCol) = If(String.IsNullOrWhiteSpace(weightName), "Weight", weightName)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, nextCol) = weightCol(i, 0)
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.CopyNamedColumnPrepared(raw, names, rowCount, nextCol, weightName, "Weight", weightCol)
         End If
 
         Dim out As New geeData With {
@@ -450,35 +398,18 @@ Partial Friend Module UdfDataImport
         Dim xCols As Integer = xMat.GetLength(1)
         Dim totalCols As Integer = 1 + xCols + If(hasOffset, 1, 0) + If(hasWeights, 1, 0)
 
-        Dim raw(rowCount - 1, totalCols - 1) As Object
-        Dim names(totalCols - 1) As String
-
-        names(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
-        For i As Integer = 0 To rowCount - 1
-            raw(i, 0) = yCol(i, 0)
-        Next
-
-        For j As Integer = 0 To xCols - 1
-            names(j + 1) = predictorNames(j)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, j + 1) = xMat(i, j)
-            Next
-        Next
+        Dim raw(,) As Object = Nothing
+        Dim names() As String = Nothing
+        Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.InitializeResponsePredictorsPrepared(rowCount, totalCols, xCols, yName, predictorNames, yCol, xMat, raw, names)
 
         Dim nextCol As Integer = 1 + xCols
         If hasOffset Then
-            names(nextCol) = If(String.IsNullOrWhiteSpace(offsetName), "Offset", offsetName)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, nextCol) = offsetCol(i, 0)
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.CopyNamedColumnPrepared(raw, names, rowCount, nextCol, offsetName, "Offset", offsetCol)
             nextCol += 1
         End If
 
         If hasWeights Then
-            names(nextCol) = If(String.IsNullOrWhiteSpace(weightName), "Weight", weightName)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, nextCol) = weightCol(i, 0)
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.CopyNamedColumnPrepared(raw, names, rowCount, nextCol, weightName, "Weight", weightCol)
         End If
 
         Dim out As New glmData With {
@@ -522,21 +453,12 @@ Partial Friend Module UdfDataImport
         End If
 
         Dim totalCols As Integer = xCols + If(hasOffsetArg, 1, 0)
-        Dim raw(rowCount - 1, totalCols - 1) As Object
-        Dim names(totalCols - 1) As String
-
-        For j As Integer = 0 To xCols - 1
-            names(j) = expectedPredictorNames(j)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, j) = xMat(i, j)
-            Next
-        Next
+        Dim raw(,) As Object = Nothing
+        Dim names() As String = Nothing
+        Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.InitializePredictorsPrepared(rowCount, totalCols, xCols, expectedPredictorNames, xMat, raw, names)
 
         If hasOffsetArg Then
-            names(xCols) = If(String.IsNullOrWhiteSpace(offsetName), "Offset", offsetName)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, xCols) = offsetCol(i, 0)
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.CopyNamedColumnPrepared(raw, names, rowCount, xCols, offsetName, "Offset", offsetCol)
         End If
 
         Dim out As New glmData With {
@@ -583,32 +505,9 @@ Partial Friend Module UdfDataImport
         Dim xCols As Integer = xMat.GetLength(1)
         Dim totalCols As Integer = 2 + If(hasStrata, 1, 0) + xCols
 
-        Dim raw(rowCount - 1, totalCols - 1) As Object
-        Dim names(totalCols - 1) As String
-
-        names(0) = If(String.IsNullOrWhiteSpace(timeName), "Time", timeName)
-        names(1) = If(String.IsNullOrWhiteSpace(statusName), "Status", statusName)
-
-        For i As Integer = 0 To rowCount - 1
-            raw(i, 0) = timeCol(i, 0)
-            raw(i, 1) = statusCol(i, 0)
-        Next
-
-        Dim firstPredictorCol As Integer = 2
-        If hasStrata Then
-            names(2) = If(String.IsNullOrWhiteSpace(strataName), "Strata", strataName)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, 2) = strataCol(i, 0)
-            Next
-            firstPredictorCol = 3
-        End If
-
-        For j As Integer = 0 To xCols - 1
-            names(firstPredictorCol + j) = predictorNames(j)
-            For i As Integer = 0 To rowCount - 1
-                raw(i, firstPredictorCol + j) = xMat(i, j)
-            Next
-        Next
+        Dim raw(,) As Object = Nothing
+        Dim names() As String = Nothing
+        Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.InitializeCoxPrepared(rowCount, totalCols, xCols, timeName, statusName, strataName, predictorNames, timeCol, statusCol, strataCol, xMat, hasStrata, raw, names)
 
         Dim out As New CoxPHData With {
                 .bStrata = hasStrata
@@ -629,16 +528,7 @@ Partial Friend Module UdfDataImport
     ''' <returns>The zero-based last nonblank row index, or -1 when all rows are blank.</returns>
     Friend Function FindLastNonBlankRow(arr As Object(,)) As Integer
         If arr Is Nothing Then Return -1
-
-        For i As Integer = arr.GetLength(0) - 1 To 0 Step -1
-            For j As Integer = 0 To arr.GetLength(1) - 1
-                If Not IsBlankCell(arr(i, j)) Then
-                    Return i
-                End If
-            Next
-        Next
-
-        Return -1
+        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.FindLastNonBlankRow(arr.GetLength(0), arr.GetLength(1), Function(row, column) IsBlankCell(arr(row, column)))
     End Function
 
     ''' <summary>
@@ -649,11 +539,7 @@ Partial Friend Module UdfDataImport
     ''' <returns>True when the first row appears to be a header; otherwise, False.</returns>
     Friend Function HasNumericColumnHeader(arr As Object(,), lastRow As Integer) As Boolean
         If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False
-        If lastRow < 1 Then Return False
-        If IsBlankCell(arr(0, 0)) Then Return False
-        Dim firstIsNumeric As Boolean = TryGetDouble(arr(0, 0)).HasValue
-        Dim secondIsNumeric As Boolean = TryGetDouble(arr(1, 0)).HasValue
-        Return (Not firstIsNumeric) AndAlso secondIsNumeric
+        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.HasNumericColumnHeader(lastRow, arr.GetLength(1), Function(row, column) IsBlankCell(arr(row, column)), Function(row, column) TryGetDouble(arr(row, column)).HasValue)
     End Function
 
     ''' <summary>
@@ -664,12 +550,7 @@ Partial Friend Module UdfDataImport
     ''' <returns>True when the first row appears to be a header; otherwise, False.</returns>
     Friend Function HasBinaryColumnHeader(arr As Object(,), lastRow As Integer) As Boolean
         If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False
-        If lastRow < 1 Then Return False
-
-        Dim dummy As Integer
-        Dim firstIsBinary As Boolean = TryGetBinary01(arr(0, 0), dummy)
-        Dim secondIsBinary As Boolean = TryGetBinary01(arr(1, 0), dummy)
-        Return (Not firstIsBinary) AndAlso secondIsBinary
+        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.HasBinaryColumnHeader(lastRow, Function(row, column) IsBinaryCell38(arr(row, column)))
     End Function
 
     ''' <summary>
@@ -710,77 +591,17 @@ Partial Friend Module UdfDataImport
     ''' <returns>True when the first row appears to be a header; otherwise, False.</returns>
     Friend Function HasNumericMatrixHeader(arr As Object(,), lastRow As Integer) As Boolean
         If arr Is Nothing Then Return False
-        If lastRow < 1 Then Return False
-
-        Dim cols As Integer = arr.GetLength(1)
-        Dim anyNonBlankNonNumericFirstRow As Boolean = False
-        Dim anyNumericFirstRow As Boolean = False
-        For j As Integer = 0 To cols - 1
-            If IsBlankCell(arr(0, j)) Then Continue For
-
-            If TryGetDouble(arr(0, j)).HasValue Then
-                anyNumericFirstRow = True
-            Else
-                anyNonBlankNonNumericFirstRow = True
-            End If
-        Next
-
-        ' A real numeric-matrix header should look like labels, not like a data row
-        ' with one or more missing numeric values. This prevents explicit data ranges
-        ' whose first observation has missing values from being shortened before row-wise
-        ' complete-case filtering aligns y, x, subject, and visit.
-        If Not anyNonBlankNonNumericFirstRow Then Return False
-        If anyNumericFirstRow Then Return False
-
-        For j As Integer = 0 To cols - 1
-            If Not TryGetDouble(arr(1, j)).HasValue Then
-                Return False
-            End If
-        Next
-
-        Return True
+        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.HasNumericMatrixHeader(lastRow, arr.GetLength(1), Function(row, column) IsBlankCell(arr(row, column)), Function(row, column) TryGetDouble(arr(row, column)).HasValue)
     End Function
 
     Friend Function LooksLikeHeaderRow(arr As Object(,), numericCols As Integer()) As Boolean
-        Dim rows As Integer = arr.GetLength(0)
-        If rows < 2 Then Return False
-
-        Dim anyNonNumeric As Boolean = False
-        For Each c In numericCols
-            If Not TryGetDouble(arr(0, c)).HasValue Then
-                anyNonNumeric = True
-                Exit For
-            End If
-        Next
-        If Not anyNonNumeric Then Return False
-
-        For Each c In numericCols
-            Dim foundNumericBelow As Boolean = False
-            For r As Integer = 1 To rows - 1
-                If TryGetDouble(arr(r, c)).HasValue Then
-                    foundNumericBelow = True
-                    Exit For
-                End If
-            Next
-            If Not foundNumericBelow Then Return False
-        Next
-
-        Return True
+        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeHeaderRow(arr.GetLength(0), numericCols, Function(row, column) TryGetDouble(arr(row, column)).HasValue)
     End Function
 
     Friend Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean
         If arr Is Nothing Then Return False
         If arr.GetLength(1) <> 1 Then Return False
-
-        Dim rows As Integer = arr.GetLength(0)
-        If rows < 2 Then Return False
-        If TryGetDouble(arr(0, 0)).HasValue Then Return False
-
-        For r As Integer = 1 To rows - 1
-            If TryGetDouble(arr(r, 0)).HasValue Then Return True
-        Next
-
-        Return False
+        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeSingleColumnHeader(arr.GetLength(0), Function(row, column) TryGetDouble(arr(row, column)).HasValue)
     End Function
 
     Friend Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
@@ -815,25 +636,10 @@ Partial Friend Module UdfDataImport
         Dim startRowX As Integer = If(hasHeaderX, 1, 0)
         Dim startRowY As Integer = If(hasHeaderY, 1, 0)
 
-        Dim gx As New List(Of Double)
-        For r As Integer = startRowX To ax.GetLength(0) - 1
-            Dim d = TryGetDouble(ax(r, 0))
-            If d.HasValue Then gx.Add(d.Value)
-        Next
-
-        Dim gy As New List(Of Double)
-        For r As Integer = startRowY To ay.GetLength(0) - 1
-            Dim d = TryGetDouble(ay(r, 0))
-            If d.HasValue Then gy.Add(d.Value)
-        Next
-
-        groups = New Double()() {gx.ToArray(), gy.ToArray()}
-        names = New String() {
-            If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Group 1"),
-            If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Group 2")
-        }
-
-        Return True
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryReadIndependentNumericColumnsPrepared(
+            ax.GetLength(0), ay.GetLength(0), startRowX, startRowY, hasHeaderX, hasHeaderY,
+            Function(row) TryGetDouble(ax(row, 0)), Function(row) TryGetDouble(ay(row, 0)),
+            Function() Convert.ToString(ax(0, 0)).Trim(), Function() Convert.ToString(ay(0, 0)).Trim(), groups, names)
     End Function
 
     Friend Function TryReadPairedNumericColumns(x As Object, y As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
@@ -858,11 +664,7 @@ Partial Friend Module UdfDataImport
         Dim pairs As List(Of Double()) = ExtractCompletePairedNumericRows(ax, ay)
         If pairs.Count = 0 Then Return True
 
-        mat = New Double(pairs.Count - 1, 1) {}
-        For r As Integer = 0 To pairs.Count - 1
-            mat(r, 0) = pairs(r)(0)
-            mat(r, 1) = pairs(r)(1)
-        Next
+        mat = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.RowsToMatrix(pairs, 2)
         Return True
     End Function
 
@@ -916,13 +718,8 @@ Partial Friend Module UdfDataImport
             Return Array.Empty(Of Double)()
         End If
 
-        Dim values As New List(Of Double)(arr.GetLength(0))
-        For r As Integer = 0 To arr.GetLength(0) - 1
-            Dim d As Double? = TryGetDouble(arr(r, 0))
-            If d.HasValue Then values.Add(d.Value)
-        Next
-
-        Return values.ToArray()
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.ReadFiniteColumn(
+            arr.GetLength(0), 0, Function(row) TryGetDouble(arr(row, 0)), initialCapacity:=arr.GetLength(0))
     End Function
 
     Friend Function ExtractPairedNumericColumnsIgnoringNonNumeric(x As Object, y As Object, ByRef err As ExcelError?) As Double(,)
@@ -947,13 +744,7 @@ Partial Friend Module UdfDataImport
         Dim pairs As List(Of Double()) = ExtractCompletePairedNumericRows(ax, ay)
         If pairs.Count = 0 Then Return Nothing
 
-        Dim out(pairs.Count - 1, 1) As Double
-        For i As Integer = 0 To pairs.Count - 1
-            out(i, 0) = pairs(i)(0)
-            out(i, 1) = pairs(i)(1)
-        Next
-
-        Return out
+        Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.RowsToMatrix(pairs, 2)
     End Function
 
     Friend Function ExtractNumericGroupsFromColumnsIgnoringNonNumeric(arg As Object, ByRef err As ExcelError?) As Double()()
@@ -978,93 +769,26 @@ Partial Friend Module UdfDataImport
         mat = Nothing
         noRows = 0
         noCols = 0
-
         Dim arr As Object(,) = Get2D(input)
         If arr Is Nothing Then Return False
-
         Dim r As Integer = arr.GetLength(0)
         Dim c As Integer = arr.GetLength(1)
         If c < 2 Then Return False
-
-        Dim rows As New List(Of Double())()
-
-        For i As Integer = 0 To r - 1
-            Dim rowVals(c - 1) As Double
-            Dim ok As Boolean = True
-
-            For j As Integer = 0 To c - 1
-                Dim d As Double? = TryGetDouble(arr(i, j))
-                If Not d.HasValue Then
-                    ok = False
-                    Exit For
-                End If
-                rowVals(j) = d.Value
-            Next
-
-            If ok Then rows.Add(rowVals)
-        Next
-
-        noRows = rows.Count
-        noCols = c
-        If noRows < 2 Then Return True
-
-        mat = New Double(noRows - 1, c - 1) {}
-        For i As Integer = 0 To noRows - 1
-            For j As Integer = 0 To c - 1
-                mat(i, j) = rows(i)(j)
-            Next
-        Next
-
-        Return True
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.ExtractCompleteNumericMatrixCompleteCasesPrepared(
+            r, c, Function(row, column) TryGetDouble(arr(row, column)), mat, noRows, noCols)
     End Function
 
     Friend Function TryReadCompleteNumericMatrixWithHeaders(input As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
         mat = Nothing
         names = Nothing
-
         Dim arr As Object(,) = Get2D(input)
         If arr Is Nothing Then Return False
-
         Dim rows As Integer = arr.GetLength(0)
         Dim cols As Integer = arr.GetLength(1)
         If rows < 1 OrElse cols < 2 Then Return False
-
-        Dim numericCols As Integer() = Enumerable.Range(0, cols).ToArray()
-        Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, numericCols)
-        Dim startRow As Integer = If(hasHeader, 1, 0)
-
-        names = New String(cols - 1) {}
-        For c As Integer = 0 To cols - 1
-            names(c) = If(hasHeader, Convert.ToString(arr(0, c)).Trim(), "Condition " & (c + 1).ToString())
-        Next
-
-        Dim keepRows As New List(Of Double())()
-        For r As Integer = startRow To rows - 1
-            Dim row(cols - 1) As Double
-            Dim ok As Boolean = True
-
-            For c As Integer = 0 To cols - 1
-                Dim d As Double? = TryGetDouble(arr(r, c))
-                If Not d.HasValue Then
-                    ok = False
-                    Exit For
-                End If
-                row(c) = d.Value
-            Next
-
-            If ok Then keepRows.Add(row)
-        Next
-
-        If keepRows.Count < 1 Then Return False
-
-        mat = New Double(keepRows.Count - 1, cols - 1) {}
-        For r As Integer = 0 To keepRows.Count - 1
-            For c As Integer = 0 To cols - 1
-                mat(r, c) = keepRows(r)(c)
-            Next
-        Next
-
-        Return True
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryReadCompleteNumericMatrixWithHeadersPrepared(
+            rows, cols, Function(row, column) TryGetDouble(arr(row, column)),
+            Function(row, column) Convert.ToString(arr(row, column)).Trim(), mat, names)
     End Function
 
     ''' <summary>

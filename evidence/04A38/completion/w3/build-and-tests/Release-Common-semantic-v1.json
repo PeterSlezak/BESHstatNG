@@ -1,0 +1,35 @@
+{
+  "suite": "Common",
+  "part": "semantic",
+  "name": "w3R-Common-semantic",
+  "outcomes": {
+    "Passed": 15
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-Common-semantic/cases.json",
+    "bytes": 6366,
+    "sha256": "99220d330b1445d096c1dc7d82208e0e6708e77ad033b1d63f1a78707fbccd36"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-Common-semantic/results/Common.trx",
+    "bytes": 23735,
+    "sha256": "da3078fd5f2e05e2edf67af7663f858802f0a82f7100a8facba44415fca9a452"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3R-Common-semantic\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+      "/Settings:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3R-Common-semantic\\serial.runsettings",
+      "/ResultsDirectory:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3R-Common-semantic\\results",
+      "/Logger:trx;LogFileName=Common.trx",
+      "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests"
+    ],
+    "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+    "exit_code": 0,
+    "seconds": 2.0243955999903847,
+    "stdout_sha256": "d926474a14cd0ca73072fb394bb5cef105b2645871f079273539bbcfcbd55ff9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

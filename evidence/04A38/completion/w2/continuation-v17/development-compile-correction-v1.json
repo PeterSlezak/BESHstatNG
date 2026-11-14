@@ -1,0 +1,51 @@
+{
+  "corrections": [
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/development-v1-correction-before/BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 16325,
+        "sha256": "c45dc91926f47ef6f134591cf11b07c68017eee8720d16a71eef3ba69b22885e"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 16433,
+        "sha256": "fa9c6b835936fcfa6b9aad0e01eae689a4165780b6530fa84947e6819876ed75"
+      }
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/development-v1-correction-before/BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+        "bytes": 22335,
+        "sha256": "da4248b32230ba56c96ecd677baca0d342b5d40145cf74b9e56b56b3214592c8"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+        "bytes": 22443,
+        "sha256": "dbe91e80df73863054e6dc966f4ddbc8044ded70ccc2901dded19537f9849941"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/development-v1-correction-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+        "bytes": 6999,
+        "sha256": "ad947421d770dfdb37559d55b2485e0d5fca7f04e11b5b20eb5c599a2c33a729"
+      },
+      "after": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+        "bytes": 7013,
+        "sha256": "b5cfeedf89941f8d01338620bd4fa1cd5ad5442602c45645b16b1d66adac26c4"
+      }
+    }
+  ],
+  "reason": "Fully qualify the existing Core regression namespace in value contexts that collide with the Common Regression plotting function; pass the two already-computed native nRows locals explicitly. No formula or conversion policy changes.",
+  "failed_build": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/build-development-v1-Debug.json",
+    "bytes": 2702,
+    "sha256": "b132da3b4c22432652730f0c5e9014c774fa0921631d4850d531a07bf57f1e48"
+  },
+  "tests_run": false,
+  "original_queries": 0
+}

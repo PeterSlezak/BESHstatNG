@@ -1,0 +1,36 @@
+ing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim test = New KruskallWalis(data, names)
+                test.compute()
+                test.MCP(alphaValue)
+
+                Dim tables = test.wrapResults()
+                Return PrepareResultTableForUdf(tables(1))
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+        End Function
+
+        ' -------------------------------------------------------------------------------------------------------------
+        ' Friedman multiple comparisons
+        ' -------------------------------------------------------------------------------------------------------------
+
+        ''' <summary>
+        ''' Post-hoc multiple comparisons following a Friedman test.
+        ''' </summary>
+        ''' <param name="data">
+        ''' Numeric matrix where rows are blocks/subjects and columns are treatments/conditions.
+        ''' Rows containing any missing or non-numeric value are excluded so that the remaining matrix is complete.
+        ''' If the first row contains non-numeric labels, it is treated as a header row and used as condition names.
+        ''' </param>
+        ''' <param name="conditionNames">
+        ''' Optional condition names supplied as a comma-separated string or as a one-row/one-column range.
+        ''' </param>
+        ''' <param n

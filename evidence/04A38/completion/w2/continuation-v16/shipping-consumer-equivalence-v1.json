@@ -1,0 +1,74 @@
+{
+  "status": "EXACT_DEBUG_METHOD_SIGNATURE_CIL_TYPE_EQUIVALENCE",
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\completion-w2-cont15\\signatures-v1\\MethodMetadata38.exe",
+      "<ISOLATED_RUN>\\builds\\w2c16-checkpoint-v1\\Debug\\legacy",
+      "<ISOLATED_RUN>\\completion-w2-cont16\\managed-shipping-v1\\current-Debug.json",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v16\\native-metadata-owners-v1.txt"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 6.211884100004681,
+    "stdout_sha256": "9156f9f814bfb0eedb4f31bfdd713b176a80acc4c11f85071c45ccf5c7274533",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "method_count": 14965,
+  "production_metadata": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/final-v5/current-Debug.json",
+    "bytes": 76047830,
+    "sha256": "0c7238faaa80c662f97f47fd3082f0e83a7aff15f02d4a9bc8dbe7dfb4524f3d"
+  },
+  "managed_shipping_metadata": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont16/managed-shipping-v1/current-Debug.json",
+    "bytes": 76047830,
+    "sha256": "730610c3dd214a44d48562288c7abf58309e02b32afda384daac1af94ed65072"
+  },
+  "production_libraries": [
+    {
+      "name": "BESHStatNG.dll",
+      "bytes": 2639360,
+      "sha256": "065bf9d4c3b5405564a0774d38f218f5d12bd15e1e575a168e79688d3cc5a992"
+    },
+    {
+      "name": "BESHStat.Core.dll",
+      "bytes": 2088448,
+      "sha256": "e178dcbdf94c45ca2aefb2244c3d23100c9f20f9ec9622cd1eb7e0c6a204869e"
+    },
+    {
+      "name": "BESHStat.Excel.Common.dll",
+      "bytes": 1185280,
+      "sha256": "f7f0218e4f896f72348ef1c4c80e457b3b80981a55a6ce1f39bc71178e4ee0be"
+    }
+  ],
+  "managed_shipping_libraries": [
+    {
+      "path": ".test-rationalization-04A38.tmp/builds/w2c16-checkpoint-v1/Debug/legacy/BESHStatNG.dll",
+      "bytes": 2639360,
+      "sha256": "6ccea143be7d30040be8f8631a67d91cde3e9be01986d579c9ba979ffc88b53c"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/builds/w2c16-checkpoint-v1/Debug/legacy/BESHStat.Core.dll",
+      "bytes": 2088448,
+      "sha256": "4d05456c6c782ea7a02582417791f18c290cd7d14302d88ec02ca2120dd7fb8b"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/builds/w2c16-checkpoint-v1/Debug/legacy/BESHStat.Excel.Common.dll",
+      "bytes": 1185280,
+      "sha256": "97fb5816ceea5ad64b92e937b7f92d5eb979a53b0496502046de000508a4ff25"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/builds/w2c16-checkpoint-v1/Debug/legacy/BESHStatNG.Test.dll",
+      "bytes": 2060288,
+      "sha256": "8cbdf7cc0587a2a7a8fdb644e75fd1c7100d2d8ce14b2a91524a922b025fb344"
+    }
+  ],
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/production-test-freeze-v3.json",
+    "bytes": 18284,
+    "sha256": "67db8a9ea651472a6e9ab0b633ad1f63925e0468f5629876c4a848e8b010b11c"
+  },
+  "original_queries": 0,
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+}

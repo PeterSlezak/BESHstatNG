@@ -1,0 +1,26 @@
+{
+  "preimage": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/source-before-focused-fix-v2/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+    "bytes": 70057,
+    "sha256": "0e70534b047119058a8ef2ea008a84d06b0a16c29ccb98208d4122af44ce11d9"
+  },
+  "after": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 70275,
+    "sha256": "ee9d90084af6da179f5bc9e067d1ea3f14276ae64b2555013661437006c00969"
+  },
+  "authorities": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "bytes": 39624,
+      "sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+      "bytes": 41172,
+      "sha256": "0da6d51a7aee49b750d4208810834aeb17d0504f72aaef1186f610758bca9288"
+    }
+  ],
+  "reason": "Original text-strata trimming skips a header only for a full-column ExcelReference, not an ordinary object matrix. Assert headered object strata rejection/reset, then supply unheadered strata and retain all type/order assertions. Only newly appended test changed.",
+  "original_queries": 0
+}

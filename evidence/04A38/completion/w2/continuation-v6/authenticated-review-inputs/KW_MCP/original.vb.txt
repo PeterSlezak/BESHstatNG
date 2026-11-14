@@ -1,0 +1,31 @@
+<ExcelFunction(
+            Name:="BESH.NP.KW_MCP",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Kruskal-Wallis post-hoc multiple comparisons (Dunn test).",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/")>
+        Public Function KW_MCP(
+            <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha parameter reserved for API consistency; currently no CI is reported.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim test = New KruskallWalis(data, names)
+                test.compute()
+                test.MCP(alphaValue)
+
+                Dim tables = test.wrapResults()
+                Return PrepareResultTableForUdf(tables(1))
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+        End Function

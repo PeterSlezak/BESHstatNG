@@ -1,0 +1,6 @@
+                             ByRef err As ExcelError?) As Double(,)
+        Return ExtractPairedNumericColumnsIgnoringNonNumeric(x, y, err)
+    End Function
+
+    ''' <summary>
+    ''' Imports grouped wide-column samples for legacy nonparametric UDFs, ignoring non-numeric c

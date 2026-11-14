@@ -1,0 +1,71 @@
+{
+  "records": [
+    {
+      "tool": "python",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "--version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.027861999988090247,
+        "stdout_sha256": "9fc9968e3ae8d82284d7426a87e1426e07246027c7706b0803a1c8d9c60c7a4d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "output": "Python 3.14.7\n"
+    },
+    {
+      "tool": "dotnet",
+      "receipt": {
+        "command": [
+          "dotnet",
+          "--info"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3614379999926314,
+        "stdout_sha256": "2445435f5a93be4f509272289eb7d3140a67af125143073f050213088a32ec9d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "output": ".NET SDK:\n Version:           10.0.403\n Commit:            5a2162bea6\n Workload version:  10.0.400-manifests.899c35d8\n MSBuild version:   18.9.15+5a2162bea\n\nRuntime Environment:\n OS Name:     Windows\n OS Version:  10.0.26300\n OS Platform: Windows\n RID:         win-x64\n Base Path:   <PROGRAM_FILES>/dotnet\\sdk\\10.0.403\\\n\n.NET workloads installed:\n [wasm-tools]\n   Installation Source: VS 18.11.12324.101\n   Manifest Version:    10.0.114/10.0.100\n   Manifest Path:       <PROGRAM_FILES>/dotnet\\sdk-manifests\\10.0.100\\microsoft.net.workload.mono.toolchain.current\\10.0.114\\WorkloadManifest.json\n   Install Type:              Msi\n\nConfigured to use workload sets when installing new manifests.\nNo workload sets are installed. Run \"dotnet workload restore\" to install a workload set.\n\nHost:\n  Version:      10.0.14\n  Architecture: x64\n  Commit:       0427b9abbe\n\n.NET SDKs installed:\n  10.0.403 [<PROGRAM_FILES>/dotnet\\sdk]\n\n.NET runtimes installed:\n  Microsoft.AspNetCore.App 8.0.33 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.22 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.14 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.AspNetCore.App]\n  Microsoft.NETCore.App 8.0.33 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.22 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.1 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.14 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.NETCore.App]\n  Microsoft.WindowsDesktop.App 8.0.33 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 9.0.22 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.1 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.14 [<PROGRAM_FILES>/dotnet\\shared\\Microsoft.WindowsDesktop.App]\n\nOther architectures found:\n  x86   [<PROGRAM_FILES>/dotnet]\n    registered at [HKLM\\SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\InstallLocation]\n\nEnvironment variables:\n  DOTNET_CLI_TELEMETRY_OPTOUT              [1]\n  DOTNET_CLI_UI_LANGUAGE                   [en-US]\n  DOTNET_GCCONCURRENT                      [0]\n  DOTNET_GCHEAPCOUNT                       [2]\n  DOTNET_GCNOAFFINITIZE                    [1]\n  DOTNET_MULTILEVEL_LOOKUP                 [0]\n  DOTNET_SKIP_FIRST_TIME_EXPERIENCE        [1]\n  DOTNET_TC_CALLCOUNTTHRESHOLD             [1000]\n  DOTNET_THREADPOOL_UNFAIRSEMAPHORESPINLIMIT [0]\n  Detected COMPlus_* environment variable(s). Consider transitioning to DOTNET_* equivalent.\n\nglobal.json file:\n  Not found\n\nLearn more:\n  https://aka.ms/dotnet/info\n\nDownload .NET:\n  https://aka.ms/dotnet/download\n"
+    },
+    {
+      "tool": "node",
+      "receipt": {
+        "command": [
+          "node",
+          "--version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.04309689998626709,
+        "stdout_sha256": "a18ba454716b5449eabf6c34a4418c2678b600d8c81c01d5ca876f529ea4d626",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "output": "v24.20.0\n"
+    },
+    {
+      "tool": "csc",
+      "receipt": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.12154910000390373,
+        "stdout_sha256": "7406614a03a42a443b7ee76bfccc8bb331d96c697f39921348f7b726f2458704",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "output": "5.11.0-1.26424.5 (fcacacf82e2055472a6ec4060a4be88ebc0e1acf)\n"
+    }
+  ],
+  "targets": "Unchanged:netstandard2.0 portable;.NETFramework4.8 Windows",
+  "restore": "NOT_RUN",
+  "wrapper": "scripts/verify-beshstatng.ps1 inspected; offline explicit lanes used because implicit restore/shared outputs/Legacy packaging are not authorized"
+}

@@ -1,0 +1,12 @@
+Friend Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean
+            value = -1
+
+            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then
+                Return False
+            End If
+
+            Dim d As Double? = ExcelArgNumeric.TryGetDouble(cell)
+            Dim logicalValue As Boolean? = Nothing
+            If TypeOf cell Is Boolean Then logicalValue = CBool(cell)
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryBinaryPrepared(d, logicalValue, value)
+        End Function

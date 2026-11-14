@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name="__main__")
+                                                                                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "<REPO_ROOT>\evidence\04A38\completion\w3\compatibility\execute-v1.py", line 42, in <module>
+    exec(compile(source,str(output),'exec'),dict(__name__='__main__',__file__=str(output)))
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REPO_ROOT>\evidence\04A38\completion\w3\compatibility\recorder-driver-Debug-v1.py", line 52, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "<REPO_ROOT>\evidence\04A38\completion\w3\compatibility\recorder-driver-Debug-v1.py", line 49, in main
+    save('compatibility-'+stage+'.json',dict(status='CURRENT_ONLY_FROZEN_COMPARISONS',compilation=compiled,results=results,all_exact=all(r['exact'] for r in results),totals_per_configuration={c:sum(r['cases'] for r in results if r['configuration']==c) for c in ['Debug']},new_original_queries=0,Release_compilation=DEFERRED,Release_ABI_CIL_exports=DEFERRED,Release_unit_suites=DEFERRED,Release_frozen_compatibility=DEFERRED,source_freeze=pin(HERE/'production-test-freeze-v1.json'),native='NOT_RUN',science='NOT_GOLDEN'))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                      ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<REPO_ROOT>\evidence\04A38\completion\w3\common.py", line 32, in pin
+    with p.open('rb') as f: digest=hashlib.file_digest(f,'sha256').hexdigest()
+         ~~~~~~^^^^^^
+  File "<PRIVATE_HOME>\Desktop\WPy64-31470\python\Lib\pathlib\__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<PRIVATE_HOME>\\source\\repos\\BESHstatNG\\evidence\\04A38\\completion\\w3\\compatibility\\production-test-freeze-v1.json'

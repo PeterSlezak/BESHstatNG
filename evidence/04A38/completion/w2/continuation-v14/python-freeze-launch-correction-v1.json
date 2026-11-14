@@ -1,0 +1,31 @@
+{
+  "first_inventory": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/python-scan-input-freeze-v1.json",
+    "bytes": 1334514,
+    "sha256": "d7a193686568bdf63b52d5b31882dc986e4850f4d3556004e410e5836944a8dc"
+  },
+  "source_before": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/freeze_python_inputs_v1.py",
+    "bytes": 1097,
+    "sha256": "c91942f7ffe1f10914b627a7859035efd85de826b9a2437087423fc4fc017d6d"
+  },
+  "source_after": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/freeze_python_inputs_v2.py",
+    "bytes": 1097,
+    "sha256": "efa6e5784fb5dd92a173f23dc343acedaa0722e3b87b2b5c94f1c78b16d973fe"
+  },
+  "run_before": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/run_python_v1.py",
+    "bytes": 763,
+    "sha256": "009c04dddaa944dd93956769b0175ce57a1065f9957641ab49141fa242f5c861"
+  },
+  "run_after": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/run_python_v2.py",
+    "bytes": 818,
+    "sha256": "67f9b92ee5345f67eb12d379c501d8950e4aa0b6092665e034e007957d85452f"
+  },
+  "failed_launch": "Direct run_python_v1.py was launched before the asynchronous inventory writer finished. It rejected missing inventory before starting a single Python parent; exact traceback remains in tool history.",
+  "reason": "The outer generic bookkeeping runner also adds an execution receipt after an inventory writer exits. Preserve v1 and freeze v2 only after all pre-campaign public files exist, using the direct writer with no post-freeze public receipt. The actual campaign has not begun and will run once.",
+  "parent_tests_executed": 0,
+  "original_queries": 0
+}

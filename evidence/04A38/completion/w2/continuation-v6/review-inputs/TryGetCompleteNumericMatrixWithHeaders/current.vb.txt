@@ -1,0 +1,7 @@
+      ByRef mat As Double(,),
+                                                           ByRef names() As String) As Boolean
+        Return TryReadCompleteNumericMatrixWithHeaders(input, mat, names)
+    End Function
+
+    ''' <summary>
+    ''' Imports a single numeric column, preserving row alignment by returning Double.NaN for invalid/non-num

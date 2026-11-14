@@ -1,0 +1,48 @@
+{
+  "result": {
+    "status": "FRESH_RETAINED_METHOD_FIELD_STATIC_GENERIC_CONTEXT_PASS_NOT_READY",
+    "configurations": [
+      {
+        "configuration": "Debug",
+        "existing_current_methods_exact": 1628,
+        "existing_types_exact": 162,
+        "changed_methods": [
+          "BESHStatNG.UdfLinearAlgebra::TryInvertMatrix",
+          "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38::TryInvertMatrix",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_MCP",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_WELCH"
+        ],
+        "prior_whole_CIL_proofs_exact": 39
+      },
+      {
+        "configuration": "Release",
+        "existing_current_methods_exact": 1628,
+        "existing_types_exact": 162,
+        "changed_methods": [
+          "BESHStatNG.UdfLinearAlgebra::TryInvertMatrix",
+          "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38::TryInvertMatrix",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_MCP",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_WELCH"
+        ],
+        "prior_whole_CIL_proofs_exact": 39
+      }
+    ],
+    "raw_IL_metadata_tokens": "Raw hashes retained; only token-bearing raw hash excluded from semantic equality. All resolved instructions/operands/branches/locals/EH/params/fields/initializers remain mandatory.",
+    "original_queries": 0
+  },
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\verify_retained.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.8922683999990113,
+    "stdout_sha256": "82f758c3723dd568d5a157eaa9623a20254e58001a5465be17310da237382579",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

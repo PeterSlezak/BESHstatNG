@@ -218,29 +218,7 @@ Namespace WorksheetFunctions
                 Dim fitColCount As Integer = If(fitVarNames Is Nothing, 0, fitVarNames.Length)
                 If fitX Is Nothing OrElse fitColCount < 1 Then Return ExcelError.ExcelErrorValue
 
-                Dim records As New List(Of survival.SurvivalRecord)(rowCount)
-                For i As Integer = 0 To rowCount - 1
-                    Dim rec As New survival.SurvivalRecord()
-                    rec.Time = imported.TimeData(i)
-                    rec.Censorship = imported.CensorData(i)
-                    rec.Index = imported.RowIds(i)
-
-                    Dim cov(fitColCount - 1) As Double
-                    For j As Integer = 0 To fitColCount - 1
-                        cov(j) = fitX(i, j)
-                    Next
-                    rec.Covariates = cov
-
-                    If imported.bStrata Then
-                        rec.Stratum = imported.StrataData(i)
-                        rec.strStratum = imported.StrataData(i)
-                    Else
-                        rec.Stratum = "__ALL__"
-                        rec.strStratum = "__ALL__"
-                    End If
-
-                    records.Add(rec)
-                Next
+                Dim records As List(Of survival.SurvivalRecord) = Global.BESHStatNG.ExcelCommon.UdfCoxInputPreparation38.PrepareRecords(imported, rowCount, fitColCount, fitX)
 
                 If records.Count < 3 Then Return ExcelError.ExcelErrorNum
 
@@ -344,46 +322,7 @@ Namespace WorksheetFunctions
 
             Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
             Dim p As Integer = h.VarNames.Length
-            Dim rows As Integer = If(hdr, p + 1, p)
-            Dim out(rows - 1, 7) As Object
-
-            Dim r0 As Integer = 0
-            If hdr Then
-                out(0, 0) = "Variable"
-                out(0, 1) = "Coef"
-                out(0, 2) = "SE"
-                out(0, 3) = "Z"
-                out(0, 4) = "P-value"
-                out(0, 5) = "HR"
-                out(0, 6) = "HR " & ciPct & " LCL"
-                out(0, 7) = "HR " & ciPct & " UCL"
-                r0 = 1
-            End If
-
-            For i As Integer = 0 To p - 1
-                Dim beta As Double = h.Result.Coefficients(i)
-                Dim se As Double
-                If h.Robust AndAlso h.Result.VarCovRobust IsNot Nothing AndAlso h.Result.VarCovRobust.GetLength(0) = p Then
-                    se = Math.Sqrt(h.Result.VarCovRobust(i, i))
-                Else
-                    se = Math.Sqrt(h.Result.VarCov(i, i))
-                End If
-
-                Dim z As Double = beta / se
-                Dim pv As Double = 2.0 * distributions.PNorm(-Math.Abs(z))
-                Dim hr As Object = ExpForDisplay(beta)
-                Dim lcl As Object = ExpForDisplay(beta - zCrit * se)
-                Dim ucl As Object = ExpForDisplay(beta + zCrit * se)
-
-                out(r0 + i, 0) = h.VarNames(i)
-                out(r0 + i, 1) = beta
-                out(r0 + i, 2) = se
-                out(r0 + i, 3) = z
-                out(r0 + i, 4) = pv
-                out(r0 + i, 5) = hr
-                out(r0 + i, 6) = lcl
-                out(r0 + i, 7) = ucl
-            Next
+            Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxSummaryTable(hdr, p, h.VarNames, h.Result, h.Robust, zCrit, ciPct, AddressOf ExpForDisplay)
 
             Return PreparePValueTableForUdf(out, 5)
         End Function
@@ -524,49 +463,7 @@ Namespace WorksheetFunctions
                     End If
                 End If
 
-                Dim nRows As Integer = If(hdr, 7, 5)
-                Dim out(nRows - 1, 3) As Object
-                Dim r As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Item"
-                    out(0, 1) = "Value"
-                    out(0, 2) = "df"
-                    out(0, 3) = "P-value"
-                    r = 1
-                End If
-
-                out(r + 0, 0) = "Likelihood-ratio chi-square"
-                out(r + 0, 1) = lr
-                out(r + 0, 2) = p
-                out(r + 0, 3) = lrP
-
-                out(r + 1, 0) = "Wald chi-square"
-                out(r + 1, 1) = wald
-                out(r + 1, 2) = p
-                out(r + 1, 3) = waldP
-
-                out(r + 2, 0) = "Log-likelihood (null)"
-                out(r + 2, 1) = If(Not Double.IsNaN(h.Result.LogLikelihoodNull) AndAlso Not Double.IsInfinity(h.Result.LogLikelihoodNull), CType(h.Result.LogLikelihoodNull, Object), ExcelError.ExcelErrorNA)
-                out(r + 2, 2) = ""
-                out(r + 2, 3) = ""
-
-                out(r + 3, 0) = "Log-likelihood (fitted)"
-                out(r + 3, 1) = If(Not Double.IsNaN(h.Result.LogLikelihood) AndAlso Not Double.IsInfinity(h.Result.LogLikelihood), CType(h.Result.LogLikelihood, Object), ExcelError.ExcelErrorNA)
-                out(r + 3, 2) = ""
-                out(r + 3, 3) = ""
-
-                out(r + 4, 0) = "Iterations"
-                out(r + 4, 1) = h.Result.Iterations
-                out(r + 4, 2) = ""
-                out(r + 4, 3) = ""
-
-                If hdr Then
-                    out(r + 5, 0) = "Converged"
-                    out(r + 5, 1) = h.Result.Converged
-                    out(r + 5, 2) = ""
-                    out(r + 5, 3) = ""
-                End If
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxTestsTable(hdr, p, h.Result, lr, lrP, wald, waldP, ExcelError.ExcelErrorNA)
 
                 Return PreparePValueTableForUdf(out, 4)
 
@@ -631,22 +528,8 @@ Namespace WorksheetFunctions
                 If d Is Nothing OrElse d.Count = 0 Then Return ExcelError.ExcelErrorNA
                 Dim keys = d.Keys.OrderBy(Function(x) x).ToList()
                 Dim width As Integer = d(keys(0)).Length
-                Dim out(keys.Count, width) As Object
-                out(0, 0) = "Row ID"
-                If width = 1 Then
-                    out(0, 1) = ResidualLabel(rt)
-                Else
-                    For j As Integer = 0 To width - 1
-                        out(0, j + 1) = If(j < h.VarNames.Length, h.VarNames(j), "V" & (j + 1).ToString())
-                    Next
-                End If
-                For i As Integer = 0 To keys.Count - 1
-                    out(i + 1, 0) = keys(i)
-                    Dim vals = d(keys(i))
-                    For j As Integer = 0 To vals.Length - 1
-                        out(i + 1, j + 1) = vals(j)
-                    Next
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxResidualTable(d, keys, width, h.VarNames, rt)
+
                 Return out
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.SURV.COX_RESID", ex)
@@ -716,30 +599,14 @@ Namespace WorksheetFunctions
                         total += arr.GetLength(0)
                     End If
                 Next
-                Dim cols As Integer = If(tp = "survival" OrElse tp = "cumhaz", 3, 4)
-                Dim out(total - 1, cols - 1) As Object
-                If cols = 4 Then
-                    out(0, 0) = "Stratum" : out(0, 1) = "Time" : out(0, 2) = "Survival" : out(0, 3) = "CumHazard"
-                Else
-                    out(0, 0) = "Stratum" : out(0, 1) = "Time" : out(0, 2) = If(tp = "survival", "Survival", "CumHazard")
-                End If
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateCoxBaselineTable(total, tp)
+
                 Dim r As Integer = 1
                 For Each kv In base
                     Dim arr As Double(,) = kv.Value
                     If tp = "plot" Then arr = h.Model.BaseSurvivalForPloting(arr)
-                    For i As Integer = 0 To arr.GetLength(0) - 1
-                        out(r, 0) = Convert.ToString(kv.Key)
-                        out(r, 1) = arr(i, 0)
-                        If tp = "survival" Then
-                            out(r, 2) = arr(i, 1)
-                        ElseIf tp = "cumhaz" OrElse tp = "hazard" Then
-                            out(r, 2) = arr(i, 2)
-                        Else
-                            out(r, 2) = arr(i, 1)
-                            out(r, 3) = arr(i, 2)
-                        End If
-                        r += 1
-                    Next
+                    Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.AppendCoxBaselineRows(out, arr, kv.Key, tp, r)
+
                 Next
                 Return out
             Catch ex As Exception
@@ -983,34 +850,15 @@ Namespace WorksheetFunctions
         End Function
 
         Private Function ParseResidualType(v As Object) As ResidualType
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return ResidualType.Martingale
-            Select Case s.Trim().ToLowerInvariant()
-                Case "martingale" : Return ResidualType.Martingale
-                Case "deviance" : Return ResidualType.Deviance
-                Case "schoenfeld" : Return ResidualType.Schoenfeld
-                Case "dfbeta" : Return ResidualType.Dfbeta
-                Case Else : Return ResidualType.Martingale
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.CoxUDFsOptions38.ParseResidualType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         Private Function ResidualLabel(rt As ResidualType) As String
-            Select Case rt
-                Case ResidualType.Martingale : Return "Martingale"
-                Case ResidualType.Deviance : Return "Deviance"
-                Case ResidualType.Schoenfeld : Return "Schoenfeld"
-                Case ResidualType.Dfbeta : Return "Dfbeta"
-                Case Else : Return "Residual"
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.CoxUDFsMetadata38.ResidualLabel(rt)
         End Function
 
         Private Function LookupStepValue(arr As Double(,), t As Double, col As Integer) As Double
-            Dim last As Double = If(col = 1, 1.0, 0.0)
-            For i As Integer = 0 To arr.GetLength(0) - 1
-                If arr(i, 0) > t Then Exit For
-                last = arr(i, col)
-            Next
-            Return last
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.LookupStepValue(arr, t, col)
         End Function
     End Module
 

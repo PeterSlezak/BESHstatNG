@@ -1,0 +1,91 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/publish_v2.py",
+    "bytes": 7844,
+    "sha256": "da13cbfba34d3f1eaeffb1df0449e7ef9d0ff03dad273087baaf76ff40568484"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/publish_v3.py",
+    "bytes": 7971,
+    "sha256": "c595ada53461c36c4f26f751c8efc23f0f25c5dd70e1851134c9a27cfd2352f3"
+  },
+  "included_GUI_sources": [
+    {
+      "current": {
+        "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+        "bytes": 38354,
+        "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+      },
+      "original_git_sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22",
+      "normalization": "FULL_UTF8_CRLF_LF_ONLY",
+      "calls": [
+        {
+          "line": 451,
+          "text": "Dim icc As New Agreement.IntraclassCorrelation"
+        }
+      ]
+    },
+    {
+      "current": {
+        "path": "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+        "bytes": 24973,
+        "sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55"
+      },
+      "original_git_sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55",
+      "normalization": "FULL_UTF8_CRLF_LF_ONLY",
+      "calls": [
+        {
+          "line": 230,
+          "text": "Dim ba As New Agreement.BlandAltmanAgreement(axis.First(), axis.Second(), referenceName, testName, opts)"
+        },
+        {
+          "line": 278,
+          "text": "pb = New Agreement.PassinbBablok(x, y, d.varNames(1), d.varNames(2), grp, d.varNames(0))"
+        },
+        {
+          "line": 283,
+          "text": "pb = New Agreement.PassinbBablok(x, y, d.varNames(0), d.varNames(1))"
+        }
+      ]
+    },
+    {
+      "current": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "original_git_sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6",
+      "normalization": "FULL_UTF8_CRLF_LF_ONLY",
+      "calls": [
+        {
+          "line": 1477,
+          "text": "Dim classification = regression.BinaryClassificationReporting.ComposeGlmReport(y, p, weights, classificationOptions, eventRate)"
+        }
+      ]
+    },
+    {
+      "current": {
+        "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+        "bytes": 39892,
+        "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+      },
+      "original_git_sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970",
+      "normalization": "FULL_UTF8_CRLF_LF_ONLY",
+      "calls": [
+        {
+          "line": 270,
+          "text": "Dim tt = New Agreement.WeightedKappaAgreement(catData.axis.FirstCategories(), catData.axis.SecondCategories(), catData.name1, catData.name2)"
+        },
+        {
+          "line": 322,
+          "text": "Dim tt = New Agreement.LinConcordanceCorrelation(axis.First(), axis.Second(), data.name1, data.name2)"
+        },
+        {
+          "line": 375,
+          "text": "Dim tt = New Agreement.WeightedDemingRegression(axis.First(), axis.Second(), data.name1, data.name2)"
+        }
+      ]
+    }
+  ],
+  "scope": "Source contents unchanged; include exact GUI source consumers in the bounded derivative. No GUI closure/native execution claim."
+}

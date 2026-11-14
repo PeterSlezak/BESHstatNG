@@ -1,0 +1,17 @@
+Private Function ParseFriedmanType(selector As Object, Optional defaultToT1 As Boolean = True) As Integer
+            Dim s As String = ""
+            If selector IsNot Nothing AndAlso Not TypeOf selector Is ExcelMissing AndAlso Not TypeOf selector Is ExcelEmpty Then
+                s = Convert.ToString(selector).Trim().ToUpperInvariant()
+            End If
+
+            If String.IsNullOrWhiteSpace(s) Then
+                Return If(defaultToT1, 1, 2)
+            End If
+
+            If s = "T2" OrElse s = "F" OrElse s = "FAPPROX" OrElse s = "IMAN" OrElse s = "IMAN-DAVENPORT" OrElse s = "DAVENPORT" Then
+                Return 2
+            End If
+
+            ' default to T1
+            Return 1
+        End Function

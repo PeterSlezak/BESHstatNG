@@ -1,0 +1,3787 @@
+{
+  "status": "NOT_READY_04A38",
+  "reason": "ESSENTIAL_FROZEN_BRANCH_COVERAGE_MISSING",
+  "reference_rows_per_configuration": 28966,
+  "counts": {
+    "Debug/Invariant/calibration": {
+      "cases": 29,
+      "member_entered": 1,
+      "outcome_RETURN_ARRAY": 1,
+      "bins_token_N": 29,
+      "method_token_N": 29,
+      "weights_token_N": 29,
+      "prepared_data_rows": 10,
+      "nonfinite_CI_rows": 0,
+      "member_not_entered": 28,
+      "outcome_RETURN_ERROR_CELL": 28
+    },
+    "Debug/Invariant/grouped": {
+      "cases": 29,
+      "member_entered": 29,
+      "outcome_RETURN_ARRAY": 1,
+      "first_data_row_contains_nonnumeric_token": 0,
+      "outcome_RETURN_ERROR_CELL": 28
+    },
+    "Debug/Invariant/nested": {
+      "cases": 15,
+      "member_entered": 15,
+      "outcome_RETURN_ARRAY": 1,
+      "first_response_token_NUMBER": 1,
+      "outcome_RETURN_ERROR_CELL": 14
+    },
+    "Debug/sk-SK/calibration": {
+      "cases": 29,
+      "member_entered": 1,
+      "outcome_RETURN_ARRAY": 1,
+      "bins_token_N": 29,
+      "method_token_N": 29,
+      "weights_token_N": 29,
+      "prepared_data_rows": 10,
+      "nonfinite_CI_rows": 0,
+      "member_not_entered": 28,
+      "outcome_RETURN_ERROR_CELL": 28
+    },
+    "Debug/sk-SK/grouped": {
+      "cases": 29,
+      "member_entered": 29,
+      "outcome_RETURN_ARRAY": 1,
+      "first_data_row_contains_nonnumeric_token": 0,
+      "outcome_RETURN_ERROR_CELL": 28
+    },
+    "Debug/sk-SK/nested": {
+      "cases": 15,
+      "member_entered": 15,
+      "outcome_RETURN_ARRAY": 1,
+      "first_response_token_NUMBER": 1,
+      "outcome_RETURN_ERROR_CELL": 14
+    },
+    "Release/Invariant/calibration": {
+      "cases": 29,
+      "member_entered": 1,
+      "outcome_RETURN_ARRAY": 1,
+      "bins_token_N": 29,
+      "method_token_N": 29,
+      "weights_token_N": 29,
+      "prepared_data_rows": 10,
+      "nonfinite_CI_rows": 0,
+      "member_not_entered": 28,
+      "outcome_RETURN_ERROR_CELL": 28
+    },
+    "Release/Invariant/grouped": {
+      "cases": 29,
+      "member_entered": 29,
+      "outcome_RETURN_ARRAY": 1,
+      "first_data_row_contains_nonnumeric_token": 0,
+      "outcome_RETURN_ERROR_CELL": 28
+    },
+    "Release/Invariant/nested": {
+      "cases": 15,
+      "member_entered": 15,
+      "outcome_RETURN_ARRAY": 1,
+      "first_response_token_NUMBER": 1,
+      "outcome_RETURN_ERROR_CELL": 14
+    },
+    "Release/sk-SK/calibration": {
+      "cases": 29,
+      "member_entered": 1,
+      "outcome_RETURN_ARRAY": 1,
+      "bins_token_N": 29,
+      "method_token_N": 29,
+      "weights_token_N": 29,
+      "prepared_data_rows": 10,
+      "nonfinite_CI_rows": 0,
+      "member_not_entered": 28,
+      "outcome_RETURN_ERROR_CELL": 28
+    },
+    "Release/sk-SK/grouped": {
+      "cases": 29,
+      "member_entered": 29,
+      "outcome_RETURN_ARRAY": 1,
+      "first_data_row_contains_nonnumeric_token": 0,
+      "outcome_RETURN_ERROR_CELL": 28
+    },
+    "Release/sk-SK/nested": {
+      "cases": 15,
+      "member_entered": 15,
+      "outcome_RETURN_ARRAY": 1,
+      "first_response_token_NUMBER": 1,
+      "outcome_RETURN_ERROR_CELL": 14
+    }
+  },
+  "missing": [
+    {
+      "id": "CALIB-EQUALWIDTH",
+      "member": "BuildCalibrationPointsTable",
+      "shipping_path": "BESH.PLOT.CALIB_POINTS",
+      "earliest_missing_phase": "ParseCalibrationMethod supplied equalwidth/alias -> Core BuildEqualWidthCalibrationBins -> report assembly",
+      "frozen_cases": 0,
+      "cultures": [
+        "Invariant",
+        "sk-SK"
+      ]
+    },
+    {
+      "id": "CALIB-WEIGHTED-ZERO-BIN-CI",
+      "member": "BuildCalibrationPointsTable",
+      "shipping_path": "BESH.PLOT.CALIB_POINTS",
+      "earliest_missing_phase": "Optional supplied weights -> SummarizeCalibrationBin sumW=0 -> WilsonInterval nonfinite endpoints -> ErrorMinus/ErrorPlus conditional arms",
+      "frozen_cases": 0,
+      "cultures": [
+        "Invariant",
+        "sk-SK"
+      ]
+    },
+    {
+      "id": "CALIB-NONDEFAULT-BINS",
+      "member": "BuildCalibrationPointsTable",
+      "shipping_path": "BESH.PLOT.CALIB_POINTS",
+      "earliest_missing_phase": "Optional supplied bins; min/invalid/ordinary count and resulting row shape",
+      "frozen_cases": 0,
+      "cultures": [
+        "Invariant",
+        "sk-SK"
+      ]
+    },
+    {
+      "id": "GROUPED-HEADER-ALIGNMENT",
+      "member": "TryGetGroupedCompleteMatrix",
+      "shipping_path": "BESH.ASM.BOX_M",
+      "earliest_missing_phase": "LooksLikeHeaderRow=True -> startData=1 -> independent group header alignment -> buckets",
+      "frozen_cases": 0,
+      "cultures": [
+        "Invariant",
+        "sk-SK"
+      ]
+    },
+    {
+      "id": "NESTED-RESPONSE-HEADER",
+      "member": "TryGetNestedThreeColumnData",
+      "shipping_path": "BESH.PAR.ANOVA2_NESTED",
+      "earliest_missing_phase": "firstRespNumeric=False with numeric response below -> hasHeader=True -> authored captions and filtered rows",
+      "frozen_cases": 0,
+      "cultures": [
+        "Invariant",
+        "sk-SK"
+      ]
+    }
+  ],
+  "members": {
+    "calibration": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|18863eeb54437e93@30847:1088",
+    "grouped": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|bf285e1e5738931d@20041:2827",
+    "nested": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|071563e12190ade8@23096:2284"
+  },
+  "inputs": [
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+      "bytes": 11751614,
+      "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/original-Debug.tsv",
+      "bytes": 17065755,
+      "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/capture-v10/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 18048262,
+      "sha256": "bd40803eb02dcbbd5fdd1446cfea0d12587f31afd56ea5ead420c216e2e8563c"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/original-Release.tsv",
+      "bytes": 17067771,
+      "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/capture-v10/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 18048262,
+      "sha256": "bd40803eb02dcbbd5fdd1446cfea0d12587f31afd56ea5ead420c216e2e8563c"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+      "bytes": 3168046,
+      "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-original-v1.tsv",
+      "bytes": 6942877,
+      "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 5649627,
+      "sha256": "676f6c553f6b16e2cff324a734a887dd15f3ba4b513b86b47a0d428fb39bf359"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-original-v1.tsv",
+      "bytes": 6942877,
+      "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 5649627,
+      "sha256": "676f6c553f6b16e2cff324a734a887dd15f3ba4b513b86b47a0d428fb39bf359"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+      "bytes": 191201,
+      "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-original-v1.tsv",
+      "bytes": 76370,
+      "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 81062,
+      "sha256": "a30ccab8b951c98e9a16b740c43f484ece7be83156569778c5ce8bdfda47c8e3"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-original-v1.tsv",
+      "bytes": 76370,
+      "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 81062,
+      "sha256": "a30ccab8b951c98e9a16b740c43f484ece7be83156569778c5ce8bdfda47c8e3"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+      "bytes": 751343,
+      "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-original-v1.tsv",
+      "bytes": 6357582,
+      "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 2653004,
+      "sha256": "1fadd5d8635307eaa20dc46448bbbb270db388a385586d806f25cf3ef071d69c"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-original-v1.tsv",
+      "bytes": 6357582,
+      "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 2653004,
+      "sha256": "1fadd5d8635307eaa20dc46448bbbb270db388a385586d806f25cf3ef071d69c"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+      "bytes": 286237,
+      "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-original-v1.tsv",
+      "bytes": 174484,
+      "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 128706,
+      "sha256": "88d255ba86b752377d2fdab64fef6ef6bc44862f8b89da1ccc31af8583b95e82"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-original-v1.tsv",
+      "bytes": 174484,
+      "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 128706,
+      "sha256": "88d255ba86b752377d2fdab64fef6ef6bc44862f8b89da1ccc31af8583b95e82"
+    }
+  ],
+  "witnesses": [
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.62432256ce9503fdd0301610",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.804cf5a57cac907b5f2569cd",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.3066df93d053cb01562ec715",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.b538a8d555c8b97cd7ae049a",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.a44b84fbd830d612ae2b9816",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.6402223c7683e2f7ae2178dc",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.bd022708823653e3a9f0b990",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.7e2423739873e30155c16e84",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.88e851c4f9fe2f319f2da6f1",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.a67a6fdc9aecaeba914c7cc6",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.41bf0d5a6d94cd302f4eff98",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.13dd6fb6f68b134505fb755d",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.1e23761f3ae600bd8fd89355",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.2cf2c8ba280420880c423759",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.9a855fa6cc56c1e17008b2df",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "ragged"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.4e556fa3a87dab5242b40576",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.71318cb7d5721e3f43830fa8",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.3d0790428f57214ec7075ef5",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.9daab246effad77c0a35eed5",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.720d05ce2f0702781335a016",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.7daefa18698dec49d30b6519",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d2950c1f216850c2b62bc01e",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.eb2d9c1b460578e2bd1ccedc",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d98fcf058a68106a2645679d",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.4225f117ac7c2474a8a9de39",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.df2a0f3e862d090a802eff56",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.f438a3efcc70a6843fd90373",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.498257f3161a67ea71925954",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.6c9b49838c16d2ee56bcf72f",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "ragged"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.81d2117245eea34af577e6fd",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.152808029f51bcb5cfb4cae0",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.97aa0d664fa79b9c887a699f",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.b4c19741a74877e2fcc87f1d",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.148c0a86ce5f08648951f2e6",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.7d95aeb4a45d7e54b753b2f1",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.eba0d4e891a62f72ec7087de",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.e957f9d58bf24aeac6157ccc",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.36ae668059f834606462b482",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.a1e220fa42f0d1f989688860",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.e54a9a0b156fe76eaef3002f",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.0708bde37fc9e6327ce17c0b",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.75e4fa2baa1bec9bf69c54eb",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.2604b162ec53cf80d1ba2129",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.62742e80f17fa525c9cafc13",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "ragged"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.95a5a9b9c90d1c31ab03bb4e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.db1f398353e71e74f63576d6",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.ffe884daada8d033e0c0ae33",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.259caee1a7aec9f0c82b97b1",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.af7107fb153716faba9cbef7",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.742ec00638b6ea1987dcc9d0",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.4d71a62b92d19a99af134390",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.ffb46c0abcceaf423c5d6da4",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.52af271f12b2ef21c35ccada",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.5330fb1f9906a2f713e63e63",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.efb139df5179d1fc99edf676",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.af2a3dabab49455b33e96dd4",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.5b174584ce2aa697e1f70da4",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.ea5d7d2e56b2d9001bc4d0ae",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "ragged"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.1073382fdd74ed7d2e947175",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.c95109348725a86f4bfb6cdd",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.bed4bd9f4a96937d89e15b6c",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.2e165098535a0c4d0ff260a2",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.5a7d152abb902c5d1396e847",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.617205b8f86c717c796da396",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.4f948ce4f7139e0634c9ac81",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.2c7e3cb9f48da31ab6158590",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.3c47cf72e448891eb8abdb8c",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.3f973c73933e75c885b57548",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.957db7bb1efb3ce56e85bb52",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.9d798d433dc7f944b6d727d7",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.eff4991f6f7e4e04597d32ff",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.c941394b974c6105f1a8f90e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.c7a9b7280a4cfa8c042a8319",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "ragged"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.370ad5623c94160939a71af9",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.435117dfba22adf7b1b7c692",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.3af1c947d6d99a2608dbf9e2",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.21702ad3bedaa00430d55015",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.15bc41f86688ddb62fd0e543",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.23a94d3da8c35f0395826889",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d761a82083f8b232bae8f40d",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d41ed6b8e16017ab436cf5e8",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.35bfa65add8eb83c869ecc26",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.49b2d85dee2ae0b35512e2e1",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.5a1f41ee14c46b9a50439da6",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.5d683d1fae0d57cd5131e89e",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d5ccbb39714512b2a70b0e02",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.c5553ea82c503a7a7bf91fa2",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.deba330f1a7c44288432ab9a",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "ragged"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.5904740ec2243f0a0a31b638",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.b79bb79532972ce0962e5397",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.bb0fe83225c4107079f94f36",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.b817b9b277be595df11a593d",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d8ff3410df46f7dd4f03b7e1",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.7b9ef7f4d2e8f5936e98189e",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.89bb8b997931ac64be5df1c0",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.8f7fc211cec239f64185ebd5",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.66d87907986baa926b5b707a",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.8230bc05bcfc15909bbb853c",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.f2f5a93abc196638bd2b873c",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.ef6dc1e65b5fa0b28aa17208",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.c9016a0b3d04f5134e72ae4e",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.31e67bb60f745722fe65081f",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "ragged"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.672f314f17ee4611c241a335",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.070da07bf826c4a4d4a6665d",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.76acc2d674841a7b0d4dc744",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.5db8ee7a14e65f8d7fb562a2",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.917cc9a66061771760beb6ca",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.be456bfda4d1e23d65a4523b",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.b80e1552872655db649c07ee",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.6d8f4a3ffcaad4950b84508e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.cf9ca22a20ba7b7e1d57c0b7",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.aa612212e686eba518911232",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.7c181f91a87f28e8e1f56a7e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.999016b6680cc2c2582394f6",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.29369c8aec7f8901b06c9b7d",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.8400784c0904a8b61a4ab73f",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.c6c6d0ebe1f8a322d61fd084",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "ragged"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.e7c5a5e0d111f8ae1c2639fe",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.668e4e9a424bdecc61720f25",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.535c61069757a90fb6d67a35",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.6479c1e190445b9d3a378f76",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.bfdbfbebd321179c9758670a",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.5acc88cd1d169f81807ba027",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.ee4483ec761c3bc348ebecdc",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.79d44d1e71a0f344545b19b9",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.e07d417d6613a2809b71f480",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.6361ff7f78fb049b7955911c",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.a54412c2b795cb198360e8cf",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.0f8cb869fe303fb60aad7b07",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.9904f05d967bbd4dc57efab1",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.904c13803acc306fd8ff7576",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "ragged"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.cf7977aa4374005cf2e795f6",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.e11ff6b62c98d31aa90b0bcd",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "null"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.d30b4588904ee4c72681a1a5",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "empty"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.b2d1d2c904e22a11ea1abef2",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "missing"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.83a5bd337a24c0f5f6699304",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "error"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.da0b920a7a1af28ed8ff40a3",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "blank"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.2241f0c587a0c0b35fdf87f7",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "whitespace"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.f1d8e088c1fa4c10dba74d66",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "true"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.6cf5448725b2f8b0b12770d8",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.638c60b8db7b5cd37cb78f4e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.f8fa9ab0ae2354911179e4a4",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.1f8aed57fc65ebbd7a2d1fe0",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.268b9488d9709e242844e5e1",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "matrix"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.7ea34ae441658de962abfb58",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.7586ce7f1a6c6e1b2ddee11e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.62432256ce9503fdd0301610",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.804cf5a57cac907b5f2569cd",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.3066df93d053cb01562ec715",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.b538a8d555c8b97cd7ae049a",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.a44b84fbd830d612ae2b9816",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.6402223c7683e2f7ae2178dc",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.bd022708823653e3a9f0b990",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.7e2423739873e30155c16e84",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.88e851c4f9fe2f319f2da6f1",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.a67a6fdc9aecaeba914c7cc6",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.41bf0d5a6d94cd302f4eff98",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.13dd6fb6f68b134505fb755d",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.1e23761f3ae600bd8fd89355",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.2cf2c8ba280420880c423759",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.9a855fa6cc56c1e17008b2df",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.4e556fa3a87dab5242b40576",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.71318cb7d5721e3f43830fa8",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.3d0790428f57214ec7075ef5",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.9daab246effad77c0a35eed5",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.720d05ce2f0702781335a016",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.7daefa18698dec49d30b6519",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d2950c1f216850c2b62bc01e",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.eb2d9c1b460578e2bd1ccedc",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d98fcf058a68106a2645679d",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.4225f117ac7c2474a8a9de39",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.df2a0f3e862d090a802eff56",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.f438a3efcc70a6843fd90373",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.498257f3161a67ea71925954",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.6c9b49838c16d2ee56bcf72f",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.81d2117245eea34af577e6fd",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.152808029f51bcb5cfb4cae0",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.97aa0d664fa79b9c887a699f",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.b4c19741a74877e2fcc87f1d",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.148c0a86ce5f08648951f2e6",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.7d95aeb4a45d7e54b753b2f1",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.eba0d4e891a62f72ec7087de",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.e957f9d58bf24aeac6157ccc",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.36ae668059f834606462b482",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.a1e220fa42f0d1f989688860",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.e54a9a0b156fe76eaef3002f",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.0708bde37fc9e6327ce17c0b",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.75e4fa2baa1bec9bf69c54eb",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.2604b162ec53cf80d1ba2129",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.62742e80f17fa525c9cafc13",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.95a5a9b9c90d1c31ab03bb4e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.db1f398353e71e74f63576d6",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.ffe884daada8d033e0c0ae33",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.259caee1a7aec9f0c82b97b1",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.af7107fb153716faba9cbef7",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.742ec00638b6ea1987dcc9d0",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.4d71a62b92d19a99af134390",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.ffb46c0abcceaf423c5d6da4",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.52af271f12b2ef21c35ccada",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.5330fb1f9906a2f713e63e63",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.efb139df5179d1fc99edf676",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.af2a3dabab49455b33e96dd4",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.5b174584ce2aa697e1f70da4",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.ea5d7d2e56b2d9001bc4d0ae",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.1073382fdd74ed7d2e947175",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.c95109348725a86f4bfb6cdd",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.bed4bd9f4a96937d89e15b6c",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.2e165098535a0c4d0ff260a2",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.5a7d152abb902c5d1396e847",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.617205b8f86c717c796da396",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.4f948ce4f7139e0634c9ac81",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.2c7e3cb9f48da31ab6158590",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.3c47cf72e448891eb8abdb8c",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.3f973c73933e75c885b57548",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.957db7bb1efb3ce56e85bb52",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.9d798d433dc7f944b6d727d7",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.eff4991f6f7e4e04597d32ff",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.c941394b974c6105f1a8f90e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.c7a9b7280a4cfa8c042a8319",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.370ad5623c94160939a71af9",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.435117dfba22adf7b1b7c692",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.3af1c947d6d99a2608dbf9e2",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.21702ad3bedaa00430d55015",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.15bc41f86688ddb62fd0e543",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.23a94d3da8c35f0395826889",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d761a82083f8b232bae8f40d",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d41ed6b8e16017ab436cf5e8",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.35bfa65add8eb83c869ecc26",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.49b2d85dee2ae0b35512e2e1",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.5a1f41ee14c46b9a50439da6",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.5d683d1fae0d57cd5131e89e",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d5ccbb39714512b2a70b0e02",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.c5553ea82c503a7a7bf91fa2",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.deba330f1a7c44288432ab9a",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "y": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.5904740ec2243f0a0a31b638",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.b79bb79532972ce0962e5397",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.bb0fe83225c4107079f94f36",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.b817b9b277be595df11a593d",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.d8ff3410df46f7dd4f03b7e1",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.7b9ef7f4d2e8f5936e98189e",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.89bb8b997931ac64be5df1c0",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.8f7fc211cec239f64185ebd5",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.66d87907986baa926b5b707a",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.8230bc05bcfc15909bbb853c",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.f2f5a93abc196638bd2b873c",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.ef6dc1e65b5fa0b28aa17208",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.c9016a0b3d04f5134e72ae4e",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "calibration",
+      "case_id": "BESH.PLOT.CALIB_POINTS.31e67bb60f745722fe65081f",
+      "corpus": "original-v1",
+      "member_entered": false,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "probabilities": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.672f314f17ee4611c241a335",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.070da07bf826c4a4d4a6665d",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.76acc2d674841a7b0d4dc744",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.5db8ee7a14e65f8d7fb562a2",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.917cc9a66061771760beb6ca",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.be456bfda4d1e23d65a4523b",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.b80e1552872655db649c07ee",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.6d8f4a3ffcaad4950b84508e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.cf9ca22a20ba7b7e1d57c0b7",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.aa612212e686eba518911232",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.7c181f91a87f28e8e1f56a7e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.999016b6680cc2c2582394f6",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.29369c8aec7f8901b06c9b7d",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.8400784c0904a8b61a4ab73f",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.c6c6d0ebe1f8a322d61fd084",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.e7c5a5e0d111f8ae1c2639fe",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.668e4e9a424bdecc61720f25",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.535c61069757a90fb6d67a35",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.6479c1e190445b9d3a378f76",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.bfdbfbebd321179c9758670a",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.5acc88cd1d169f81807ba027",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.ee4483ec761c3bc348ebecdc",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.79d44d1e71a0f344545b19b9",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.e07d417d6613a2809b71f480",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.6361ff7f78fb049b7955911c",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.a54412c2b795cb198360e8cf",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.0f8cb869fe303fb60aad7b07",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.9904f05d967bbd4dc57efab1",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "grouped",
+      "case_id": "BESH.ASM.BOX_M.904c13803acc306fd8ff7576",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "groups": "ragged"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.cf7977aa4374005cf2e795f6",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ARRAY",
+      "arguments_descriptor": {}
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.e11ff6b62c98d31aa90b0bcd",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "null"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.d30b4588904ee4c72681a1a5",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "empty"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.b2d1d2c904e22a11ea1abef2",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "missing"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.83a5bd337a24c0f5f6699304",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "error"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.da0b920a7a1af28ed8ff40a3",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "blank"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.2241f0c587a0c0b35fdf87f7",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "whitespace"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.f1d8e088c1fa4c10dba74d66",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "true"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.6cf5448725b2f8b0b12770d8",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "text:1.25"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.638c60b8db7b5cd37cb78f4e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:NaN"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.f8fa9ab0ae2354911179e4a4",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:+Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.1f8aed57fc65ebbd7a2d1fe0",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "number:-Inf"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.268b9488d9709e242844e5e1",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "matrix"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.7ea34ae441658de962abfb58",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "zero_rows"
+      }
+    },
+    {
+      "configuration": "Release",
+      "culture": "sk-SK",
+      "family": "nested",
+      "case_id": "BESH.PAR.ANOVA2_NESTED.7586ce7f1a6c6e1b2ddee11e",
+      "corpus": "original-v1",
+      "member_entered": true,
+      "outcome": "RETURN_ERROR_CELL",
+      "arguments_descriptor": {
+        "data": "ragged"
+      }
+    }
+  ],
+  "qualification": "This is a post-checkpoint read-only coverage audit, not an original/current oracle or execution. Missing expected bytes are UNKNOWN. Existing managed quantile/weighted assertions supplement coverage but do not contain the missing equalwidth or nonfinite-CI exact outputs.",
+  "stop": "No production edit, new reference execution, capture replacement or late exception is authorized. A separate owner decision is required before a missing-reference remedy.",
+  "remaining_scope": "Other unfinished members/profiles are not certified; these verified gaps alone block acceptance.",
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

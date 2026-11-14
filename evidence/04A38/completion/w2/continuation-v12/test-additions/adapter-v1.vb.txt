@@ -1,0 +1,185 @@
+    Private Shared Sub WithContinuation12Handle(family As String, model As Object, action As Action(Of String), Optional validation As String = "KFold")
+        Dim owner = GetType(MultivariateAnalysisUDFs)
+        Dim typeName = If(family = "CA", "CorrespondenceHandle", If(family = "MCA", "MultipleCorrespondenceHandle", "DiscriminantHandle"))
+        Dim fieldName = If(family = "CA", "_caCache", If(family = "MCA", "_mcaCache", "_daCache"))
+        Dim handleType = owner.GetNestedType(typeName, BindingFlags.NonPublic)
+        Dim info = Activator.CreateInstance(handleType, True), key = family & ":" & Guid.NewGuid().ToString("N")
+        Dim settings As New Dictionary(Of String, Object) From {{"Handle", key}, {"Model", model}}
+        If family = "MCA" Then
+            settings.Add("VariableNames", New String() {"First", "Second"})
+            settings.Add("ObservationCount", 4)
+        ElseIf family = "DA" Then
+            settings.Add("VariableNames", New String() {"X", "Y"})
+            settings.Add("GroupVariableName", "Class")
+            settings.Add("Method", "Linear")
+            settings.Add("Standardization", "None")
+            settings.Add("MissingValuePolicy", "ErrorOnMissing")
+            settings.Add("PriorMode", "Equal")
+            settings.Add("ValidationMode", validation)
+            settings.Add("NumberOfFolds", 3)
+            settings.Add("HoldoutFraction", 0.25R)
+            settings.Add("Stratified", True)
+            settings.Add("CovarianceRegularization", 0.00000001R)
+        End If
+        For Each pair In settings
+            handleType.GetProperty(pair.Key).SetValue(info, pair.Value, Nothing)
+        Next
+        Dim cache = owner.GetField(fieldName, BindingFlags.NonPublic Or BindingFlags.Static).GetValue(Nothing)
+        cache.GetType().GetProperty("Item").SetValue(cache, info, New Object() {key})
+        Try
+            action(key)
+        Finally
+            Dim remove = cache.GetType().GetMethods().Single(Function(method) method.Name = "TryRemove" AndAlso method.GetParameters().Length = 2)
+            remove.Invoke(cache, New Object() {key, Nothing})
+        End Try
+    End Sub
+
+    Private Shared Function Continuation12Import(name As String, arguments() As Object) As Boolean
+        Dim owner = GetType(MultivariateAnalysisUDFs).Assembly.GetType("BESHStatNG.UdfDataImport", True)
+        Return CBool(owner.GetMethod(name, BindingFlags.Static Or BindingFlags.Public Or BindingFlags.NonPublic).Invoke(Nothing, arguments))
+    End Function
+
+    <TestMethod>
+    Public Sub Continuation12MissingHandlesPrecedeHeaderAndModelReads()
+        Dim probe As New Continuation8TextProbe
+        For Each name In New String() {"CA_ROW_CONTRIB", "CA_COLUMNS", "CA_COL_COORD", "CA_COL_COS2", "CA_COL_CONTRIB", "MCA_SUMMARY", "MCA_EIGEN", "MCA_BURT", "MCA_INDICATOR", "MCA_CATEGORIES", "MCA_COORD", "MCA_COS2", "MCA_CONTRIB", "DA_SUMMARY", "DA_GROUPSUMMARY"}
+            Assert.AreEqual(ExcelError.ExcelErrorNA, GetType(MultivariateAnalysisUDFs).GetMethod(name).Invoke(Nothing, New Object() {"C12 absent", probe}), name)
+        Next
+        Assert.AreEqual(0, probe.Reads)
+    End Sub
+
+    <TestMethod>
+    Public Sub Continuation12CaCallbacksKeepSeparateRowAndColumnMetrics()
+        Dim model As New BESHStatNG.Multivariate.CA()
+        model.data(New Integer(,) {{8, 2, 1}, {2, 7, 3}, {1, 3, 9}}, New String() {"r", "r", "s"}, New String() {"c", "c", "d"})
+        model.Calculate()
+        WithContinuation12Handle("CA", model,
+            Sub(key)
+                Dim rows = DirectCast(MultivariateAnalysisUDFs.CA_ROW_CONTRIB(key, False), Object(,))
+                Dim columns = DirectCast(MultivariateAnalysisUDFs.CA_COLUMNS(key, False), Object(,))
+                Dim coord = DirectCast(MultivariateAnalysisUDFs.CA_COL_COORD(key, False), Object(,))
+                Dim cos2 = DirectCast(MultivariateAnalysisUDFs.CA_COL_COS2(key, False), Object(,))
+                Dim contribution = DirectCast(MultivariateAnalysisUDFs.CA_COL_CONTRIB(key, False), Object(,))
+                Assert.AreEqual(model.RowContribution(0)(0), CDbl(rows(0, 1)))
+                Assert.AreEqual(model.ColFactors(0)(0), CDbl(coord(0, 1)))
+                Assert.AreEqual(model.ColCorr(0)(0), CDbl(cos2(0, 1)))
+                Assert.AreEqual(model.ColContribution(0)(0), CDbl(contribution(0, 1)))
+                Assert.AreEqual("c", coord(0, 0))
+                Assert.AreEqual("c", coord(1, 0))
+                Assert.AreEqual(3, columns.GetLength(0))
+            End Sub)
+    End Sub
+
+    <TestMethod>
+    Public Sub Continuation12McaReportsKeepCategoryOrderAndCacheModel()
+        Dim model As New BESHStatNG.Multivariate.CA()
+        model.DataMultiple(New String(,) {{"a", "x"}, {"a", "y"}, {"b", "x"}, {"b", "y"}}, New String() {"First", "Second"})
+        model.Calculate()
+        Dim before = model.Eigenvalues
+        WithContinuation12Handle("MCA", model,
+            Sub(key)
+                Dim summary = DirectCast(MultivariateAnalysisUDFs.MCA_SUMMARY(" " & key.ToUpperInvariant() & " ", False), Object(,))
+                Assert.AreEqual(4, summary(1, 1))
+                Assert.AreEqual(2, summary(2, 1))
+                Assert.AreEqual(4, summary(3, 1))
+                For Each name In New String() {"MCA_EIGEN", "MCA_BURT", "MCA_INDICATOR", "MCA_CATEGORIES", "MCA_COORD", "MCA_COS2", "MCA_CONTRIB"}
+                    Assert.IsInstanceOfType(GetType(MultivariateAnalysisUDFs).GetMethod(name).Invoke(Nothing, New Object() {key, False}), GetType(Object(,)), name)
+                Next
+                Dim coord = DirectCast(MultivariateAnalysisUDFs.MCA_COORD(key, False), Object(,))
+                Dim cos2 = DirectCast(MultivariateAnalysisUDFs.MCA_COS2(key, False), Object(,))
+                Dim contribution = DirectCast(MultivariateAnalysisUDFs.MCA_CONTRIB(key, False), Object(,))
+                Assert.AreEqual(model.ColFactors(0)(0), CDbl(coord(0, 2)))
+                Assert.AreEqual(model.ColCorr(0)(0), CDbl(cos2(0, 2)))
+                Assert.AreEqual(model.ColContribution(0)(0), CDbl(contribution(0, 2)))
+                Assert.AreSame(before, model.Eigenvalues)
+            End Sub)
+    End Sub
+
+    <TestMethod>
+    Public Sub Continuation12DaSummaryKeepsHostValidationDetailAndGroupReport()
+        Dim model As New BESHStatNG.Multivariate.DiscriminantAnalysis()
+        model.dataInputs(New Double(,) {{1, 2}, {2, 1}, {3, 3}, {4, 2}, {8, 9}, {9, 8}, {10, 10}, {11, 9}},
+            New Object() {"A", "A", "A", "A", "B", "B", "B", "B"},
+            New String() {"r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8"}, New String() {"X", "Y"})
+        model.settingsInputs()
+        model.Fit()
+        Dim before = model.TrainingClassification
+        WithContinuation12Handle("DA", model,
+            Sub(key)
+                Dim summary = DirectCast(MultivariateAnalysisUDFs.DA_SUMMARY(key, False), Object(,))
+                Assert.AreEqual(14, summary.GetLength(0))
+                Assert.AreEqual(8, summary(4, 1))
+                Assert.AreEqual("3 folds; Stratified=True", summary(13, 1))
+                Assert.IsInstanceOfType(MultivariateAnalysisUDFs.DA_GROUPSUMMARY(key, False), GetType(Object(,)))
+                Assert.AreSame(before, model.TrainingClassification)
+            End Sub)
+    End Sub
+
+    <TestMethod>
+    Public Sub Continuation12DaModelFailureAndModeFailureBothPrecedeHeader()
+        Dim probe As New Continuation8TextProbe
+        WithContinuation12Handle("DA", Nothing,
+            Sub(key)
+                StringAssert.StartsWith(CStr(MultivariateAnalysisUDFs.DA_SUMMARY(key, probe)), "NullReferenceException:")
+            End Sub, "not a validation mode")
+        WithContinuation12Handle("DA", New BESHStatNG.Multivariate.DiscriminantAnalysis(),
+            Sub(key)
+                StringAssert.StartsWith(CStr(MultivariateAnalysisUDFs.DA_SUMMARY(key, probe)), "ArgumentException:")
+            End Sub, "not a validation mode")
+        Assert.AreEqual(0, probe.Reads)
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub Continuation12CategoricalImportKeepsExcelSentinelsAndInvariantNumbers(culture As String)
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Dim arguments As Object() = {New Object(,) {{" First ", ExcelError.ExcelErrorNA}, {1.5R, ExcelEmpty.Value}, {"tail", "z"}}, Nothing, True, Nothing, Nothing}
+            Assert.IsTrue(Continuation12Import("TryGetCategoricalMatrix", arguments))
+            Dim data = DirectCast(arguments(3), String(,)), names = DirectCast(arguments(4), String())
+            CollectionAssert.AreEqual(New String() {"First", "ExcelErrorNA"}, names)
+            Assert.AreEqual("1.5", data(0, 0))
+            Assert.AreEqual("", data(0, 1))
+            Assert.AreEqual("tail", data(1, 0))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub Continuation12VectorsKeepDelimitedPriorityAndNativeNumericErrorPolicy(culture As String)
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Dim arguments As Object() = {"1,5;2,5", Nothing}
+            Assert.IsTrue(Continuation12Import("TryGetDoubleVector", arguments))
+            CollectionAssert.AreEqual(New Double() {15, 25}, DirectCast(arguments(1), Double()))
+            arguments = New Object() {"NaN", Nothing}
+            Assert.IsTrue(Continuation12Import("TryGetDoubleVector", arguments))
+            Assert.IsTrue(Double.IsNaN(DirectCast(arguments(1), Double())(0)))
+            arguments = New Object() {New Object(,) {{Double.NaN}}, New Double() {17}}
+            Assert.IsFalse(Continuation12Import("TryGetDoubleVector", arguments))
+            Assert.IsNull(arguments(1))
+            arguments = New Object() {New Object(,) {{1, ExcelError.ExcelErrorValue, 3}}, New Double() {17}}
+            Assert.IsFalse(Continuation12Import("TryGetDoubleVector", arguments))
+            Assert.IsNull(arguments(1))
+            arguments = New Object() {New Object(,) {{" a ", ExcelEmpty.Value, ExcelError.ExcelErrorNA}}, Nothing}
+            Assert.IsTrue(Continuation12Import("TryGetStringVector", arguments))
+            CollectionAssert.AreEqual(New String() {"a", "", "ExcelErrorNA"}, DirectCast(arguments(1), String()))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub Continuation12ShippingConsumersCallExactPreparedOwners()
+        For Each name In New String() {"MCA_SUMMARY", "DA_SUMMARY"}
+            Assert.IsTrue(Calls(GetType(MultivariateAnalysisUDFs).GetMethod(name)).Any(Function(target) target.DeclaringType Is GetType(UdfMultivariateReportPreparation38)), name)
+        Next
+        Dim importer = GetType(MultivariateAnalysisUDFs).Assembly.GetType("BESHStatNG.UdfDataImport", True)
+        For Each name In New String() {"TryGetCategoricalMatrix", "TryGetStringVector", "TryGetDoubleVector"}
+            Assert.IsTrue(Calls(importer.GetMethod(name, BindingFlags.NonPublic Or BindingFlags.Public Or BindingFlags.Static)).Any(Function(target) target.DeclaringType Is GetType(UdfModelImportPreparation38)), name)
+        Next
+        Assert.IsTrue(GetType(UdfModelImportPreparation38).GetMethod("CompleteCategoricalMatrixPrepared").GetParameters()(1).ParameterType.IsByRef)
+        Assert.IsTrue(Calls(GetType(MultivariateAnalysisUDFs).GetMethod("DA_SUMMARY")).Any(Function(target) target.Name = "ParseDiscriminantValidationMode"))
+    End Sub

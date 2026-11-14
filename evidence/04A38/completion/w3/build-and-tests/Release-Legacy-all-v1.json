@@ -1,0 +1,35 @@
+{
+  "suite": "Legacy",
+  "part": "all",
+  "name": "w3R-Legacy",
+  "outcomes": {
+    "Passed": 9777,
+    "Failed": 9
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-Legacy/cases.json",
+    "bytes": 3022271,
+    "sha256": "68ffe50ef3935864dc183dcb5a9009ab5de8f23030e87cea3665e6e72c07de02"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-Legacy/results/Legacy.trx",
+    "bytes": 332134854,
+    "sha256": "1b0158d7b7440fbf5785980ffde4dd0b449a482902dfccbd86406fb0af470d77"
+  },
+  "command": {
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3R-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+      "/Settings:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3R-Legacy\\serial.runsettings",
+      "/ResultsDirectory:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3R-Legacy\\results",
+      "/TestAdapterPath:C:\\Users\\peter\\source\\repos\\BESHstatNG\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+      "/Logger:trx;LogFileName=Legacy.trx"
+    ],
+    "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+    "exit_code": 1,
+    "seconds": 112.94775469999877,
+    "stdout_sha256": "c69315a70abddbfbe0efd2912fc952ee21d2a3de172ab5ad1ac19eb1d24b749c",
+    "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

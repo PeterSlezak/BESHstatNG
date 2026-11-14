@@ -1,0 +1,70 @@
+{
+  "status": "READONLY_FINAL_SOURCE_PROPOSAL_READER_PASS_NOT_READY",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/verify_c17_checkpoint_v2.py",
+    "bytes": 9225,
+    "sha256": "ccdba66f9bcaa2580ce3cbe74eb7a395d741b9ede0502437394be32ed7e92b40"
+  },
+  "seal": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/review-seal-v2.json",
+    "bytes": 389628,
+    "sha256": "050191e30256cdb5007e80c15ba4b3a4d9ba0c73119fb097e7d64f7673356b58"
+  },
+  "owner_review": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/final/owner-review.md",
+    "bytes": 11921,
+    "sha256": "b67c0bd2520943f2d8aca3188e858ec1bdad17921dfd6383e009120a73937606"
+  },
+  "raw_command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c17-postseal-final-checkpoint-v2/command.json",
+    "bytes": 851,
+    "sha256": "3afeb97e781f5e48ec1c7b52662bf6f1dc80cb28d49367ebabdcaec003dc6e92"
+  },
+  "stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c17-postseal-final-checkpoint-v2/stdout.log",
+    "bytes": 1644,
+    "sha256": "2e378aae37508fe7d57141a29f534222ef33547420c209e9a960f2e3ec74fb1a"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c17-postseal-final-checkpoint-v2/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "result": {
+    "status": "NOT_READY_04A38",
+    "W2": "IN_PROGRESS",
+    "W3": "NOT_STARTED",
+    "historical": {
+      "supported": 704,
+      "OPEN": 0
+    },
+    "current": {
+      "supported": 726,
+      "OPEN": 0,
+      "physical_Windows": 723,
+      "moved_to_Common": 3
+    },
+    "support": {
+      "supported": 303,
+      "OPEN": 0,
+      "raw": 325
+    },
+    "Debug_frozen": 29424,
+    "exports": 268,
+    "final_source_comprehensive_managed": "NOT_RUN_REQUIRES_OWNER_REPLACEMENT_AUTHORITY",
+    "final_source_comprehensive_Python": "NOT_RUN_REQUIRES_OWNER_REPLACEMENT_AUTHORITY",
+    "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_unit_tests": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_ABI_CIL_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "original_queries": 0,
+    "gate": "P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN; 04A39_BLOCKED"
+  },
+  "adverse_controls": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/adverse-reader-controls-v2.json",
+    "bytes": 1850,
+    "sha256": "ac4d910f48ec563bf07e582ecc7e25d125e012ff51d7831f881df5c1523a8587"
+  },
+  "old_failed_reader": "verify_c17_checkpoint_v1.py and review-seal-v1.json remain immutable; diff-check failure corrected by exact two-CR source transition, not by changing a Git assertion.",
+  "original_queries": 0
+}

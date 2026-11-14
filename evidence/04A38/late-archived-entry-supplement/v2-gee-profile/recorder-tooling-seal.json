@@ -1,0 +1,43 @@
+{
+  "status": "RECORDER_TOOLING_SEALED_BEFORE_FIRST_REFERENCE",
+  "sequence": "1.1",
+  "sealed_utc": "2026-11-09T07:32:20.539546+00:00",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/input-seal.json",
+    "bytes": 5357,
+    "sha256": "447f63197515c8ab460900da32a137f586d032e68d850d60325da87097ed2ba8"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38-v2.cs",
+      "bytes": 13269,
+      "sha256": "9d867afcc90dadb34a989962f5298ce18aa343622f9d89f2304d5f9ab46ef2ea"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/correct_recorder_compile.py",
+      "bytes": 1700,
+      "sha256": "55a2933465da58df7ac0ff361304662043bc112ab1af51a73192424865034f43"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/execute_original.py",
+      "bytes": 2140,
+      "sha256": "4fec9d56da78828c1f38e7b83d4d2642323666a18ef83998e27e9b558ba090a0"
+    }
+  ],
+  "correction": "CS0136 local name shadowing; rename fitted parameter local in recorder only. Original sealed recorder retained byte-for-byte.",
+  "old_recorder": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38.cs",
+    "bytes": 13251,
+    "sha256": "f3aa8772ca66398757155baa0a2dae8b1f10be37525d8ec314360a207b4034a6"
+  },
+  "failed_compile_log": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/attempt-recorder-compile-v1.txt",
+    "bytes": 258,
+    "sha256": "5a3335ad0fb29510ff6d47586b95f9d20534b1cff735417703a306ac9ddf0fd5"
+  },
+  "typed_input_changes": 0,
+  "baseline_source_changes": 0,
+  "model_executions": 0,
+  "query_executions": 0,
+  "current_executions": 0
+}

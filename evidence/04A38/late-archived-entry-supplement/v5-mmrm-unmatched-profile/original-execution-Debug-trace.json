@@ -1,0 +1,60 @@
+{
+  "role": "original",
+  "configuration": "Debug",
+  "mode": "trace",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/input-seal.json",
+    "bytes": 6539,
+    "sha256": "4d8621915832c5a795838e9b2282b75bf75503e6d1dd98b1fa97cb098953c2cb"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 49664,
+    "sha256": "8c45ee45282a755e7098652caa4bc1d4cf9c2fb83c6e397278feeb0e9d13c1de"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/trace/execution.json",
+      "bytes": 1017,
+      "sha256": "48feafb8998306177b6554cf8be7d8ffc53fe32379d6ab961489c63697d9288f"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/trace/results.tsv",
+      "bytes": 31484,
+      "sha256": "f4cabe1eaea62672ad4e54578431b31b98d354f5308d007dc2d10248393dbd6a"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/trace/results.tsv.branches.json",
+      "bytes": 9460,
+      "sha256": "91cf21de35266e1fb2ad8a7b254aefd7c7661aa3d04f7a62c5827004e6168298"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/trace/results.tsv.cultures.json",
+      "bytes": 499,
+      "sha256": "9a740a7a205194e7ea99f261378a9769d10b63939d95f0b76ae52395a4a1680e"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/trace/results.tsv.sessions.json",
+      "bytes": 14833,
+      "sha256": "b694798f29014aee5507af6001e8c5b879f89ca38aac52d27ba1d7565d23df54"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-trace-v2\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-trace-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\inputs-Debug.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\original-results\\Debug\\trace\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\original-results\\Debug\\trace\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.46782279999752063,
+    "stdout_sha256": "336d4d7a8f378777eb9ecf6a52ea864055fd08dbbc3063f5d215b337762305a4",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

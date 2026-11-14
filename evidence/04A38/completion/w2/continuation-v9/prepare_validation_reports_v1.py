@@ -1,0 +1,12 @@
+"""Adapt identity reporters to C8 baseline and the actual C9 added populations."""
+from common_v2 import *
+source=(PREVIOUS/'report_managed_v1.py').read_text(encoding='utf-8').replace('from common import *','from common_v2 import *').replace('w2c8','w2c9').replace('cont8','cont9').replace('NEW_C8','NEW_C9').replace('PRESERVED_C7_IDENTITY','PRESERVED_C8_IDENTITY').replace('INHERITED_MANAGED_NONPASS_EXACT_C7','INHERITED_MANAGED_NONPASS_EXACT_C8').replace('C7_IDENTITY','C8_IDENTITY')
+source=source.replace('len(added)==16','len(added)==24').replace('totals==Counter(Passed=20720,Failed=14)','totals==Counter(Passed=20744,Failed=14)').replace('new_passes=16','new_passes=24').replace('new_PASS=16','new_PASS=24')
+start=source.index('comparison_C7=');end=source.index(",Release_full=",start)
+source=source[:start]+"comparison_C8=dict(first_full=dict(Passed=20720,Failed=14),effective=dict(Passed=20720,Failed=14),interpretation='24 genuinely added PASS; all old C8 identities/outcomes/messages retained, with no correction to this first full campaign')"+source[end:]
+with (HERE/'report_managed_v1.py').open('x',encoding='utf-8',newline='\n') as f:f.write(source)
+source=(PREVIOUS/'report_validation_v1.py').read_text(encoding='utf-8').replace('from common import *','from common_v2 import *').replace('w2c8','w2c9').replace('cont8','cont9').replace('NEW_C8','NEW_C9').replace('INHERITED_C7_NONPASS','INHERITED_C8_NONPASS').replace('C7_actual_parent_baseline','C8_actual_parent_baseline')
+with (HERE/'report_validation_v1.py').open('x',encoding='utf-8',newline='\n') as f:f.write(source)
+source=(PREVIOUS/'verify_c8_validation_v1.py').read_text(encoding='utf-8').replace('continuation-v7/','continuation-v8/').replace('20734','20758').replace('20720','20744').replace("len(managed['new_tests'])==16","len(managed['new_tests'])==24").replace('C8_VALIDATION','C9_VALIDATION')
+with (HERE/'verify_c9_validation_v1.py').open('x',encoding='utf-8',newline='\n') as f:f.write(source)
+save('validation-report-crosswalk-v1.json',dict(files=[dict(before=pin(PREVIOUS/a),after=pin(HERE/b)) for a,b in [('report_managed_v1.py','report_managed_v1.py'),('report_validation_v1.py','report_validation_v1.py'),('verify_c8_validation_v1.py','verify_c9_validation_v1.py')]],expected_additions='18 Common +6 native TestMethod cases; derive and assert exact executed identity delta, never infer a selector PASS from0 tests.',Release_unit='NOT_RUN_OWNER_PREFERENCE'))

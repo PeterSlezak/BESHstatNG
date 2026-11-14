@@ -1,0 +1,349 @@
+{
+  "status": "IMPLEMENTED_NOT_YET_VALIDATED",
+  "members": [
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb|BESHStatNG.WorksheetFunctions.AssumptionsUDFs|FunctionBlock|d08a294043cd0367",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb|BESHStatNG.WorksheetFunctions.AssumptionsUDFs|FunctionBlock|d08a294043cd0367@39949:573",
+      "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+      "signature": "Private Function BuildGrubbsTable(alpha As Double, res As TestResult) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.BuildGrubbsTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.AssumptionsUDFs.BuildGrubbsTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb|BESHStatNG.WorksheetFunctions.AssumptionsUDFs|FunctionBlock|82e2c53c89225e3e",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb|BESHStatNG.WorksheetFunctions.AssumptionsUDFs|FunctionBlock|82e2c53c89225e3e@40534:1227",
+      "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+      "signature": "Private Function BuildRosnerTable(alpha As Double, outliers() As Double, addCaution As Boolean) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.BuildRosnerTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.AssumptionsUDFs.BuildRosnerTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|87599131fb506e70",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|87599131fb506e70@212403:1609",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildClusterPreprocessingTable(varNames() As String, locations() As Double, scales() As Double, mode As Multivariate.ClusterStandardizationMode) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildClusterPreprocessingTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildClusterPreprocessingTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|7327d2bed32a722a",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|7327d2bed32a722a@214022:1332",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildRemovedRowsOutput(rowIds() As Integer, rowLabels() As String) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildRemovedRowsOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildRemovedRowsOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|45fc101d24a95468",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|45fc101d24a95468@215364:1600",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildHierarchicalLeafOrderTable(result As Multivariate.HierarchicalClusterResult) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildHierarchicalLeafOrderTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildHierarchicalLeafOrderTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3aea1e90bf561bc9",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3aea1e90bf561bc9@217637:1015",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildCaEigenOutput(model As Multivariate.CA, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildCaEigenOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildCaEigenOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c7d35785f0d8125b",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|c7d35785f0d8125b@218662:1231",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildCaOverviewOutput(idHeader As String, names() As String, quality() As Double, mass() As Double, distance() As Double, inertia() As Double, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildCaOverviewOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildCaOverviewOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|95679e27604b17c5",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|95679e27604b17c5@221062:655",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function ResolveAvailableAxisCount(preferredAxisCount As Integer, valueSelector As Func(Of Integer, Double())) As Integer",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.ResolveAvailableAxisCount",
+      "role": "TYPED_REPORT_METADATA",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.ResolveAvailableAxisCount"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|34062f9454ad29d8",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|34062f9454ad29d8@221727:1357",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildCaAxisMetricOutput(idHeader As String, names() As String, axisPrefix As String, axisCount As Integer, valueSelector As Func(Of Integer, Double()), includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildCaAxisMetricOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildCaAxisMetricOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3e3ebfbb0d17def8",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|3e3ebfbb0d17def8@223094:1397",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildMcaCategoryOverviewOutput(varNames() As String, categories() As String, quality() As Double, mass() As Double, distance() As Double, inertia() As Double, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaCategoryOverviewOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildMcaCategoryOverviewOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|29792d4309089f3b",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|29792d4309089f3b@224501:1433",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildMcaCategoryAxisMetricOutput(varNames() As String, categories() As String, axisPrefix As String, axisCount As Integer, valueSelector As Func(Of Integer, Double()), includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaCategoryAxisMetricOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildMcaCategoryAxisMetricOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|359e76401632d1c3",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|359e76401632d1c3@225944:374",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function CombinedCategoryHeaders(varNames() As String, categories() As String) As String()",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.CombinedCategoryHeaders",
+      "role": "TYPED_REPORT_METADATA",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.CombinedCategoryHeaders"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|05e0b5cf2464056f",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|05e0b5cf2464056f@226328:1095",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildMcaBurtOutput(model As Multivariate.CA, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaBurtOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildMcaBurtOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|581bbe6b1b611145",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|581bbe6b1b611145@227433:1058",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildMcaIndicatorOutput(model As Multivariate.CA, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildMcaIndicatorOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildMcaIndicatorOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|6c5b48722abce499",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|6c5b48722abce499@229587:962",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildDiscriminantGroupSummaryTable(model As Multivariate.DiscriminantAnalysis) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildDiscriminantGroupSummaryTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildDiscriminantGroupSummaryTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|cf7a03753380b546",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|cf7a03753380b546@230559:1073",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "signature": "Private Function BuildDiscriminantMeansTable(model As Multivariate.DiscriminantAnalysis, useOriginalScale As Boolean) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.BuildDiscriminantMeansTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs.BuildDiscriminantMeansTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|48c24272f6480618",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|48c24272f6480618@107820:1907",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "signature": "Private Function BuildLabeledMatrixOutput(matrix(,) As Double, rowNames() As String, colNames() As String, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.GEEUDFsReports38.BuildLabeledMatrixOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.GEEUDFs.BuildLabeledMatrixOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb|BESHStatNG.UdfRegressionOutput|FunctionBlock|13906656dcaff16f",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb|BESHStatNG.UdfRegressionOutput|FunctionBlock|13906656dcaff16f@1604:585",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+      "signature": "Friend Function BuildResidualVectorOutput(vec() As Double, header As String, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.BuildResidualVectorOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.UdfRegressionOutput.BuildResidualVectorOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb|BESHStatNG.UdfRegressionOutput|FunctionBlock|10a60d5f1f4a8061",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb|BESHStatNG.UdfRegressionOutput|FunctionBlock|10a60d5f1f4a8061@3334:401",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+      "signature": "Friend Function CategoryHeaders(prefix As String, categories() As Integer) As String()",
+      "common_owner": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.CategoryHeaders",
+      "role": "TYPED_REPORT_METADATA",
+      "native_consumer": "BESHStatNG.UdfRegressionOutput.CategoryHeaders"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb|BESHStatNG.UdfRegressionOutput|FunctionBlock|5d7894c9e5b6b5a8",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb|BESHStatNG.UdfRegressionOutput|FunctionBlock|5d7894c9e5b6b5a8@4231:781",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+      "signature": "Friend Function BuildResidualMatrixOutput(mat(,) As Double, headers() As String, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38.BuildResidualMatrixOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.UdfRegressionOutput.BuildResidualMatrixOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|d3d702f4cef51f51",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|d3d702f4cef51f51@64169:299",
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function MakeMetricValueTable(metric As String, value As Integer) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeMetricValueTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.MakeMetricValueTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|8f93227d9672ca36",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|8f93227d9672ca36@64480:411",
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function MakeTwoGroupTable(metric As String, nControls As Integer, nExperimental As Integer) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeTwoGroupTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.MakeTwoGroupTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|004e8c436a7883c7",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|004e8c436a7883c7@64903:963",
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function MakeEquivalenceTwoGroupTable(result As EquivalenceUnpairedTTestSampleSizeResult) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeEquivalenceTwoGroupTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.MakeEquivalenceTwoGroupTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|9e05a1164cd1f295",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|9e05a1164cd1f295@65878:661",
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function MakeIndependentProportionsTable(result As IndependentProportionsSampleSizeResult) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeIndependentProportionsTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.MakeIndependentProportionsTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|eecf6c69e78b7d68",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|eecf6c69e78b7d68@66551:2103",
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function MakeEquivalenceIndependentProportionsTable(result As EquivalenceIndependentProportionsSampleSizeResult) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeEquivalenceIndependentProportionsTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.MakeEquivalenceIndependentProportionsTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|1b608d871e4b71a4",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|1b608d871e4b71a4@68951:954",
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function MakeLogRankPlanningTable(result As LogRankSampleSizeResult) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeLogRankPlanningTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.MakeLogRankPlanningTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|064573a86cc3b88a",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|064573a86cc3b88a@69917:1239",
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function MakeCoxPlanningTable(modelLabel As String, result As CoxEventCountPlanningResult) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeCoxPlanningTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.MakeCoxPlanningTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|efa3f83d964bf70b",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|efa3f83d964bf70b@71168:708",
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function MakeIccPlanningTable(result As IccHypothesisTestSampleSizeResult) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeIccPlanningTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.MakeIccPlanningTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|4e1fe341dae76ed4",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb|BESHStatNG.WorksheetFunctions.SampleSizeUDFs|FunctionBlock|4e1fe341dae76ed4@71888:808",
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "signature": "Private Function MakeBlandAltmanPlanningTable(result As BlandAltmanAgreementStudyPlanningResult) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeBlandAltmanPlanningTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.WorksheetFunctions.SampleSizeUDFs.MakeBlandAltmanPlanningTable"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|e5657115d6b65b15",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|e5657115d6b65b15@2800:258",
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "signature": "Friend Function SafeCiLabel(ci As ConfidenceIntervalResult) As String",
+      "common_owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.SafeCiLabel",
+      "role": "TYPED_REPORT_METADATA",
+      "native_consumer": "BESHStatNG.UdfOutputTables.SafeCiLabel"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|e6e26645997a95af",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|e6e26645997a95af@3066:187",
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "signature": "Friend Function SafeCiText(ci As ConfidenceIntervalResult) As String",
+      "common_owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.SafeCiText",
+      "role": "TYPED_REPORT_METADATA",
+      "native_consumer": "BESHStatNG.UdfOutputTables.SafeCiText"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|7b8e9d5636341620",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|7b8e9d5636341620@4673:1138",
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "signature": "Friend Function BuildNamedMatrixOutput(idHeader As String, rowNames() As String, colNames() As String, mat(,) As Double, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildNamedMatrixOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.UdfOutputTables.BuildNamedMatrixOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|ce9988f973d532bc",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|ce9988f973d532bc@6974:1054",
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "signature": "Friend Function BuildCaseMatrixOutput(idHeader As String, rowIds() As Integer, colNames() As String, mat(,) As Double, includeHeader As Boolean) As Object",
+      "common_owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildCaseMatrixOutput",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.UdfOutputTables.BuildCaseMatrixOutput"
+    },
+    {
+      "original_signature_key": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|db23153a4c3d0fba",
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|db23153a4c3d0fba@11610:264",
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "signature": "Friend Function BuildSimpleNoteTable(label As String, value As String) As Object(,)",
+      "common_owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildSimpleNoteTable",
+      "role": "TYPED_REPORT",
+      "native_consumer": "BESHStatNG.UdfOutputTables.BuildSimpleNoteTable"
+    }
+  ],
+  "common": {
+    "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+    "bytes": 38329,
+    "sha256": "a465d21ee6dd47037fe25dcee5229c86b795c0477be4d2b983b2d8a20a59ae1f"
+  },
+  "windows": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+      "bytes": 41289,
+      "sha256": "75dc9add4c33c1cf65b1c7033041ee05ae1b90895ccfbf1c88eff4f21354982c"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "bytes": 221916,
+      "sha256": "ead88a15ee8de7d18446d9ae7d09a5cb270fc16cf07fad171192b61ad74ddd3c"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "bytes": 111037,
+      "sha256": "3c9773b1170b149823ea485cd1e4f03cca7e9aa4b447bf5a2d18730305b014c6"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+      "bytes": 4056,
+      "sha256": "e22eb5525e15f94ae1ea2eaa406d57cbd8d485da898e435776ed5a9a7a210551"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+      "bytes": 67232,
+      "sha256": "14707e09a16f7798919e2ef7c94411f755b9163f0e37689715737fd691149f80"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "bytes": 20545,
+      "sha256": "b104706bbb3597a2a98ab6396a64aa4fd6317fe087d4ed41a3c72a19dd80ef39"
+    }
+  ],
+  "policy": "Existing Core ResultTableOutputModel report data, copied defensively; native fault/blank/p-value cell marshaling remains Windows. No raw native input object is passed into Common builders."
+}

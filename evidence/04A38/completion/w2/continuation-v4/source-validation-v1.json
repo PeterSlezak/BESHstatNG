@@ -1,0 +1,105 @@
+{
+  "results": [
+    {
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/*.test.mjs"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.OfficeAddin",
+      "exit_code": 0,
+      "seconds": 13.420388200000161,
+      "stdout_sha256": "78e17bdd77cfa065c77992e7147d552dcc93a9706fc4166ebab9a666c55a1356",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "BESHStatNG_Help_MkDocs/tests/help-resolver.test.mjs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.30886540000210516,
+      "stdout_sha256": "56a27a7ef2346da45e58141224d9e3cba42a6c4081dbd0737a487b0b4dacd279",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1"
+      ],
+      "cwd": "<REPO_ROOT>\\BESHStat.WasmSmoke",
+      "exit_code": 0,
+      "seconds": 3.799646200001007,
+      "stdout_sha256": "0f21ff97711121e3b779c7adf49469106cd040df90c2f53d6cdf227783f02b1f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHstatNG/tools/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 467.1331914999755,
+      "stdout_sha256": "feec0c25fdb8b21c7cedd53e2dbda2549ca64589cda6f9b3f89ff93d1aecf066",
+      "stderr_sha256": "f19d3703a91ac5afa5a3b71e08c06df6933c6c5f83926a6308608deeac057f5b",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStatNG_Help_MkDocs/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 79.90259439998772,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "13b0e5e1df8c4d684e8a06b4e4ae1268645050ed239e0d056b863d19341ab823",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "seconds": 2200.030144999997,
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "e3bc4f64b3930a8351e6f56404f15c453a8c5df23584d8f3a7f7c608065238b3",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ]
+}

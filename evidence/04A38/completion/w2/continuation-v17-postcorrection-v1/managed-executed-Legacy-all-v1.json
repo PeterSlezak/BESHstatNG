@@ -1,0 +1,31 @@
+{
+  "suite": "Legacy",
+  "part": "all",
+  "selection": null,
+  "outcomes": {
+    "Passed": 9777,
+    "Failed": 9
+  },
+  "trx_sha256": "f87821fa16633bc1da2d0b2556b8405f558113a7f22a82f039ee7f7a1eb72376",
+  "command": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "<ISOLATED_RUN>\\executions\\w2c17pc1-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-Legacy\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-Legacy\\results",
+      "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+      "/Logger:trx;LogFileName=Legacy.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 156.50257070000225,
+    "stdout_sha256": "6d594848a8703c2ee7fe7b59879ee7f4bb630cf10b91ea9ce290f81da2c5c44f",
+    "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-Legacy/cases.json",
+    "bytes": 3022282,
+    "sha256": "4399bb799a132ddbdcf693916e19c39b4faf1afea1629f6f4d070edbd637936a"
+  }
+}

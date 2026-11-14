@@ -1,0 +1,16 @@
+{
+  "status": "INVALID_REFERENCE_COMPILE_ATTEMPT",
+  "exit_code": 1,
+  "compiler_errors": {
+    "'SnapshotValues' is not a member of 'ExcelDnaSharedApplicationAdapter'.": 1,
+    "'ToSnapshotCell' is not a member of 'ExcelDnaSharedApplicationAdapter'.": 1,
+    "'ChartingFunc.Public Function HistogramBinsComputation(arInput As Double(), strType As String) As Object(*,*)' is not accessible in this context because it is 'Public'.": 2,
+    "'ChartingFunc.Public Function GaussOverlayComputation(arData As Double(), arBinMidVal As Double()) As Double(*,*)' is not accessible in this context because it is 'Public'.": 1,
+    "'BESHStatNG.regression.MixedModelFrontEndHelpers' is not accessible in this context because it is 'Friend'.": 6,
+    "'DotProduct' is ambiguous between declarations in Modules 'BESHStatNG.Matrix.Matrix, BESHStatNG.Matrix.MatrixArithmeticCore'.": 1
+  },
+  "cause": "Remaining host Friend dependencies and a duplicate imported DotProduct binding in the Core test friend context",
+  "correction": "Bind the exact original pure dependency slices and existing mixed-model helper source locally; do not change any production friend grant, assembly or algorithm.",
+  "native_excel": "NOT_RUN",
+  "product_edits": false
+}

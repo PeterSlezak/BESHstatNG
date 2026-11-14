@@ -1,0 +1,45 @@
+{
+  "configurations": [
+    {
+      "configuration": "Debug",
+      "retained_C9_methods": 14828,
+      "changed_existing": 15,
+      "original_Core_methods": 8373,
+      "reached_methods": 853,
+      "all_reached_owners_concrete": true,
+      "new_metadata_rows": 16,
+      "new_source_methods": 16,
+      "newly_measured_existing_scope": 0,
+      "unused_open_constructed_before": 1,
+      "unused_open_constructed_after": 1,
+      "exports": 268
+    },
+    {
+      "configuration": "Release",
+      "retained_C9_methods": 14826,
+      "changed_existing": 15,
+      "original_Core_methods": 8373,
+      "reached_methods": 853,
+      "all_reached_owners_concrete": true,
+      "new_metadata_rows": 16,
+      "new_source_methods": 16,
+      "newly_measured_existing_scope": 0,
+      "unused_open_constructed_before": 1,
+      "unused_open_constructed_after": 1,
+      "exports": 268
+    }
+  ],
+  "new_compiler_generated_aliases": [],
+  "nested_source_binding": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/nested-binding-source-scope-v1.json",
+    "bytes": 989,
+    "sha256": "a5bcb2ad0e11c6ca5af22eb3d31329dc44f350db7d6e27cff59c15f77917510f"
+  },
+  "host_contexts": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/host-cache-contexts-v1.json",
+    "bytes": 538652,
+    "sha256": "f54f010a85a08870bb09358db3e8005890ad2fd4dd0779aa169cd10ae93bb613"
+  },
+  "scope": "853 actually reached methods in each configuration; concrete declared/constructed owners and field/ctor/exception contexts. The only new source binder rule is exact lexical PcaHandle/FactorAnalysisHandle types under their real native owner, with ByRef/type negatives, not a generic compiler-generated alias. All21 portable declarations include16 new source methods/ctor; the private shared-class constructor is declared/source-proved, not falsely claimed dynamically reached.",
+  "original_queries": 0
+}

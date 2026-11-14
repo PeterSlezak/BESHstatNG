@@ -1,0 +1,5 @@
+from common import *
+s=(HERE/'verify_preservation_v2.py').read_text()
+s=s.replace("transitions=load(root/(C+'source-transitions-p1-v5.json'))['files'];final={r['after']['path']:r for r in transitions};versions={}","transitions=load(root/(C+'source-transitions-p1-v5.json'))['files'];final={r['after']['path']:r for r in transitions};versions={}\n for r in load(root/(W+'source-transitions.json'))['files']:\n  if r['path'] not in final:final[r['path']]=dict(after=r['after'],snapshot=r['after'])")
+with (HERE/'verify_preservation_v3.py').open('x',encoding='utf-8') as f:f.write(s)
+save('attempts/preservation-reader-v2.json',dict(exit_code=1,error='Protected byte mismatch BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb',reader=pin(HERE/'verify_preservation_v2.py'),diagnosis='v2 included only the new continuation successor set. Old W2 ImportMixedModel/Core files are unchanged in this continuation but remain authorized successors of historical pins. v3 includes the unchanged predecessor seven-file transition graph as well as the nine-file continuation graph. No expected hash or original pin changed.',product_changed=False))

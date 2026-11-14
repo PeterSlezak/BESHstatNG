@@ -1,0 +1,1323 @@
+{
+  "results": [
+    {
+      "kind": "BUILD",
+      "suite": "Core",
+      "command": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<REPO_ROOT>\\BESHStat.Core.Tests\\BESHStat.Core.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\tests-Core\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\obj\\tests-Core\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.283755599986762,
+        "stdout_sha256": "878ef50a86e4df6837e49314b34127d2d28778ba6711b68286f611e6bc0cd95a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Core",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\tests-Core\\BESHStat.Core.Tests.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~SampleSize",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\results-Core"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.7855138999875635,
+        "stdout_sha256": "9b7d8e4036912ce317f2b7a03871cd7028211e7d72b98febb7fc77ee5e60a114",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculatePairedTTest_matches_reference",
+            "test_name": "CalculatePairedTTest_matches_reference (5,10,0.05,0.2,34)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0055120",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+            "method": "Scaling_CountModeRespectsRelativeSampleSize",
+            "test_name": "Scaling_CountModeRespectsRelativeSampleSize",
+            "outcome": "Passed",
+            "duration": "00:00:00.0165617",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateBlandAltmanLoASampleSize_matches_reference",
+            "test_name": "CalculateBlandAltmanLoASampleSize_matches_reference (8,3,0.1,1.645,48)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003763",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculatePairedTTest_smaller_effect_requires_more_pairs",
+            "test_name": "CalculatePairedTTest_smaller_effect_requires_more_pairs",
+            "outcome": "Passed",
+            "duration": "00:00:00.0072001",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateSingleProportion_matches_reference",
+            "test_name": "CalculateSingleProportion_matches_reference (0.6,0.5,0.05,0.2,189)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0047123",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculatePairedTTest_matches_reference",
+            "test_name": "CalculatePairedTTest_matches_reference (2.5,4,0.01,0.1,42)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0054928",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateCoxEventCountContinuousCovariate_matches_reference",
+            "test_name": "CalculateCoxEventCountContinuousCovariate_matches_reference (0.85,1.5,0.01,0.1,0.3,0.45,False,313,696,2.25)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004667",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateLogRankSampleSize_matches_reference",
+            "test_name": "CalculateLogRankSampleSize_matches_reference (0.75,0.5,0.35,2,0.05,0.1,True,572,848,424,1272,0.45)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004738",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateEquivalenceIndependentProportions_invalid_difference_outside_margins_throws",
+            "test_name": "CalculateEquivalenceIndependentProportions_invalid_difference_outside_margins_throws",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002590",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateBlandAltmanLoASampleSize_matches_reference",
+            "test_name": "CalculateBlandAltmanLoASampleSize_matches_reference (12,4,0.05,1.96,105)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0007034",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateIndependentProportions_matches_reference",
+            "test_name": "CalculateIndependentProportions_matches_reference (0.4,0.6,1,0.05,0.2,97,97,107,107)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0007710",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateIccHypothesisTestSampleSize_matches_reference",
+            "test_name": "CalculateIccHypothesisTestSampleSize_matches_reference (0.5,0.75,4,0.05,0.1,26)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003866",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateUnpairedTTest_matches_reference",
+            "test_name": "CalculateUnpairedTTest_matches_reference (5,10,1,0.05,0.2,64,64)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0055175",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateCoxEventCountBinaryCovariate_matches_reference",
+            "test_name": "CalculateCoxEventCountBinaryCovariate_matches_reference (1.5,2,0.01,0.1,0.25,0.4,False,476,1190,0.2222222222222222)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005880",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateLogRankSampleSize_stronger_effect_requires_fewer_events",
+            "test_name": "CalculateLogRankSampleSize_stronger_effect_requires_fewer_events",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001286",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateIndependentProportions_corrected_counts_are_not_smaller_than_uncorrected",
+            "test_name": "CalculateIndependentProportions_corrected_counts_are_not_smaller_than_uncorrected",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001356",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateUnpairedTTest_matches_reference",
+            "test_name": "CalculateUnpairedTTest_matches_reference (3,6,2,0.05,0.1,128,64)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0054885",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateNonInferiorityUnpairedTTest_matches_reference",
+            "test_name": "CalculateNonInferiorityUnpairedTTest_matches_reference (1,-0.5,2,1,0.025,0.2,29,29)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003466",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateLogRankSampleSize_matches_reference",
+            "test_name": "CalculateLogRankSampleSize_matches_reference (0.7,0.4,0.3,1,0.05,0.2,True,247,353,353,706,0.35)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0008751",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateSingleProportion_matches_reference",
+            "test_name": "CalculateSingleProportion_matches_reference (0.3,0.15,0.01,0.1,139)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0047696",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateLogRankSampleSize_invalid_hazard_ratio_throws",
+            "test_name": "CalculateLogRankSampleSize_invalid_hazard_ratio_throws",
+            "outcome": "Passed",
+            "duration": "00:00:00.0008057",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateSingleProportion_farther_from_null_requires_fewer_subjects",
+            "test_name": "CalculateSingleProportion_farther_from_null_requires_fewer_subjects",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001293",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateCoxEventCountBinaryCovariate_without_overall_event_only_returns_event_count",
+            "test_name": "CalculateCoxEventCountBinaryCovariate_without_overall_event_only_returns_event_count",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001802",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateNonInferiorityUnpairedTTest_matches_reference",
+            "test_name": "CalculateNonInferiorityUnpairedTTest_matches_reference (0.8,-0.2,1.5,2,0.025,0.1,74,37)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003772",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateEquivalenceIndependentProportions_matches_reference",
+            "test_name": "CalculateEquivalenceIndependentProportions_matches_reference (0.5,0.52,-0.1,0.1,1,0.05,0.2,214,214,231,231,482,482,507,507,482,482,507,507,\"Upper bound\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005503",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateBlandAltmanLoASampleSize_tighter_precision_requires_more_pairs",
+            "test_name": "CalculateBlandAltmanLoASampleSize_tighter_precision_requires_more_pairs",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002551",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateIndependentProportions_matches_reference",
+            "test_name": "CalculateIndependentProportions_matches_reference (0.25,0.4,2,0.05,0.1,302,151,322,161)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004946",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateIccHypothesisTestSampleSize_invalid_order_throws",
+            "test_name": "CalculateIccHypothesisTestSampleSize_invalid_order_throws",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002179",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateNonInferiorityIndependentProportions_matches_reference",
+            "test_name": "CalculateNonInferiorityIndependentProportions_matches_reference (0.4,0.43,-0.08,2,0.025,0.1,620,310,648,324)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003940",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateEquivalenceIndependentProportions_matches_reference",
+            "test_name": "CalculateEquivalenceIndependentProportions_matches_reference (0.5,0.48,-0.1,0.1,1,0.05,0.2,480,480,505,505,212,212,229,229,480,480,505,505,\"Lower bound\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0007933",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateUnpairedTTest_control_count_tracks_kappa",
+            "test_name": "CalculateUnpairedTTest_control_count_tracks_kappa",
+            "outcome": "Passed",
+            "duration": "00:00:00.0069536",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateCoxEventCountContinuousCovariate_higher_r_squared_requires_more_events",
+            "test_name": "CalculateCoxEventCountContinuousCovariate_higher_r_squared_requires_more_events",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001358",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateNonInferiorityIndependentProportions_matches_reference",
+            "test_name": "CalculateNonInferiorityIndependentProportions_matches_reference (0.6,0.62,-0.1,1,0.025,0.2,267,267,284,284)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004323",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateIccHypothesisTestSampleSize_larger_separation_requires_fewer_subjects",
+            "test_name": "CalculateIccHypothesisTestSampleSize_larger_separation_requires_fewer_subjects",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002267",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.PsmScoresSensitivityCoreTests",
+            "method": "GroupNormalization_PreservesGroupSampleSizes",
+            "test_name": "GroupNormalization_PreservesGroupSampleSizes",
+            "outcome": "Passed",
+            "duration": "00:00:00.0071546",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateCoxEventCountBinaryCovariate_matches_reference",
+            "test_name": "CalculateCoxEventCountBinaryCovariate_matches_reference (0.7,1,0.05,0.2,0,0.35,True,247,706,0.25)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006503",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateNonInferiorityUnpairedTTest_stricter_margin_requires_more_subjects",
+            "test_name": "CalculateNonInferiorityUnpairedTTest_stricter_margin_requires_more_subjects",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001648",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateEquivalenceUnpairedTTest_matches_reference",
+            "test_name": "CalculateEquivalenceUnpairedTTest_matches_reference (-0.1,-0.5,0.5,1.8,1,0.05,0.2,252,252,113,113,252,252,\"Lower bound\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005491",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateCoxEventCountContinuousCovariate_matches_reference",
+            "test_name": "CalculateCoxEventCountContinuousCovariate_matches_reference (1.2,0.8,0.05,0.2,0,0.3,True,369,1230,0.64)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004067",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateEquivalenceUnpairedTTest_matches_reference",
+            "test_name": "CalculateEquivalenceUnpairedTTest_matches_reference (0.1,-0.5,0.5,1.8,1,0.05,0.2,113,113,252,252,252,252,\"Upper bound\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0007550",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.SampleSizeCalculator_Tests",
+            "method": "CalculateIccHypothesisTestSampleSize_matches_reference",
+            "test_name": "CalculateIccHypothesisTestSampleSize_matches_reference (0.4,0.7,3,0.05,0.2,20)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0011359",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Core.Tests.PsmFoundationCoreTests",
+            "method": "EffectiveSampleSize_IgnoresInvalidWeights",
+            "test_name": "EffectiveSampleSize_IgnoresInvalidWeights",
+            "outcome": "Passed",
+            "duration": "00:00:00.0050911",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 42
+        },
+        "counters": {
+          "total": "42",
+          "executed": "42",
+          "passed": "42",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "08d090d02d00ae19ddf7ebac83534268b1f8635ea195f412b161ad2b079bc00b"
+      }
+    },
+    {
+      "kind": "BUILD",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<REPO_ROOT>\\BESHStat.Excel.Common.Tests\\BESHStat.Excel.Common.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\tests-Common\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\obj\\tests-Common\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.7637151000089943,
+        "stdout_sha256": "a70ebcd36bef2c864b6b835ccfb8f7a9b0b69fa147636c2ab1fee3f8e059752b",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\tests-Common\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~UdfContinuation8Tests|FullyQualifiedName~SampleSize",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\results-Common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.9976667999872006,
+        "stdout_sha256": "e9f75258742004a900f37787e170950bf7e2754000ebad046df0a2ae8f74bafa",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "CoxPreparedLayoutKeepsTimeStatusStrataPredictorOrdering",
+            "test_name": "CoxPreparedLayoutKeepsTimeStatusStrataPredictorOrdering",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006383",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "IndependentProportionComponentsKeepTheirRowsAndTypes",
+            "test_name": "IndependentProportionComponentsKeepTheirRowsAndTypes (1,3,3)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0015403",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "IndependentProportionComponentsKeepTheirRowsAndTypes",
+            "test_name": "IndependentProportionComponentsKeepTheirRowsAndTypes (2,3,3)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006422",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "HypothesisAndMarginFailuresKeepOriginalPrecedenceAndExceptions",
+            "test_name": "HypothesisAndMarginFailuresKeepOriginalPrecedenceAndExceptions",
+            "outcome": "Passed",
+            "duration": "00:00:00.0015589",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "PreparedLayoutsPreserveOpaqueCellsNamesAndPartialWrites",
+            "test_name": "PreparedLayoutsPreserveOpaqueCellsNamesAndPartialWrites",
+            "outcome": "Passed",
+            "duration": "00:00:00.0013616",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "IndependentProportionComponentsKeepTheirRowsAndTypes",
+            "test_name": "IndependentProportionComponentsKeepTheirRowsAndTypes (3,7,5)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006405",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "OtherPlanningFamiliesKeepOriginalReportShapesAndScalarKinds",
+            "test_name": "OtherPlanningFamiliesKeepOriginalReportShapesAndScalarKinds",
+            "outcome": "Passed",
+            "duration": "00:00:00.0046893",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "RequiredReadsFinishBeforeCollectiveFailureAndOptionsStayLazy",
+            "test_name": "RequiredReadsFinishBeforeCollectiveFailureAndOptionsStayLazy",
+            "outcome": "Passed",
+            "duration": "00:00:00.0061886",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "UnpairedPlanningUsesExistingTypedReports",
+            "test_name": "UnpairedPlanningUsesExistingTypedReports (3,4,4)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005521",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "UnpairedPlanningUsesExistingTypedReports",
+            "test_name": "UnpairedPlanningUsesExistingTypedReports (1,3,2)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0062682",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "CoxOptionReadsStopAtFirstInvalidOptionalAndMissingDefaultsStayLazy",
+            "test_name": "CoxOptionReadsStopAtFirstInvalidOptionalAndMissingDefaultsStayLazy",
+            "outcome": "Passed",
+            "duration": "00:00:00.0024038",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation8Tests",
+            "method": "UnpairedPlanningUsesExistingTypedReports",
+            "test_name": "UnpairedPlanningUsesExistingTypedReports (2,3,2)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0007516",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 12
+        },
+        "counters": {
+          "total": "12",
+          "executed": "12",
+          "passed": "12",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "ddcec6db32c0f8b2f5a6f66e9fd900f9352b107bdf2d0b5afb3945bad7f5644c"
+      }
+    },
+    {
+      "kind": "BUILD",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<REPO_ROOT>\\BESHStatNG.Test\\BESHStatNG.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\tests-Legacy\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\obj\\tests-Legacy\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.2547243000008166,
+        "stdout_sha256": "1d8dbab0b8d4a3f56860a9d3e5926bcd1a93c7574913223fb0645ea66ae91bd1",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\tests-Legacy\\BESHStatNG.Test.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~UdfPreparation38AdapterTests",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont8\\packet-v1-focus-v3\\Debug\\results-Legacy",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 7.618696999998065,
+        "stdout_sha256": "0edd02a2735352064b0e38cdb033050b4e243a7e646ade525feae71c2debed0e",
+        "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "NativeScalar38PreservesAliasedConverterOutputOnFailedValidation",
+            "test_name": "NativeScalar38PreservesAliasedConverterOutputOnFailedValidation (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000640",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "NativeAlpha38RetainsDefaultParsePrecedenceAndByRef",
+            "test_name": "NativeAlpha38RetainsDefaultParsePrecedenceAndByRef (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000725",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.PropensityScoreUDFs,ApplyOption,BESHStatNG.ExcelCommon.UdfPsmPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000764",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingLeveneInvalidConversionKeepsCallbackByRefMutations",
+            "test_name": "ShippingLeveneInvalidConversionKeepsCallbackByRefMutations (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000485",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Inference38ShippingFamiliesRetainErrorsShapesAndPairedRows",
+            "test_name": "Inference38ShippingFamiliesRetainErrorsShapesAndPairedRows (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0867182",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.UdfDataImport,GetVariableNames,BESHStatNG.ExcelCommon.UdfNamePreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002006",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.GEEUDFs,ApplyGeeLsmEstimateAtProfile,BESHStatNG.ExcelCommon.UdfModelProfilePreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003900",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingMmrmDescriptionDelegatesToPortablePolicyWithNativeDto",
+            "test_name": "ShippingMmrmDescriptionDelegatesToPortablePolicyWithNativeDto (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000615",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.DistributionUDFs,PRTRNG_TAIL,BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000211",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingSymmetryInvalidConversionKeepsItsMutatedOutputs",
+            "test_name": "ShippingSymmetryInvalidConversionKeepsItsMutatedOutputs (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000312",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingLeveneAcceptedConversionOverwritesCallbackValuesInOriginalOrder",
+            "test_name": "ShippingLeveneAcceptedConversionOverwritesCallbackValuesInOriginalOrder ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001536",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "NativeAlpha38RetainsDefaultParsePrecedenceAndByRef",
+            "test_name": "NativeAlpha38RetainsDefaultParsePrecedenceAndByRef ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006135",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingMmrmDescriptionDelegatesToPortablePolicyWithNativeDto",
+            "test_name": "ShippingMmrmDescriptionDelegatesToPortablePolicyWithNativeDto ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0035660",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.PlotDataUDFs,BuildRocPointsTable,BESHStatNG.ExcelCommon.PlotDataUDFsReports38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000834",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingCalibrationReportKeepsRawNonfiniteAndLegacyNumericErrorCoercion",
+            "test_name": "ShippingCalibrationReportKeepsRawNonfiniteAndLegacyNumericErrorCoercion (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000550",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation8ImportParentsKeepAlignmentFlagsAndFailureResets",
+            "test_name": "Continuation8ImportParentsKeepAlignmentFlagsAndFailureResets",
+            "outcome": "Failed",
+            "duration": "00:00:00.1327638",
+            "message": "Assert.AreEqual failed. Expected:<2>. Actual:<1>. "
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingLeveneOrdinaryAliasesAndSentinelsKeepOriginalOutputs",
+            "test_name": "ShippingLeveneOrdinaryAliasesAndSentinelsKeepOriginalOutputs (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001702",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "IndependentAndPaired38KeepLowerBoundsSourceRowsAndOwnership",
+            "test_name": "IndependentAndPaired38KeepLowerBoundsSourceRowsAndOwnership (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002111",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "InversionHostCatchRetainsFrameworkErrAndByRefContract",
+            "test_name": "InversionHostCatchRetainsFrameworkErrAndByRefContract",
+            "outcome": "Passed",
+            "duration": "00:00:00.0165051",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation8PlanningAdaptersKeepErrorPrecedenceAndReportShapes",
+            "test_name": "Continuation8PlanningAdaptersKeepErrorPrecedenceAndReportShapes ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0182507",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "NativeCellConversion38KeepsSentinelsAndRealCatch",
+            "test_name": "NativeCellConversion38KeepsSentinelsAndRealCatch ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0084793",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingNameCountGuardsPreserveExplicitVersusMissingBehavior",
+            "test_name": "ShippingNameCountGuardsPreserveExplicitVersusMissingBehavior",
+            "outcome": "Passed",
+            "duration": "00:00:00.0014397",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingNamesConvertLazilyInSourceOrderEvenBeforeMismatch",
+            "test_name": "ShippingNamesConvertLazilyInSourceOrderEvenBeforeMismatch",
+            "outcome": "Passed",
+            "duration": "00:00:00.0013968",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingNamesKeepRangeBlankErrorAndConversionPolicy",
+            "test_name": "ShippingNamesKeepRangeBlankErrorAndConversionPolicy (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002784",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingSymmetryAliasesAndInvalidInputKeepOriginalByRefRules",
+            "test_name": "ShippingSymmetryAliasesAndInvalidInputKeepOriginalByRefRules ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0012834",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Trimmed38ShippingReadersRetainShapesNaNsOffsetsAndResets",
+            "test_name": "Trimmed38ShippingReadersRetainShapesNaNsOffsetsAndResets ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0131993",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingNamesKeepRangeBlankErrorAndConversionPolicy",
+            "test_name": "ShippingNamesKeepRangeBlankErrorAndConversionPolicy ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0028513",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingSymmetryThrowingConversionDoesNotInitializeOutputs",
+            "test_name": "ShippingSymmetryThrowingConversionDoesNotInitializeOutputs (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000765",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.PlotDataUDFs,BuildCalibrationPointsTable,BESHStatNG.ExcelCommon.PlotDataUDFsReports38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000697",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.GEEUDFs,AverageGeeFittedDesignRowForLsmProfile,BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005112",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.DistributionUDFs,PRTRNG,BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000707",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ExistingCacheHelperRetainsDictionaryComparerAndMissingLookupBehavior",
+            "test_name": "ExistingCacheHelperRetainsDictionaryComparerAndMissingLookupBehavior",
+            "outcome": "Passed",
+            "duration": "00:00:00.0015113",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.ParametricUDFs,StackWithBlankRow,BESHStatNG.ExcelCommon.UdfSpillPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000601",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.MixedModelUDFs,AverageFittedDesignRowForLsmProfile,BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003780",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "IndependentAndPaired38KeepLowerBoundsSourceRowsAndOwnership",
+            "test_name": "IndependentAndPaired38KeepLowerBoundsSourceRowsAndOwnership ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0242749",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "AnovaShippingReportsPreserveGroupedLayoutAndFaultOrdering",
+            "test_name": "AnovaShippingReportsPreserveGroupedLayoutAndFaultOrdering ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.4939673",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.UdfDataImport,TryGetNestedThreeColumnData,BESHStatNG.ExcelCommon.UdfNumericImportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000552",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "VarianceAliasesAndExceptionalConversionUseShippingBoundary",
+            "test_name": "VarianceAliasesAndExceptionalConversionUseShippingBoundary ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0027324",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.RegressionFormulaUDFs,BuildValidationFailureMessage,BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000968",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.ParametricUDFs,ResolveNames,BESHStatNG.ExcelCommon.UdfNamePreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000599",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingLeveneAcceptedConversionOverwritesCallbackValuesInOriginalOrder",
+            "test_name": "ShippingLeveneAcceptedConversionOverwritesCallbackValuesInOriginalOrder (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000333",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingNamesKeepScalarCommaMissingAndEmptyPrecedence",
+            "test_name": "ShippingNamesKeepScalarCommaMissingAndEmptyPrecedence (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0051491",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.ExcelArgNumeric,TryGetBinary01,BESHStatNG.ExcelCommon.UdfScalarChoice38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001073",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.UdfOutputTables,PrepareWrappedResultTableForUdf,BESHStatNG.ExcelCommon.UdfSpillLayout38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001205",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingDistributionRoutePreservesBoxedErrorsAndZeroPolicy",
+            "test_name": "ShippingDistributionRoutePreservesBoxedErrorsAndZeroPolicy (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0077964",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingSymmetryThrowingConversionDoesNotInitializeOutputs",
+            "test_name": "ShippingSymmetryThrowingConversionDoesNotInitializeOutputs ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0009988",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingLeveneResetsBeforeThrowingConversionAndKeepsItsMutations",
+            "test_name": "ShippingLeveneResetsBeforeThrowingConversionAndKeepsItsMutations (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000679",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Inference38ShippingFamiliesRetainErrorsShapesAndPairedRows",
+            "test_name": "Inference38ShippingFamiliesRetainErrorsShapesAndPairedRows ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.1492530",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingReportMaterializerRetainsNativeSourceCellsAndErrorCategory",
+            "test_name": "ShippingReportMaterializerRetainsNativeSourceCellsAndErrorCategory",
+            "outcome": "Passed",
+            "duration": "00:00:00.0020646",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.UdfDataImport,TryExtractNumericGroupsFromMatrix,BESHStatNG.ExcelCommon.UdfNumericImportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001914",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Assumptions38ShippingBoundariesAndSizingStayDistinct",
+            "test_name": "Assumptions38ShippingBoundariesAndSizingStayDistinct",
+            "outcome": "Passed",
+            "duration": "00:00:00.0054367",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "GroupedImport38RetainsBoundsNamesAndCallerArrays",
+            "test_name": "GroupedImport38RetainsBoundsNamesAndCallerArrays (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000845",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingLeveneInvalidConversionKeepsCallbackByRefMutations",
+            "test_name": "ShippingLeveneInvalidConversionKeepsCallbackByRefMutations ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0009829",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.UdfDataImport,HasNumericColumnHeader,BESHStatNG.ExcelCommon.UdfRangePreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002695",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "GroupedImport38RetainsBoundsNamesAndCallerArrays",
+            "test_name": "GroupedImport38RetainsBoundsNamesAndCallerArrays ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0015199",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.PlotDataUDFs,BuildRocStatsTable,BESHStatNG.ExcelCommon.PlotDataUDFsReports38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000218",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation8CompiledShippingConsumersReachTheirPreparedApis",
+            "test_name": "Continuation8CompiledShippingConsumersReachTheirPreparedApis",
+            "outcome": "Passed",
+            "duration": "00:00:00.0011632",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.AssumptionsUDFs,TryParseSymmetryMethod,BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000461",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingSpillRoutesRetainCellIdentityBoundsAndExcelErrors",
+            "test_name": "ShippingSpillRoutesRetainCellIdentityBoundsAndExcelErrors",
+            "outcome": "Passed",
+            "duration": "00:00:00.0031503",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation8PlanningAdaptersKeepErrorPrecedenceAndReportShapes",
+            "test_name": "Continuation8PlanningAdaptersKeepErrorPrecedenceAndReportShapes (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004219",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingNamesKeepScalarCommaMissingAndEmptyPrecedence",
+            "test_name": "ShippingNamesKeepScalarCommaMissingAndEmptyPrecedence ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0030853",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "NativeScalar38PreservesAliasedConverterOutputOnFailedValidation",
+            "test_name": "NativeScalar38PreservesAliasedConverterOutputOnFailedValidation ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0014181",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingCalibrationReportKeepsRawNonfiniteAndLegacyNumericErrorCoercion",
+            "test_name": "ShippingCalibrationReportKeepsRawNonfiniteAndLegacyNumericErrorCoercion ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0083770",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "VarianceAliasesAndExceptionalConversionUseShippingBoundary",
+            "test_name": "VarianceAliasesAndExceptionalConversionUseShippingBoundary (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0034706",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "RegistrationMetadataHasExactly268DistinctWindowsExports",
+            "test_name": "RegistrationMetadataHasExactly268DistinctWindowsExports",
+            "outcome": "Passed",
+            "duration": "00:00:00.0246049",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "NativeCellConversion38KeepsSentinelsAndRealCatch",
+            "test_name": "NativeCellConversion38KeepsSentinelsAndRealCatch (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0073899",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingLeveneResetsBeforeThrowingConversionAndKeepsItsMutations",
+            "test_name": "ShippingLeveneResetsBeforeThrowingConversionAndKeepsItsMutations ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0024245",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Trimmed38ShippingReadersRetainShapesNaNsOffsetsAndResets",
+            "test_name": "Trimmed38ShippingReadersRetainShapesNaNsOffsetsAndResets (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001900",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "AnovaShippingReportsPreserveGroupedLayoutAndFaultOrdering",
+            "test_name": "AnovaShippingReportsPreserveGroupedLayoutAndFaultOrdering (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.5652396",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.ExcelArgNumeric,GetOptionalBool,BESHStatNG.ExcelCommon.UdfScalarChoice38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0203181",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingSentinelAdapterPreservesNumericAndBooleanDistinctions",
+            "test_name": "ShippingSentinelAdapterPreservesNumericAndBooleanDistinctions",
+            "outcome": "Passed",
+            "duration": "00:00:00.0895044",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.AssumptionsUDFs,BuildTwoValueTable,BESHStatNG.ExcelCommon.UdfSpillPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000965",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingLeveneOrdinaryAliasesAndSentinelsKeepOriginalOutputs",
+            "test_name": "ShippingLeveneOrdinaryAliasesAndSentinelsKeepOriginalOutputs ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0036267",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.UdfLinearAlgebra,TryInvertMatrix,BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000908",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingSymmetryInvalidConversionKeepsItsMutatedOutputs",
+            "test_name": "ShippingSymmetryInvalidConversionKeepsItsMutatedOutputs ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000994",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingGroupedAndNestedImportsUseNativePoliciesWithPortablePreparation",
+            "test_name": "ShippingGroupedAndNestedImportsUseNativePoliciesWithPortablePreparation ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0380543",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.AssumptionsUDFs,TryParseLeveneCenter,BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001080",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.DistributionUDFs,F_PDF,BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000248",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingGroupedAndNestedImportsUseNativePoliciesWithPortablePreparation",
+            "test_name": "ShippingGroupedAndNestedImportsUseNativePoliciesWithPortablePreparation (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000734",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.WorksheetFunctions.MixedModelUDFs,ApplyMmrmLsmEstimateAtProfile,BESHStatNG.ExcelCommon.UdfModelProfilePreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001074",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "CompiledShippingAdapterCallsItsPortablePreparation",
+            "test_name": "CompiledShippingAdapterCallsItsPortablePreparation (BESHStatNG.UdfDataImport,TryGetGroupedCompleteMatrix,BESHStatNG.ExcelCommon.UdfNumericImportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002895",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingSymmetryAliasesAndInvalidInputKeepOriginalByRefRules",
+            "test_name": "ShippingSymmetryAliasesAndInvalidInputKeepOriginalByRefRules (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000675",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "ShippingDistributionRoutePreservesBoxedErrorsAndZeroPolicy",
+            "test_name": "ShippingDistributionRoutePreservesBoxedErrorsAndZeroPolicy ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0144858",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 82,
+          "Failed": 1
+        },
+        "counters": {
+          "total": "83",
+          "executed": "83",
+          "passed": "82",
+          "failed": "1",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "5e204f72af07554909e78114dd996138e04048f9a04c9286cac00c5f04994cc3"
+      }
+    }
+  ],
+  "original_queries": 0
+}

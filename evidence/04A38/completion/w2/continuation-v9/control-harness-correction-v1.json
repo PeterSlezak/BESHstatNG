@@ -1,0 +1,23 @@
+{
+  "first_command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c9-checkpoint-controls-v3/command.json",
+    "bytes": 606,
+    "sha256": "3057e82a0c1d04a8a0f6cb95ca46c1f0cadea679d1415db72fe47e1f3a6311a5"
+  },
+  "first_stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c9-checkpoint-controls-v3/stderr.log",
+    "bytes": 2099,
+    "sha256": "82087e8e2d29955dec0f918fa35a0304e93bc46533618946c881c558b2fcdd64"
+  },
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/seal_and_controls_v3.py",
+    "bytes": 10142,
+    "sha256": "ec9f198f1b19103f50e3d9b0ffe08d1c0269fe9a2b6b36fe58e7ed0e8fd83129"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/seal_and_controls_v4.py",
+    "bytes": 10497,
+    "sha256": "ede0b84292382dd6ec371b597aa09faffd00753737526500c6483be2f45de2d4"
+  },
+  "scope": "Only the exact missing prior C8 reference control accepts inherited TypeError as rejection; other TypeErrors remain errors. Reader already failed closed, no source/test/reader acceptance rule changed."
+}

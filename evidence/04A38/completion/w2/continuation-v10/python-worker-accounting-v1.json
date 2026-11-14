@@ -1,0 +1,674 @@
+{
+  "workers_at_peak": 6,
+  "executions": [
+    {
+      "lane": 2,
+      "phase": "MAIN",
+      "methods": 27,
+      "method_outcomes": {
+        "PASS": 27
+      },
+      "failure_events": 0,
+      "error_events": 0,
+      "seconds": 369.6012160999817,
+      "exit_code": 0,
+      "pid": 5036,
+      "start_utc": "2026-11-11T17:36:24.857119+00:00",
+      "end_utc": "2026-11-11T17:42:34.458273+00:00",
+      "raw": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/2/raw-result.json",
+        "bytes": 116507,
+        "sha256": "07f570a2841cc338713613fad52fcf7b0cb51eb6794129cd6c1d7262091273cd"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-2-main/stdout.log",
+        "bytes": 1034,
+        "sha256": "9daa5338edd206fb659f653a4cad895e43d9d3f3a519ffa66ec89fb29b582cc2"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-2-main/stderr.log",
+        "bytes": 4695,
+        "sha256": "0b9adcb7bdce847176855e0ca15b0e69d869b82d78fe59b52c30f3a57c45eee6"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-2-main/command.json",
+        "bytes": 693,
+        "sha256": "b2291280b09f7f69182eabb26aefc0cf471f896a4f491c526a772c55efba6018"
+      },
+      "copy_provenance": null
+    },
+    {
+      "lane": 3,
+      "phase": "MAIN",
+      "methods": 16,
+      "method_outcomes": {
+        "PASS": 16
+      },
+      "failure_events": 0,
+      "error_events": 0,
+      "seconds": 123.36887899998692,
+      "exit_code": 0,
+      "pid": 22476,
+      "start_utc": "2026-11-11T17:36:25.628537+00:00",
+      "end_utc": "2026-11-11T17:38:28.997377+00:00",
+      "raw": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/3/raw-result.json",
+        "bytes": 2538705,
+        "sha256": "28a06366a2860590667fb3c6006460f713e6be9be2ce2d3bfd60786ebc7903d9"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-3-main/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-3-main/stderr.log",
+        "bytes": 2990,
+        "sha256": "e0363c5b9adbe69f54bcfcfa516816269bd28e32a78bf4e1cb2b93fb77dd7e7b"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-3-main/command.json",
+        "bytes": 692,
+        "sha256": "ba0316bbdf814eb21424ba92f33f611f982c2166c5e5a9ec6eb78ff003dc5030"
+      },
+      "copy_provenance": null
+    },
+    {
+      "lane": 4,
+      "phase": "MAIN",
+      "methods": 168,
+      "method_outcomes": {
+        "ERROR": 5,
+        "PASS": 157,
+        "FAIL": 6
+      },
+      "failure_events": 6,
+      "error_events": 5,
+      "seconds": 5.901302299986128,
+      "exit_code": 1,
+      "pid": 16464,
+      "start_utc": "2026-11-11T17:36:24.425410+00:00",
+      "end_utc": "2026-11-11T17:36:30.326550+00:00",
+      "raw": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/4/raw-result.json",
+        "bytes": 694424,
+        "sha256": "ba6f6b10218222f9abb799440d5133fbd7a936871e245de394f89cf5f0d772d0"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-4-main/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-4-main/stderr.log",
+        "bytes": 340089,
+        "sha256": "b6f0b853f2c61bb4b9126c8b39caf0b92ee0146e5c4af3c3f6e32c896fb5b43e"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-4-main/command.json",
+        "bytes": 693,
+        "sha256": "78557716ba53849e7310b713150107d3ff46a81e62d0399c0ae84e084e28a994"
+      },
+      "copy_provenance": null
+    },
+    {
+      "lane": 5,
+      "phase": "MAIN",
+      "methods": 327,
+      "method_outcomes": {
+        "PASS": 267,
+        "FAIL": 59,
+        "ERROR": 1
+      },
+      "failure_events": 125,
+      "error_events": 1,
+      "seconds": 38.70561789997737,
+      "exit_code": 1,
+      "pid": 9808,
+      "start_utc": "2026-11-11T17:36:25.763886+00:00",
+      "end_utc": "2026-11-11T17:37:04.469342+00:00",
+      "raw": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/5/raw-result.json",
+        "bytes": 854552,
+        "sha256": "d098d927be248d0a6d70d7d8ddd86fede08fce78cad4430d9b6a30065b602c48"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-5-main/stdout.log",
+        "bytes": 2,
+        "sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-5-main/stderr.log",
+        "bytes": 236683,
+        "sha256": "3e375eb1dc13d3f4775c088f918ab6125e49ca890fbdc84d42fd6b4b51754166"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-5-main/command.json",
+        "bytes": 693,
+        "sha256": "34ab05b81a762202d217396904b28dec3da86ea08810f287be8dbc38ca19e6c9"
+      },
+      "copy_provenance": null
+    },
+    {
+      "lane": 6,
+      "phase": "MAIN",
+      "methods": 374,
+      "method_outcomes": {
+        "PASS": 335,
+        "FAIL": 34,
+        "ERROR": 5
+      },
+      "failure_events": 35,
+      "error_events": 5,
+      "seconds": 27.20593330002157,
+      "exit_code": 1,
+      "pid": 14936,
+      "start_utc": "2026-11-11T17:36:25.764654+00:00",
+      "end_utc": "2026-11-11T17:36:52.970392+00:00",
+      "raw": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/6/raw-result.json",
+        "bytes": 304335,
+        "sha256": "91140f598c8a1e4b2d717cae1bad18b13ad433b22ca3f71b7ceed3f619ddd618"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-6-main/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-6-main/stderr.log",
+        "bytes": 122391,
+        "sha256": "6bac6a275e368e5b47ef5195aedbec47b34d2fa5d3a5e610bffb42d07468621a"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-6-main/command.json",
+        "bytes": 694,
+        "sha256": "84e4ee8a497a8dd99a47f03e6df36ab10b878b646696d2d174bb025194e77d83"
+      },
+      "copy_provenance": null
+    },
+    {
+      "lane": 5,
+      "phase": "DISPOSABLE",
+      "methods": 4,
+      "method_outcomes": {
+        "PASS": 4
+      },
+      "failure_events": 0,
+      "error_events": 0,
+      "seconds": 0.5220209999824874,
+      "exit_code": 0,
+      "pid": 1476,
+      "start_utc": "2026-11-11T17:42:35.446533+00:00",
+      "end_utc": "2026-11-11T17:42:35.968521+00:00",
+      "raw": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/5-disposable/raw-result.json",
+        "bytes": 24706,
+        "sha256": "65c3ad435d3921e6af3bd988d2da7764e095dc35d83830fd44dc3594390f5596"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-5-disposable/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-5-disposable/stderr.log",
+        "bytes": 841,
+        "sha256": "58f85c74bdc33c75fe97c0081dcdc21a84b243fb1fa7140ddc72c94e7942b5cf"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-5-disposable/command.json",
+        "bytes": 711,
+        "sha256": "fa04948c40c9fdabff6d2bc95574138084701ef3c2f73499ce16035c123da1a7"
+      },
+      "copy_provenance": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/5-disposable/copy-provenance.json",
+        "bytes": 2322,
+        "sha256": "24d319ef9a15dd267fd88f92f3597581445e29336eba5aded91885735c9de829"
+      }
+    },
+    {
+      "lane": 1,
+      "phase": "MAIN",
+      "methods": 40,
+      "method_outcomes": {
+        "FAIL": 14,
+        "PASS": 24,
+        "ERROR": 2
+      },
+      "failure_events": 14,
+      "error_events": 2,
+      "seconds": 1404.5261534999881,
+      "exit_code": 1,
+      "pid": 7596,
+      "start_utc": "2026-11-11T17:42:37.781794+00:00",
+      "end_utc": "2026-11-11T18:06:02.307900+00:00",
+      "raw": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/raw-result.json",
+        "bytes": 76542,
+        "sha256": "9cab3f3684e64451140a5d110b1f7e0cccc901b2faa7e07f5d4e45add5a4642b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-1-main/stdout.log",
+        "bytes": 50,
+        "sha256": "6e57207ed9a25f15e78aafc475686e1636a0163314beb1d637bfaffbe3abd8d9"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-1-main/stderr.log",
+        "bytes": 40858,
+        "sha256": "05fcc5c365cda57f3bc4358d0e41c2f124a01afcf88e7ecd38f65e94c521a241"
+      },
+      "command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-python-worker-v1-1-main/command.json",
+        "bytes": 688,
+        "sha256": "dcf30371563ab0ec9f96090afd8ac07827b0e4298a81c4dc203f4a170e0e1214"
+      },
+      "copy_provenance": null
+    }
+  ],
+  "raw_attempts": 956,
+  "corrective_repeats": 0,
+  "effective_method_outcomes": {
+    "PASS": 830,
+    "ERROR": 13,
+    "FAIL": 113
+  },
+  "effective_nonpass_events": {
+    "ERROR": 13,
+    "FAIL": 180
+  },
+  "nonpass_event_delta": {
+    "extra": [
+      {
+        "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "outcome": "ERROR",
+        "subtest": "",
+        "occurrence": 0,
+        "count": 1
+      },
+      {
+        "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "outcome": "ERROR",
+        "subtest": "",
+        "occurrence": 0,
+        "count": 1
+      }
+    ],
+    "lost": [
+      {
+        "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "outcome": "FAIL",
+        "subtest": "",
+        "occurrence": 0,
+        "count": 1
+      },
+      {
+        "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "outcome": "FAIL",
+        "subtest": "",
+        "occurrence": 0,
+        "count": 1
+      }
+    ]
+  },
+  "scanner": {
+    "stats": {
+      "fresh": 0,
+      "reused": 6752
+    },
+    "authority": "11c38010824cd1a0791eb7dbbd5a3c054f9054b2d6e737a63678d243287e47e9",
+    "proxies": [
+      {
+        "source": "verify-04a11-publication.py",
+        "skips": 194,
+        "fallbacks": 0
+      },
+      {
+        "source": "verify-04a13-publication.py",
+        "skips": 0,
+        "fallbacks": 0
+      },
+      {
+        "source": "verify-04a14-publication.py",
+        "skips": 0,
+        "fallbacks": 0
+      }
+    ],
+    "sources": {
+      "scripts/verify-04a11-publication.py": {
+        "path": "scripts/verify-04a11-publication.py",
+        "bytes": 20515,
+        "sha256": "d82bf9787c06ce94e69e561577df5ca99fdd653b07175c51f34eccd74d594027"
+      },
+      "scripts/verify-04a13-publication.py": {
+        "path": "scripts/verify-04a13-publication.py",
+        "bytes": 9176,
+        "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+      },
+      "scripts/verify-04a14-publication.py": {
+        "path": "scripts/verify-04a14-publication.py",
+        "bytes": 9320,
+        "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+      }
+    }
+  },
+  "parallel_scanner": {
+    "fresh": 4671,
+    "attempts": [
+      {
+        "files": 4669,
+        "receipts": [
+          {
+            "number": 1,
+            "plan": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/1/input.json",
+              "bytes": 227392,
+              "sha256": "c57cf9539a7ef90ed6e5ec2399fbf828a22a295e732c2514dbdc4a67e6fea2da"
+            },
+            "result": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/1/raw-result.json",
+              "bytes": 270398,
+              "sha256": "2bcfba59fc9c0a465ea813b1fad704360a367ff74f28f7df9cbcff0848a61e6e"
+            },
+            "command": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/1/command.json",
+              "bytes": 1778,
+              "sha256": "3f61768768fbdf7f6b1fdfb9d885e95ed190e873a2c78891e6bc636300d21005"
+            },
+            "stdout": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/1/stdout.log",
+              "bytes": 79,
+              "sha256": "6b29df08ea2f910e22f72f7efa231a98ab5c1ead2dd12a138f0a051263a8c00c"
+            },
+            "stderr": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/1/stderr.log",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "exit_code": 0,
+            "seconds": 1232.2082863000105,
+            "pid": 23456,
+            "files": 932,
+            "regex_guard": {
+              "skips": 3280,
+              "fallbacks": 13
+            }
+          },
+          {
+            "number": 2,
+            "plan": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/2/input.json",
+              "bytes": 226522,
+              "sha256": "d8836599fa7215a6a891c8f14e9da306005e67f9474a1d2b68456ce211a9c54c"
+            },
+            "result": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/2/raw-result.json",
+              "bytes": 277578,
+              "sha256": "e6648d11129205a37d4c9946ce5e71b1ff4800e7f8a6b9cdd73b229055ea9754"
+            },
+            "command": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/2/command.json",
+              "bytes": 1779,
+              "sha256": "b464abcfd91b3d899edd662f479e36c0330e9f192620a5f8023c9edc8127f228"
+            },
+            "stdout": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/2/stdout.log",
+              "bytes": 79,
+              "sha256": "16b6f71ad7fac532e9b8f9828409921f9fa674c4d107137ff515449d6525a4d6"
+            },
+            "stderr": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/2/stderr.log",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "exit_code": 0,
+            "seconds": 1234.8585159000068,
+            "pid": 17888,
+            "files": 932,
+            "regex_guard": {
+              "skips": 2915,
+              "fallbacks": 10
+            }
+          },
+          {
+            "number": 3,
+            "plan": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/3/input.json",
+              "bytes": 226076,
+              "sha256": "85508a288ce4b8c52f22a0c67d79a3c9d358ad4456636e0d6af707d1e4bbb4ac"
+            },
+            "result": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/3/raw-result.json",
+              "bytes": 269955,
+              "sha256": "ad15f8c8ee929df972bcec62e0a8bea20c69e86644479ef5d5d2e1680ce4ca4c"
+            },
+            "command": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/3/command.json",
+              "bytes": 1779,
+              "sha256": "a0030f887e0a500a6a59ae6e884da06cb7b0fad032a6c01c1590b1724d65b57a"
+            },
+            "stdout": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/3/stdout.log",
+              "bytes": 79,
+              "sha256": "d2ec95ca46b27d64f92158af97c888d938d5d3d6184048bc62eecf3b500b9e50"
+            },
+            "stderr": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/3/stderr.log",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "exit_code": 0,
+            "seconds": 1264.7006641000044,
+            "pid": 21660,
+            "files": 934,
+            "regex_guard": {
+              "skips": 2799,
+              "fallbacks": 6
+            }
+          },
+          {
+            "number": 4,
+            "plan": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/4/input.json",
+              "bytes": 227690,
+              "sha256": "001b0f21b0a130efd68b65d809a28b94bb69d2432fcd374a2396a1a582c25177"
+            },
+            "result": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/4/raw-result.json",
+              "bytes": 276409,
+              "sha256": "b398abd177f18024af829c2a8aed4ebf62ad97c43126f4ef0b883d6f346bd5a4"
+            },
+            "command": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/4/command.json",
+              "bytes": 1779,
+              "sha256": "c345968e70ffbf82a84218b3ee296ae686a2977dca1187a2b612b04d29349806"
+            },
+            "stdout": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/4/stdout.log",
+              "bytes": 79,
+              "sha256": "2a08a411a0c716bf5d66217fc232766c98e1254aafe6e439096e37f8e520fb10"
+            },
+            "stderr": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/4/stderr.log",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "exit_code": 0,
+            "seconds": 1262.4101209999935,
+            "pid": 20732,
+            "files": 934,
+            "regex_guard": {
+              "skips": 3449,
+              "fallbacks": 10
+            }
+          },
+          {
+            "number": 5,
+            "plan": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/5/input.json",
+              "bytes": 227582,
+              "sha256": "4e452100bbd0cf327bc42835d65d54f8c48ef154f45f29ff3f8522a552c2160e"
+            },
+            "result": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/5/raw-result.json",
+              "bytes": 271657,
+              "sha256": "3c4b8a3a963728ca3a83591a83f14330d46d95bf037c6833a90cd04929f10b72"
+            },
+            "command": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/5/command.json",
+              "bytes": 1779,
+              "sha256": "dc07c2046a705e065803010ed61f07f72ba976d68d33a93ca1b3d19e3ef1b3f2"
+            },
+            "stdout": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/5/stdout.log",
+              "bytes": 78,
+              "sha256": "745d8ff9e1282fd47c40d82f787faa9e27e2ea74f269e1dbcf9df3d10cd3e92f"
+            },
+            "stderr": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/5/stderr.log",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "exit_code": 0,
+            "seconds": 1257.5209748999914,
+            "pid": 4152,
+            "files": 937,
+            "regex_guard": {
+              "skips": 2917,
+              "fallbacks": 5
+            }
+          }
+        ],
+        "ordered_inputs_sha256": "3f5f4c17739cad13544ce36a8d49211f96bc60e3835a0ece8aedfb841bdf0f2b"
+      },
+      {
+        "files": 2,
+        "receipts": [
+          {
+            "number": 1,
+            "plan": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/1/input.json",
+              "bytes": 1473,
+              "sha256": "210784f20cbb9df6d4e84e60a3ba2028d21ca8f736b2bcadcce5683f4fecb3fa"
+            },
+            "result": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/1/raw-result.json",
+              "bytes": 1642,
+              "sha256": "40b291a2528f0350d68261ae351f2d043cf247536dd027bc43ddcaa7d15fa1e9"
+            },
+            "command": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/1/command.json",
+              "bytes": 1777,
+              "sha256": "e77cf0e9677173213d7b82110a7fc2e700839691a528aa0cfe4a79c1b4167ad6"
+            },
+            "stdout": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/1/stdout.log",
+              "bytes": 76,
+              "sha256": "8b6ee103ec268bedf94779b303b03dc896d29b63b9db5d91b53a61b7ee243300"
+            },
+            "stderr": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/1/stderr.log",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "exit_code": 0,
+            "seconds": 0.0553885999834165,
+            "pid": 5724,
+            "files": 1,
+            "regex_guard": {
+              "skips": 3,
+              "fallbacks": 0
+            }
+          },
+          {
+            "number": 2,
+            "plan": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/2/input.json",
+              "bytes": 1459,
+              "sha256": "f041b4a0cfa916635fa974293822e4c12c9f22f96df39036a434cb027a5dd68c"
+            },
+            "result": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/2/raw-result.json",
+              "bytes": 1629,
+              "sha256": "2b6ad472ab347be7b0fd9ccacc7133618ce97620257cbee3849a7aad310fb9b6"
+            },
+            "command": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/2/command.json",
+              "bytes": 1777,
+              "sha256": "95f5c392b997ccd4d8d479ea103a0d73096ac07e3019d29ccac194e708909ed5"
+            },
+            "stdout": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/2/stdout.log",
+              "bytes": 77,
+              "sha256": "43f75e2eb31ce9d47c5fff7030a664644fcf9736095e683c26995c426c06400d"
+            },
+            "stderr": {
+              "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-2/2/stderr.log",
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "exit_code": 0,
+            "seconds": 0.04179109999677166,
+            "pid": 2332,
+            "files": 1,
+            "regex_guard": {
+              "skips": 3,
+              "fallbacks": 0
+            }
+          }
+        ],
+        "ordered_inputs_sha256": "a8b5ef8a68d99afb1eb2fcd6f9e2a0b7ffcf191a2ee5f3337c66ad45bac5bdef"
+      }
+    ],
+    "kernel": {
+      "path": "evidence/04A38/completion/w2/continuation-v10/parallel_scan_v1.py",
+      "bytes": 10232,
+      "sha256": "cd13641a6d6448dbcf3494136c3ca64bdfbe3b4449b4670d399fe7daf004dc7c"
+    },
+    "proof": {
+      "path": "evidence/04A38/completion/w2/continuation-v10/parallel-scanner-equivalence-v1.json",
+      "bytes": 12002,
+      "sha256": "c46743117c444a3f04a8150fbcbb18f336ee0bc28f4398bf25b2d854d20ffde4"
+    },
+    "max_helpers": 5,
+    "deferred_to_original_sequential": [
+      {
+        "index": 3376,
+        "path": "evidence/04A38/completion/w2/continuation-v9/python-first-failures-v1.json",
+        "bytes": 4213129746,
+        "sha256": "3ed32a23d2a6ee59a64c80ce3977ca89b6dcc8572453222c957af1596ca302eb"
+      }
+    ]
+  },
+  "tools": [
+    {
+      "counters": {
+        "ignored_directories_pruned": 994,
+        "relevant_files": 58500
+      },
+      "audit_source_unchanged": true
+    }
+  ],
+  "schedule": {
+    "non_scanner_end_seconds": 371.57517460000236,
+    "disposable_end_seconds": 373.0418423000083,
+    "scanner_start_seconds": 373.0418437999906,
+    "scanner_end_seconds": 1779.3878056000103,
+    "other_lanes_completed_before_scanner": true,
+    "max_non_scanner_workers": 5,
+    "max_scanner_helpers": 5,
+    "max_scanner_parent_plus_helpers": 6
+  },
+  "historical_C6_mixed_arithmetic": {
+    "total": 956,
+    "passed": 764,
+    "failed_events": 181,
+    "error_events": 11
+  },
+  "C9_actual_parent_baseline": {
+    "PASS": 830,
+    "FAIL": 115,
+    "ERROR": 11
+  },
+  "accounting": "Method outcomes and failing subtest events are separate units. Four known writer tests were pre-routed unchanged to a proven copy and execute once; all C7 first blocked errors remain historical. Pure scanner helpers do not execute unittest methods."
+}

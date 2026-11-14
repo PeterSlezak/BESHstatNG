@@ -1,0 +1,16 @@
+tPValueForUdf(out(rowIndex, columnIndex))
+            Next
+        Next
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Prepares a row-oriented metric/value table and formats numeric values on rows whose
+    ''' first-column label identifies a p-value.
+    ''' </summary>
+    Friend Function PreparePValueRowsForUdf(table As Object) As Object(,)
+        Dim out As Object(,) = PrepareResultTableForUdf(table)
+        If out Is Nothing OrElse out.GetLength(1) < 2 Then Return out
+
+        For rowIndex As Integer = 0 To out.GetL

@@ -1,0 +1,36 @@
+{
+  "suite": "Common",
+  "part": "main",
+  "name": "w3D-Common-main",
+  "outcomes": {
+    "Passed": 9394,
+    "Failed": 5
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3D-Common-main/cases.json",
+    "bytes": 3025855,
+    "sha256": "1fa943cee713edf7ac6dbd7950e78715861a62699147eaf5fc8cb063e96b4b55"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3D-Common-main/results/Common.trx",
+    "bytes": 332656574,
+    "sha256": "5ae0c05d9ae90c649cf1fea3170e7d1b1b94632f9c64680a5a26d208f6c87fd0"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3D-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+      "/Settings:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3D-Common-main\\serial.runsettings",
+      "/ResultsDirectory:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3D-Common-main\\results",
+      "/Logger:trx;LogFileName=Common.trx",
+      "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+    ],
+    "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+    "exit_code": 1,
+    "seconds": 110.45074000000022,
+    "stdout_sha256": "0deb89e1201dd47fdf9e7dfa858d87e47279cdb2b1cc47b60c77a639fa19f488",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

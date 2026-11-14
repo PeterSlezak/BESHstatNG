@@ -1,0 +1,9 @@
+Friend Function CellToTrimmedText(v As Object) As String
+            If ExcelArgPredicates.IsMissingArg(v) Then Return ""
+            If TypeOf v Is ExcelError Then
+                Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)
+                If s Is Nothing Then Return ""
+                Return s.Trim()
+            End If
+            Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.CellToTrimmedText(v)
+        End Function

@@ -1,0 +1,30 @@
+{
+  "suite": "ControlMitigation",
+  "part": "all",
+  "selection": null,
+  "outcomes": {
+    "Passed": 61
+  },
+  "trx_sha256": "1501e9f8b92b7174e3afe1fd80bd102162ed28c91a93e4ef5429897fe4f6f2ab",
+  "command": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "<ISOLATED_RUN>\\executions\\w2c15-checkpoint-v2-Debug-serial-ControlMitigation\\sandbox\\ControlMitigation\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c15-checkpoint-v2-Debug-serial-ControlMitigation\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c15-checkpoint-v2-Debug-serial-ControlMitigation\\results",
+      "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+      "/Logger:trx;LogFileName=ControlMitigation.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 8.293656500005454,
+    "stdout_sha256": "e449a7a541ddf97a3a30b8a23a3bed5dc77ba6b1c6bb371424de8e6580fc0edd",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c15-checkpoint-v2-Debug-serial-ControlMitigation/cases.json",
+    "bytes": 23324,
+    "sha256": "90307b716050007580f407ad6bd12d35820ff6b9b0681f1b0e326532b2d8fd8b"
+  }
+}

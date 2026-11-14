@@ -171,36 +171,11 @@ Namespace regression
         End Sub
 
         Friend Function AddInterceptColumn(expandedX(,) As Double, nRows As Integer) As Double(,)
-            Dim p As Integer = If(expandedX Is Nothing, 0, expandedX.GetLength(1))
-            Dim out(nRows - 1, p) As Double
-
-            For i As Integer = 0 To nRows - 1
-                out(i, 0) = 1.0
-            Next
-
-            If p > 0 Then
-                For i As Integer = 0 To nRows - 1
-                    For j As Integer = 0 To p - 1
-                        out(i, j + 1) = expandedX(i, j)
-                    Next
-                Next
-            End If
-
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.UdfLmmInputPreparation38.AddInterceptColumn(expandedX, nRows)
         End Function
 
         Friend Function AddInterceptName(expandedNames() As String) As String()
-            Dim p As Integer = If(expandedNames Is Nothing, 0, expandedNames.Length)
-            Dim out(p) As String
-            out(0) = "Intercept"
-
-            If p > 0 Then
-                For j As Integer = 0 To p - 1
-                    out(j + 1) = expandedNames(j)
-                Next
-            End If
-
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.UdfLmmInputPreparation38.AddInterceptName(expandedNames)
         End Function
 
         Friend Function AddInterceptIfRequested(x(,) As Double, includeIntercept As Boolean) As Double(,)

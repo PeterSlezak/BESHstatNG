@@ -1,0 +1,53 @@
+{
+  "status": "SOURCE_REVIEWED_NOT_IMPLEMENTATION_CLOSED",
+  "new_production_changes": 0,
+  "new_compiled_consumer_edges": [],
+  "add_mmrm_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|c30e515a66567d6e@34724:2343",
+  "inherited_row": {
+    "original_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|c30e515a66567d6e@34724:2343",
+    "historical_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|c30e515a66567d6e@34724:2343",
+    "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+    "signature": "Private Function AddMmrmLsmEstimateAtValue(atProfile As Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile, h As Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmHandle, requestedName As String, value As Double, sourceDescription As String, ByRef errorMessage As String) As Boolean",
+    "kind": "FunctionBlock",
+    "progress": "OPEN_REMAINING_MEMBER_BEHAVIOR_REVIEW",
+    "portable_source_transition": "",
+    "windows_bindings": "[\"BESHStatNG.UdfDataImport.AddMmrmLsmEstimateAtValue(BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile,BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmHandle,System.String,System.Double,System.String,System.String&)\"]",
+    "registered_consumers": "[\"BESH.REGR.MMRM_LSMEANS\", \"BESH.REGR.MMRM_LSMESTIMATE\"]",
+    "portable_edges": "[]",
+    "predecessor_plan": "OPEN_PENDING_IMPLEMENTATION_AND_FINAL_CONSUMER_VALIDATION",
+    "ready_disposition": "NOT_CLOSED"
+  },
+  "source_snapshot": {
+    "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportMixedModel.vb.txt",
+    "bytes": 38595,
+    "sha256": "5297574cab59e631cf880807903a206f76dfb1509818a1825c1ca6798332071a"
+  },
+  "statement_dispositions": [
+    {
+      "behavior": "Initialized profile guard",
+      "disposition": "Internal profile contract; callers construct typed state; preserve adapter exception/guard boundary"
+    },
+    {
+      "behavior": "Visit/time and fitted-name normalization/lookup",
+      "disposition": "Already consumed Common metadata helpers through compiled Windows wrappers; do not duplicate their lookup grammar"
+    },
+    {
+      "behavior": "Visit acceptance/state and duplicate visit guard",
+      "disposition": "Reusable typed selection state; positive/duplicate coverage now authenticated; Common consumer extraction still required"
+    },
+    {
+      "behavior": "Unknown-name error and fitted column resolution",
+      "disposition": "Preserve existing shared lookup and caller-facing error/source-description phase; not closed by generic helper entry"
+    },
+    {
+      "behavior": "Design duplicate rejection/list append",
+      "disposition": "Reusable typed selection state; identical-index/casefold guard proven by v4; extraction and compiled delegation remain pending"
+    },
+    {
+      "behavior": "Finite checks, error retention, handle ownership",
+      "disposition": "Caller validates finite values; do not introduce finite checks inside this member or change success error retention. Native model/cache ownership remains Windows."
+    }
+  ],
+  "next_review_member": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|e8eabf0f978b1297@83928:2886",
+  "reason_not_closed": "Adjacent mandatory profile-mask seam needs independent empty-selection reference before migration can be completed; no HOST_ONLY or zero-OPEN claim"
+}

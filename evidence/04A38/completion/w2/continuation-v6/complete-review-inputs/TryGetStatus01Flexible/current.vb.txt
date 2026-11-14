@@ -1,0 +1,20 @@
+Friend Function TryGetStatus01Flexible(v As Object, ByRef value As Integer) As Boolean
+            value = 0
+
+            If ExcelArgNumeric.TryGetBinary01(v, value) Then Return True
+
+            Dim x As Double
+            If Not ExcelArgNumeric.TryGetFiniteDoubleFlexible(v, x) Then Return False
+
+            If x = 0.0R Then
+                value = 0
+                Return True
+            End If
+
+            If x = 1.0R Then
+                value = 1
+                Return True
+            End If
+
+            Return False
+        End Function

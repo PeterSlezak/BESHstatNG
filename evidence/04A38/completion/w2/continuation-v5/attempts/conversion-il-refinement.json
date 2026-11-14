@@ -1,0 +1,18 @@
+{
+  "status": "INTERMEDIATE_IMPLEMENTATION_RETAINED",
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v5/attempts/cells-v3-UdfCellConversion38.vb.txt",
+    "bytes": 2096,
+    "sha256": "4e70ce21101caf4f9a92f8c3eba3b842387c01e7296ea1962afc364fbf910750"
+  },
+  "after": {
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfCellConversion38.vb",
+    "bytes": 2200,
+    "sha256": "445acf2cce51106d4b97c3fb400a365a72ac6af47f417931a3e642f31431f198"
+  },
+  "reason": "Original native Convert calls clone boxed mutable values once with CLR GetObjectValue. A ByVal forwarding call plus portable Convert cloned twice. Passing the Windows local Object ByRef avoids the added copy; portable functions never assign the argument. DirectCast on an already verified string avoids the embedded VB Conversions helper.",
+  "original_queries": 0,
+  "old_public_Windows_signatures": "UNCHANGED",
+  "new_portable_API": "New C5 methods only; no prior accepted API changed",
+  "intermediate_receipts": "cells-v3 builds/tests/probes/ledgers remain immutable; final suffix-v2 receipts supersede them"
+}

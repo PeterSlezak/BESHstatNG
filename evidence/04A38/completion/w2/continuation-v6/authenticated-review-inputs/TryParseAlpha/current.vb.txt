@@ -1,0 +1,17 @@
+Friend Function TryParseAlpha(arg As Object, ByRef alpha As Double) As Boolean
+        alpha = 0.05
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return True
+
+        Try
+            If TypeOf arg Is String Then
+                Dim s As String = Convert.ToString(arg).Trim()
+                Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryAlphaText(s, alpha)
+            Else
+                alpha = Convert.ToDouble(arg)
+            End If
+        Catch
+            Return False
+        End Try
+
+        Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.IsOpenProbability(alpha)
+    End Function

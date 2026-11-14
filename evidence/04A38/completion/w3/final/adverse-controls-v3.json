@@ -1,0 +1,189 @@
+{
+  "status": "ACTUAL_READINESS_AND_PUBLICATION_VALIDATORS_REJECT_ADVERSE_SPECIMENS",
+  "controls": [
+    {
+      "name": "changed production bytes",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing production file",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed branch",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed HEAD",
+      "status": "REJECTED"
+    },
+    {
+      "name": "staged changes",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed live index bytes",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing test",
+      "status": "REJECTED"
+    },
+    {
+      "name": "duplicate occurrence",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed nonpass message",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing frozen case",
+      "status": "REJECTED"
+    },
+    {
+      "name": "duplicate corpus",
+      "status": "REJECTED"
+    },
+    {
+      "name": "mutated typed input",
+      "status": "REJECTED"
+    },
+    {
+      "name": "replaced original baseline",
+      "status": "REJECTED"
+    },
+    {
+      "name": "supplement promoted to pre-edit",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing whole-body identity",
+      "status": "REJECTED"
+    },
+    {
+      "name": "incomplete fragment ownership",
+      "status": "REJECTED"
+    },
+    {
+      "name": "removed complete proof",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unresolved transition",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing export",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed export",
+      "status": "REJECTED"
+    },
+    {
+      "name": "removed compiled instruction or dependency edge",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing Node identity",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing Release build",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing Release managed",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing Release abi-cil",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing Release compatibility",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing Git final receipt",
+      "status": "REJECTED"
+    },
+    {
+      "name": "incomplete preservation",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unacknowledged restricted gate",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing Python parent",
+      "status": "REJECTED"
+    },
+    {
+      "name": "known failing subtests counted as parent PASS",
+      "status": "REJECTED"
+    },
+    {
+      "name": "duplicated nonpass event",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe derivative ../escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe derivative /absolute",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe derivative C:/absolute",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe derivative a\\b",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe derivative .git/config",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe derivative a/CON.txt",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe derivative trailing.",
+      "status": "REJECTED"
+    },
+    {
+      "name": "case insensitive collision",
+      "status": "REJECTED"
+    },
+    {
+      "name": "publication privacy private home",
+      "status": "REJECTED"
+    },
+    {
+      "name": "publication privacy private key",
+      "status": "REJECTED"
+    },
+    {
+      "name": "publication privacy credential URI",
+      "status": "REJECTED"
+    }
+  ],
+  "count": 43,
+  "source_mutations": 0,
+  "test_reexecutions": 0,
+  "preserved_report_versions": [
+    "complete-closure-v1",
+    "complete-closure-v2",
+    "complete-closure-v3",
+    "reference-authority-audit-v1",
+    "debug-compatibility-v1",
+    "release-compatibility-v1"
+  ],
+  "assertion_scope": "Existing complete measured fields retained; debugger attributes, value-type constructor opcode form and older null-signature schema have explicit source/CIL dispositions, with changed target/export/input/fragment rejection controls."
+}

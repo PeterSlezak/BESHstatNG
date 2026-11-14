@@ -1,0 +1,186 @@
+{
+  "status": "ORIGINAL_INTERCEPT_TRUE_GUARD_AND_BYREF_OBSERVED",
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "configurations": {
+    "Debug": {
+      "unique_cases": 2,
+      "plain_executions": 2,
+      "repeat_executions": 2,
+      "trace_executions": 2,
+      "intercept_guard_cases": 2,
+      "returned_reports": 0,
+      "repeat_exact": true,
+      "trace_output_exact": true,
+      "cases": [
+        {
+          "case_id": "AUTHORIZED-MMRM-INTERCEPT/Invariant/mmrm-lsmeans-scalar-intercept-group",
+          "events": [
+            "public.alpha_missing=True",
+            "public.scalar_group=Intercept",
+            "helper.entry=Intercept",
+            "initialized.error=N",
+            "initialized.values=N",
+            "initialized.resolved_name=N",
+            "lookup.index=0",
+            "lookup.resolved_name=Intercept",
+            "guard.intercept=True",
+            "guard.values=N",
+            "guard.resolved_name=N",
+            "guard.error_assigned=the intercept column cannot be used as a grouping factor.",
+            "public.error=the intercept column cannot be used as a grouping factor.",
+            "public.values=N",
+            "public.resolved_name=N",
+            "public.group_rejected=True"
+          ],
+          "outcome": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLk1NUk1fTFNNRUFOUyBlcnJvcjogdGhlIGludGVyY2VwdCBjb2x1bW4gY2Fubm90IGJlIHVzZWQgYXMgYSBncm91cGluZyBmYWN0b3Iu",
+          "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: the intercept column cannot be used as a grouping factor.",
+          "observed_index": 0,
+          "resolved_fitted_column": "Intercept",
+          "private_ByRef": {
+            "resolvedName": null,
+            "values": null,
+            "errorMessage": "the intercept column cannot be used as a grouping factor.",
+            "observation": "TRACE_ONLY_INITIALIZED_AND_RETURNED_STATE"
+          },
+          "original_guard_lines": [
+            1477,
+            1478,
+            1479,
+            1480
+          ],
+          "returned_false_proof": "Immutable original next statement is ReturnFalse at1480; actual public Not TryGetDesignColumnValues arm executes"
+        },
+        {
+          "case_id": "AUTHORIZED-MMRM-INTERCEPT/sk-SK/mmrm-lsmeans-scalar-intercept-group",
+          "events": [
+            "public.alpha_missing=True",
+            "public.scalar_group=Intercept",
+            "helper.entry=Intercept",
+            "initialized.error=N",
+            "initialized.values=N",
+            "initialized.resolved_name=N",
+            "lookup.index=0",
+            "lookup.resolved_name=Intercept",
+            "guard.intercept=True",
+            "guard.values=N",
+            "guard.resolved_name=N",
+            "guard.error_assigned=the intercept column cannot be used as a grouping factor.",
+            "public.error=the intercept column cannot be used as a grouping factor.",
+            "public.values=N",
+            "public.resolved_name=N",
+            "public.group_rejected=True"
+          ],
+          "outcome": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLk1NUk1fTFNNRUFOUyBlcnJvcjogdGhlIGludGVyY2VwdCBjb2x1bW4gY2Fubm90IGJlIHVzZWQgYXMgYSBncm91cGluZyBmYWN0b3Iu",
+          "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: the intercept column cannot be used as a grouping factor.",
+          "observed_index": 0,
+          "resolved_fitted_column": "Intercept",
+          "private_ByRef": {
+            "resolvedName": null,
+            "values": null,
+            "errorMessage": "the intercept column cannot be used as a grouping factor.",
+            "observation": "TRACE_ONLY_INITIALIZED_AND_RETURNED_STATE"
+          },
+          "original_guard_lines": [
+            1477,
+            1478,
+            1479,
+            1480
+          ],
+          "returned_false_proof": "Immutable original next statement is ReturnFalse at1480; actual public Not TryGetDesignColumnValues arm executes"
+        }
+      ]
+    },
+    "Release": {
+      "unique_cases": 2,
+      "plain_executions": 2,
+      "repeat_executions": 2,
+      "trace_executions": 2,
+      "intercept_guard_cases": 2,
+      "returned_reports": 0,
+      "repeat_exact": true,
+      "trace_output_exact": true,
+      "cases": [
+        {
+          "case_id": "AUTHORIZED-MMRM-INTERCEPT/Invariant/mmrm-lsmeans-scalar-intercept-group",
+          "events": [
+            "public.alpha_missing=True",
+            "public.scalar_group=Intercept",
+            "helper.entry=Intercept",
+            "initialized.error=N",
+            "initialized.values=N",
+            "initialized.resolved_name=N",
+            "lookup.index=0",
+            "lookup.resolved_name=Intercept",
+            "guard.intercept=True",
+            "guard.values=N",
+            "guard.resolved_name=N",
+            "guard.error_assigned=the intercept column cannot be used as a grouping factor.",
+            "public.error=the intercept column cannot be used as a grouping factor.",
+            "public.values=N",
+            "public.resolved_name=N",
+            "public.group_rejected=True"
+          ],
+          "outcome": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLk1NUk1fTFNNRUFOUyBlcnJvcjogdGhlIGludGVyY2VwdCBjb2x1bW4gY2Fubm90IGJlIHVzZWQgYXMgYSBncm91cGluZyBmYWN0b3Iu",
+          "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: the intercept column cannot be used as a grouping factor.",
+          "observed_index": 0,
+          "resolved_fitted_column": "Intercept",
+          "private_ByRef": {
+            "resolvedName": null,
+            "values": null,
+            "errorMessage": "the intercept column cannot be used as a grouping factor.",
+            "observation": "TRACE_ONLY_INITIALIZED_AND_RETURNED_STATE"
+          },
+          "original_guard_lines": [
+            1477,
+            1478,
+            1479,
+            1480
+          ],
+          "returned_false_proof": "Immutable original next statement is ReturnFalse at1480; actual public Not TryGetDesignColumnValues arm executes"
+        },
+        {
+          "case_id": "AUTHORIZED-MMRM-INTERCEPT/sk-SK/mmrm-lsmeans-scalar-intercept-group",
+          "events": [
+            "public.alpha_missing=True",
+            "public.scalar_group=Intercept",
+            "helper.entry=Intercept",
+            "initialized.error=N",
+            "initialized.values=N",
+            "initialized.resolved_name=N",
+            "lookup.index=0",
+            "lookup.resolved_name=Intercept",
+            "guard.intercept=True",
+            "guard.values=N",
+            "guard.resolved_name=N",
+            "guard.error_assigned=the intercept column cannot be used as a grouping factor.",
+            "public.error=the intercept column cannot be used as a grouping factor.",
+            "public.values=N",
+            "public.resolved_name=N",
+            "public.group_rejected=True"
+          ],
+          "outcome": "RETURN_TEXT",
+          "result": "SQkVTSC5SRUdSLk1NUk1fTFNNRUFOUyBlcnJvcjogdGhlIGludGVyY2VwdCBjb2x1bW4gY2Fubm90IGJlIHVzZWQgYXMgYSBncm91cGluZyBmYWN0b3Iu",
+          "decoded_return_text": "BESH.REGR.MMRM_LSMEANS error: the intercept column cannot be used as a grouping factor.",
+          "observed_index": 0,
+          "resolved_fitted_column": "Intercept",
+          "private_ByRef": {
+            "resolvedName": null,
+            "values": null,
+            "errorMessage": "the intercept column cannot be used as a grouping factor.",
+            "observation": "TRACE_ONLY_INITIALIZED_AND_RETURNED_STATE"
+          },
+          "original_guard_lines": [
+            1477,
+            1478,
+            1479,
+            1480
+          ],
+          "returned_false_proof": "Immutable original next statement is ReturnFalse at1480; actual public Not TryGetDesignColumnValues arm executes"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1008 @@
+{
+  "rows": [
+    {
+      "current_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions|SUPPORT/ModuleBlock@1381:48892",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions",
+        "kind": "ModuleBlock",
+        "span_start": 1381,
+        "span_length": 48892,
+        "start_line": 30,
+        "end_line": 863,
+        "declaration": "Public Module CoxUDFs",
+        "declaration_sha256": "ca01e83e0dc6a29a1911d6a1b47f728cd7d4e2876b9bf8c8923a8ed7342bfbfe",
+        "already_in_primary_population": false
+      },
+      "original_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions|SUPPORT/ModuleBlock@1352:53901",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions",
+        "kind": "ModuleBlock",
+        "span_start": 1352,
+        "span_length": 53901,
+        "start_line": 30,
+        "end_line": 1015,
+        "declaration": "Public Module CoxUDFs",
+        "declaration_sha256": "ca01e83e0dc6a29a1911d6a1b47f728cd7d4e2876b9bf8c8923a8ed7342bfbfe",
+        "already_in_primary_population": false
+      },
+      "current_whole_declaration": "Public Module CoxUDFs\r\n\r\n        ' Simple in-process cache of fitted models so we can \"fit once, query many\".\r\n        ' Key = handle string returned by COX_FIT.\r\n        Private ReadOnly _coxCache As New ConcurrentDictionary(Of String, CoxModelHandle)(StringComparer.OrdinalIgnoreCase)\r\n\r\n        Private Class CoxModelHandle\r\n            Public Property Handle As String\r\n            Public Property Model As CoxPH\r\n            Public Property Result As CoxResult\r\n            Public Property VarNames As String()\r\n            Public Property RawVarNames As String()\r\n            Public Property RawPredictorKeys As String()\r\n            Public Property RawPredictorAbsoluteLetters As String()\r\n            Public Property DesignSpec As RegressionFormulaDesignSpec\r\n            Public Property OmitCategoricalReference As Boolean\r\n            Public Property TieMethod As TieMethod\r\n            Public Property Robust As Boolean\r\n        End Class\r\n\r\n        ''' <summary>\r\n        ''' Fits a Cox proportional hazards regression model and returns a reusable model handle.\r\n        ''' </summary>\r\n        ''' <param name=\"time\">\r\n        ''' A single-column range containing observed follow-up times.\r\n        ''' Values must be numeric and greater than or equal to 0.\r\n        ''' Each row corresponds to one subject or observational unit.\r\n        ''' </param>\r\n        ''' <param name=\"status\">\r\n        ''' A single-column range containing event indicators.\r\n        ''' Use 1 for an observed event and 0 for a right-censored observation.\r\n        ''' The number of rows must match <paramref name=\"time\"/> and the predictor matrix.\r\n        ''' </param>\r\n        ''' <param name=\"x\">\r\n        ''' A numeric predictor matrix with one row per subject and one column per covariate.\r\n        ''' All rows must align with <paramref name=\"time\"/> and <paramref name=\"status\"/>.\r\n        ''' Each coefficient in the fitted model represents the effect of a one-unit increase in the corresponding covariate on the log hazard.\r\n        ''' </param>\r\n        ''' <param name=\"varNames\">\r\n        ''' Optional predictor names.\r\n        ''' This may be supplied as a comma-separated text string or as a one-row or one-column range containing one name per predictor.\r\n        ''' If omitted, default names such as X1, X2, … are assigned automatically.\r\n        ''' </param>\r\n        ''' <param name=\"strata\">\r\n        ''' Optional stratification variable supplied as a single-column range.\r\n        ''' When used, the model allows each stratum to have its own baseline hazard function while estimating a common set of regression coefficients across strata.\r\n        ''' Stratification is useful when baseline risk differs between groups but proportional effects of the covariates are still assumed within strata.\r\n        ''' </param>\r\n        ''' <param name=\"ties\">\r\n        ''' Optional method used to handle tied event times.\r\n        ''' Accepted values are typically <c>breslow</c>, <c>efron</c>, and <c>exact</c>.\r\n        ''' The Breslow approximation is simple and fast, Efron is usually more accurate when ties are present, and the exact method is most computationally intensive.\r\n        ''' </param>\r\n        ''' <param name=\"robust\">\r\n        ''' Optional logical flag indicating whether robust (sandwich) standard errors should be computed.\r\n        ''' Robust standard errors can be useful when model assumptions are mildly violated or when greater protection against variance misspecification is desired.\r\n        ''' </param>\r\n        ''' <param name=\"formula\">\r\n        ''' Optional right-hand-side model formula used to construct the design matrix from the raw predictor matrix <paramref name=\"x\"/>.\r\n        ''' Supported syntax currently includes additive terms (<c>A + B</c>), polynomial terms (<c>A^2</c>),\r\n        ''' continuous-continuous interactions (<c>A:B</c>, <c>A:B:C</c>), categorical main effects such as\r\n        ''' <c>factor(C)</c> or <c>factor(C, ref=2)</c>, categorical-continuous interactions such as\r\n        ''' <c>factor(C):B</c>, and categorical-categorical interactions such as <c>factor(C):factor(D)</c>.\r\n        ''' If omitted or blank, all predictor columns are used as continuous main effects.\r\n        ''' </param>\r\n        ''' <param name=\"formulaAddressing\">\r\n        ''' Optional formula-addressing mode that controls how bare column-letter tokens are interpreted.\r\n        ''' Accepted values are <c>relative</c> (default), <c>absolute</c>, and <c>names</c>.\r\n        ''' In <c>relative</c> mode, <c>A</c>, <c>B</c>, <c>AA</c>, … refer to columns 1, 2, 27, … of <paramref name=\"x\"/>.\r\n        ''' In <c>absolute</c> mode, bare letters refer to worksheet columns of the supplied <paramref name=\"x\"/> range.\r\n        ''' In <c>names</c> mode, bare letters are disabled and variables should be referenced using single-quoted names such as <c>'Age'</c>.\r\n        ''' Quoted variable names are also allowed in the other two modes.\r\n        ''' </param>\r\n        ''' <param name=\"maxIter\">\r\n        ''' Optional maximum number of iterations allowed in the numerical optimization.\r\n        ''' Increase this value if convergence is slow for more complex models.\r\n        ''' </param>\r\n        ''' <param name=\"tol\">\r\n        ''' Optional convergence tolerance controlling when the iterative fitting procedure stops.\r\n        ''' Smaller values require a tighter convergence criterion but may increase computation time.\r\n        ''' </param>\r\n        ''' <returns>\r\n        ''' A text handle identifying the fitted Cox model within the current Excel session.\r\n        ''' This handle can be passed to other Cox-related worksheet functions to retrieve summaries, tests, and diagnostics without refitting the model.\r\n        ''' </returns>\r\n        ''' <remarks>\r\n        ''' <para>\r\n        ''' The Cox model estimates regression effects by maximizing the partial likelihood rather than specifying a full parametric distribution for survival times.\r\n        ''' As a result, the method is flexible and widely used for time-to-event data with right censoring.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' The sign of a coefficient indicates the direction of association with the hazard:\r\n        ''' positive coefficients increase the hazard and therefore correspond to shorter expected survival, whereas negative coefficients decrease the hazard.\r\n        ''' Exponentiating a coefficient gives the hazard ratio associated with a one-unit increase in the covariate.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' When a formula is supplied, the model matrix is built internally from the raw predictor columns.\r\n        ''' If <c>formulaAddressing=\"absolute\"</c> is used, the <paramref name=\"x\"/> argument should be passed as a direct worksheet range so its absolute worksheet column letters can be determined.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Rows with invalid values, such as non-numeric times or predictors, are excluded before fitting.\r\n        ''' If too few valid rows remain after filtering, the function returns an Excel error.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' The returned handle is valid only for the current Excel session and should be treated as a temporary identifier rather than a permanent stored result.\r\n        ''' </para>\r\n        ''' </remarks>\r\n        ''' <example>\r\n        ''' <code>\r\n        ''' =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:D101,\"Age,Treatment\")\r\n        ''' =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:F101,\"Age,BMI,Stage,Treat\",,,\"efron\",FALSE,100,1E-8,\"A + A^2 + factor(C, ref=1) + factor(C, ref=1):B\",\"relative\")\r\n        ''' </code>\r\n        ''' </example>\r\n        <ExcelFunction(\r\n            Name:=\"BESH.SURV.COX_FIT\",\r\n            Category:=\"BESHStatNG - Survival\",\r\n            Description:=\"Fits a Cox proportional hazards model and returns a handle for use with other COX_* functions.\",\r\n            HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\r\n        )>\r\n        Public Function COX_FIT(\r\n            <ExcelArgument(Name:=\"time\", Description:=\"Follow-up time for each subject (>=0). One column.\")> time As Object,\r\n            <ExcelArgument(Name:=\"status\", Description:=\"Event indicator (1=event, 0=censored). One column.\")> status As Object,\r\n            <ExcelArgument(AllowReference:=True, Name:=\"x\", Description:=\"Predictor matrix. Rows align with time/status; columns are predictors.\")> x As Object,\r\n            <ExcelArgument(Name:=\"varNames\", Description:=\"Optional predictor names (one row) or comma-separated list.\")> Optional varNames As Object = Nothing,\r\n            <ExcelArgument(Name:=\"strata\", Description:=\"Optional stratification variable (one column).\")> Optional strata As Object = Nothing,\r\n            <ExcelArgument(Name:=\"ties\", Description:=\"Ties method: \"\"breslow\"\" (default), \"\"efron\"\", \"\"exact\"\".\")> Optional ties As Object = Nothing,\r\n            <ExcelArgument(Name:=\"robust\", Description:=\"TRUE to compute robust (sandwich) standard errors.\")> Optional robust As Object = Nothing,\r\n            <ExcelArgument(Name:=\"formula\", Description:=\"Optional RHS model formula, e.g. \"\"A + A^2 + factor(C, ref=1) + factor(C):B\"\".\")> Optional formula As Object = Nothing,\r\n            <ExcelArgument(Name:=\"formulaAddressing\", Description:=\"Formula-addressing mode: \"\"relative\"\" (default), \"\"absolute\"\", or \"\"names\"\".\")> Optional formulaAddressing As Object = Nothing,\r\n            <ExcelArgument(Name:=\"maxIter\", Description:=\"Maximum iterations (default 100).\")> Optional maxIter As Object = Nothing,\r\n            <ExcelArgument(Name:=\"tol\", Description:=\"Convergence tolerance (default 1E-8).\")> Optional tol As Object = Nothing\r\n            ) As Object\r\n\r\n            If ExcelDnaUtil.IsInFunctionWizard() Then Return \"COX_FIT (editing...)\"\r\n\r\n            Try\r\n\r\n                Dim imported As CoxPHData = Nothing\r\n                If Not Global.BESHStatNG.UdfDataImport.TryGetCoxData(time, status, x, varNames, strata, imported) Then Return ExcelError.ExcelErrorValue\r\n\r\n                Dim rowCount As Integer = imported.nRows\r\n                Dim colCount As Integer = imported.nCols\r\n                If colCount < 1 Then Return ExcelError.ExcelErrorNum\r\n\r\n                Dim rawVNames As String() = DirectCast(imported.varNames.Clone(), String())\r\n\r\n                Dim formulaText As String = AsString(formula)\r\n                If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing\r\n\r\n                Dim addressingMode As String = Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, \"relative\")\r\n                Dim allowRelativeColumnLetters As Boolean = False\r\n                Dim allowAbsoluteColumnLetters As Boolean = False\r\n                Dim allowQuotedVariableNames As Boolean = True\r\n\r\n                Select Case addressingMode\r\n                    Case \"absolute\"\r\n                        allowAbsoluteColumnLetters = True\r\n                    Case \"names\"\r\n                        allowQuotedVariableNames = True\r\n                    Case Else\r\n                        allowRelativeColumnLetters = True\r\n                        addressingMode = \"relative\"\r\n                End Select\r\n\r\n                Dim absoluteColumnLetters As String() = Nothing\r\n                If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then\r\n                    If Not Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(x, colCount, absoluteColumnLetters) Then\r\n                        Return ExcelError.ExcelErrorValue\r\n                    End If\r\n                End If\r\n\r\n                Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing\r\n                Dim designErr As String = Nothing\r\n                If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=imported.DataDbl,\r\n                                                                                result:=designBuild,\r\n                                                                                errorMessage:=designErr,\r\n                                                                                predictorNames:=rawVNames,\r\n                                                                                formulaText:=formulaText,\r\n                                                                                absoluteColumnLetters:=absoluteColumnLetters,\r\n                                                                                allowRelativeColumnLetters:=allowRelativeColumnLetters,\r\n                                                                                allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,\r\n                                                                                allowQuotedVariableNames:=allowQuotedVariableNames,\r\n                                                                                omitCategoricalReference:=True) Then\r\n                    Return ExcelError.ExcelErrorValue\r\n                End If\r\n\r\n                Dim fitX(,) As Double = designBuild.ExpandedPredictorMatrix\r\n                Dim fitVarNames As String() = designBuild.ExpandedPredictorNames\r\n                Dim fitColCount As Integer = If(fitVarNames Is Nothing, 0, fitVarNames.Length)\r\n                If fitX Is Nothing OrElse fitColCount < 1 Then Return ExcelError.ExcelErrorValue\r\n\r\n                Dim records As List(Of survival.SurvivalRecord) = Global.BESHStatNG.ExcelCommon.UdfCoxInputPreparation38.PrepareRecords(imported, rowCount, fitColCount, fitX)\r\n\r\n                If records.Count < 3 Then Return ExcelError.ExcelErrorNum\r\n\r\n                Dim mi As Integer = GetOptionalInt(maxIter, 100)\r\n                Dim eps As Double = GetOptionalDouble(tol, 0.00000001)\r\n                Dim method As TieMethod = Global.BESHStatNG.UdfDataImport.GetCoxTieMethod(ties, TieMethod.Breslow)\r\n                Dim useRobust As Boolean = GetOptionalBool(robust, False)\r\n\r\n                Dim model As New CoxPH(records, fitVarNames, mi, eps)\r\n                model.bRobustVariance = useRobust\r\n\r\n                Dim res As CoxResult = model.Fit(method)\r\n\r\n                Dim handle As String = \"COX:\" & Guid.NewGuid().ToString(\"N\")\r\n                Dim h As New CoxModelHandle With {\r\n                    .Handle = handle,\r\n                    .Model = model,\r\n                    .Result = res,\r\n                    .VarNames = fitVarNames,\r\n                    .RawVarNames = If(designBuild.FullRawPredictorNames, rawVNames),\r\n                    .RawPredictorKeys = designBuild.FullRawPredictorKeys,\r\n                    .RawPredictorAbsoluteLetters = designBuild.FullRawPredictorAbsoluteLetters,\r\n                    .DesignSpec = designBuild.DesignSpec,\r\n                    .OmitCategoricalReference = True,\r\n                    .TieMethod = method,\r\n                    .Robust = useRobust\r\n                }\r\n                _coxCache(handle) = h\r\n                Return handle\r\n\r\n            Catch ex As Exception\r\n                Return LoggedUdfError(\"BESH.SURV.COX_FIT\", ex, ExcelError.ExcelErrorValue)\r\n            End Try\r\n        End Function\r\n\r\n        ''' <summary>\r\n        ''' Returns a coefficient table for a fitted Cox proportional hazards model.\r\n        ''' </summary>\r\n        ''' <param name=\"handle\">\r\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\r\n        ''' </param>\r\n        ''' <param name=\"includeHeader\">\r\n        ''' Optional logical flag indicating whether a header row should be included in the spilled output.\r\n        ''' If omitted, a header row is included.\r\n        ''' </param>\r\n        ''' <param name=\"alpha\">\r\n        ''' Optional two-sided significance level used for the hazard-ratio confidence interval.\r\n        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.\r\n        ''' </param>\r\n        ''' <returns>\r\n        ''' A spilled array with one row per predictor.\r\n        ''' The output includes the variable name, regression coefficient, standard error, Wald z statistic, two-sided p-value,\r\n        ''' hazard ratio, and a two-sided hazard-ratio confidence interval at level <c>1 - alpha</c>.\r\n        ''' </returns>\r\n        ''' <remarks>\r\n        ''' <para>\r\n        ''' The regression coefficient is the estimated change in log hazard associated with a one-unit increase in the predictor while holding the other predictors fixed.\r\n        ''' The hazard ratio is obtained by exponentiating the coefficient and is often easier to interpret in applied work.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' A hazard ratio greater than 1 indicates increased hazard, a hazard ratio less than 1 indicates reduced hazard, and a hazard ratio equal to 1 indicates no change.\r\n        ''' For example, a hazard ratio of 1.25 corresponds to an estimated 25% increase in hazard per one-unit increase in the predictor.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' The z statistic is formed by dividing the estimated coefficient by its standard error.\r\n        ''' The reported p-value is the usual two-sided Wald p-value for testing whether the coefficient equals 0.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' If robust standard errors were requested during model fitting, the summary uses those robust standard errors in place of the model-based standard errors.\r\n        ''' </para>\r\n        ''' </remarks>\r\n        ''' <example>\r\n        ''' <code>\r\n        ''' =BESH.SURV.COX_SUMMARY(F2)\r\n        ''' =BESH.SURV.COX_SUMMARY(F2, TRUE, 0.1)\r\n        ''' </code>\r\n        ''' </example>\r\n        <ExcelFunction(\r\n            Name:=\"BESH.SURV.COX_SUMMARY\",\r\n            Category:=\"BESHStatNG - Survival\",\r\n            Description:=\"Returns coefficient table (beta, SE, z, p, HR, CI) for a fitted Cox model handle.\",\r\n            HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\r\n        )>\r\n        Public Function COX_SUMMARY(\r\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\r\n            <ExcelArgument(Name:=\"includeHeader\", Description:=\"TRUE to include header row (default TRUE).\")> Optional includeHeader As Object = Nothing,\r\n            <ExcelArgument(Name:=\"alpha\", Description:=\"Optional two-sided alpha for HR confidence intervals (default 0.05).\")> Optional alpha As Object = Nothing\r\n        ) As Object\r\n\r\n            Dim key As String = AsString(handle)\r\n            If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue\r\n\r\n            Dim h As CoxModelHandle = Nothing\r\n            If Not _coxCache.TryGetValue(key, h) Then Return ExcelError.ExcelErrorNA\r\n\r\n            Dim alphaValue As Double = 0.05\r\n            If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum\r\n\r\n            Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\r\n            Dim ciPct As String = $\"{100.0 * (1.0 - alphaValue):0.##}%\"\r\n\r\n            Dim hdr As Boolean = GetOptionalBool(includeHeader, True)\r\n            Dim p As Integer = h.VarNames.Length\r\n            Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxSummaryTable(hdr, p, h.VarNames, h.Result, h.Robust, zCrit, ciPct, AddressOf ExpForDisplay)\r\n\r\n            Return PreparePValueTableForUdf(out, 5)\r\n        End Function\r\n\r\n        ''' <summary>\r\n        ''' Returns global significance tests and fit statistics for a fitted Cox proportional hazards model.\r\n        ''' </summary>\r\n        ''' <param name=\"handle\">\r\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\r\n        ''' </param>\r\n        ''' <param name=\"includeHeader\">\r\n        ''' Optional logical flag indicating whether a header row should be included in the spilled output.\r\n        ''' If omitted, a header row is included.\r\n        ''' </param>\r\n        ''' <returns>\r\n        ''' A spilled array containing global likelihood-ratio and Wald chi-square tests, their degrees of freedom and p-values,\r\n        ''' together with additional fit information such as the null and fitted log-likelihoods, number of iterations, and convergence status.\r\n        ''' </returns>\r\n        ''' <remarks>\r\n        ''' <para>\r\n        ''' The likelihood-ratio test compares the fitted model with a model containing no predictors by comparing their log partial likelihood values.\r\n        ''' It assesses whether the predictors, taken together, improve model fit.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' The Wald test assesses the joint null hypothesis that all regression coefficients are equal to 0.\r\n        ''' It is based on the estimated coefficient vector and its covariance matrix.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' In many applications the likelihood-ratio, Wald, and score tests give similar conclusions, but they are not identical and may differ somewhat in small samples\r\n        ''' or when the model is close to numerical instability.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Log-likelihood values are useful for model comparison. Larger fitted log-likelihood values indicate better agreement with the observed event ordering,\r\n        ''' although comparisons are most meaningful between models fit to the same data.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' The convergence indicator reports whether the iterative estimation procedure satisfied the stopping criterion before reaching the iteration limit.\r\n        ''' Lack of convergence may indicate separation, collinearity, sparse information, or an overly complex model relative to the data.\r\n        ''' </para>\r\n        ''' </remarks>\r\n        ''' <example>\r\n        ''' <code>\r\n        ''' =BESH.SURV.COX_TESTS(F2)\r\n        ''' </code>\r\n        ''' </example>\r\n        <ExcelFunction(\r\n            Name:=\"BESH.SURV.COX_TESTS\",\r\n            Category:=\"BESHStatNG - Survival\",\r\n            Description:=\"Returns global tests (LR, Wald) and fit statistics for a fitted Cox model handle.\",\r\n            HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\r\n        )>\r\n        Public Function COX_TESTS(\r\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\r\n            <ExcelArgument(Name:=\"includeHeader\", Description:=\"TRUE to include header row (default TRUE).\")> Optional includeHeader As Object = Nothing\r\n        ) As Object\r\n\r\n            Try\r\n                Dim key As String = AsString(handle)\r\n                If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue\r\n\r\n                Dim h As CoxModelHandle = Nothing\r\n                If Not _coxCache.TryGetValue(key, h) Then Return ExcelError.ExcelErrorNA\r\n                If h Is Nothing OrElse h.Result Is Nothing Then Return ExcelError.ExcelErrorNA\r\n                If h.VarNames Is Nothing Then Return ExcelError.ExcelErrorNA\r\n\r\n                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)\r\n                Dim p As Integer = h.VarNames.Length\r\n                If p < 1 Then Return ExcelError.ExcelErrorNA\r\n\r\n                If h.Result.Coefficients Is Nothing OrElse h.Result.Coefficients.Length < p Then\r\n                    Return \"Invalid coefficient vector length.\"\r\n                End If\r\n\r\n                Dim lr As Object = ExcelError.ExcelErrorNA\r\n                Dim lrP As Object = ExcelError.ExcelErrorNA\r\n\r\n                If Not Double.IsNaN(h.Result.LogLikelihoodNull) AndAlso Not Double.IsInfinity(h.Result.LogLikelihoodNull) AndAlso\r\n                    Not Double.IsNaN(h.Result.LogLikelihood) AndAlso Not Double.IsInfinity(h.Result.LogLikelihood) Then\r\n                    Dim lrVal As Double = -2.0 * (h.Result.LogLikelihoodNull - h.Result.LogLikelihood)\r\n                    If Not Double.IsNaN(lrVal) AndAlso Not Double.IsInfinity(lrVal) AndAlso lrVal >= 0 Then\r\n                        lr = lrVal\r\n                        Try\r\n                            lrP = 1.0 - distributions.ChiSquareCDF(lrVal, p)\r\n                        Catch\r\n                            lrP = ExcelError.ExcelErrorNA\r\n                        End Try\r\n                    End If\r\n                End If\r\n\r\n                Dim wald As Object = ExcelError.ExcelErrorNA\r\n                Dim waldP As Object = ExcelError.ExcelErrorNA\r\n\r\n                Dim v As Double(,) = Nothing\r\n                If h.Robust AndAlso\r\n                   h.Result.VarCovRobust IsNot Nothing AndAlso\r\n                   h.Result.VarCovRobust.GetLength(0) = p AndAlso\r\n                   h.Result.VarCovRobust.GetLength(1) = p Then\r\n\r\n                    v = h.Result.VarCovRobust\r\n\r\n                ElseIf h.Result.VarCov IsNot Nothing AndAlso\r\n                   h.Result.VarCov.GetLength(0) = p AndAlso\r\n                   h.Result.VarCov.GetLength(1) = p Then\r\n\r\n                    v = h.Result.VarCov\r\n                End If\r\n\r\n                If v IsNot Nothing Then\r\n                    Dim invV As Double(,) = Nothing\r\n\r\n                    If Global.BESHStatNG.UdfLinearAlgebra.TryInvertMatrix(v, invV) Then\r\n                        If invV IsNot Nothing AndAlso invV.GetLength(0) = p AndAlso invV.GetLength(1) = p Then\r\n\r\n                            Dim tmp(p - 1) As Double\r\n\r\n                            For i As Integer = 0 To p - 1\r\n                                Dim s As Double = 0.0\r\n                                For j As Integer = 0 To p - 1\r\n                                    s += invV(i, j) * h.Result.Coefficients(j)\r\n                                Next\r\n                                tmp(i) = s\r\n                            Next\r\n\r\n                            Dim w As Double = 0.0\r\n                            For i As Integer = 0 To p - 1\r\n                                w += h.Result.Coefficients(i) * tmp(i)\r\n                            Next\r\n\r\n                            If Not Double.IsNaN(w) AndAlso Not Double.IsInfinity(w) AndAlso w >= 0 Then\r\n                                wald = w\r\n                                Try\r\n                                    waldP = 1.0 - distributions.ChiSquareCDF(w, p)\r\n                                Catch\r\n                                    waldP = ExcelError.ExcelErrorNA\r\n                                End Try\r\n                            End If\r\n                        End If\r\n                    End If\r\n                End If\r\n\r\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxTestsTable(hdr, p, h.Result, lr, lrP, wald, waldP, ExcelError.ExcelErrorNA)\r\n\r\n                Return PreparePValueTableForUdf(out, 4)\r\n\r\n            Catch ex As Exception\r\n                Return LoggedUdfExceptionText(\"BESH.SURV.COX_TESTS\", ex)\r\n            End Try\r\n        End Function\r\n\r\n        ''' <summary>\r\n        ''' Returns residual-based diagnostics for a fitted Cox proportional hazards model.\r\n        ''' </summary>\r\n        ''' <param name=\"handle\">\r\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\r\n        ''' </param>\r\n        ''' <param name=\"residType\">\r\n        ''' The residual type to return.\r\n        ''' Supported values commonly include <c>martingale</c>, <c>deviance</c>, <c>schoenfeld</c>, and <c>dfbeta</c>.\r\n        ''' </param>\r\n        ''' <returns>\r\n        ''' A spilled array containing the requested residual output.\r\n        ''' For observation-level residuals such as martingale or deviance residuals, the result is usually one row per subject.\r\n        ''' For coefficient-specific diagnostics such as Schoenfeld residuals or DFBETA values, the result may contain one column per coefficient.\r\n        ''' </returns>\r\n        ''' <remarks>\r\n        ''' <para>\r\n        ''' Residuals provide diagnostic information about model fit, influential observations, and possible departures from assumptions.\r\n        ''' Different residuals answer different questions and should be interpreted accordingly.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Martingale residuals are useful for assessing functional form and identifying outlying event patterns, but they are often highly skewed.\r\n        ''' Deviance residuals are a transformation of martingale residuals that tends to be more symmetric and easier to inspect graphically.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Schoenfeld residuals are tied to event times and are especially useful for assessing the proportional hazards assumption.\r\n        ''' DFBETA diagnostics quantify how strongly each observation influences each coefficient estimate.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Residuals should generally be interpreted together with the fitted model, subject-matter knowledge, and graphical inspection.\r\n        ''' A single unusual residual value does not automatically imply model failure, but systematic patterns can indicate misspecification or influential data points.\r\n        ''' </para>\r\n        ''' </remarks>\r\n        ''' <example>\r\n        ''' <code>\r\n        ''' =BESH.SURV.COX_RESID(F2,\"martingale\")\r\n        ''' </code>\r\n        ''' </example>\r\n        <ExcelFunction(Name:=\"BESH.SURV.COX_RESID\",\r\n                       Category:=\"BESHStatNG - Survival\",\r\n                       Description:=\"Returns residual diagnostics for a fitted Cox model.\",\r\n                       HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\r\n                       )>\r\n        Public Function COX_RESID(\r\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\r\n            <ExcelArgument(Name:=\"type\", Description:=\"Residual type: martingale, deviance, schoenfeld, or dfbeta.\")> residType As Object\r\n        ) As Object\r\n            Try\r\n                Dim h As CoxModelHandle = Nothing\r\n                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h) Then Return ExcelError.ExcelErrorNA\r\n                Dim rt As ResidualType = ParseResidualType(residType)\r\n                If Not EnsureResiduals(h) Then Return ExcelError.ExcelErrorValue\r\n                Dim d As Dictionary(Of Integer, Double()) = h.Model.Residuals(rt)\r\n                If d Is Nothing OrElse d.Count = 0 Then Return ExcelError.ExcelErrorNA\r\n                Dim keys = d.Keys.OrderBy(Function(x) x).ToList()\r\n                Dim width As Integer = d(keys(0)).Length\r\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxResidualTable(d, keys, width, h.VarNames, rt)\r\n\r\n                Return out\r\n            Catch ex As Exception\r\n                Return LoggedUdfExceptionText(\"BESH.SURV.COX_RESID\", ex)\r\n            End Try\r\n        End Function\r\n\r\n        ''' <summary>\r\n        ''' Returns baseline quantities derived from a fitted Cox proportional hazards model.\r\n        ''' </summary>\r\n        ''' <param name=\"handle\">\r\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\r\n        ''' </param>\r\n        ''' <param name=\"baselineType\">\r\n        ''' Optional output type.\r\n        ''' Common choices include <c>table</c>, <c>survival</c>, <c>cumhaz</c>, or a plot-ready representation, depending on the supported outputs in the implementation.\r\n        ''' </param>\r\n        ''' <returns>\r\n        ''' A spilled array containing baseline output evaluated over event times.\r\n        ''' Depending on the requested type, the result may include event times together with the baseline survival function,\r\n        ''' cumulative baseline hazard, or a fuller tabular representation.\r\n        ''' </returns>\r\n        ''' <remarks>\r\n        ''' <para>\r\n        ''' In the Cox model, the regression coefficients describe relative hazards, while the baseline hazard or baseline survival function captures the underlying time pattern\r\n        ''' for a reference covariate pattern with linear predictor equal to 0.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' The baseline cumulative hazard is often estimated using a Breslow-type estimator, and the baseline survival function is then obtained as\r\n        ''' <c>S_0(t) = exp(-H_0(t))</c>.\r\n        ''' These quantities form the basis for individual survival predictions once a subject's linear predictor has been calculated.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' In stratified models, separate baseline functions are estimated for each stratum.\r\n        ''' As a result, baseline output should always be interpreted together with the stratum structure used during fitting.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Baseline quantities are model-based estimates and therefore inherit the assumptions of the fitted Cox model, including the proportional hazards structure.\r\n        ''' </para>\r\n        ''' </remarks>\r\n        ''' <example>\r\n        ''' <code>\r\n        ''' =BESH.SURV.COX_BASELINE(F2,\"survival\")\r\n        ''' </code>\r\n        ''' </example>\r\n        <ExcelFunction(Name:=\"BESH.SURV.COX_BASELINE\",\r\n                       Category:=\"BESHStatNG - Survival\",\r\n                       Description:=\"Returns baseline survival or cumulative hazard from a fitted Cox model.\",\r\n                       HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\")>\r\n        Public Function COX_BASELINE(\r\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\r\n            <ExcelArgument(Name:=\"type\", Description:=\"Output type: table (default), survival, cumhaz, or plot.\")> Optional baselineType As Object = Nothing\r\n        ) As Object\r\n            Try\r\n                Dim h As CoxModelHandle = Nothing\r\n                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h) Then Return ExcelError.ExcelErrorNA\r\n                Dim tp As String = AsString(baselineType)\r\n                If String.IsNullOrWhiteSpace(tp) Then tp = \"table\"\r\n                tp = tp.ToLowerInvariant()\r\n                Dim base = h.Model.ComputeBaseline(False)\r\n                If base Is Nothing OrElse base.Count = 0 Then Return ExcelError.ExcelErrorNA\r\n                Dim total As Integer = 1\r\n                For Each kv In base\r\n                    Dim arr = kv.Value\r\n                    If tp = \"plot\" Then\r\n                        total += h.Model.BaseSurvivalForPloting(arr).GetLength(0)\r\n                    Else\r\n                        total += arr.GetLength(0)\r\n                    End If\r\n                Next\r\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateCoxBaselineTable(total, tp)\r\n\r\n                Dim r As Integer = 1\r\n                For Each kv In base\r\n                    Dim arr As Double(,) = kv.Value\r\n                    If tp = \"plot\" Then arr = h.Model.BaseSurvivalForPloting(arr)\r\n                    Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.AppendCoxBaselineRows(out, arr, kv.Key, tp, r)\r\n\r\n                Next\r\n                Return out\r\n            Catch ex As Exception\r\n                Return LoggedUdfExceptionText(\"BESH.SURV.COX_BASELINE\", ex)\r\n            End Try\r\n        End Function\r\n\r\n        ''' <summary>\r\n        ''' Returns predictions from a fitted Cox proportional hazards model for new covariate values.\r\n        ''' </summary>\r\n        ''' <param name=\"handle\">\r\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\r\n        ''' </param>\r\n        ''' <param name=\"newX\">\r\n        ''' A numeric matrix containing one row per subject and one column per predictor.\r\n        ''' The number and ordering of columns must match the predictor matrix used when the model was fitted.\r\n        ''' </param>\r\n        ''' <param name=\"predType\">\r\n        ''' Optional prediction type.\r\n        ''' Common choices include <c>lp</c> for the linear predictor, <c>risk</c> for relative risk, <c>survival</c> for predicted survival probabilities,\r\n        ''' and <c>cumhaz</c> for predicted cumulative hazard values.\r\n        ''' </param>\r\n        ''' <param name=\"timeGrid\">\r\n        ''' Optional time grid used for time-dependent predictions such as survival probabilities or cumulative hazards.\r\n        ''' This should usually be supplied as a single-column numeric range.\r\n        ''' </param>\r\n        ''' <returns>\r\n        ''' A spilled array containing the requested predictions.\r\n        ''' For scalar predictions such as the linear predictor or relative risk, the output typically contains one row per subject.\r\n        ''' For time-dependent predictions, the output may contain one row per time point or one block of results per subject, depending on the selected type.\r\n        ''' </returns>\r\n        ''' <remarks>\r\n        ''' <para>\r\n        ''' The linear predictor is the quantity <c>x'β</c>. It summarizes the combined effect of the subject's covariates on the log hazard scale.\r\n        ''' Exponentiating the linear predictor gives the relative risk <c>exp(x'β)</c>, which compares a subject's hazard with the baseline hazard.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Predicted survival for subject <c>i</c> at time <c>t</c> is typically obtained as\r\n        ''' <c>S_i(t) = S_0(t) ^ exp(x_i'β)</c>, where <c>S_0(t)</c> is the estimated baseline survival function.\r\n        ''' Likewise, the predicted cumulative hazard is obtained by scaling the baseline cumulative hazard by <c>exp(x_i'β)</c>.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Predictions are conditional on the fitted model and therefore depend on the chosen ties method, any stratification, and the observed event structure in the estimation sample.\r\n        ''' In stratified models, time-dependent predictions require the appropriate stratum-specific baseline function.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' The <c>newX</c> argument should contain the raw predictor columns in the same order as the original model input.\r\n        ''' When the fitted model uses internally expanded terms such as factors, polynomials, or interactions, the prediction path rebuilds the required design matrix automatically from those raw inputs.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Prediction functions are most meaningful when the new covariate values are within the practical range of the data used to fit the model.\r\n        ''' Strong extrapolation beyond the observed predictor region should be interpreted cautiously.\r\n        ''' </para>\r\n        ''' </remarks>\r\n        ''' <example>\r\n        ''' <code>\r\n        ''' =BESH.SURV.COX_PRED(F2,H2:I6,\"risk\")\r\n        ''' </code>\r\n        ''' </example>\r\n        <ExcelFunction(Name:=\"BESH.SURV.COX_PRED\",\r\n                       Category:=\"BESHStatNG - Survival\",\r\n                       Description:=\"Computes predictions from a fitted Cox model (linear predictor, risk, survival, or cumulative hazard).\",\r\n                       HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\")>\r\n        Public Function COX_PRED(\r\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\r\n            <ExcelArgument(AllowReference:=True, Name:=\"newX\", Description:=\"Numeric matrix of raw predictor columns in the same order as used when fitting the model.\")> newX As Object,\r\n            <ExcelArgument(Name:=\"type\", Description:=\"Prediction type: lp, risk, survival, or cumhaz.\")> Optional predType As Object = Nothing,\r\n            <ExcelArgument(Name:=\"timeGrid\", Description:=\"Optional single-column vector of time points for survival/cumhaz predictions.\")> Optional timeGrid As Object = Nothing\r\n        ) As Object\r\n            Try\r\n                Dim h As CoxModelHandle = Nothing\r\n                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h) Then Return ExcelError.ExcelErrorNA\r\n\r\n                Dim rawPredictorKeys As String() = If(h.RawPredictorKeys, h.RawVarNames)\r\n                If rawPredictorKeys Is Nothing OrElse rawPredictorKeys.Length < 1 Then Return ExcelError.ExcelErrorValue\r\n\r\n                Dim imported As glmData = Nothing\r\n                If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newX, rawPredictorKeys, Nothing, False, imported) Then Return ExcelError.ExcelErrorValue\r\n\r\n                If imported.nCols <> rawPredictorKeys.Length Then Return ExcelError.ExcelErrorValue\r\n\r\n                Dim xMat As Double(,) = imported.DataDbl\r\n                Dim predNames As String() = rawPredictorKeys\r\n\r\n                If h.DesignSpec IsNot Nothing AndAlso rawPredictorKeys.Length > 0 Then\r\n                    Dim expandedX(,) As Double = Nothing\r\n                    Dim expandedNames() As String = Nothing\r\n                    Dim designErr As String = Nothing\r\n                    If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,\r\n                                                                                                fullRawPredictorKeys:=rawPredictorKeys,\r\n                                                                                                designSpec:=h.DesignSpec,\r\n                                                                                                expandedX:=expandedX,\r\n                                                                                                expandedPredictorNames:=expandedNames,\r\n                                                                                                errorMessage:=designErr,\r\n                                                                                                omitCategoricalReference:=h.OmitCategoricalReference) Then\r\n                        Return ExcelError.ExcelErrorValue\r\n                    End If\r\n                    xMat = expandedX\r\n                    predNames = expandedNames\r\n                End If\r\n\r\n                Dim p As Integer = If(predNames Is Nothing, 0, predNames.Length)\r\n                If xMat Is Nothing OrElse p < 1 OrElse h.Result Is Nothing OrElse h.Result.Coefficients Is Nothing Then Return ExcelError.ExcelErrorValue\r\n\r\n                Dim tp As String = AsString(predType)\r\n                If String.IsNullOrWhiteSpace(tp) Then tp = \"lp\"\r\n                tp = tp.ToLowerInvariant()\r\n\r\n                Dim beta = h.Result.Coefficients\r\n                If beta.Length <> p Then Return ExcelError.ExcelErrorValue\r\n\r\n                Dim n As Integer = imported.nRows\r\n\r\n                If tp = \"lp\" OrElse tp = \"risk\" Then\r\n                    Dim out(n, 1) As Object\r\n                    out(0, 0) = \"Subject\"\r\n                    out(0, 1) = If(tp = \"lp\", \"LinearPredictor\", \"Risk\")\r\n\r\n                    For i As Integer = 0 To n - 1\r\n                        Dim row(p - 1) As Double\r\n                        For j As Integer = 0 To p - 1\r\n                            row(j) = xMat(i, j)\r\n                        Next\r\n\r\n                        Dim lp As Double = Global.BESHStatNG.Matrix.Matrix.DotProduct(row, beta)\r\n                        out(i + 1, 0) = i + 1\r\n                        out(i + 1, 1) = If(tp = \"lp\", lp, Math.Exp(lp))\r\n                    Next\r\n\r\n                    Return out\r\n                End If\r\n\r\n                Dim base = h.Model.ComputeBaseline(False)\r\n                If base Is Nothing OrElse base.Count <> 1 Then Return ExcelError.ExcelErrorValue\r\n\r\n                Dim arr As Double(,) = base.Values.First()\r\n                Dim times As New List(Of Double)\r\n                If timeGrid IsNot Nothing AndAlso Not TypeOf timeGrid Is ExcelMissing AndAlso Not TypeOf timeGrid Is ExcelEmpty Then\r\n                    Dim tVals As List(Of Double) = Nothing\r\n                    If Not Global.BESHStatNG.UdfDataImport.TryGetNumericColumn(timeGrid, tVals) Then Return ExcelError.ExcelErrorValue\r\n                    For Each tt In tVals\r\n                        If Not Double.IsNaN(tt) AndAlso Not Double.IsInfinity(tt) AndAlso tt >= 0 Then times.Add(tt)\r\n                    Next\r\n                Else\r\n                    For i As Integer = 0 To arr.GetLength(0) - 1\r\n                        times.Add(arr(i, 0))\r\n                    Next\r\n                End If\r\n\r\n                If times.Count = 0 Then Return ExcelError.ExcelErrorNum\r\n\r\n                Dim out2(n * times.Count, 2) As Object\r\n                out2(0, 0) = \"Subject\"\r\n                out2(0, 1) = \"Time\"\r\n                out2(0, 2) = If(tp = \"cumhaz\", \"CumHazard\", \"Survival\")\r\n\r\n                Dim r As Integer = 1\r\n                For i As Integer = 0 To n - 1\r\n                    Dim row(p - 1) As Double\r\n                    For j As Integer = 0 To p - 1\r\n                        row(j) = xMat(i, j)\r\n                    Next\r\n\r\n                    Dim risk As Double = Math.Exp(Global.BESHStatNG.Matrix.Matrix.DotProduct(row, beta))\r\n\r\n                    For Each tt In times\r\n                        Dim baseCumHaz As Double = LookupStepValue(arr, tt, 2)\r\n                        out2(r, 0) = i + 1\r\n                        out2(r, 1) = tt\r\n                        If tp = \"cumhaz\" OrElse tp = \"hazard\" Then\r\n                            out2(r, 2) = baseCumHaz * risk\r\n                        Else\r\n                            out2(r, 2) = Math.Exp(-baseCumHaz * risk)\r\n                        End If\r\n                        r += 1\r\n                    Next\r\n                Next\r\n\r\n                Return out2\r\n\r\n            Catch ex As Exception\r\n                Return LoggedUdfExceptionText(\"BESH.SURV.COX_PRED\", ex)\r\n            End Try\r\n        End Function\r\n\r\n        ''' <summary>\r\n        ''' Removes a fitted Cox model handle from memory.\r\n        ''' </summary>\r\n        ''' <param name=\"handle\">\r\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\r\n        ''' </param>\r\n        ''' <returns>\r\n        ''' TRUE if the handle existed and was removed successfully; otherwise FALSE.\r\n        ''' </returns>\r\n        ''' <remarks>\r\n        ''' <para>\r\n        ''' Cox model handles are stored only for the current Excel session so that related worksheet functions can reuse the fitted model without repeating the estimation step.\r\n        ''' This function removes the cached model when it is no longer needed.\r\n        ''' </para>\r\n        ''' <para>\r\n        ''' Removing unused handles can help reduce memory use in large workbooks or after repeated model fitting during exploratory analysis.\r\n        ''' Once a handle has been removed, it can no longer be used by other Cox-related worksheet functions.\r\n        ''' </para>\r\n        ''' </remarks>\r\n        ''' <example>\r\n        ''' <code>\r\n        ''' =BESH.SURV.COX_DROP(F2)\r\n        ''' </code>\r\n        ''' </example>\r\n        <ExcelFunction(\r\n            Name:=\"BESH.SURV.COX_DROP\",\r\n            Category:=\"BESHStatNG - Survival\",\r\n            Description:=\"Removes a fitted Cox model handle from memory.\",\r\n            HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\r\n        )>\r\n        Public Function COX_DROP(\r\n            <ExcelArgument(Name:=\"handle\",\r\n                           Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object\r\n        ) As Object\r\n            Dim key As String = AsString(handle)\r\n            If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue\r\n            Dim removed As CoxModelHandle = Nothing\r\n            Return _coxCache.TryRemove(key, removed)\r\n        End Function\r\n\r\n        Private Function EnsureResiduals(h As CoxModelHandle) As Boolean\r\n            Try\r\n                Dim d = h.Model.Residuals(ResidualType.Martingale)\r\n                If d IsNot Nothing AndAlso d.Count > 0 Then Return True\r\n            Catch ex As Exception\r\n                CoreServices.Logger.Debug($\"BESH.SURV.COX_RESID cache probe failed: {ex.Message}\")\r\n            End Try\r\n            Try\r\n                h.Model.bComputeAllResiduals = True\r\n                h.Result = h.Model.Fit(h.TieMethod)\r\n                Return True\r\n            Catch ex As Exception\r\n                CoreServices.Logger.Error(ex, \"BESH.SURV.COX_RESID failed while computing residuals.\")\r\n                Return False\r\n            End Try\r\n        End Function\r\n\r\n        Private Function ParseResidualType(v As Object) As ResidualType\r\n            Return Global.BESHStatNG.ExcelCommon.CoxUDFsOptions38.ParseResidualType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))\r\n        End Function\r\n\r\n        Private Function ResidualLabel(rt As ResidualType) As String\r\n            Return Global.BESHStatNG.ExcelCommon.CoxUDFsMetadata38.ResidualLabel(rt)\r\n        End Function\r\n\r\n        Private Function LookupStepValue(arr As Double(,), t As Double, col As Integer) As Double\r\n            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.LookupStepValue(arr, t, col)\r\n        End Function\r\n    End Module",
+      "original_whole_declaration": "Public Module CoxUDFs\n\n        ' Simple in-process cache of fitted models so we can \"fit once, query many\".\n        ' Key = handle string returned by COX_FIT.\n        Private ReadOnly _coxCache As New ConcurrentDictionary(Of String, CoxModelHandle)(StringComparer.OrdinalIgnoreCase)\n\n        Private Class CoxModelHandle\n            Public Property Handle As String\n            Public Property Model As CoxPH\n            Public Property Result As CoxResult\n            Public Property VarNames As String()\n            Public Property RawVarNames As String()\n            Public Property RawPredictorKeys As String()\n            Public Property RawPredictorAbsoluteLetters As String()\n            Public Property DesignSpec As RegressionFormulaDesignSpec\n            Public Property OmitCategoricalReference As Boolean\n            Public Property TieMethod As TieMethod\n            Public Property Robust As Boolean\n        End Class\n\n        ''' <summary>\n        ''' Fits a Cox proportional hazards regression model and returns a reusable model handle.\n        ''' </summary>\n        ''' <param name=\"time\">\n        ''' A single-column range containing observed follow-up times.\n        ''' Values must be numeric and greater than or equal to 0.\n        ''' Each row corresponds to one subject or observational unit.\n        ''' </param>\n        ''' <param name=\"status\">\n        ''' A single-column range containing event indicators.\n        ''' Use 1 for an observed event and 0 for a right-censored observation.\n        ''' The number of rows must match <paramref name=\"time\"/> and the predictor matrix.\n        ''' </param>\n        ''' <param name=\"x\">\n        ''' A numeric predictor matrix with one row per subject and one column per covariate.\n        ''' All rows must align with <paramref name=\"time\"/> and <paramref name=\"status\"/>.\n        ''' Each coefficient in the fitted model represents the effect of a one-unit increase in the corresponding covariate on the log hazard.\n        ''' </param>\n        ''' <param name=\"varNames\">\n        ''' Optional predictor names.\n        ''' This may be supplied as a comma-separated text string or as a one-row or one-column range containing one name per predictor.\n        ''' If omitted, default names such as X1, X2, … are assigned automatically.\n        ''' </param>\n        ''' <param name=\"strata\">\n        ''' Optional stratification variable supplied as a single-column range.\n        ''' When used, the model allows each stratum to have its own baseline hazard function while estimating a common set of regression coefficients across strata.\n        ''' Stratification is useful when baseline risk differs between groups but proportional effects of the covariates are still assumed within strata.\n        ''' </param>\n        ''' <param name=\"ties\">\n        ''' Optional method used to handle tied event times.\n        ''' Accepted values are typically <c>breslow</c>, <c>efron</c>, and <c>exact</c>.\n        ''' The Breslow approximation is simple and fast, Efron is usually more accurate when ties are present, and the exact method is most computationally intensive.\n        ''' </param>\n        ''' <param name=\"robust\">\n        ''' Optional logical flag indicating whether robust (sandwich) standard errors should be computed.\n        ''' Robust standard errors can be useful when model assumptions are mildly violated or when greater protection against variance misspecification is desired.\n        ''' </param>\n        ''' <param name=\"formula\">\n        ''' Optional right-hand-side model formula used to construct the design matrix from the raw predictor matrix <paramref name=\"x\"/>.\n        ''' Supported syntax currently includes additive terms (<c>A + B</c>), polynomial terms (<c>A^2</c>),\n        ''' continuous-continuous interactions (<c>A:B</c>, <c>A:B:C</c>), categorical main effects such as\n        ''' <c>factor(C)</c> or <c>factor(C, ref=2)</c>, categorical-continuous interactions such as\n        ''' <c>factor(C):B</c>, and categorical-categorical interactions such as <c>factor(C):factor(D)</c>.\n        ''' If omitted or blank, all predictor columns are used as continuous main effects.\n        ''' </param>\n        ''' <param name=\"formulaAddressing\">\n        ''' Optional formula-addressing mode that controls how bare column-letter tokens are interpreted.\n        ''' Accepted values are <c>relative</c> (default), <c>absolute</c>, and <c>names</c>.\n        ''' In <c>relative</c> mode, <c>A</c>, <c>B</c>, <c>AA</c>, … refer to columns 1, 2, 27, … of <paramref name=\"x\"/>.\n        ''' In <c>absolute</c> mode, bare letters refer to worksheet columns of the supplied <paramref name=\"x\"/> range.\n        ''' In <c>names</c> mode, bare letters are disabled and variables should be referenced using single-quoted names such as <c>'Age'</c>.\n        ''' Quoted variable names are also allowed in the other two modes.\n        ''' </param>\n        ''' <param name=\"maxIter\">\n        ''' Optional maximum number of iterations allowed in the numerical optimization.\n        ''' Increase this value if convergence is slow for more complex models.\n        ''' </param>\n        ''' <param name=\"tol\">\n        ''' Optional convergence tolerance controlling when the iterative fitting procedure stops.\n        ''' Smaller values require a tighter convergence criterion but may increase computation time.\n        ''' </param>\n        ''' <returns>\n        ''' A text handle identifying the fitted Cox model within the current Excel session.\n        ''' This handle can be passed to other Cox-related worksheet functions to retrieve summaries, tests, and diagnostics without refitting the model.\n        ''' </returns>\n        ''' <remarks>\n        ''' <para>\n        ''' The Cox model estimates regression effects by maximizing the partial likelihood rather than specifying a full parametric distribution for survival times.\n        ''' As a result, the method is flexible and widely used for time-to-event data with right censoring.\n        ''' </para>\n        ''' <para>\n        ''' The sign of a coefficient indicates the direction of association with the hazard:\n        ''' positive coefficients increase the hazard and therefore correspond to shorter expected survival, whereas negative coefficients decrease the hazard.\n        ''' Exponentiating a coefficient gives the hazard ratio associated with a one-unit increase in the covariate.\n        ''' </para>\n        ''' <para>\n        ''' When a formula is supplied, the model matrix is built internally from the raw predictor columns.\n        ''' If <c>formulaAddressing=\"absolute\"</c> is used, the <paramref name=\"x\"/> argument should be passed as a direct worksheet range so its absolute worksheet column letters can be determined.\n        ''' </para>\n        ''' <para>\n        ''' Rows with invalid values, such as non-numeric times or predictors, are excluded before fitting.\n        ''' If too few valid rows remain after filtering, the function returns an Excel error.\n        ''' </para>\n        ''' <para>\n        ''' The returned handle is valid only for the current Excel session and should be treated as a temporary identifier rather than a permanent stored result.\n        ''' </para>\n        ''' </remarks>\n        ''' <example>\n        ''' <code>\n        ''' =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:D101,\"Age,Treatment\")\n        ''' =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:F101,\"Age,BMI,Stage,Treat\",,,\"efron\",FALSE,100,1E-8,\"A + A^2 + factor(C, ref=1) + factor(C, ref=1):B\",\"relative\")\n        ''' </code>\n        ''' </example>\n        <ExcelFunction(\n            Name:=\"BESH.SURV.COX_FIT\",\n            Category:=\"BESHStatNG - Survival\",\n            Description:=\"Fits a Cox proportional hazards model and returns a handle for use with other COX_* functions.\",\n            HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\n        )>\n        Public Function COX_FIT(\n            <ExcelArgument(Name:=\"time\", Description:=\"Follow-up time for each subject (>=0). One column.\")> time As Object,\n            <ExcelArgument(Name:=\"status\", Description:=\"Event indicator (1=event, 0=censored). One column.\")> status As Object,\n            <ExcelArgument(AllowReference:=True, Name:=\"x\", Description:=\"Predictor matrix. Rows align with time/status; columns are predictors.\")> x As Object,\n            <ExcelArgument(Name:=\"varNames\", Description:=\"Optional predictor names (one row) or comma-separated list.\")> Optional varNames As Object = Nothing,\n            <ExcelArgument(Name:=\"strata\", Description:=\"Optional stratification variable (one column).\")> Optional strata As Object = Nothing,\n            <ExcelArgument(Name:=\"ties\", Description:=\"Ties method: \"\"breslow\"\" (default), \"\"efron\"\", \"\"exact\"\".\")> Optional ties As Object = Nothing,\n            <ExcelArgument(Name:=\"robust\", Description:=\"TRUE to compute robust (sandwich) standard errors.\")> Optional robust As Object = Nothing,\n            <ExcelArgument(Name:=\"formula\", Description:=\"Optional RHS model formula, e.g. \"\"A + A^2 + factor(C, ref=1) + factor(C):B\"\".\")> Optional formula As Object = Nothing,\n            <ExcelArgument(Name:=\"formulaAddressing\", Description:=\"Formula-addressing mode: \"\"relative\"\" (default), \"\"absolute\"\", or \"\"names\"\".\")> Optional formulaAddressing As Object = Nothing,\n            <ExcelArgument(Name:=\"maxIter\", Description:=\"Maximum iterations (default 100).\")> Optional maxIter As Object = Nothing,\n            <ExcelArgument(Name:=\"tol\", Description:=\"Convergence tolerance (default 1E-8).\")> Optional tol As Object = Nothing\n            ) As Object\n\n            If ExcelDnaUtil.IsInFunctionWizard() Then Return \"COX_FIT (editing...)\"\n\n            Try\n\n                Dim imported As CoxPHData = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetCoxData(time, status, x, varNames, strata, imported) Then Return ExcelError.ExcelErrorValue\n\n                Dim rowCount As Integer = imported.nRows\n                Dim colCount As Integer = imported.nCols\n                If colCount < 1 Then Return ExcelError.ExcelErrorNum\n\n                Dim rawVNames As String() = DirectCast(imported.varNames.Clone(), String())\n\n                Dim formulaText As String = AsString(formula)\n                If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing\n\n                Dim addressingMode As String = Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, \"relative\")\n                Dim allowRelativeColumnLetters As Boolean = False\n                Dim allowAbsoluteColumnLetters As Boolean = False\n                Dim allowQuotedVariableNames As Boolean = True\n\n                Select Case addressingMode\n                    Case \"absolute\"\n                        allowAbsoluteColumnLetters = True\n                    Case \"names\"\n                        allowQuotedVariableNames = True\n                    Case Else\n                        allowRelativeColumnLetters = True\n                        addressingMode = \"relative\"\n                End Select\n\n                Dim absoluteColumnLetters As String() = Nothing\n                If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then\n                    If Not Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(x, colCount, absoluteColumnLetters) Then\n                        Return ExcelError.ExcelErrorValue\n                    End If\n                End If\n\n                Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing\n                Dim designErr As String = Nothing\n                If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=imported.DataDbl,\n                                                                                result:=designBuild,\n                                                                                errorMessage:=designErr,\n                                                                                predictorNames:=rawVNames,\n                                                                                formulaText:=formulaText,\n                                                                                absoluteColumnLetters:=absoluteColumnLetters,\n                                                                                allowRelativeColumnLetters:=allowRelativeColumnLetters,\n                                                                                allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,\n                                                                                allowQuotedVariableNames:=allowQuotedVariableNames,\n                                                                                omitCategoricalReference:=True) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n\n                Dim fitX(,) As Double = designBuild.ExpandedPredictorMatrix\n                Dim fitVarNames As String() = designBuild.ExpandedPredictorNames\n                Dim fitColCount As Integer = If(fitVarNames Is Nothing, 0, fitVarNames.Length)\n                If fitX Is Nothing OrElse fitColCount < 1 Then Return ExcelError.ExcelErrorValue\n\n                Dim records As New List(Of survival.SurvivalRecord)(rowCount)\n                For i As Integer = 0 To rowCount - 1\n                    Dim rec As New survival.SurvivalRecord()\n                    rec.Time = imported.TimeData(i)\n                    rec.Censorship = imported.CensorData(i)\n                    rec.Index = imported.RowIds(i)\n\n                    Dim cov(fitColCount - 1) As Double\n                    For j As Integer = 0 To fitColCount - 1\n                        cov(j) = fitX(i, j)\n                    Next\n                    rec.Covariates = cov\n\n                    If imported.bStrata Then\n                        rec.Stratum = imported.StrataData(i)\n                        rec.strStratum = imported.StrataData(i)\n                    Else\n                        rec.Stratum = \"__ALL__\"\n                        rec.strStratum = \"__ALL__\"\n                    End If\n\n                    records.Add(rec)\n                Next\n\n                If records.Count < 3 Then Return ExcelError.ExcelErrorNum\n\n                Dim mi As Integer = GetOptionalInt(maxIter, 100)\n                Dim eps As Double = GetOptionalDouble(tol, 0.00000001)\n                Dim method As TieMethod = Global.BESHStatNG.UdfDataImport.GetCoxTieMethod(ties, TieMethod.Breslow)\n                Dim useRobust As Boolean = GetOptionalBool(robust, False)\n\n                Dim model As New CoxPH(records, fitVarNames, mi, eps)\n                model.bRobustVariance = useRobust\n\n                Dim res As CoxResult = model.Fit(method)\n\n                Dim handle As String = \"COX:\" & Guid.NewGuid().ToString(\"N\")\n                Dim h As New CoxModelHandle With {\n                    .Handle = handle,\n                    .Model = model,\n                    .Result = res,\n                    .VarNames = fitVarNames,\n                    .RawVarNames = If(designBuild.FullRawPredictorNames, rawVNames),\n                    .RawPredictorKeys = designBuild.FullRawPredictorKeys,\n                    .RawPredictorAbsoluteLetters = designBuild.FullRawPredictorAbsoluteLetters,\n                    .DesignSpec = designBuild.DesignSpec,\n                    .OmitCategoricalReference = True,\n                    .TieMethod = method,\n                    .Robust = useRobust\n                }\n                _coxCache(handle) = h\n                Return handle\n\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.SURV.COX_FIT\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function\n\n        ''' <summary>\n        ''' Returns a coefficient table for a fitted Cox proportional hazards model.\n        ''' </summary>\n        ''' <param name=\"handle\">\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\n        ''' </param>\n        ''' <param name=\"includeHeader\">\n        ''' Optional logical flag indicating whether a header row should be included in the spilled output.\n        ''' If omitted, a header row is included.\n        ''' </param>\n        ''' <param name=\"alpha\">\n        ''' Optional two-sided significance level used for the hazard-ratio confidence interval.\n        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.\n        ''' </param>\n        ''' <returns>\n        ''' A spilled array with one row per predictor.\n        ''' The output includes the variable name, regression coefficient, standard error, Wald z statistic, two-sided p-value,\n        ''' hazard ratio, and a two-sided hazard-ratio confidence interval at level <c>1 - alpha</c>.\n        ''' </returns>\n        ''' <remarks>\n        ''' <para>\n        ''' The regression coefficient is the estimated change in log hazard associated with a one-unit increase in the predictor while holding the other predictors fixed.\n        ''' The hazard ratio is obtained by exponentiating the coefficient and is often easier to interpret in applied work.\n        ''' </para>\n        ''' <para>\n        ''' A hazard ratio greater than 1 indicates increased hazard, a hazard ratio less than 1 indicates reduced hazard, and a hazard ratio equal to 1 indicates no change.\n        ''' For example, a hazard ratio of 1.25 corresponds to an estimated 25% increase in hazard per one-unit increase in the predictor.\n        ''' </para>\n        ''' <para>\n        ''' The z statistic is formed by dividing the estimated coefficient by its standard error.\n        ''' The reported p-value is the usual two-sided Wald p-value for testing whether the coefficient equals 0.\n        ''' </para>\n        ''' <para>\n        ''' If robust standard errors were requested during model fitting, the summary uses those robust standard errors in place of the model-based standard errors.\n        ''' </para>\n        ''' </remarks>\n        ''' <example>\n        ''' <code>\n        ''' =BESH.SURV.COX_SUMMARY(F2)\n        ''' =BESH.SURV.COX_SUMMARY(F2, TRUE, 0.1)\n        ''' </code>\n        ''' </example>\n        <ExcelFunction(\n            Name:=\"BESH.SURV.COX_SUMMARY\",\n            Category:=\"BESHStatNG - Survival\",\n            Description:=\"Returns coefficient table (beta, SE, z, p, HR, CI) for a fitted Cox model handle.\",\n            HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\n        )>\n        Public Function COX_SUMMARY(\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\n            <ExcelArgument(Name:=\"includeHeader\", Description:=\"TRUE to include header row (default TRUE).\")> Optional includeHeader As Object = Nothing,\n            <ExcelArgument(Name:=\"alpha\", Description:=\"Optional two-sided alpha for HR confidence intervals (default 0.05).\")> Optional alpha As Object = Nothing\n        ) As Object\n\n            Dim key As String = AsString(handle)\n            If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue\n\n            Dim h As CoxModelHandle = Nothing\n            If Not _coxCache.TryGetValue(key, h) Then Return ExcelError.ExcelErrorNA\n\n            Dim alphaValue As Double = 0.05\n            If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum\n\n            Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\n            Dim ciPct As String = $\"{100.0 * (1.0 - alphaValue):0.##}%\"\n\n            Dim hdr As Boolean = GetOptionalBool(includeHeader, True)\n            Dim p As Integer = h.VarNames.Length\n            Dim rows As Integer = If(hdr, p + 1, p)\n            Dim out(rows - 1, 7) As Object\n\n            Dim r0 As Integer = 0\n            If hdr Then\n                out(0, 0) = \"Variable\"\n                out(0, 1) = \"Coef\"\n                out(0, 2) = \"SE\"\n                out(0, 3) = \"Z\"\n                out(0, 4) = \"P-value\"\n                out(0, 5) = \"HR\"\n                out(0, 6) = \"HR \" & ciPct & \" LCL\"\n                out(0, 7) = \"HR \" & ciPct & \" UCL\"\n                r0 = 1\n            End If\n\n            For i As Integer = 0 To p - 1\n                Dim beta As Double = h.Result.Coefficients(i)\n                Dim se As Double\n                If h.Robust AndAlso h.Result.VarCovRobust IsNot Nothing AndAlso h.Result.VarCovRobust.GetLength(0) = p Then\n                    se = Math.Sqrt(h.Result.VarCovRobust(i, i))\n                Else\n                    se = Math.Sqrt(h.Result.VarCov(i, i))\n                End If\n\n                Dim z As Double = beta / se\n                Dim pv As Double = 2.0 * distributions.PNorm(-Math.Abs(z))\n                Dim hr As Object = ExpForDisplay(beta)\n                Dim lcl As Object = ExpForDisplay(beta - zCrit * se)\n                Dim ucl As Object = ExpForDisplay(beta + zCrit * se)\n\n                out(r0 + i, 0) = h.VarNames(i)\n                out(r0 + i, 1) = beta\n                out(r0 + i, 2) = se\n                out(r0 + i, 3) = z\n                out(r0 + i, 4) = pv\n                out(r0 + i, 5) = hr\n                out(r0 + i, 6) = lcl\n                out(r0 + i, 7) = ucl\n            Next\n\n            Return PreparePValueTableForUdf(out, 5)\n        End Function\n\n        ''' <summary>\n        ''' Returns global significance tests and fit statistics for a fitted Cox proportional hazards model.\n        ''' </summary>\n        ''' <param name=\"handle\">\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\n        ''' </param>\n        ''' <param name=\"includeHeader\">\n        ''' Optional logical flag indicating whether a header row should be included in the spilled output.\n        ''' If omitted, a header row is included.\n        ''' </param>\n        ''' <returns>\n        ''' A spilled array containing global likelihood-ratio and Wald chi-square tests, their degrees of freedom and p-values,\n        ''' together with additional fit information such as the null and fitted log-likelihoods, number of iterations, and convergence status.\n        ''' </returns>\n        ''' <remarks>\n        ''' <para>\n        ''' The likelihood-ratio test compares the fitted model with a model containing no predictors by comparing their log partial likelihood values.\n        ''' It assesses whether the predictors, taken together, improve model fit.\n        ''' </para>\n        ''' <para>\n        ''' The Wald test assesses the joint null hypothesis that all regression coefficients are equal to 0.\n        ''' It is based on the estimated coefficient vector and its covariance matrix.\n        ''' </para>\n        ''' <para>\n        ''' In many applications the likelihood-ratio, Wald, and score tests give similar conclusions, but they are not identical and may differ somewhat in small samples\n        ''' or when the model is close to numerical instability.\n        ''' </para>\n        ''' <para>\n        ''' Log-likelihood values are useful for model comparison. Larger fitted log-likelihood values indicate better agreement with the observed event ordering,\n        ''' although comparisons are most meaningful between models fit to the same data.\n        ''' </para>\n        ''' <para>\n        ''' The convergence indicator reports whether the iterative estimation procedure satisfied the stopping criterion before reaching the iteration limit.\n        ''' Lack of convergence may indicate separation, collinearity, sparse information, or an overly complex model relative to the data.\n        ''' </para>\n        ''' </remarks>\n        ''' <example>\n        ''' <code>\n        ''' =BESH.SURV.COX_TESTS(F2)\n        ''' </code>\n        ''' </example>\n        <ExcelFunction(\n            Name:=\"BESH.SURV.COX_TESTS\",\n            Category:=\"BESHStatNG - Survival\",\n            Description:=\"Returns global tests (LR, Wald) and fit statistics for a fitted Cox model handle.\",\n            HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\n        )>\n        Public Function COX_TESTS(\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\n            <ExcelArgument(Name:=\"includeHeader\", Description:=\"TRUE to include header row (default TRUE).\")> Optional includeHeader As Object = Nothing\n        ) As Object\n\n            Try\n                Dim key As String = AsString(handle)\n                If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue\n\n                Dim h As CoxModelHandle = Nothing\n                If Not _coxCache.TryGetValue(key, h) Then Return ExcelError.ExcelErrorNA\n                If h Is Nothing OrElse h.Result Is Nothing Then Return ExcelError.ExcelErrorNA\n                If h.VarNames Is Nothing Then Return ExcelError.ExcelErrorNA\n\n                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)\n                Dim p As Integer = h.VarNames.Length\n                If p < 1 Then Return ExcelError.ExcelErrorNA\n\n                If h.Result.Coefficients Is Nothing OrElse h.Result.Coefficients.Length < p Then\n                    Return \"Invalid coefficient vector length.\"\n                End If\n\n                Dim lr As Object = ExcelError.ExcelErrorNA\n                Dim lrP As Object = ExcelError.ExcelErrorNA\n\n                If Not Double.IsNaN(h.Result.LogLikelihoodNull) AndAlso Not Double.IsInfinity(h.Result.LogLikelihoodNull) AndAlso\n                    Not Double.IsNaN(h.Result.LogLikelihood) AndAlso Not Double.IsInfinity(h.Result.LogLikelihood) Then\n                    Dim lrVal As Double = -2.0 * (h.Result.LogLikelihoodNull - h.Result.LogLikelihood)\n                    If Not Double.IsNaN(lrVal) AndAlso Not Double.IsInfinity(lrVal) AndAlso lrVal >= 0 Then\n                        lr = lrVal\n                        Try\n                            lrP = 1.0 - distributions.ChiSquareCDF(lrVal, p)\n                        Catch\n                            lrP = ExcelError.ExcelErrorNA\n                        End Try\n                    End If\n                End If\n\n                Dim wald As Object = ExcelError.ExcelErrorNA\n                Dim waldP As Object = ExcelError.ExcelErrorNA\n\n                Dim v As Double(,) = Nothing\n                If h.Robust AndAlso\n                   h.Result.VarCovRobust IsNot Nothing AndAlso\n                   h.Result.VarCovRobust.GetLength(0) = p AndAlso\n                   h.Result.VarCovRobust.GetLength(1) = p Then\n\n                    v = h.Result.VarCovRobust\n\n                ElseIf h.Result.VarCov IsNot Nothing AndAlso\n                   h.Result.VarCov.GetLength(0) = p AndAlso\n                   h.Result.VarCov.GetLength(1) = p Then\n\n                    v = h.Result.VarCov\n                End If\n\n                If v IsNot Nothing Then\n                    Dim invV As Double(,) = Nothing\n\n                    If Global.BESHStatNG.UdfLinearAlgebra.TryInvertMatrix(v, invV) Then\n                        If invV IsNot Nothing AndAlso invV.GetLength(0) = p AndAlso invV.GetLength(1) = p Then\n\n                            Dim tmp(p - 1) As Double\n\n                            For i As Integer = 0 To p - 1\n                                Dim s As Double = 0.0\n                                For j As Integer = 0 To p - 1\n                                    s += invV(i, j) * h.Result.Coefficients(j)\n                                Next\n                                tmp(i) = s\n                            Next\n\n                            Dim w As Double = 0.0\n                            For i As Integer = 0 To p - 1\n                                w += h.Result.Coefficients(i) * tmp(i)\n                            Next\n\n                            If Not Double.IsNaN(w) AndAlso Not Double.IsInfinity(w) AndAlso w >= 0 Then\n                                wald = w\n                                Try\n                                    waldP = 1.0 - distributions.ChiSquareCDF(w, p)\n                                Catch\n                                    waldP = ExcelError.ExcelErrorNA\n                                End Try\n                            End If\n                        End If\n                    End If\n                End If\n\n                Dim nRows As Integer = If(hdr, 7, 5)\n                Dim out(nRows - 1, 3) As Object\n                Dim r As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Item\"\n                    out(0, 1) = \"Value\"\n                    out(0, 2) = \"df\"\n                    out(0, 3) = \"P-value\"\n                    r = 1\n                End If\n\n                out(r + 0, 0) = \"Likelihood-ratio chi-square\"\n                out(r + 0, 1) = lr\n                out(r + 0, 2) = p\n                out(r + 0, 3) = lrP\n\n                out(r + 1, 0) = \"Wald chi-square\"\n                out(r + 1, 1) = wald\n                out(r + 1, 2) = p\n                out(r + 1, 3) = waldP\n\n                out(r + 2, 0) = \"Log-likelihood (null)\"\n                out(r + 2, 1) = If(Not Double.IsNaN(h.Result.LogLikelihoodNull) AndAlso Not Double.IsInfinity(h.Result.LogLikelihoodNull), CType(h.Result.LogLikelihoodNull, Object), ExcelError.ExcelErrorNA)\n                out(r + 2, 2) = \"\"\n                out(r + 2, 3) = \"\"\n\n                out(r + 3, 0) = \"Log-likelihood (fitted)\"\n                out(r + 3, 1) = If(Not Double.IsNaN(h.Result.LogLikelihood) AndAlso Not Double.IsInfinity(h.Result.LogLikelihood), CType(h.Result.LogLikelihood, Object), ExcelError.ExcelErrorNA)\n                out(r + 3, 2) = \"\"\n                out(r + 3, 3) = \"\"\n\n                out(r + 4, 0) = \"Iterations\"\n                out(r + 4, 1) = h.Result.Iterations\n                out(r + 4, 2) = \"\"\n                out(r + 4, 3) = \"\"\n\n                If hdr Then\n                    out(r + 5, 0) = \"Converged\"\n                    out(r + 5, 1) = h.Result.Converged\n                    out(r + 5, 2) = \"\"\n                    out(r + 5, 3) = \"\"\n                End If\n\n                Return PreparePValueTableForUdf(out, 4)\n\n            Catch ex As Exception\n                Return LoggedUdfExceptionText(\"BESH.SURV.COX_TESTS\", ex)\n            End Try\n        End Function\n\n        ''' <summary>\n        ''' Returns residual-based diagnostics for a fitted Cox proportional hazards model.\n        ''' </summary>\n        ''' <param name=\"handle\">\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\n        ''' </param>\n        ''' <param name=\"residType\">\n        ''' The residual type to return.\n        ''' Supported values commonly include <c>martingale</c>, <c>deviance</c>, <c>schoenfeld</c>, and <c>dfbeta</c>.\n        ''' </param>\n        ''' <returns>\n        ''' A spilled array containing the requested residual output.\n        ''' For observation-level residuals such as martingale or deviance residuals, the result is usually one row per subject.\n        ''' For coefficient-specific diagnostics such as Schoenfeld residuals or DFBETA values, the result may contain one column per coefficient.\n        ''' </returns>\n        ''' <remarks>\n        ''' <para>\n        ''' Residuals provide diagnostic information about model fit, influential observations, and possible departures from assumptions.\n        ''' Different residuals answer different questions and should be interpreted accordingly.\n        ''' </para>\n        ''' <para>\n        ''' Martingale residuals are useful for assessing functional form and identifying outlying event patterns, but they are often highly skewed.\n        ''' Deviance residuals are a transformation of martingale residuals that tends to be more symmetric and easier to inspect graphically.\n        ''' </para>\n        ''' <para>\n        ''' Schoenfeld residuals are tied to event times and are especially useful for assessing the proportional hazards assumption.\n        ''' DFBETA diagnostics quantify how strongly each observation influences each coefficient estimate.\n        ''' </para>\n        ''' <para>\n        ''' Residuals should generally be interpreted together with the fitted model, subject-matter knowledge, and graphical inspection.\n        ''' A single unusual residual value does not automatically imply model failure, but systematic patterns can indicate misspecification or influential data points.\n        ''' </para>\n        ''' </remarks>\n        ''' <example>\n        ''' <code>\n        ''' =BESH.SURV.COX_RESID(F2,\"martingale\")\n        ''' </code>\n        ''' </example>\n        <ExcelFunction(Name:=\"BESH.SURV.COX_RESID\",\n                       Category:=\"BESHStatNG - Survival\",\n                       Description:=\"Returns residual diagnostics for a fitted Cox model.\",\n                       HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\n                       )>\n        Public Function COX_RESID(\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\n            <ExcelArgument(Name:=\"type\", Description:=\"Residual type: martingale, deviance, schoenfeld, or dfbeta.\")> residType As Object\n        ) As Object\n            Try\n                Dim h As CoxModelHandle = Nothing\n                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h) Then Return ExcelError.ExcelErrorNA\n                Dim rt As ResidualType = ParseResidualType(residType)\n                If Not EnsureResiduals(h) Then Return ExcelError.ExcelErrorValue\n                Dim d As Dictionary(Of Integer, Double()) = h.Model.Residuals(rt)\n                If d Is Nothing OrElse d.Count = 0 Then Return ExcelError.ExcelErrorNA\n                Dim keys = d.Keys.OrderBy(Function(x) x).ToList()\n                Dim width As Integer = d(keys(0)).Length\n                Dim out(keys.Count, width) As Object\n                out(0, 0) = \"Row ID\"\n                If width = 1 Then\n                    out(0, 1) = ResidualLabel(rt)\n                Else\n                    For j As Integer = 0 To width - 1\n                        out(0, j + 1) = If(j < h.VarNames.Length, h.VarNames(j), \"V\" & (j + 1).ToString())\n                    Next\n                End If\n                For i As Integer = 0 To keys.Count - 1\n                    out(i + 1, 0) = keys(i)\n                    Dim vals = d(keys(i))\n                    For j As Integer = 0 To vals.Length - 1\n                        out(i + 1, j + 1) = vals(j)\n                    Next\n                Next\n                Return out\n            Catch ex As Exception\n                Return LoggedUdfExceptionText(\"BESH.SURV.COX_RESID\", ex)\n            End Try\n        End Function\n\n        ''' <summary>\n        ''' Returns baseline quantities derived from a fitted Cox proportional hazards model.\n        ''' </summary>\n        ''' <param name=\"handle\">\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\n        ''' </param>\n        ''' <param name=\"baselineType\">\n        ''' Optional output type.\n        ''' Common choices include <c>table</c>, <c>survival</c>, <c>cumhaz</c>, or a plot-ready representation, depending on the supported outputs in the implementation.\n        ''' </param>\n        ''' <returns>\n        ''' A spilled array containing baseline output evaluated over event times.\n        ''' Depending on the requested type, the result may include event times together with the baseline survival function,\n        ''' cumulative baseline hazard, or a fuller tabular representation.\n        ''' </returns>\n        ''' <remarks>\n        ''' <para>\n        ''' In the Cox model, the regression coefficients describe relative hazards, while the baseline hazard or baseline survival function captures the underlying time pattern\n        ''' for a reference covariate pattern with linear predictor equal to 0.\n        ''' </para>\n        ''' <para>\n        ''' The baseline cumulative hazard is often estimated using a Breslow-type estimator, and the baseline survival function is then obtained as\n        ''' <c>S_0(t) = exp(-H_0(t))</c>.\n        ''' These quantities form the basis for individual survival predictions once a subject's linear predictor has been calculated.\n        ''' </para>\n        ''' <para>\n        ''' In stratified models, separate baseline functions are estimated for each stratum.\n        ''' As a result, baseline output should always be interpreted together with the stratum structure used during fitting.\n        ''' </para>\n        ''' <para>\n        ''' Baseline quantities are model-based estimates and therefore inherit the assumptions of the fitted Cox model, including the proportional hazards structure.\n        ''' </para>\n        ''' </remarks>\n        ''' <example>\n        ''' <code>\n        ''' =BESH.SURV.COX_BASELINE(F2,\"survival\")\n        ''' </code>\n        ''' </example>\n        <ExcelFunction(Name:=\"BESH.SURV.COX_BASELINE\",\n                       Category:=\"BESHStatNG - Survival\",\n                       Description:=\"Returns baseline survival or cumulative hazard from a fitted Cox model.\",\n                       HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\")>\n        Public Function COX_BASELINE(\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\n            <ExcelArgument(Name:=\"type\", Description:=\"Output type: table (default), survival, cumhaz, or plot.\")> Optional baselineType As Object = Nothing\n        ) As Object\n            Try\n                Dim h As CoxModelHandle = Nothing\n                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h) Then Return ExcelError.ExcelErrorNA\n                Dim tp As String = AsString(baselineType)\n                If String.IsNullOrWhiteSpace(tp) Then tp = \"table\"\n                tp = tp.ToLowerInvariant()\n                Dim base = h.Model.ComputeBaseline(False)\n                If base Is Nothing OrElse base.Count = 0 Then Return ExcelError.ExcelErrorNA\n                Dim total As Integer = 1\n                For Each kv In base\n                    Dim arr = kv.Value\n                    If tp = \"plot\" Then\n                        total += h.Model.BaseSurvivalForPloting(arr).GetLength(0)\n                    Else\n                        total += arr.GetLength(0)\n                    End If\n                Next\n                Dim cols As Integer = If(tp = \"survival\" OrElse tp = \"cumhaz\", 3, 4)\n                Dim out(total - 1, cols - 1) As Object\n                If cols = 4 Then\n                    out(0, 0) = \"Stratum\" : out(0, 1) = \"Time\" : out(0, 2) = \"Survival\" : out(0, 3) = \"CumHazard\"\n                Else\n                    out(0, 0) = \"Stratum\" : out(0, 1) = \"Time\" : out(0, 2) = If(tp = \"survival\", \"Survival\", \"CumHazard\")\n                End If\n                Dim r As Integer = 1\n                For Each kv In base\n                    Dim arr As Double(,) = kv.Value\n                    If tp = \"plot\" Then arr = h.Model.BaseSurvivalForPloting(arr)\n                    For i As Integer = 0 To arr.GetLength(0) - 1\n                        out(r, 0) = Convert.ToString(kv.Key)\n                        out(r, 1) = arr(i, 0)\n                        If tp = \"survival\" Then\n                            out(r, 2) = arr(i, 1)\n                        ElseIf tp = \"cumhaz\" OrElse tp = \"hazard\" Then\n                            out(r, 2) = arr(i, 2)\n                        Else\n                            out(r, 2) = arr(i, 1)\n                            out(r, 3) = arr(i, 2)\n                        End If\n                        r += 1\n                    Next\n                Next\n                Return out\n            Catch ex As Exception\n                Return LoggedUdfExceptionText(\"BESH.SURV.COX_BASELINE\", ex)\n            End Try\n        End Function\n\n        ''' <summary>\n        ''' Returns predictions from a fitted Cox proportional hazards model for new covariate values.\n        ''' </summary>\n        ''' <param name=\"handle\">\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\n        ''' </param>\n        ''' <param name=\"newX\">\n        ''' A numeric matrix containing one row per subject and one column per predictor.\n        ''' The number and ordering of columns must match the predictor matrix used when the model was fitted.\n        ''' </param>\n        ''' <param name=\"predType\">\n        ''' Optional prediction type.\n        ''' Common choices include <c>lp</c> for the linear predictor, <c>risk</c> for relative risk, <c>survival</c> for predicted survival probabilities,\n        ''' and <c>cumhaz</c> for predicted cumulative hazard values.\n        ''' </param>\n        ''' <param name=\"timeGrid\">\n        ''' Optional time grid used for time-dependent predictions such as survival probabilities or cumulative hazards.\n        ''' This should usually be supplied as a single-column numeric range.\n        ''' </param>\n        ''' <returns>\n        ''' A spilled array containing the requested predictions.\n        ''' For scalar predictions such as the linear predictor or relative risk, the output typically contains one row per subject.\n        ''' For time-dependent predictions, the output may contain one row per time point or one block of results per subject, depending on the selected type.\n        ''' </returns>\n        ''' <remarks>\n        ''' <para>\n        ''' The linear predictor is the quantity <c>x'β</c>. It summarizes the combined effect of the subject's covariates on the log hazard scale.\n        ''' Exponentiating the linear predictor gives the relative risk <c>exp(x'β)</c>, which compares a subject's hazard with the baseline hazard.\n        ''' </para>\n        ''' <para>\n        ''' Predicted survival for subject <c>i</c> at time <c>t</c> is typically obtained as\n        ''' <c>S_i(t) = S_0(t) ^ exp(x_i'β)</c>, where <c>S_0(t)</c> is the estimated baseline survival function.\n        ''' Likewise, the predicted cumulative hazard is obtained by scaling the baseline cumulative hazard by <c>exp(x_i'β)</c>.\n        ''' </para>\n        ''' <para>\n        ''' Predictions are conditional on the fitted model and therefore depend on the chosen ties method, any stratification, and the observed event structure in the estimation sample.\n        ''' In stratified models, time-dependent predictions require the appropriate stratum-specific baseline function.\n        ''' </para>\n        ''' <para>\n        ''' The <c>newX</c> argument should contain the raw predictor columns in the same order as the original model input.\n        ''' When the fitted model uses internally expanded terms such as factors, polynomials, or interactions, the prediction path rebuilds the required design matrix automatically from those raw inputs.\n        ''' </para>\n        ''' <para>\n        ''' Prediction functions are most meaningful when the new covariate values are within the practical range of the data used to fit the model.\n        ''' Strong extrapolation beyond the observed predictor region should be interpreted cautiously.\n        ''' </para>\n        ''' </remarks>\n        ''' <example>\n        ''' <code>\n        ''' =BESH.SURV.COX_PRED(F2,H2:I6,\"risk\")\n        ''' </code>\n        ''' </example>\n        <ExcelFunction(Name:=\"BESH.SURV.COX_PRED\",\n                       Category:=\"BESHStatNG - Survival\",\n                       Description:=\"Computes predictions from a fitted Cox model (linear predictor, risk, survival, or cumulative hazard).\",\n                       HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\")>\n        Public Function COX_PRED(\n            <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object,\n            <ExcelArgument(AllowReference:=True, Name:=\"newX\", Description:=\"Numeric matrix of raw predictor columns in the same order as used when fitting the model.\")> newX As Object,\n            <ExcelArgument(Name:=\"type\", Description:=\"Prediction type: lp, risk, survival, or cumhaz.\")> Optional predType As Object = Nothing,\n            <ExcelArgument(Name:=\"timeGrid\", Description:=\"Optional single-column vector of time points for survival/cumhaz predictions.\")> Optional timeGrid As Object = Nothing\n        ) As Object\n            Try\n                Dim h As CoxModelHandle = Nothing\n                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h) Then Return ExcelError.ExcelErrorNA\n\n                Dim rawPredictorKeys As String() = If(h.RawPredictorKeys, h.RawVarNames)\n                If rawPredictorKeys Is Nothing OrElse rawPredictorKeys.Length < 1 Then Return ExcelError.ExcelErrorValue\n\n                Dim imported As glmData = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newX, rawPredictorKeys, Nothing, False, imported) Then Return ExcelError.ExcelErrorValue\n\n                If imported.nCols <> rawPredictorKeys.Length Then Return ExcelError.ExcelErrorValue\n\n                Dim xMat As Double(,) = imported.DataDbl\n                Dim predNames As String() = rawPredictorKeys\n\n                If h.DesignSpec IsNot Nothing AndAlso rawPredictorKeys.Length > 0 Then\n                    Dim expandedX(,) As Double = Nothing\n                    Dim expandedNames() As String = Nothing\n                    Dim designErr As String = Nothing\n                    If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,\n                                                                                                fullRawPredictorKeys:=rawPredictorKeys,\n                                                                                                designSpec:=h.DesignSpec,\n                                                                                                expandedX:=expandedX,\n                                                                                                expandedPredictorNames:=expandedNames,\n                                                                                                errorMessage:=designErr,\n                                                                                                omitCategoricalReference:=h.OmitCategoricalReference) Then\n                        Return ExcelError.ExcelErrorValue\n                    End If\n                    xMat = expandedX\n                    predNames = expandedNames\n                End If\n\n                Dim p As Integer = If(predNames Is Nothing, 0, predNames.Length)\n                If xMat Is Nothing OrElse p < 1 OrElse h.Result Is Nothing OrElse h.Result.Coefficients Is Nothing Then Return ExcelError.ExcelErrorValue\n\n                Dim tp As String = AsString(predType)\n                If String.IsNullOrWhiteSpace(tp) Then tp = \"lp\"\n                tp = tp.ToLowerInvariant()\n\n                Dim beta = h.Result.Coefficients\n                If beta.Length <> p Then Return ExcelError.ExcelErrorValue\n\n                Dim n As Integer = imported.nRows\n\n                If tp = \"lp\" OrElse tp = \"risk\" Then\n                    Dim out(n, 1) As Object\n                    out(0, 0) = \"Subject\"\n                    out(0, 1) = If(tp = \"lp\", \"LinearPredictor\", \"Risk\")\n\n                    For i As Integer = 0 To n - 1\n                        Dim row(p - 1) As Double\n                        For j As Integer = 0 To p - 1\n                            row(j) = xMat(i, j)\n                        Next\n\n                        Dim lp As Double = Global.BESHStatNG.Matrix.Matrix.DotProduct(row, beta)\n                        out(i + 1, 0) = i + 1\n                        out(i + 1, 1) = If(tp = \"lp\", lp, Math.Exp(lp))\n                    Next\n\n                    Return out\n                End If\n\n                Dim base = h.Model.ComputeBaseline(False)\n                If base Is Nothing OrElse base.Count <> 1 Then Return ExcelError.ExcelErrorValue\n\n                Dim arr As Double(,) = base.Values.First()\n                Dim times As New List(Of Double)\n                If timeGrid IsNot Nothing AndAlso Not TypeOf timeGrid Is ExcelMissing AndAlso Not TypeOf timeGrid Is ExcelEmpty Then\n                    Dim tVals As List(Of Double) = Nothing\n                    If Not Global.BESHStatNG.UdfDataImport.TryGetNumericColumn(timeGrid, tVals) Then Return ExcelError.ExcelErrorValue\n                    For Each tt In tVals\n                        If Not Double.IsNaN(tt) AndAlso Not Double.IsInfinity(tt) AndAlso tt >= 0 Then times.Add(tt)\n                    Next\n                Else\n                    For i As Integer = 0 To arr.GetLength(0) - 1\n                        times.Add(arr(i, 0))\n                    Next\n                End If\n\n                If times.Count = 0 Then Return ExcelError.ExcelErrorNum\n\n                Dim out2(n * times.Count, 2) As Object\n                out2(0, 0) = \"Subject\"\n                out2(0, 1) = \"Time\"\n                out2(0, 2) = If(tp = \"cumhaz\", \"CumHazard\", \"Survival\")\n\n                Dim r As Integer = 1\n                For i As Integer = 0 To n - 1\n                    Dim row(p - 1) As Double\n                    For j As Integer = 0 To p - 1\n                        row(j) = xMat(i, j)\n                    Next\n\n                    Dim risk As Double = Math.Exp(Global.BESHStatNG.Matrix.Matrix.DotProduct(row, beta))\n\n                    For Each tt In times\n                        Dim baseCumHaz As Double = LookupStepValue(arr, tt, 2)\n                        out2(r, 0) = i + 1\n                        out2(r, 1) = tt\n                        If tp = \"cumhaz\" OrElse tp = \"hazard\" Then\n                            out2(r, 2) = baseCumHaz * risk\n                        Else\n                            out2(r, 2) = Math.Exp(-baseCumHaz * risk)\n                        End If\n                        r += 1\n                    Next\n                Next\n\n                Return out2\n\n            Catch ex As Exception\n                Return LoggedUdfExceptionText(\"BESH.SURV.COX_PRED\", ex)\n            End Try\n        End Function\n\n        ''' <summary>\n        ''' Removes a fitted Cox model handle from memory.\n        ''' </summary>\n        ''' <param name=\"handle\">\n        ''' A model handle previously returned by <c>BESH.SURV.COX_FIT</c>.\n        ''' </param>\n        ''' <returns>\n        ''' TRUE if the handle existed and was removed successfully; otherwise FALSE.\n        ''' </returns>\n        ''' <remarks>\n        ''' <para>\n        ''' Cox model handles are stored only for the current Excel session so that related worksheet functions can reuse the fitted model without repeating the estimation step.\n        ''' This function removes the cached model when it is no longer needed.\n        ''' </para>\n        ''' <para>\n        ''' Removing unused handles can help reduce memory use in large workbooks or after repeated model fitting during exploratory analysis.\n        ''' Once a handle has been removed, it can no longer be used by other Cox-related worksheet functions.\n        ''' </para>\n        ''' </remarks>\n        ''' <example>\n        ''' <code>\n        ''' =BESH.SURV.COX_DROP(F2)\n        ''' </code>\n        ''' </example>\n        <ExcelFunction(\n            Name:=\"BESH.SURV.COX_DROP\",\n            Category:=\"BESHStatNG - Survival\",\n            Description:=\"Removes a fitted Cox model handle from memory.\",\n            HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\"\n        )>\n        Public Function COX_DROP(\n            <ExcelArgument(Name:=\"handle\",\n                           Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object\n        ) As Object\n            Dim key As String = AsString(handle)\n            If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue\n            Dim removed As CoxModelHandle = Nothing\n            Return _coxCache.TryRemove(key, removed)\n        End Function\n\n        Private Function EnsureResiduals(h As CoxModelHandle) As Boolean\n            Try\n                Dim d = h.Model.Residuals(ResidualType.Martingale)\n                If d IsNot Nothing AndAlso d.Count > 0 Then Return True\n            Catch ex As Exception\n                CoreServices.Logger.Debug($\"BESH.SURV.COX_RESID cache probe failed: {ex.Message}\")\n            End Try\n            Try\n                h.Model.bComputeAllResiduals = True\n                h.Result = h.Model.Fit(h.TieMethod)\n                Return True\n            Catch ex As Exception\n                CoreServices.Logger.Error(ex, \"BESH.SURV.COX_RESID failed while computing residuals.\")\n                Return False\n            End Try\n        End Function\n\n        Private Function ParseResidualType(v As Object) As ResidualType\n            Dim s As String = AsString(v)\n            If String.IsNullOrWhiteSpace(s) Then Return ResidualType.Martingale\n            Select Case s.Trim().ToLowerInvariant()\n                Case \"martingale\" : Return ResidualType.Martingale\n                Case \"deviance\" : Return ResidualType.Deviance\n                Case \"schoenfeld\" : Return ResidualType.Schoenfeld\n                Case \"dfbeta\" : Return ResidualType.Dfbeta\n                Case Else : Return ResidualType.Martingale\n            End Select\n        End Function\n\n        Private Function ResidualLabel(rt As ResidualType) As String\n            Select Case rt\n                Case ResidualType.Martingale : Return \"Martingale\"\n                Case ResidualType.Deviance : Return \"Deviance\"\n                Case ResidualType.Schoenfeld : Return \"Schoenfeld\"\n                Case ResidualType.Dfbeta : Return \"Dfbeta\"\n                Case Else : Return \"Residual\"\n            End Select\n        End Function\n\n        Private Function LookupStepValue(arr As Double(,), t As Double, col As Integer) As Double\n            Dim last As Double = If(col = 1, 1.0, 0.0)\n            For i As Integer = 0 To arr.GetLength(0) - 1\n                If arr(i, 0) > t Then Exit For\n                last = arr(i, col)\n            Next\n            Return last\n        End Function\n    End Module",
+      "current_view": "RAW_BYTES",
+      "original_view": "EXPLICIT_CRLF_TO_LF_IDENTITY",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/Regression/CoxUDFs.vb.txt",
+        "bytes": 56301,
+        "sha256": "52826f08ac1f22cc8323f00dafa76c5f3e7ea60f13736d3b6926d6d994d0c0b7"
+      },
+      "all_primary_children": [
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|VariableDeclarator|9201d872722655e2@1569:98",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|VariableDeclarator|9201d872722655e2",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "initializer",
+          "kind": "VariableDeclarator",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "_coxCache As New ConcurrentDictionary(Of String, CoxModelHandle)(StringComparer.OrdinalIgnoreCase)",
+          "span_start": 1569,
+          "span_length": 98,
+          "start_line": 34,
+          "end_line": 34,
+          "body_sha256": "9201d872722655e26195c6a7a5e2a75dd49768ba7468754500a9d16baad473ec",
+          "body_token_sha256": "df9b538cb48a7c17e1fbb63a4f4d15635b3d0f3500474312489e5f6b65ad6c8d",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": false,
+          "parent_member": null,
+          "invocations": []
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|a535679032a7494a@9076:7472",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|a535679032a7494a",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "COX_FIT",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "<ExcelFunction( Name:=\"BESH.SURV.COX_FIT\", Category:=\"BESHStatNG - Survival\", Description:=\"Fits a Cox proportional hazards model and returns a handle for use with other COX_* functions.\", HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\" )> Public Function COX_FIT( <ExcelArgument(Name:=\"time\", Description:=\"Follow-up time for each subject (>=0). One column.\")> time As Object, <ExcelArgument(Name:=\"status\", Description:=\"Event indicator (1=event, 0=censored). One column.\")> status As Object, <ExcelArgument(AllowReference:=True, Name:=\"x\", Description:=\"Predictor matrix. Rows align with time/status; columns are predictors.\")> x As Object, <ExcelArgument(Name:=\"varNames\", Description:=\"Optional predictor names (one row) or comma-separated list.\")> Optional varNames As Object = Nothing, <ExcelArgument(Name:=\"strata\", Description:=\"Optional stratification variable (one column).\")> Optional strata As Object = Nothing, <ExcelArgument(Name:=\"ties\", Description:=\"Ties method: \"\"breslow\"\" (default), \"\"efron\"\", \"\"exact\"\".\")> Optional ties As Object = Nothing, <ExcelArgument(Name:=\"robust\", Description:=\"TRUE to compute robust (sandwich) standard errors.\")> Optional robust As Object = Nothing, <ExcelArgument(Name:=\"formula\", Description:=\"Optional RHS model formula, e.g. \"\"A + A^2 + factor(C, ref=1) + factor(C):B\"\".\")> Optional formula As Object = Nothing, <ExcelArgument(Name:=\"formulaAddressing\", Description:=\"Formula-addressing mode: \"\"relative\"\" (default), \"\"absolute\"\", or \"\"names\"\".\")> Optional formulaAddressing As Object = Nothing, <ExcelArgument(Name:=\"maxIter\", Description:=\"Maximum iterations (default 100).\")> Optional maxIter As Object = Nothing, <ExcelArgument(Name:=\"tol\", Description:=\"Convergence tolerance (default 1E-8).\")> Optional tol As Object = Nothing ) As Object",
+          "span_start": 9076,
+          "span_length": 7472,
+          "start_line": 143,
+          "end_line": 255,
+          "body_sha256": "6a50fffceeb4fe4d9fa7932ee285f792b1baf4e0cfb9dd110fb0714b889a4c91",
+          "body_token_sha256": "1fa93135dc5a49f0e7295a2e6ed9c694469d0821f75bca60335ca877950c5079",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": true,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "ExcelDnaUtil.IsInFunctionWizard()",
+              "line": 163
+            },
+            {
+              "text": "Global.BESHStatNG.UdfDataImport.TryGetCoxData(time, status, x, varNames, strata, imported)",
+              "line": 168
+            },
+            {
+              "text": "imported.varNames.Clone()",
+              "line": 174
+            },
+            {
+              "text": "AsString(formula)",
+              "line": 176
+            },
+            {
+              "text": "String.IsNullOrWhiteSpace(formulaText)",
+              "line": 177
+            },
+            {
+              "text": "Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, \"relative\")",
+              "line": 179
+            },
+            {
+              "text": "String.IsNullOrWhiteSpace(formulaText)",
+              "line": 195
+            },
+            {
+              "text": "Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(x, colCount, absoluteColumnLetters)",
+              "line": 196
+            },
+            {
+              "text": "RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=imported.DataDbl, result:=designBuild, errorMessage:=designErr, predictorNames:=rawVNames, formulaText:=formulaText, absoluteColumnLetters:=absoluteColumnLetters, allowRelativeColumnLetters:=allowRelativeColumnLetters, allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters, allowQuotedVariableNames:=allowQuotedVariableNames, omitCategoricalReference:=True)",
+              "line": 203
+            },
+            {
+              "text": "Global.BESHStatNG.ExcelCommon.UdfCoxInputPreparation38.PrepareRecords(imported, rowCount, fitColCount, fitX)",
+              "line": 221
+            },
+            {
+              "text": "GetOptionalInt(maxIter, 100)",
+              "line": 225
+            },
+            {
+              "text": "GetOptionalDouble(tol, 0.00000001)",
+              "line": 226
+            },
+            {
+              "text": "Global.BESHStatNG.UdfDataImport.GetCoxTieMethod(ties, TieMethod.Breslow)",
+              "line": 227
+            },
+            {
+              "text": "GetOptionalBool(robust, False)",
+              "line": 228
+            },
+            {
+              "text": "model.Fit(method)",
+              "line": 233
+            },
+            {
+              "text": "Guid.NewGuid().ToString(\"N\")",
+              "line": 235
+            },
+            {
+              "text": "Guid.NewGuid()",
+              "line": 235
+            },
+            {
+              "text": "_coxCache(handle)",
+              "line": 249
+            },
+            {
+              "text": "LoggedUdfError(\"BESH.SURV.COX_FIT\", ex, ExcelError.ExcelErrorValue)",
+              "line": 253
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|c6110fb5d713d2a7@19013:1749",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|c6110fb5d713d2a7",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "COX_SUMMARY",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "<ExcelFunction( Name:=\"BESH.SURV.COX_SUMMARY\", Category:=\"BESHStatNG - Survival\", Description:=\"Returns coefficient table (beta, SE, z, p, HR, CI) for a fitted Cox model handle.\", HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\" )> Public Function COX_SUMMARY( <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object, <ExcelArgument(Name:=\"includeHeader\", Description:=\"TRUE to include header row (default TRUE).\")> Optional includeHeader As Object = Nothing, <ExcelArgument(Name:=\"alpha\", Description:=\"Optional two-sided alpha for HR confidence intervals (default 0.05).\")> Optional alpha As Object = Nothing ) As Object",
+          "span_start": 19013,
+          "span_length": 1749,
+          "start_line": 299,
+          "end_line": 328,
+          "body_sha256": "16e8a207b23db33e9d9f0e8c30f8a4b4ef1a0155fa125e94488020208d6e00a9",
+          "body_token_sha256": "cd2659d9107438542a2ee263e524ac5e94183d25142f9321e19204a253dcb322",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": true,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "AsString(handle)",
+              "line": 311
+            },
+            {
+              "text": "String.IsNullOrWhiteSpace(key)",
+              "line": 312
+            },
+            {
+              "text": "_coxCache.TryGetValue(key, h)",
+              "line": 315
+            },
+            {
+              "text": "TryParseAlpha(alpha, alphaValue)",
+              "line": 318
+            },
+            {
+              "text": "distributions.ZCritTwoSided(alphaValue)",
+              "line": 320
+            },
+            {
+              "text": "GetOptionalBool(includeHeader, True)",
+              "line": 323
+            },
+            {
+              "text": "Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxSummaryTable(hdr, p, h.VarNames, h.Result, h.Robust, zCrit, ciPct, AddressOf ExpForDisplay)",
+              "line": 325
+            },
+            {
+              "text": "PreparePValueTableForUdf(out, 5)",
+              "line": 327
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|ad75f19ae60b35a7@23220:4986",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|ad75f19ae60b35a7",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "COX_TESTS",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "<ExcelFunction( Name:=\"BESH.SURV.COX_TESTS\", Category:=\"BESHStatNG - Survival\", Description:=\"Returns global tests (LR, Wald) and fit statistics for a fitted Cox model handle.\", HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\" )> Public Function COX_TESTS( <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object, <ExcelArgument(Name:=\"includeHeader\", Description:=\"TRUE to include header row (default TRUE).\")> Optional includeHeader As Object = Nothing ) As Object",
+          "span_start": 23220,
+          "span_length": 4986,
+          "start_line": 371,
+          "end_line": 473,
+          "body_sha256": "38041233e47434e736466f5dc9fe74902dbf818ea606c3c77e0b9455c315a4c6",
+          "body_token_sha256": "afd71d9b38dedf43098fa298b7eb8c3bc6a53ae88ca577badc91688401c288b6",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": true,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "AsString(handle)",
+              "line": 383
+            },
+            {
+              "text": "String.IsNullOrWhiteSpace(key)",
+              "line": 384
+            },
+            {
+              "text": "_coxCache.TryGetValue(key, h)",
+              "line": 387
+            },
+            {
+              "text": "GetOptionalBool(includeHeader, True)",
+              "line": 391
+            },
+            {
+              "text": "Double.IsNaN(h.Result.LogLikelihoodNull)",
+              "line": 402
+            },
+            {
+              "text": "Double.IsInfinity(h.Result.LogLikelihoodNull)",
+              "line": 402
+            },
+            {
+              "text": "Double.IsNaN(h.Result.LogLikelihood)",
+              "line": 403
+            },
+            {
+              "text": "Double.IsInfinity(h.Result.LogLikelihood)",
+              "line": 403
+            },
+            {
+              "text": "Double.IsNaN(lrVal)",
+              "line": 405
+            },
+            {
+              "text": "Double.IsInfinity(lrVal)",
+              "line": 405
+            },
+            {
+              "text": "distributions.ChiSquareCDF(lrVal, p)",
+              "line": 408
+            },
+            {
+              "text": "h.Result.VarCovRobust.GetLength(0)",
+              "line": 421
+            },
+            {
+              "text": "h.Result.VarCovRobust.GetLength(1)",
+              "line": 422
+            },
+            {
+              "text": "h.Result.VarCov.GetLength(0)",
+              "line": 427
+            },
+            {
+              "text": "h.Result.VarCov.GetLength(1)",
+              "line": 428
+            },
+            {
+              "text": "Global.BESHStatNG.UdfLinearAlgebra.TryInvertMatrix(v, invV)",
+              "line": 436
+            },
+            {
+              "text": "invV.GetLength(0)",
+              "line": 437
+            },
+            {
+              "text": "invV.GetLength(1)",
+              "line": 437
+            },
+            {
+              "text": "invV(i, j)",
+              "line": 444
+            },
+            {
+              "text": "h.Result.Coefficients(j)",
+              "line": 444
+            },
+            {
+              "text": "tmp(i)",
+              "line": 446
+            },
+            {
+              "text": "h.Result.Coefficients(i)",
+              "line": 451
+            },
+            {
+              "text": "tmp(i)",
+              "line": 451
+            },
+            {
+              "text": "Double.IsNaN(w)",
+              "line": 454
+            },
+            {
+              "text": "Double.IsInfinity(w)",
+              "line": 454
+            },
+            {
+              "text": "distributions.ChiSquareCDF(w, p)",
+              "line": 457
+            },
+            {
+              "text": "Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxTestsTable(hdr, p, h.Result, lr, lrP, wald, waldP, ExcelError.ExcelErrorNA)",
+              "line": 466
+            },
+            {
+              "text": "PreparePValueTableForUdf(out, 4)",
+              "line": 468
+            },
+            {
+              "text": "LoggedUdfExceptionText(\"BESH.SURV.COX_TESTS\", ex)",
+              "line": 471
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|1655eab4f5f55eb9@30547:1584",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|1655eab4f5f55eb9",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "COX_RESID",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "<ExcelFunction(Name:=\"BESH.SURV.COX_RESID\", Category:=\"BESHStatNG - Survival\", Description:=\"Returns residual diagnostics for a fitted Cox model.\", HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\" )> Public Function COX_RESID( <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object, <ExcelArgument(Name:=\"type\", Description:=\"Residual type: martingale, deviance, schoenfeld, or dfbeta.\")> residType As Object ) As Object",
+          "span_start": 30547,
+          "span_length": 1584,
+          "start_line": 513,
+          "end_line": 537,
+          "body_sha256": "3e567815754049c235549271fc92ba0ae632741edabb05be4a8d7fbee081f259",
+          "body_token_sha256": "bf627cbdc9d8ccf66fc4f03b6d8509c90a59a1476c8a1e02c7562db04bd46c7b",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": true,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h)",
+              "line": 524
+            },
+            {
+              "text": "ParseResidualType(residType)",
+              "line": 525
+            },
+            {
+              "text": "EnsureResiduals(h)",
+              "line": 526
+            },
+            {
+              "text": "h.Model.Residuals(rt)",
+              "line": 527
+            },
+            {
+              "text": "d.Keys.OrderBy(Function(x) x).ToList()",
+              "line": 529
+            },
+            {
+              "text": "d.Keys.OrderBy(Function(x) x)",
+              "line": 529
+            },
+            {
+              "text": "d(keys(0))",
+              "line": 530
+            },
+            {
+              "text": "keys(0)",
+              "line": 530
+            },
+            {
+              "text": "Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxResidualTable(d, keys, width, h.VarNames, rt)",
+              "line": 531
+            },
+            {
+              "text": "LoggedUdfExceptionText(\"BESH.SURV.COX_RESID\", ex)",
+              "line": 535
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@31715:13",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "lambda",
+          "kind": "SingleLineFunctionLambdaExpression",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "Function(x)",
+          "span_start": 31715,
+          "span_length": 13,
+          "start_line": 529,
+          "end_line": 529,
+          "body_sha256": "54e3611056b9a71150f7f779c6a05703ae3dcabb38327b60af2fb17327587288",
+          "body_token_sha256": "51ac6cb030b6b5386510f866ad959764a86c9d9b1ad4bcebdc473cadc3eb2a50",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": false,
+          "parent_member": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|1655eab4f5f55eb9@30547:1584",
+          "invocations": []
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|bdac655a3540d7c9@34355:2193",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|bdac655a3540d7c9",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "COX_BASELINE",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "<ExcelFunction(Name:=\"BESH.SURV.COX_BASELINE\", Category:=\"BESHStatNG - Survival\", Description:=\"Returns baseline survival or cumulative hazard from a fitted Cox model.\", HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\")> Public Function COX_BASELINE( <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object, <ExcelArgument(Name:=\"type\", Description:=\"Output type: table (default), survival, cumhaz, or plot.\")> Optional baselineType As Object = Nothing ) As Object",
+          "span_start": 34355,
+          "span_length": 2193,
+          "start_line": 577,
+          "end_line": 615,
+          "body_sha256": "465c0bd5039f9317d1cfeaf184a9b3c5a3edadc6d20822cd69fd235e55c09d67",
+          "body_token_sha256": "a85c4bf33172d941677fdc31cbc36e0ce49a2270ded2375f55d6d015f553850d",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": true,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h)",
+              "line": 587
+            },
+            {
+              "text": "AsString(baselineType)",
+              "line": 588
+            },
+            {
+              "text": "String.IsNullOrWhiteSpace(tp)",
+              "line": 589
+            },
+            {
+              "text": "tp.ToLowerInvariant()",
+              "line": 590
+            },
+            {
+              "text": "h.Model.ComputeBaseline(False)",
+              "line": 591
+            },
+            {
+              "text": "h.Model.BaseSurvivalForPloting(arr).GetLength(0)",
+              "line": 597
+            },
+            {
+              "text": "h.Model.BaseSurvivalForPloting(arr)",
+              "line": 597
+            },
+            {
+              "text": "arr.GetLength(0)",
+              "line": 599
+            },
+            {
+              "text": "Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateCoxBaselineTable(total, tp)",
+              "line": 602
+            },
+            {
+              "text": "h.Model.BaseSurvivalForPloting(arr)",
+              "line": 607
+            },
+            {
+              "text": "Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.AppendCoxBaselineRows(out, arr, kv.Key, tp, r)",
+              "line": 608
+            },
+            {
+              "text": "LoggedUdfExceptionText(\"BESH.SURV.COX_BASELINE\", ex)",
+              "line": 613
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|937fb993c2574869@40024:6931",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|937fb993c2574869",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "COX_PRED",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "<ExcelFunction(Name:=\"BESH.SURV.COX_PRED\", Category:=\"BESHStatNG - Survival\", Description:=\"Computes predictions from a fitted Cox model (linear predictor, risk, survival, or cumulative hazard).\", HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\")> Public Function COX_PRED( <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object, <ExcelArgument(AllowReference:=True, Name:=\"newX\", Description:=\"Numeric matrix of raw predictor columns in the same order as used when fitting the model.\")> newX As Object, <ExcelArgument(Name:=\"type\", Description:=\"Prediction type: lp, risk, survival, or cumhaz.\")> Optional predType As Object = Nothing, <ExcelArgument(Name:=\"timeGrid\", Description:=\"Optional single-column vector of time points for survival/cumhaz predictions.\")> Optional timeGrid As Object = Nothing ) As Object",
+          "span_start": 40024,
+          "span_length": 6931,
+          "start_line": 669,
+          "end_line": 793,
+          "body_sha256": "4807d89ed6440a6bc3f565476f2bcd993a383625d2820aaf4abb442253530b55",
+          "body_token_sha256": "61dd61e80af96112a4a19a95e86046dd31723e849ed4ca15364e2d4b5722400e",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": true,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h)",
+              "line": 681
+            },
+            {
+              "text": "Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newX, rawPredictorKeys, Nothing, False, imported)",
+              "line": 687
+            },
+            {
+              "text": "RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl, fullRawPredictorKeys:=rawPredictorKeys, designSpec:=h.DesignSpec, expandedX:=expandedX, expandedPredictorNames:=expandedNames, errorMessage:=designErr, omitCategoricalReference:=h.OmitCategoricalReference)",
+              "line": 698
+            },
+            {
+              "text": "AsString(predType)",
+              "line": 714
+            },
+            {
+              "text": "String.IsNullOrWhiteSpace(tp)",
+              "line": 715
+            },
+            {
+              "text": "tp.ToLowerInvariant()",
+              "line": 716
+            },
+            {
+              "text": "out(0, 0)",
+              "line": 725
+            },
+            {
+              "text": "out(0, 1)",
+              "line": 726
+            },
+            {
+              "text": "row(j)",
+              "line": 731
+            },
+            {
+              "text": "xMat(i, j)",
+              "line": 731
+            },
+            {
+              "text": "Global.BESHStatNG.Matrix.Matrix.DotProduct(row, beta)",
+              "line": 734
+            },
+            {
+              "text": "out(i + 1, 0)",
+              "line": 735
+            },
+            {
+              "text": "out(i + 1, 1)",
+              "line": 736
+            },
+            {
+              "text": "Math.Exp(lp)",
+              "line": 736
+            },
+            {
+              "text": "h.Model.ComputeBaseline(False)",
+              "line": 742
+            },
+            {
+              "text": "base.Values.First()",
+              "line": 745
+            },
+            {
+              "text": "Global.BESHStatNG.UdfDataImport.TryGetNumericColumn(timeGrid, tVals)",
+              "line": 749
+            },
+            {
+              "text": "Double.IsNaN(tt)",
+              "line": 751
+            },
+            {
+              "text": "Double.IsInfinity(tt)",
+              "line": 751
+            },
+            {
+              "text": "times.Add(tt)",
+              "line": 751
+            },
+            {
+              "text": "arr.GetLength(0)",
+              "line": 754
+            },
+            {
+              "text": "times.Add(arr(i, 0))",
+              "line": 755
+            },
+            {
+              "text": "arr(i, 0)",
+              "line": 755
+            },
+            {
+              "text": "out2(0, 0)",
+              "line": 762
+            },
+            {
+              "text": "out2(0, 1)",
+              "line": 763
+            },
+            {
+              "text": "out2(0, 2)",
+              "line": 764
+            },
+            {
+              "text": "row(j)",
+              "line": 770
+            },
+            {
+              "text": "xMat(i, j)",
+              "line": 770
+            },
+            {
+              "text": "Math.Exp(Global.BESHStatNG.Matrix.Matrix.DotProduct(row, beta))",
+              "line": 773
+            },
+            {
+              "text": "Global.BESHStatNG.Matrix.Matrix.DotProduct(row, beta)",
+              "line": 773
+            },
+            {
+              "text": "LookupStepValue(arr, tt, 2)",
+              "line": 776
+            },
+            {
+              "text": "out2(r, 0)",
+              "line": 777
+            },
+            {
+              "text": "out2(r, 1)",
+              "line": 778
+            },
+            {
+              "text": "out2(r, 2)",
+              "line": 780
+            },
+            {
+              "text": "out2(r, 2)",
+              "line": 782
+            },
+            {
+              "text": "Math.Exp(-baseCumHaz * risk)",
+              "line": 782
+            },
+            {
+              "text": "LoggedUdfExceptionText(\"BESH.SURV.COX_PRED\", ex)",
+              "line": 791
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|485b51147fb05779@48112:726",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|485b51147fb05779",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "COX_DROP",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "<ExcelFunction( Name:=\"BESH.SURV.COX_DROP\", Category:=\"BESHStatNG - Survival\", Description:=\"Removes a fitted Cox model handle from memory.\", HelpTopic:=HelpLinks.FallbackBaseUrl & \"/udf/survival/\" )> Public Function COX_DROP( <ExcelArgument(Name:=\"handle\", Description:=\"Handle returned by BESH.SURV.COX_FIT.\")> handle As Object ) As Object",
+          "span_start": 48112,
+          "span_length": 726,
+          "start_line": 819,
+          "end_line": 833,
+          "body_sha256": "4c4810f7566c765b4aa3e7aac23082655ba77d7601457392ad86659b060dd583",
+          "body_token_sha256": "aca19f7dedddf992d5925ca747b3934cdb3170b3c527c6408e2ee4d72be23d7b",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": true,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "AsString(handle)",
+              "line": 829
+            },
+            {
+              "text": "String.IsNullOrWhiteSpace(key)",
+              "line": 830
+            },
+            {
+              "text": "_coxCache.TryRemove(key, removed)",
+              "line": 832
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|422299bdff8977f2@48850:742",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|422299bdff8977f2",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "EnsureResiduals",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "Private Function EnsureResiduals(h As CoxModelHandle) As Boolean",
+          "span_start": 48850,
+          "span_length": 742,
+          "start_line": 835,
+          "end_line": 850,
+          "body_sha256": "a65a9b20be85ba0c3aecb32a1d72adb7b0050d718e059930163c0551dd6c5841",
+          "body_token_sha256": "0f05420418b63e2bac843a9097f9f107287e07e22db753e36f0e1ef4701c7621",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": false,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "h.Model.Residuals(ResidualType.Martingale)",
+              "line": 837
+            },
+            {
+              "text": "CoreServices.Logger.Debug($\"BESH.SURV.COX_RESID cache probe failed: {ex.Message}\")",
+              "line": 840
+            },
+            {
+              "text": "h.Model.Fit(h.TieMethod)",
+              "line": 844
+            },
+            {
+              "text": "CoreServices.Logger.Error(ex, \"BESH.SURV.COX_RESID failed while computing residuals.\")",
+              "line": 847
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|01ddf637104dda0c@49604:236",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|01ddf637104dda0c",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "ParseResidualType",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "Private Function ParseResidualType(v As Object) As ResidualType",
+          "span_start": 49604,
+          "span_length": 236,
+          "start_line": 852,
+          "end_line": 854,
+          "body_sha256": "aed43f17f7fa8e2e16694d9e61f33cdc2f5b57c446cea5c03d3e7f874ec04c1b",
+          "body_token_sha256": "4acbb37755df5c3792debd84ce5c28fbd1fcde4081db5b03cc201d19597dc43a",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": false,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "Global.BESHStatNG.ExcelCommon.CoxUDFsOptions38.ParseResidualType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))",
+              "line": 853
+            },
+            {
+              "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v)",
+              "line": 853
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|7b4e0ced8ea132f0@49852:168",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|7b4e0ced8ea132f0",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "ResidualLabel",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "Private Function ResidualLabel(rt As ResidualType) As String",
+          "span_start": 49852,
+          "span_length": 168,
+          "start_line": 856,
+          "end_line": 858,
+          "body_sha256": "89143b8ff1f3bdc84196c6522267d0eb72bf59839a3208383764ba0e41ec2398",
+          "body_token_sha256": "92796440da42c046588a27bb34dbd969de9b4e820a71380bf7755f598f208c42",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": false,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "Global.BESHStatNG.ExcelCommon.CoxUDFsMetadata38.ResidualLabel(rt)",
+              "line": 857
+            }
+          ]
+        },
+        {
+          "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|9770dda1b6c3cfb5@50032:225",
+          "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|9770dda1b6c3cfb5",
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "name": "LookupStepValue",
+          "kind": "FunctionBlock",
+          "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "signature": "Private Function LookupStepValue(arr As Double(,), t As Double, col As Integer) As Double",
+          "span_start": 50032,
+          "span_length": 225,
+          "start_line": 860,
+          "end_line": 862,
+          "body_sha256": "078bbf25dff968d09effbc965355c36778b922fa573a393e951d107a5522d825",
+          "body_token_sha256": "db5d3402c5b2093773c6485ebb6db2911da09fe19602ab0f94a856a8bc6b1267",
+          "source_sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2",
+          "exported": false,
+          "parent_member": null,
+          "invocations": [
+            {
+              "text": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.LookupStepValue(arr, t, col)",
+              "line": 861
+            }
+          ]
+        }
+      ],
+      "blocking_primary_ids": [],
+      "state_and_compiled_evidence": "constructed-owner-proofs-v1.json"
+    },
+    {
+      "current_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|SUPPORT/ClassBlock@1679:651",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "kind": "ClassBlock",
+        "span_start": 1679,
+        "span_length": 651,
+        "start_line": 36,
+        "end_line": 48,
+        "declaration": "Private Class CoxModelHandle",
+        "declaration_sha256": "a7d3ec9a79f696139d20804b390b495c889f1133ea5734df2777ab115275834d",
+        "already_in_primary_population": false
+      },
+      "original_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|SUPPORT/ClassBlock@1644:639",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "kind": "ClassBlock",
+        "span_start": 1644,
+        "span_length": 639,
+        "start_line": 36,
+        "end_line": 48,
+        "declaration": "Private Class CoxModelHandle",
+        "declaration_sha256": "a7d3ec9a79f696139d20804b390b495c889f1133ea5734df2777ab115275834d",
+        "already_in_primary_population": false
+      },
+      "current_whole_declaration": "Private Class CoxModelHandle\r\n            Public Property Handle As String\r\n            Public Property Model As CoxPH\r\n            Public Property Result As CoxResult\r\n            Public Property VarNames As String()\r\n            Public Property RawVarNames As String()\r\n            Public Property RawPredictorKeys As String()\r\n            Public Property RawPredictorAbsoluteLetters As String()\r\n            Public Property DesignSpec As RegressionFormulaDesignSpec\r\n            Public Property OmitCategoricalReference As Boolean\r\n            Public Property TieMethod As TieMethod\r\n            Public Property Robust As Boolean\r\n        End Class",
+      "original_whole_declaration": "Private Class CoxModelHandle\n            Public Property Handle As String\n            Public Property Model As CoxPH\n            Public Property Result As CoxResult\n            Public Property VarNames As String()\n            Public Property RawVarNames As String()\n            Public Property RawPredictorKeys As String()\n            Public Property RawPredictorAbsoluteLetters As String()\n            Public Property DesignSpec As RegressionFormulaDesignSpec\n            Public Property OmitCategoricalReference As Boolean\n            Public Property TieMethod As TieMethod\n            Public Property Robust As Boolean\n        End Class",
+      "current_view": "RAW_BYTES",
+      "original_view": "EXPLICIT_CRLF_TO_LF_IDENTITY",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/Regression/CoxUDFs.vb.txt",
+        "bytes": 56301,
+        "sha256": "52826f08ac1f22cc8323f00dafa76c5f3e7ea60f13736d3b6926d6d994d0c0b7"
+      },
+      "all_primary_children": [],
+      "blocking_primary_ids": [],
+      "state_and_compiled_evidence": "host-cache-contexts-v1.json"
+    },
+    {
+      "current_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SUPPORT/ClassBlock@2696:1292",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+        "kind": "ClassBlock",
+        "span_start": 2696,
+        "span_length": 1292,
+        "start_line": 54,
+        "end_line": 78,
+        "declaration": "Private Class GeeHandle",
+        "declaration_sha256": "f2b6d45864d6fa15d3a3952d3404dca3e40952fcac9a1c7d009b716827265010",
+        "already_in_primary_population": false
+      },
+      "original_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SUPPORT/ClassBlock@2696:1292",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+        "kind": "ClassBlock",
+        "span_start": 2696,
+        "span_length": 1292,
+        "start_line": 54,
+        "end_line": 78,
+        "declaration": "Private Class GeeHandle",
+        "declaration_sha256": "f2b6d45864d6fa15d3a3952d3404dca3e40952fcac9a1c7d009b716827265010",
+        "already_in_primary_population": false
+      },
+      "current_whole_declaration": "Private Class GeeHandle\n            Public Property Handle As String\n            Public Property Model As GEE\n            Public Property LinkObject As regression.Link\n            Public Property VarNames As String()\n            Public Property ExpandedPredictorNames As String()\n            Public Property RawVarNames As String()\n            Public Property RawPredictorKeys As String()\n            Public Property RawPredictorAbsoluteLetters As String()\n            Public Property RequiredRawVarNames As String()\n            Public Property RequiredRawPredictorKeys As String()\n            Public Property DesignSpec As RegressionFormulaDesignSpec\n            Public Property OmitCategoricalReference As Boolean\n            Public Property HasOffset As Boolean\n            Public Property HasWeights As Boolean\n            Public Property HasTime As Boolean\n            Public Property FittedDesign As Double(,)\n            Public Property FittedTimeValues As Double()\n            Public Property ClusterVarName As String\n            Public Property FamilyName As String\n            Public Property LinkName As String\n            Public Property CovarianceName As String\n            Public Property StandardErrorType As String\n            Public Property Alpha As Double\n        End Class",
+      "original_whole_declaration": "Private Class GeeHandle\n            Public Property Handle As String\n            Public Property Model As GEE\n            Public Property LinkObject As regression.Link\n            Public Property VarNames As String()\n            Public Property ExpandedPredictorNames As String()\n            Public Property RawVarNames As String()\n            Public Property RawPredictorKeys As String()\n            Public Property RawPredictorAbsoluteLetters As String()\n            Public Property RequiredRawVarNames As String()\n            Public Property RequiredRawPredictorKeys As String()\n            Public Property DesignSpec As RegressionFormulaDesignSpec\n            Public Property OmitCategoricalReference As Boolean\n            Public Property HasOffset As Boolean\n            Public Property HasWeights As Boolean\n            Public Property HasTime As Boolean\n            Public Property FittedDesign As Double(,)\n            Public Property FittedTimeValues As Double()\n            Public Property ClusterVarName As String\n            Public Property FamilyName As String\n            Public Property LinkName As String\n            Public Property CovarianceName As String\n            Public Property StandardErrorType As String\n            Public Property Alpha As Double\n        End Class",
+      "current_view": "RAW_BYTES",
+      "original_view": "RAW_BYTES",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/Regression/GeeUDFs.vb.txt",
+        "bytes": 114843,
+        "sha256": "35a3a35ddf4dfdb074a082dfe92495969dd1a8532f86af6650d6bde33bcf7649"
+      },
+      "all_primary_children": [],
+      "blocking_primary_ids": [],
+      "state_and_compiled_evidence": "host-cache-contexts-v1.json"
+    },
+    {
+      "current_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SUPPORT/ClassBlock@3998:130",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+        "kind": "ClassBlock",
+        "span_start": 3998,
+        "span_length": 130,
+        "start_line": 80,
+        "end_line": 82,
+        "declaration": "Private Class GeeLsmEstimateProfileValue",
+        "declaration_sha256": "ce35316bc9f6650ce8eb59b41381a9883fd9e0e2b305bfac037ac4b7f911473e",
+        "already_in_primary_population": false
+      },
+      "original_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SUPPORT/ClassBlock@3998:196",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+        "kind": "ClassBlock",
+        "span_start": 3998,
+        "span_length": 196,
+        "start_line": 80,
+        "end_line": 84,
+        "declaration": "Private Class GeeLsmEstimateProfileValue",
+        "declaration_sha256": "ce35316bc9f6650ce8eb59b41381a9883fd9e0e2b305bfac037ac4b7f911473e",
+        "already_in_primary_population": false
+      },
+      "current_whole_declaration": "Private Class GeeLsmEstimateProfileValue\n            Inherits Global.BESHStatNG.ExcelCommon.UdfLsmProfileValue38\n        End Class",
+      "original_whole_declaration": "Private Class GeeLsmEstimateProfileValue\n            Public Property Name As String\n            Public Property ColumnIndex As Integer\n            Public Property Value As Double\n        End Class",
+      "current_view": "RAW_BYTES",
+      "original_view": "RAW_BYTES",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/Regression/GeeUDFs.vb.txt",
+        "bytes": 114843,
+        "sha256": "35a3a35ddf4dfdb074a082dfe92495969dd1a8532f86af6650d6bde33bcf7649"
+      },
+      "all_primary_children": [],
+      "blocking_primary_ids": [],
+      "state_and_compiled_evidence": "host-cache-contexts-v1.json"
+    },
+    {
+      "current_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SUPPORT/ClassBlock@4138:155",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+        "kind": "ClassBlock",
+        "span_start": 4138,
+        "span_length": 155,
+        "start_line": 84,
+        "end_line": 86,
+        "declaration": "Private Class GeeLsmEstimateComponent",
+        "declaration_sha256": "4d5a85d8dada4c9eb311750e3c3dc5c8278f41abe8968cf2d985f80058980d94",
+        "already_in_primary_population": false
+      },
+      "original_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SUPPORT/ClassBlock@4204:332",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+        "kind": "ClassBlock",
+        "span_start": 4204,
+        "span_length": 332,
+        "start_line": 86,
+        "end_line": 92,
+        "declaration": "Private Class GeeLsmEstimateComponent",
+        "declaration_sha256": "4d5a85d8dada4c9eb311750e3c3dc5c8278f41abe8968cf2d985f80058980d94",
+        "already_in_primary_population": false
+      },
+      "current_whole_declaration": "Private Class GeeLsmEstimateComponent\n            Inherits Global.BESHStatNG.ExcelCommon.UdfGeeComponent38(Of GeeLsmEstimateProfileValue)\n        End Class",
+      "original_whole_declaration": "Private Class GeeLsmEstimateComponent\n            Public Property Label As String\n            Public Property Weight As Double\n            Public Property TimeSpecified As Boolean\n            Public Property TimeValue As Double\n            Public Property ProfileValues As New List(Of GeeLsmEstimateProfileValue)()\n        End Class",
+      "current_view": "RAW_BYTES",
+      "original_view": "RAW_BYTES",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/Regression/GeeUDFs.vb.txt",
+        "bytes": 114843,
+        "sha256": "35a3a35ddf4dfdb074a082dfe92495969dd1a8532f86af6650d6bde33bcf7649"
+      },
+      "all_primary_children": [],
+      "blocking_primary_ids": [],
+      "state_and_compiled_evidence": "host-cache-contexts-v1.json"
+    },
+    {
+      "current_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SUPPORT/ClassBlock@4303:155",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+        "kind": "ClassBlock",
+        "span_start": 4303,
+        "span_length": 155,
+        "start_line": 88,
+        "end_line": 90,
+        "declaration": "Private Class GeeLsmEstimateAtProfile",
+        "declaration_sha256": "bd97a79261a7a02f80021eb55b77e1c482e9c84af6ceecf8a48e185586aee1ee",
+        "already_in_primary_population": false
+      },
+      "original_source": {
+        "support_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SUPPORT/ClassBlock@4546:264",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "owner": "BESHStatNG.WorksheetFunctions.GEEUDFs",
+        "kind": "ClassBlock",
+        "span_start": 4546,
+        "span_length": 264,
+        "start_line": 94,
+        "end_line": 98,
+        "declaration": "Private Class GeeLsmEstimateAtProfile",
+        "declaration_sha256": "bd97a79261a7a02f80021eb55b77e1c482e9c84af6ceecf8a48e185586aee1ee",
+        "already_in_primary_population": false
+      },
+      "current_whole_declaration": "Private Class GeeLsmEstimateAtProfile\n            Inherits Global.BESHStatNG.ExcelCommon.UdfGeeAtProfile38(Of GeeLsmEstimateProfileValue)\n        End Class",
+      "original_whole_declaration": "Private Class GeeLsmEstimateAtProfile\n            Public Property TimeSpecified As Boolean = False\n            Public Property TimeValue As Double = Double.NaN\n            Public Property ProfileValues As New List(Of GeeLsmEstimateProfileValue)()\n        End Class",
+      "current_view": "RAW_BYTES",
+      "original_view": "RAW_BYTES",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/Regression/GeeUDFs.vb.txt",
+        "bytes": 114843,
+        "sha256": "35a3a35ddf4dfdb074a082dfe92495969dd1a8532f86af6650d6bde33bcf7649"
+      },
+      "all_primary_children": [],
+      "blocking_primary_ids": [],
+      "state_and_compiled_evidence": "host-cache-contexts-v1.json"
+    }
+  ],
+  "original_queries": 0
+}

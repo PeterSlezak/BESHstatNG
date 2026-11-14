@@ -1,0 +1,1021 @@
+{
+  "sources": [
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/test_04a02_source_specs.py",
+      "sha256": "1aa02f1def2a987e417580128edcd9d9041411d63ec4255d7eb79b559ecba077",
+      "sites": []
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py",
+      "sha256": "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7",
+      "sites": []
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/test_checkpoint07_contracts.py",
+      "sha256": "6ee3e0bdfeee7eff5d8ebde0bb723a23f3e088704c05358e066fa2474caff001",
+      "sites": [
+        {
+          "line": 113,
+          "call": "p.write_bytes(raw)"
+        },
+        {
+          "line": 115,
+          "call": "p.write_bytes(b'not PE')"
+        },
+        {
+          "line": 48,
+          "call": "source.replace('env.update(R_HOME=', 'env.update(CHANGED=')"
+        }
+      ]
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/test_investigation06.py",
+      "sha256": "58ca3361cc6d8d8c99aa00f876bd7eb79b2b4d78f568b2801cfd8191cf023d27",
+      "sites": [
+        {
+          "line": 144,
+          "call": "entry['text'].replace('True', 'False')"
+        },
+        {
+          "line": 129,
+          "call": "p.write_bytes(raw)"
+        }
+      ]
+    },
+    {
+      "path": "BESHStatNG_Help_MkDocs/tests/test_generate_udf_docs_v2.py",
+      "sha256": "de82659c317382b852587c02c36408b728232020227d3043cb944a25ba0ffe1d",
+      "sites": [
+        {
+          "line": 57,
+          "call": "file.write_text('' + '\\n\\'\\'\\' <summary>First</summary>\\n    <ExcelFunction(Name:=\"BESH.A\", Category:=\"Test\", Description:=\"A\")>\\n    Public Function First() As Object\\n    End Function\\n\\'\\'\\' <summary>Second</summary>\\n    <ExcelFunction(Name:=\"BESH.B\", Category:=\"Test\", Description:=\"B\")>\\n    Public Function Second() As Object\\n    End Function\\n', encoding='utf-8')"
+        },
+        {
+          "line": 76,
+          "call": "broken.write_text('methods:\\n- key: OneWayANOVA\\n  slug: one-way-anova\\n  udfNames:\\n  - BESH.INVALID\\n', encoding='utf-8')"
+        },
+        {
+          "line": 79,
+          "call": "broken.write_text('methods:\\n- key: OneWayANOVA\\n  slug: ../secret\\n  udfNames:\\n  - BESH.PAR.ANOVA1\\n', encoding='utf-8')"
+        },
+        {
+          "line": 89,
+          "call": "subprocess.run(base + ['--method-links-yaml', str(LEGACY_LINKS), '--methods-yml', str(METHODS)], check=True, capture_output=True)"
+        },
+        {
+          "line": 93,
+          "call": "subprocess.run(base + ['--method-links-yaml', str(LEGACY_LINKS), '--methods-yml', str(METHODS)], check=True, capture_output=True)"
+        },
+        {
+          "line": 109,
+          "call": "subprocess.run(base + ['--method-links-yaml', str(LEGACY_LINKS)], check=True, capture_output=True)"
+        },
+        {
+          "line": 112,
+          "call": "subprocess.run(base + ['--methods-yml', str(METHODS)], check=True, capture_output=True)"
+        }
+      ]
+    },
+    {
+      "path": "BESHStatNG_Help_MkDocs/tests/test_help_resolver.py",
+      "sha256": "cba9da097ed52da147c7947f99290da236dfcc29a78a461a30a019d498bb4d48",
+      "sites": [
+        {
+          "line": 21,
+          "call": "subprocess.run([sys.executable, '-B', '-m', 'mkdocs', 'build', '--config-file', str(DOCS / 'mkdocs.latest.yml'), '--site-dir', str(cls.output)], cwd=ROOT, capture_output=True, text=True, timeout=120)"
+        },
+        {
+          "line": 80,
+          "call": "subprocess.run(['node', '--input-type=module', '--eval', code, str(self.output), (DOCS / 'docs/assets/javascripts/help-resolver.mjs').as_uri(), generator.OUTPUT.as_uri()], capture_output=True, text=True)"
+        },
+        {
+          "line": 58,
+          "call": "stale.write_text('stale', encoding='utf-8')"
+        },
+        {
+          "line": 59,
+          "call": "subprocess.run([sys.executable, '-B', str(DOCS / 'generate_help_resolver_routes.py'), '--check', '--output', str(stale)], capture_output=True, text=True)"
+        }
+      ]
+    },
+    {
+      "path": "BESHStatNG_Help_MkDocs/tests/test_mkdocs_htaccess.py",
+      "sha256": "8e50240ffff3803d7ce2aef6cccdc548a668872564fe1ade715937c3e53c4090",
+      "sites": [
+        {
+          "line": 28,
+          "call": "subprocess.run([sys.executable, '-B', *map(str, arguments)], cwd=cwd, env=env, capture_output=True, text=True, timeout=120)"
+        },
+        {
+          "line": 34,
+          "call": "project.mkdir()"
+        },
+        {
+          "line": 45,
+          "call": "(project / 'fail_mime_write.py').write_text('from pathlib import Path\\nfrom mkdocs.plugins import event_priority\\n@event_priority(100)\\ndef on_post_build(config, **kwargs):\\n    if config[\"site_url\"].endswith(\"/latest/\"):\\n        (Path(config[\"site_dir\"]) / \"assets/javascripts/.htaccess\").mkdir()\\n', encoding='utf-8')"
+        },
+        {
+          "line": 54,
+          "call": "base.write_text(base.read_text(encoding='utf-8').replace('  - mkdocs_hooks.py\\n', '  - mkdocs_hooks.py\\n  - fail_mime_write.py\\n'), encoding='utf-8')"
+        },
+        {
+          "line": 54,
+          "call": "base.read_text(encoding='utf-8').replace('  - mkdocs_hooks.py\\n', '  - mkdocs_hooks.py\\n  - fail_mime_write.py\\n')"
+        },
+        {
+          "line": 98,
+          "call": "artifact.unlink()"
+        },
+        {
+          "line": 100,
+          "call": "artifact.write_bytes(b'AddType application/octet-stream .mjs\\r\\n')"
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/tools/tests/test_audit_transitional_officejs.py",
+      "sha256": "6b1fc6a739849b7d4dbf95dfab005359448158e34867cc2edd396e6c55d80188",
+      "sites": [
+        {
+          "line": 38,
+          "call": "source.parent.mkdir(parents=True, exist_ok=True)"
+        },
+        {
+          "line": 39,
+          "call": "source.write_text('Public Class OfficeJsDataImporter\\nEnd Class\\n', encoding='utf-8')"
+        },
+        {
+          "line": 47,
+          "call": "proj.parent.mkdir(parents=True, exist_ok=True)"
+        },
+        {
+          "line": 48,
+          "call": "proj.write_text('<Compile Include=\"src\\\\DM\\\\ResultWriter\\\\OfficeJsResultWriter.vb\" />', encoding='utf-8')"
+        },
+        {
+          "line": 56,
+          "call": "source.parent.mkdir(parents=True, exist_ok=True)"
+        },
+        {
+          "line": 57,
+          "call": "source.write_text('Dim writer As New GoogleSheetsResultWriter()\\n', encoding='utf-8')"
+        },
+        {
+          "line": 71,
+          "call": "doc.parent.mkdir(parents=True, exist_ok=True)"
+        },
+        {
+          "line": 72,
+          "call": "doc.write_text('OfficeJsDataImporter was retired.', encoding='utf-8')"
+        },
+        {
+          "line": 27,
+          "call": "target.parent.mkdir(parents=True, exist_ok=True)"
+        },
+        {
+          "line": 28,
+          "call": "target.write_text('\\n'.join((token for token in tokens if relative != caller or token != missing_token)), encoding='utf-8')"
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/tools/tests/test_generate_analysis_metadata.py",
+      "sha256": "cc5c394bb939d09163da230021f538358f7e1d9ab5da16383e301106df57542b",
+      "sites": [
+        {
+          "line": 29,
+          "call": "subprocess.run([sys.executable, str(TOOLS / 'generate_analysis_metadata.py'), '--check'], capture_output=True, text=True, check=False)"
+        },
+        {
+          "line": 35,
+          "call": "wrong.write_text('stale', encoding='utf-8')"
+        },
+        {
+          "line": 36,
+          "call": "subprocess.run([sys.executable, str(TOOLS / 'generate_analysis_metadata.py'), '--check', '--output', str(wrong)], capture_output=True, text=True, check=False)"
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/tools/tests/test_help_metadata.py",
+      "sha256": "bed365e065f10119c453a522eb4e253749dde7dac2bee0e4c3d159a46a9cd037",
+      "sites": [
+        {
+          "line": 46,
+          "call": "stale.write_text('stale', encoding='utf-8')"
+        },
+        {
+          "line": 78,
+          "call": "candidate.write_text(yaml.safe_dump(meta, allow_unicode=True), encoding='utf-8')"
+        },
+        {
+          "line": 82,
+          "call": "candidate.write_text(yaml.safe_dump(meta, allow_unicode=True), encoding='utf-8')"
+        },
+        {
+          "line": 103,
+          "call": "candidate.write_text(yaml.safe_dump(meta, allow_unicode=True), encoding='utf-8')"
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/tools/tests/test_validate_methods_catalog.py",
+      "sha256": "ca7ae2e704f1c2f22601549549769d7a448313f88ac201e0094ffab7ec61aba9",
+      "sites": [
+        {
+          "line": 35,
+          "call": "candidate.write_text(yaml.safe_dump(doc, allow_unicode=True, sort_keys=False), encoding='utf-8')"
+        },
+        {
+          "line": 107,
+          "call": "candidate.write_text('site:\\n  baseUrl: first\\n  baseUrl: second\\n', encoding='utf-8')"
+        },
+        {
+          "line": 116,
+          "call": "subprocess.run([sys.executable, str(TOOLS / 'generate_help_links.py'), '--methods-yml', str(YAML_PATH), '--project-dir', directory], capture_output=True, text=True)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_audit_compatibility.py",
+      "sha256": "809d922dcb12641114ae85dc0e4edc0f99e4b51736b24008b736bc1bbc02bb1d",
+      "sites": [
+        {
+          "line": 16,
+          "call": "old.replace(b'\\r\\n', b'\\n')"
+        },
+        {
+          "line": 52,
+          "call": "old.replace(b'\\r\\n', b'\\n')"
+        },
+        {
+          "line": 30,
+          "call": "original.write_bytes(b'{\"value\":123}\\r\\n')"
+        },
+        {
+          "line": 31,
+          "call": "changed.write_bytes(b'{\"value\":124}\\n')"
+        },
+        {
+          "line": 54,
+          "call": "current.replace(b'\"value\":2', b'\"value\":3')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_checkpoint08.py",
+      "sha256": "9c78f6b0525466ccf59ee04afc3278cb97145ac8defcc7a531a24de4d1adabca",
+      "sites": [
+        {
+          "line": 223,
+          "call": "(self.job / 'raw-stdout.bin').write_bytes(b'RETAIN')"
+        },
+        {
+          "line": 79,
+          "call": "path.write_bytes(original)"
+        },
+        {
+          "line": 88,
+          "call": "path.write_bytes(r.canonical(dict(schema='04A02-C08-R-technical-v1', status='R_TECHNICAL_NO_GO')))"
+        },
+        {
+          "line": 81,
+          "call": "path.write_bytes(changed)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_checkpoint08_dossier.py",
+      "sha256": "7fe73c3fea509a7257027b21d2e70615bf37d953612b547f9c9458af355fc820",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a02_checkpoint08_integration.py",
+      "sha256": "381b31be5bf1bc20ad4b26d399e69edb6ca583be6192c840349c18c68548deff",
+      "sites": [
+        {
+          "line": 36,
+          "call": "path.write_bytes(r.canonical(manifest))"
+        },
+        {
+          "line": 73,
+          "call": "path.write_bytes(r.canonical(self.manifest))"
+        },
+        {
+          "line": 91,
+          "call": "path.write_bytes(r.canonical(value))"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_checkpoint09.py",
+      "sha256": "d2f1e7a3cf394d8878737288548be4c2eff76379d0ad0f332517fe378a6722f8",
+      "sites": [
+        {
+          "line": 94,
+          "call": "child.mkdir()"
+        },
+        {
+          "line": 116,
+          "call": "path.write_bytes(b'FROZEN')"
+        },
+        {
+          "line": 149,
+          "call": "path.write_bytes(r.canonical(dict(schema='04A02-C09-R-technical-v1', status='R_TECHNICAL_NO_GO')))"
+        },
+        {
+          "line": 165,
+          "call": "bad.write_bytes(r.canonical(value))"
+        },
+        {
+          "line": 265,
+          "call": "plan.write_bytes(r.canonical(dict(stage='N1', case_id=n.g.CASE)))"
+        },
+        {
+          "line": 275,
+          "call": "plan.write_bytes(b'{}')"
+        },
+        {
+          "line": 126,
+          "call": "str(self.job / 'home').replace('\\\\', '/')"
+        },
+        {
+          "line": 126,
+          "call": "str(self.job / 'empty-startup').replace('\\\\', '/')"
+        },
+        {
+          "line": 127,
+          "call": "str(self.job / 'empty-startup').replace('\\\\', '/')"
+        },
+        {
+          "line": 99,
+          "call": "child.rename(path / 'swapped')"
+        },
+        {
+          "line": 118,
+          "call": "path.write_bytes(b'CHANGED')"
+        },
+        {
+          "line": 127,
+          "call": "str(r.R_HOME / 'library').replace('\\\\', '/')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_checkpoint11.py",
+      "sha256": "facbd4194129352cc7fc10b1f53338df18ea1a9cd54b4110db9c3a1d94517584",
+      "sites": [
+        {
+          "line": 156,
+          "call": "job.mkdir()"
+        },
+        {
+          "line": 156,
+          "call": "evidence.write_bytes(b'RETAINED')"
+        },
+        {
+          "line": 168,
+          "call": "p.write_bytes(b'PINNED')"
+        },
+        {
+          "line": 182,
+          "call": "p.write_bytes(r.canonical(dict(status='PENDING')))"
+        },
+        {
+          "line": 170,
+          "call": "p.write_bytes(b'EVIL')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_checkpoint12.py",
+      "sha256": "0ee49feb21502346cdcdcf30bba200e4a606b8e912b3f52f486f65a185544d19",
+      "sites": [
+        {
+          "line": 76,
+          "call": "namespace_policy()['compiler']['package_path'].replace('/', '\\\\')"
+        },
+        {
+          "line": 107,
+          "call": "target.mkdir()"
+        },
+        {
+          "line": 111,
+          "call": "subprocess.run([str(ps), '-NoProfile', '-Command', command], cwd=ROOT, capture_output=True, creationflags=subprocess.CREATE_NO_WINDOW)"
+        },
+        {
+          "line": 154,
+          "call": "p.write_bytes(r.canonical(value))"
+        },
+        {
+          "line": 165,
+          "call": "job.mkdir()"
+        },
+        {
+          "line": 165,
+          "call": "p.write_bytes(b'RETAINED')"
+        },
+        {
+          "line": 171,
+          "call": "p.write_bytes(r.canonical(dict(status='FAILED_RETAINED_NO_RETRY', exit_code=0)))"
+        },
+        {
+          "line": 109,
+          "call": "str(p).replace(\"'\", \"''\")"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_checkpoint13.py",
+      "sha256": "353d5032bac8b0b70438ce6d6c4666abb9d60544f1f0ad9fdcd25c1959ef2cf4",
+      "sites": [
+        {
+          "line": 66,
+          "call": "self.path.write_bytes(r.canonical(self.go))"
+        },
+        {
+          "line": 127,
+          "call": "(root / 'already').mkdir()"
+        },
+        {
+          "line": 131,
+          "call": "target.write_bytes(b'old')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_checkpoint14.py",
+      "sha256": "fc98e7322f4eb34930da12166cc5de46c7b3d64ce32312c3bac2a7bdaf5c1f6e",
+      "sites": [
+        {
+          "line": 88,
+          "call": "path.write_text(json.dumps(value))"
+        },
+        {
+          "line": 109,
+          "call": "Path(self.reviews[0]['signature']['record']['path']).write_bytes(b'TAMPERED')"
+        },
+        {
+          "line": 112,
+          "call": "path.write_bytes(b'')"
+        },
+        {
+          "line": 118,
+          "call": "path.write_text(json.dumps(value))"
+        },
+        {
+          "line": 141,
+          "call": "path.write_text(json.dumps(value))"
+        },
+        {
+          "line": 146,
+          "call": "path.write_text(json.dumps(value))"
+        },
+        {
+          "line": 62,
+          "call": "signature.write_bytes(('SYNTHETIC SIGNATURE FIXTURE ' + str(slot)).encode())"
+        },
+        {
+          "line": 64,
+          "call": "verification.write_text(json.dumps(dict(status='OWNER_VERIFIED_EXTERNAL_HUMAN_REVIEW', verifier='SYNTHETIC TEST ONLY', source='UNIT TEST; NOT REAL REVIEW EVIDENCE', date='2026-11-01', reviewer_identity_id=identity, signature_sha256=sha(signature), packet_sha256=sha(path))), encoding='utf-8')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_isolation.py",
+      "sha256": "e1650127e2723dafe87c36693f64aedfbb671371aa2c7ad50b95659af94a3455",
+      "sites": [
+        {
+          "line": 25,
+          "call": "path.mkdir(parents=True)"
+        },
+        {
+          "line": 112,
+          "call": "source.parent.mkdir()"
+        },
+        {
+          "line": 113,
+          "call": "source.write_text(self.template(), encoding='utf-8')"
+        },
+        {
+          "line": 131,
+          "call": "source.mkdir(parents=True)"
+        },
+        {
+          "line": 132,
+          "call": "(source / 'BESHStat.Excel.Common.Tests.dll').write_bytes(b'scratch assembly')"
+        },
+        {
+          "line": 133,
+          "call": "(source / 'dependency.dll').write_bytes(b'scratch dependency')"
+        },
+        {
+          "line": 134,
+          "call": "(source / 'TestData').mkdir()"
+        },
+        {
+          "line": 135,
+          "call": "(source / 'TestData/input.json').write_text('{}')"
+        },
+        {
+          "line": 70,
+          "call": "original.replace(anchor, '')"
+        },
+        {
+          "line": 84,
+          "call": "original.replace(anchor, anchor + ' # altered scratch')"
+        },
+        {
+          "line": 141,
+          "call": "(Path(dst) / 'dependency.dll').write_bytes(b'non-newline scratch drift')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a02_oracle_operator.py",
+      "sha256": "7de46303207750b4a2241c986f408c325aaf87fa736ece1bfa4c7b2c5aa6f69a",
+      "sites": [
+        {
+          "line": 24,
+          "call": "(self.home / 'bin/x64').mkdir(parents=True)"
+        },
+        {
+          "line": 26,
+          "call": "self.exe.write_bytes(b'DUMMY TEST BYTES; NOT AN EXECUTABLE')"
+        },
+        {
+          "line": 28,
+          "call": "self.dll.write_bytes(b'DUMMY TEST RUNTIME; NOT R')"
+        },
+        {
+          "line": 30,
+          "call": "self.output.mkdir()"
+        },
+        {
+          "line": 34,
+          "call": "self.manifest_path.write_bytes(operator.canonical(self.manifest))"
+        },
+        {
+          "line": 68,
+          "call": "self.decision_path.write_bytes(operator.canonical(self.decision))"
+        },
+        {
+          "line": 95,
+          "call": "self.decision_path.write_bytes(operator.canonical(self.decision))"
+        },
+        {
+          "line": 259,
+          "call": "target.write_bytes(b'KEEP ORIGINAL')"
+        },
+        {
+          "line": 281,
+          "call": "(self.output / 'CANDIDATE.JSON').write_bytes(b'KEEP CASE ALIAS')"
+        },
+        {
+          "line": 299,
+          "call": "(self.output / 'new-case').mkdir()"
+        },
+        {
+          "line": 306,
+          "call": "(job / 'raw-stdout.bin').write_bytes(b'AFTER-RUN SCRATCH TAMPER')"
+        },
+        {
+          "line": 344,
+          "call": "self.manifest_path.write_bytes(operator.canonical(self.manifest))"
+        },
+        {
+          "line": 349,
+          "call": "self.decision_path.write_bytes(operator.canonical(self.decision))"
+        },
+        {
+          "line": 244,
+          "call": "good.replace(b'CaseId: VALUE', b'DecisionId: VALUE')"
+        },
+        {
+          "line": 245,
+          "call": "good.replace(b'RVersion: VALUE', b'RVersion: ')"
+        },
+        {
+          "line": 245,
+          "call": "good.replace(b'\\n', b'\\r\\n')"
+        },
+        {
+          "line": 314,
+          "call": "Path(destination).write_bytes(b'EXISTING COLLISION OWNER')"
+        },
+        {
+          "line": 339,
+          "call": "self.dll.write_bytes(b'TAMPER')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a03_control_mitigation.py",
+      "sha256": "52ae9458cbc152cc82441c952e3602dac4b2995999a93217c5e8699863e7667f",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a03_selection.py",
+      "sha256": "a52e05e2f41d7f59d9fcc83fc06a2dd66790357d4b8c9d1747feafa4d4decbb2",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a04_alignment.py",
+      "sha256": "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a05_completion_successor.py",
+      "sha256": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952",
+      "sites": [
+        {
+          "line": 98,
+          "call": "restored.replace(contract.member(after, name), contract.member(before, name))"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a05_contingency.py",
+      "sha256": "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a06_assumptions_successor.py",
+      "sha256": "80fe3ddf7ff705f0b8f70ae56d6ad10f4accdc58b9d87228880dfe5334f2adc4",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a07_workflow_successor.py",
+      "sha256": "c3e41f73432b26524fb47a484461cbc2a80548e554fff42d43b78ec01e77ed8d",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a08_authoring_successor.py",
+      "sha256": "f2d6dde3dbc2e7f159d4ca28273894baad32878b92eddb0257e302b9136be2b7",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a08_evidence_relocation.py",
+      "sha256": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+      "sites": [
+        {
+          "line": 41,
+          "call": "destination.mkdir(parents=True)"
+        },
+        {
+          "line": 87,
+          "call": "old.parent.mkdir(parents=True)"
+        },
+        {
+          "line": 88,
+          "call": "old.write_text('{}', encoding='utf-8')"
+        },
+        {
+          "line": 91,
+          "call": "new.parent.mkdir(parents=True)"
+        },
+        {
+          "line": 92,
+          "call": "new.write_text('invalid json', encoding='utf-8')"
+        },
+        {
+          "line": 94,
+          "call": "old.write_text('invalid original', encoding='utf-8')"
+        },
+        {
+          "line": 111,
+          "call": "path.write_text(json.dumps(data), encoding='utf-8')"
+        },
+        {
+          "line": 101,
+          "call": "(root / p.NEW / 'formula-compatibility.json').open('ab')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a09_regression_successor.py",
+      "sha256": "18bf09ea42a281d331807625a6526b5dd4f70a70cb317456468207505244e925",
+      "sites": [
+        {
+          "line": 27,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'merge-base', '--is-ancestor', c.BASE, 'HEAD'], cwd=ROOT, capture_output=True)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a10_regression_projection.py",
+      "sha256": "57c41c74d298919dc2d456c8a2d32544239234965344ed199f4a0f8c9bbc927c",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a11_publication.py",
+      "sha256": "4be50a31f8aa0b48e5c96afdb957e2f2b9c71f6933a879413d2b2da7b896604e",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a11_regression_families.py",
+      "sha256": "9c65062a77fca3f9b42b16aa8cd5ab9ce56a2d48b2c381f083e97c830e182ee3",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a12_gee_workflow.py",
+      "sha256": "487ecbb6836632cf30547b60cf45aab9c07586cb3407431976cda5aa311b8a6b",
+      "sites": [
+        {
+          "line": 89,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'apply', '--check', path], cwd=ROOT, capture_output=True)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a13_survival_workflow.py",
+      "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60",
+      "sites": [
+        {
+          "line": 85,
+          "call": "(ROOT / c.CONTROLS).open(encoding='utf-8-sig')"
+        },
+        {
+          "line": 150,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'apply', '--check', path], cwd=ROOT, capture_output=True)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a14_mixed_workflow.py",
+      "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727",
+      "sites": [
+        {
+          "line": 106,
+          "call": "(ROOT / c.CONTROLS).open(encoding='utf-8-sig')"
+        },
+        {
+          "line": 155,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'apply', '--check', path], cwd=ROOT, capture_output=True)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a15_fitting.py",
+      "sha256": "393ff03ddff0d05d15ab61835825c0b8dabd4013710bdb80e5ba99504c78385d",
+      "sites": [
+        {
+          "line": 35,
+          "call": "before.replace('regression.MixedModelRStructUtils.createMixedModelRStruct(CStr(Me.cbCovarStruct.SelectedItem))', 'WindowsMixedModelWorkflowAdapter.CreateResidualStructure(CStr(Me.cbCovarStruct.SelectedItem))')"
+        },
+        {
+          "line": 37,
+          "call": "expected.replace('regression.MixedModelGStructUtils.createMixedModelGStruct(CStr(Me.cbRandomCovarStruct.SelectedItem))', 'WindowsMixedModelWorkflowAdapter.CreateRandomStructure(CStr(Me.cbRandomCovarStruct.SelectedItem))')"
+        },
+        {
+          "line": 78,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'apply', '--check', p], cwd=ROOT, capture_output=True)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a16_post_estimation.py",
+      "sha256": "4c1384ee83aa78f6893221e6fcaf926880e400ea2c82b597e65e7923035a5984",
+      "sites": [
+        {
+          "line": 116,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'apply', '--check', p], cwd=ROOT, capture_output=True)"
+        },
+        {
+          "line": 77,
+          "call": "expected.replace('AppendMMRMEstimatedMeanTables(result, x, fixedNames, visit, mmrmGuiData)', 'AppendMMRMEstimatedMeanTables(result, x, fixedNames, visit, mmrmGuiData, workflow.Decision)')"
+        },
+        {
+          "line": 78,
+          "call": "expected.replace('WriteMMRMResults(mmrmGuiData, result, y, x, fixedNames, subjectId, visit)', 'WriteMMRMResults(mmrmGuiData, result, y, x, fixedNames, subjectId, visit, workflow.Decision)')"
+        },
+        {
+          "line": 80,
+          "call": "expected.replace('WriteLMMResults(lmmGuiData, result, y, x, fixedNames, z, randomNames, subjectId, visit)', 'WriteLMMResults(lmmGuiData, result, y, x, fixedNames, z, randomNames, subjectId, visit, workflow.Decision)')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a17_multivariate.py",
+      "sha256": "06afd4bd4829b90688f0924c13a4a1d5ea5fc22d85120fde21308895f2dd1db0",
+      "sites": [
+        {
+          "line": 15,
+          "call": "(ROOT / c.FORM).read_text(encoding='utf-8-sig').replace('\\r\\n', '\\n')"
+        },
+        {
+          "line": 84,
+          "call": "(ROOT / 'BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb').read_text(encoding='utf-8-sig').replace('\\r\\n', '\\n')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a18_projection.py",
+      "sha256": "53e1b4e323b682dedcb64df3fc1e90a04faeb3a146314f4bb1330c00c594716e",
+      "sites": [
+        {
+          "line": 73,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'apply', '--check', patch], cwd=ROOT, capture_output=True)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a19_clustering.py",
+      "sha256": "565f5a4071b7a3d319614f5d4000d66c696c2832433ff39062d46885dccf703e",
+      "sites": [
+        {
+          "line": 24,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'merge-base', '--is-ancestor', 'f539d4e31779a2083d4c135e2784314c0083cff4', 'HEAD'], cwd=ROOT, check=True)"
+        },
+        {
+          "line": 54,
+          "call": "read(path).replace('\\r\\n', '\\n')"
+        },
+        {
+          "line": 89,
+          "call": "read(path).replace('\\r\\n', '\\n')"
+        },
+        {
+          "line": 149,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'check-ignore', '-q', '--', p.relative_to(ROOT).as_posix()], cwd=ROOT)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a20_factor_discriminant.py",
+      "sha256": "1fc46c38c6695727ebf008e5a30999bd01f15737c14c5a5b56d04069f590e4bb",
+      "sites": [
+        {
+          "line": 26,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'merge-base', '--is-ancestor', 'ae7490bbce241dd8a444fd4d23ba413fb89a36ca', 'HEAD'], cwd=ROOT, check=True)"
+        },
+        {
+          "line": 60,
+          "call": "subprocess.check_output(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'show', doc('entry-state.json')['base'] + ':' + path], cwd=ROOT).decode('utf-8-sig').replace('\\r\\n', '\\n')"
+        },
+        {
+          "line": 61,
+          "call": "read(path).replace('\\r\\n', '\\n')"
+        },
+        {
+          "line": 56,
+          "call": "read(path).replace('\\r\\n', '\\n')"
+        },
+        {
+          "line": 167,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'check-ignore', '-q', '--', p.relative_to(ROOT).as_posix()], cwd=ROOT)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a21_spc.py",
+      "sha256": "46858710327c0e3e34d142afa61a3456a1d805d3ebc7d5481ac4c84680d38693",
+      "sites": [
+        {
+          "line": 164,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'check-ignore', '-q', '--', p.relative_to(ROOT).as_posix()], cwd=ROOT)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a22_spc.py",
+      "sha256": "7654f6e2b47b6a19bbb994a1d23470036d54fe0b7090969906289b7247c3e3bb",
+      "sites": [
+        {
+          "line": 19,
+          "call": "subprocess.check_output(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'show', BASE + ':' + p], cwd=ROOT).decode('utf-8-sig').replace('\\r\\n', '\\n')"
+        },
+        {
+          "line": 49,
+          "call": "after.replace(new, '                graphics.SpcControlChartExcel.AddCharts(sheet, result, BuildAppearanceOptions())')"
+        },
+        {
+          "line": 69,
+          "call": "read(RENDERER).replace('Imports BESHStatNG.ExcelCommon\\n', '')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a23_multivariate_spc.py",
+      "sha256": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a24_multivariate_payload.py",
+      "sha256": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a25_psm.py",
+      "sha256": "2612dcaccd318505e0bdb81fffcee836118ba6df77c50730c21da8044b4bd975",
+      "sites": [
+        {
+          "line": 31,
+          "call": "subprocess.run(['git', '-c', 'safe.directory=' + ROOT.as_posix(), 'merge-base', '--is-ancestor', entry['base'], 'HEAD'], cwd=ROOT, capture_output=True)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a26_planning_agreement.py",
+      "sha256": "343e32e24ed9687b12fa3f7e6cddd2f0b28c55c797e920ae92a79f632e376db4",
+      "sites": []
+    },
+    {
+      "path": "scripts/tests/test_04a27_geometry_completion.py",
+      "sha256": "54cec305dc4898b35d9e9b585c22dcc0667bdffb563ef04dfecfc933d3432625",
+      "sites": [
+        {
+          "line": 81,
+          "call": "contract.git('show', self.baseline['main'] + ':' + contract.COLUMN_FORMATTER).decode('utf-8-sig').replace('\\r\\n', '\\n')"
+        },
+        {
+          "line": 63,
+          "call": "old.replace(substitution['before'], substitution['after'])"
+        },
+        {
+          "line": 82,
+          "call": "(ROOT / contract.COLUMN_FORMATTER).read_text(encoding='utf-8-sig').replace(contract.FORMATTER_ADDITION, '')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a27_transport_successor.py",
+      "sha256": "e268340655fb8be7889e13c0f22d1cb3acd662aba09264b33728dcd431e23830",
+      "sites": [
+        {
+          "line": 39,
+          "call": "(ROOT / 'docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv').open(encoding='utf-8-sig', newline='')"
+        },
+        {
+          "line": 61,
+          "call": "(ROOT / 'docs/architecture/WindowsMigrationLedger/symbols.csv').open(encoding='utf-8-sig', newline='')"
+        },
+        {
+          "line": 78,
+          "call": "contract.git('show', 'main:' + p).replace(b'\\r\\n', b'\\n')"
+        },
+        {
+          "line": 78,
+          "call": "(ROOT / p).read_bytes().replace(b'\\r\\n', b'\\n')"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_04a28_output.py",
+      "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda",
+      "sites": [
+        {
+          "line": 22,
+          "call": "source[match.start():match.start() + end.end()].replace('\\r\\n', '\\n')"
+        },
+        {
+          "line": 39,
+          "call": "source.replace(new, old)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_python_discovery.py",
+      "sha256": "48fce316d41ea4c324b3eafca6558010f5b2e460b8a0fc44a96763c1747efa31",
+      "sites": [
+        {
+          "line": 17,
+          "call": "subprocess.run([POWERSHELL, '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', str(ROOT / 'scripts/resolve-beshstatng-python.ps1'), *arguments], capture_output=True, text=True, env=env, timeout=30)"
+        }
+      ]
+    },
+    {
+      "path": "scripts/tests/test_test_suite_rationalization.py",
+      "sha256": "890b18ec4912f8daa5443edc49624198848c091e5d7d3b7c0fcd64c65cc7a917",
+      "sites": [
+        {
+          "line": 53,
+          "call": "path.write_text('<TestRun xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\"/>')"
+        },
+        {
+          "line": 58,
+          "call": "path.write_text('<TestRun xmlns=\"http://microsoft.com/schemas/VisualStudio/TeamTest/2010\"><TestDefinitions><UnitTest id=\"1\"><TestMethod className=\"C\" name=\"M\"/></UnitTest></TestDefinitions><Results><UnitTestResult testId=\"1\" testName=\"M (1)\" outcome=\"Passed\"/><UnitTestResult testId=\"1\" testName=\"M (2)\" outcome=\"Failed\"><Output><ErrorInfo><Message>real failure</Message></ErrorInfo></Output></UnitTestResult><UnitTestResult testId=\"1\" testName=\"M (3)\" outcome=\"NotExecuted\"/></Results></TestRun>')"
+        },
+        {
+          "line": 85,
+          "call": "output.mkdir(parents=True)"
+        },
+        {
+          "line": 86,
+          "call": "(output / dll).write_text('test assembly')"
+        },
+        {
+          "line": 87,
+          "call": "(output / 'framework.dll').write_text(dependency)"
+        }
+      ]
+    }
+  ],
+  "private_writers": "Each process gets a distinct cwd/TEMP/TMP/cache/result tree; Python audit hook refuses any write/rename/delete outside that tree before the operation. Module-state mutations remain process-local. Child launches are recorded; mkdocs/generator outputs stay in temporary test fixtures; Git commands are read-only or --check.",
+  "shared_scanner": "Only lane1 loads the costly11/13/14 scan tests. Content-keyed cache remains process-local; no repeated whole-tree scans in other lanes.",
+  "tracked_mutation_authorized": false,
+  "scanner_roots": "Existing ignored components pruned before descent; TestResults never walked",
+  "workers": 6,
+  "owner_process_ceiling": 8,
+  "peak_test_parent_workers": 5
+}

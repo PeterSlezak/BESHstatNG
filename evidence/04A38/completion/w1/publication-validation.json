@@ -1,0 +1,136 @@
+{
+  "status": "INDEPENDENT_PUBLIC_COPY_AND_ADVERSE_PASS",
+  "commands": [
+    {
+      "label": "w1-public-copy-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w1\\check_public_copy.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 15.603360799999791,
+        "stdout_sha256": "1496ae10f0ad0a109e17be91b22afcc1a6f49825c8abbf059b769586aa3b154c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "w1-publication-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w1",
+          "-p",
+          "test_publication.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 33.38143549999222,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "566f63925cf791f9a08e80db33200c090aad449014b043737c0d3ef6f5073958",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "adverse": {
+    "label": "mmrm38-v6-w1-publication-adverse",
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "566f63925cf791f9a08e80db33200c090aad449014b043737c0d3ef6f5073958",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_casefold_collision (test_publication.PublicationTests.test_casefold_collision)",
+      "test_duplicate (test_publication.PublicationTests.test_duplicate)",
+      "test_escape (test_publication.PublicationTests.test_escape)",
+      "test_forged_ready (test_publication.PublicationTests.test_forged_ready)",
+      "test_intact (test_publication.PublicationTests.test_intact)",
+      "test_missing_current_source (test_publication.PublicationTests.test_missing_current_source)",
+      "test_missing_payload (test_publication.PublicationTests.test_missing_payload)",
+      "test_nonnull_self (test_publication.PublicationTests.test_nonnull_self)",
+      "test_private_path (test_publication.PublicationTests.test_private_path)",
+      "test_reserved_path (test_publication.PublicationTests.test_reserved_path)",
+      "test_second_null (test_publication.PublicationTests.test_second_null)",
+      "test_wrong_digest (test_publication.PublicationTests.test_wrong_digest)"
+    ],
+    "nonpasses": []
+  },
+  "new_tests": {
+    "F": 70,
+    "W1": 18,
+    "publication": 12,
+    "total": 100
+  },
+  "unchanged_previous_tests": 457,
+  "total_validated_focused_passes": 557,
+  "earlier_failed_fixture": "17nominalPASS/1ERROR retained and not accepted; corrected18PASS proof and exact raw identities in validation.json",
+  "public_copy": {
+    "status": "VALID_NOT_READY_W1_CONSOLIDATED_PUBLICATION",
+    "F": "MMRM_INTERCEPT_GROUP_GATE_PASS",
+    "counts": {
+      "status": "VALID_W1_F_PASS_FULL_UNIVERSE_CONSOLIDATED_STOP",
+      "F_exact_each_configuration": "2/2",
+      "source_files": 41,
+      "exports_exact": 268,
+      "original_members": 704,
+      "current_members": 719,
+      "support_distinct": 317,
+      "source_fragments_verified": {
+        "original": 20683,
+        "current": 16946
+      },
+      "original_branch_adequacy_rows": 5511,
+      "whole_body_closed": 0,
+      "whole_body_open": 704,
+      "current_members_W2_pending": 719,
+      "gap_observations": {
+        "GEE_SPEC_INTERCEPT_ROLE": {
+          "Debug": {
+            "genuine_helper_entries": 56,
+            "genuine_target_guard_outputs": 0
+          },
+          "Release": {
+            "genuine_helper_entries": 56,
+            "genuine_target_guard_outputs": 0
+          }
+        },
+        "MMRM_WIDE_MULTIROW_REJECTION": {
+          "Debug": {
+            "genuine_helper_entries": 26,
+            "genuine_target_guard_outputs": 0
+          },
+          "Release": {
+            "genuine_helper_entries": 26,
+            "genuine_target_guard_outputs": 0
+          }
+        }
+      },
+      "proposed_cases_per_configuration": 4,
+      "W2": "NOT_STARTED",
+      "W3": "NOT_STARTED",
+      "new_reference_queries": 0,
+      "new_production_changes": 0
+    },
+    "external_files": 1445,
+    "native": "NOT_RUN",
+    "scientific": "NOT_GOLDEN",
+    "scope": "Public-copy bytes only; cannot establish live Git/4695 paths/ignored history"
+  },
+  "scope": "Bounded F+census+honest stop publication, not W3 READY acceptance",
+  "verified_predecessor_manifest": {
+    "path": "evidence/04A38/completion/w1/publication-manifest-v1.json",
+    "bytes": 311345,
+    "sha256": "4b8ad7644fe3cfac1667f7f2e33648d89881e62b65ae6bd7f8363bc2779b8c42"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "status": "IMPLEMENTED_NOT_YET_VALIDATED",
+  "members": [
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|7b4e0ced8ea132f0@55076:441",
+      "signature": "Private Function ResidualLabel(rt As ResidualType) As String",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "portable": "CoxUDFsMetadata38.ResidualLabel"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|9dfa836c95f56a69@105054:588",
+      "signature": "Private Function GeeFindHeaderIndex(headers() As String, ParamArray acceptedNames() As String) As Integer",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "portable": "GEEUDFsMetadata38.GeeFindHeaderIndex"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|8b2f24168cad46d9@105652:692",
+      "signature": "Private Function GeeFindDesignColumnIndex(names() As String, requestedName As String) As Integer",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "portable": "GEEUDFsMetadata38.GeeFindDesignColumnIndex"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|9af7fa1eae0f5e6c@106354:256",
+      "signature": "Private Function GeeNormalizeDesignColumnName(s As String) As String",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "portable": "GEEUDFsMetadata38.GeeNormalizeDesignColumnName"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|8d377250563ffec9@106821:989",
+      "signature": "Private Function BuildGeeTimeLabels(model As GEE, size As Integer) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "portable": "GEEUDFsMetadata38.BuildGeeTimeLabels"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|f60448595fa18e4f@109053:719",
+      "signature": "Private Function BuildParameterNames(predictorNames() As String, coefficientCount As Integer) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "portable": "GEEUDFsMetadata38.BuildParameterNames"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|6346c2d973a92d6d@65574:848",
+      "signature": "Private Function NormalizeNameList(inputNames() As String, expectedCount As Integer, fallbackPrefix As String) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "portable": "LmmUDFsMetadata38.NormalizeNameList"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|39534a8b179a7db6@66639:526",
+      "signature": "Private Function DefaultRandomCovarianceName(includeRandomIntercept As Boolean, authoredRandomColumnCount As Integer, totalRandomColumnCount As Integer) As String",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "portable": "LmmUDFsMetadata38.DefaultRandomCovarianceName"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|e5ea507ef8dae6c5@74626:338",
+      "signature": "Private Function DefaultNames(count As Integer, prefix As String) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "portable": "MixedModelUDFsMetadata38.DefaultNames"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|0b9b7aa96989153c@78050:692",
+      "signature": "Private Function NormalizeMmrmNameList(inputNames() As String, expectedCount As Integer, fallbackPrefix As String) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "portable": "MixedModelUDFsMetadata38.NormalizeMmrmNameList"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1f28513f94644a7b@79218:593",
+      "signature": "Private Function AddInterceptNameIfRequested(names() As String, includeIntercept As Boolean) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "portable": "MixedModelUDFsMetadata38.AddInterceptNameIfRequested"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|48a4073a10b615a0@89202:699",
+      "signature": "Private Function FindDesignColumnIndex(names() As String, requestedName As String) As Integer",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "portable": "MixedModelUDFsMetadata38.FindDesignColumnIndex"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb|BESHStatNG.WorksheetFunctions.RegressionFormulaUDFs|FunctionBlock|36dafd6c03ad8e69@12054:1866",
+      "signature": "Private Function BuildValidationFailureMessage(formulaText As String, addressingMode As String, rawVarNames As String(), absoluteColumnLetters As String(), parserOrBuilderMessage As String) As String",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "portable": "RegressionFormulaUDFsMetadata38.BuildValidationFailureMessage"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb|BESHStatNG.WorksheetFunctions.RegressionFormulaUDFs|FunctionBlock|9f67a0ec48c2e544@14592:2766",
+      "signature": "Private Function TryLocateOffendingFragment(formulaText As String, errorMessage As String, ByRef fragment As String, ByRef position As Integer) As Boolean",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "portable": "RegressionFormulaUDFsMetadata38.TryLocateOffendingFragment"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb|BESHStatNG.WorksheetFunctions.RegressionFormulaUDFs|FunctionBlock|d967b777c235889c@17835:1400",
+      "signature": "Private Function ExtractBalancedFunctionCall(text As String, startIndex As Integer) As String",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "portable": "RegressionFormulaUDFsMetadata38.ExtractBalancedFunctionCall"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb|BESHStatNG.WorksheetFunctions.RegressionFormulaUDFs|FunctionBlock|e1d92b6d1c863e13@19781:1498",
+      "signature": "Private Function BuildAvailableReferenceSummary(addressingMode As String, rawVarNames As String(), absoluteColumnLetters As String()) As String",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "portable": "RegressionFormulaUDFsMetadata38.BuildAvailableReferenceSummary"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb|BESHStatNG.WorksheetFunctions.RegressionFormulaUDFs|FunctionBlock|ca62af6d47e89888@21566:522",
+      "signature": "Private Function FormatSampleList(items As IEnumerable(Of String)) As String",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "portable": "RegressionFormulaUDFsMetadata38.FormatSampleList"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb|BESHStatNG.WorksheetFunctions.ZIPUDFs|FunctionBlock|fe60a384b980ee7c@56429:967",
+      "signature": "Private Function BuildParameterNames(varNames() As String, interceptIncluded As Boolean, coefficientCount As Integer) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "portable": "ZIPUDFsMetadata38.BuildParameterNames"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|7b52ce43d72158c6@8519:420",
+      "signature": "Private Function SequenceEqualStrings(left As String(), right As String()) As Boolean",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+      "portable": "UdfDataImportMetadata38.SequenceEqualStrings"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|0b9b7aa96989153c@16071:648",
+      "signature": "Private Function NormalizeMmrmNameList(inputNames() As String, expectedCount As Integer, fallbackPrefix As String) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "portable": "UdfDataImportMetadata38.NormalizeMmrmNameList"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|c55ac74daadceb1b@16727:318",
+      "signature": "Private Function DefaultMmrmNames(count As Integer, prefix As String) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "portable": "UdfDataImportMetadata38.DefaultMmrmNames"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|f455efea7a1385eb@37075:568",
+      "signature": "Private Function MmrmFindHeaderIndex(headers() As String, ParamArray acceptedNames() As String) As Integer",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "portable": "UdfDataImportMetadata38.MmrmFindHeaderIndex"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|57d7ae4628852d4d@37651:671",
+      "signature": "Private Function MmrmFindDesignColumnIndex(names() As String, requestedName As String) As Integer",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "portable": "UdfDataImportMetadata38.MmrmFindDesignColumnIndex"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|e0494acd7a8393c6@38330:248",
+      "signature": "Private Function MmrmNormalizeDesignColumnName(s As String) As String",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "portable": "UdfDataImportMetadata38.MmrmNormalizeDesignColumnName"
+    },
+    {
+      "source_member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|8af0f670f324f0df@6927:185",
+      "signature": "Friend Function CloneStringArray(values() As String) As String()",
+      "path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "portable": "UdfScalarUtilitiesMetadata38.CloneStringArray"
+    }
+  ],
+  "common": {
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+    "bytes": 21256,
+    "sha256": "d25479efe0244f28e0a6c0949ffc869d8f92b81eefae49ac3fa17c5d0864afa5"
+  },
+  "windows": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "bytes": 55531,
+      "sha256": "b5d6ce31a3afa51d1b7fdc1d6bd803b7cf074c05ac904f7dc36d961449aebb7d"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "bytes": 108893,
+      "sha256": "85975ac7b5cc95613a181edcb49ee7fa93e69c9214a73c1c7c5b4cfbdfa04e09"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "bytes": 67135,
+      "sha256": "aac03b058aa35c3b4f1daff43966c57f468400e0f45db52864b9cc8ea537e6f0"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "bytes": 90927,
+      "sha256": "7e9f5785341458230b8dc71fbb2d81fe442f5622e718d9a9d00c72e2f6578bb5"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "bytes": 16108,
+      "sha256": "dd402e908bc4b9f4bca4acbd458ddd08033a06347997f5f939a939b655fe5ef6"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "bytes": 57030,
+      "sha256": "840bd88e20704624c8a537f2a5940ad7a09fd0226deed9fce353697b5a458411"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+      "bytes": 8745,
+      "sha256": "e5fdf399d01f4be5eacc02f17c0b8e45e66076fef65eeed39d2c97e8839e9877"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "bytes": 37283,
+      "sha256": "83341eca3d297812a1bd9d08fec7d5357bfd5fb56046eef637bf5ddece64859a"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+      "bytes": 7128,
+      "sha256": "9f01e31fcf27229338ad9c6e27963db13fb8727a7bbda946cb1e535a443a04ab"
+    }
+  ]
+}

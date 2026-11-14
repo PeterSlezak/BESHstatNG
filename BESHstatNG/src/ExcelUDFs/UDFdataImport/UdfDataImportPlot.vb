@@ -10,6 +10,11 @@ Imports System.Linq
 ''' Kept in a separate partial module so plot UDFs call the shared UdfDataImport facade instead of owning range parsing.
 ''' </summary>
 Partial Friend Module UdfDataImport
+    Private Function IsStatusBinaryCell38(value As Object) As Boolean
+        Dim result As Integer
+        Return Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(value, result)
+    End Function
+
 
     ''' <summary>
     ''' Imports aligned marker/status inputs and builds the positive/negative sample arrays required by the ROC engine.
@@ -52,36 +57,10 @@ Partial Friend Module UdfDataImport
         markerName = If(String.IsNullOrWhiteSpace(inferredMarker), "Marker", inferredMarker)
         If Not GuessPositiveClass(statusCol, positiveClass, positiveLabel) Then Return False
 
-        Dim pos As New List(Of Double)()
-        Dim neg As New List(Of Double)()
-        Dim normalizedPositive As String = NormalizeOptionKey(positiveLabel)
-
-        For i As Integer = 0 To markerCol.GetLength(0) - 1
-            Dim x As Double
-            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible(markerCol(i, 0), x) Then Continue For
-
-            Dim label As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(statusCol(i, 0))
-            If String.IsNullOrWhiteSpace(label) Then Continue For
-
-            Dim isPositive As Boolean = False
-            Dim iv As Integer
-            If normalizedPositive = "1" AndAlso Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusCol(i, 0), iv) Then
-                isPositive = (iv = 1)
-            Else
-                isPositive = String.Equals(NormalizeOptionKey(label), normalizedPositive, StringComparison.OrdinalIgnoreCase)
-            End If
-
-            If isLowerDirection Then x = -x
-            If isPositive Then
-                pos.Add(x)
-            Else
-                neg.Add(x)
-            End If
-        Next
-
-        If pos.Count < 1 OrElse neg.Count < 1 Then Return False
-        rocInput = New Double()() {pos.ToArray(), neg.ToArray()}
-        Return True
+        Return Global.BESHStatNG.ExcelCommon.UdfPlotDataPreparation38.CompleteRocInputPrepared(markerCol, statusCol, positiveLabel, isLowerDirection,
+            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible,
+            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible,
+            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText, AddressOf NormalizeOptionKey, rocInput)
     End Function
 
     ''' <summary>
@@ -109,41 +88,14 @@ Partial Friend Module UdfDataImport
             If groupCol.GetLength(0) <> timeCol.GetLength(0) Then Return False
         End If
 
-        Dim tList As New List(Of Double)()
-        Dim sList As New List(Of Integer)()
-        Dim gList As New List(Of String)()
-        Dim stratList As New List(Of String)()
-
-        For i As Integer = 0 To timeCol.GetLength(0) - 1
-            Dim t As Double
-            Dim s As Integer
-            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible(timeCol(i, 0), t) Then Continue For
-            If t < 0.0R Then Return False
-            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusCol(i, 0), s) Then Continue For
-
-            Dim g As String = "ALL"
-            If hasGroup Then
-                g = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(groupCol(i, 0))
-                If String.IsNullOrWhiteSpace(g) Then Continue For
-            End If
-
-            tList.Add(t)
-            sList.Add(s)
-            gList.Add(g)
-            stratList.Add("ALL")
-        Next
-
-        If tList.Count < 1 Then Return False
-
-        Dim err As String = Nothing
-        records = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)
-        Return records IsNot Nothing AndAlso records.Count > 0
+        Return Global.BESHStatNG.ExcelCommon.UdfPlotDataPreparation38.CompleteSurvivalRecordsPrepared(timeCol, statusCol, groupCol, hasGroup,
+            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible,
+            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible,
+            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText, records)
     End Function
 
     Private Function ParseRocDirection(direction As Object) As Boolean
-        Dim token As String = NormalizeOptionKey(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(direction))
-        If String.IsNullOrWhiteSpace(token) Then Return False
-        Return (token = "lower" OrElse token = "low" OrElse token = "smaller" OrElse token = "decreasing")
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseRocDirection(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(direction))
     End Function
 
     Private Function GuessPositiveClass(statusCol(,) As Object,
@@ -151,50 +103,10 @@ Partial Friend Module UdfDataImport
                                         ByRef positiveLabel As String) As Boolean
         positiveLabel = Nothing
         Dim explicitText As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(explicitPositive)
-        If Not String.IsNullOrWhiteSpace(explicitText) Then
-            positiveLabel = explicitText
-            Return True
-        End If
-
-        Dim distinctTokens As New List(Of String)()
-        Dim distinctNormalized As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
-        Dim allBinary01 As Boolean = True
-
-        For i As Integer = 0 To statusCol.GetLength(0) - 1
-            Dim s As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(statusCol(i, 0))
-            If String.IsNullOrWhiteSpace(s) Then Continue For
-
-            Dim iv As Integer
-            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusCol(i, 0), iv) Then
-                allBinary01 = False
-            End If
-
-            Dim norm As String = NormalizeOptionKey(s)
-            If Not distinctNormalized.Contains(norm) Then
-                distinctNormalized.Add(norm)
-                distinctTokens.Add(s)
-            End If
-        Next
-
-        If allBinary01 Then
-            positiveLabel = "1"
-            Return True
-        End If
-
-        If distinctTokens.Count = 2 Then
-            Dim norms = distinctTokens.Select(Function(x) NormalizeOptionKey(x)).ToArray()
-            For i As Integer = 0 To norms.Length - 1
-                Select Case norms(i)
-                    Case "positive", "pos", "case", "cases", "event", "events", "yes", "true"
-                        positiveLabel = distinctTokens(i)
-                        Return True
-                End Select
-            Next
-            positiveLabel = distinctTokens(0)
-            Return True
-        End If
-
-        Return False
+        Return Global.BESHStatNG.ExcelCommon.UdfClassLabelPreparation38.GuessPositiveClassAfterConversion(
+            explicitText, Function() statusCol.GetLength(0),
+            Function(row) Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(statusCol(row, 0)),
+            Function(row) IsStatusBinaryCell38(statusCol(row, 0)), positiveLabel)
     End Function
 
 End Module

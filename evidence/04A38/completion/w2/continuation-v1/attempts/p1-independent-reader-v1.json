@@ -1,0 +1,11 @@
+{
+  "exit_code": 1,
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/verify_p1.py",
+    "bytes": 13843,
+    "sha256": "0234774882b651ce9c315cd6925892382030c472a770dd7b8728ed644a90dba5"
+  },
+  "error": "Native TValue initializer/constructor changed",
+  "diagnosis": "Reader incorrectly required Friend on both DTO classes. Authenticated GEE is Private; MMRM is Friend. Neither class has a body other than inherited DTO. Corrected visibility regex retains exact constructor/initializer restriction. Canonical identity supplies the declaring type rather than a nonexistent owner field.",
+  "product_changed": false
+}

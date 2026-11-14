@@ -1,0 +1,138 @@
+{
+  "records": [
+    {
+      "identity": "strict",
+      "exit_code": 1,
+      "command": {
+        "command": [
+          "dotnet",
+          "<REPO_ROOT>\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+          "--check",
+          "--strict"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 12.416543400000137,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-strict/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-strict/stderr.log",
+        "bytes": 529,
+        "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+      },
+      "normalized_stdout": "",
+      "normalized_stderr": "System.Exception: Stale or ambiguous review decision: BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe\n   at Audit.Classify() in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 242\n   at Audit.Run(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 457\n   at Audit.Main(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 436\n",
+      "prior_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-strict/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "prior_stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-strict/stderr.log",
+        "bytes": 529,
+        "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+      },
+      "classification": "RETAINED_NOT_WAIVED"
+    },
+    {
+      "identity": "profile",
+      "exit_code": 1,
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "scripts/windows-migration-audit/owner_closeout.py",
+          "--profile",
+          "inventory-complete-with-approved-deferrals"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 80.2430304999998,
+        "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+        "stderr_sha256": "d7960c5e42c5520c56816b522218b8f40bbaae889347a4a00dbc4f97e006e64f",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-profile/stdout.log",
+        "bytes": 46,
+        "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-profile/stderr.log",
+        "bytes": 4193,
+        "sha256": "d7960c5e42c5520c56816b522218b8f40bbaae889347a4a00dbc4f97e006e64f"
+      },
+      "normalized_stdout": "{\"status\": \"INTEGRITY_FAILURE\", \"error\": \"\"}\n",
+      "normalized_stderr": "warning: in the working copy of 'BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb', CRLF will be replaced by LF the next time Git touches it\n",
+      "prior_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-profile/stdout.log",
+        "bytes": 46,
+        "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+      },
+      "prior_stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-profile/stderr.log",
+        "bytes": 4193,
+        "sha256": "d7960c5e42c5520c56816b522218b8f40bbaae889347a4a00dbc4f97e006e64f"
+      },
+      "classification": "RETAINED_NOT_WAIVED"
+    },
+    {
+      "identity": "docs",
+      "exit_code": 0,
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "mkdocs",
+          "build",
+          "--config-file",
+          "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+          "--site-dir",
+          "<ISOLATED_RUN>\\w2c11-checkpoint-v1\\site",
+          "--strict"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 10.490705599999728,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "eba3cd2589e55d8ca50a01a49424804a8721dc3864c37ec121424832d3ea0672",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-docs/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c11-checkpoint-v1-docs/stderr.log",
+        "bytes": 787,
+        "sha256": "eba3cd2589e55d8ca50a01a49424804a8721dc3864c37ec121424832d3ea0672"
+      },
+      "normalized_stdout": "",
+      "normalized_stderr": "\n \\u2502  Material for MkDocs reaches end of life on May 5, 2027.\n \\u2502  Critical fixes and security updates continue until that date.\n \\u2502\n \\u2502  Zensical is its maintained successor, built by the same team.\n \\u2502  Try it alongside MkDocs with your existing mkdocs.yml:\n \\u2502  https://zensical.org/docs/compatibility/mkdocs/migration/\n\n  To disable this warning, set NO_MKDOCS_2_WARNING=1.\n\nINFO    -  Cleaning site directory\nINFO    -  Building documentation to directory: <ISOLATED_RUN>\\w2c11-checkpoint-v1\\site\nINFO    -  The following pages exist in the docs directory, but are not included in the \"nav\" configuration:\n  - methods\\family-link-covmat.md\nINFO    -  Documentation built in 9.25 seconds\n",
+      "prior_stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-docs/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "prior_stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-docs/stderr.log",
+        "bytes": 787,
+        "sha256": "9708e6b1cbb25832a58a7e083c7dc4d93654b43372106486ec26c593328a84cd"
+      },
+      "classification": "PASS"
+    }
+  ],
+  "strict_reason": "Existing stale/ambiguous NormalPlot constructor review decision; no source or historical assertion changed.",
+  "profile_reason": "Existing INTEGRITY_FAILURE; full old/current streams and source pins retained.",
+  "docs": "Exit0",
+  "original_queries": 0
+}

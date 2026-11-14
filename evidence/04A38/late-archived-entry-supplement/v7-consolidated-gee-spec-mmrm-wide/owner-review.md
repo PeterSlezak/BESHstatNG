@@ -1,0 +1,13 @@
+# Approval G compatibility gate — batch NOT_READY
+
+Both subgates passed: **Debug4/4 EXACT; Release4/4 EXACT**. Each configuration contains one GEE spec-intercept rejection and one MMRM wide-multirow rejection in each of Invariant and sk-SK. Genuine original true guards are the GEE1506–1509 path (resolved fitted Intercept index0) and MMRM592–594 after headerless-column decline652, first wide row1, second row2. All eight public results are scalar System.String errors; no reports, exceptions, native attempts or public argument mutation in accepted observations.
+
+Source isolation independently authenticates pinned main and all41 archived UDF sources, original transitive compile inputs and actual loaded modules. Input seal precedes original execution; accepted original-output seal precedes every G current compilation/execution. Only the predeclared per-session handle symbols differ across sessions. Typed model/design, scalar/error bytes, bounds, IEEE bits, cultures, argument state, branch order and private ByRef observations compare exactly. See compatibility-comparison.json and original-coverage.json.
+
+The first observer erroneously queried the GEE cache for MMRM's Result property. That attempt and its genuine queries are retained, INVALID as accepted fit recording. The corrected recorder uses GEE Model and MMRM Result; original libraries and sealed semantic inputs were unchanged. There are24 original case executions/configuration including12 failed-observer attempts and12 accepted plain/repeat/trace observations, four distinct authorized cases/configuration; four current executions/configuration. No ninth distinct G case exists.
+
+Independent new controls:72 PASS (56 supplement,16 manifest); unchanged predecessor controls557 PASS. Raw identities and command exits are in gate-validation.json and command-receipts.json. Older honest NOT_READY decisions, failed fixtures and manifests remain unchanged. Historical full suites were NOT rerun during this evidence-only gate; no green-suite claim is made.
+
+The previous genuinely pre-edit28966 cases/configuration stay separate from authorized A–G458 late cases/configuration. This gate is LATE_ARCHIVED_ENTRY_SUPPLEMENT and compatibility only. W1 is complete; W2 production extraction/whole-body reconciliation and W3 validation/readiness still remain. Continue W2 under existing authority without a new permission step.
+
+P=NO; N1=NO GO; N2=NO; Gate C2=UNMET; Gate C3=UNAPPROVED; NOT_GOLDEN. Native Excel/COM/UIA/RefEdit, R, Office/Mac manual smoke, packaging/signing/install/deployment remain NOT_RUN. No stage, commit, merge, push or04A.39. Git receipts describe the actual live checkpoint; copied publication readers prove copied bytes only.

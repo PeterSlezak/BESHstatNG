@@ -1,0 +1,23 @@
+{
+  "command": "<PYTHON> -B -m unittest discover -s evidence/04A38/late-archived-entry-supplement/v2-gee-profile -p test_gee.py -v",
+  "exit_code": 1,
+  "tests": 52,
+  "pass": 44,
+  "fail": 0,
+  "error": 8,
+  "error_identities": [
+    "test_changed_current_culture_label",
+    "test_changed_current_double_bits",
+    "test_changed_current_trace",
+    "test_changed_duplicate_branch",
+    "test_changed_original_assembly",
+    "test_early_guard_mislabeled_profile",
+    "test_missing_helper_entry",
+    "test_modified_repeat"
+  ],
+  "exception": "FileNotFoundError writing fixture replacement paths beyond Windows ordinary path length",
+  "phase": "Fixture mutation setup; not an evidence-reader acceptance or rejection",
+  "original_source": "test_gee-attempt-v1.py.txt",
+  "correction": "Short fixture root and short replacement filename at fixture root; retained old fixture and source; no permission/OS setting or assertion changed",
+  "original_artifact_integrity_teardown": "PASS"
+}

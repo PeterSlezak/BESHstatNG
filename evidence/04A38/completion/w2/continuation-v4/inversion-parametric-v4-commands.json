@@ -1,0 +1,52 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\Microsoft.VisualBasic.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont4\\inversion-parametric-v4\\Probe.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\InversionProbe.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.2873420000250917,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont4\\inversion-parametric-v4\\Probe.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\inversion-parametric-v4-Debug.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.15912640001624823,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont4\\inversion-parametric-v4\\Probe.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\inversion-parametric-v4-Release.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.12238459999207407,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v4/InversionProbe.cs",
+    "bytes": 2768,
+    "sha256": "d43b4f8959bb3e16f18eb989025b82eb3ab2afa860bd2712e24fcdb842c05c45"
+  },
+  "original_calls": 0
+}

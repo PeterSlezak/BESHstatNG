@@ -1,0 +1,8 @@
+meric(input As Object, ByRef err As ExcelError?) As Double()
+        Return ExtractNumericColumnIgnoringNonNumeric(input, err)
+    End Function
+
+    ''' <summary>
+    ''' Imports two paired single-column samples for legacy nonparametric UDFs, retaining complete numeric pairs only.
+    ''' </summary>
+    Friend Function GetPair

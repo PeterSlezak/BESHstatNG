@@ -1,0 +1,86 @@
+{
+  "results": [
+    {
+      "reader": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v3\\verify_publication.py",
+          "evidence/04A38/completion/w2/continuation-v3/publication-manifest-v1.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 247.76720490001026,
+        "stdout_sha256": "eaee7d512c336cd0f89e4b961cfa1702fc9e18d9698abf6635980d25e1c96afb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v3",
+          "-p",
+          "test_publication.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 261.9041734999919,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "733547cc0a7def6699e7019dc87d9fe3af3ddc2d7509e35a5ed9e209c1f13709",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c3-publication-adverse-v1",
+        "total": 24,
+        "passed": 24,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "733547cc0a7def6699e7019dc87d9fe3af3ddc2d7509e35a5ed9e209c1f13709",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_casefold (test_publication.PublicationControls.test_casefold)",
+          "test_changed_hash (test_publication.PublicationControls.test_changed_hash)",
+          "test_duplicate (test_publication.PublicationControls.test_duplicate)",
+          "test_duplicate_manifest_inside_zip (test_publication.PublicationControls.test_duplicate_manifest_inside_zip)",
+          "test_extra_cache (test_publication.PublicationControls.test_extra_cache)",
+          "test_extra_raw_diagnostic (test_publication.PublicationControls.test_extra_raw_diagnostic)",
+          "test_extra_unmanifested (test_publication.PublicationControls.test_extra_unmanifested)",
+          "test_fixture_changed_or_extra_occurrence (test_publication.PublicationControls.test_fixture_changed_or_extra_occurrence)",
+          "test_inherited_fixture_exact (test_publication.PublicationControls.test_inherited_fixture_exact)",
+          "test_json_escaped_home (test_publication.PublicationControls.test_json_escaped_home)",
+          "test_more_null (test_publication.PublicationControls.test_more_null)",
+          "test_omitted_payload (test_publication.PublicationControls.test_omitted_payload)",
+          "test_physical_hash (test_publication.PublicationControls.test_physical_hash)",
+          "test_physical_safe_minimal (test_publication.PublicationControls.test_physical_safe_minimal)",
+          "test_private_utf16 (test_publication.PublicationControls.test_private_utf16)",
+          "test_raw_diagnostic_banned_even_synthetic_safe (test_publication.PublicationControls.test_raw_diagnostic_banned_even_synthetic_safe)",
+          "test_recursive_self (test_publication.PublicationControls.test_recursive_self)",
+          "test_reserved (test_publication.PublicationControls.test_reserved)",
+          "test_traversal (test_publication.PublicationControls.test_traversal)",
+          "test_true_partial (test_publication.PublicationControls.test_true_partial)",
+          "test_unattested_home_any_prefix (test_publication.PublicationControls.test_unattested_home_any_prefix)",
+          "test_unattested_uri_any_prefix (test_publication.PublicationControls.test_unattested_uri_any_prefix)",
+          "test_unicode_escaped_json_home (test_publication.PublicationControls.test_unicode_escaped_json_home)",
+          "test_wrong_status (test_publication.PublicationControls.test_wrong_status)"
+        ],
+        "nonpasses": []
+      }
+    }
+  ],
+  "manifest": {
+    "path": "evidence/04A38/completion/w2/continuation-v3/publication-manifest-v1.json",
+    "bytes": 729954,
+    "sha256": "db2c9577fb736b1b693fcc63b086e36d199e3d001d74fd6489a6ee1607115f83"
+  },
+  "independent": true,
+  "whole_batch_READY": false
+}

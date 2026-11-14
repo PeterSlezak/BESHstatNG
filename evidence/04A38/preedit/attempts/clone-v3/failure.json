@@ -1,0 +1,31 @@
+{
+  "status": "INVALID_REFERENCE_COMPILE_ATTEMPT",
+  "exit_code": 1,
+  "cause": "Original UDF source accesses Core Friend members; BESHStatNG.Test is a host friend but not a Core friend. No friend grants or production binaries changed.",
+  "compiler_errors": {
+    "'IsFinite' is not declared. It may be inaccessible due to its protection level.": 44,
+    "'IsOpenUnitInterval' is not declared. It may be inaccessible due to its protection level.": 24,
+    "'BESHStatNG.nonparametric.KendallsTau' is not accessible in this context because it is 'Friend'.": 2,
+    "'IsClosedUnitInterval' is not declared. It may be inaccessible due to its protection level.": 4,
+    "'BESHStatNG.Matrix.MatrixArithmeticCore' is not accessible in this context because it is 'Friend'.": 2,
+    "'MatrixArithmeticCore.Public Function Trace(a As Double(*,*)) As Double' is not accessible in this context because it is 'Public'.": 1,
+    "'BESHStatNG.GLM.strError' is not accessible in this context because it is 'Protected Friend'.": 10,
+    "'BESHStatNG.GLM.pFamily' is not accessible in this context because it is 'Protected Friend'.": 6,
+    "'BESHStatNG.GLM.pSuccess' is not accessible in this context because it is 'Protected Friend'.": 1,
+    "'BESHStatNG.GLM.pFail' is not accessible in this context because it is 'Protected Friend'.": 1,
+    "'BESHStatNG.GLM.CompTime' is not accessible in this context because it is 'Protected Friend'.": 2,
+    "'GLM.Protected Friend Sub Residuals()' is not accessible in this context because it is 'Protected Friend'.": 2,
+    "'BESHStatNG.GLM.pRaw_res' is not accessible in this context because it is 'Protected Friend'.": 5,
+    "'BESHStatNG.GLM.pDeviance_res' is not accessible in this context because it is 'Protected Friend'.": 4,
+    "'BESHStatNG.GLM.pPearsChisq_res' is not accessible in this context because it is 'Protected Friend'.": 4,
+    "'BESHStatNG.GLM.pStPearsChisq_res' is not accessible in this context because it is 'Protected Friend'.": 4,
+    "'BESHStatNG.GLM.pStDeviance_res' is not accessible in this context because it is 'Protected Friend'.": 4,
+    "'BESHStatNG.GLM.pLeverage' is not accessible in this context because it is 'Protected Friend'.": 4,
+    "'BESHStatNG.GLM.pCookDistance' is not accessible in this context because it is 'Protected Friend'.": 4,
+    "'BESHStatNG.GLM.pLink' is not accessible in this context because it is 'Protected Friend'.": 2,
+    "'MatrixArithmeticCore.Public Function QuadraticForm(v As Double(), a As Double(*,*)) As Double' is not accessible in this context because it is 'Public'.": 1
+  },
+  "correction": "Use existing Core test friend identity BESHStat.Core.Tests and include the authentic Windows transport source in the isolated reference compilation; retain all original policies.",
+  "native_excel": "NOT_RUN",
+  "product_edits": false
+}

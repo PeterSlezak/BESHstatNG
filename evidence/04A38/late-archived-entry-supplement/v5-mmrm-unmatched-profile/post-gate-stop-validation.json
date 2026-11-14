@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "label": "group-gap-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\verify_group_gap.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.8367490000018734,
+        "stdout_sha256": "1ae6c315c3ba6f7d9ed50619202405941ea66c80a5064d3617e16ff987073246",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "group-gap-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile",
+          "-p",
+          "test_group_gap.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 29.022426800001995,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "68794c3158a50652addd66191958dbfc0bb4f4c94e1c592b9457a4c8040d6a78",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "all_exit_zero": true
+}

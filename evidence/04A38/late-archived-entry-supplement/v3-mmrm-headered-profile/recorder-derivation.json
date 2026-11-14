@@ -1,0 +1,29 @@
+{
+  "original": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38-v2.cs",
+    "bytes": 13269,
+    "sha256": "9d867afcc90dadb34a989962f5298ce18aa343622f9d89f2304d5f9ab46ef2ea"
+  },
+  "derived": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/MmrmCapture38.cs",
+    "bytes": 13458,
+    "sha256": "28b099782a665e8ac695efed6247f674dba8765dc297a02dfa4f7edc06f7c367"
+  },
+  "edits": [
+    {
+      "original": "       var names=(string[])property(\"VarNames\");\n       var fittedParameters=(string[])gee.GetMethod(\"BuildParameterNames\",BindingFlags.NonPublic|BindingFlags.Static).Invoke(null,new object[]{names,((double[,])property(\"FittedDesign\")).GetLength(1)});\n       if(!fittedParameters.Contains(\"X1\"))throw new Exception(\"APPROVED_DESIGN_COLUMN_X1_MISSING\");\n       Sessions.Add(new{case_id=(string)c[\"case_id\"],raw_handle=ActiveHandle,symbol=\"HANDLE:MMRM:SESSION1\",parameter_names=fittedParameters,\n        fitted_design=Snap(property(\"FittedDesign\")),fitted_time=Snap(property(\"FittedTimeValues\")),has_time=Snap(property(\"HasTime\")),alpha=Snap(property(\"Alpha\")),creation_order=modelCreations});",
+      "replacement": "       var fittedParameters=(string[])property(\"FixedEffectNames\");\n       if(property(\"Result\")==null||fittedParameters==null||!fittedParameters.Contains(\"treatment_active\")||((double[,])property(\"FittedDesign\")).GetLength(1)!=fittedParameters.Length)throw new Exception(\"FAILED_OR_FOREIGN_FITTED_MMRM_MODEL\");\n       Sessions.Add(new{case_id=(string)c[\"case_id\"],raw_handle=ActiveHandle,symbol=\"HANDLE:MMRM:SESSION1\",parameter_names=fittedParameters,\n        fitted_design=Snap(property(\"FittedDesign\")),fitted_visits=Snap(property(\"VisitValues\")),alpha=Snap(property(\"Alpha\")),\n        source_rows_used=Snap(property(\"SourceRowsUsed\")),source_rows_dropped=Snap(property(\"SourceRowsDropped\")),\n        inference=Snap(property(\"InferenceLabel\")),covariance=Snap(property(\"CovarianceStructure\")),fit_method=Snap(property(\"FitMethod\")),creation_order=modelCreations});"
+    },
+    {
+      "original": "if(count!=12)throw new Exception(\"CASE_COUNT_MISMATCH\");",
+      "replacement": "if(count!=2)throw new Exception(\"CASE_COUNT_MISMATCH\");"
+    },
+    {
+      "original": "Console.WriteLine(\"Captured12 \"+role",
+      "replacement": "Console.WriteLine(\"Captured2 \"+role"
+    }
+  ],
+  "systematic_replacements": "GEE class/export/cache/handle names to original MMRM identities; count2; MMRM cached fixed-design/result provenance",
+  "handle_contract": "Raw actual GUID retained in session sidecar; exactly one successful actual MMRM_FIT bound to declared HANDLE:MMRM:SESSION1. Only that random identity is symbolized; no numerical/output normalization.",
+  "changed_statistical_logic": false
+}

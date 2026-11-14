@@ -1,0 +1,91 @@
+{
+  "status": "PLANNED_SCOPE_ONLY; NOT_MIGRATION_COMPLETION",
+  "behavioral_members": 704,
+  "historical_members": 703,
+  "additional_native_callback": 1,
+  "supporting_declarations": 347,
+  "primary_overlap": 30,
+  "additional_supporting_population": 317,
+  "callable_cil_bindings": 643,
+  "all_callable_members_have_registered_consumers": true,
+  "dispositions": {
+    "SPLIT_HOST_AND_PORTABLE": 522,
+    "PORTABLE_EXTRACT_AND_CONSUME": 104,
+    "HOST_ONLY": 78
+  },
+  "remaining_open": 626,
+  "preliminary_supporting_tag_qualification": "entry-supporting-declarations.json records declaration location/buffer/cache shape, not a final HOST_ONLY disposition. Typed profile/input decisions still require consumed projections.",
+  "planned_new_core_files": [
+    "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb"
+  ],
+  "planned_common_roles": [
+    "typed normalized option policy with exact legacy culture comparison",
+    "typed normalized row/label selection preserving source ordinals",
+    "immutable report-cell/shape intent and existing ResultTable metadata reuse",
+    "typed completed LSM profile/design preparation"
+  ],
+  "proposed_windows_scope": [
+    "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+    "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+    "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportContingency.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb",
+    "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+    "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+    "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb"
+  ],
+  "forbidden_changes": [
+    "registration headers/flags/defaults",
+    "cache dictionaries/lifetime",
+    "statistical engines",
+    "Master Plan and owner README files",
+    "native rendering or activation",
+    "04A39 policy correction"
+  ],
+  "note": "Core/Common SDK default Compile includes verified. No invented project include. Windows/tests explicit includes will be changed only if needed by actual new files.",
+  "evidence": [
+    {
+      "path": "evidence/04A38/udf-member-preparation-plan-v1.csv",
+      "bytes": 1319258,
+      "sha256": "d8e1ad50de42b997ca0c2267ecd80811fbaa7111e9da9ca4d2b4b2aa02edf451"
+    },
+    {
+      "path": "evidence/04A38/preedit/consumer-closure-Debug-v1.json",
+      "bytes": 2363910,
+      "sha256": "d9defbb3bbe6a67265cd0f338ad102d823ce1bea1dc2f2322bedb48fe4fbc936"
+    }
+  ]
+}

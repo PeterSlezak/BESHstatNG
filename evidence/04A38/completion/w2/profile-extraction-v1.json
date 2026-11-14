@@ -1,0 +1,31 @@
+{
+  "status": "IMPLEMENTED_NOT_YET_COMPILED_OR_ACCEPTED",
+  "source_moves": [
+    {
+      "family": "Gee",
+      "moved": [
+        "TryGetGeeLsmEstimateAtSpec",
+        "AddGeeLsmEstimateAtValue"
+      ]
+    },
+    {
+      "family": "Mmrm",
+      "moved": [
+        "TryGetMmrmLsmEstimateAtSpec",
+        "AddMmrmLsmEstimateAtValue"
+      ]
+    }
+  ],
+  "additional": [
+    "MMRM headerless parser",
+    "MMRM scalar grouping column policy"
+  ],
+  "changed": [
+    "BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+    "BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+    "BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+    "BESHStat.Excel.Common\\src\\Analysis\\UdfModelProfilePreparation38.vb"
+  ],
+  "numerical_policy_changes": 0,
+  "host": "Get2D/missing/error-cell policies, registration and model/cache remain Windows-owned"
+}

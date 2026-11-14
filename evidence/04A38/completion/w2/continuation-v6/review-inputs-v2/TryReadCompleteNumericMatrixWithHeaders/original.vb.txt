@@ -1,0 +1,48 @@
+Friend Function TryReadCompleteNumericMatrixWithHeaders(input As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
+        mat = Nothing
+        names = Nothing
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If rows < 1 OrElse cols < 2 Then Return False
+
+        Dim numericCols As Integer() = Enumerable.Range(0, cols).ToArray()
+        Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, numericCols)
+        Dim startRow As Integer = If(hasHeader, 1, 0)
+
+        names = New String(cols - 1) {}
+        For c As Integer = 0 To cols - 1
+            names(c) = If(hasHeader, Convert.ToString(arr(0, c)).Trim(), "Condition " & (c + 1).ToString())
+        Next
+
+        Dim keepRows As New List(Of Double())()
+        For r As Integer = startRow To rows - 1
+            Dim row(cols - 1) As Double
+            Dim ok As Boolean = True
+
+            For c As Integer = 0 To cols - 1
+                Dim d As Double? = TryGetDouble(arr(r, c))
+                If Not d.HasValue Then
+                    ok = False
+                    Exit For
+                End If
+                row(c) = d.Value
+            Next
+
+            If ok Then keepRows.Add(row)
+        Next
+
+        If keepRows.Count < 1 Then Return False
+
+        mat = New Double(keepRows.Count - 1, cols - 1) {}
+        For r As Integer = 0 To keepRows.Count - 1
+            For c As Integer = 0 To cols - 1
+                mat(r, c) = keepRows(r)(c)
+            Next
+        Next
+
+        Return True
+    End Function

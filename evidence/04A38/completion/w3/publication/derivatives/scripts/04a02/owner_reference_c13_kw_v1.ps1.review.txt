@@ -1,0 +1,44 @@
+# C13 one-shot approved statistical case; conditional exact technical GO review.
+param([Parameter(Mandatory=$true)][ValidatePattern('^[0-9a-f]{64}$')][string]$ReviewedTechnicalGoSha256, [Parameter(Mandatory=$true)][ValidatePattern('^[0-9a-f]{64}$')][string]$ReviewedAnovaPublicationSha256)
+$ErrorActionPreference='Stop'
+$identity=[Security.Principal.WindowsIdentity]::GetCurrent()
+if ($identity.User.Value -ne '<PRIVATE_SID>') { throw 'Normal owner SID required; sandbox refused' }
+$principal=New-Object Security.Principal.WindowsPrincipal($identity)
+if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Non-elevated owner token required' }
+if ((Get-Location).Path -cne '<REPO_ROOT>') { throw 'Exact repository root required' }
+if ($ReviewedTechnicalGoSha256 -cne '0b5fe52776092a33b366472eca1d1e9a8c60cab13349952bb6c6f2fb6b9ab494') { throw 'Review must bind the exact case technical GO hash' }
+if (Test-Path -LiteralPath '<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-kw-20261101-v1') { throw 'Numerical attempt name consumed; preserve and stop' }
+if (Test-Path -LiteralPath '<REPO_ROOT>\TestResults\04A-02-c13-owner-review-kw-20261101-v1.json') { throw 'Owner review handoff consumed; preserve and stop' }
+$anovaPublication='<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-anova-20261101-v1\publication-v3.json'
+if ((Get-FileHash -Algorithm SHA256 -LiteralPath $anovaPublication).Hash.ToLowerInvariant() -cne $ReviewedAnovaPublicationSha256) { throw 'Review exact completed ANOVA publication before KW' }
+if ((Get-Content -Raw -LiteralPath $anovaPublication | ConvertFrom-Json).status -ne 'REFERENCE_EXECUTED_NOT_COMPARED_NOT_GOLDEN') { throw 'Successful candidate publication required' }
+if ((Get-Content -Raw -LiteralPath '<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-anova-20261101-v1\comparison-c13-invariant.json' | ConvertFrom-Json).status -ne 'REFERENCE_EXECUTED_COMPARISON_PENDING_INDEPENDENT_REVIEWS') { throw 'ANOVA comparison needs discrepancy review before KW' }
+if ((Get-Content -Raw -LiteralPath '<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-anova-20261101-v1\comparison-c13-sk-SK.json' | ConvertFrom-Json).status -ne 'REFERENCE_EXECUTED_COMPARISON_PENDING_INDEPENDENT_REVIEWS') { throw 'ANOVA comparison needs discrepancy review before KW' }
+$expected=@{
+    '<REPO_ROOT>\docs\architecture\04A02\04A02-C13-kw-technical-go-v1.json'='0b5fe52776092a33b366472eca1d1e9a8c60cab13349952bb6c6f2fb6b9ab494'
+    '<REPO_ROOT>\docs\architecture\04A02\oracle-proposals\manifest-v6-c12-v1.json'='d8f3338bfe588e47ba6f78b589b43f587448ffbd52948558ad9e0af6f2bc8bd1'
+    '<REPO_ROOT>\docs\architecture\04A02\04A02-C11-owner-acl-review-v1.json'='8fe99ff0c6ae04f0b19b953f3066003a0ef1ad121362b6372f98e56d59405eb7'
+    '<REPO_ROOT>\docs\architecture\04A02\04A02-C13-operator-qualification-tests-v1.json'='5910dd01377c24cdf7de5bb247562f7a2716b3ae953ad186583ea622e2730f75'
+    '<REPO_ROOT>\scripts\04a02\oracle_operator_v6.py'='faf529c20e7d8ed7e3f9159a5618aaf442152be4214ea8bf57ce776db57a47fc'
+    '<REPO_ROOT>\scripts\04a02\reference_handoff_c13.py'='6d2e5aadb343fbfe5873f1dace66b9b1c6db9bee027c06a217fb65c2deb2fc6c'
+    '<REPO_ROOT>\scripts\04a02\compare_reference_v1.py'='0d85fea2149b0ac1fb47a2c1ba6fcc1cfb25eb81ae71ac9b8adf586af62a2f6f'
+    '<REPO_ROOT>\TestResults\04A-02-initial-fixtures-c13-20261101T190032Z\executions\c13D-Common\observations\C30-SYN-KW-invariant.candidate.json'='c01c061d884605331a23857bfdf5173af119157d263dda08895f3b15df7d9889'
+    '<REPO_ROOT>\TestResults\04A-02-initial-fixtures-c13-20261101T190032Z\executions\c13D-Common\observations\C30-SYN-KW-sk-SK.candidate.json'='c01c061d884605331a23857bfdf5173af119157d263dda08895f3b15df7d9889'
+}
+foreach ($path in $expected.Keys) { if ((Get-FileHash -Algorithm SHA256 -LiteralPath $path).Hash.ToLowerInvariant() -cne $expected[$path]) { throw ('Pinned handoff drift: '+$path) } }
+$python='<PYTHON>'
+& $python @('-B','<REPO_ROOT>\scripts\04a02\reference_handoff_c13.py','--go','<REPO_ROOT>\docs\architecture\04A02\04A02-C13-kw-technical-go-v1.json','--reviewed-go-sha256','0b5fe52776092a33b366472eca1d1e9a8c60cab13349952bb6c6f2fb6b9ab494','--case','C30-SYN-KW')
+if ($LASTEXITCODE -ne 0) { throw 'Live owner technical admission refused; no statistical launch. Preserve diagnostics and stop.' }
+$review=[ordered]@{ schema='04A02-C13-owner-exact-technical-review-v1'; decision='REVIEWED_EXACT_GO_FOR_ONE_CASE_ONLY'; reviewer=$identity.Name; sid=$identity.User.Value; utc=[DateTime]::UtcNow.ToString('o'); source='Normal non-elevated owner invocation with explicit ReviewedTechnicalGoSha256'; case_id='C30-SYN-KW'; go_sha256=$ReviewedTechnicalGoSha256; P='NO'; N2='NO'; scientific_review='NOT_A_SCIENTIFIC_REVIEW' }
+$bytes=[Text.Encoding]::UTF8.GetBytes(($review | ConvertTo-Json -Depth 8))
+$stream=[IO.File]::Open('<REPO_ROOT>\TestResults\04A-02-c13-owner-review-kw-20261101-v1.json',[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::Read)
+try { $stream.Write($bytes,0,$bytes.Length); $stream.Flush($true) } finally { $stream.Dispose() }
+& $python @('-B','<REPO_ROOT>\scripts\04a02\oracle_operator_v6.py','--manifest','<REPO_ROOT>\docs\architecture\04A02\oracle-proposals\manifest-v6-c12-v1.json','--manifest-sha256','d8f3338bfe588e47ba6f78b589b43f587448ffbd52948558ad9e0af6f2bc8bd1','--case','C30-SYN-KW','--root','<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a','--name','c13-reference-kw-20261101-v1','--go','<REPO_ROOT>\docs\architecture\04A02\04A02-C13-kw-technical-go-v1.json','--go-sha256','0b5fe52776092a33b366472eca1d1e9a8c60cab13349952bb6c6f2fb6b9ab494')
+if ($LASTEXITCODE -ne 0) { throw 'Statistical reference refused/failed; preserve every partial output. Never retry this one-shot handoff.' }
+& $python @('-B','<REPO_ROOT>\scripts\04a02\compare_reference_v1.py','--candidate','<REPO_ROOT>\TestResults\04A-02-initial-fixtures-c13-20261101T190032Z\executions\c13D-Common\observations\C30-SYN-KW-invariant.candidate.json','--reference-job','<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-kw-20261101-v1','--output','<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-kw-20261101-v1\comparison-c13-invariant.json')
+if ($LASTEXITCODE -ne 0) { throw 'Comparison validation refused; preserve complete reference and stop' }
+if ((Get-Content -Raw -LiteralPath '<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-kw-20261101-v1\comparison-c13-invariant.json' | ConvertFrom-Json).status -ne 'REFERENCE_EXECUTED_COMPARISON_PENDING_INDEPENDENT_REVIEWS') { throw 'Numerical discrepancy; preserve without promotion and stop for review' }
+& $python @('-B','<REPO_ROOT>\scripts\04a02\compare_reference_v1.py','--candidate','<REPO_ROOT>\TestResults\04A-02-initial-fixtures-c13-20261101T190032Z\executions\c13D-Common\observations\C30-SYN-KW-sk-SK.candidate.json','--reference-job','<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-kw-20261101-v1','--output','<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-kw-20261101-v1\comparison-c13-sk-SK.json')
+if ($LASTEXITCODE -ne 0) { throw 'Comparison validation refused; preserve complete reference and stop' }
+if ((Get-Content -Raw -LiteralPath '<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c13-reference-kw-20261101-v1\comparison-c13-sk-SK.json' | ConvertFrom-Json).status -ne 'REFERENCE_EXECUTED_COMPARISON_PENDING_INDEPENDENT_REVIEWS') { throw 'Numerical discrepancy; preserve without promotion and stop for review' }
+Write-Output 'Candidate references/comparisons retained. NOT_GOLDEN; two distinct scientific reviews and later owner P still required.'

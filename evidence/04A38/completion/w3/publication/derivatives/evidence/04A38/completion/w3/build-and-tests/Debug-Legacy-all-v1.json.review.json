@@ -1,0 +1,35 @@
+{
+  "suite": "Legacy",
+  "part": "all",
+  "name": "w3D-Legacy",
+  "outcomes": {
+    "Passed": 9777,
+    "Failed": 9
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3D-Legacy/cases.json",
+    "bytes": 3022267,
+    "sha256": "0e9efb8e12a54ec8182284f19ee1b24b02206c6e6258615a584fe82f9f85894d"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3D-Legacy/results/Legacy.trx",
+    "bytes": 332303352,
+    "sha256": "7354ba9179aabf588f53dc2e63ba31d05716c2b5524632659cb932ccd4f01543"
+  },
+  "command": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "<ISOLATED_RUN>\\executions\\w3D-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w3D-Legacy\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3D-Legacy\\results",
+      "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+      "/Logger:trx;LogFileName=Legacy.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 176.18429070001002,
+    "stdout_sha256": "36da31e01245f39fa8a42729dffc12c6f12e68c0eef0d6f62273fe5942050d75",
+    "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

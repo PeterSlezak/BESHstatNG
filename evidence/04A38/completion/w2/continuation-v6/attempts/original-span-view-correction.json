@@ -1,0 +1,30 @@
+{
+  "status": "INTERMEDIATE_ORIGINAL_SPAN_INPUT_REJECTED_BEFORE_CLOSURE",
+  "failed_inputs": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/review-inputs-v2.json",
+      "bytes": 461691,
+      "sha256": "c22f21065875dcda5bcfd8190d0f29445a4c1626853edcb38f0a96f9a644881d"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/complete-review-inputs.json",
+      "bytes": 691589,
+      "sha256": "14291fbe9a17af13afe41c1f98dd482acbf1c50931abe90b902370c8c3aa211f"
+    }
+  ],
+  "failure": "Raw CRLF archived originals were sliced with Roslyn offsets from accepted Git LF bytes; current raw spans were correct. Both must use their individually authenticated census source hash.",
+  "correction": "Match whole raw byte SHA to RAW or explicit CRLF-to-LF view (retaining BOM bytes for identity), decode UTF8 BOM, slice UTF16 and require the exact whole-body SHA. All91 records now pass full-body hashes.",
+  "source_changes_caused_by_failure": 0,
+  "closures_from_failed_inputs": 0,
+  "production_source_basis": "Implementation scripts derive from complete regex-delimited live bodies and retained preimages, not these erroneous original spans. All24 original/current corpus pairs still match exactly.",
+  "new_reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/source_views.py",
+    "bytes": 1070,
+    "sha256": "3950c07aef8fe9bc950a5657c5f9275d3fd6b94461d30a4c9a33a571653f8bf4"
+  },
+  "authenticated": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/authenticated-review-inputs.json",
+    "bytes": 697362,
+    "sha256": "3ac641d78b2c602cae36d2ca3c419c91b0884df2b809eb0d8b7959e1691783b4"
+  }
+}

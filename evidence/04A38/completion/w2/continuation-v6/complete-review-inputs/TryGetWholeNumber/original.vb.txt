@@ -1,0 +1,17 @@
+                value = If(CBool(cell), 1, 0)
+                Return True
+            End If
+
+            Return False
+        End Function
+
+        Friend Function TryGetWholeNumber(v As Object, ByRef value As Integer) As Boolean
+            value = 0
+
+            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)
+            If Not d.HasValue Then Return False
+            If Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then Return False
+
+            Dim rounded As Double = Math.Round(d.Value)
+            If Math.Abs(d.Value - rounded) > 0.0000001R Then Return False
+        

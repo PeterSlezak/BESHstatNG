@@ -235,23 +235,9 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedCompleteMatrix(data, groups, groupMats, groupNames) Then Return ExcelError.ExcelErrorValue
                 If groupMats Is Nothing OrElse groupMats.Count < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim g As Integer = groupMats.Count
-                Dim p As Integer = groupMats(0).GetLength(1)
-                Dim covCube(g - 1, p - 1, p - 1) As Double
-                Dim sampleSizes(g - 1) As Integer
-
-                For i As Integer = 0 To g - 1
-                    Dim mat = groupMats(i)
-                    Dim n As Integer = mat.GetLength(0)
-                    If n < 2 Then Return ExcelError.ExcelErrorNum
-                    sampleSizes(i) = n
-                    Dim cov = Matrix.MatCovar(mat)
-                    For r As Integer = 0 To p - 1
-                        For c As Integer = 0 To p - 1
-                            covCube(i, r, c) = cov(r, c)
-                        Next
-                    Next
-                Next
+                Dim covCube(,,) As Double = Nothing
+                Dim sampleSizes() As Integer = Nothing
+                If Not Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TryBuildBoxCovariances(groupMats, covCube, sampleSizes) Then Return ExcelError.ExcelErrorNum
 
                 Dim res As TestResult = assumptions.BoxM(covCube, sampleSizes)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
@@ -716,94 +702,27 @@ Namespace WorksheetFunctions
         ' -------------------------------------------------------------------------------------------------------------
 
         Private Function BuildTwoValueTable(title As String, label1 As String, value1 As Object, label2 As String, value2 As Object) As Object(,)
-            Dim t As New ResultTable
-            t.SetBody(New Object(,) {{label1, value1}, {label2, value2}})
-            t.AddPvalueCellToFormat(2, 2)
-            t.AddHeaderTopRow({title, ""})
-            Return PrepareResultTableForUdf(t)
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.TwoValueTable(title, label1, label2), New Object() {value1, value2}), Object(,))
         End Function
 
         Private Function BuildGrubbsTable(alpha As Double, res As TestResult) As Object(,)
-            Dim t As New ResultTable
-            t.SetBody(New Object(,) {
-                {"Alpha", alpha},
-                {"Critical statistic", res.TestStatistics1},
-                {"Observed statistic", res.TestStatistics2},
-                {"Result", If(String.IsNullOrWhiteSpace(res.strSpecialInformation), "", res.strSpecialInformation)}
-            })
-            t.AddHeaderTopRow({"Grubbs Test", ""})
-            Return PrepareResultTableForUdf(t)
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.BuildGrubbsTable(alpha, res)), Object(,))
         End Function
 
         Private Function BuildRosnerTable(alpha As Double, outliers() As Double, addCaution As Boolean) As Object(,)
-            Dim nOut As Integer = If(outliers Is Nothing, 0, outliers.Length)
-            Dim rows As Integer = 3 + Math.Max(1, nOut)
-            Dim body(rows - 1, 1) As Object
-            body(0, 0) = "Alpha"
-            body(0, 1) = alpha
-            body(1, 0) = "Number of outliers"
-            body(1, 1) = nOut
-            body(2, 0) = "List of outliers"
-            If nOut > 0 Then
-                body(2, 1) = outliers(0)
-            Else
-                body(2, 1) = ""
-            End If
-            For i As Integer = 1 To nOut - 1
-                body(2 + i, 0) = ""
-                body(2 + i, 1) = outliers(i)
-            Next
-            If nOut = 0 Then
-                body(3, 0) = ""
-                body(3, 1) = ""
-            End If
-
-            Dim t As New ResultTable
-            t.SetBody(body)
-            t.AddHeaderTopRow({"Rosner Generalized ESD Test", ""})
-            If addCaution Then
-                t.AddFootnote("Interpret with caution for sample sizes below 25.")
-            End If
-            Return PrepareResultTableForUdf(t)
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.BuildRosnerTable(alpha, outliers, addCaution)), Object(,))
         End Function
 
         Private Function TryParseLeveneCenter(arg As Object, ByRef useMedian As Boolean, ByRef title As String) As Boolean
+            ' Retain the original writes even before allocating the host reader.
             useMedian = False
             title = "Levene Test"
-
-            Dim s As String = NormalizeText(arg)
-            If s = "" OrElse s = "MEAN" OrElse s = "LEVENE" OrElse s = "CLASSICAL" Then
-                useMedian = False
-                title = "Levene Test"
-                Return True
-            End If
-
-            Select Case s
-                Case "MEDIAN", "BROWN-FORSYTHE", "BROWNFORSYTHE", "BF"
-                    useMedian = True
-                    title = "Brown-Forsythe Test"
-                    Return True
-                Case Else
-                    Return False
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38.TryParseLeveneCenterFromReader(
+                Function() Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), useMedian, title)
         End Function
 
         Private Function TryParseSymmetryMethod(arg As Object, ByRef methodInternal As String, ByRef title As String) As Boolean
-            Dim s As String = NormalizeText(arg)
-            If s = "" OrElse s = "MGG" OrElse s = "MIAO-GEL-GASTWIRTH" OrElse s = "MIAO" Then
-                methodInternal = "Miao-Gel-Gastwirth"
-                title = "Miao-Gel-Gastwirth Symmetry Test"
-                Return True
-            End If
-
-            Select Case s
-                Case "CM", "CABILIO-MASARO", "CABILIO", "MASARO"
-                    methodInternal = "Cabilio-Masaro"
-                    title = "Cabilio-Masaro Symmetry Test"
-                    Return True
-                Case Else
-                    Return False
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38.TryParseSymmetryMethod(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), methodInternal, title)
         End Function
 
     End Module

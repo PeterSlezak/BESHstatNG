@@ -1,0 +1,34 @@
+{
+  "suite": "ControlMitigation",
+  "part": "all",
+  "name": "w3R-ControlMitigation",
+  "outcomes": {
+    "Passed": 61
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-ControlMitigation/cases.json",
+    "bytes": 23241,
+    "sha256": "7bb0c6f1e7684cd2604112995b260c77a18bc8a2f25f1e9f149d744524b5ee7a"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-ControlMitigation/results/ControlMitigation.trx",
+    "bytes": 91262,
+    "sha256": "42e265b708521814e6cf9817024c614072430438c911f770497044eca53cef88"
+  },
+  "command": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "<ISOLATED_RUN>\\executions\\w3R-ControlMitigation\\sandbox\\ControlMitigation\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w3R-ControlMitigation\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-ControlMitigation\\results",
+      "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+      "/Logger:trx;LogFileName=ControlMitigation.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 7.004098899982637,
+    "stdout_sha256": "0eebba217edfbc2364a6312345cbaee54eeb3a916982541489adb9850d4939a1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

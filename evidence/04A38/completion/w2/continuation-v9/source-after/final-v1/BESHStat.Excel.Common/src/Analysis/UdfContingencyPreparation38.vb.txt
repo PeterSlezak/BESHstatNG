@@ -1,0 +1,67 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+Imports BESHStatNG
+Imports BESHStatNG.contingencytable
+Imports BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38
+
+Namespace ExcelCommon
+    Public NotInheritable Class UdfContingencyPreparation38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function ChiSquaredBody(tab(,) As Integer, isFinite As Func(Of Double, Boolean)) As Object(,)
+                Dim res = contingencytable.Chi2TESTindependence(tab)
+                If res.Item1 Is Nothing OrElse Not IsFinite(res.Item1.TestStatistics1) OrElse Not IsFinite(res.Item1.Pvalue) Then
+                    Return Nothing
+                End If
+
+                Dim df As Integer = EffectiveDf(tab)
+                Dim reportBody As Object(,) = {
+                    {"Chi-square", res.Item1.TestStatistics1},
+                    {"Degrees of freedom", df},
+                    {"Two-sided p-value", res.Item1.Pvalue}
+                }
+                Return reportBody
+        End Function
+
+        Public Shared Function NominalAssociationBody(tab(,) As Integer) As Object(,)
+                Dim res = contingencytable.Chi2TESTindependence(tab)
+                If res.Item1 Is Nothing Then Return Nothing
+
+                Dim reportBody As Object(,) = {
+                    {"Cramer's V", res.Item2},
+                    {"Pearson's contingency coefficient", res.Item3},
+                    {"Phi", res.Item4}
+                }
+                Return reportBody
+        End Function
+
+        Public Shared Function Fisher2x2Body(tab(,) As Integer, isFinite As Func(Of Double, Boolean)) As Object(,)
+                Dim res As TestResult = contingencytable.FisherExact2x2(tab(0, 0), tab(0, 1), tab(1, 0), tab(1, 1))
+                If res Is Nothing OrElse Not IsFinite(res.Pvalue) Then Return Nothing
+
+                Dim reportBody As Object(,) = {
+                    {"One-sided exact p-value", res.PvalueLowerSide},
+                    {"Two-sided exact p-value", res.Pvalue},
+                    {"One-sided mid-p value", res.pValueExactLowerSide},
+                    {"Two-sided mid-p value", res.Pvalue2}
+                }
+                Return reportBody
+        End Function
+
+        Public Shared Function FreemanHaltonBody(tab(,) As Integer, isFinite As Func(Of Double, Boolean)) As Object(,)
+                Dim exact As New FisherExactEngine(tab)
+                exact.Run()
+
+                If Not IsFinite(exact.PObserved) OrElse Not IsFinite(exact.PValue) Then Return Nothing
+
+                Dim reportBody As Object(,) = {
+                    {"Observed-table probability", exact.PObserved},
+                    {"Two-sided exact p-value", exact.PValue}
+                }
+                Return reportBody
+        End Function
+    End Class
+End Namespace

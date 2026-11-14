@@ -1,0 +1,175 @@
+{
+  "status": "EXECUTED_W2_CHECKPOINT_NOT_BATCH_READY",
+  "managed_Debug": {
+    "outcomes": {
+      "Passed": 20583,
+      "Failed": 14
+    },
+    "new_passes": 27,
+    "inherited_nonpasses": 14,
+    "suites": [
+      {
+        "suite": "Core",
+        "outcomes": {
+          "Passed": 1276
+        },
+        "exit_code": 0,
+        "trx_sha256": "79b30d993c3da6239287bd1d97bfae0bfabbe1f049686a9a610a72617de6929f"
+      },
+      {
+        "suite": "Common",
+        "outcomes": {
+          "Passed": 9099,
+          "Failed": 5
+        },
+        "exit_code": 1,
+        "trx_sha256": "f4357dfe529a7e39d2e62dfe928c0c3041cde4e1c889b87da9d0b773ebe44352"
+      },
+      {
+        "suite": "Legacy",
+        "outcomes": {
+          "Passed": 9594,
+          "Failed": 9
+        },
+        "exit_code": 1,
+        "trx_sha256": "4f8ad198c7e0fb42a146c73d202da396b44a36cf3f63151a3584e3d7dbdcd645"
+      },
+      {
+        "suite": "ControlMitigation",
+        "outcomes": {
+          "Passed": 61
+        },
+        "exit_code": 0,
+        "trx_sha256": "4744c9546fba715a115f2435cc22882ab7a9d21293a2ff862ca92f029774b065"
+      },
+      {
+        "suite": "OfficeAddin",
+        "outcomes": {
+          "Passed": 508
+        },
+        "exit_code": 0,
+        "trx_sha256": "3818e1c9954bf6bf00df619aaf5b8e64a09a23444fb7e62e4c861bb93fcf5728"
+      },
+      {
+        "suite": "OfficeExecution",
+        "outcomes": {
+          "Passed": 45
+        },
+        "exit_code": 0,
+        "trx_sha256": "cb3692be70b6dd87646124856e33689dc935b73071c95758379768add100b94a"
+      }
+    ],
+    "identity_outcome_delta": 0
+  },
+  "selected_Release": {
+    "existing_cases_pass": 49,
+    "new_profile_cases_pass": 27,
+    "unique_selected_pass": 76,
+    "full_suite": "NOT_RUN_OWNER_PREFERENCE",
+    "full_suite_historical_only": "20556 PASS/14 inherited FAIL"
+  },
+  "Python_first_full": {
+    "total": 956,
+    "passed": 767,
+    "failed": 176,
+    "errors": 13
+  },
+  "Python_after_two_targeted_reruns": {
+    "total": 956,
+    "passed": 767,
+    "failed": 178,
+    "errors": 11,
+    "old_nonpass_identity_outcome_delta": 0
+  },
+  "artifact_encoding_correction": "First full run767 PASS/176 FAIL/13 ERROR retained. Two inherited privacy FAIL identities had become ERROR due unrelated copied legacy-encoded source. Exact-byte preimages relocated privately; each targeted rerun FAIL, no ERROR. No test expectations or source bytes changed.",
+  "Node": [
+    {
+      "suite": "office-node",
+      "total": 468,
+      "passed": 468,
+      "failed": 0,
+      "exit_code": 0
+    },
+    {
+      "suite": "resolver",
+      "total": 71,
+      "passed": 71,
+      "failed": 0,
+      "exit_code": 0
+    },
+    {
+      "suite": "wasm-node",
+      "total": 377,
+      "passed": 377,
+      "failed": 0,
+      "exit_code": 0
+    }
+  ],
+  "Node_pass": 916,
+  "strict_profile_MkDocs": {
+    "strict": 1,
+    "profile": 1,
+    "docs": 0
+  },
+  "independent_slice_controls": {
+    "label": "w2-independent-slice-adverse-v3",
+    "total": 17,
+    "passed": 17,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "45316ce7d51a7979c2c47dcab9272e9cdc6b0a30f173867e664f3ff485937b44",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_average_engine_altered (test_independent_slice_v3.SliceTests.test_average_engine_altered)",
+      "test_bad_host_cell_policy (test_independent_slice_v3.SliceTests.test_bad_host_cell_policy)",
+      "test_changed_constructor_CIL_stays_open (test_independent_slice_v3.SliceTests.test_changed_constructor_CIL_stays_open)",
+      "test_current_output_changed (test_independent_slice_v3.SliceTests.test_current_output_changed)",
+      "test_error_text_rewritten (test_independent_slice_v3.SliceTests.test_error_text_rewritten)",
+      "test_fabricated_literal_CIL_stays_open (test_independent_slice_v3.SliceTests.test_fabricated_literal_CIL_stays_open)",
+      "test_intact_full_body_proof (test_independent_slice_v3.SliceTests.test_intact_full_body_proof)",
+      "test_intact_predecessor_preservation (test_independent_slice_v3.SliceTests.test_intact_predecessor_preservation)",
+      "test_intact_source_result_and_export_proof (test_independent_slice_v3.SliceTests.test_intact_source_result_and_export_proof)",
+      "test_mask_order_changed (test_independent_slice_v3.SliceTests.test_mask_order_changed)",
+      "test_missing_intercept_rejection (test_independent_slice_v3.SliceTests.test_missing_intercept_rejection)",
+      "test_new_unapproved_production_edit (test_independent_slice_v3.SliceTests.test_new_unapproved_production_edit)",
+      "test_older_NOT_READY_rewritten (test_independent_slice_v3.SliceTests.test_older_NOT_READY_rewritten)",
+      "test_original_output_changed (test_independent_slice_v3.SliceTests.test_original_output_changed)",
+      "test_postcompile_source_edit (test_independent_slice_v3.SliceTests.test_postcompile_source_edit)",
+      "test_source_preimage_mutation (test_independent_slice_v3.SliceTests.test_source_preimage_mutation)",
+      "test_weakened_multirow_guard (test_independent_slice_v3.SliceTests.test_weakened_multirow_guard)"
+    ],
+    "nonpasses": []
+  },
+  "failed_adverse_attempts": [
+    "adverse-fixture-attempt-v1.json",
+    "adverse-fixture-attempt-v2.json"
+  ],
+  "compatibility_per_configuration": {
+    "genuine_preedit": 28966,
+    "late_A": 432,
+    "late_B": 12,
+    "late_C": 2,
+    "late_D": 4,
+    "late_E": 2,
+    "late_F": 2,
+    "late_G": 4
+  },
+  "wrappers": "NOT_RUN: inspected original wrapper implicitly restores/writes shared TestResults; Legacy host Build may package. Isolated offline compile/test equivalents executed.",
+  "NOT_RUN": [
+    "Full managed Release",
+    "Native Excel/COM/UIA/RefEdit",
+    "Independent R scientific oracle",
+    "Office/Mac manual smoke",
+    "MSI/signing/install/deploy",
+    "W3 whole-batch READY verifier"
+  ],
+  "scientific": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "golden": "NOT_GOLDEN"
+  }
+}

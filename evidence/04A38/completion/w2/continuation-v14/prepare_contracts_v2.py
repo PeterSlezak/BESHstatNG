@@ -1,0 +1,4 @@
+from common import *
+book=PRIVATE/'bookkeeping-code-v1';source=book/'build_contracts_v1.py';v=source.read_text().replace('from proof_kernel_v7 import','from proof_kernel_v8 import')
+with (book/'build_contracts_v2.py').open('x',encoding='utf-8',newline='\n') as f:f.write(v)
+with (book/'generic-cache-binding-correction-v1.json').open('x',encoding='utf-8',newline='\n') as f:json.dump(dict(before=pin(source),after=pin(book/'build_contracts_v2.py'),binder=pin(book/'proof_kernel_v8.py'),reason='Reflection FullName is null for open generic parameters/containers. Preserve the rejected attempt. Bind the existing source-declared constrained generic to its exact actual canonical CLR handle, parameter rank/ByRef/arity and recorded declaring/runtime assembly identities; no ordinal or guessed signature.',original_queries=0),f,indent=2);f.write('\n')

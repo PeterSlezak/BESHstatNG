@@ -1,0 +1,37 @@
+<ExcelFunction(
+            Name:="BESH.PAR.ANOVA2_NESTED",
+            Category:="BESHStatNG - Parametric",
+            Description:="Two-way nested ANOVA. Input: 3 columns = group, subgroup, response.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function ANOVA2_NESTED(
+            <ExcelArgument(Name:="data", Description:="Three columns: group, subgroup (nested), response. First row may contain headers.")> data As Object,
+            <ExcelArgument(Name:="varNames", Description:="Optional variable names as comma-separated text or 1-row/1-column range.")> Optional varNames As Object = Nothing,
+            <ExcelArgument(Name:="output", Description:="Optional: both/main/satterthwaite.")> Optional outputType As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Object = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNestedThreeColumnData(data, mat, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If mat.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(varNames, detectedNames, 3, "Var")
+                Dim mdl As New parametric.TwoWayNestedANOVA(mat, names)
+                mdl.compute()
+
+                Dim tables = mdl.wrapResults()
+                Dim which As String = NormalizeText(outputType)
+
+                Select Case Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.NestedTableSelection(which)
+                    Case 0
+                        Return StackWithBlankRow(PrepareResultTableForUdf(tables(0)), PrepareResultTableForUdf(tables(1)))
+                    Case 1
+                        Return PrepareResultTableForUdf(tables(0))
+                    Case 2
+                        Return PrepareResultTableForUdf(tables(1))
+                    Case Else
+                        Return ExcelError.ExcelErrorValue
+                End Select
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.ANOVA2_NESTED", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function

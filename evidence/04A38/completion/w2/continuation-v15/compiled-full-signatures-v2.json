@@ -1,0 +1,170 @@
+{
+  "rows": [
+    {
+      "configuration": "Debug",
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v15/metadata-signatures-v1/current-Debug.json",
+        "bytes": 75821798,
+        "sha256": "cd07964c05e470cda25bfb7e84e0bb4b380c33ffa63c58a3c2da6e21fb7fb4e0"
+      },
+      "same_CIL_authority": {
+        "path": "evidence/04A38/completion/w2/continuation-v15/metadata-all/packet-v2-context-v5/current-Debug.json",
+        "bytes": 67291624,
+        "sha256": "2a77243be40cec6c673847890c7a91fbb6227b180e5b74186f7e54bbb7487c4c"
+      },
+      "actual_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c15-signatures-current-Debug-v1/command.json",
+        "bytes": 940,
+        "sha256": "145560cf030b9e2e90bd6a37ebbc56cd7d604e4f48c3eb851282c829d0aa8e2a"
+      },
+      "methods": 14908,
+      "all_return_parameter_types_measured": true,
+      "all_CIL_exception_edges_byte_record_equal": true,
+      "field_inventory_exact": true,
+      "controls": [
+        {
+          "name": "missing field",
+          "status": "REJECTED"
+        },
+        {
+          "name": "changed field type",
+          "status": "REJECTED"
+        },
+        {
+          "name": "duplicate field",
+          "status": "REJECTED"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v15/metadata-signatures-v2/current-Release.json",
+        "bytes": 71625243,
+        "sha256": "db57f230a3a36cc5f8716e566578bea4628db08937abbe2dc31cf327f2b18a85"
+      },
+      "same_CIL_authority": {
+        "path": "evidence/04A38/completion/w2/continuation-v15/metadata-all/packet-v2-context-v5/current-Release.json",
+        "bytes": 63100935,
+        "sha256": "27375a20dda01b6da995ea4e003dc1390ba400223c0e180e8dad958fb4a5af58"
+      },
+      "actual_command": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c15-signatures-current-Release-v2/command.json",
+        "bytes": 941,
+        "sha256": "86640b8ac1737b3592c7633a7f0ff68a58986a71efbe1e942817a88866a3ebae"
+      },
+      "methods": 14906,
+      "all_return_parameter_types_measured": true,
+      "all_CIL_exception_edges_byte_record_equal": true,
+      "field_inventory_exact": true,
+      "controls": [
+        {
+          "name": "missing field",
+          "status": "REJECTED"
+        },
+        {
+          "name": "changed field type",
+          "status": "REJECTED"
+        },
+        {
+          "name": "duplicate field",
+          "status": "REJECTED"
+        }
+      ]
+    }
+  ],
+  "reflection_order_deltas": [
+    {
+      "configuration": "Debug",
+      "rows": [
+        {
+          "type": "BESHStatNG.psmData+_Closure$__",
+          "before_fields": [
+            {
+              "name": "$I",
+              "type": "BESHStatNG.psmData+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+              "attributes": "Public, Static, InitOnly",
+              "is_static": true,
+              "is_readonly": true,
+              "is_literal": false,
+              "literal": null
+            },
+            {
+              "name": "$I84-0",
+              "type": "System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "attributes": "Public, Static",
+              "is_static": true,
+              "is_readonly": false,
+              "is_literal": false,
+              "literal": null
+            }
+          ],
+          "after_fields": [
+            {
+              "name": "$I84-0",
+              "type": "System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "attributes": "Public, Static",
+              "is_static": true,
+              "is_readonly": false,
+              "is_literal": false,
+              "literal": null
+            },
+            {
+              "name": "$I",
+              "type": "BESHStatNG.psmData+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+              "attributes": "Public, Static, InitOnly",
+              "is_static": true,
+              "is_readonly": true,
+              "is_literal": false,
+              "literal": null
+            }
+          ],
+          "interpretation": "Same complete field identities/types/flags/literals; only passive reflection enumeration order differs. No source or CIL normalization."
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "rows": []
+    }
+  ],
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/MethodMetadata-v12.cs",
+    "bytes": 12366,
+    "sha256": "848c82da3b6990fd2e135927cd3df30a9436a90b4977216eba5b8e57d43af3bb"
+  },
+  "tool": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/signatures-v1/MethodMetadata38.exe",
+    "bytes": 45056,
+    "sha256": "8f0ba155b0747c08204667812ed1855b0195818e42b4d368569c472827f07717"
+  },
+  "verifier": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/inspect_signatures_v2.py",
+    "bytes": 4249,
+    "sha256": "31cb6a9821e32d17b2ae3ed8d657b9f53b2d2244d77a00d0a8c44390548492d1"
+  },
+  "commands": [
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont15\\signatures-v1\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\metadata-signatures-v2\\current-Release.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\native-metadata-owners-v3.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.111630899999,
+      "stdout_sha256": "6cc8e31d13393c81721e9f88b94b367322e65372399c43bd2e1394067d02df03",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "retained_first_attempt": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/inspect-signatures-v1-execution.json",
+    "bytes": 950,
+    "sha256": "59e053eef466005fa16a30cd779b4e31200ba797861759f7ec208149e068335c"
+  },
+  "metadata_only": true,
+  "original_queries": 0,
+  "scope": "Fresh actual current constructed handles, complete return/parameter/default/attribute/generic contracts, exact method/CIL/exception records and complete field identities. The first strict reflection-order failure remains immutable. Historical readers/assertions are unchanged."
+}

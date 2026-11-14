@@ -87,17 +87,8 @@ Namespace WorksheetFunctions
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
                 If TableTotal(tab) <= 0 Then Return ExcelError.ExcelErrorNum
 
-                Dim res = contingencytable.Chi2TESTindependence(tab)
-                If res.Item1 Is Nothing OrElse Not IsFinite(res.Item1.TestStatistics1) OrElse Not IsFinite(res.Item1.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim df As Integer = EffectiveDf(tab)
-                Dim body As Object(,) = {
-                    {"Chi-square", res.Item1.TestStatistics1},
-                    {"Degrees of freedom", df},
-                    {"Two-sided p-value", res.Item1.Pvalue}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.ChiSquaredBody(tab, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
                 Return BuildResultTable("Pearson's Chi-squared Test", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.CHI2", ex, ExcelError.ExcelErrorValue)
@@ -152,14 +143,8 @@ Namespace WorksheetFunctions
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
                 If TableTotal(tab) <= 0 Then Return ExcelError.ExcelErrorNum
 
-                Dim res = contingencytable.Chi2TESTindependence(tab)
-                If res.Item1 Is Nothing Then Return ExcelError.ExcelErrorNum
-
-                Dim body As Object(,) = {
-                    {"Cramer's V", res.Item2},
-                    {"Pearson's contingency coefficient", res.Item3},
-                    {"Phi", res.Item4}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.NominalAssociationBody(tab)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
                 Return BuildResultTable("Measures of Nominal Association", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.NOMINAL_ASSOC", ex, ExcelError.ExcelErrorValue)
@@ -217,15 +202,8 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If Not Is2x2(tab) Then Return ExcelError.ExcelErrorValue
 
-                Dim res As TestResult = contingencytable.FisherExact2x2(tab(0, 0), tab(0, 1), tab(1, 0), tab(1, 1))
-                If res Is Nothing OrElse Not IsFinite(res.Pvalue) Then Return ExcelError.ExcelErrorNum
-
-                Dim body As Object(,) = {
-                    {"One-sided exact p-value", res.PvalueLowerSide},
-                    {"Two-sided exact p-value", res.Pvalue},
-                    {"One-sided mid-p value", res.pValueExactLowerSide},
-                    {"Two-sided mid-p value", res.Pvalue2}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.Fisher2x2Body(tab, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
                 Return BuildResultTable("Fisher's Exact Test", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.FISHER_2X2", ex, ExcelError.ExcelErrorValue)
@@ -279,15 +257,8 @@ Namespace WorksheetFunctions
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
                 If TableTotal(tab) <= 0 Then Return ExcelError.ExcelErrorNum
 
-                Dim exact As New FisherExactEngine(tab)
-                exact.Run()
-
-                If Not IsFinite(exact.PObserved) OrElse Not IsFinite(exact.PValue) Then Return ExcelError.ExcelErrorNum
-
-                Dim body As Object(,) = {
-                    {"Observed-table probability", exact.PObserved},
-                    {"Two-sided exact p-value", exact.PValue}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.FreemanHaltonBody(tab, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
                 Return BuildResultTable("Fisher-Freeman-Halton Exact Test", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.FFH_EXACT", ex, ExcelError.ExcelErrorNum)
@@ -353,15 +324,9 @@ Namespace WorksheetFunctions
                 Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res = contingencytable.Liddell_McNemar(tab, alphaValue)
-                If res.Item1 Is Nothing OrElse res.Item2 Is Nothing OrElse Not IsFinite(res.Item1.Pvalue) Then Return ExcelError.ExcelErrorNum
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.McNemarBody(tab, alphaValue, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
 
-                Dim ciText As String = If(String.IsNullOrWhiteSpace(res.Item2.strConfidenceInterval(CIformat.LL_to_UL)), "", res.Item2.strConfidenceInterval(CIformat.LL_to_UL))
-                Dim body As Object(,) = {
-                    {"Two-sided exact p-value", res.Item1.Pvalue},
-                    {"Matched-pairs odds ratio", res.Item2.Estimate},
-                    {res.Item2.CIlabel, ciText}
-                }
                 Return BuildResultTable("Exact Paired 2×2 Analysis", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.MCNEMAR_EXACT", ex, ExcelError.ExcelErrorValue)
@@ -430,14 +395,9 @@ Namespace WorksheetFunctions
                 Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res = contingencytable.OddsRatio(tab, alphaValue)
-                If res.Item1 Is Nothing OrElse res.Item2 Is Nothing OrElse Not IsFinite(res.Item1.Estimate) Then Return ExcelError.ExcelErrorNum
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.OddsRatioBody(tab, alphaValue, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
 
-                Dim body As Object(,) = {
-                    {"Odds ratio", res.Item1.Estimate},
-                    {res.Item1.CIlabel & " (Woolf)", res.Item1.strConfidenceInterval(CIformat.LL_to_UL)},
-                    {res.Item2.CIlabel & " (Cornfield)", res.Item2.strConfidenceInterval(CIformat.LL_to_UL)}
-                }
                 Return BuildResultTable("Odds Ratio", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.ODDS_RATIO", ex, ExcelError.ExcelErrorValue)
@@ -505,13 +465,9 @@ Namespace WorksheetFunctions
                 Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res As ConfidenceIntervalResult = contingencytable.RiskRatio(tab, alphaValue)
-                If res Is Nothing OrElse Not IsFinite(res.Estimate) Then Return ExcelError.ExcelErrorNum
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.RiskRatioBody(tab, alphaValue, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
 
-                Dim body As Object(,) = {
-                    {"Risk ratio", res.Estimate},
-                    {res.CIlabel, res.strConfidenceInterval(CIformat.LL_to_UL)}
-                }
                 Return BuildResultTable("Risk Ratio", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.RISK_RATIO", ex, ExcelError.ExcelErrorValue)
@@ -576,20 +532,9 @@ Namespace WorksheetFunctions
                 If rows < 2 OrElse cols < 2 Then Return ExcelError.ExcelErrorNum
                 If Not ((rows = 2) OrElse (cols = 2)) OrElse (rows + cols < 5) Then Return ExcelError.ExcelErrorNum
 
-                Dim trendTable(,) As Integer = tab
-                If rows = 2 AndAlso cols > 2 Then
-                    trendTable = TransposeIntMatrix(tab)
-                End If
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.TrendBody(tab, rows, cols, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = contingencytable.CochranArmitage(trendTable)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then Return ExcelError.ExcelErrorNum
-
-                Dim body As Object(,) = {
-                    {"Chi-square for linear trend", res.TestStatistics1},
-                    {"Two-sided p-value for linear trend", res.Pvalue},
-                    {"Chi-square for departure from linear trend", res.TestStatistics2},
-                    {"Two-sided p-value for departure", res.Pvalue2}
-                }
                 Return BuildResultTable("Cochran-Armitage Test for Linear Trend", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.TREND", ex, ExcelError.ExcelErrorValue)
@@ -661,28 +606,9 @@ Namespace WorksheetFunctions
                 Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res = contingencytable.cTableORDINALassoc(tab, alphaValue)
-                If res.Item1 Is Nothing OrElse Not IsFinite(res.Item1.TestStatistics1) OrElse Not IsFinite(res.Item1.Pvalue) Then Return ExcelError.ExcelErrorNum
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.OrdinalAssociationBody(tab, alphaValue, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
 
-                Dim ciLabel As String = $"{(1.0R - alphaValue) * 100.0R:0.##}% CI"
-                Dim body As Object(,) = {
-                    {"Kendall's tau-b", res.Item1.TestStatistics1},
-                    {"Std.Err.", res.Item1.DF1},
-                    {ciLabel, res.Item1.strSpecialInformation},
-                    {"Two-sided p-value", res.Item1.Pvalue},
-                    {"Kendall's tau-c", res.Item2.TestStatistics1},
-                    {"Std.Err.", res.Item2.DF1},
-                    {ciLabel, res.Item2.strSpecialInformation},
-                    {"Two-sided p-value", res.Item2.Pvalue},
-                    {"Goodman-Kruskal's gamma", res.Item3.TestStatistics1},
-                    {"Std.Err.", res.Item3.DF1},
-                    {ciLabel, res.Item3.strSpecialInformation},
-                    {"Two-sided p-value", res.Item3.Pvalue},
-                    {"Somers' D (columns as dependent variable)", res.Item4.TestStatistics1},
-                    {"Std.Err.", res.Item4.DF1},
-                    {ciLabel, res.Item4.strSpecialInformation},
-                    {"Two-sided p-value", res.Item4.Pvalue}
-                }
                 Return BuildResultTable("Measures of Ordinal Association", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.ORDINAL_ASSOC", ex, ExcelError.ExcelErrorValue)
@@ -758,16 +684,9 @@ Namespace WorksheetFunctions
                 Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res = contingencytable.MantelHaenszel(mat, alphaValue)
-                If res.Item1 Is Nothing OrElse res.Item2 Is Nothing OrElse Not IsFinite(res.Item1.TestStatistics1) Then Return ExcelError.ExcelErrorNum
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.MantelHaenszelBody(mat, alphaValue, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
 
-                Dim body As Object(,) = {
-                    {"Chi-square", res.Item1.TestStatistics1},
-                    {"Degrees of freedom", 1},
-                    {"Two-sided p-value", res.Item1.Pvalue},
-                    {"Common odds ratio", res.Item2.Estimate},
-                    {res.Item2.CIlabel, res.Item2.strConfidenceInterval(CIformat.LL_to_UL)}
-                }
                 Return BuildResultTable("Mantel-Haenszel Stratified 2×2 Analysis", body)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.CT.MANTEL_HAENSZEL", ex, ExcelError.ExcelErrorValue)
@@ -859,19 +778,8 @@ Namespace WorksheetFunctions
                     Return ExcelError.ExcelErrorNum
                 End If
 
-                Dim ci As ConfidenceIntervalResult = contingencytable.SingleProportion(x, n, alphaValue)
-                If ci Is Nothing OrElse Not IsFinite(ci.Estimate) OrElse Not IsFinite(ci.LowerLimit) OrElse Not IsFinite(ci.UpperLimit) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim body As Object(,) = {
-                    {"Total number of observations", n},
-                    {"Number of responders", x},
-                    {"Estimated proportion", ci.Estimate},
-                    {"Lower confidence limit", ci.LowerLimit},
-                    {"Upper confidence limit", ci.UpperLimit},
-                    {ci.CIlabel, ci.strConfidenceInterval(CIformat.LL_to_UL)}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.SingleProportionBody(x, n, alphaValue, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
 
                 Return BuildResultTable("Single Proportion", body)
             Catch ex As Exception
@@ -971,26 +879,8 @@ Namespace WorksheetFunctions
                     Return ExcelError.ExcelErrorNum
                 End If
 
-                Dim ci As ConfidenceIntervalResult = contingencytable.TwoIndependentProportions(x1, n1, x2, n2, alphaValue)
-                If ci Is Nothing OrElse Not IsFinite(ci.Estimate) OrElse Not IsFinite(ci.LowerLimit) OrElse Not IsFinite(ci.UpperLimit) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim p1 As Double = CDbl(x1) / CDbl(n1)
-                Dim p2 As Double = CDbl(x2) / CDbl(n2)
-
-                Dim body As Object(,) = {
-                    {"Total observations in sample 1", n1},
-                    {"Responders in sample 1", x1},
-                    {"Estimated proportion in sample 1", p1},
-                    {"Total observations in sample 2", n2},
-                    {"Responders in sample 2", x2},
-                    {"Estimated proportion in sample 2", p2},
-                    {"Estimated difference (p1 - p2)", ci.Estimate},
-                    {"Lower confidence limit", ci.LowerLimit},
-                    {"Upper confidence limit", ci.UpperLimit},
-                    {ci.CIlabel, ci.strConfidenceInterval(CIformat.LL_to_UL)}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.IndependentProportionsBody(x1, n1, x2, n2, alphaValue, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
 
                 Return BuildResultTable("Two Independent Proportions", body)
             Catch ex As Exception
@@ -1100,26 +990,8 @@ Namespace WorksheetFunctions
                     Return ExcelError.ExcelErrorNum
                 End If
 
-                Dim ci As ConfidenceIntervalResult = contingencytable.PairedProportions(n, only1, only2, both, alphaValue)
-                If ci Is Nothing OrElse Not IsFinite(ci.Estimate) OrElse Not IsFinite(ci.LowerLimit) OrElse Not IsFinite(ci.UpperLimit) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim p1 As Double = CDbl(only1 + both) / CDbl(n)
-                Dim p2 As Double = CDbl(only2 + both) / CDbl(n)
-
-                Dim body As Object(,) = {
-                    {"Total paired observations", n},
-                    {"Responders only in the first condition", only1},
-                    {"Responders only in the second condition", only2},
-                    {"Responders in both conditions", both},
-                    {"Estimated proportion in the first condition", p1},
-                    {"Estimated proportion in the second condition", p2},
-                    {"Estimated difference (p1 - p2)", ci.Estimate},
-                    {"Lower confidence limit", ci.LowerLimit},
-                    {"Upper confidence limit", ci.UpperLimit},
-                    {ci.CIlabel, ci.strConfidenceInterval(CIformat.LL_to_UL)}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.PairedProportionsBody(n, only1, only2, both, alphaValue, AddressOf IsFinite)
+                If body Is Nothing Then Return ExcelError.ExcelErrorNum
 
                 Return BuildResultTable("Paired Proportions", body)
             Catch ex As Exception
@@ -1194,31 +1066,7 @@ Namespace WorksheetFunctions
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 If n0 <= 0 OrElse n1 <= 0 OrElse x0 < 0 OrElse x0 > n0 OrElse x1 < 0 OrElse x1 > n1 Then Return ExcelError.ExcelErrorNum
 
-                Dim result As equivalencetests.ProportionNonInferiorityResult = equivalencetests.EquivalenceNonInferiorityMethods.TestIndependentProportionsNonInferiority(
-                    x0, n0, x1, n1, marginValue, alphaValue)
-
-                Dim body As Object(,) = {
-                    {"Control observations", result.NumberOfControls},
-                    {"Control responders", result.ControlResponders},
-                    {"Control proportion", result.ControlProportion},
-                    {"Experimental observations", result.NumberOfExperimental},
-                    {"Experimental responders", result.ExperimentalResponders},
-                    {"Experimental proportion", result.ExperimentalProportion},
-                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
-                    {"Standard error of the difference", result.StandardError},
-                    {"Non-inferiority margin magnitude", result.NonInferiorityMargin},
-                    {"Null boundary on difference scale", result.NonInferiorityLimit},
-                    {"One-sided alpha", result.AlphaOneSided},
-                    {"Z statistic", result.ZStatistic},
-                    {"One-sided p-value", result.PValue},
-                    {"Lower one-sided confidence limit", result.LowerOneSidedConfidenceLimit},
-                    {SafeCiLabel(result.TwoSidedEquivalentConfidenceInterval), SafeCiText(result.TwoSidedEquivalentConfidenceInterval)},
-                    {"Point estimate within stated limits", result.CiAssessment.IsPointEstimateWithinMargins},
-                    {"Confidence interval within stated limits", result.CiAssessment.IsConfidenceIntervalWithinMargins},
-                    {"Lower-bound non-inferiority supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
-                    {"Upper-bound non-inferiority supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
-                    {"Conclusion", result.Conclusion}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.ProportionsNonInferiorityBody(x0, n0, x1, n1, marginValue, alphaValue)
 
                 Return BuildResultTable("Two Independent Proportions Non-Inferiority", body)
             Catch ex As Exception
@@ -1296,34 +1144,7 @@ Namespace WorksheetFunctions
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 If n0 <= 0 OrElse n1 <= 0 OrElse x0 < 0 OrElse x0 > n0 OrElse x1 < 0 OrElse x1 > n1 Then Return ExcelError.ExcelErrorNum
 
-                Dim result As equivalencetests.ProportionEquivalenceResult = equivalencetests.EquivalenceNonInferiorityMethods.TestIndependentProportionsEquivalence(
-                    x0, n0, x1, n1, lowerValue, upperValue, alphaValue)
-
-                Dim body As Object(,) = {
-                    {"Control observations", result.NumberOfControls},
-                    {"Control responders", result.ControlResponders},
-                    {"Control proportion", result.ControlProportion},
-                    {"Experimental observations", result.NumberOfExperimental},
-                    {"Experimental responders", result.ExperimentalResponders},
-                    {"Experimental proportion", result.ExperimentalProportion},
-                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
-                    {"Standard error of the difference", result.StandardError},
-                    {"Lower equivalence margin", result.LowerMargin},
-                    {"Upper equivalence margin", result.UpperMargin},
-                    {"One-sided alpha", result.AlphaOneSided},
-                    {"Lower TOST z statistic", result.LowerComponentStatistic},
-                    {"Lower TOST p-value", result.LowerComponentPValue},
-                    {"Upper TOST z statistic", result.UpperComponentStatistic},
-                    {"Upper TOST p-value", result.UpperComponentPValue},
-                    {"TOST p-value = max(component p-values)", result.TostPValue},
-                    {SafeCiLabel(result.EquivalentConfidenceInterval), SafeCiText(result.EquivalentConfidenceInterval)},
-                    {"Point estimate within margins", result.CiAssessment.IsPointEstimateWithinMargins},
-                    {"Confidence interval within margins", result.CiAssessment.IsConfidenceIntervalWithinMargins},
-                    {"Lower margin supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
-                    {"Upper margin supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
-                    {"Supports equivalence", result.SupportsEquivalence},
-                    {"Conclusion", result.Conclusion}
-                }
+                Dim body As Object(,) = Global.BESHStatNG.ExcelCommon.UdfContingencyPreparation38.ProportionsEquivalenceBody(x0, n0, x1, n1, lowerValue, upperValue, alphaValue)
 
                 Return BuildResultTable("Two Independent Proportions Equivalence (TOST)", body)
             Catch ex As Exception
@@ -1336,57 +1157,19 @@ Namespace WorksheetFunctions
         ' -------------------------------------------------------------------------------------------------------------
 
         Private Function Is2x2(table(,) As Integer) As Boolean
-            If table Is Nothing Then Return False
-            Return table.GetLength(0) = 2 AndAlso table.GetLength(1) = 2
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.Is2x2(table)
         End Function
 
         Private Function TableTotal(table(,) As Integer) As Integer
-            Dim total As Integer = 0
-            For i As Integer = 0 To table.GetLength(0) - 1
-                For j As Integer = 0 To table.GetLength(1) - 1
-                    total += table(i, j)
-                Next
-            Next
-            Return total
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TableTotal(table)
         End Function
 
         Private Function EffectiveDf(table(,) As Integer) As Integer
-            Dim rows As Integer = table.GetLength(0)
-            Dim cols As Integer = table.GetLength(1)
-            Dim activeRows As Integer = rows
-            Dim activeCols As Integer = cols
-
-            For i As Integer = 0 To rows - 1
-                Dim s As Integer = 0
-                For j As Integer = 0 To cols - 1
-                    s += table(i, j)
-                Next
-                If s = 0 Then activeRows -= 1
-            Next
-
-            For j As Integer = 0 To cols - 1
-                Dim s As Integer = 0
-                For i As Integer = 0 To rows - 1
-                    s += table(i, j)
-                Next
-                If s = 0 Then activeCols -= 1
-            Next
-
-            Return Math.Max(0, activeRows * activeCols - activeRows - activeCols + 1)
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.EffectiveDf(table)
         End Function
 
         Private Function TransposeIntMatrix(table(,) As Integer) As Integer(,)
-            Dim rows As Integer = table.GetLength(0)
-            Dim cols As Integer = table.GetLength(1)
-            Dim out(cols - 1, rows - 1) As Integer
-
-            For i As Integer = 0 To rows - 1
-                For j As Integer = 0 To cols - 1
-                    out(j, i) = table(i, j)
-                Next
-            Next
-
-            Return out
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.TransposeIntMatrix(table)
         End Function
 
 

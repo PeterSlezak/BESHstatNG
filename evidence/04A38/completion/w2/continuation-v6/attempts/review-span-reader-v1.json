@@ -1,0 +1,11 @@
+{
+  "status": "REVIEW_INPUT_EXTRACTION_REJECTED_BEFORE_ANY_CLOSURE_OR_SOURCE_EDIT",
+  "failure": "Path.read_text normalized CRLF before applying Roslyn UTF16 source spans, causing current body offsets to cut wrong text",
+  "retained": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/review-inputs.json",
+    "bytes": 457942,
+    "sha256": "69033b2ede1315f40aef5a36c62621f24f37f57b341a3595c19094ce9f97dc50"
+  },
+  "correction": "v2 decodes actual source bytes without newline translation, preserving original/current syntax span coordinates",
+  "closures_from_failed_reader": 0
+}

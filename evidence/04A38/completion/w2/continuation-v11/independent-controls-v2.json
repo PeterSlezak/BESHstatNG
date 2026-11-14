@@ -1,0 +1,56 @@
+{
+  "status": "SOURCE_BODY_PROVENANCE_ABI_STAGE_CONSTRUCTED_DEPENDENCY_PRIVATE_MUTATIONS_REJECTED",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_c11_checkpoint_v2.py",
+    "bytes": 91601,
+    "sha256": "7094496660e78b4079deed336ce17b25e7127877e279aac2e9089f956feccd05"
+  },
+  "controls": [
+    {
+      "name": "Changed actual production bytes",
+      "status": "REJECTED",
+      "reason": "Sealed C11 input changed BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb"
+    },
+    {
+      "name": "Missing whole-body dependency",
+      "status": "REJECTED",
+      "reason": "Sealed C11 input changed evidence/04A38/completion/w2/continuation-v11/whole-body-contracts-v1.json"
+    },
+    {
+      "name": "Altered original frozen provenance",
+      "status": "REJECTED",
+      "reason": "Sealed C11 input changed evidence/04A38/completion/w2/continuation-v11/compatibility-packet-v2.json"
+    },
+    {
+      "name": "Changed export metadata",
+      "status": "REJECTED",
+      "reason": "Sealed C11 input changed evidence/04A38/completion/w2/continuation-v11/inspection/packet-v2/Inspect38-Debug.json"
+    },
+    {
+      "name": "Unsupported W3/readiness stage",
+      "status": "REJECTED",
+      "reason": "Sealed C11 input changed evidence/04A38/completion/w2/continuation-v11/readiness-v1.json"
+    },
+    {
+      "name": "Dropped original branch/inline fragment",
+      "status": "REJECTED",
+      "reason": "Sealed C11 input changed evidence/04A38/completion/w2/continuation-v11/new-parent-fragment-crosswalk-v1.json"
+    },
+    {
+      "name": "Structurally missing actual internal compiled body",
+      "status": "REJECTED",
+      "reason": "Missing internal real constructed target"
+    },
+    {
+      "name": "Changed prior private pin",
+      "status": "REJECTED",
+      "reason": "Private preservation mismatch .test-rationalization-04A38.tmp/commands/w2c10-boxing-metadata-current-v1/command.json"
+    },
+    {
+      "name": "Missing prior private pin",
+      "status": "REJECTED",
+      "reason": ".test-rationalization-04A38.tmp/commands/w2c10-boxing-metadata-current-v1/command.json"
+    }
+  ],
+  "original_queries": 0
+}

@@ -1,0 +1,44 @@
+{
+  "rows": [
+    {
+      "before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/parallel-scan-proof-v3/fixtures/0.txt",
+        "bytes": 17,
+        "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+      },
+      "after": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/parallel-scan-proof-v3/fixtures/0.txt",
+        "bytes": 29,
+        "sha256": "862340991bdbc503da2f9433b77067c206f05c4c8d4c26db79c111ad09c310a2"
+      },
+      "recovered_before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/synthetic-control-preimages-v1/base-fixture0-recovered-v1.txt",
+        "bytes": 17,
+        "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+      },
+      "generator": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v4.py",
+        "bytes": 5742,
+        "sha256": "61c1a5b7af9058c7bb8a93c46f09df0f89555582080ea8b4da0ddfb5a80f77ca"
+      },
+      "observed_before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/parallel-scan-proof-v3/execution/3/input.json",
+        "bytes": 2513,
+        "sha256": "7c9aa67699d5723d1dfb3db8262ffa7f1e488f3743ec0994c1b0f0822db384dd"
+      },
+      "observed_after": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont11/parallel-scan-proof-v3/invalidated-execution/1/input.json",
+        "bytes": 1519,
+        "sha256": "aefb5b230d66822cb10815c8ec4f7c1c62523f4fdc57176f98a333b01f10a849"
+      },
+      "proof": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/parallel-scanner-base-equivalence-v1.json",
+        "bytes": 17924,
+        "sha256": "981c885efa1b8f33d5e32082b24bb87ba7725473c8015fe619712e862c6d77f6"
+      },
+      "classification": "DELIBERATE_CURRENT_SYNTHETIC_CONTROL_PRESTATE_RECOVERED_FROM_GENERATOR_AND_OBSERVED_HASH_NOT_PRE_EDIT",
+      "limitation": "The fixture was deliberately changed by the stale-cache rejection control. Its before bytes were not physically copied at that instant. This exact17-byte reconstruction is honestly synthetic recovery, not an original statistical/source preimage or a new oracle capture. Initial and changed input plans/results/streams remain unchanged."
+    }
+  ],
+  "original_queries": 0
+}

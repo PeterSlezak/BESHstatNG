@@ -1,0 +1,3 @@
+Friend Function LooksLikeHeaderRow(arr As Object(,), numericCols As Integer()) As Boolean
+        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeHeaderRow(arr.GetLength(0), numericCols, Function(row, column) TryGetDouble(arr(row, column)).HasValue)
+    End Function

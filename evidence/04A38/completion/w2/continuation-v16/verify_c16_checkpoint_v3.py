@@ -1,0 +1,29 @@
+"""Additive final v16 reader: unchanged v2 proofs plus two exact original-only identities."""
+import sys,json,hashlib,runpy,importlib.util
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[5];HERE=Path(__file__).resolve().parent
+sys.path.insert(0,str(HERE))
+AUTH={'evidence/04A38/completion/w2/continuation-v16/canonical-identity-status-v2.json': '0b93a047bd1f1feb514e9851223713b54430251a6e71c41849be5a5dd993f3ae', 'evidence/04A38/completion/w2/continuation-v16/copy_c16_review_union_v4.py': 'ba71ff19f1220665900da8b8fd9e1ec85a924e24f2cc1a71decc8ebd45c3fa84', 'evidence/04A38/completion/w2/continuation-v16/final/owner-review.md': '974e0e8d992032c1ce1e7f4b784c6d824ee16cb3e38f282a902d929f338a6495', 'evidence/04A38/completion/w2/continuation-v16/historical-ownership-v2.json': '47b3216e7e05b79f778e9aa97803362dc1ec3052a07b52eb1e7f3bdc47b434e5', 'evidence/04A38/completion/w2/continuation-v16/new-closures-final-v2.json': '2252b88df4faaa7418185e32aab67590adedac2b8613b020a2ebafb00783ee4f', 'evidence/04A38/completion/w2/continuation-v16/new-parent-fragment-crosswalk-v2.json': 'a11554b6c0600496e50fdb21026d962d73b6c53bf8cefc3d96e469d3269a9f67', 'evidence/04A38/completion/w2/continuation-v16/next-family-handover-v2.json': '4df382d2764aeb8c7782325eb726f72f8b8f67370082ba8bd355bfbfc4f9c35c', 'evidence/04A38/completion/w2/continuation-v16/original-fragment-parent-crosswalk-v2.json': '56b5850261d3bdce646610ffbca0c0614a079860428b5b42b76de30ca7167c22', 'evidence/04A38/completion/w2/continuation-v16/original-only-callback-addendum-v1.json': '2ebbcf3087b98e619312996bf9525e903b97d097d6b117fa8b8da94aea0c440e', 'evidence/04A38/completion/w2/continuation-v16/original-only-nested-reconciliation-correction-v1.json': '9bf416773833b151539b1eee08f1dd4f611a36ec9a30281d095154de16ab0233', 'evidence/04A38/completion/w2/continuation-v16/owner-review-v2.md': '974e0e8d992032c1ce1e7f4b784c6d824ee16cb3e38f282a902d929f338a6495', 'evidence/04A38/completion/w2/continuation-v16/ownership-summary-v2.json': '965c5f13438fe822f03b84ca8aa385b2b892feabc8705c923ae0a473910ef20f', 'evidence/04A38/completion/w2/continuation-v16/prepare_private_manifest_v3.py': '22374b57c4ccea863ca83a994ac67cc63cc31ab5c4c5f4f995f2cacb011682da', 'evidence/04A38/completion/w2/continuation-v16/publish_parts_v16_v5.py': 'c05018b5d74eb90292aa80babfeb9f459437333f6e368176597981286ab2e3d6', 'evidence/04A38/completion/w2/continuation-v16/readiness-v2.json': '2ef1021c2d78c65299348eea343a946617d3bbe561048e20033d8710f86cf771', 'evidence/04A38/completion/w2/continuation-v16/reconcile_original_only_callbacks_v1.py': '3ffbd3eaca0c5553ec1d59b577a6cc3be93932d9fcbcf29e207112dba5073a38', 'evidence/04A38/completion/w2/continuation-v16/reconcile_ownership_addendum_v1.py': 'eb3ec89a07f151a21c848f022d312354cc71c6f6b47e6dd21eea780b976a2c23', 'evidence/04A38/completion/w2/continuation-v16/remaining-work-queue-v2.json': '6f46c6473b615e0ce267a3e367371ebb72e330a7487ff43e0c9099e9060c1eb5', 'evidence/04A38/completion/w2/continuation-v16/review-seal-v2.json': '22ee98f0953123a6823555f1698be213d686a73cd2ad1e537444899313b23b7f', 'evidence/04A38/completion/w2/continuation-v16/seal_controls_v16_v3.py': '6e1828e1cbaf21ac54949650bc1392a408bf85015567f9d41b3ac1aa96d417a0', 'evidence/04A38/completion/w2/continuation-v16/verify_c16_checkpoint_template_v3.py': '5f85598a325dedee001633a8d5acb2c65600eff8a734161b6eaee99e285f0217', 'evidence/04A38/completion/w2/continuation-v16/verify_c16_checkpoint_v2.py': '72136bdb3663e2847296d2130e50a5670c91c6ea5c5b7fd917dd2ed0c0a567cb', 'evidence/04A38/completion/w2/continuation-v16/verify_c16_publication_v4.py': '8ec352b4d54328c387e6dd41ab394651a7b7f6457e6e19fd7ebc961974d3d1bd'}
+def compute(root=ROOT,overrides=None,predecessor=True):
+ root=Path(root);overrides=overrides or {}
+ for name,digest in AUTH.items():
+  if name in overrides and overrides[name] is None:raise FileNotFoundError(name)
+  data=overrides[name] if name in overrides else (root/name).read_bytes()
+  assert hashlib.sha256(data).hexdigest()==digest,'Final additive v16 source/evidence changed '+name
+ spec=importlib.util.spec_from_file_location('c16_immutable_sealed_base_v2',HERE/'verify_c16_checkpoint_v2.py');base=importlib.util.module_from_spec(spec);spec.loader.exec_module(base)
+ result=base.compute(root,overrides,predecessor)
+ for name in ['reconcile_original_only_callbacks_v1.py','reconcile_ownership_addendum_v1.py']:runpy.run_path(str(HERE/name),run_name='__c16_final_original_callback_proof__')
+ load=lambda name:json.loads((HERE/name).read_bytes())
+ history=load('historical-ownership-v2.json')['members'];new=load('new-closures-final-v2.json')
+ assert len(history)==704 and sum(bool(h['proof']) for h in history)==607
+ assert (new['historical_new'],new['current_new'],new['distinct_support_new'])==(70,69,9)
+ assert len(load('remaining-work-queue-v2.json')['members'])==97
+ assert load('ownership-summary-v2.json')['historical']==dict(total=704,closed=607,OPEN=97)
+ ledger=load('canonical-identity-status-v2.json')['entries'];assert len(ledger)==1733
+ assert sum(r['population']=='historical' and r['supported'] for r in ledger)==607
+ assert all(r['supported']==(r['transition']!='OPEN') for r in ledger)
+ result.update(historical_supported=607,historical_OPEN=97,historical_new=70,current_new=69,support_new=9,original_only_callbacks=3,final_review='final/owner-review.md',final_ledger='canonical-identity-status-v2.json',final_queue='remaining-work-queue-v2.json',qualification='All old seals/readers and nonfinal publication versions are preserved. Two independently proved original-only callbacks correct the final separate identity dispositions; no production/test source or campaign changed.')
+ return result
+if __name__=='__main__':
+ try:print(json.dumps(compute()),flush=True)
+ except (AssertionError,ValueError,OSError,KeyError,TypeError) as e:print(json.dumps(dict(status='NOT_READY_04A38',error=str(e))),flush=True);raise SystemExit(1)

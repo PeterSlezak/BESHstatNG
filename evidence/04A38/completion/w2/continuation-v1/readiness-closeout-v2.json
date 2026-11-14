@@ -1,0 +1,42 @@
+{
+  "status": "NOT_READY_04A38",
+  "recorded_utc": "2026-11-10T10:20:44.702743+00:00",
+  "W1_G_GATE": "APPROVAL_G_COMBINED_GATE_PASS_PREVIOUSLY_COMPLETED_PRESERVED",
+  "W2": "IN_PROGRESS",
+  "W3": "NOT_STARTED",
+  "historical_proof_supported": 60,
+  "historical_OPEN": 644,
+  "current": {
+    "total": 712,
+    "closed": 58,
+    "OPEN": 654
+  },
+  "support": {
+    "raw": 325,
+    "distinct": 303,
+    "fully_reconciled": 0
+  },
+  "fragments": {
+    "total": 15961,
+    "branches": 3749,
+    "inline": 1102,
+    "covered_by_reviewed_parent": 292
+  },
+  "new_original_queries": 0,
+  "owner_decision_needed": false,
+  "reason": "Remaining whole-body/support/statement/inline migration and boundary review is not complete; current text policy investigation remains OPEN. This is a continuation handover, not acceptance or an authority stop.",
+  "test_validation": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/validation.json",
+    "bytes": 75012,
+    "sha256": "b15f72f2ff63b9103898bc9c856008402037986d17311916df709ff5a024d8da"
+  },
+  "new_nonpass_disclosure": "Python adds one authorized PlotData source-pin failure occurrence; inherited SPC source audit changed ERROR to FAIL due unordered set iteration. Current runtime text control has8 mismatches/config. All old failures/attempts retained.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "golden": "NOT_GOLDEN"
+  }
+}

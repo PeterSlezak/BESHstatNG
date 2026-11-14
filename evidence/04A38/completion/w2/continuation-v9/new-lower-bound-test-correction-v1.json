@@ -1,0 +1,25 @@
+{
+  "before": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 76027,
+    "sha256": "817c4d14b4c53a859f6474f71232634c22b80da33c4b25ff50904211060e9668"
+  },
+  "preimage": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/attempts/new-lower-bound-test-before-v1.vb.txt",
+    "bytes": 76027,
+    "sha256": "817c4d14b4c53a859f6474f71232634c22b80da33c4b25ff50904211060e9668"
+  },
+  "after": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 76206,
+    "sha256": "6d75ee8af5aef784404ff0e6ecdcedd8cc7bc2ab1187e6b21d2d9d72a4cca74f"
+  },
+  "reason": "WindowsSpreadsheetTransport.ReadUdfMatrix calls existing CopyValues, which normalizes source Array lower bounds before strict-vector callbacks. Only the new mistaken assertion changes; existing import or statistical behavior is untouched.",
+  "source_authority": {
+    "path": "BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb",
+    "bytes": 10860,
+    "sha256": "a2a5e1c896b36d8fcfae43c4310e55fd6cc2f8384df30fd090688620e960b0cb"
+  },
+  "historical_assertions_changed": 0,
+  "production_changes": 0
+}

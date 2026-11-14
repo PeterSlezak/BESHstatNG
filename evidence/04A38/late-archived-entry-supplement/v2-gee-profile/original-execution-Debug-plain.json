@@ -1,0 +1,56 @@
+{
+  "status": "ORIGINAL_EXECUTED_BEFORE_CURRENT",
+  "configuration": "Debug",
+  "mode": "plain",
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/input-seal.json",
+    "bytes": 5357,
+    "sha256": "447f63197515c8ab460900da32a137f586d032e68d850d60325da87097ed2ba8"
+  },
+  "executable": {
+    "name": "GeeCapture38-plain-v2.exe",
+    "bytes": 36864,
+    "sha256": "717529f816ee087446797a6e93481ad911279ff78035db89aeca52a425ba00e5"
+  },
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\GeeCapture38-plain-v2.exe",
+      "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Debug.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Debug\\plain-v2\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\original-results\\Debug\\plain-v2\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.3927897999965353,
+    "stdout_sha256": "47d108601741f91ef808d99798501325fba817fc4a0d2d644e387fd91340ad5f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Debug/plain-v2/execution.json",
+      "bytes": 1020,
+      "sha256": "9d7956cfddddd9c8b9ca00d90b6a8185df6a95073abf46ceb43d8ba9a4113923"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Debug/plain-v2/results.tsv",
+      "bytes": 68076,
+      "sha256": "a30aa1a82f60fbf2cca762ece3bf79fbaf24291c5e6709e6896ef1163b35513b"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Debug/plain-v2/results.tsv.sessions.json",
+      "bytes": 27033,
+      "sha256": "4c780fd65355838417f801c2c3e814e3024e3de1d24e6768c4e808885c913731"
+    }
+  ],
+  "recorder_tooling_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/recorder-tooling-seal.json",
+    "bytes": 1761,
+    "sha256": "9e668e6409f095476bd85cc953fe64046235dfc4ade56bc3b41596afb8eded97"
+  },
+  "current_executions": 0
+}

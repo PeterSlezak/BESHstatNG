@@ -1,0 +1,3436 @@
+{
+  "source_support": {
+    "support_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SUPPORT/ClassBlock@2607:373",
+    "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+    "owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+    "kind": "ClassBlock",
+    "span_start": 2607,
+    "span_length": 373,
+    "start_line": 50,
+    "end_line": 57,
+    "declaration": "Private Class PsmUdfHandle",
+    "declaration_sha256": "83c6f6a37edf5c3456c9ce5b6dbbf09320fbfa5bf0d3339168c6c461596329ad",
+    "already_in_primary_population": false
+  },
+  "original_support": {
+    "support_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SUPPORT/ClassBlock@2558:366",
+    "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+    "owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+    "kind": "ClassBlock",
+    "span_start": 2558,
+    "span_length": 366,
+    "start_line": 50,
+    "end_line": 57,
+    "declaration": "Private Class PsmUdfHandle",
+    "declaration_sha256": "83c6f6a37edf5c3456c9ce5b6dbbf09320fbfa5bf0d3339168c6c461596329ad",
+    "already_in_primary_population": false
+  },
+  "current_whole_declaration": "Private Class PsmUdfHandle\r\n            Public Property Handle As String\r\n            Public Property Data As psmData\r\n            Public Property FitOptions As PsmComprehensiveFitOptions\r\n            Public Property Result As PsmComprehensiveResult\r\n            Public Property Alpha As Double = 0.05R\r\n            Public Property CreatedUtc As DateTime\r\n        End Class",
+  "original_whole_declaration": "Private Class PsmUdfHandle\n            Public Property Handle As String\n            Public Property Data As psmData\n            Public Property FitOptions As PsmComprehensiveFitOptions\n            Public Property Result As PsmComprehensiveResult\n            Public Property Alpha As Double = 0.05R\n            Public Property CreatedUtc As DateTime\n        End Class",
+  "source": {
+    "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+    "bytes": 48660,
+    "sha256": "816b8ef9f5b3ab19e0ac873e667e6762d7728aa4a5c908cb037733bd79da6bda"
+  },
+  "original_source": {
+    "path": "evidence/04A38/preedit/source/PropensityScoreUDFs.vb.txt",
+    "bytes": 59609,
+    "sha256": "7d3d8bac3beb5211b294f77c350f416761a42e2ae86eac4dea23e3ece4436840"
+  },
+  "current_view": "RAW_BYTES",
+  "original_view": "EXPLICIT_CRLF_TO_LF_IDENTITY",
+  "properties": [
+    {
+      "support_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle|SUPPORT/PropertyStatement@2647:32",
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle",
+      "kind": "PropertyStatement",
+      "span_start": 2647,
+      "span_length": 32,
+      "start_line": 51,
+      "end_line": 51,
+      "declaration": "Public Property Handle As String",
+      "declaration_sha256": "428d31734a2527c2088845a5842807735764a3ce995c4843f92e4cc0923ba737",
+      "already_in_primary_population": false
+    },
+    {
+      "support_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle|SUPPORT/PropertyStatement@2693:31",
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle",
+      "kind": "PropertyStatement",
+      "span_start": 2693,
+      "span_length": 31,
+      "start_line": 52,
+      "end_line": 52,
+      "declaration": "Public Property Data As psmData",
+      "declaration_sha256": "8c772b6690e1daed1890e31eb56525aa8b5fba4307eb470f654d8345dcfb5ed7",
+      "already_in_primary_population": false
+    },
+    {
+      "support_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle|SUPPORT/PropertyStatement@2738:56",
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle",
+      "kind": "PropertyStatement",
+      "span_start": 2738,
+      "span_length": 56,
+      "start_line": 53,
+      "end_line": 53,
+      "declaration": "Public Property FitOptions As PsmComprehensiveFitOptions",
+      "declaration_sha256": "0f14a0eaec6bd1483742ddcca2c31a4d259f6ce6b9a5ff0bb7af27ee2a752c04",
+      "already_in_primary_population": false
+    },
+    {
+      "support_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle|SUPPORT/PropertyStatement@2808:48",
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle",
+      "kind": "PropertyStatement",
+      "span_start": 2808,
+      "span_length": 48,
+      "start_line": 54,
+      "end_line": 54,
+      "declaration": "Public Property Result As PsmComprehensiveResult",
+      "declaration_sha256": "d5f0c45ad92639ff99ded18211cb018a960be1a28ac80073cb33db2f72143ce1",
+      "already_in_primary_population": false
+    },
+    {
+      "support_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle|SUPPORT/PropertyStatement@2870:39",
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle",
+      "kind": "PropertyStatement",
+      "span_start": 2870,
+      "span_length": 39,
+      "start_line": 55,
+      "end_line": 55,
+      "declaration": "Public Property Alpha As Double = 0.05R",
+      "declaration_sha256": "1f81b0a18f0e68fe4909bd37318424ac63cfc4c2706b06d8b3b080dc7123e909",
+      "already_in_primary_population": true
+    },
+    {
+      "support_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle|SUPPORT/PropertyStatement@2923:38",
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle",
+      "kind": "PropertyStatement",
+      "span_start": 2923,
+      "span_length": 38,
+      "start_line": 56,
+      "end_line": 56,
+      "declaration": "Public Property CreatedUtc As DateTime",
+      "declaration_sha256": "9eb83363f4e3f3b0b888f5dd8c7c6085e364fac056d7afc300e3ee25dc0fd9c0",
+      "already_in_primary_population": false
+    }
+  ],
+  "configurations": [
+    {
+      "configuration": "Debug",
+      "current_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+        "root_owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedPrivate",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_Handle",
+            "type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Data",
+            "type": "BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_FitOptions",
+            "type": "BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Result",
+            "type": "BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Alpha",
+            "type": "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_CreatedUtc",
+            "type": "System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "original_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+        "root_owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedPrivate",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_Handle",
+            "type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Data",
+            "type": "BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_FitOptions",
+            "type": "BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Result",
+            "type": "BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Alpha",
+            "type": "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_CreatedUtc",
+            "type": "System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "all_methods": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Handle()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Handle",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "d68de2d2f4d93a18d36952fcbb9a6dd64c4b23a0fd142b3a2dd0ffaef1c734eb",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Handle:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Handle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Handle",
+          "parameter_types": [
+            "System.String"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "6f8f4c7799ce52f9bbd3f08e18ec65b7b1590527d22ca722b920ce528795c40a",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Handle:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Data()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Data",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "8c98fa88dd69555486bd66c2b3ebf59faa1a17e249ca7974fcade9d3856cf17c",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Data:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Data(BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Data",
+          "parameter_types": [
+            "BESHStatNG.psmData"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "90795dff666cb5d6fac6b47985208261299cc9bb9ee497944216754085da26fb",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Data:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_FitOptions()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_FitOptions",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "bad78d90cd11def5147d0c37167d7d585fb64581461cbe5638c26051c787a441",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._FitOptions:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_FitOptions(BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_FitOptions",
+          "parameter_types": [
+            "BESHStatNG.CausalInference.PsmComprehensiveFitOptions"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0e19862c3e468569d8b5720d66b1837bb86ebf345d6858b595f5f941e02319ca",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._FitOptions:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Result()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Result",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "e0b6f6dbf0c50bd45d777eb03887c02f0c4395fc1d9ecbf7051b90c0798c3b8f",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Result:BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Result(BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Result",
+          "parameter_types": [
+            "BESHStatNG.CausalInference.PsmComprehensiveResult"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "46cb1d61ab630fa3e9669163ca2ff89dd71ed195624df15062636d8ee371a84e",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Result:BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Alpha()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Alpha",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "58f0b4b37297ece0705da0dab64897506727ee0df5e954aa5a9995b1f4013994",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Alpha:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Alpha",
+          "parameter_types": [
+            "System.Double"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "b0fbfb9c3ea1792319d24564accfeeb1a80e7d433adfd8a55ec8a9af36daba39",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Alpha:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_CreatedUtc()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_CreatedUtc",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "3e6c6a5a15619407f55cbf648600a05a21375428b1bd3139f89e2e4cfca86d45",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._CreatedUtc:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_CreatedUtc(System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_CreatedUtc",
+          "parameter_types": [
+            "System.DateTime"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0850aa5597dfd0acf4535dc459075018cf88dba1c27eef79d471489d381b3686",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._CreatedUtc:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0f78f9c92a0069ab7ee5696b5484d8639ee835581e99229970bf861005a37fbe",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "3FA999999999999A"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "original_methods": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Handle()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Handle",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "43e2d5a893bf14b6f8a5d2027c2f433d791607d41d60935284d9e6bc5cbd3b63",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Handle:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Handle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Handle",
+          "parameter_types": [
+            "System.String"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "ddea98353e40a4b8ab4ca2f552ebc2db489d28eb0f1d8f7b350c79e2a81da95a",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Handle:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Data()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Data",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "d68de2d2f4d93a18d36952fcbb9a6dd64c4b23a0fd142b3a2dd0ffaef1c734eb",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Data:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Data(BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Data",
+          "parameter_types": [
+            "BESHStatNG.psmData"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "6f8f4c7799ce52f9bbd3f08e18ec65b7b1590527d22ca722b920ce528795c40a",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Data:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_FitOptions()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_FitOptions",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "8c98fa88dd69555486bd66c2b3ebf59faa1a17e249ca7974fcade9d3856cf17c",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._FitOptions:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_FitOptions(BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_FitOptions",
+          "parameter_types": [
+            "BESHStatNG.CausalInference.PsmComprehensiveFitOptions"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "90795dff666cb5d6fac6b47985208261299cc9bb9ee497944216754085da26fb",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._FitOptions:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Result()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Result",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "bad78d90cd11def5147d0c37167d7d585fb64581461cbe5638c26051c787a441",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Result:BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Result(BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Result",
+          "parameter_types": [
+            "BESHStatNG.CausalInference.PsmComprehensiveResult"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0e19862c3e468569d8b5720d66b1837bb86ebf345d6858b595f5f941e02319ca",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Result:BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Alpha()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Alpha",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "e0b6f6dbf0c50bd45d777eb03887c02f0c4395fc1d9ecbf7051b90c0798c3b8f",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Alpha:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Alpha",
+          "parameter_types": [
+            "System.Double"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "46cb1d61ab630fa3e9669163ca2ff89dd71ed195624df15062636d8ee371a84e",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Alpha:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_CreatedUtc()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_CreatedUtc",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "58f0b4b37297ece0705da0dab64897506727ee0df5e954aa5a9995b1f4013994",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._CreatedUtc:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_CreatedUtc(System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_CreatedUtc",
+          "parameter_types": [
+            "System.DateTime"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "b0fbfb9c3ea1792319d24564accfeeb1a80e7d433adfd8a55ec8a9af36daba39",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._CreatedUtc:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "40763b309e666475986a6b98757a810e253578075e1c43f511ae6d9da4b98546",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "3FA999999999999A"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "all_shipping_setter_callers": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 86,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Handle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 89,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Data(BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 92,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_FitOptions(BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 95,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Result(BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 98,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 101,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_CreatedUtc(System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "instruction": 4,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        }
+      ],
+      "fit_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "member_name": "PS_FIT",
+        "parameter_types": [
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Public, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "e5fccee7681844accb273f473db0a2b918a8d409b512edb7e31423aeffda073d",
+        "type_initializer": true,
+        "nonliteral_static_fields": 1,
+        "locals": [
+          "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [
+          {
+            "flags": "Clause",
+            "try_start": 7,
+            "try_end": 106,
+            "handler_start": 106,
+            "handler_end": 115,
+            "filter_start": null,
+            "catch_type": "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          }
+        ],
+        "instructions": [
+          {
+            "op": "call",
+            "operand": "METHOD:ExcelDna.Integration.ExcelDnaUtil @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe.IsInFunctionWizard()"
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              7
+            ]
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:PS_FIT (editing...)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              115
+            ]
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 5
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 6
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 7
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 11
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 12
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildFitOptions(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldc.r8",
+            "operand": "3FA999999999999A"
+          },
+          {
+            "op": "stloc.3",
+            "operand": null
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 13
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 3
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryParseAlpha(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 7
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 7
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              34
+            ]
+          },
+          {
+            "op": "ldc.i4.s",
+            "operand": 36
+          },
+          {
+            "op": "box",
+            "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "leave",
+            "operand": [
+              115
+            ]
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.2",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.3",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 4
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_StandardOptions()"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.CausalInference.PsmOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ScoreMethod()"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 8
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 9
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 10
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 14
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 4
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetPsmData(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.CausalInference.PsmScoreMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.psmData& @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "ldc.i4.0",
+            "operand": null
+          },
+          {
+            "op": "ceq",
+            "operand": null
+          },
+          {
+            "op": "stloc.s",
+            "operand": 8
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 8
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              68
+            ]
+          },
+          {
+            "op": "ldc.i4.s",
+            "operand": 15
+          },
+          {
+            "op": "box",
+            "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "leave",
+            "operand": [
+              115
+            ]
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Input()"
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.CausalInference.PsmComprehensiveBackend @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Fit(BESHStatNG.CausalInference.PsmInputData @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:PSM:"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.NewGuid()"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 9
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 9
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:N"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Concat(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 6
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs._psmCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 6
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 6
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Handle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Data(BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_FitOptions(BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Result(BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.3",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_UtcNow()"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_CreatedUtc(System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.set_Item(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 6
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "leave",
+            "operand": [
+              115
+            ]
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.ProjectData @ Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a.SetProjectError(System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 10
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:BESH.PS.FIT"
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 10
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.UDFhelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LoggedUdfExceptionText(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.ProjectData @ Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a.ClearProjectError()"
+          },
+          {
+            "op": "leave",
+            "operand": [
+              115
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "cache_insertion_instruction": 102,
+      "cctor": {
+        "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "member_name": ".cctor",
+        "parameter_types": [],
+        "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "fd04637586867abf8c6550dc554a43f8119cedc38c9dd7b7ac9207031109faac",
+        "type_initializer": true,
+        "nonliteral_static_fields": 1,
+        "locals": [],
+        "init_locals": false,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "call",
+            "operand": "METHOD:System.StringComparer @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_OrdinalIgnoreCase()"
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Collections.Generic.IEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stsfld",
+            "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs._psmCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "original_cctor": {
+        "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "member_name": ".cctor",
+        "parameter_types": [],
+        "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "53d37a4cec70f2797484fdfc555f86fdd1a40bc20a14753c1cb9ea0790f2a30c",
+        "type_initializer": true,
+        "nonliteral_static_fields": 1,
+        "locals": [],
+        "init_locals": false,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "call",
+            "operand": "METHOD:System.StringComparer @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_OrdinalIgnoreCase()"
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Collections.Generic.IEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stsfld",
+            "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs._psmCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "module_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "root_owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_psmCache",
+            "type": "System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "original_module_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "root_owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_psmCache",
+            "type": "System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      }
+    },
+    {
+      "configuration": "Release",
+      "current_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+        "root_owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedPrivate",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_Handle",
+            "type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Data",
+            "type": "BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_FitOptions",
+            "type": "BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Result",
+            "type": "BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Alpha",
+            "type": "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_CreatedUtc",
+            "type": "System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "original_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+        "root_owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedPrivate",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_Handle",
+            "type": "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Data",
+            "type": "BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_FitOptions",
+            "type": "BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Result",
+            "type": "BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_Alpha",
+            "type": "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          },
+          {
+            "name": "_CreatedUtc",
+            "type": "System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private",
+            "is_static": false,
+            "is_readonly": false,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "all_methods": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Handle()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Handle",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "07d7d1a988cfb57976245fa73ae2a0bbd357d61c822108b2c631b27f46bdff87",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Handle:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Handle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Handle",
+          "parameter_types": [
+            "System.String"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "6f8f4c7799ce52f9bbd3f08e18ec65b7b1590527d22ca722b920ce528795c40a",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Handle:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Data()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Data",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "e97d09e493ac54d23f6a04851bac3b6ec9e96a8428cc027d1d09993646b99abd",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Data:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Data(BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Data",
+          "parameter_types": [
+            "BESHStatNG.psmData"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "90795dff666cb5d6fac6b47985208261299cc9bb9ee497944216754085da26fb",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Data:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_FitOptions()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_FitOptions",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "56bb6a4e1ae86d73c7085aabee8cea8f17796310c6ed2fb48d79f9318f2d66da",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._FitOptions:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_FitOptions(BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_FitOptions",
+          "parameter_types": [
+            "BESHStatNG.CausalInference.PsmComprehensiveFitOptions"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0e19862c3e468569d8b5720d66b1837bb86ebf345d6858b595f5f941e02319ca",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._FitOptions:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Result()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Result",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "1d6761ece732bbcbc73bfdfe8bb1686867441654a0ae5bcdf9d470ea054a2385",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Result:BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Result(BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Result",
+          "parameter_types": [
+            "BESHStatNG.CausalInference.PsmComprehensiveResult"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "46cb1d61ab630fa3e9669163ca2ff89dd71ed195624df15062636d8ee371a84e",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Result:BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Alpha()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Alpha",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "698d75eea3fe33e950b87247429fa2fa7ded10e217bdafa2add909fe9f4a0089",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Alpha:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Alpha",
+          "parameter_types": [
+            "System.Double"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "b0fbfb9c3ea1792319d24564accfeeb1a80e7d433adfd8a55ec8a9af36daba39",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Alpha:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_CreatedUtc()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_CreatedUtc",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "fcfa875ad3de639dfb3f691510a05c4690c93726945ff5d73d7010c424a658d7",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._CreatedUtc:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_CreatedUtc(System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_CreatedUtc",
+          "parameter_types": [
+            "System.DateTime"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0850aa5597dfd0acf4535dc459075018cf88dba1c27eef79d471489d381b3686",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._CreatedUtc:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "100bd2bff2a3d0eb22b6f13a451fa2082748f36e55b8bb133c71b31726476a34",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "3FA999999999999A"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "original_methods": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Handle()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Handle",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "61770cc707115dff7339cd2893d8950d79c0293c199978197a9346713e296428",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Handle:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Handle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Handle",
+          "parameter_types": [
+            "System.String"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "ddea98353e40a4b8ab4ca2f552ebc2db489d28eb0f1d8f7b350c79e2a81da95a",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Handle:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Data()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Data",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "07d7d1a988cfb57976245fa73ae2a0bbd357d61c822108b2c631b27f46bdff87",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Data:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Data(BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Data",
+          "parameter_types": [
+            "BESHStatNG.psmData"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "6f8f4c7799ce52f9bbd3f08e18ec65b7b1590527d22ca722b920ce528795c40a",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Data:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_FitOptions()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_FitOptions",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "e97d09e493ac54d23f6a04851bac3b6ec9e96a8428cc027d1d09993646b99abd",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._FitOptions:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_FitOptions(BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_FitOptions",
+          "parameter_types": [
+            "BESHStatNG.CausalInference.PsmComprehensiveFitOptions"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "90795dff666cb5d6fac6b47985208261299cc9bb9ee497944216754085da26fb",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._FitOptions:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Result()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Result",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "56bb6a4e1ae86d73c7085aabee8cea8f17796310c6ed2fb48d79f9318f2d66da",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Result:BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Result(BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Result",
+          "parameter_types": [
+            "BESHStatNG.CausalInference.PsmComprehensiveResult"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0e19862c3e468569d8b5720d66b1837bb86ebf345d6858b595f5f941e02319ca",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Result:BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Alpha()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_Alpha",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "1d6761ece732bbcbc73bfdfe8bb1686867441654a0ae5bcdf9d470ea054a2385",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Alpha:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_Alpha",
+          "parameter_types": [
+            "System.Double"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "46cb1d61ab630fa3e9669163ca2ff89dd71ed195624df15062636d8ee371a84e",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._Alpha:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_CreatedUtc()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "get_CreatedUtc",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "698d75eea3fe33e950b87247429fa2fa7ded10e217bdafa2add909fe9f4a0089",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._CreatedUtc:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_CreatedUtc(System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": "set_CreatedUtc",
+          "parameter_types": [
+            "System.DateTime"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "b0fbfb9c3ea1792319d24564accfeeb1a80e7d433adfd8a55ec8a9af36daba39",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle._CreatedUtc:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "c4ef409251f9bcdb6545ca28783767fbc9bd2eab776822e9732e5fb8345ca172",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "3FA999999999999A"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "all_shipping_setter_callers": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 76,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Handle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 79,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Data(BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 82,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_FitOptions(BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 85,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Result(BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 88,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "instruction": 91,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_CreatedUtc(System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "instruction": 4,
+          "target": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        }
+      ],
+      "fit_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_FIT(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "member_name": "PS_FIT",
+        "parameter_types": [
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object",
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Public, Static",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "a784728c0603d7439162f4bc6386c6a020cb0fca1def2ccdcf9fabe2f2c69cb3",
+        "type_initializer": true,
+        "nonliteral_static_fields": 1,
+        "locals": [
+          "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+          "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        ],
+        "init_locals": true,
+        "exceptions": [
+          {
+            "flags": "Clause",
+            "try_start": 5,
+            "try_end": 96,
+            "handler_start": 96,
+            "handler_end": 105,
+            "filter_start": null,
+            "catch_type": "System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          }
+        ],
+        "instructions": [
+          {
+            "op": "call",
+            "operand": "METHOD:ExcelDna.Integration.ExcelDnaUtil @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe.IsInFunctionWizard()"
+          },
+          {
+            "op": "brfalse",
+            "operand": [
+              5
+            ]
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:PS_FIT (editing...)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              105
+            ]
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 5
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 6
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 7
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 11
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 12
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildFitOptions(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.1",
+            "operand": null
+          },
+          {
+            "op": "ldc.r8",
+            "operand": "3FA999999999999A"
+          },
+          {
+            "op": "stloc.2",
+            "operand": null
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 13
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 2
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryParseAlpha(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              28
+            ]
+          },
+          {
+            "op": "ldc.i4.s",
+            "operand": 36
+          },
+          {
+            "op": "box",
+            "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "leave",
+            "operand": [
+              105
+            ]
+          },
+          {
+            "op": "ldnull",
+            "operand": null
+          },
+          {
+            "op": "stloc.3",
+            "operand": null
+          },
+          {
+            "op": "ldarg.0",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.2",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.3",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 4
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_StandardOptions()"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.CausalInference.PsmOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ScoreMethod()"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 8
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 9
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 10
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldarg.s",
+            "operand": 14
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 3
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetPsmData(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.CausalInference.PsmScoreMethod @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.psmData& @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              58
+            ]
+          },
+          {
+            "op": "ldc.i4.s",
+            "operand": 15
+          },
+          {
+            "op": "box",
+            "operand": "TYPE:ExcelDna.Integration.ExcelError @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "leave",
+            "operand": [
+              105
+            ]
+          },
+          {
+            "op": "ldloc.3",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Input()"
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.CausalInference.PsmComprehensiveBackend @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Fit(BESHStatNG.CausalInference.PsmInputData @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 4
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:PSM:"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.NewGuid()"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 6
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 6
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:N"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.Guid @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Concat(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 5
+          },
+          {
+            "op": "ldsfld",
+            "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs._psmCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Handle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.3",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Data(BESHStatNG.psmData @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_FitOptions(BESHStatNG.CausalInference.PsmComprehensiveFitOptions @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 4
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Result(BESHStatNG.CausalInference.PsmComprehensiveResult @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "ldloc.2",
+            "operand": null
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_Alpha(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_UtcNow()"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_CreatedUtc(System.DateTime @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "callvirt",
+            "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.set_Item(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)"
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 5
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "leave",
+            "operand": [
+              105
+            ]
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.ProjectData @ Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a.SetProjectError(System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.s",
+            "operand": 7
+          },
+          {
+            "op": "ldstr",
+            "operand": "STRING:BESH.PS.FIT"
+          },
+          {
+            "op": "ldloc.s",
+            "operand": 7
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:BESHStatNG.UDFhelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.LoggedUdfExceptionText(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Exception @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "call",
+            "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.ProjectData @ Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a.ClearProjectError()"
+          },
+          {
+            "op": "leave",
+            "operand": [
+              105
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "cache_insertion_instruction": 92,
+      "cctor": {
+        "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "member_name": ".cctor",
+        "parameter_types": [],
+        "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "4cd37855516e0b6885d2bfb8207440563b8b127fff6670d525ddd086e8eb14fb",
+        "type_initializer": true,
+        "nonliteral_static_fields": 1,
+        "locals": [],
+        "init_locals": false,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "call",
+            "operand": "METHOD:System.StringComparer @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_OrdinalIgnoreCase()"
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Collections.Generic.IEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stsfld",
+            "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs._psmCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "original_cctor": {
+        "method": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "member_name": ".cctor",
+        "parameter_types": [],
+        "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "9c9eb7002f046ddc2ab7448dcff94dd56bb3884b6af4284409b888bac635ee77",
+        "type_initializer": true,
+        "nonliteral_static_fields": 1,
+        "locals": [],
+        "init_locals": false,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "call",
+            "operand": "METHOD:System.StringComparer @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_OrdinalIgnoreCase()"
+          },
+          {
+            "op": "newobj",
+            "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Collections.Generic.IEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+          },
+          {
+            "op": "stsfld",
+            "operand": "FIELD:BESHStatNG.WorksheetFunctions.PropensityScoreUDFs._psmCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "module_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "root_owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_psmCache",
+            "type": "System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "original_module_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "root_owner": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_psmCache",
+            "type": "System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.PropensityScoreUDFs+PsmUdfHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      }
+    }
+  ],
+  "Windows_owned": [
+    "ConcurrentDictionary",
+    "Guid",
+    "UtcNow",
+    "Alpha default and setter",
+    "DataObj/psmData",
+    "Excel errors/wizard/Err/context"
+  ],
+  "original_queries": 0
+}

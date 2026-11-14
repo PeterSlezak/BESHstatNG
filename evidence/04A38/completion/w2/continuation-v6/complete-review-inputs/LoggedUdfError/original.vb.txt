@@ -1,0 +1,13 @@
+s
+    Friend Function LoggedUdfError(functionName As String,
+                                   ex As Exception,
+                                   fallback As Object,
+                                   Optional uiPrefix As String = Nothing) As Object
+        Dim logMessage As String = functionName & " failed"
+        If Not String.IsNullOrWhiteSpace(uiPrefix) Then logMessage &= ". " & uiPrefix.Trim()
+
+        CoreServices.Logger.Error(ex, logMessage)
+
+        If String.IsNullOrWhiteSpace(uiPrefix) Then Return fallback
+
+        Return uiPrefix & ex.Messag

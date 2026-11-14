@@ -1,0 +1,810 @@
+Option Explicit On
+Option Strict On
+Option Infer On
+
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
+Imports System.Linq
+Imports BESHStatNG
+Imports BESHStatNG.SampleSizeCalc
+Imports BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38
+Imports BESHStatNG.ExcelCommon.UdfOutputTablesReports38
+Imports BESHStatNG.ExcelCommon.UdfRegressionOutputReports38
+
+Namespace ExcelCommon
+    Public NotInheritable Class AssumptionsUDFsReports38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function BuildGrubbsTable(alpha As Double, res As TestResult) As UdfReportProjection38
+            Dim t As New ResultTable
+            t.SetBody(New Object(,) {
+                {"Alpha", alpha},
+                {"Critical statistic", res.TestStatistics1},
+                {"Observed statistic", res.TestStatistics2},
+                {"Result", If(String.IsNullOrWhiteSpace(res.strSpecialInformation), "", res.strSpecialInformation)}
+            })
+            t.AddHeaderTopRow({"Grubbs Test", ""})
+            Return New UdfReportProjection38(t.ToOutputModel(), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function BuildRosnerTable(alpha As Double, outliers() As Double, addCaution As Boolean) As UdfReportProjection38
+            Dim nOut As Integer = If(outliers Is Nothing, 0, outliers.Length)
+            Dim rows As Integer = 3 + Math.Max(1, nOut)
+            Dim body(rows - 1, 1) As Object
+            body(0, 0) = "Alpha"
+            body(0, 1) = alpha
+            body(1, 0) = "Number of outliers"
+            body(1, 1) = nOut
+            body(2, 0) = "List of outliers"
+            If nOut > 0 Then
+                body(2, 1) = outliers(0)
+            Else
+                body(2, 1) = ""
+            End If
+            For i As Integer = 1 To nOut - 1
+                body(2 + i, 0) = ""
+                body(2 + i, 1) = outliers(i)
+            Next
+            If nOut = 0 Then
+                body(3, 0) = ""
+                body(3, 1) = ""
+            End If
+
+            Dim t As New ResultTable
+            t.SetBody(body)
+            t.AddHeaderTopRow({"Rosner Generalized ESD Test", ""})
+            If addCaution Then
+                t.AddFootnote("Interpret with caution for sample sizes below 25.")
+            End If
+            Return New UdfReportProjection38(t.ToOutputModel(), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+    End Class
+    Public NotInheritable Class MultivariateAnalysisUDFsReports38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function BuildClusterPreprocessingTable(varNames() As String, locations() As Double, scales() As Double,
+                                                        mode As Multivariate.ClusterStandardizationMode) As UdfReportProjection38
+            Dim varCount As Integer = 0
+            If varNames IsNot Nothing Then
+                varCount = varNames.Length
+            ElseIf locations IsNot Nothing Then
+                varCount = locations.Length
+            ElseIf scales IsNot Nothing Then
+                varCount = scales.Length
+            End If
+
+            If mode = Multivariate.ClusterStandardizationMode.None OrElse varCount <= 0 Then
+                Dim note(1, 1) As Object
+                note(0, 0) = "Setting"
+                note(0, 1) = "Value"
+                note(1, 0) = "Standardization"
+                note(1, 1) = "None"
+                Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(note), UdfReportPreparation38.Raw)
+            End If
+
+            Dim out(varCount, 2) As Object
+            out(0, 0) = "Variable"
+            out(0, 1) = "Location"
+            out(0, 2) = "Scale"
+            For i As Integer = 0 To varCount - 1
+                out(i + 1, 0) = If(varNames IsNot Nothing AndAlso i < varNames.Length, CType(varNames(i), Object), CType("X" & (i + 1).ToString(CultureInfo.InvariantCulture), Object))
+                out(i + 1, 1) = If(locations IsNot Nothing AndAlso i < locations.Length, CType(locations(i), Object), CType(Nothing, Object))
+                out(i + 1, 2) = If(scales IsNot Nothing AndAlso i < scales.Length, CType(scales(i), Object), CType(Nothing, Object))
+            Next
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function BuildRemovedRowsOutput(rowIds() As Integer, rowLabels() As String) As UdfReportProjection38
+            If rowIds Is Nothing OrElse rowIds.Length = 0 Then
+                Dim note(1, 1) As Object
+                note(0, 0) = "Setting"
+                note(0, 1) = "Value"
+                note(1, 0) = "Removed rows"
+                note(1, 1) = "None"
+                Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(note), UdfReportPreparation38.Raw)
+            End If
+
+            Dim hasLabels As Boolean = (rowLabels IsNot Nothing AndAlso rowLabels.Length = rowIds.Length)
+            Dim out(rowIds.Length, If(hasLabels, 2, 1)) As Object
+            out(0, 0) = "OriginalRow"
+            If hasLabels Then
+                out(0, 1) = "RowLabel"
+                out(0, 2) = "Reason"
+            Else
+                out(0, 1) = "Reason"
+            End If
+
+            For i As Integer = 0 To rowIds.Length - 1
+                out(i + 1, 0) = rowIds(i)
+                If hasLabels Then
+                    out(i + 1, 1) = rowLabels(i)
+                    out(i + 1, 2) = "Removed before fitting because at least one analysis variable was missing or non-finite."
+                Else
+                    out(i + 1, 1) = "Removed before fitting because at least one analysis variable was missing or non-finite."
+                End If
+            Next
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function BuildHierarchicalLeafOrderTable(result As Multivariate.HierarchicalClusterResult) As UdfReportProjection38
+            If result Is Nothing Then Return Nothing
+
+            Dim n As Integer = If(result.ActiveRowIndices Is Nothing, 0, result.ActiveRowIndices.Length)
+            Dim out(Math.Max(n, 1), 2) As Object
+            out(0, 0) = "DisplayOrder"
+            out(0, 1) = "OriginalRow"
+            out(0, 2) = "RowLabel"
+            If n = 0 Then
+                out(1, 0) = 1
+                out(1, 1) = Nothing
+                out(1, 2) = Nothing
+                Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+            End If
+
+            Dim labelByRow As New Dictionary(Of Integer, String)
+            If result.ActiveRowLabels IsNot Nothing AndAlso result.ActiveRowLabels.Length = n Then
+                For i As Integer = 0 To n - 1
+                    labelByRow(result.ActiveRowIndices(i)) = result.ActiveRowLabels(i)
+                Next
+            End If
+
+            Dim displayOrder() As Integer = If(result.LeafOrder IsNot Nothing AndAlso result.LeafOrder.Length = n,
+                                               result.LeafOrder,
+                                               result.ActiveRowIndices)
+            For i As Integer = 0 To n - 1
+                Dim rowId As Integer = displayOrder(i)
+                out(i + 1, 0) = i + 1
+                out(i + 1, 1) = rowId
+                out(i + 1, 2) = If(labelByRow.ContainsKey(rowId), CType(labelByRow(rowId), Object), CType("Obs " & rowId.ToString(CultureInfo.InvariantCulture), Object))
+            Next
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function BuildCaEigenOutput(model As Multivariate.CA, includeHeader As Boolean) As UdfReportProjection38
+            If model Is Nothing OrElse model.Eigenvalues Is Nothing Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+            Dim eigen() As Double = model.Eigenvalues
+            Dim pct(,) As Double = model.Percents
+            Dim out(eigen.Length - 1 + If(includeHeader, 1, 0), 3) As Object
+            Dim r0 As Integer = 0
+            If includeHeader Then
+                out(0, 0) = "Axis"
+                out(0, 1) = "Inertia"
+                out(0, 2) = "% Inertia"
+                out(0, 3) = "Cumulative % Inertia"
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To eigen.Length - 1
+                out(r0 + i, 0) = "Dim " & (i + 1).ToString(CultureInfo.InvariantCulture)
+                out(r0 + i, 1) = eigen(i)
+                out(r0 + i, 2) = pct(i, 0)
+                out(r0 + i, 3) = pct(i, 1)
+            Next
+
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function BuildCaOverviewOutput(idHeader As String,
+                                               names() As String,
+                                               quality() As Double,
+                                               mass() As Double,
+                                               distance() As Double,
+                                               inertia() As Double,
+                                               includeHeader As Boolean) As UdfReportProjection38
+            Dim n As Integer = names.Length
+            Dim out(n - 1 + If(includeHeader, 1, 0), 4) As Object
+            Dim r0 As Integer = 0
+            If includeHeader Then
+                out(0, 0) = idHeader
+                out(0, 1) = "Quality"
+                out(0, 2) = "Mass"
+                out(0, 3) = "Distance"
+                out(0, 4) = "Inertia"
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                out(r0 + i, 0) = names(i)
+                out(r0 + i, 1) = quality(i)
+                out(r0 + i, 2) = mass(i)
+                out(r0 + i, 3) = distance(i)
+                out(r0 + i, 4) = inertia(i)
+            Next
+
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function ResolveAvailableAxisCount(preferredAxisCount As Integer, valueSelector As Func(Of Integer, Double())) As Integer
+            If preferredAxisCount < 1 OrElse valueSelector Is Nothing Then Return 0
+            Dim available As Integer = 0
+            For axisIdx As Integer = 0 To preferredAxisCount - 1
+                Try
+                    Dim values() As Double = valueSelector(axisIdx)
+                    If values Is Nothing Then Exit For
+                    available += 1
+                Catch ex As Exception
+                    Exit For
+                End Try
+            Next
+            Return available
+        End Function
+
+        Public Shared Function BuildCaAxisMetricOutput(idHeader As String, names() As String, axisPrefix As String,
+                                                 axisCount As Integer, valueSelector As Func(Of Integer, Double()),
+                                                 includeHeader As Boolean) As UdfReportProjection38
+            Dim effectiveAxisCount As Integer = ResolveAvailableAxisCount(axisCount, valueSelector)
+            If effectiveAxisCount < 1 Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+
+            Dim n As Integer = names.Length
+            Dim out(n - 1 + If(includeHeader, 1, 0), effectiveAxisCount) As Object
+            Dim r0 As Integer = 0
+
+            If includeHeader Then
+                out(0, 0) = idHeader
+                For j As Integer = 0 To effectiveAxisCount - 1
+                    out(0, j + 1) = axisPrefix & (j + 1).ToString(CultureInfo.InvariantCulture)
+                Next
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                out(r0 + i, 0) = names(i)
+            Next
+
+            For j As Integer = 0 To effectiveAxisCount - 1
+                Dim values() As Double = valueSelector(j)
+                For i As Integer = 0 To n - 1
+                    out(r0 + i, j + 1) = values(i)
+                Next
+            Next
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function BuildMcaCategoryOverviewOutput(varNames() As String,
+                                                        categories() As String,
+                                                        quality() As Double,
+                                                        mass() As Double,
+                                                        distance() As Double,
+                                                        inertia() As Double,
+                                                        includeHeader As Boolean) As UdfReportProjection38
+            Dim n As Integer = categories.Length
+            Dim out(n - 1 + If(includeHeader, 1, 0), 5) As Object
+            Dim r0 As Integer = 0
+            If includeHeader Then
+                out(0, 0) = "Variable"
+                out(0, 1) = "Category"
+                out(0, 2) = "Quality"
+                out(0, 3) = "Mass"
+                out(0, 4) = "Distance"
+                out(0, 5) = "Inertia"
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                out(r0 + i, 0) = varNames(i)
+                out(r0 + i, 1) = categories(i)
+                out(r0 + i, 2) = quality(i)
+                out(r0 + i, 3) = mass(i)
+                out(r0 + i, 4) = distance(i)
+                out(r0 + i, 5) = inertia(i)
+            Next
+
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function BuildMcaCategoryAxisMetricOutput(varNames() As String, categories() As String, axisPrefix As String, axisCount As Integer,
+                                                          valueSelector As Func(Of Integer, Double()), includeHeader As Boolean) As UdfReportProjection38
+            Dim effectiveAxisCount As Integer = ResolveAvailableAxisCount(axisCount, valueSelector)
+            If effectiveAxisCount < 1 Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+
+            Dim n As Integer = categories.Length
+            Dim out(n - 1 + If(includeHeader, 1, 0), effectiveAxisCount + 1) As Object
+            Dim r0 As Integer = 0
+
+            If includeHeader Then
+                out(0, 0) = "Variable"
+                out(0, 1) = "Category"
+                For j As Integer = 0 To effectiveAxisCount - 1
+                    out(0, j + 2) = axisPrefix & (j + 1).ToString(CultureInfo.InvariantCulture)
+                Next
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                out(r0 + i, 0) = varNames(i)
+                out(r0 + i, 1) = categories(i)
+            Next
+
+            For j As Integer = 0 To effectiveAxisCount - 1
+                Dim values() As Double = valueSelector(j)
+                For i As Integer = 0 To n - 1
+                    out(r0 + i, j + 2) = values(i)
+                Next
+            Next
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function CombinedCategoryHeaders(varNames() As String, categories() As String) As String()
+            Dim n As Integer = Math.Min(varNames.Length, categories.Length)
+            Dim out(n - 1) As String
+            For i As Integer = 0 To n - 1
+                out(i) = varNames(i) & ": " & categories(i)
+            Next
+            Return out
+        End Function
+
+        Public Shared Function BuildMcaBurtOutput(model As Multivariate.CA, includeHeader As Boolean) As UdfReportProjection38
+            If model Is Nothing OrElse model.BurtTable Is Nothing Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+            Dim headers() As String = CombinedCategoryHeaders(model.BurtVarNames, model.rowNames)
+            Dim n As Integer = model.BurtTable.GetLength(0)
+            Dim out(n - 1 + If(includeHeader, 1, 0), n + 1) As Object
+            Dim r0 As Integer = 0
+            If includeHeader Then
+                out(0, 0) = "Variable"
+                out(0, 1) = "Category"
+                For j As Integer = 0 To n - 1
+                    out(0, j + 2) = headers(j)
+                Next
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                out(r0 + i, 0) = model.BurtVarNames(i)
+                out(r0 + i, 1) = model.rowNames(i)
+                For j As Integer = 0 To n - 1
+                    out(r0 + i, j + 2) = model.BurtTable(i, j)
+                Next
+            Next
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function BuildMcaIndicatorOutput(model As Multivariate.CA, includeHeader As Boolean) As UdfReportProjection38
+            If model Is Nothing OrElse model.DesignMatrix Is Nothing Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+            Dim headers() As String = CombinedCategoryHeaders(model.BurtVarNames, model.rowNames)
+            Dim n As Integer = model.DesignMatrix.GetLength(0)
+            Dim p As Integer = model.DesignMatrix.GetLength(1)
+            Dim out(n - 1 + If(includeHeader, 1, 0), p) As Object
+            Dim r0 As Integer = 0
+            If includeHeader Then
+                out(0, 0) = "Case"
+                For j As Integer = 0 To p - 1
+                    out(0, j + 1) = headers(j)
+                Next
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                out(r0 + i, 0) = i + 1
+                For j As Integer = 0 To p - 1
+                    out(r0 + i, j + 1) = model.DesignMatrix(i, j)
+                Next
+            Next
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function BuildDiscriminantGroupSummaryTable(model As Multivariate.DiscriminantAnalysis) As UdfReportProjection38
+            If model Is Nothing OrElse model.GroupStatistics Is Nothing Then Return Nothing
+            Dim n As Integer = model.GroupStatistics.Count
+            Dim out(n, 5) As Object
+            out(0, 0) = "Group"
+            out(0, 1) = "Count"
+            out(0, 2) = "Prior"
+            out(0, 3) = "Prior %"
+            out(0, 4) = "LogDet (Working)"
+            out(0, 5) = "Ridge Used"
+            For i As Integer = 0 To n - 1
+                Dim g = model.GroupStatistics(i)
+                out(i + 1, 0) = g.GroupLabel
+                out(i + 1, 1) = g.Count
+                out(i + 1, 2) = g.PriorProbability
+                out(i + 1, 3) = g.PriorProbability * 100.0R
+                out(i + 1, 4) = g.LogDeterminantWorking
+                out(i + 1, 5) = g.RegularizationUsed
+            Next
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function BuildDiscriminantMeansTable(model As Multivariate.DiscriminantAnalysis,
+                                                     useOriginalScale As Boolean) As UdfReportProjection38
+            If model Is Nothing OrElse model.GroupStatistics Is Nothing Then Return Nothing
+            Dim g As Integer = model.GroupStatistics.Count
+            If g < 1 Then Return Nothing
+            Dim p As Integer = model.GroupStatistics(0).MeanOriginal.Length
+            Dim out(g, p) As Object
+            out(0, 0) = "Group"
+            For j As Integer = 0 To p - 1
+                out(0, j + 1) = model.PreparedData.VariableNames(j)
+            Next
+            For i As Integer = 0 To g - 1
+                out(i + 1, 0) = model.GroupStatistics(i).GroupLabel
+                Dim values() As Double = If(useOriginalScale, model.GroupStatistics(i).MeanOriginal, model.GroupStatistics(i).MeanWorking)
+                For j As Integer = 0 To p - 1
+                    out(i + 1, j + 1) = values(j)
+                Next
+            Next
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+    End Class
+    Public NotInheritable Class GEEUDFsReports38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function BuildLabeledMatrixOutput(matrix(,) As Double,
+                                                  rowNames() As String,
+                                                  colNames() As String,
+                                                  includeHeader As Boolean) As UdfReportProjection38
+
+            If matrix Is Nothing Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+
+            Dim nRows As Integer = matrix.GetLength(0)
+            Dim nCols As Integer = matrix.GetLength(1)
+
+            If rowNames Is Nothing OrElse rowNames.Length <> nRows Then
+                ReDim rowNames(nRows - 1)
+                For i As Integer = 0 To nRows - 1
+                    rowNames(i) = "Row" & (i + 1).ToString(CultureInfo.InvariantCulture)
+                Next
+            End If
+
+            If colNames Is Nothing OrElse colNames.Length <> nCols Then
+                ReDim colNames(nCols - 1)
+                For j As Integer = 0 To nCols - 1
+                    colNames(j) = "Col" & (j + 1).ToString(CultureInfo.InvariantCulture)
+                Next
+            End If
+
+            If Not includeHeader Then
+                Dim outNoHdr(nRows - 1, nCols - 1) As Object
+                For i As Integer = 0 To nRows - 1
+                    For j As Integer = 0 To nCols - 1
+                        outNoHdr(i, j) = UdfReportProjection38.SafeNumber(matrix(i, j))
+                    Next
+                Next
+                Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(outNoHdr), UdfReportPreparation38.Raw)
+            End If
+
+            Dim out(nRows, nCols) As Object
+            out(0, 0) = ""
+
+            For j As Integer = 0 To nCols - 1
+                out(0, j + 1) = colNames(j)
+            Next
+
+            For i As Integer = 0 To nRows - 1
+                out(i + 1, 0) = rowNames(i)
+                For j As Integer = 0 To nCols - 1
+                    out(i + 1, j + 1) = UdfReportProjection38.SafeNumber(matrix(i, j))
+                Next
+            Next
+
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+    End Class
+    Public NotInheritable Class UdfRegressionOutputReports38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function BuildResidualVectorOutput(vec() As Double, header As String, includeHeader As Boolean) As UdfReportProjection38
+            If vec Is Nothing Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+
+            Dim n As Integer = vec.Length
+            Dim outRows As Integer = If(includeHeader, n + 1, n)
+            Dim out(outRows - 1, 0) As Object
+            Dim r0 As Integer = 0
+
+            If includeHeader Then
+                out(0, 0) = header
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                out(r0 + i, 0) = vec(i)
+            Next
+
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function CategoryHeaders(prefix As String, categories() As Integer) As String()
+            If categories Is Nothing Then Return New String() {}
+            Dim out(categories.Length - 1) As String
+            For i As Integer = 0 To categories.Length - 1
+                out(i) = prefix & "(" & categories(i).ToString(CultureInfo.InvariantCulture) & ")"
+            Next
+            Return out
+        End Function
+
+        Public Shared Function BuildResidualMatrixOutput(mat(,) As Double, headers() As String, includeHeader As Boolean) As UdfReportProjection38
+            If mat Is Nothing Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+
+            Dim n As Integer = mat.GetLength(0)
+            Dim p As Integer = mat.GetLength(1)
+            Dim outRows As Integer = If(includeHeader, n + 1, n)
+            Dim out(outRows - 1, p - 1) As Object
+            Dim r0 As Integer = 0
+
+            If includeHeader Then
+                For j As Integer = 0 To p - 1
+                    out(0, j) = headers(j)
+                Next
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                For j As Integer = 0 To p - 1
+                    out(r0 + i, j) = mat(i, j)
+                Next
+            Next
+
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+    End Class
+    Public NotInheritable Class SampleSizeUDFsReports38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function MakeMetricValueTable(metric As String, value As Integer) As UdfReportProjection38
+            Dim out(1, 1) As Object
+            out(0, 0) = "Metric"
+            out(0, 1) = "Value"
+            out(1, 0) = metric
+            out(1, 1) = value
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function MakeTwoGroupTable(metric As String, nControls As Integer, nExperimental As Integer) As UdfReportProjection38
+            Dim out(2, 1) As Object
+            out(0, 0) = "Group"
+            out(0, 1) = metric
+            out(1, 0) = "Controls"
+            out(1, 1) = nControls
+            out(2, 0) = "Experimental"
+            out(2, 1) = nExperimental
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function MakeEquivalenceTwoGroupTable(result As EquivalenceUnpairedTTestSampleSizeResult) As UdfReportProjection38
+            Dim out(3, 3) As Object
+            out(0, 0) = "Component"
+            out(0, 1) = "Controls"
+            out(0, 2) = "Experimental"
+            out(0, 3) = "Notes"
+
+            out(1, 0) = "Lower bound"
+            out(1, 1) = result.LowerBoundNumberOfControls
+            out(1, 2) = result.LowerBoundNumberOfExperimental
+            out(1, 3) = "TOST lower component"
+
+            out(2, 0) = "Upper bound"
+            out(2, 1) = result.UpperBoundNumberOfControls
+            out(2, 2) = result.UpperBoundNumberOfExperimental
+            out(2, 3) = "TOST upper component"
+
+            out(3, 0) = "Final"
+            out(3, 1) = result.NumberOfControls
+            out(3, 2) = result.NumberOfExperimental
+            out(3, 3) = "Driving bound: " & result.DrivingBound
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function MakeIndependentProportionsTable(result As IndependentProportionsSampleSizeResult) As UdfReportProjection38
+            Dim out(2, 2) As Object
+            out(0, 0) = "Method"
+            out(0, 1) = "Controls"
+            out(0, 2) = "Experimental"
+            out(1, 0) = "Uncorrected chi-square"
+            out(1, 1) = result.UncorrectedNumberOfControls
+            out(1, 2) = result.UncorrectedNumberOfExperimental
+            out(2, 0) = "Corrected chi-square / Fisher exact"
+            out(2, 1) = result.CorrectedNumberOfControls
+            out(2, 2) = result.CorrectedNumberOfExperimental
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function MakeEquivalenceIndependentProportionsTable(result As EquivalenceIndependentProportionsSampleSizeResult) As UdfReportProjection38
+            Dim out(6, 4) As Object
+            out(0, 0) = "Component"
+            out(0, 1) = "Method"
+            out(0, 2) = "Controls"
+            out(0, 3) = "Experimental"
+            out(0, 4) = "Notes"
+
+            out(1, 0) = "Lower bound"
+            out(1, 1) = "Uncorrected chi-square"
+            out(1, 2) = result.LowerBoundUncorrectedNumberOfControls
+            out(1, 3) = result.LowerBoundUncorrectedNumberOfExperimental
+            out(1, 4) = "TOST lower component"
+
+            out(2, 0) = "Lower bound"
+            out(2, 1) = "Corrected chi-square / Fisher exact"
+            out(2, 2) = result.LowerBoundCorrectedNumberOfControls
+            out(2, 3) = result.LowerBoundCorrectedNumberOfExperimental
+            out(2, 4) = "TOST lower component"
+
+            out(3, 0) = "Upper bound"
+            out(3, 1) = "Uncorrected chi-square"
+            out(3, 2) = result.UpperBoundUncorrectedNumberOfControls
+            out(3, 3) = result.UpperBoundUncorrectedNumberOfExperimental
+            out(3, 4) = "TOST upper component"
+
+            out(4, 0) = "Upper bound"
+            out(4, 1) = "Corrected chi-square / Fisher exact"
+            out(4, 2) = result.UpperBoundCorrectedNumberOfControls
+            out(4, 3) = result.UpperBoundCorrectedNumberOfExperimental
+            out(4, 4) = "TOST upper component"
+
+            out(5, 0) = "Final"
+            out(5, 1) = "Uncorrected chi-square"
+            out(5, 2) = result.UncorrectedNumberOfControls
+            out(5, 3) = result.UncorrectedNumberOfExperimental
+            out(5, 4) = "Driving bound: " & result.DrivingBound
+
+            out(6, 0) = "Final"
+            out(6, 1) = "Corrected chi-square / Fisher exact"
+            out(6, 2) = result.CorrectedNumberOfControls
+            out(6, 3) = result.CorrectedNumberOfExperimental
+            out(6, 4) = "Driving bound: " & result.DrivingBound
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function MakeLogRankPlanningTable(result As LogRankSampleSizeResult) As UdfReportProjection38
+            Dim out(7, 1) As Object
+            out(0, 0) = "Metric"
+            out(0, 1) = "Value"
+            out(1, 0) = "Required events"
+            out(1, 1) = result.RequiredEvents
+            out(2, 0) = "Controls"
+            out(2, 1) = result.NumberOfControls
+            out(3, 0) = "Experimental"
+            out(3, 1) = result.NumberOfExperimental
+            out(4, 0) = "Total subjects"
+            out(4, 1) = result.TotalNumberOfSubjects
+            out(5, 0) = "Control allocation proportion"
+            out(5, 1) = result.ControlAllocationProportion
+            out(6, 0) = "Experimental allocation proportion"
+            out(6, 1) = result.ExperimentalAllocationProportion
+            out(7, 0) = "Average event proportion"
+            out(7, 1) = result.AverageEventProportion
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function MakeCoxPlanningTable(modelLabel As String, result As CoxEventCountPlanningResult) As UdfReportProjection38
+            Dim out(7, 1) As Object
+            out(0, 0) = "Metric"
+            out(0, 1) = "Value"
+            out(1, 0) = "Model"
+            out(1, 1) = modelLabel
+            out(2, 0) = "Required events"
+            out(2, 1) = result.RequiredEvents
+            out(3, 0) = "Estimated subjects"
+            out(3, 1) = If(Double.IsNaN(result.OverallEventProportion) OrElse result.EstimatedNumberOfSubjects <= 0,
+                           "Not estimated (overall event proportion not supplied)",
+                           CType(result.EstimatedNumberOfSubjects, Object))
+            out(4, 0) = "Overall event proportion"
+            out(4, 1) = If(Double.IsNaN(result.OverallEventProportion), "Not supplied", CType(result.OverallEventProportion, Object))
+            out(5, 0) = "Log hazard ratio"
+            out(5, 1) = result.LogHazardRatio
+            out(6, 0) = "Effective variance"
+            out(6, 1) = result.EffectiveVariance
+            out(7, 0) = "R-squared with other covariates"
+            out(7, 1) = result.RSquaredWithOtherCovariates
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function MakeIccPlanningTable(result As IccHypothesisTestSampleSizeResult) As UdfReportProjection38
+            Dim out(5, 1) As Object
+            out(0, 0) = "Metric"
+            out(0, 1) = "Value"
+            out(1, 0) = "Required subjects"
+            out(1, 1) = result.NumberOfSubjects
+            out(2, 0) = "Observations per subject"
+            out(2, 1) = result.NumberOfObservationsPerSubject
+            out(3, 0) = "Null ICC"
+            out(3, 1) = result.NullIcc
+            out(4, 0) = "Alternative ICC"
+            out(4, 1) = result.AlternativeIcc
+            out(5, 0) = "Achieved power"
+            out(5, 1) = result.AchievedPower
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+
+        Public Shared Function MakeBlandAltmanPlanningTable(result As BlandAltmanAgreementStudyPlanningResult) As UdfReportProjection38
+            Dim out(6, 1) As Object
+            out(0, 0) = "Metric"
+            out(0, 1) = "Value"
+            out(1, 0) = "Required pairs"
+            out(1, 1) = result.NumberOfPairs
+            out(2, 0) = "Expected SD of differences"
+            out(2, 1) = result.ExpectedSdOfDifferences
+            out(3, 0) = "Desired half-width"
+            out(3, 1) = result.DesiredHalfWidth
+            out(4, 0) = "Achieved half-width"
+            out(4, 1) = result.AchievedHalfWidth
+            out(5, 0) = "Alpha"
+            out(5, 1) = result.Alpha
+            out(6, 0) = "LoA multiplier"
+            out(6, 1) = result.LoAMultiplier
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+    End Class
+    Public NotInheritable Class UdfOutputTablesReports38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function SafeCiLabel(ci As ConfidenceIntervalResult) As String
+            If ci Is Nothing Then Return "Confidence interval"
+            If String.IsNullOrWhiteSpace(ci.CIlabel) Then Return "Confidence interval"
+            Return ci.CIlabel
+        End Function
+
+        Public Shared Function SafeCiText(ci As ConfidenceIntervalResult) As String
+            If ci Is Nothing Then Return ""
+            Return ci.strConfidenceInterval(CIformat.LL_to_UL)
+        End Function
+
+        Public Shared Function BuildNamedMatrixOutput(idHeader As String, rowNames() As String, colNames() As String,
+                                               mat(,) As Double, includeHeader As Boolean) As UdfReportProjection38
+            If mat Is Nothing Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+
+            Dim n As Integer = mat.GetLength(0)
+            Dim p As Integer = mat.GetLength(1)
+            Dim out(n - 1 + If(includeHeader, 1, 0), p) As Object
+            Dim r0 As Integer = 0
+
+            If includeHeader Then
+                out(0, 0) = idHeader
+                For j As Integer = 0 To p - 1
+                    out(0, j + 1) = If(colNames IsNot Nothing AndAlso j < colNames.Length, colNames(j), (j + 1).ToString(CultureInfo.InvariantCulture))
+                Next
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                out(r0 + i, 0) = If(rowNames IsNot Nothing AndAlso i < rowNames.Length, rowNames(i), (i + 1).ToString(CultureInfo.InvariantCulture))
+                For j As Integer = 0 To p - 1
+                    out(r0 + i, j + 1) = mat(i, j)
+                Next
+            Next
+
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function BuildCaseMatrixOutput(idHeader As String, rowIds() As Integer,
+                                              colNames() As String, mat(,) As Double, includeHeader As Boolean) As UdfReportProjection38
+            If mat Is Nothing OrElse rowIds Is Nothing Then Return UdfReportProjection38.FromFault(UdfReportFault38.NotAvailable)
+
+            Dim n As Integer = mat.GetLength(0)
+            Dim p As Integer = mat.GetLength(1)
+            Dim out(n - 1 + If(includeHeader, 1, 0), p) As Object
+            Dim r0 As Integer = 0
+
+            If includeHeader Then
+                out(0, 0) = idHeader
+                For j As Integer = 0 To p - 1
+                    out(0, j + 1) = If(colNames IsNot Nothing AndAlso j < colNames.Length, colNames(j), (j + 1).ToString(CultureInfo.InvariantCulture))
+                Next
+                r0 = 1
+            End If
+
+            For i As Integer = 0 To n - 1
+                out(r0 + i, 0) = rowIds(i)
+                For j As Integer = 0 To p - 1
+                    out(r0 + i, j + 1) = mat(i, j)
+                Next
+            Next
+
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.NormalizeBlanks)
+        End Function
+
+        Public Shared Function BuildSimpleNoteTable(label As String, value As String) As UdfReportProjection38
+            Dim out(1, 1) As Object
+            out(0, 0) = label
+            out(0, 1) = "Value"
+            out(1, 0) = label
+            out(1, 1) = value
+            Return New UdfReportProjection38(New Global.BESHStatNG.ResultTableOutputModel(out), UdfReportPreparation38.Raw)
+        End Function
+    End Class
+End Namespace

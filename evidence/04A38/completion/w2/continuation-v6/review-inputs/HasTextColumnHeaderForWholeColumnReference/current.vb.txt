@@ -1,0 +1,22 @@
+Friend Function HasTextColumnHeaderForWholeColumnReference(originalArg As Object, arr As Object(,), lastRow As Integer) As Boolean
+        If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False
+        If lastRow < 1 Then Return False
+        If originalArg Is Nothing OrElse Not TypeOf originalArg Is ExcelReference Then Return False
+
+        Try
+            Dim xr As ExcelReference = CType(originalArg, ExcelReference)
+            Dim selectedRows As Integer = xr.RowLast - xr.RowFirst + 1
+
+            ' Only auto-skip for likely full-column selections such as A:A.
+            If xr.RowFirst <> 0 Then Return False
+            If selectedRows < 1048576 AndAlso xr.RowLast < 1048575 Then Return False
+
+            If IsBlankCell(arr(0, 0)) Then Return False
+            If IsBlankCell(arr(1, 0)) Then Return False
+
+            Return True
+
+        Catch
+            Return False
+        End Try
+    End Function

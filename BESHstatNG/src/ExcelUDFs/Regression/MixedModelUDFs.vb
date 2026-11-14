@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 Option Strict On
 
 Imports System
@@ -54,23 +54,15 @@ Namespace WorksheetFunctions
         End Class
 
         Friend Class MmrmLsmEstimateProfileValue
-            Public Property Name As String
-            Public Property ColumnIndex As Integer
-            Public Property Value As Double
+            Inherits Global.BESHStatNG.ExcelCommon.UdfLsmProfileValue38
         End Class
 
         Friend Class MmrmLsmEstimateComponent
-            Public Property Label As String
-            Public Property Weight As Double
-            Public Property VisitSpecified As Boolean
-            Public Property VisitValue As Double
-            Public Property ProfileValues As New List(Of MmrmLsmEstimateProfileValue)()
+            Inherits Global.BESHStatNG.ExcelCommon.UdfMmrmComponent38(Of MmrmLsmEstimateProfileValue)
         End Class
 
         Friend Class MmrmLsmEstimateAtProfile
-            Public Property VisitSpecified As Boolean = False
-            Public Property VisitValue As Double = Double.NaN
-            Public Property ProfileValues As New List(Of MmrmLsmEstimateProfileValue)()
+            Inherits Global.BESHStatNG.ExcelCommon.UdfMmrmAtProfile38(Of MmrmLsmEstimateProfileValue)
         End Class
 
         ''' <summary>
@@ -294,18 +286,8 @@ Namespace WorksheetFunctions
 
                 Dim covName As String = NormalizeMixedModelResidualCovarianceName(covariance, "UN")
                 Dim rStruct As regression.MixedModelRStruct = regression.MixedModelRStructUtils.createMixedModelRStruct(covName)
-                Dim req As regression.MixedModelFitRequest = regression.MixedModelFitRequest.CreateMMRM(data, rStruct, fit)
-                req.FixedEffectNames = fitNames
-                req.FixedInferenceMethod = fixedInference
-                req.ResponseVarName = "y"
-                req.SubjectVarName = "subject"
-                req.VisitVarName = If(visitValues Is Nothing, String.Empty, "visit")
-                req.RequestLabel = "MMRM UDF"
-
-                Dim control As regression.MixedModelControl = req.Control
-                control.Trace = traceValue
-                control.CovarianceOptimizerMode = optimizerMode
-                control.CovarianceGradientMode = gradientMode
+                Dim control As regression.MixedModelControl
+                Dim req As regression.MixedModelFitRequest = Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.CreateMmrmFitRequest(data, rStruct, fit, fitNames, fixedInference, visitValues, traceValue, optimizerMode, gradientMode, control)
 
                 If Not ExcelArgPredicates.IsMissingArg(maxIter) Then
                     Dim maxIterValue As Integer = ExcelArgNumeric.GetOptionalInt(maxIter, control.MaxIter)
@@ -314,16 +296,7 @@ Namespace WorksheetFunctions
                 End If
                 req.Control = control
 
-                Select Case fixedInference
-                    Case regression.MixedModelFixedInferenceMethod.KenwardRoger
-                        req.EnableFullKenwardRogerForMmrm()
-                    Case regression.MixedModelFixedInferenceMethod.Satterthwaite
-                        req.UseSatterthwaite = True
-                        req.UseKenwardRoger = False
-                    Case Else
-                        req.UseSatterthwaite = False
-                        req.UseKenwardRoger = False
-                End Select
+                Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ApplyMmrmInference(req, fixedInference)
 
                 req.Validate()
 
@@ -1055,21 +1028,7 @@ Namespace WorksheetFunctions
                 If fitted.Length <= 0 Then Return ExcelError.ExcelErrorNA
 
                 Dim hdr As Boolean = ExcelArgNumeric.GetOptionalBool(includeHeader, True)
-                Dim out(fitted.Length - 1 + If(hdr, 1, 0), 1) As Object
-                Dim r As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Row"
-                    out(0, 1) = "Fitted"
-                    r = 1
-                End If
-
-                For i As Integer = 0 To fitted.Length - 1
-                    out(r + i, 0) = i + 1
-                    out(r + i, 1) = fitted(i)
-                Next
-
-                Return out
+Return Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.BuildFittedTable(fitted, hdr)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.MMRM_FITTED", ex)
@@ -1110,22 +1069,7 @@ Namespace WorksheetFunctions
                 If n <= 0 Then Return ExcelError.ExcelErrorNA
 
                 Dim hdr As Boolean = ExcelArgNumeric.GetOptionalBool(includeHeader, True)
-                Dim out(n - 1 + If(hdr, 1, 0), 2) As Object
-                Dim r As Integer = 0
-                If hdr Then
-                    out(0, 0) = "Row"
-                    out(0, 1) = "Fitted"
-                    out(0, 2) = "Residual"
-                    r = 1
-                End If
-
-                For i As Integer = 0 To n - 1
-                    out(r + i, 0) = i + 1
-                    out(r + i, 1) = If(i < fitted.Length, CType(fitted(i), Object), String.Empty)
-                    out(r + i, 2) = If(i < resid.Length, CType(resid(i), Object), String.Empty)
-                Next
-
-                Return out
+Return Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.BuildResidualTable(fitted, resid, n, hdr)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.MMRM_RESID", ex)
@@ -1182,28 +1126,14 @@ Namespace WorksheetFunctions
         End Function
 
         Private Function DefaultNames(count As Integer, prefix As String) As String()
-            Dim names(Math.Max(0, count) - 1) As String
-            For i As Integer = 0 To names.Length - 1
-                names(i) = prefix & (i + 1).ToString(CultureInfo.InvariantCulture)
-            Next
-            Return names
+            Return Global.BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.DefaultNames(count, prefix)
         End Function
 
 
         Private Function AddInterceptIfRequested(x(,) As Double, includeIntercept As Boolean) As Double(,)
             If x Is Nothing Then Throw New ArgumentNullException(NameOf(x))
             If Not includeIntercept Then Return x
-
-            Dim n As Integer = x.GetLength(0)
-            Dim p As Integer = x.GetLength(1)
-            Dim out(n - 1, p) As Double
-            For i As Integer = 0 To n - 1
-                out(i, 0) = 1.0
-                For j As Integer = 0 To p - 1
-                    out(i, j + 1) = x(i, j)
-                Next
-            Next
-            Return out
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.AddInterceptIfRequested(x, includeIntercept)
         End Function
 
         Private Function ResolveMmrmImportedPredictorNames(varNames As Object,
@@ -1226,27 +1156,7 @@ Namespace WorksheetFunctions
             If selectedAbsoluteLetters IsNot Nothing AndAlso selectedAbsoluteLetters.Length = selectedCount Then
                 Dim suppliedLetters() As String = Nothing
                 If Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(varNames, suppliedNames.Length, suppliedLetters) Then
-                    Dim byLetter As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
-                    For i As Integer = 0 To Math.Min(suppliedNames.Length, suppliedLetters.Length) - 1
-                        Dim letter As String = If(suppliedLetters(i), String.Empty).Trim()
-                        If letter = String.Empty Then Continue For
-                        If Not byLetter.ContainsKey(letter) Then byLetter(letter) = If(suppliedNames(i), String.Empty).Trim()
-                    Next
-
-                    Dim mapped(selectedCount - 1) As String
-                    Dim anyMapped As Boolean = False
-                    For j As Integer = 0 To selectedCount - 1
-                        Dim selectedLetter As String = If(selectedAbsoluteLetters(j), String.Empty).Trim()
-                        Dim mappedName As String = Nothing
-                        If selectedLetter <> String.Empty AndAlso byLetter.TryGetValue(selectedLetter, mappedName) Then
-                            mapped(j) = mappedName
-                            anyMapped = True
-                        Else
-                            mapped(j) = inferred(j)
-                        End If
-                    Next
-
-                    If anyMapped Then Return NormalizeMmrmNameList(mapped, selectedCount, "X")
+                    Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.MapMmrmNamesByLetter(suppliedNames, suppliedLetters, selectedAbsoluteLetters, inferred, selectedCount)
                 End If
             End If
 
@@ -1254,114 +1164,33 @@ Namespace WorksheetFunctions
         End Function
 
         Private Function NormalizeMmrmNameList(inputNames() As String, expectedCount As Integer, fallbackPrefix As String) As String()
-            If expectedCount <= 0 Then Return New String() {}
-            Dim out(expectedCount - 1) As String
-            For i As Integer = 0 To expectedCount - 1
-                Dim nm As String = Nothing
-                If inputNames IsNot Nothing AndAlso i < inputNames.Length Then nm = inputNames(i)
-                nm = If(nm, String.Empty).Trim()
-                If nm = String.Empty Then nm = fallbackPrefix & (i + 1).ToString(CultureInfo.InvariantCulture)
-                out(i) = nm
-            Next
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.NormalizeMmrmNameList(inputNames, expectedCount, fallbackPrefix)
         End Function
 
         Private Sub EnsureMmrmResultUsesHandleFixedEffectNames(h As MmrmHandle)
             If h Is Nothing OrElse h.Result Is Nothing Then Exit Sub
-            If h.FixedEffectNames Is Nothing OrElse h.FixedEffectNames.Length = 0 Then Exit Sub
-            If h.Result.Beta Is Nothing OrElse h.Result.Beta.Length <> h.FixedEffectNames.Length Then Exit Sub
-            h.Result.FixedEffectNames = CType(h.FixedEffectNames.Clone(), String())
+            Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.ApplyMmrmHandleNames(h.Result, h.FixedEffectNames)
         End Sub
 
         Private Function AddInterceptNameIfRequested(names() As String, includeIntercept As Boolean) As String()
-            If names Is Nothing Then names = Array.Empty(Of String)()
-            If Not includeIntercept Then Return DirectCast(names.Clone(), String())
-
-            Dim out(names.Length) As String
-            out(0) = "Intercept"
-            For i As Integer = 0 To names.Length - 1
-                out(i + 1) = If(String.IsNullOrWhiteSpace(names(i)), "X" & (i + 1).ToString(CultureInfo.InvariantCulture), names(i))
-            Next
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.AddInterceptNameIfRequested(names, includeIntercept)
         End Function
 
         Private Sub ApplyMmrmLsmEstimateAtProfile(components As List(Of MmrmLsmEstimateComponent),
                                                   atProfile As MmrmLsmEstimateAtProfile)
-            If components Is Nothing OrElse atProfile Is Nothing Then Exit Sub
-
-            For Each component As MmrmLsmEstimateComponent In components
-                If component Is Nothing Then Continue For
-
-                If Not component.VisitSpecified AndAlso atProfile.VisitSpecified Then
-                    component.VisitSpecified = True
-                    component.VisitValue = atProfile.VisitValue
-                End If
-
-                For Each atValue As MmrmLsmEstimateProfileValue In atProfile.ProfileValues
-                    If Not ComponentHasProfileColumn(component, atValue.ColumnIndex) Then
-                        component.ProfileValues.Add(New MmrmLsmEstimateProfileValue With {
-                            .Name = atValue.Name,
-                            .ColumnIndex = atValue.ColumnIndex,
-                            .Value = atValue.Value
-                        })
-                    End If
-                Next
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.ApplyMmrmAtProfile(Of MmrmLsmEstimateComponent, MmrmLsmEstimateAtProfile, MmrmLsmEstimateProfileValue)(components, atProfile)
         End Sub
 
 
-        Private Function ComponentHasProfileColumn(component As MmrmLsmEstimateComponent, columnIndex As Integer) As Boolean
-            If component Is Nothing OrElse component.ProfileValues Is Nothing Then Return False
 
-            For Each value As MmrmLsmEstimateProfileValue In component.ProfileValues
-                If value.ColumnIndex = columnIndex Then Return True
-            Next
-
-            Return False
-        End Function
 
         Private Function AverageFittedDesignRowForLsmProfile(h As MmrmHandle, component As MmrmLsmEstimateComponent, ByRef matchedCount As Integer) As Double()
             matchedCount = 0
             If h Is Nothing OrElse h.FittedDesign Is Nothing OrElse component Is Nothing Then Return Nothing
-
-            Dim n As Integer = h.FittedDesign.GetLength(0)
-            Dim p As Integer = h.FittedDesign.GetLength(1)
-            Dim sums(p - 1) As Double
-
-            For i As Integer = 0 To n - 1
-                If component.VisitSpecified Then
-                    If h.VisitValues Is Nothing OrElse h.VisitValues.Length <> n Then Continue For
-                    If Not regression.MixedModelPostEstimation.NearlyEqual(h.VisitValues(i), component.VisitValue) Then Continue For
-                End If
-
-                Dim match As Boolean = True
-                For Each profileValue As MmrmLsmEstimateProfileValue In component.ProfileValues
-                    If profileValue.ColumnIndex < 0 OrElse profileValue.ColumnIndex >= p Then
-                        match = False
-                        Exit For
-                    End If
-
-                    If Not regression.MixedModelPostEstimation.NearlyEqual(h.FittedDesign(i, profileValue.ColumnIndex), profileValue.Value) Then
-                        match = False
-                        Exit For
-                    End If
-                Next
-
-                If Not match Then Continue For
-
-                matchedCount += 1
-                For j As Integer = 0 To p - 1
-                    sums(j) += h.FittedDesign(i, j)
-                Next
-            Next
-
-            If matchedCount <= 0 Then Return Nothing
-
-            For j As Integer = 0 To p - 1
-                sums(j) /= CDbl(matchedCount)
-            Next
-
-            Return sums
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38.AverageDesign(
+                h.FittedDesign, h.VisitValues, component.VisitSpecified, component.VisitValue,
+                component.ProfileValues, Function(profile) profile.ColumnIndex, Function(profile) profile.Value,
+                AddressOf regression.MixedModelPostEstimation.NearlyEqual, matchedCount)
         End Function
 
         Private Function IsMmrmWorksheetRangeArgument(arg As Object) As Boolean
@@ -1374,78 +1203,14 @@ Namespace WorksheetFunctions
                                                        ByRef rowMask() As Boolean,
                                                        ByRef profileDescription As String,
                                                        ByRef errorMessage As String) As Boolean
-            rowMask = Nothing
-            profileDescription = Nothing
-            errorMessage = Nothing
-
-            If h Is Nothing OrElse h.FittedDesign Is Nothing OrElse h.VisitValues Is Nothing Then
-                errorMessage = "the fit does not contain the design rows and visit values required for LS-means profiles."
-                Return False
-            End If
-
-            If atProfile Is Nothing OrElse (Not atProfile.VisitSpecified AndAlso atProfile.ProfileValues.Count = 0) Then
-                errorMessage = "the supplied profile range does not contain any visit or fitted design-column settings."
-                Return False
-            End If
-
-            Dim n As Integer = h.FittedDesign.GetLength(0)
-            If h.VisitValues.Length <> n Then
-                errorMessage = "the fit does not contain usable visit values for the saved design rows."
-                Return False
-            End If
-
-            rowMask = New Boolean(n - 1) {}
-            Dim matchedCount As Integer = 0
-
-            For i As Integer = 0 To n - 1
-                Dim keep As Boolean = True
-
-                If atProfile.VisitSpecified AndAlso
-                   Not regression.MixedModelPostEstimation.NearlyEqual(h.VisitValues(i), atProfile.VisitValue) Then
-                    keep = False
-                End If
-
-                If keep Then
-                    For Each profileValue As MmrmLsmEstimateProfileValue In atProfile.ProfileValues
-                        If profileValue.ColumnIndex < 0 OrElse profileValue.ColumnIndex >= h.FittedDesign.GetLength(1) Then
-                            keep = False
-                            Exit For
-                        End If
-
-                        If Not regression.MixedModelPostEstimation.NearlyEqual(h.FittedDesign(i, profileValue.ColumnIndex), profileValue.Value) Then
-                            keep = False
-                            Exit For
-                        End If
-                    Next
-                End If
-
-                rowMask(i) = keep
-                If keep Then matchedCount += 1
-            Next
-
-            If matchedCount <= 0 Then
-                errorMessage = "no observed design rows matched the supplied LS-means profile."
-                Return False
-            End If
-
-            profileDescription = FormatMmrmAtProfileDescription(atProfile)
-            Return True
+            Return Global.BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.TryBuildMmrmAtProfileRowMask(Of MmrmLsmEstimateAtProfile, MmrmLsmEstimateProfileValue)(
+                h IsNot Nothing, Function() h.FittedDesign, Function() h.VisitValues, atProfile,
+                AddressOf FormatMmrmAtProfileDescription, rowMask, profileDescription, errorMessage)
         End Function
 
 
         Private Function FormatMmrmAtProfileDescription(atProfile As MmrmLsmEstimateAtProfile) As String
-            If atProfile Is Nothing Then Return String.Empty
-
-            Dim parts As New List(Of String)()
-            If atProfile.VisitSpecified Then
-                parts.Add("visit=" & regression.MixedModelPostEstimation.FormatProfileValue(atProfile.VisitValue))
-            End If
-
-            For Each profileValue As MmrmLsmEstimateProfileValue In atProfile.ProfileValues
-                parts.Add(profileValue.Name & "=" & regression.MixedModelPostEstimation.FormatProfileValue(profileValue.Value))
-            Next
-
-            Return String.Join(", ", parts)
+            Return Global.BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.FormatMmrmAtProfileDescription(Of MmrmLsmEstimateAtProfile, MmrmLsmEstimateProfileValue)(atProfile)
         End Function
 
         Private Function TryGetDesignColumnValues(h As MmrmHandle,
@@ -1462,55 +1227,18 @@ Namespace WorksheetFunctions
                 Return False
             End If
 
-            If h.FixedEffectNames Is Nothing OrElse h.FixedEffectNames.Length <> h.FittedDesign.GetLength(1) Then
-                errorMessage = "the fit does not contain usable fixed-effect column names."
-                Return False
-            End If
-
-            Dim idx As Integer = FindDesignColumnIndex(h.FixedEffectNames, requestedName)
-            If idx < 0 Then
-                errorMessage = "column """ & requestedName & """ was not found among fitted design columns: " &
-                               String.Join(", ", h.FixedEffectNames)
-                Return False
-            End If
-
-            If String.Equals(h.FixedEffectNames(idx), "Intercept", StringComparison.OrdinalIgnoreCase) OrElse
-               String.Equals(h.FixedEffectNames(idx), "(Intercept)", StringComparison.OrdinalIgnoreCase) Then
-                errorMessage = "the intercept column cannot be used as a grouping factor."
-                Return False
-            End If
-
-            Dim n As Integer = h.FittedDesign.GetLength(0)
-            ReDim values(n - 1)
-
-            For i As Integer = 0 To n - 1
-                values(i) = h.FittedDesign(i, idx)
-            Next
-
-            resolvedName = h.FixedEffectNames(idx)
-            Return True
+            Return Global.BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.TryGetMmrmDesignColumnValues(
+                h.FittedDesign, h.FixedEffectNames, requestedName, resolvedName, values, errorMessage)
         End Function
 
 
         Private Function FindDesignColumnIndex(names() As String, requestedName As String) As Integer
-            If names Is Nothing OrElse String.IsNullOrWhiteSpace(requestedName) Then Return -1
-
-            For i As Integer = 0 To names.Length - 1
-                If String.Equals(names(i), requestedName, StringComparison.OrdinalIgnoreCase) Then Return i
-            Next
-
-            Dim wanted As String = NormalizeDesignColumnName(requestedName)
-            For i As Integer = 0 To names.Length - 1
-                If String.Equals(NormalizeDesignColumnName(names(i)), wanted, StringComparison.OrdinalIgnoreCase) Then Return i
-            Next
-
-            Return -1
+            Return Global.BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.FindDesignColumnIndex(names, requestedName)
         End Function
 
 
         Private Function NormalizeDesignColumnName(s As String) As String
-            If s Is Nothing Then Return String.Empty
-            Return New String(s.Trim().ToLowerInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch)).ToArray())
+            Return Global.BESHStatNG.ExcelCommon.MixedModelUDFsOptions38.NormalizeDesignColumnName(s)
         End Function
 
 
@@ -1546,28 +1274,7 @@ Namespace WorksheetFunctions
                 maxCols = Math.Max(maxCols, arr.GetLength(1))
             Next
 
-            If rendered.Count = 0 Then
-                Dim empty(0, 0) As Object
-                empty(0, 0) = "No result tables available."
-                Return empty
-            End If
-
-            totalRows += rendered.Count - 1
-            Dim out(totalRows - 1, maxCols - 1) As Object
-            Dim r As Integer = 0
-
-            For k As Integer = 0 To rendered.Count - 1
-                If k > 0 Then r += 1
-                Dim arr As Object(,) = rendered(k)
-                For i As Integer = 0 To arr.GetLength(0) - 1
-                    For j As Integer = 0 To arr.GetLength(1) - 1
-                        out(r + i, j) = arr(i, j)
-                    Next
-                Next
-                r += arr.GetLength(0)
-            Next
-
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.StackRenderedMmrmTables(rendered, totalRows, maxCols)
         End Function
 
     End Module

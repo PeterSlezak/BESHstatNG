@@ -1,0 +1,12 @@
+"""Final post-run document formatting and current publication runtime qualification."""
+from common import *
+source=(HERE/'write_review_v4.py').read_text(encoding='utf-8')
+source=source.replace('|---|---|---|---|---|---|---|','|---|---|---|---|---|---|')
+for a,b in [('supports24','supports 24'),('increase299 to324','increase 299 to 324'),('identities:23','identities: 23'),('plus2','plus 2'),('APIs,15','APIs, 15'),('and2 enum','and 2 enum'),('The704','The 704'),('are58','are 58'),('and13','and 13'),('not58','not 58'),('all3','all 3'),('the13','the 13'),('all8','all 8'),('explicit4-state','explicit 4-state'),('produced20720','produced 20720'),(';16 new','; 16 new'),('known4','known 4'),('first20700','first 20700'),('effective20704','effective 20704'),('fresh29424','fresh 29424'),('passed:28966','passed: 28966'),('All956','All 956'),('all12068','all 12068'),('at most5','at most 5'),('lane855.317s','lane 855.317s'),('wall1234.38s','wall 1234.38s'),('counts172 to206','counts 172 to 206'),('The34','The 34'),('comprise26','comprise 26'),('and8 escaped','and 8 escaped'),('old172','old 172'),('because406','because 406')]:source=source.replace(a,b)
+with (HERE/'write_review_v5.py').open('x',encoding='utf-8',newline='\n') as f:f.write(source)
+old=json.loads((HERE/'publication-runtime-carryforward-v1.json').read_bytes())
+save('publication-runtime-carryforward-v2.json',dict(**{k:v for k,v in old.items() if k not in ['new_policy','scope']},new_policy=pin(HERE/'publication_privacy_v3.py'),policy_proof=pin(HERE/'publication-privacy-equivalence-v4.json'),scope='Same authenticated owner Python and unchanged C6 base policy. Final wrapper v3 uses exact old-input cached privacy decisions and four bounded synthetic-control sources. Earlier wrapper measurements remain historical, not claimed as the final policy.'))
+frozen=json.loads((HERE/'source-freeze-managed-v1.json').read_bytes())['sources']
+assert all(pin(ROOT/r['path'])==r for r in frozen)
+save('final-source-validation-binding-v1.json',dict(sources=frozen,managed_freeze=pin(HERE/'source-freeze-managed-v1.json'),python_postcheck=pin(HERE/'python-frozen-input-postcheck-v1.json'),production_test_changes_after_full_validation=0,scope='Receipt/review/publication scripts and generated evidence only follow the validation boundary; the exact six implementation/test sources remain unchanged.'))
+r=command('write-review-v1',[sys.executable,'-B',str(HERE/'write_review_v5.py')]);save('review-document-command-v1.json',clean(r));assert r['exit_code']==0

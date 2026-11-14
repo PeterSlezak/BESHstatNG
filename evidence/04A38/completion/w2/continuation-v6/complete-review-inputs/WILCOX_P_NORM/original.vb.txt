@@ -1,0 +1,25 @@
+ee cref="WILCOX_P_EXACT"/>.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.NP.WILCOX_P_NORM(A2:A21, B2:B21)
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.NP.WILCOX_P_NORM",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Wilcoxon signed-rank test: two-sided p-value (normal approximation; paired samples).",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/")>
+        Public Function WILCOX_P_NORM(
+            <ExcelArgument(Name:="x", Description:="First paired sample (single-column; paired by row; non-numeric rows ignored).")> x As Object,
+            <ExcelArgument(Name:="y", Description:="Second paired sample (single-column; paired by row; non-numeric rows ignored).")> y As Object) As Object
+
+            Dim pairs As Double(,)
+            Dim err As ExcelError? = Nothing
+
+            pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(x, y, err)
+            If err.HasValue Then Return err.Value
+
+            If pairs Is Nothing OrElse pairs.GetLength(0) < 1 Then
+                Return Exce

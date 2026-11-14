@@ -1,0 +1,9 @@
+
+
+    ''' <summary>
+    ''' Imports two aligned one-column samples for paired tests, retaining only complete numeric pairs.
+    ''' </summary>
+    Friend Function TryGetPairedNumericColumns(x As Object,
+                                               y As Object,
+                                               ByRef mat As Double(,),
+      

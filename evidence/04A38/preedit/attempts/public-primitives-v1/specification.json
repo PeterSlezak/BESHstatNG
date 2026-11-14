@@ -1,0 +1,148 @@
+{
+  "status": "PRE_EDIT_PUBLIC_PRIMITIVE_CANDIDATE_NOT_SEALED",
+  "rows": 226,
+  "parameters": [
+    {
+      "export": "BESH.DIST.PRTRNG",
+      "parameter": {
+        "name": "q",
+        "syntax": "<ExcelArgument(Name:=\"q\", Description:=\"Studentized range value (q ≥ 0).\")>\r\n            ByVal q As Double",
+        "tokens": "< ExcelArgument ( Name := \"q\" , Description := \"Studentized range value (q ≥ 0).\" ) > ByVal q As Double",
+        "default_value": null,
+        "type": "As Double",
+        "attributes": "<ExcelArgument(Name:=\"q\", Description:=\"Studentized range value (q ≥ 0).\")>"
+      }
+    },
+    {
+      "export": "BESH.DIST.PRTRNG",
+      "parameter": {
+        "name": "v",
+        "syntax": "<ExcelArgument(Name:=\"v\", Description:=\"Degrees of freedom (v > 0).\")>\r\n            ByVal v As Double",
+        "tokens": "< ExcelArgument ( Name := \"v\" , Description := \"Degrees of freedom (v > 0).\" ) > ByVal v As Double",
+        "default_value": null,
+        "type": "As Double",
+        "attributes": "<ExcelArgument(Name:=\"v\", Description:=\"Degrees of freedom (v > 0).\")>"
+      }
+    },
+    {
+      "export": "BESH.DIST.PRTRNG",
+      "parameter": {
+        "name": "r",
+        "syntax": "<ExcelArgument(Name:=\"r\", Description:=\"Number of samples / groups (r ≥ 2).\")>\r\n            ByVal r As Double",
+        "tokens": "< ExcelArgument ( Name := \"r\" , Description := \"Number of samples / groups (r ≥ 2).\" ) > ByVal r As Double",
+        "default_value": null,
+        "type": "As Double",
+        "attributes": "<ExcelArgument(Name:=\"r\", Description:=\"Number of samples / groups (r ≥ 2).\")>"
+      }
+    },
+    {
+      "export": "BESH.DIST.PRTRNG.TAIL",
+      "parameter": {
+        "name": "q",
+        "syntax": "<ExcelArgument(Name:=\"q\", Description:=\"Studentized range value (q ≥ 0).\")>\r\n            ByVal q As Double",
+        "tokens": "< ExcelArgument ( Name := \"q\" , Description := \"Studentized range value (q ≥ 0).\" ) > ByVal q As Double",
+        "default_value": null,
+        "type": "As Double",
+        "attributes": "<ExcelArgument(Name:=\"q\", Description:=\"Studentized range value (q ≥ 0).\")>"
+      }
+    },
+    {
+      "export": "BESH.DIST.PRTRNG.TAIL",
+      "parameter": {
+        "name": "v",
+        "syntax": "<ExcelArgument(Name:=\"v\", Description:=\"Degrees of freedom (v > 0).\")>\r\n            ByVal v As Double",
+        "tokens": "< ExcelArgument ( Name := \"v\" , Description := \"Degrees of freedom (v > 0).\" ) > ByVal v As Double",
+        "default_value": null,
+        "type": "As Double",
+        "attributes": "<ExcelArgument(Name:=\"v\", Description:=\"Degrees of freedom (v > 0).\")>"
+      }
+    },
+    {
+      "export": "BESH.DIST.PRTRNG.TAIL",
+      "parameter": {
+        "name": "r",
+        "syntax": "<ExcelArgument(Name:=\"r\", Description:=\"Number of samples / groups (r ≥ 2).\")>\r\n            ByVal r As Double",
+        "tokens": "< ExcelArgument ( Name := \"r\" , Description := \"Number of samples / groups (r ≥ 2).\" ) > ByVal r As Double",
+        "default_value": null,
+        "type": "As Double",
+        "attributes": "<ExcelArgument(Name:=\"r\", Description:=\"Number of samples / groups (r ≥ 2).\")>"
+      }
+    },
+    {
+      "export": "BESH.DIST.F_PDF",
+      "parameter": {
+        "name": "x",
+        "syntax": "<ExcelArgument(Name:=\"x\", Description:=\"Point at which to evaluate the density (x ≥ 0).\")> x As Double",
+        "tokens": "< ExcelArgument ( Name := \"x\" , Description := \"Point at which to evaluate the density (x ≥ 0).\" ) > x As Double",
+        "default_value": null,
+        "type": "As Double",
+        "attributes": "<ExcelArgument(Name:=\"x\", Description:=\"Point at which to evaluate the density (x ≥ 0).\")>"
+      }
+    },
+    {
+      "export": "BESH.DIST.F_PDF",
+      "parameter": {
+        "name": "df1",
+        "syntax": "<ExcelArgument(Name:=\"df1\", Description:=\"Numerator degrees of freedom (df1 > 0).\")> df1 As Double",
+        "tokens": "< ExcelArgument ( Name := \"df1\" , Description := \"Numerator degrees of freedom (df1 > 0).\" ) > df1 As Double",
+        "default_value": null,
+        "type": "As Double",
+        "attributes": "<ExcelArgument(Name:=\"df1\", Description:=\"Numerator degrees of freedom (df1 > 0).\")>"
+      }
+    },
+    {
+      "export": "BESH.DIST.F_PDF",
+      "parameter": {
+        "name": "df2",
+        "syntax": "<ExcelArgument(Name:=\"df2\", Description:=\"Denominator degrees of freedom (df2 > 0).\")> df2 As Double",
+        "tokens": "< ExcelArgument ( Name := \"df2\" , Description := \"Denominator degrees of freedom (df2 > 0).\" ) > df2 As Double",
+        "default_value": null,
+        "type": "As Double",
+        "attributes": "<ExcelArgument(Name:=\"df2\", Description:=\"Denominator degrees of freedom (df2 > 0).\")>"
+      }
+    },
+    {
+      "export": "BESH.NP.MW_P_EXACT",
+      "parameter": {
+        "name": "side",
+        "syntax": "<ExcelArgument(Name:=\"side\", Description:=\"Which exact p-value to return: two/lower/upper.\")> side As String",
+        "tokens": "< ExcelArgument ( Name := \"side\" , Description := \"Which exact p-value to return: two/lower/upper.\" ) > side As String",
+        "default_value": null,
+        "type": "As String",
+        "attributes": "<ExcelArgument(Name:=\"side\", Description:=\"Which exact p-value to return: two/lower/upper.\")>"
+      }
+    },
+    {
+      "export": "BESH.NP.WILCOX_P_EXACT",
+      "parameter": {
+        "name": "side",
+        "syntax": "<ExcelArgument(Name:=\"side\", Description:=\"Which exact p-value to return: two/lower/upper.\")> side As String",
+        "tokens": "< ExcelArgument ( Name := \"side\" , Description := \"Which exact p-value to return: two/lower/upper.\" ) > side As String",
+        "default_value": null,
+        "type": "As String",
+        "attributes": "<ExcelArgument(Name:=\"side\", Description:=\"Which exact p-value to return: two/lower/upper.\")>"
+      }
+    }
+  ],
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "cases": {
+    "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+    "bytes": 191201,
+    "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+  },
+  "recorder": {
+    "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+    "bytes": 30438,
+    "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+  },
+  "generator": {
+    "path": "evidence/04A38/primitive_export_cases.py",
+    "bytes": 3384,
+    "sha256": "5a7d213bd8108827b6a95464add651e69ec7d9286f73b75e122290c28ed125ec"
+  },
+  "chronology": "BEFORE_FIRST_04A38_PRODUCT_EDIT; first valid original-v1 freeze preserved",
+  "limitation": "These are direct managed-body inputs. No claim that live Excel marshals nonfinite Double or null String values in this form.",
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "remaining_gate": "Execute both configurations and audit genuine target reachability/exact repeated results before sealing."
+}

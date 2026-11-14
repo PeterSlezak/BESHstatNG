@@ -1,0 +1,12 @@
+{
+  "phase": "POST_GEE_GATE_READ_ONLY_SOURCE_COVERAGE_REVIEW",
+  "command": "<PYTHON> -B evidence/04A38/late-archived-entry-supplement/v2-gee-profile/audit_remaining_mmrm_profiles.py",
+  "exit_code": 1,
+  "error": "IndexError reading argument4 of MMRM_LSMESTIMATE",
+  "cause": "MMRM_LSMESTIMATE has four arguments handle,spec,alpha,at; GEE has six. The audit initially used the GEE at slot.",
+  "correction": "Use the exact archived MMRM signature, assert four parameters and read zero-based slot3; LSMEANS has three parameters and group slot1.",
+  "old_source": "audit_remaining_mmrm_profiles-attempt-v1.py.txt",
+  "production_changes": 0,
+  "new_reference_executions": 0,
+  "new_case_materializations": 0
+}

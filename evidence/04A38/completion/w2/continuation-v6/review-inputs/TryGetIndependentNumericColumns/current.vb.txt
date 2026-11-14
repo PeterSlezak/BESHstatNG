@@ -1,0 +1,8 @@
+        y As Object,
+                                                    ByRef groups()() As Double,
+                                                    ByRef names() As String) As Boolean
+        Return TryReadIndependentNumericColumns(x, y, groups, names)
+    End Function
+
+    ''' <summary>
+    ''' Imports two aligned one-column samples for paired tests, retaining only complete n

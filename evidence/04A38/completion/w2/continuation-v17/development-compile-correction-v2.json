@@ -1,0 +1,38 @@
+{
+  "corrections": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/development-v2-correction-before/BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "bytes": 40833,
+        "sha256": "6c66cabea4f530c755bb7158053c3f0f307104b4dca7ffa1d806fb7bf9c54ad6"
+      },
+      "after": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "bytes": 40827,
+        "sha256": "9ac5347f2262ba30944dc327e0272f022a0464471b89359e309af3dc27d55ef6"
+      }
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/development-v2-correction-before/BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+        "bytes": 25092,
+        "sha256": "4d56abf30827e5faee38683929a73fc67df68e9a929f33a20867b88fe0c9f1a3"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+        "bytes": 25073,
+        "sha256": "8776874a734fdfd32b915888761a4b9c794fcd553f40b519765608c40e87c928"
+      }
+    }
+  ],
+  "reason": "Ordinal classification consumes cls.Categories directly; remove the unused multinomial-only cats argument from its distinct typed helper. Counts/row order and native guards are unchanged.",
+  "failed_build": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/build-development-v2-Debug.json",
+    "bytes": 4079,
+    "sha256": "34624a6d7aafaa3a306f5a51f0254531aeb0f3177f8a53da4cb3beb891a5cb94"
+  },
+  "original_queries": 0,
+  "tests_run": false
+}

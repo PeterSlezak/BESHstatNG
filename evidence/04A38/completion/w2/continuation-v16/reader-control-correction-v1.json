@@ -1,0 +1,44 @@
+{
+  "status": "VERSIONED_C16_READER_BINDING_CORRECTION;OLD_SEAL_AND_FAILED_CONTROL_RETAINED",
+  "failed_control": "Modified predecessor reader supplied as a synthetic override was not checked when predecessor execution was explicitly disabled for negative controls. Historical bytes and assertions had not changed. Version2 adds direct sealed hashes for the actual final v15 reader set, so this tamper is rejected before either branch.",
+  "before_reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/verify_c16_checkpoint_v1.py",
+    "bytes": 129929,
+    "sha256": "f05730bf936f645a13b2051d7952697c3070e1a927f2b4415acfd5b4f05ac16e"
+  },
+  "before_seal": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/review-seal-v1.json",
+    "bytes": 1617,
+    "sha256": "ec30fd849d9b36418ee691028a58c73fedfb3fef0febfbc5bd0f0dd030a9df16"
+  },
+  "added_prior_reader_pins": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v15/verify_c15_checkpoint_v1.py",
+      "bytes": 212500,
+      "sha256": "c2f8b8d6d138034bd866b0d28f847491de48032ab921951f3b973d766e85d3b7"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v15/verify_c15_publication_v3.py",
+      "bytes": 7092,
+      "sha256": "0ac51dff9530533ce413e93b15c162ed66480efdf8198f7a4af3ef14e4480836"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v15/verify_c15_preservation_v3.py",
+      "bytes": 18295,
+      "sha256": "5587ccce925b1a3ee5cff915b42e782a75a2afff4b9b04694294d1a69f300a73"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v15-retained-private-reader-v3.py",
+      "bytes": 6780,
+      "sha256": "b0aa085c0dd79becc7268ee95d32161f7acac583f7f6b944a0e8249fd1827453"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v15-copy-review-union-v2.py",
+      "bytes": 2672,
+      "sha256": "79364d1515c794ec636dd9b1b855931118936b10052352e3214dff449ccbfeb3"
+    }
+  ],
+  "historical_assertions_changed": false,
+  "production_or_test_changes": false,
+  "extra_test_campaigns": 0
+}

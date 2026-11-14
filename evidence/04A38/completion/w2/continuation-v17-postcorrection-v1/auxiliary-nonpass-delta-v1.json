@@ -1,0 +1,159 @@
+{
+  "results": [
+    {
+      "category": "strict",
+      "previous": {
+        "command": [
+          "dotnet",
+          "<REPO_ROOT>\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+          "--check",
+          "--strict"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 11.532867700007046,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "current": {
+        "command": [
+          "dotnet",
+          "<REPO_ROOT>\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+          "--check",
+          "--strict"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 11.255767899987404,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "exit_changed": false,
+      "stdout_changed": false,
+      "stderr_changed": false,
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-replacement-v1-strict/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-replacement-v1-strict/stderr.log",
+        "bytes": 529,
+        "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+      },
+      "current_stderr": "System.Exception: Stale or ambiguous review decision: BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe\n   at Audit.Classify() in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 242\n   at Audit.Run(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 457\n   at Audit.Main(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 436\n"
+    },
+    {
+      "category": "profile",
+      "previous": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "scripts/windows-migration-audit/owner_closeout.py",
+          "--profile",
+          "inventory-complete-with-approved-deferrals"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 44.02241659999709,
+        "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+        "stderr_sha256": "880c8c9926ab5fddc83e8873e385d17388cab85914780ae67d485ca2dd3e18d5",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "current": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "scripts/windows-migration-audit/owner_closeout.py",
+          "--profile",
+          "inventory-complete-with-approved-deferrals"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 56.42422040000383,
+        "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+        "stderr_sha256": "fc6ab2fb12bb18cf0d4ed89d3d7b80675728520d883eafdf4ab863bc57a6304a",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "exit_changed": false,
+      "stdout_changed": false,
+      "stderr_changed": true,
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-replacement-v1-profile/stdout.log",
+        "bytes": 46,
+        "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-replacement-v1-profile/stderr.log",
+        "bytes": 4934,
+        "sha256": "fc6ab2fb12bb18cf0d4ed89d3d7b80675728520d883eafdf4ab863bc57a6304a"
+      },
+      "current_stderr": "warning: in the working copy of 'BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb', CRLF will be replaced by LF the next time Git touches it\n"
+    },
+    {
+      "category": "docs",
+      "previous": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "mkdocs",
+          "build",
+          "--config-file",
+          "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+          "--site-dir",
+          "<ISOLATED_RUN>\\w2c17-checkpoint-v1\\site",
+          "--strict"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 8.345847100004903,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3d7e6c0a0b55d76864a5820d0b35329fccd61a40a3118cc68f5e0e5673575b20",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "current": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "mkdocs",
+          "build",
+          "--config-file",
+          "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+          "--site-dir",
+          "<ISOLATED_RUN>\\w2c17pc1-replacement-v1\\site",
+          "--strict"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 8.530468000011751,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "8cda32e7feceda2c379886da984e48f02775199f82b35c3a4fe0ee3734ddc9db",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "exit_changed": false,
+      "stdout_changed": false,
+      "stderr_changed": true,
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-replacement-v1-docs/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-replacement-v1-docs/stderr.log",
+        "bytes": 791,
+        "sha256": "8cda32e7feceda2c379886da984e48f02775199f82b35c3a4fe0ee3734ddc9db"
+      },
+      "current_stderr": "\n \\u2502  Material for MkDocs reaches end of life on May 5, 2027.\n \\u2502  Critical fixes and security updates continue until that date.\n \\u2502\n \\u2502  Zensical is its maintained successor, built by the same team.\n \\u2502  Try it alongside MkDocs with your existing mkdocs.yml:\n \\u2502  https://zensical.org/docs/compatibility/mkdocs/migration/\n\n  To disable this warning, set NO_MKDOCS_2_WARNING=1.\n\nINFO    -  Cleaning site directory\nINFO    -  Building documentation to directory: <ISOLATED_RUN>\\w2c17pc1-replacement-v1\\site\nINFO    -  The following pages exist in the docs directory, but are not included in the \"nav\" configuration:\n  - methods\\family-link-covmat.md\nINFO    -  Documentation built in 7.23 seconds\n"
+    }
+  ],
+  "scope": "Actual exit codes and raw stream differences preserved; inherited nonzero status is not PASS.",
+  "previous": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/serial-execution-v1.json",
+    "bytes": 1687,
+    "sha256": "03714792fe63e21dc7e1eb229f329410a1110820a91c8bb81fc0880e44aa7f71"
+  }
+}

@@ -1,0 +1,13 @@
+ted by multivariate back-end wrappers that prepend a descriptive
+    ''' title row above the actual column headers.
+    ''' </remarks>
+    Friend Function PrepareWrappedResultTableForUdf(tableWithTitle As Object(,), includeHeader As Boolean) As Object
+        If tableWithTitle Is Nothing Then Return ExcelError.ExcelErrorNA
+        Dim totalRows As Integer = tableWithTitle.GetLength(0)
+        Dim totalCols As Integer = tableWithTitle.GetLength(1)
+        If totalRows <= 1 Then Return PrepareResultTableForUdf(tableWithTitle)
+        Dim startRow As Integer = If(includeHeader, 1, 2)
+        If startRow >= totalRows Then startRow = totalRows - 1
+        Dim out(totalRows - startRow - 1, totalCols - 1) As Object
+        For i As Integer = startRow To totalRows - 1
+            For j As Integer = 0 To totalCols - 1

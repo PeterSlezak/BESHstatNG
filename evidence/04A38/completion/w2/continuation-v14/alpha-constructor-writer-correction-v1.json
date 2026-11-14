@@ -1,0 +1,14 @@
+{
+  "before": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/build_contracts_v3.py",
+    "bytes": 11301,
+    "sha256": "87c9d666cc45adaaffc6b2f98e8cced1dc7a840982bee7a69a696bebf270ca6f"
+  },
+  "after": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/build_contracts_v4.py",
+    "bytes": 11530,
+    "sha256": "3ff9c20a97f241bdf8287eb90cca3b21f7b8f432f45c947a6e5f2e1739864a06"
+  },
+  "reason": "The actual VB auto-property initializer uses set_Alpha in the constructor, in addition to PS_FIT. Record both real writers and require the exact constructor/fit caller set. Original/current ctor CIL is independently exact; never omit the default initializer.",
+  "original_queries": 0
+}

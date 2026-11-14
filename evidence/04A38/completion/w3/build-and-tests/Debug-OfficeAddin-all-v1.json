@@ -1,0 +1,34 @@
+{
+  "suite": "OfficeAddin",
+  "part": "all",
+  "name": "w3D-OfficeAddin",
+  "outcomes": {
+    "Passed": 508
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3D-OfficeAddin/cases.json",
+    "bytes": 172743,
+    "sha256": "f76373aeb5442d724b678e79accf46b4fe19c7a16e8153304ce6c7c8c090f78c"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3D-OfficeAddin/results/OfficeAddin.trx",
+    "bytes": 729276,
+    "sha256": "85233fce1e36c6ec680a0a75c4ffd7115049d60d4d4f3b4f0c34c26391e96242"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3D-OfficeAddin\\sandbox\\tests\\bin\\Debug\\net10.0\\OfficeAddin.Tests.dll",
+      "/Settings:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3D-OfficeAddin\\serial.runsettings",
+      "/ResultsDirectory:C:\\Users\\peter\\source\\repos\\BESHstatNG\\.test-rationalization-04A38.tmp\\executions\\w3D-OfficeAddin\\results",
+      "/Logger:trx;LogFileName=OfficeAddin.trx"
+    ],
+    "cwd": "C:\\Users\\peter\\source\\repos\\BESHstatNG",
+    "exit_code": 0,
+    "seconds": 35.034770500002196,
+    "stdout_sha256": "9ad186c3e4118ed1139c5e382ffd576e90743423fbb8472469454790b7fa4515",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

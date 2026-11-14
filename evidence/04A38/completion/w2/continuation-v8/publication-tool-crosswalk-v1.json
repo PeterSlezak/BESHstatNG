@@ -1,0 +1,50 @@
+{
+  "verifier": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v7/verify_publication_v1.py",
+      "bytes": 4882,
+      "sha256": "8276351199a7ebc5f7222c1b0ce330a5c32c0742d3301d6b4e6fab92c874dff8"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/verify_c8_publication_v1.py",
+      "bytes": 4864,
+      "sha256": "d25dd34f9a06449d16c41a47f7673c52872c3c361133b8b7fb252484b935b924"
+    }
+  },
+  "publisher": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v7/publish_v1.py",
+      "bytes": 7105,
+      "sha256": "ad0828903232c4dfcdfc2bff6efd014c59b626f06e56a6f77760aa7d216fcf0c"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/publish_v1.py",
+      "bytes": 7158,
+      "sha256": "e632cdfdbea3ba54c08029d3ea9f13c8dad0b27b20e2c302c71afebf452fa641"
+    }
+  },
+  "postseal": {
+    "before": {
+      "path": "evidence/04A38/completion/w2/continuation-v7/postseal_v1.py",
+      "bytes": 2120,
+      "sha256": "659677d2c285a1037ad82ce963c321da573798f6739c52fc99c76d48e24a293b"
+    },
+    "after": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/postseal_v1.py",
+      "bytes": 2123,
+      "sha256": "aa7d150f3aa6405217daf97d36d6f3732b18aeaed033862e9576ab43f39a5313"
+    }
+  },
+  "policy": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/publication_privacy_v1.py",
+    "bytes": 3099,
+    "sha256": "a7e538b0fe36a64b72c93cce410b852d8c1caf0b5822a2b84b7efde6d941dedf"
+  },
+  "policy_proof": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/publication-privacy-equivalence-v1.json",
+    "bytes": 2253,
+    "sha256": "b2cdef511e8f3853c73d314df3ba98bbb9c2502f40b11a92be72492f36c10a88"
+  },
+  "scope": "All selected payload SHA/CRC remain fresh; prior exact-input privacy decisions are authenticated cache reuse, not new scans. C8 changed/new bytes scanned; two exact new synthetic fixture sources have bounded positive controls. Copy uses a new short normal path, retaining every C7 long-path failure/copy/receipt. Review ZIP only, no XLL packaging.",
+  "original_queries": 0
+}

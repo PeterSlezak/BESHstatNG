@@ -1,0 +1,12 @@
+Friend Function TryReadCompleteNumericMatrixWithHeaders(input As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
+        mat = Nothing
+        names = Nothing
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If rows < 1 OrElse cols < 2 Then Return False
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryReadCompleteNumericMatrixWithHeadersPrepared(
+            rows, cols, Function(row, column) TryGetDouble(arr(row, column)),
+            Function(row, column) Convert.ToString(arr(row, column)).Trim(), mat, names)
+    End Function

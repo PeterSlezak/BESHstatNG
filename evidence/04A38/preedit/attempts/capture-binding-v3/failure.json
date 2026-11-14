@@ -1,0 +1,10 @@
+{
+  "status": "INVALID_REFERENCE_BINDING_ATTEMPT",
+  "phase": "Before output creation",
+  "error": "REFERENCE_CORE_LOGGER_BINDING_MISMATCH",
+  "exit_code": 1,
+  "implication": "Typed recorder Core and reflection-loaded reference Core did not share the logger instance. Pilot outputs are not an eligible freeze.",
+  "correction": "Use one dependency/assembly load context for the isolated recorder and original library, retaining the binding assertion. Do not alter Core/Windows assemblies or grant friends.",
+  "native": "NOT_RUN",
+  "production_edits": false
+}

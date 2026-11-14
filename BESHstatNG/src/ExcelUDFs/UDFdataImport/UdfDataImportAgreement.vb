@@ -245,120 +245,31 @@ Partial Friend Module UdfDataImport
     End Function
 
     Friend Function ParseAgreementCiMethod(arg As Object, defaultValue As Agreement.AgreementCiMethod) As Agreement.AgreementCiMethod
-        Dim s As String = NormalizeToken(arg)
-        If s = "" Then Return defaultValue
-        Select Case s
-            Case "ANALYTICAL", "ANALYTIC"
-                Return Agreement.AgreementCiMethod.Analytical
-            Case "JACKKNIFE", "JACK"
-                Return Agreement.AgreementCiMethod.Jackknife
-            Case "BOOTSTRAP", "PERCENTILE", "BOOTSTRAPPERCENTILE", "BOOTSTRAP_PERCENTILE"
-                Return Agreement.AgreementCiMethod.BootstrapPercentile
-            Case "BCA", "BOOTSTRAPBCA", "BOOTSTRAP_BCA"
-                Return Agreement.AgreementCiMethod.BootstrapBCa
-            Case Else
-                Throw New ArgumentException("Unsupported ciMethod. Use analytical, jackknife, bootstrap, or bca.")
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseAgreementCiMethod(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultValue)
     End Function
 
     Friend Function ParseBlandAltmanMode(arg As Object, defaultValue As Agreement.RepeatedBlandAltmanMode) As Agreement.RepeatedBlandAltmanMode
-        Dim s As String = NormalizeToken(arg)
-        If s = "" Then Return defaultValue
-        Select Case s
-            Case "AUTO"
-                Return Agreement.RepeatedBlandAltmanMode.Auto
-            Case "SIMPLE", "PAIRS", "SIMPLEPAIRS"
-                Return Agreement.RepeatedBlandAltmanMode.SimplePairs
-            Case "REPEATED", "REPEATEDBYSUBJECT", "SUBJECT"
-                Return Agreement.RepeatedBlandAltmanMode.RepeatedBySubject
-            Case Else
-                Throw New ArgumentException("Unsupported Bland–Altman mode. Use auto, simple, or repeated.")
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanMode(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultValue)
     End Function
 
     Friend Function ParseBlandAltmanScale(arg As Object, defaultValue As Agreement.BlandAltmanScale) As Agreement.BlandAltmanScale
-        Dim s As String = NormalizeToken(arg)
-        If s = "" Then Return defaultValue
-        Select Case s
-            Case "RAW", "RAWDIFFERENCE", "DIFF", "DIFFERENCE"
-                Return Agreement.BlandAltmanScale.RawDifference
-            Case "MEANPCT", "PERCENTOFMEAN", "PCTMEAN", "PERCENTMEAN"
-                Return Agreement.BlandAltmanScale.PercentOfMean
-            Case "REFPCT", "PERCENTOFREFERENCE", "PCTREF", "PERCENTREF", "REFERENCE"
-                Return Agreement.BlandAltmanScale.PercentOfReference
-            Case "TESTPCT", "PERCENTOFTEST", "PCTTEST", "PERCENTTEST"
-                Return Agreement.BlandAltmanScale.PercentOfTest
-            Case "LOGRATIO", "LOG", "RATIO"
-                Return Agreement.BlandAltmanScale.LogRatio
-            Case Else
-                Throw New ArgumentException("Unsupported Bland–Altman scale.")
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanScale(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultValue)
     End Function
 
     Friend Function ParseBlandAltmanXAxisMode(arg As Object, defaultValue As Agreement.BlandAltmanXAxisMode) As Agreement.BlandAltmanXAxisMode
-        Dim s As String = NormalizeToken(arg)
-        If s = "" Then Return defaultValue
-        Select Case s
-            Case "MEAN", "MEANOFMETHODS"
-                Return Agreement.BlandAltmanXAxisMode.MeanOfMethods
-            Case "REFERENCE", "REF", "X"
-                Return Agreement.BlandAltmanXAxisMode.ReferenceMethod
-            Case "TEST", "Y"
-                Return Agreement.BlandAltmanXAxisMode.TestMethod
-            Case Else
-                Throw New ArgumentException("Unsupported Bland–Altman xAxis.")
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanXAxisMode(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultValue)
     End Function
 
     Friend Function ParseBlandAltmanPlotMode(arg As Object, defaultValue As Agreement.RepeatedBlandAltmanPlotMode) As Agreement.RepeatedBlandAltmanPlotMode
-        Dim s As String = NormalizeToken(arg)
-        If s = "" Then Return defaultValue
-        Select Case s
-            Case "ALL", "OBS", "ALLOBSERVATIONS"
-                Return Agreement.RepeatedBlandAltmanPlotMode.AllObservations
-            Case "MEANS", "SUBJECTMEANS", "MEANSONLY"
-                Return Agreement.RepeatedBlandAltmanPlotMode.SubjectMeansOnly
-            Case "BOTH", "ALLANDMEANS", "ALLOBSERVATIONSANDSUBJECTMEANS"
-                Return Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans
-            Case Else
-                Throw New ArgumentException("Unsupported Bland–Altman plotMode.")
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseBlandAltmanPlotMode(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultValue)
     End Function
 
     Friend Function ParseKappaWeighting(arg As Object, defaultValue As Agreement.KappaWeightingScheme) As Agreement.KappaWeightingScheme
-        Dim s As String = NormalizeToken(arg)
-        If s = "" Then Return defaultValue
-        Select Case s
-            Case "UNWEIGHTED", "COHEN", "NONE"
-                Return Agreement.KappaWeightingScheme.Unweighted
-            Case "LINEAR"
-                Return Agreement.KappaWeightingScheme.Linear
-            Case "QUADRATIC"
-                Return Agreement.KappaWeightingScheme.Quadratic
-            Case "CICCHETTI", "CICCHETTIALLISON", "CA"
-                Return Agreement.KappaWeightingScheme.CicchettiAllison
-            Case "FLEISS", "FLEISSCOHEN", "FC"
-                Return Agreement.KappaWeightingScheme.FleissCohen
-            Case "CUSTOM"
-                Return Agreement.KappaWeightingScheme.Custom
-            Case Else
-                Throw New ArgumentException("Unsupported kappa weighting scheme.")
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseKappaWeighting(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultValue)
     End Function
 
     Friend Function ParseDemingVarianceModel(arg As Object, defaultValue As Agreement.DemingVarianceModel) As Agreement.DemingVarianceModel
-        Dim s As String = NormalizeToken(arg)
-        If s = "" Then Return defaultValue
-        Select Case s
-            Case "LAMBDA", "CONSTANTLAMBDA", "CONSTANT"
-                Return Agreement.DemingVarianceModel.ConstantLambda
-            Case "POINTWISE", "KNOWNPOINTWISESD", "SD", "POINTWISESD"
-                Return Agreement.DemingVarianceModel.KnownPointwiseSD
-            Case "CV", "CONSTANTCV"
-                Return Agreement.DemingVarianceModel.ConstantCV
-            Case Else
-                Throw New ArgumentException("Unsupported Deming varianceModel.")
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseDemingVarianceModel(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultValue)
     End Function
 
     Friend Function ParseOptionalNullableDouble(arg As Object) As Double
@@ -372,24 +283,7 @@ Partial Friend Module UdfDataImport
     End Function
 
     Friend Function ParseIccModel(arg As Object, defaultValue As String) As String
-        Dim s As String = NormalizeToken(arg)
-        If s = "" Then Return defaultValue
-        Select Case s
-            Case "ICC11", "11"
-                Return "ICC11"
-            Case "ICC1K", "1K"
-                Return "ICC1K"
-            Case "ICC21", "21"
-                Return "ICC21"
-            Case "ICC2K", "2K"
-                Return "ICC2K"
-            Case "ICC31", "31"
-                Return "ICC31"
-            Case "ICC3K", "3K"
-                Return "ICC3K"
-            Case Else
-                Throw New ArgumentException("Unsupported ICC model. Use ICC11, ICC1K, ICC21, ICC2K, ICC31, or ICC3K.")
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.ParseIccModel(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultValue)
     End Function
 
     Friend Function IsOneWayIcc(modelCode As String) As Boolean

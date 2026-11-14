@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "suite": "office-node",
+      "command": {
+        "command": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "tests/*.test.mjs"
+        ],
+        "cwd": "<REPO_ROOT>\\BESHStat.OfficeAddin",
+        "exit_code": 0,
+        "seconds": 13.527172099999007,
+        "stdout_sha256": "554f21d286296bd4b7a0c1f5da3d8df3f99535f324369febc46e2a5f12a42871",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "resolver",
+      "command": {
+        "command": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "BESHStatNG_Help_MkDocs/tests/help-resolver.test.mjs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.27104270000199904,
+        "stdout_sha256": "4887286dcca3dcd09c5805e733492c4d754fc119528c581425b28d154258d5ca",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "wasm-node",
+      "command": {
+        "command": [
+          "node",
+          "--test",
+          "--test-concurrency=1"
+        ],
+        "cwd": "<REPO_ROOT>\\BESHStat.WasmSmoke",
+        "exit_code": 0,
+        "seconds": 2.6030762999980652,
+        "stdout_sha256": "4f0be60d3e9df377c369bce0d2f8b8ca45c33cd345df1345ec0307730cae319a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ]
+}

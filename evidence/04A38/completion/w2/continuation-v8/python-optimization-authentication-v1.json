@@ -1,0 +1,65 @@
+{
+  "prefixes": {
+    "scanner": {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/scanner-hook-ast-v1.py",
+        "bytes": 2869,
+        "sha256": "40b999812a914e56c490c1200e3a4d21fde96a46fa9ef21cbed4336209ec2d77"
+      },
+      "extracted": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/scanner-hook-ast-v1.py",
+        "bytes": 2869,
+        "sha256": "40b999812a914e56c490c1200e3a4d21fde96a46fa9ef21cbed4336209ec2d77"
+      },
+      "ast_sha256": "6925ac6161b7c80419a0c8e50bc011d50b59cf64ebd5913c28bdf7d12f473f69"
+    },
+    "tools": {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/tools-hook-ast-v1.py",
+        "bytes": 1230,
+        "sha256": "6560aece12e3733d4e219b737930afb2a914568edbb48e904526a4c1c8efd18d"
+      },
+      "extracted": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/tools-hook-ast-v1.py",
+        "bytes": 1230,
+        "sha256": "6560aece12e3733d4e219b737930afb2a914568edbb48e904526a4c1c8efd18d"
+      },
+      "ast_sha256": "d3310e7d5c9462ce84e08725b99aefe57c819395e2a9b127f7feb75e7b5a25d1"
+    },
+    "privacy_regex_guard.py": {
+      "path": "evidence/04A38/completion/w2/continuation-v6/privacy_regex_guard.py",
+      "bytes": 842,
+      "sha256": "ad17f82adca850afb94fa60d3c0ca5866b446860a7724dc77a5e5b3111c9ce5f"
+    },
+    "privacy-regex-guard-proof-v1.json": {
+      "path": "evidence/04A38/completion/w2/continuation-v6/privacy-regex-guard-proof-v1.json",
+      "bytes": 646,
+      "sha256": "e6fee62513a3a619f286a27986d1fbbb38713b6dd966f695bdf8371ddd2bb0d8"
+    },
+    "scanner-cache-proof-v1.json": {
+      "path": "evidence/04A38/completion/w2/continuation-v6/scanner-cache-proof-v1.json",
+      "bytes": 1196,
+      "sha256": "100ccc52d7daf94c93724b01cfd26f16e0e38abfab233d6c3dbe72aa6e47b98d"
+    },
+    "scanner-execution-proof-v1.json": {
+      "path": "evidence/04A38/completion/w2/continuation-v6/scanner-execution-proof-v1.json",
+      "bytes": 1474,
+      "sha256": "23708de8afdb9b915dd5a181cf40fdf0f7eba7d41e6947e5d6effc09fd196ae9"
+    }
+  },
+  "retained_regex_equivalence_controls": 12068,
+  "source_changed": false,
+  "assertions_changed": 0,
+  "parallel_kernel": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/parallel_scan_v2.py",
+    "bytes": 9705,
+    "sha256": "a4bacd9a574ba5e73b3036aca9a4aeb0a21a1651b405cea6d67a537828e4726d"
+  },
+  "parallel_proof": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/parallel-scanner-equivalence-v2.json",
+    "bytes": 17870,
+    "sha256": "51c6751b1520656b7fd6b623d6f24cc14e96d565568876f2e032a6a1077ce41f"
+  },
+  "positive_matches": "Original regex Match objects and ordered spans; exact unchanged C6 fallback",
+  "cache_invalidation": "Exact scan/git AST, ROOT, COMPUTERNAME, fixed hash seed38, path and actual SHA256; deepcopy C6 cache outputs; absent or patched domains retain original sequential fallback"
+}

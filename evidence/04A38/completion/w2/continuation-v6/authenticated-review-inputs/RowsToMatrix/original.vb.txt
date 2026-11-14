@@ -1,0 +1,9 @@
+Private Function RowsToMatrix(rows As List(Of Double()), cols As Integer) As Double(,)
+        Dim out(rows.Count - 1, cols - 1) As Double
+        For r As Integer = 0 To rows.Count - 1
+            For c As Integer = 0 To cols - 1
+                out(r, c) = rows(r)(c)
+            Next
+        Next
+        Return out
+    End Function

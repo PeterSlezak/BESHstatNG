@@ -1,0 +1,207 @@
+{
+  "status": "STOP_REQUIRED_PRESERVATION_DRIFT_NO_FINAL_CLOSURE_PROMOTION",
+  "entry": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "bytes": 78245,
+    "sha256": "436b66c4307bd1571649c2604f8d90b5f0b5d843df3567b918698392fe5d6e7c"
+  },
+  "current": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "bytes": 84627,
+    "sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd"
+  },
+  "entry_snapshot": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/preservation-stop-v1/owner-plan-authenticated-entry.md",
+    "bytes": 78245,
+    "sha256": "436b66c4307bd1571649c2604f8d90b5f0b5d843df3567b918698392fe5d6e7c"
+  },
+  "current_snapshot": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/preservation-stop-v1/owner-plan-live-at-stop.md",
+    "bytes": 84627,
+    "sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd"
+  },
+  "delta": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/preservation-stop-v1/owner-plan-delta.diff",
+    "bytes": 29359,
+    "sha256": "87c5e8e9320932e9bd7a3201c631e7b2b85db3289c8e1e310a92ad8983a9317f"
+  },
+  "actual_live_reader": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v14\\verify_c14_preservation_v1.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 20.852046699998027,
+    "stdout_sha256": "782d875df1c55ba01f8bf03a0d12a9fcf5437a165380faa90975ae35d1dde444",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "Git": [
+    {
+      "check": "branch",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "branch",
+          "--show-current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.05568119999952614,
+        "stdout_sha256": "21e6cef64d0c746dff013d36467aaccfaee4217649e4e00e676958b12c0308cb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "check": "HEAD",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "rev-parse",
+          "HEAD"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.045939400006318465,
+        "stdout_sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "check": "main",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "rev-parse",
+          "main"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.04466849999880651,
+        "stdout_sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "check": "merge-base",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "merge-base",
+          "HEAD",
+          "main"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.047060400000191294,
+        "stdout_sha256": "e70f262a38b784fdf5fea999209d3178b6af423f51a98291f48ad35b33d98401",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "check": "index",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "diff",
+          "--cached",
+          "--name-status"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.049927100000786595,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "check": "status",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "status",
+          "--porcelain=v1"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.08828669999638805,
+        "stdout_sha256": "2602f0793d89a5c3577cbf6c9b029ecb9d0b4f10490727fa3646df4b8f0e8cb7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "check": "diff-check",
+      "execution": {
+        "command": [
+          "git",
+          "-c",
+          "safe.directory=<REPO_ROOT>",
+          "--no-optional-locks",
+          "diff",
+          "--check"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.14892450000479585,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "6ff6ded4d2541f8c6f90ed463b604868ca589f769cdb6788126d45bd495475dd",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "index_file": {
+    "path": ".git/index",
+    "bytes": 620185,
+    "sha256": "2036821003b1e1fb1077e72183e0b6c2fa7d22cdb2e784b760637e6d6fe9bc2c"
+  },
+  "production_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/production-test-freeze-v1.json",
+    "bytes": 1850,
+    "sha256": "61b73b9e604b588cf89e3f86657611eb8468160fa02f8f4b507f41196ab6e9bc"
+  },
+  "Python_frozen_postcheck": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/python-frozen-input-postcheck-v1.json",
+    "bytes": 994,
+    "sha256": "1c7f7db7596d4b17433af222b5f8b96891289c3351bdf01707661a0be7fd6c93"
+  },
+  "prior_failed_nonpass_reconciliation": {
+    "command": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c14-nonpass-source-deltas-v1/command.json",
+      "bytes": 586,
+      "sha256": "b3bd56252b2b3163699befb774d9b7f35b8b21930b5e08315b91239470d0be87"
+    },
+    "stderr": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c14-nonpass-source-deltas-v1/stderr.log",
+      "bytes": 551,
+      "sha256": "971fc42c26418c0211b70741ba2527f6c9691f44d6122c65fb4019b6e90b8b5c"
+    }
+  },
+  "owner_decision": "Confirm authority for the changed owner plan and specify how to preserve/reconcile the entry plan versus current plan. No reset or owner document overwrite. Existing source/proof/test work remains retained and provisional. Final v14 closure and publication work is stopped.",
+  "original_queries": 0
+}

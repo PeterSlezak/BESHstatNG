@@ -1,0 +1,20 @@
+      ''' </summary>
+        ''' <param name="explicitNames">
+        ''' Optional user-supplied names, typically as a comma-separated string or a one-row/one-column range.
+        ''' </param>
+        ''' <param name="detectedNames">
+        ''' Names detected from the input range, typically from a header row.
+        ''' </param>
+        ''' <param name="expectedCount">The required number of names.</param>
+        ''' <param name="prefix">
+        ''' Fallback prefix used to generate default names such as
+        ''' <c>Group 1</c>, <c>Group 2</c>, or <c>Condition 1</c>.
+        ''' </param>
+        ''' <returns>
+        ''' A string array of length <paramref name="expectedCount"/> containing the resolved names.
+        ''' User-supplied names take priority, then detected names, then generated fallback names.
+        ''' Blank resolved entries are replaced with generated fallback names.
+        ''' </returns>
+        Friend Function ResolveNames(explicitNames As Object, detectedNames() As String, expectedCount As Integer, prefix As String) As String()
+            If Not IsMissingArg(explicitNames) Then
+                Dim names = Global.BESHStatNG.UdfDataImport.G

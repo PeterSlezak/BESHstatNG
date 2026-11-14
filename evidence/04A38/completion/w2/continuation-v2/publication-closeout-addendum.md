@@ -1,0 +1,7 @@
+# Publication privacy addendum — NOT_READY_04A38
+
+Manifest v1 (3104 hashes plus one null self-entry) was rejected before any ZIP was created. A raw full-managed receipt included the intentional credential-shaped URI DataRow in a test display name from the unchanged CompositeOutputTests source. No URL exception or privacy relaxation was added.
+
+The raw receipt and rejected manifest remain unchanged locally. full-managed-Debug-public-v2.json changes only diagnostic test_name display labels through the established safe_label policy. diagnostic-public-derivative.json records both file identities and every changed field/label digest. Raw identity/occurrence/outcomes remain available in managed-Debug-identities.json. No original/current statistical input, output, branch, source or trace byte was transformed. The raw full-managed receipt is excluded from the public derivative; consequently the rejected v1 manifest's excluded diagnostic cannot be independently rehashed from that ZIP. This is a declared review-copy exclusion, not lost local evidence.
+
+Use verify_publication.py with the final manifest path explicitly; its default remains the earlier rejected v1 attempt. test_publication_v2.py passes v2 explicitly. Later closeout manifest versions include prior manifests as hashed payloads and all successful/failed validation receipts without editing their chronology. Final ZIP identity/CRC and final live Git checks are external export receipts, never invented self-referential ZIP data.

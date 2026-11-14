@@ -1,0 +1,18 @@
+Friend Function TryGetSingleNumericColumn(input As Object,
+                                              ByRef values() As Double,
+                                              ByRef detectedName As String) As Boolean
+        values = Nothing
+        detectedName = String.Empty
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+        If arr.GetLength(1) <> 1 Then Return False
+
+        Dim hasHeader As Boolean = LooksLikeSingleColumnHeader(arr)
+        If hasHeader Then detectedName = Convert.ToString(arr(0, 0)).Trim()
+
+        Dim startRow As Integer = If(hasHeader, 1, 0)
+        values = Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.ReadFiniteColumn(
+            arr.GetLength(0), startRow, Function(row) Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(row, 0)))
+        Return True
+    End Function

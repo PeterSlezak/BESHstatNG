@@ -1,0 +1,6 @@
+{
+  "final_version": 2,
+  "retained_version": 1,
+  "reason": "The first current-position receipt was captured at production freeze3 before the subsequently restored MMRM intercept alias. Complete contracts used final freeze4, but proposed current-ledger source records still referenced the earlier position receipt. Version2 recomputes and asserts all726 exact source records against the final actual census. All source/compile/compatibility/test attempts remain immutable.",
+  "scope": "EVIDENCE_ONLY_CORRECTION;NO_PRODUCTION_OR_TEST_CHANGE"
+}

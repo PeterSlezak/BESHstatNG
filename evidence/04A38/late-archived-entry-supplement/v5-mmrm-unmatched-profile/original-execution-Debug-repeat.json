@@ -1,0 +1,55 @@
+{
+  "role": "original",
+  "configuration": "Debug",
+  "mode": "repeat",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/input-seal.json",
+    "bytes": 6539,
+    "sha256": "4d8621915832c5a795838e9b2282b75bf75503e6d1dd98b1fa97cb098953c2cb"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 49664,
+    "sha256": "6ed0c98c4bb2b28842b7d499de6fbbc3d36bad5da6bbe9a7440fbb5cf6c6b37a"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/repeat/execution.json",
+      "bytes": 1017,
+      "sha256": "9dc98ba168d36089a4a0196b9dba48f87a9127da70c00b870b26d554c0c26648"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/repeat/results.tsv",
+      "bytes": 31484,
+      "sha256": "f4cabe1eaea62672ad4e54578431b31b98d354f5308d007dc2d10248393dbd6a"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/repeat/results.tsv.cultures.json",
+      "bytes": 499,
+      "sha256": "9a740a7a205194e7ea99f261378a9769d10b63939d95f0b76ae52395a4a1680e"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/repeat/results.tsv.sessions.json",
+      "bytes": 14833,
+      "sha256": "882fddbd35ce65aedca1df692f9061608d8ce08fd72a6c961f74c25226f3e9c7"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-plain-v2\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-plain-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\inputs-Debug.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\original-results\\Debug\\repeat\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\original-results\\Debug\\repeat\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.40931970000383444,
+    "stdout_sha256": "336d4d7a8f378777eb9ecf6a52ea864055fd08dbbc3063f5d215b337762305a4",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

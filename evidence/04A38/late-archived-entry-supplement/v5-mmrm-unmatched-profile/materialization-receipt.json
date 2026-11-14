@@ -1,0 +1,197 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/main:MaterializeMmrm38",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-plain-v2\\BESHStat.Core.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+        "/out:<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-plain-v2\\MaterializeMmrm38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\MaterializeMmrm38.cs",
+        "<REPO_ROOT>\\evidence\\04A38\\preedit\\frozen-v2\\Capture38.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.3717343999960576,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-plain-v2\\MaterializeMmrm38.exe",
+        "<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-plain-v2",
+        "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\factory-inputs.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.32874640000227373,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "factory_bytes_exact": true,
+  "fresh_factory": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/factory-inputs.json",
+    "bytes": 20560,
+    "sha256": "7f0bf7491d95b6214420b6ee502694b11f6d69d0964dd33089a39fad9c4b4ded"
+  },
+  "v3_factory": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/factory-inputs.json",
+    "bytes": 20560,
+    "sha256": "7f0bf7491d95b6214420b6ee502694b11f6d69d0964dd33089a39fad9c4b4ded"
+  },
+  "original_case_provenance": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/materialization-receipt.json",
+    "bytes": 10015,
+    "sha256": "1f6ae0932caa2aa0204148dbc4f3342dc95a69a7050814e1f2d6f7105d030bd7"
+  },
+  "recorders": [
+    {
+      "configuration": "Debug",
+      "mode": "plain",
+      "executable": {
+        "name": "MmrmCapture38.exe",
+        "bytes": 49664,
+        "sha256": "6ed0c98c4bb2b28842b7d499de6fbbc3d36bad5da6bbe9a7440fbb5cf6c6b37a"
+      },
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-plain-v2\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-plain-v2\\MmrmCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.34549169999809237,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "mode": "trace",
+      "executable": {
+        "name": "MmrmCapture38.exe",
+        "bytes": 49664,
+        "sha256": "8c45ee45282a755e7098652caa4bc1d4cf9c2fb83c6e397278feeb0e9d13c1de"
+      },
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-trace-v2\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v5\\original-Debug-trace-v2\\MmrmCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.34265030000096885,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "configuration": "Release",
+      "mode": "plain",
+      "executable": {
+        "name": "MmrmCapture38.exe",
+        "bytes": 49664,
+        "sha256": "0ad2f83cd6c2ae565a61d2ecad331278c965b63b2c9d502856c031f270ee3812"
+      },
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v5\\original-Release-plain-v2\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v5\\original-Release-plain-v2\\MmrmCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.34309460000076797,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "configuration": "Release",
+      "mode": "trace",
+      "executable": {
+        "name": "MmrmCapture38.exe",
+        "bytes": 49664,
+        "sha256": "7e068662a8d8bdfd01cee5116c7acd9029659b3db208e4ef13088f1b28e4d234"
+      },
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\mmrm38-v5\\original-Release-trace-v2\\BESHStat.Core.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\mmrm38-v5\\original-Release-trace-v2\\MmrmCapture38.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\MmrmCapture38.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3450717000014265,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "handle_contract": "Only actual fitted GUID -> HANDLE:MMRM:SESSION1. Preserve raw GUIDs separately; no other normalization permitted.",
+  "typed_packets": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/materialized-Debug.json",
+      "bytes": 15826,
+      "sha256": "08e220602213fad911b95938f327e0ff4b454fc0877b8df78a007a5af1f19697"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/materialized-Release.json",
+      "bytes": 15826,
+      "sha256": "08e220602213fad911b95938f327e0ff4b454fc0877b8df78a007a5af1f19697"
+    }
+  ],
+  "cases_per_configuration": 2,
+  "model_executions": 0,
+  "query_executions": 0,
+  "python_version": "3.14.7 (main, Aug  7 2026, 02:26:22) [MSC v.1944 64 bit (AMD64)]",
+  "compiler_files": [
+    {
+      "name": "vbc.exe",
+      "bytes": 67400,
+      "sha256": "75be1417f8d839564ee864ef4fae0344d724b5c6963b4d8bb8cbaedfb2830c23"
+    },
+    {
+      "name": "csc.exe",
+      "bytes": 67400,
+      "sha256": "a13d1edf3ef5dd0d0e09886251f03fa18877d46ba2dacee075b4c8a5add21457"
+    }
+  ]
+}

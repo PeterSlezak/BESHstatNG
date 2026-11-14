@@ -1,0 +1,71 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4",
+      "-p",
+      "test_readers.py",
+      "-v"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 49.94493070000317,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "c301efd74f9a59a5fc51ef736fe0c9be77a0384bf619b7decfd3719bf71b994d",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "tests": {
+    "label": "w2c4-independent-deep-controls",
+    "total": 30,
+    "passed": 29,
+    "failed": 1,
+    "errors": 0,
+    "stderr_sha256": "c301efd74f9a59a5fc51ef736fe0c9be77a0384bf619b7decfd3719bf71b994d",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 1,
+    "identities": [
+      "test_alias_changed_even_rehashed (test_readers.DeepControls.test_alias_changed_even_rehashed)",
+      "test_all_calculation_order_even_rehashed (test_readers.DeepControls.test_all_calculation_order_even_rehashed)",
+      "test_census_tampered (test_readers.DeepControls.test_census_tampered)",
+      "test_changed_accepted_engine (test_readers.DeepControls.test_changed_accepted_engine)",
+      "test_current_binary_source_mismatch (test_readers.DeepControls.test_current_binary_source_mismatch)",
+      "test_erased_synthetic_difference (test_readers.DeepControls.test_erased_synthetic_difference)",
+      "test_export_changed (test_readers.DeepControls.test_export_changed)",
+      "test_false_ready (test_readers.DeepControls.test_false_ready)",
+      "test_frozen_output_changed (test_readers.DeepControls.test_frozen_output_changed)",
+      "test_hidden_facade_initializer (test_readers.DeepControls.test_hidden_facade_initializer)",
+      "test_historical_identity_dropped (test_readers.DeepControls.test_historical_identity_dropped)",
+      "test_host_only_fabricated (test_readers.DeepControls.test_host_only_fabricated)",
+      "test_inline_parent_lost (test_readers.DeepControls.test_inline_parent_lost)",
+      "test_input_bits_changed (test_readers.DeepControls.test_input_bits_changed)",
+      "test_missing_catch (test_readers.DeepControls.test_missing_catch)",
+      "test_option_cache_fields (test_readers.DeepControls.test_option_cache_fields)",
+      "test_option_cache_initializer (test_readers.DeepControls.test_option_cache_initializer)",
+      "test_option_fake_callee (test_readers.DeepControls.test_option_fake_callee)",
+      "test_option_missing_observation (test_readers.DeepControls.test_option_missing_observation)",
+      "test_option_wrong_exception (test_readers.DeepControls.test_option_wrong_exception)",
+      "test_original_binary_substitution (test_readers.DeepControls.test_original_binary_substitution)",
+      "test_original_query_forgery (test_readers.DeepControls.test_original_query_forgery)",
+      "test_portable_swallowed_exception (test_readers.DeepControls.test_portable_swallowed_exception)",
+      "test_positive (test_readers.DeepControls.test_positive)",
+      "test_real_VB_helper_changed (test_readers.DeepControls.test_real_VB_helper_changed)",
+      "test_site_missing (test_readers.DeepControls.test_site_missing)",
+      "test_support_auto_closed (test_readers.DeepControls.test_support_auto_closed)",
+      "test_validation_moved_inside_catch (test_readers.DeepControls.test_validation_moved_inside_catch)",
+      "test_welch_header_changed_even_rehashed (test_readers.DeepControls.test_welch_header_changed_even_rehashed)",
+      "test_wrong_Err_state (test_readers.DeepControls.test_wrong_Err_state)"
+    ],
+    "nonpasses": [
+      {
+        "outcome": "FAIL",
+        "identity": "test_all_calculation_order_even_rehashed (test_readers.DeepControls.test_all_calculation_order_even_rehashed)",
+        "subtest": ""
+      }
+    ]
+  }
+}

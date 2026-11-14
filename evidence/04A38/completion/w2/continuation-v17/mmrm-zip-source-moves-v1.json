@@ -1,0 +1,265 @@
+{
+  "moves": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "host": "StackResultTables",
+      "original_segment": "            If rendered.Count = 0 Then\r\n                Dim empty(0, 0) As Object\r\n                empty(0, 0) = \"No result tables available.\"\r\n                Return empty\r\n            End If\r\n\r\n            totalRows += rendered.Count - 1\r\n            Dim out(totalRows - 1, maxCols - 1) As Object\r\n            Dim r As Integer = 0\r\n\r\n            For k As Integer = 0 To rendered.Count - 1\r\n                If k > 0 Then r += 1\r\n                Dim arr As Object(,) = rendered(k)\r\n                For i As Integer = 0 To arr.GetLength(0) - 1\r\n                    For j As Integer = 0 To arr.GetLength(1) - 1\r\n                        out(r + i, j) = arr(i, j)\r\n                    Next\r\n                Next\r\n                r += arr.GetLength(0)\r\n            Next\r\n\r\n            Return out\r\n",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.StackRenderedMmrmTables(rendered, totalRows, maxCols)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function StackRenderedMmrmTables(rendered As List(Of Object(,)), totalRows As Integer, maxCols As Integer) As Object(,)",
+        "body": "            If rendered.Count = 0 Then\n                Dim empty(0, 0) As Object\n                empty(0, 0) = \"No result tables available.\"\n                Return empty\n            End If\n\n            totalRows += rendered.Count - 1\n            Dim out(totalRows - 1, maxCols - 1) As Object\n            Dim r As Integer = 0\n\n            For k As Integer = 0 To rendered.Count - 1\n                If k > 0 Then r += 1\n                Dim arr As Object(,) = rendered(k)\n                For i As Integer = 0 To arr.GetLength(0) - 1\n                    For j As Integer = 0 To arr.GetLength(1) - 1\n                        out(r + i, j) = arr(i, j)\n                    Next\n                Next\n                r += arr.GetLength(0)\n            Next\n\n            Return out"
+      },
+      "aliases": [],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "host": "EnsureMmrmResultUsesHandleFixedEffectNames",
+      "original_segment": "        Private Sub EnsureMmrmResultUsesHandleFixedEffectNames(h As MmrmHandle)\r\n            If h Is Nothing OrElse h.Result Is Nothing Then Exit Sub\r\n            If h.FixedEffectNames Is Nothing OrElse h.FixedEffectNames.Length = 0 Then Exit Sub\r\n            If h.Result.Beta Is Nothing OrElse h.Result.Beta.Length <> h.FixedEffectNames.Length Then Exit Sub\r\n            h.Result.FixedEffectNames = CType(h.FixedEffectNames.Clone(), String())\r\n        End Sub",
+      "native_call": "        Private Sub EnsureMmrmResultUsesHandleFixedEffectNames(h As MmrmHandle)\r\n            If h Is Nothing OrElse h.Result Is Nothing Then Exit Sub\r\n            Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.ApplyMmrmHandleNames(h.Result, h.FixedEffectNames)\r\n        End Sub",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Sub ApplyMmrmHandleNames(result As Global.BESHStatNG.regression.MixedModelResult, names() As String)",
+        "body": "If names Is Nothing OrElse names.Length = 0 Then Exit Sub\n            If result.Beta Is Nothing OrElse result.Beta.Length <> names.Length Then Exit Sub\n            result.FixedEffectNames = CType(names.Clone(), String())",
+        "native_guard": "If h Is Nothing OrElse h.Result Is Nothing Then Exit Sub"
+      },
+      "aliases": [
+        {
+          "before": "h.FixedEffectNames",
+          "after": "names"
+        },
+        {
+          "before": "h.Result",
+          "after": "result"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "host": "MMRM_FIT",
+      "original_segment": "                Dim req As regression.MixedModelFitRequest = regression.MixedModelFitRequest.CreateMMRM(data, rStruct, fit)\r\n                req.FixedEffectNames = fitNames\r\n                req.FixedInferenceMethod = fixedInference\r\n                req.ResponseVarName = \"y\"\r\n                req.SubjectVarName = \"subject\"\r\n                req.VisitVarName = If(visitValues Is Nothing, String.Empty, \"visit\")\r\n                req.RequestLabel = \"MMRM UDF\"\r\n\r\n                Dim control As regression.MixedModelControl = req.Control\r\n                control.Trace = traceValue\r\n                control.CovarianceOptimizerMode = optimizerMode\r\n                control.CovarianceGradientMode = gradientMode",
+      "native_call": "                Dim control As regression.MixedModelControl\r\n                Dim req As regression.MixedModelFitRequest = Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.CreateMmrmFitRequest(data, rStruct, fit, fitNames, fixedInference, visitValues, traceValue, optimizerMode, gradientMode, control)",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function CreateMmrmFitRequest(data As Global.BESHStatNG.regression.MixedModelBlockData, rStruct As Global.BESHStatNG.regression.MixedModelRStruct, fit As Global.BESHStatNG.regression.MixedModelFitMethod, fitNames() As String, fixedInference As Global.BESHStatNG.regression.MixedModelFixedInferenceMethod, visitValues() As Double, traceValue As Boolean, optimizerMode As Global.BESHStatNG.regression.MixedModelCovarianceOptimizerMode, gradientMode As Global.BESHStatNG.regression.MixedModelCovarianceGradientMode) As Global.BESHStatNG.regression.MixedModelFitRequest",
+        "body": "                Dim req As Global.BESHStatNG.regression.MixedModelFitRequest = Global.BESHStatNG.regression.MixedModelFitRequest.CreateMMRM(data, rStruct, fit)\n                req.FixedEffectNames = fitNames\n                req.FixedInferenceMethod = fixedInference\n                req.ResponseVarName = \"y\"\n                req.SubjectVarName = \"subject\"\n                req.VisitVarName = If(visitValues Is Nothing, String.Empty, \"visit\")\n                req.RequestLabel = \"MMRM UDF\"\n\n                Dim control As Global.BESHStatNG.regression.MixedModelControl = req.Control\n                control.Trace = traceValue\n                control.CovarianceOptimizerMode = optimizerMode\n                control.CovarianceGradientMode = gradientMode",
+        "suffix": "Return req",
+        "control_structure_out": "Original control struct is initialized and modified once, passed ByRef to the native local; the native req.Control assignment remains at its original post-maxIter position."
+      },
+      "aliases": [
+        {
+          "before": "regression.",
+          "after": "Global.BESHStatNG.regression."
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "host": "TryPrepareZipCountPredictionInputs",
+      "original_segment": "            Dim expandedNames() As String = Nothing\r\n            Dim designErr As String = Nothing\r\n            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,\r\n                                                                                                fullRawPredictorKeys:=rawPredictorKeys,\r\n                                                                                                designSpec:=h.CountDesignSpec,\r\n                                                                                                expandedX:=expandedX,\r\n                                                                                                expandedPredictorNames:=expandedNames,\r\n                                                                                                errorMessage:=designErr,\r\n                                                                                                omitCategoricalReference:=h.CountOmitCategoricalReference) Then\r\n                Return False\r\n            End If\r\n\r\n            If expandedNames Is Nothing Then expandedNames = New String() {}\r\n            If expandedNames.Length <> h.CountExpandedPredictorNames.Length Then Return False\r\n\r\n            nRows = imported.nRows\r\n            offsetVals = If(imported.bOffset, imported.OffsetData, Nothing)\r\n            Return UdfDataImport.HasOnlyFinite(offsetVals)\r\n",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.PrepareZipCountDesign(imported.DataDbl, rawPredictorKeys, h.CountDesignSpec, h.CountOmitCategoricalReference, h.CountExpandedPredictorNames, imported.nRows, expandedX, nRows, imported.bOffset, imported.OffsetData, offsetVals)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function PrepareZipCountDesign(rawX(,) As Double, rawPredictorKeys() As String, designSpec As RegressionFormulaDesignSpec, omitCategoricalReference As Boolean, expectedNames() As String, importedRows As Integer, ByRef expandedX(,) As Double, ByRef nRows As Integer, importedHasOffset As Boolean, importedOffset() As Double, ByRef offsetVals() As Double) As Boolean",
+        "body": "            Dim expandedNames() As String = Nothing\n            Dim designErr As String = Nothing\n            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=rawX,\n                                                                                                fullRawPredictorKeys:=rawPredictorKeys,\n                                                                                                designSpec:=designSpec,\n                                                                                                expandedX:=expandedX,\n                                                                                                expandedPredictorNames:=expandedNames,\n                                                                                                errorMessage:=designErr,\n                                                                                                omitCategoricalReference:=omitCategoricalReference) Then\n                Return False\n            End If\n\n            If expandedNames Is Nothing Then expandedNames = New String() {}\n            If expandedNames.Length <> expectedNames.Length Then Return False\n\n            nRows = importedRows\n            offsetVals = If(importedHasOffset, importedOffset, Nothing)\n            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.HasOnlyFinite(offsetVals)"
+      },
+      "aliases": [
+        {
+          "before": "h.CountDesignSpec",
+          "after": "designSpec"
+        },
+        {
+          "before": "h.CountOmitCategoricalReference",
+          "after": "omitCategoricalReference"
+        },
+        {
+          "before": "h.CountExpandedPredictorNames",
+          "after": "expectedNames"
+        },
+        {
+          "before": "imported.DataDbl",
+          "after": "rawX"
+        },
+        {
+          "before": "imported.nRows",
+          "after": "importedRows"
+        },
+        {
+          "before": "imported.bOffset",
+          "after": "importedHasOffset"
+        },
+        {
+          "before": "imported.OffsetData",
+          "after": "importedOffset"
+        },
+        {
+          "before": "UdfDataImport.HasOnlyFinite",
+          "after": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.HasOnlyFinite"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "host": "TryPrepareZipZeroPredictionInputs",
+      "original_segment": "            Dim expandedNames() As String = Nothing\r\n            Dim designErr As String = Nothing\r\n            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,\r\n                                                                                                fullRawPredictorKeys:=rawPredictorKeys,\r\n                                                                                                designSpec:=h.ZeroDesignSpec,\r\n                                                                                                expandedX:=expandedX,\r\n                                                                                                expandedPredictorNames:=expandedNames,\r\n                                                                                                errorMessage:=designErr,\r\n                                                                                                omitCategoricalReference:=h.ZeroOmitCategoricalReference) Then\r\n                Return False\r\n            End If\r\n\r\n            If expandedNames Is Nothing Then expandedNames = New String() {}\r\n            If expandedNames.Length <> h.ZeroExpandedPredictorNames.Length Then Return False\r\n\r\n            nRows = imported.nRows\r\n            Return True\r\n",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.PrepareZipZeroDesign(imported.DataDbl, rawPredictorKeys, h.ZeroDesignSpec, h.ZeroOmitCategoricalReference, h.ZeroExpandedPredictorNames, imported.nRows, expandedX, nRows)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function PrepareZipZeroDesign(rawX(,) As Double, rawPredictorKeys() As String, designSpec As RegressionFormulaDesignSpec, omitCategoricalReference As Boolean, expectedNames() As String, importedRows As Integer, ByRef expandedX(,) As Double, ByRef nRows As Integer) As Boolean",
+        "body": "            Dim expandedNames() As String = Nothing\n            Dim designErr As String = Nothing\n            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=rawX,\n                                                                                                fullRawPredictorKeys:=rawPredictorKeys,\n                                                                                                designSpec:=designSpec,\n                                                                                                expandedX:=expandedX,\n                                                                                                expandedPredictorNames:=expandedNames,\n                                                                                                errorMessage:=designErr,\n                                                                                                omitCategoricalReference:=omitCategoricalReference) Then\n                Return False\n            End If\n\n            If expandedNames Is Nothing Then expandedNames = New String() {}\n            If expandedNames.Length <> expectedNames.Length Then Return False\n\n            nRows = importedRows\n            Return True"
+      },
+      "aliases": [
+        {
+          "before": "h.ZeroDesignSpec",
+          "after": "designSpec"
+        },
+        {
+          "before": "h.ZeroOmitCategoricalReference",
+          "after": "omitCategoricalReference"
+        },
+        {
+          "before": "h.ZeroExpandedPredictorNames",
+          "after": "expectedNames"
+        },
+        {
+          "before": "imported.DataDbl",
+          "after": "rawX"
+        },
+        {
+          "before": "imported.nRows",
+          "after": "importedRows"
+        },
+        {
+          "before": "imported.bOffset",
+          "after": "importedHasOffset"
+        },
+        {
+          "before": "imported.OffsetData",
+          "after": "importedOffset"
+        },
+        {
+          "before": "UdfDataImport.HasOnlyFinite",
+          "after": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.HasOnlyFinite"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "host": "ZIP_PRED",
+      "original_segment": "                Dim rows As New List(Of Object())\r\n                For i As Integer = 0 To nRows - 1\r\n                    Dim etaCount As Double = ComputeLinearPredictor(countExpandedX, i, betaCount, h.CountInterceptIncluded, offsetVals)\r\n                    Dim lambda As Double = Math.Exp(etaCount)\r\n                    Dim etaZero As Double = ComputeLinearPredictor(zeroExpandedX, i, betaZero, h.ZeroInterceptIncluded, Nothing)\r\n                    Dim pi As Double = regression.Logit.LogisticStable(etaZero)\r\n                    Dim mu As Double = (1.0R - pi) * lambda\r\n\r\n                    rows.Add(New Object() {\r\n                        SafeExcelNumber(mu),\r\n                        SafeExcelNumber(lambda),\r\n                        SafeExcelNumber(pi),\r\n                        SafeExcelNumber(etaCount),\r\n                        SafeExcelNumber(etaZero)\r\n                    })\r\n                Next",
+      "native_call": "                Dim rows As List(Of Object()) = Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildZipPredictionRows(countExpandedX, zeroExpandedX, betaCount, betaZero, h.CountInterceptIncluded, h.ZeroInterceptIncluded, offsetVals, nRows, AddressOf SafeExcelNumber)",
+      "portable": {
+        "owner": "UdfW2CompletionReports38",
+        "signature": "Public Shared Function BuildZipPredictionRows(countExpandedX(,) As Double, zeroExpandedX(,) As Double, betaCount() As Double, betaZero() As Double, countIntercept As Boolean, zeroIntercept As Boolean, offsetVals() As Double, nRows As Integer, safeNumber As Func(Of Double, Object)) As List(Of Object())",
+        "body": "                Dim rows As New List(Of Object())\n                For i As Integer = 0 To nRows - 1\n                    Dim etaCount As Double = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeLinearPredictor(countExpandedX, i, betaCount, countIntercept, offsetVals)\n                    Dim lambda As Double = Math.Exp(etaCount)\n                    Dim etaZero As Double = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeLinearPredictor(zeroExpandedX, i, betaZero, zeroIntercept, Nothing)\n                    Dim pi As Double = Global.BESHStatNG.regression.Logit.LogisticStable(etaZero)\n                    Dim mu As Double = (1.0R - pi) * lambda\n\n                    rows.Add(New Object() {\n                        safeNumber(mu),\n                        safeNumber(lambda),\n                        safeNumber(pi),\n                        safeNumber(etaCount),\n                        safeNumber(etaZero)\n                    })\n                Next",
+        "suffix": "Return rows"
+      },
+      "aliases": [
+        {
+          "before": "h.CountInterceptIncluded",
+          "after": "countIntercept"
+        },
+        {
+          "before": "h.ZeroInterceptIncluded",
+          "after": "zeroIntercept"
+        },
+        {
+          "before": "SafeExcelNumber(",
+          "after": "safeNumber("
+        },
+        {
+          "before": "ComputeLinearPredictor(",
+          "after": "Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeLinearPredictor("
+        },
+        {
+          "before": "regression.",
+          "after": "Global.BESHStatNG.regression."
+        }
+      ],
+      "original_queries": 0
+    }
+  ],
+  "before": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "bytes": 83735,
+        "sha256": "c074b481458d217111788574b25d5405e5f07fd748891a44ca87193427bdc52d"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/mmrm-zip-before/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "bytes": 83735,
+        "sha256": "c074b481458d217111788574b25d5405e5f07fd748891a44ca87193427bdc52d"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+        "bytes": 55539,
+        "sha256": "3915271d2bc59cb01ea080d86ff942c97da8f747c0055f7896be5c2f4f1e05ef"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/mmrm-zip-before/BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+        "bytes": 55539,
+        "sha256": "3915271d2bc59cb01ea080d86ff942c97da8f747c0055f7896be5c2f4f1e05ef"
+      }
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+        "bytes": 22443,
+        "sha256": "dbe91e80df73863054e6dc966f4ddbc8044ded70ccc2901dded19537f9849941"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/mmrm-zip-before/BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+        "bytes": 22443,
+        "sha256": "dbe91e80df73863054e6dc966f4ddbc8044ded70ccc2901dded19537f9849941"
+      }
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 16433,
+        "sha256": "fa9c6b835936fcfa6b9aad0e01eae689a4165780b6530fa84947e6819876ed75"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/mmrm-zip-before/BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 16433,
+        "sha256": "fa9c6b835936fcfa6b9aad0e01eae689a4165780b6530fa84947e6819876ed75"
+      }
+    }
+  ],
+  "current": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "bytes": 82503,
+      "sha256": "d3904c4a42cb6339926d097ab4f534bd444788a64c9039cefc4604fd1cfe7096"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "bytes": 52726,
+      "sha256": "a62a5da1bb7b05fcd8c20f3b4aa5c24bf7bf835f6a57034e955390230091ace0"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfW2CompletionReports38.vb",
+      "bytes": 25092,
+      "sha256": "4d56abf30827e5faee38683929a73fc67df68e9a929f33a20867b88fe0c9f1a3"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "bytes": 21213,
+      "sha256": "06f25ccd773d8ec737ca405497a74dae238647f89cdb24da0ea76ce3b17486a7"
+    }
+  ],
+  "original_queries": 0,
+  "tests_run": false
+}

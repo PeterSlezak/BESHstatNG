@@ -1,0 +1,39 @@
+{
+  "status": "PRE_EDIT_EXECUTION_ATTEMPT_NOT_SEALED",
+  "rows": 24732,
+  "cases": {
+    "path": "evidence/04A38/preedit/attempts/capture-v10/cases.jsonl",
+    "bytes": 11751614,
+    "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+  },
+  "generator": {
+    "path": "evidence/04A38/capture_cases_v10.py",
+    "bytes": 4060,
+    "sha256": "693742b37ed3bb5f3321e73f39de25f41433e735ea9b8834e6702d4c9433f844"
+  },
+  "recorder": {
+    "path": "evidence/04A38/helpers/Capture38.cs",
+    "bytes": 30438,
+    "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+  },
+  "independent_dimensions": [
+    "culture",
+    "export/helper",
+    "argument identity/type",
+    "row/column counts",
+    "header",
+    "missing/error gap",
+    "paired lengths and independent gaps",
+    "numeric bit profiles",
+    "options",
+    "matrix pattern and structure",
+    "row permutation",
+    "duplicate variable/category labels",
+    "handle comparer/type/lifecycle"
+  ],
+  "qualification": "Duplicate-label cases call the real fitting export directly; a fit rejection is recorded as a negative case, not successful model-query coverage. All existing v9 originals and attempts remain immutable.",
+  "chronology": "BEFORE_ANY_PRODUCT_EDIT",
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "readiness": "Final source/coverage/ownership audit still required before product edits."
+}

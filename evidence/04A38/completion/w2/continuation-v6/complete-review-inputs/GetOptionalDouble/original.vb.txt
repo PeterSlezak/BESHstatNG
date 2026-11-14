@@ -1,0 +1,8 @@
+  Return CInt(Math.Truncate(d.Value))
+            End If
+            Return defaultValue
+        End Function
+
+        Public Function GetOptionalDouble(v As Object, defaultValue As Double) As Double
+            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
+            Dim d As Double? = Exce

@@ -1,0 +1,38 @@
+{
+  "status": "15_ACTUAL_P1_CONDITIONS_PASS",
+  "receipt": {
+    "label": "w2c1-p1-adverse-v3",
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "480638f7bf0d7dd5bdc617f4e55cdd352639597803cafc213c3d7a38bafcd58d",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_case_omission (test_p1_v3.P1Tests.test_case_omission)",
+      "test_changed_export_name (test_p1_v3.P1Tests.test_changed_export_name)",
+      "test_changed_optional_default (test_p1_v3.P1Tests.test_changed_optional_default)",
+      "test_current_result_changed (test_p1_v3.P1Tests.test_current_result_changed)",
+      "test_extra_case (test_p1_v3.P1Tests.test_extra_case)",
+      "test_failed_tests_not_green (test_p1_v3.P1Tests.test_failed_tests_not_green)",
+      "test_fake_edge (test_p1_v3.P1Tests.test_fake_edge)",
+      "test_hidden_static_state (test_p1_v3.P1Tests.test_hidden_static_state)",
+      "test_intact (test_p1_v3.P1Tests.test_intact)",
+      "test_original_snapshot_lost (test_p1_v3.P1Tests.test_original_snapshot_lost)",
+      "test_ornamental_contains (test_p1_v3.P1Tests.test_ornamental_contains)",
+      "test_self_consistent_changed_column_guard (test_p1_v3.P1Tests.test_self_consistent_changed_column_guard)",
+      "test_self_consistent_error_coercion_change (test_p1_v3.P1Tests.test_self_consistent_error_coercion_change)",
+      "test_self_consistent_group_nonfinite_policy_change (test_p1_v3.P1Tests.test_self_consistent_group_nonfinite_policy_change)",
+      "test_stale_preimage (test_p1_v3.P1Tests.test_stale_preimage)"
+    ],
+    "nonpasses": []
+  },
+  "clarification": "Earlier14 included a valid name mutation mislabeled default; original source/results preserved. This version independently reaches both name and optional-default conditions.",
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/test_p1_v3.py",
+    "bytes": 5962,
+    "sha256": "15822b9a4d160e8edd06a422b2d5c764348b304fa85a705537db9cd417446d91"
+  },
+  "new_original_queries": 0
+}

@@ -1,0 +1,254 @@
+{
+  "configuration": "Release",
+  "parts": [
+    {
+      "suite": "Core",
+      "part": "all",
+      "name": "w3R-Core",
+      "outcomes": {
+        "Passed": 1280
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-Core/cases.json",
+        "bytes": 388933,
+        "sha256": "a4988ffc47e037319ff50bb7d4b7792445e0dabcae1aeeb335527ecf058ad147"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-Core/results/Core.trx",
+        "bytes": 1828307,
+        "sha256": "f3ab1a833b4793b5a447e2bc2fd417bc68c996e71a55cada78eec53c8859a1b2"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3R-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Release\\net10.0\\BESHStat.Core.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3R-Core\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-Core\\results",
+          "/Logger:trx;LogFileName=Core.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 5.658249500003876,
+        "stdout_sha256": "b787f2754044f350a2f57b5161e4d3f088d0ddb068fa79b43ee86607486aec0c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "Common",
+      "part": "main",
+      "name": "w3R-Common-main",
+      "outcomes": {
+        "Passed": 9394,
+        "Failed": 5
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-Common-main/cases.json",
+        "bytes": 3025858,
+        "sha256": "ab537eb7822ae48c5b6fe80f102285a5d73116d0f1269018ad4dbbf3b2856c3a"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-Common-main/results/Common.trx",
+        "bytes": 332496952,
+        "sha256": "0fe210c0a326322510987d67484d5bdebc8e05e5c0ca7b8fcd8f06f25c0f5526"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3R-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3R-Common-main\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-Common-main\\results",
+          "/Logger:trx;LogFileName=Common.trx",
+          "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 85.31885720000719,
+        "stdout_sha256": "fd164309d52d0f0242df028ec76edd37ffb2c2e4ef8372eff9e1b9f82bd9300a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "Common",
+      "part": "semantic",
+      "name": "w3R-Common-semantic",
+      "outcomes": {
+        "Passed": 15
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-Common-semantic/cases.json",
+        "bytes": 6366,
+        "sha256": "99220d330b1445d096c1dc7d82208e0e6708e77ad033b1d63f1a78707fbccd36"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-Common-semantic/results/Common.trx",
+        "bytes": 23735,
+        "sha256": "da3078fd5f2e05e2edf67af7663f858802f0a82f7100a8facba44415fca9a452"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3R-Common-semantic\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3R-Common-semantic\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-Common-semantic\\results",
+          "/Logger:trx;LogFileName=Common.trx",
+          "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.0243955999903847,
+        "stdout_sha256": "d926474a14cd0ca73072fb394bb5cef105b2645871f079273539bbcfcbd55ff9",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "Legacy",
+      "part": "all",
+      "name": "w3R-Legacy",
+      "outcomes": {
+        "Passed": 9777,
+        "Failed": 9
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-Legacy/cases.json",
+        "bytes": 3022271,
+        "sha256": "68ffe50ef3935864dc183dcb5a9009ab5de8f23030e87cea3665e6e72c07de02"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-Legacy/results/Legacy.trx",
+        "bytes": 332134854,
+        "sha256": "1b0158d7b7440fbf5785980ffde4dd0b449a482902dfccbd86406fb0af470d77"
+      },
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\executions\\w3R-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3R-Legacy\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-Legacy\\results",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+          "/Logger:trx;LogFileName=Legacy.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 112.94775469999877,
+        "stdout_sha256": "c69315a70abddbfbe0efd2912fc952ee21d2a3de172ab5ad1ac19eb1d24b749c",
+        "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "ControlMitigation",
+      "part": "all",
+      "name": "w3R-ControlMitigation",
+      "outcomes": {
+        "Passed": 61
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-ControlMitigation/cases.json",
+        "bytes": 23241,
+        "sha256": "7bb0c6f1e7684cd2604112995b260c77a18bc8a2f25f1e9f149d744524b5ee7a"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-ControlMitigation/results/ControlMitigation.trx",
+        "bytes": 91262,
+        "sha256": "42e265b708521814e6cf9817024c614072430438c911f770497044eca53cef88"
+      },
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\executions\\w3R-ControlMitigation\\sandbox\\ControlMitigation\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3R-ControlMitigation\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-ControlMitigation\\results",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+          "/Logger:trx;LogFileName=ControlMitigation.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 7.004098899982637,
+        "stdout_sha256": "0eebba217edfbc2364a6312345cbaee54eeb3a916982541489adb9850d4939a1",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "OfficeAddin",
+      "part": "all",
+      "name": "w3R-OfficeAddin",
+      "outcomes": {
+        "Passed": 508
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-OfficeAddin/cases.json",
+        "bytes": 172747,
+        "sha256": "2b9847ea4da0a874d01b923bfe8c54bd0ab7aeb48c4a1693cf4690570021bd1e"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-OfficeAddin/results/OfficeAddin.trx",
+        "bytes": 731114,
+        "sha256": "63a08f1e9aa5bf984f9f77c8f59badf68820c39a15efa29f03b2a7d45ce5c49f"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3R-OfficeAddin\\sandbox\\tests\\bin\\Release\\net10.0\\OfficeAddin.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3R-OfficeAddin\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-OfficeAddin\\results",
+          "/Logger:trx;LogFileName=OfficeAddin.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 34.634519899991574,
+        "stdout_sha256": "8840d7c91f645c25a19382e291cd57ed6be8fcc62dc9b25e231c064552ece521",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "OfficeExecution",
+      "part": "all",
+      "name": "w3R-OfficeExecution",
+      "outcomes": {
+        "Passed": 45
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-OfficeExecution/cases.json",
+        "bytes": 15544,
+        "sha256": "50536c5b6fef8ab871585f106cc99fce03c79543caa2472a8d64540f02b7bdcf"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3R-OfficeExecution/results/OfficeExecution.trx",
+        "bytes": 65531,
+        "sha256": "da56fbbe4149d829b8a7d372bbf61853cb8a08fcd59f0bff312655d2f7774360"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3R-OfficeExecution\\sandbox\\Execution\\bin\\Release\\net10.0\\Execution.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3R-OfficeExecution\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-OfficeExecution\\results",
+          "/Logger:trx;LogFileName=OfficeExecution.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.531693600001745,
+        "stdout_sha256": "f0306ea3cc0aa2a793a91c7d4d943d76d3939c1453145d9b5cfae4587491ee43",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "outcomes": {
+    "Passed": 21080,
+    "Failed": 14
+  },
+  "identities": 21094,
+  "campaigns": 1,
+  "source_unchanged": true
+}

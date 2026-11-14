@@ -1,0 +1,32 @@
+"""Authentic original helper slices for the isolated pre-edit reference compiler."""
+from pathlib import Path
+import hashlib
+import json
+import re
+from preflight import ROOT,HERE,pin,save
+
+def main():
+    specs=[
+      ('BESHstatNG/src/RegModels/LinearAlgebra/Matrix.vb','Namespace Matrix\nPublic Module Matrix',
+       ['DotProduct','MatInv','GetColumnFrom2Darray','MatCovar'],'End Module\nEnd Namespace'),
+      ('BESHstatNG/src/Graphics/ChartingFunc.vb','Namespace graphics\nFriend Module ChartingFunc',
+       ['HistogramBinsComputation','GaussOverlayComputation'],'End Module\nEnd Namespace'),
+      ('BESHstatNG/src/DM/ExcelDnaSharedApplicationAdapter.vb','Friend NotInheritable Class ExcelDnaSharedApplicationAdapter',
+       ['ValidateAcquisitionReference','CheckCoordinate','SnapshotValues','ToSnapshotCell'],'End Class')]
+    blocks=[];bindings=[]
+    for path,header,names,footer in specs:
+        source=(ROOT/path).read_bytes().decode('utf-8-sig');functions=[]
+        for name in names:
+            pattern=r'^\s*(?:(?:Public|Private|Friend|Shared)\s+)*(?:Function|Sub) '+name+r'\b[\s\S]*?^\s*End (?:Function|Sub)'
+            matches=list(re.finditer(pattern,source,re.M));assert len(matches)==1,(path,name)
+            text=matches[0].group(0);functions.append(text)
+            bindings.append(dict(path=path,member=name,source_sha256=pin(path)['sha256'],slice_sha256=hashlib.sha256(text.encode()).hexdigest(),original=text))
+        blocks.append(header+'\n'+'\n'.join(functions)+'\n'+footer)
+    generated='Option Explicit On\nOption Strict On\nImports System\nImports System.Collections.Generic\nImports System.Globalization\nImports System.Runtime.InteropServices\nImports BESHStatNG.ExcelCommon\nImports ExcelDna.Integration\n'+'\n'.join(blocks)+'\n'
+    path=HERE/'preedit/native-safety/DependencySlices38.vb'
+    with path.open('x',encoding='utf-8',newline='\n') as f:f.write(generated.replace('\r\n','\n'))
+    save('preedit/native-safety/dependency-bindings.json',dict(generated=pin(path.relative_to(ROOT).as_posix()),bindings=bindings,
+         policy='Exact original callable/expression bytes; wrappers supply only original namespace/type/import context. Core existing algorithms remain authoritative. No production API/assembly visibility change.'))
+    print('Prepared',len(bindings),'exact original helper bindings; no production edits')
+
+if __name__=='__main__':main()

@@ -1,0 +1,106 @@
+{
+  "status": "NOT_READY_04A38",
+  "wave": "04A38-W1",
+  "F_gate": "MMRM_INTERCEPT_GROUP_GATE_PASS",
+  "survey_sources": 41,
+  "original_members": 704,
+  "current_members": 719,
+  "support_distinct": 317,
+  "original_branches_indexed": 5511,
+  "original_statement_inline_fragments_indexed": 20683,
+  "essential_gaps": [
+    {
+      "gap_id": "GEE_SPEC_INTERCEPT_ROLE",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|516dfc417d9f5be8@86749:6071",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "original_lines": [
+        1506,
+        1507,
+        1508,
+        1509
+      ],
+      "condition": "Resolved spec profile column is Intercept/(Intercept); reject automatically supplied intercept before component formation",
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "public_argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "prospective_input": {
+        "handle": "Same authenticated original real_model_at_profile GEE factory/session as ApprovalB; inspect actual Intercept|X1|X2 names before query",
+        "spec": "Zero-based rank2 System.Object[,] 2x3: String Label/Weight/Intercept; String L, Double1.0, Double1.0 (both3FF0000000000000)",
+        "other_arguments": "Exact same archived successful default query arguments from ApprovalB, at=Nothing; no changed fit options"
+      },
+      "rationale": "This is a fitted-column ROLE rejection in spec, not an at selection or scalar grouping guard. Existing at-time/design/duplicate witnesses do not bind a spec Intercept to the real GEE fitted names or prove the original role exclusion/public error phase. MMRM accepts a different spec grammar and ApprovalF exercises scalar MMRM grouping. A portable family policy must preserve this observable asymmetry; no existing independently captured role-rejection result establishes it.",
+      "cases_per_configuration": 2,
+      "cultures": [
+        "Invariant",
+        "sk-SK"
+      ],
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "expected_output": "UNKNOWN_NOT_CAPTURED",
+      "state": "NOT_AUTHORIZED_NOT_MATERIALIZED_NOT_EXECUTED",
+      "new_reference_executions": 0,
+      "source_branch_fragments": [
+        "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@89096:203"
+      ]
+    },
+    {
+      "gap_id": "MMRM_WIDE_MULTIROW_REJECTION",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "original_lines": [
+        592,
+        593,
+        594
+      ],
+      "condition": "Second nonblank data row in wide-form at, after MMRM headerless probe declines; reject this particular wide input",
+      "public_entry": "BESH.REGR.MMRM_LSMESTIMATE",
+      "public_argument_order": [
+        "handle",
+        "spec",
+        "alpha",
+        "at"
+      ],
+      "prospective_input": {
+        "handle": "Same successful original MMRM factory/session as ApprovalsC-F, unchanged six-column design",
+        "spec": "Unchanged archived2x4 Label/Weight/visit/treatment_active and L/Double1/Double1/Double1",
+        "alpha": "Nothing",
+        "at": "Zero-based rank2 System.Object[,] 3x1: String visit; Double1.0 bits3FF0000000000000; Double2.0 bits4000000000000000"
+      },
+      "rationale": "MMRM has an earlier headerless Name/Value probe absent from GEE. ApprovalB proves the GEE wide multirow guard; ApprovalE proves one-row MMRM wide acceptance and no-match masking; neither proves MMRM headerless-decline then wide second-row rejection/public ByRef semantics. A shared portable profile-format policy cannot take a GEE failure as the original MMRM oracle. Existing MMRM headered duplicate guards fail in another arm.",
+      "cases_per_configuration": 2,
+      "cultures": [
+        "Invariant",
+        "sk-SK"
+      ],
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "expected_output": "UNKNOWN_NOT_CAPTURED",
+      "state": "NOT_AUTHORIZED_NOT_MATERIALIZED_NOT_EXECUTED",
+      "new_reference_executions": 0,
+      "source_branch_fragments": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@28124:20"
+      ]
+    }
+  ],
+  "proposed_new_case_kinds": 2,
+  "proposed_cases_per_configuration": 4,
+  "proposed_configuration_culture_results": 8,
+  "authority": "ApprovalF exhausted; no ApprovalG granted",
+  "expected_outputs": "UNKNOWN_NOT_CAPTURED",
+  "new_reference_executions": 0,
+  "new_runtime_input_packets": 0,
+  "new_production_changes": 0,
+  "W2": "NOT_STARTED_MANDATORY_AUTHORITY_STOP",
+  "W3": "NOT_STARTED",
+  "qualification": "Consolidated identifiable reference frontier after full41-source survey; not a guarantee against a genuinely unforeseeable later obligation and not704-member ownership completion"
+}

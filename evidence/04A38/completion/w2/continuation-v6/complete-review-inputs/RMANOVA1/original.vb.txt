@@ -1,0 +1,46 @@
+
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.PAR.RMANOVA1(A1:D25,,"both")
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.PAR.RMANOVA1",
+            Category:="BESHStatNG - Parametric",
+            Description:="One-way repeated-measures ANOVA table. Input: rows=subjects, cols=conditions.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function RMANOVA1(
+            <ExcelArgument(Name:="data", Description:="Numeric matrix; rows=subjects, columns=conditions. First row may contain headers.")> data As Object,
+            <ExcelArgument(Name:="conditionNames", Description:="Optional condition names as comma-separated text or 1-row/1-column range.")> Optional conditionNames As Object = Nothing,
+            <ExcelArgument(Name:="correction", Description:="Optional: none/GG/HF/both.")> Optional correction As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(conditionNames, detectedNames, mat.GetLength(1), "Condition")
+                Dim mdl As New parametric.OneWayRmANOVA(mat, names)
+                mdl.compute()
+
+                Dim which As String = NormalizeText(correction)
+                Select Case which
+                    Case "", "NONE"
+                        ' no correction
+                    Case "GG", "GREENHOUSE", "GREENHOUSE-GEISSER", "GREENHOUSEGEISSER"
+                        mdl.GreenhouseGeisser()
+                    Case "HF", "HUYNH", "HUYNH-FELDT", "HUYNHFELDT"
+                        mdl.HuyhnFeldt()
+                    Case "BOTH", "ALL"
+                        mdl.GreenhouseGeisser()
+                        mdl.HuyhnFeldt()
+                    Case Else
+                        Return ExcelError.ExcelErrorValue
+                End Select
+
+                Dim tables = mdl.wrapResult

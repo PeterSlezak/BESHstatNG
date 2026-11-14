@@ -1,0 +1,6 @@
+Function
+
+        Friend Function IsBlankCell(cell As Object) As Boolean
+            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then Return True
+            If TypeOf cell Is String Then Return String.IsNullOrWhiteSpace(CStr(cell))
+            Return Fal

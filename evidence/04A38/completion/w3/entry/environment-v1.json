@@ -1,0 +1,63 @@
+{
+  "os": "Windows-11-10.0.26300-SP0",
+  "python": "3.14.7 (main, Aug  7 2026, 02:26:22) [MSC v.1944 64 bit (AMD64)]",
+  "python_executable": "C:\\Users\\peter\\Desktop\\WPy64-31470\\python\\python.exe",
+  "python_executable_sha256": "6bf492976e3a0cbb10695171d7f11897c4935ba93bc078b3bc3be52861d78ecc",
+  "process_architecture": "AMD64",
+  "environment": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "DOTNET_ROOT": null,
+    "DOTNET_CLI_HOME": null,
+    "NUGET_PACKAGES": null,
+    "PROCESSOR_ARCHITECTURE": "AMD64"
+  },
+  "commands": [
+    {
+      "command": [
+        "git",
+        "--version"
+      ],
+      "start_utc": "2026-11-14T07:12:23Z",
+      "seconds": 0.03579568862915039,
+      "exit_code": 0,
+      "stdout": "git version 2.39.1.windows.1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "dotnet",
+        "--info"
+      ],
+      "start_utc": "2026-11-14T07:12:23Z",
+      "seconds": 0.6391043663024902,
+      "exit_code": 0,
+      "stdout": ".NET SDK:\r\n Version:           10.0.404\r\n Commit:            2ab2854867\r\n Workload version:  10.0.400-manifests.80e15866\r\n MSBuild version:   18.9.15+2ab285486\r\n\r\nRuntime Environment:\r\n OS Name:     Windows\r\n OS Version:  10.0.26300\r\n OS Platform: Windows\r\n RID:         win-x64\r\n Base Path:   C:\\Program Files\\dotnet\\sdk\\10.0.404\\\r\n\r\n.NET workloads installed:\r\n [wasm-tools]\r\n   Installation Source: VS 18.11.12402.416\r\n   Manifest Version:    10.0.115/10.0.100\r\n   Manifest Path:       C:\\Program Files\\dotnet\\sdk-manifests\\10.0.100\\microsoft.net.workload.mono.toolchain.current\\10.0.115\\WorkloadManifest.json\r\n   Install Type:              Msi\r\n\r\nConfigured to use workload sets when installing new manifests.\r\nNo workload sets are installed. Run \"dotnet workload restore\" to install a workload set.\r\n\r\nHost:\r\n  Version:      10.0.15\r\n  Architecture: x64\r\n  Commit:       8e0f8ed231\r\n\r\n.NET SDKs installed:\r\n  10.0.404 [C:\\Program Files\\dotnet\\sdk]\r\n\r\n.NET runtimes installed:\r\n  Microsoft.AspNetCore.App 8.0.34 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\r\n  Microsoft.AspNetCore.App 9.0.23 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\r\n  Microsoft.AspNetCore.App 10.0.15 [C:\\Program Files\\dotnet\\shared\\Microsoft.AspNetCore.App]\r\n  Microsoft.NETCore.App 8.0.34 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\r\n  Microsoft.NETCore.App 9.0.23 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\r\n  Microsoft.NETCore.App 10.0.1 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\r\n  Microsoft.NETCore.App 10.0.15 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]\r\n  Microsoft.WindowsDesktop.App 8.0.34 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\r\n  Microsoft.WindowsDesktop.App 9.0.23 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\r\n  Microsoft.WindowsDesktop.App 10.0.1 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\r\n  Microsoft.WindowsDesktop.App 10.0.15 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]\r\n\r\nOther architectures found:\r\n  x86   [C:\\Program Files (x86)\\dotnet]\r\n    registered at [HKLM\\SOFTWARE\\dotnet\\Setup\\InstalledVersions\\x86\\InstallLocation]\r\n\r\nEnvironment variables:\r\n  DOTNET_CLI_UI_LANGUAGE                   [en-US]\r\n  DOTNET_GCCONCURRENT                      [0]\r\n  DOTNET_GCHEAPCOUNT                       [2]\r\n  DOTNET_GCNOAFFINITIZE                    [1]\r\n  DOTNET_MULTILEVEL_LOOKUP                 [0]\r\n  DOTNET_TC_CALLCOUNTTHRESHOLD             [1000]\r\n  DOTNET_THREADPOOL_UNFAIRSEMAPHORESPINLIMIT [0]\r\n  Detected COMPlus_* environment variable(s). Consider transitioning to DOTNET_* equivalent.\r\n\r\nglobal.json file:\r\n  Not found\r\n\r\nLearn more:\r\n  https://aka.ms/dotnet/info\r\n\r\nDownload .NET:\r\n  https://aka.ms/dotnet/download\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--version"
+      ],
+      "start_utc": "2026-11-14T07:12:24Z",
+      "seconds": 0.032518625259399414,
+      "exit_code": 0,
+      "stdout": "v24.20.0\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-Command",
+        "[System.Globalization.CultureInfo]::CurrentCulture.Name; [System.Globalization.CultureInfo]::CurrentUICulture.Name; $PSVersionTable.PSVersion.ToString()"
+      ],
+      "start_utc": "2026-11-14T07:12:24Z",
+      "seconds": 0.26380467414855957,
+      "exit_code": 0,
+      "stdout": "en-US\r\nen-US\r\n5.1.26100.9818\r\n",
+      "stderr": ""
+    }
+  ]
+}

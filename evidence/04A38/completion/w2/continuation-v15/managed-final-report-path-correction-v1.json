@@ -1,0 +1,18 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/report_managed_v2.py",
+    "bytes": 4457,
+    "sha256": "5fa815549f2a0c75815de83948c4a403729a7e1438ad59c1133657ff1574ea5c"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/report_managed_v3.py",
+    "bytes": 4457,
+    "sha256": "a2c8831ad8a3a2d7fbe377e3bfbd99b3e747f49d8f05a502db2377b0c4560da0"
+  },
+  "failed": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/managed-identity-report-v2-execution.json",
+    "bytes": 944,
+    "sha256": "427f08e7888f4106f823dea77e5b3f95398f36a444c69636d277e5e16d68400e"
+  },
+  "reason": "Keep the authenticated C14 baseline at its actual immutable v1 filename while publishing the new C15 v2 result files. The first aggregation attempt failed before reading a test identity; no campaign is repeated."
+}

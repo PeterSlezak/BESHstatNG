@@ -1,0 +1,1136 @@
+{
+  "status": "ENTRY_VERIFIED_BEFORE_SOURCE_EDITS",
+  "ownership": {
+    "status": "INDEPENDENT_C5_PARTIAL_OWNERSHIP_PASS_NOT_READY",
+    "historical": {
+      "total": 704,
+      "closed": 199,
+      "OPEN": 505
+    },
+    "current": {
+      "total": 717,
+      "closed": 202,
+      "OPEN": 515
+    },
+    "support": {
+      "raw": 325,
+      "distinct": 303,
+      "distinct_closed": 234,
+      "distinct_OPEN": 69
+    },
+    "fragments": {
+      "original": {
+        "total": 20683,
+        "branches": 5511,
+        "inline": 1397,
+        "covered": 4021,
+        "branches_covered": 1162,
+        "inline_covered": 190
+      },
+      "current": {
+        "total": 15730,
+        "branches": 3655,
+        "inline": 1086,
+        "covered": 1277,
+        "branches_covered": 172,
+        "inline_covered": 51
+      },
+      "whole_universe_closed": false
+    },
+    "new_supported": 33,
+    "original_queries": 0,
+    "W3": "NOT_STARTED"
+  },
+  "protection": {
+    "status": "PRESERVATION_AND_SOURCE_TRANSITION_GRAPH_PASS_NOT_READY",
+    "prior_W2_hashed_payloads": 2134,
+    "prior_C1_hashed_payloads": 2644,
+    "prior_C2_hashed_payloads": 3124,
+    "prior_C3_hashed_payloads": 3424,
+    "prior_C4_hashed_payloads": 3777,
+    "continuation_source_transitions": 8,
+    "prior_manifest_sha256": "73711dba3aa1f12cd32ff0757b9948086391a5b405dd6087112ca04fbffb7d85",
+    "old_manifest_bytes": "PRESERVED",
+    "original_snapshots": 41,
+    "lineage_pins": 278,
+    "protected_captures": 100,
+    "owner_documents_in_ledger": 16,
+    "owner_documents_checked": 16,
+    "owner_copy_scope": "LIVE_ALL16",
+    "source_transitions": [
+      {
+        "path": "BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb",
+        "former_sha256": "c63f3b424d64c5c049ec5f71ea33c9bebde64e55c4f4b158756e2f905dea708a",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb.txt",
+        "current_sha256": "7dfddc586052509fc953b3b8c66010f2733121e04a3b83f5858ca9a0bf3ad859"
+      },
+      {
+        "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+        "former_sha256": "152acbbb6cb98ad06c9ddfcc19b4990aaf0245941934cf3e897e5914c82108dc",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb.txt",
+        "current_sha256": "105b84279a001933893d36417c1a7160b3ea1e02ad9a942dffa9000e902ad3a6"
+      },
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfModelProfilePreparation38Tests.vb",
+        "former_sha256": "4f889fdba6086130ff65b17ab54af98d8320ef8d77dd56bfae8e7dbeac986568",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/BESHStat.Excel.Common.Tests/src/UdfModelProfilePreparation38Tests.vb.txt",
+        "current_sha256": "3dae2a20cb1f0b61fe21fd33144557f8c33ee0d28a924d9bdde7c4325b776a4a"
+      },
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+        "former_sha256": "9b0e419d7e33a9bc702189d2b2300dd509d7c9d4967fcb2837884f25eb369aaa",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb.txt",
+        "current_sha256": "70dc83bbcb4ddac2acabff2e27266af9123fa9dd4c2a05d70a25521bbbc52792"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+        "former_sha256": "d25479efe0244f28e0a6c0949ffc869d8f92b81eefae49ac3fa17c5d0864afa5",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb.txt",
+        "current_sha256": "5629e3325038b2759866c6b951b0d01177c6d149e971b24d395f7d1ddfd3d873"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "former_sha256": "056522b2fc840a451aa6ae14ecbcc93521c7a3c13ea67fa1e299a9c458cff8ae",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb.txt",
+        "current_sha256": "15edacac64ea56c1e7ac0f0adfc684f215f4821f1ef348fb7c14edce8eca98bd"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+        "former_sha256": "a5690a7954ab979e98b8fc646d05a4a5d476f3bafc8a1804684912f91b77ab6e",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/p1/BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb.txt",
+        "current_sha256": "c77a2faa71e7cbb4b1607ecacfbda5a9faf7652348600ad4920e83147e34e86a"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+        "former_sha256": "bfb370d2fb7dcda19d4da5ce7c387c1d67de4d62e065d7fcea6d51669c5b09fe",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb.txt",
+        "current_sha256": "267dcf89164215ac10bfba738d3ef18facb61515c03edc5d232f0aa4938a24c5"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+        "former_sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb.txt",
+        "current_sha256": "e1e2f969ab7588b76aad864eda92582d474ad12c80469a6ebbd68d7572a6d34e"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+        "former_sha256": "c653e8fbb1413d72a3852738e4e0a482855c2d63aae3c47113aeda4ac824f94e",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb.txt",
+        "current_sha256": "59889f3e18e61b6de75a53f76fa4dd8cad080e01e612872dfaf16315bf4361e7"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "former_sha256": "23f42be3cb87430edf39052548330c7d378183f6bf3b30c10a760ccecb4a2093",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/p1-reports/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb.txt",
+        "current_sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+      },
+      {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "former_sha256": "20cd14c09d895066f3e37f5b37663de01b32265e27dd3af1876e5d055be23d91",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "current_sha256": "4f73e397824e880418d77dd30ac2e311cf20dfd33088e9e891b257edd000c1a4"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "former_sha256": "17fcd285e4e40405354a763a6f02ce83ada4abb363084f3d3cd12fae7f23dd9e",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb.txt",
+        "current_sha256": "22618414dbc72347d95990f7847c671676332332ca20a458e9a9aad7f5ba5ee6"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+        "former_sha256": "21f616d24d0b7473ff87b0b207d16c168ac324b1b04fa46a2273c8c95f6fab63",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb.txt",
+        "current_sha256": "4a0a482f26d4b134cedf4d141359e90ad0d5c689195738e467c6d7089af38f8f"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "former_sha256": "a2bd3a079a20a69cda7ed451d4d253a3779f814c9d1607ff8c72084506f0311b",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb.txt",
+        "current_sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "former_sha256": "7178e9f1bb3a7a7891275cff67d59b88d30b079b2c4b03563d1788da9c784475",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb.txt",
+        "current_sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "former_sha256": "606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/p1-reports/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb.txt",
+        "current_sha256": "dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "former_sha256": "c25f3bcfaaade7b9a0580c64385a838a2b4a46320cf21d3632764e082d76187f",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/p1/BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb.txt",
+        "current_sha256": "234bb5b7b7f0ab498322195f4aac53222e8242c2b1e971b7932c6e9e26b3533a"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "former_sha256": "6d973e2ae8385e0257aa2fa2833036e1ef31a3b9435791946f063b8fdf7d709a",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb.txt",
+        "current_sha256": "ed072b0418f86546a3f10951f65be817176681157cd649b24293682301ec39f2"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "former_sha256": "0187c289ccd79e020087af31d862aec2c6ec84baa0e9409d30e0cc72262123e0",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/p1/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb.txt",
+        "current_sha256": "ecbb2780e12ead68da2b7edd2a9b649e7c3c44398934da587a13286b8fba325d"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "former_sha256": "e5fdf399d01f4be5eacc02f17c0b8e45e66076fef65eeed39d2c97e8839e9877",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb.txt",
+        "current_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "former_sha256": "da0254db9e3e5b86ee6bad4296ccb6a9d116ccaeaccc912b0ab5f67d30ed13a2",
+        "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb.txt",
+        "current_sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "former_sha256": "1680e5f640eac45b1b5285aebd6687c1aea6afa69237c8789e4655a1cc2f5cae",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb.txt",
+        "current_sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      },
+      {
+        "path": "BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb",
+        "former_sha256": "c63f3b424d64c5c049ec5f71ea33c9bebde64e55c4f4b158756e2f905dea708a",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb.txt",
+        "current_sha256": "7dfddc586052509fc953b3b8c66010f2733121e04a3b83f5858ca9a0bf3ad859"
+      },
+      {
+        "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+        "former_sha256": "152acbbb6cb98ad06c9ddfcc19b4990aaf0245941934cf3e897e5914c82108dc",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb.txt",
+        "current_sha256": "105b84279a001933893d36417c1a7160b3ea1e02ad9a942dffa9000e902ad3a6"
+      },
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+        "former_sha256": "9b0e419d7e33a9bc702189d2b2300dd509d7c9d4967fcb2837884f25eb369aaa",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb.txt",
+        "current_sha256": "70dc83bbcb4ddac2acabff2e27266af9123fa9dd4c2a05d70a25521bbbc52792"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+        "former_sha256": "d25479efe0244f28e0a6c0949ffc869d8f92b81eefae49ac3fa17c5d0864afa5",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb.txt",
+        "current_sha256": "5629e3325038b2759866c6b951b0d01177c6d149e971b24d395f7d1ddfd3d873"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+        "former_sha256": "fb18d7b6ab2f444a963c94fd0eb5fbfef87251aff49d7ce6d475264db0ffdb2a",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb.txt",
+        "current_sha256": "c77a2faa71e7cbb4b1607ecacfbda5a9faf7652348600ad4920e83147e34e86a"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+        "former_sha256": "bfb370d2fb7dcda19d4da5ce7c387c1d67de4d62e065d7fcea6d51669c5b09fe",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb.txt",
+        "current_sha256": "267dcf89164215ac10bfba738d3ef18facb61515c03edc5d232f0aa4938a24c5"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+        "former_sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb.txt",
+        "current_sha256": "e1e2f969ab7588b76aad864eda92582d474ad12c80469a6ebbd68d7572a6d34e"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+        "former_sha256": "c653e8fbb1413d72a3852738e4e0a482855c2d63aae3c47113aeda4ac824f94e",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb.txt",
+        "current_sha256": "59889f3e18e61b6de75a53f76fa4dd8cad080e01e612872dfaf16315bf4361e7"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "former_sha256": "6e9a9a206f9281883ff04dfb629712ad9f0d1d2ad6edffbefd109cf69626bd15",
+        "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb.txt",
+        "current_sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+      },
+      {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "former_sha256": "1d6b223a2e3de1b5012a1c850cc8475849547545c6fceb4fe58880766123557e",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "current_sha256": "4f73e397824e880418d77dd30ac2e311cf20dfd33088e9e891b257edd000c1a4"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "former_sha256": "17fcd285e4e40405354a763a6f02ce83ada4abb363084f3d3cd12fae7f23dd9e",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb.txt",
+        "current_sha256": "22618414dbc72347d95990f7847c671676332332ca20a458e9a9aad7f5ba5ee6"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+        "former_sha256": "21f616d24d0b7473ff87b0b207d16c168ac324b1b04fa46a2273c8c95f6fab63",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb.txt",
+        "current_sha256": "4a0a482f26d4b134cedf4d141359e90ad0d5c689195738e467c6d7089af38f8f"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "former_sha256": "a2bd3a079a20a69cda7ed451d4d253a3779f814c9d1607ff8c72084506f0311b",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb.txt",
+        "current_sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "former_sha256": "7178e9f1bb3a7a7891275cff67d59b88d30b079b2c4b03563d1788da9c784475",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb.txt",
+        "current_sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "former_sha256": "dff7ef34e4d6996a9e2430665dee716206fb6ad0c0b2d8f3c1697337f98fa81a",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb.txt",
+        "current_sha256": "ecbb2780e12ead68da2b7edd2a9b649e7c3c44398934da587a13286b8fba325d"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "former_sha256": "e5fdf399d01f4be5eacc02f17c0b8e45e66076fef65eeed39d2c97e8839e9877",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb.txt",
+        "current_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "former_sha256": "da0254db9e3e5b86ee6bad4296ccb6a9d116ccaeaccc912b0ab5f67d30ed13a2",
+        "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb.txt",
+        "current_sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "former_sha256": "1680e5f640eac45b1b5285aebd6687c1aea6afa69237c8789e4655a1cc2f5cae",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb.txt",
+        "current_sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      },
+      {
+        "path": "BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb",
+        "former_sha256": "c66c8475a834262a403f5ce9e7c66a8e23194530a09e3a5207526227f27ba452",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-after/b1-final/BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb.txt",
+        "current_sha256": "7dfddc586052509fc953b3b8c66010f2733121e04a3b83f5858ca9a0bf3ad859"
+      },
+      {
+        "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+        "former_sha256": "940b28496a59d60be6dd7eb1312c62eb30d7fa0e74356c8653e3a427fef78587",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-after/b1-final/BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb.txt",
+        "current_sha256": "105b84279a001933893d36417c1a7160b3ea1e02ad9a942dffa9000e902ad3a6"
+      },
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+        "former_sha256": "fdec16804faf5a23554c7b7371baf1b46bafeb27275c2ead3cd7750312dddf2e",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-after/b1-final/BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb.txt",
+        "current_sha256": "70dc83bbcb4ddac2acabff2e27266af9123fa9dd4c2a05d70a25521bbbc52792"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+        "former_sha256": "d25479efe0244f28e0a6c0949ffc869d8f92b81eefae49ac3fa17c5d0864afa5",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb.txt",
+        "current_sha256": "5629e3325038b2759866c6b951b0d01177c6d149e971b24d395f7d1ddfd3d873"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+        "former_sha256": "fb18d7b6ab2f444a963c94fd0eb5fbfef87251aff49d7ce6d475264db0ffdb2a",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb.txt",
+        "current_sha256": "c77a2faa71e7cbb4b1607ecacfbda5a9faf7652348600ad4920e83147e34e86a"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+        "former_sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb.txt",
+        "current_sha256": "e1e2f969ab7588b76aad864eda92582d474ad12c80469a6ebbd68d7572a6d34e"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+        "former_sha256": "db90d8ea56e12702e2b03d397a537232fc313b3d670882836e5cab2cd13260c1",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-after/b1-final/BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb.txt",
+        "current_sha256": "59889f3e18e61b6de75a53f76fa4dd8cad080e01e612872dfaf16315bf4361e7"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "former_sha256": "6e9a9a206f9281883ff04dfb629712ad9f0d1d2ad6edffbefd109cf69626bd15",
+        "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb.txt",
+        "current_sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+      },
+      {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "former_sha256": "e6cc70279e98cd7dcac97027bab53bd368e3f8d4d7a8c7f3f4c7006e8767e4c1",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-after/b1-final/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "current_sha256": "4f73e397824e880418d77dd30ac2e311cf20dfd33088e9e891b257edd000c1a4"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "former_sha256": "a2bd3a079a20a69cda7ed451d4d253a3779f814c9d1607ff8c72084506f0311b",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb.txt",
+        "current_sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "former_sha256": "63650e3eb9f843760e1b913f97e7d17f192525c68b2cc3ee4604c23b76fd5e52",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-after/b1-final/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb.txt",
+        "current_sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "former_sha256": "dff7ef34e4d6996a9e2430665dee716206fb6ad0c0b2d8f3c1697337f98fa81a",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb.txt",
+        "current_sha256": "ecbb2780e12ead68da2b7edd2a9b649e7c3c44398934da587a13286b8fba325d"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "former_sha256": "e5fdf399d01f4be5eacc02f17c0b8e45e66076fef65eeed39d2c97e8839e9877",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb.txt",
+        "current_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "former_sha256": "da0254db9e3e5b86ee6bad4296ccb6a9d116ccaeaccc912b0ab5f67d30ed13a2",
+        "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb.txt",
+        "current_sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "former_sha256": "035ec643366e8a57ec7cc5dc48c3d355b41f842581cba3b18c5d8fa19b12edd0",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb.txt",
+        "current_sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      },
+      {
+        "path": "BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb",
+        "former_sha256": "c66c8475a834262a403f5ce9e7c66a8e23194530a09e3a5207526227f27ba452",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-after/b1-final/BESHStat.Core.Tests/src/UdfNumericPreparation38Tests.vb.txt",
+        "current_sha256": "7dfddc586052509fc953b3b8c66010f2733121e04a3b83f5858ca9a0bf3ad859"
+      },
+      {
+        "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+        "former_sha256": "940b28496a59d60be6dd7eb1312c62eb30d7fa0e74356c8653e3a427fef78587",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-after/b1-final/BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb.txt",
+        "current_sha256": "105b84279a001933893d36417c1a7160b3ea1e02ad9a942dffa9000e902ad3a6"
+      },
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+        "former_sha256": "5acb3b8ce5fa3f169873db04c319ddada5681b7494b80028568d76778764a979",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-after/names-v3/BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb.txt",
+        "current_sha256": "70dc83bbcb4ddac2acabff2e27266af9123fa9dd4c2a05d70a25521bbbc52792"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+        "former_sha256": "fb18d7b6ab2f444a963c94fd0eb5fbfef87251aff49d7ce6d475264db0ffdb2a",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb.txt",
+        "current_sha256": "c77a2faa71e7cbb4b1607ecacfbda5a9faf7652348600ad4920e83147e34e86a"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+        "former_sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb.txt",
+        "current_sha256": "e1e2f969ab7588b76aad864eda92582d474ad12c80469a6ebbd68d7572a6d34e"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "former_sha256": "6e9a9a206f9281883ff04dfb629712ad9f0d1d2ad6edffbefd109cf69626bd15",
+        "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb.txt",
+        "current_sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+      },
+      {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "former_sha256": "a15a1890f78e6c916a4e5da5eb0b6c4bbb69773b3cb3aeac531cc128dc7bf4c5",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-after/names-v3/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "current_sha256": "4f73e397824e880418d77dd30ac2e311cf20dfd33088e9e891b257edd000c1a4"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "former_sha256": "a2bd3a079a20a69cda7ed451d4d253a3779f814c9d1607ff8c72084506f0311b",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb.txt",
+        "current_sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "former_sha256": "d69232fb40425c4338535dbae0abb961b05b2ae2cb97cba455105463cfafe3d5",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-after/names-v3/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb.txt",
+        "current_sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "former_sha256": "dff7ef34e4d6996a9e2430665dee716206fb6ad0c0b2d8f3c1697337f98fa81a",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb.txt",
+        "current_sha256": "ecbb2780e12ead68da2b7edd2a9b649e7c3c44398934da587a13286b8fba325d"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "former_sha256": "da0254db9e3e5b86ee6bad4296ccb6a9d116ccaeaccc912b0ab5f67d30ed13a2",
+        "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb.txt",
+        "current_sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "former_sha256": "035ec643366e8a57ec7cc5dc48c3d355b41f842581cba3b18c5d8fa19b12edd0",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb.txt",
+        "current_sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      },
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+        "former_sha256": "a92d84f6743d19090a43b3cf7f5f4a9c2860c8a4cc2b63ad74d47bb4db4d010b",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb.txt",
+        "current_sha256": "70dc83bbcb4ddac2acabff2e27266af9123fa9dd4c2a05d70a25521bbbc52792"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+        "former_sha256": "fb18d7b6ab2f444a963c94fd0eb5fbfef87251aff49d7ce6d475264db0ffdb2a",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb.txt",
+        "current_sha256": "c77a2faa71e7cbb4b1607ecacfbda5a9faf7652348600ad4920e83147e34e86a"
+      },
+      {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+        "former_sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb.txt",
+        "current_sha256": "e1e2f969ab7588b76aad864eda92582d474ad12c80469a6ebbd68d7572a6d34e"
+      },
+      {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "former_sha256": "f3a0c18baaa8993f90f99e6235b822d08825d4bafd13b9f040cc45367fd1f270",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "current_sha256": "4f73e397824e880418d77dd30ac2e311cf20dfd33088e9e891b257edd000c1a4"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "former_sha256": "a2bd3a079a20a69cda7ed451d4d253a3779f814c9d1607ff8c72084506f0311b",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb.txt",
+        "current_sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "former_sha256": "dff7ef34e4d6996a9e2430665dee716206fb6ad0c0b2d8f3c1697337f98fa81a",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/byref-boundary/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb.txt",
+        "current_sha256": "ecbb2780e12ead68da2b7edd2a9b649e7c3c44398934da587a13286b8fba325d"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "former_sha256": "035ec643366e8a57ec7cc5dc48c3d355b41f842581cba3b18c5d8fa19b12edd0",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb.txt",
+        "current_sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "former_sha256": "17fcd285e4e40405354a763a6f02ce83ada4abb363084f3d3cd12fae7f23dd9e",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb.txt",
+        "current_sha256": "22618414dbc72347d95990f7847c671676332332ca20a458e9a9aad7f5ba5ee6"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+        "former_sha256": "21f616d24d0b7473ff87b0b207d16c168ac324b1b04fa46a2273c8c95f6fab63",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb.txt",
+        "current_sha256": "4a0a482f26d4b134cedf4d141359e90ad0d5c689195738e467c6d7089af38f8f"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "former_sha256": "a2bd3a079a20a69cda7ed451d4d253a3779f814c9d1607ff8c72084506f0311b",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb.txt",
+        "current_sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "former_sha256": "7178e9f1bb3a7a7891275cff67d59b88d30b079b2c4b03563d1788da9c784475",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb.txt",
+        "current_sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "former_sha256": "606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/p1-reports/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb.txt",
+        "current_sha256": "dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "former_sha256": "fd98039ac05755aa098f883b6e3e9ff59aefbdf71df1026e88849e932ae91df1",
+        "retained": "evidence/04A38/completion/w2/source-before/BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "current_sha256": "234bb5b7b7f0ab498322195f4aac53222e8242c2b1e971b7932c6e9e26b3533a"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "former_sha256": "4b3d004b1647a977e5e15a8c5dbde01fca55c354dc21d5366fa34173d709a901",
+        "retained": "evidence/04A38/completion/w2/source-before/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "current_sha256": "ed072b0418f86546a3f10951f65be817176681157cd649b24293682301ec39f2"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "former_sha256": "0187c289ccd79e020087af31d862aec2c6ec84baa0e9409d30e0cc72262123e0",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/p1/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb.txt",
+        "current_sha256": "ecbb2780e12ead68da2b7edd2a9b649e7c3c44398934da587a13286b8fba325d"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "former_sha256": "e5fdf399d01f4be5eacc02f17c0b8e45e66076fef65eeed39d2c97e8839e9877",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb.txt",
+        "current_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "former_sha256": "83341eca3d297812a1bd9d08fec7d5357bfd5fb56046eef637bf5ddece64859a",
+        "retained": "evidence/04A38/completion/w2/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "current_sha256": "285ab4113b594947691f0567120129c9196ae9bcb1a33d23c78ec80ad56cfcd2"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "former_sha256": "da0254db9e3e5b86ee6bad4296ccb6a9d116ccaeaccc912b0ab5f67d30ed13a2",
+        "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb.txt",
+        "current_sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "former_sha256": "1680e5f640eac45b1b5285aebd6687c1aea6afa69237c8789e4655a1cc2f5cae",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb.txt",
+        "current_sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "former_sha256": "17fcd285e4e40405354a763a6f02ce83ada4abb363084f3d3cd12fae7f23dd9e",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb.txt",
+        "current_sha256": "22618414dbc72347d95990f7847c671676332332ca20a458e9a9aad7f5ba5ee6"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+        "former_sha256": "21f616d24d0b7473ff87b0b207d16c168ac324b1b04fa46a2273c8c95f6fab63",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb.txt",
+        "current_sha256": "4a0a482f26d4b134cedf4d141359e90ad0d5c689195738e467c6d7089af38f8f"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "former_sha256": "a2bd3a079a20a69cda7ed451d4d253a3779f814c9d1607ff8c72084506f0311b",
+        "retained": "evidence/04A38/completion/w2/continuation-v5/source-before/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb.txt",
+        "current_sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "former_sha256": "7178e9f1bb3a7a7891275cff67d59b88d30b079b2c4b03563d1788da9c784475",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb.txt",
+        "current_sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "former_sha256": "606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/p1-reports/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb.txt",
+        "current_sha256": "dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "former_sha256": "fd98039ac05755aa098f883b6e3e9ff59aefbdf71df1026e88849e932ae91df1",
+        "retained": "evidence/04A38/completion/w2/source-before/BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "current_sha256": "234bb5b7b7f0ab498322195f4aac53222e8242c2b1e971b7932c6e9e26b3533a"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "former_sha256": "4b3d004b1647a977e5e15a8c5dbde01fca55c354dc21d5366fa34173d709a901",
+        "retained": "evidence/04A38/completion/w2/source-before/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "current_sha256": "ed072b0418f86546a3f10951f65be817176681157cd649b24293682301ec39f2"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "former_sha256": "0187c289ccd79e020087af31d862aec2c6ec84baa0e9409d30e0cc72262123e0",
+        "retained": "evidence/04A38/completion/w2/continuation-v1/source-before/p1/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb.txt",
+        "current_sha256": "ecbb2780e12ead68da2b7edd2a9b649e7c3c44398934da587a13286b8fba325d"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "former_sha256": "e5fdf399d01f4be5eacc02f17c0b8e45e66076fef65eeed39d2c97e8839e9877",
+        "retained": "evidence/04A38/completion/w2/continuation-v3/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb.txt",
+        "current_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "former_sha256": "83341eca3d297812a1bd9d08fec7d5357bfd5fb56046eef637bf5ddece64859a",
+        "retained": "evidence/04A38/completion/w2/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "current_sha256": "285ab4113b594947691f0567120129c9196ae9bcb1a33d23c78ec80ad56cfcd2"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "former_sha256": "da0254db9e3e5b86ee6bad4296ccb6a9d116ccaeaccc912b0ab5f67d30ed13a2",
+        "retained": "evidence/04A38/completion/w2/continuation-v4/source-before/BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb.txt",
+        "current_sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "former_sha256": "1680e5f640eac45b1b5285aebd6687c1aea6afa69237c8789e4655a1cc2f5cae",
+        "retained": "evidence/04A38/completion/w2/continuation-v2/source-before/BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb.txt",
+        "current_sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      }
+    ],
+    "original_cases_per_configuration": 28966,
+    "authorized_separate_late_per_configuration": 458,
+    "original_queries": 0,
+    "Git": "LIVE_PASS",
+    "TestResults": "Only explicitly protected/tracked files; ignored tree not traversed",
+    "branch": "codex/04A-38",
+    "HEAD": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+    "main": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+    "merge_base": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+    "index": "EMPTY",
+    "diff_check_exit": 0,
+    "tracked": 4695,
+    "source_authentication": [
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+        "git_bytes": 110376,
+        "git_sha256": "d8a8c0f616814972d0328b3fa23945bf8361d6a4a7d0f505a9757a1e1f48ad04",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/AgreementMethodUDFs.vb.txt",
+          "bytes": 111787,
+          "sha256": "f6222384f7543bcdc6b1a11a89fd72738f7d9dec73f68e0d719a76068858c40d"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "git_bytes": 42620,
+        "git_sha256": "c842aa1a3e34bf5046e76bb43494e873da3d8d11587f7d93955f61ea4e6f017d",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/AssumptionsUDFs.vb.txt",
+          "bytes": 43430,
+          "sha256": "edcb05cb6b4e08463afc84d34ca918f8200adb3797e588244a3e1871942a3f00"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+        "git_bytes": 24158,
+        "git_sha256": "e921caba258ccedacc2a9de19351ab9dababa7cd4468f0187d81f23b67525b48",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/ClassificationReportUDFs.vb.txt",
+          "bytes": 24158,
+          "sha256": "e921caba258ccedacc2a9de19351ab9dababa7cd4468f0187d81f23b67525b48"
+        },
+        "identity": "RAW_BYTE_EXACT"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+        "git_bytes": 78748,
+        "git_sha256": "1006cd229aff6ed070aa49ed6637abe8f7ad9c6170ba9adf44137cfcad5e3627",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/ContingencyTableUDFs.vb.txt",
+          "bytes": 80143,
+          "sha256": "0069e01a902ca636873231260417103f98ce16dc470b94bc9034e751d7026cd4"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+        "git_bytes": 8635,
+        "git_sha256": "28fcf0b84382a49c5944db310bc85d581eecd85550b0b3c348113c8579ef7569",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/DistributionUDFs.vb.txt",
+          "bytes": 8846,
+          "sha256": "21f616d24d0b7473ff87b0b207d16c168ac324b1b04fa46a2273c8c95f6fab63"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "git_bytes": 10567,
+        "git_sha256": "cde48218466826d99f0ca23f0af24e07fe493193670314944dd4210eb61c5732",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+          "bytes": 10845,
+          "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "git_bytes": 243724,
+        "git_sha256": "0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/MultivariateAnalysisUDFs.vb.txt",
+          "bytes": 243724,
+          "sha256": "0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa"
+        },
+        "identity": "RAW_BYTE_EXACT"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+        "git_bytes": 57027,
+        "git_sha256": "6e34a514bcebf2b885553192c57ef843262bee33af0855a8fea6bbf234828f7e",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/NonparametricUDFs.vb.txt",
+          "bytes": 58146,
+          "sha256": "35a123fadfb1ecddeb2bfb26afde032a5c92ff9242ec4aeff94a0494d6316a32"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "git_bytes": 61143,
+        "git_sha256": "0f918eb238d2303cab913e157bb87ed8d8ae70589a3035e97ed34cfb84d6ea4a",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+          "bytes": 62170,
+          "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "git_bytes": 38658,
+        "git_sha256": "606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/PlotDataUDFs.vb.txt",
+          "bytes": 38658,
+          "sha256": "606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd"
+        },
+        "identity": "RAW_BYTE_EXACT"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "git_bytes": 58713,
+        "git_sha256": "f79c7f5163963b4b00fdf8dd00d18944be1d6adc260ed2720148b5176047f7a7",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/PropensityScoreUDFs.vb.txt",
+          "bytes": 59609,
+          "sha256": "7d3d8bac3beb5211b294f77c350f416761a42e2ae86eac4dea23e3ece4436840"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+        "git_bytes": 55284,
+        "git_sha256": "91753b8486839b8904a6669ab2c2645ffe9ec4bc114475d9b69c7d6aff3a9531",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/CoxUDFs.vb.txt",
+          "bytes": 56301,
+          "sha256": "52826f08ac1f22cc8323f00dafa76c5f3e7ea60f13736d3b6926d6d994d0c0b7"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "git_bytes": 114843,
+        "git_sha256": "35a3a35ddf4dfdb074a082dfe92495969dd1a8532f86af6650d6bde33bcf7649",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/GeeUDFs.vb.txt",
+          "bytes": 114843,
+          "sha256": "35a3a35ddf4dfdb074a082dfe92495969dd1a8532f86af6650d6bde33bcf7649"
+        },
+        "identity": "RAW_BYTE_EXACT"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+        "git_bytes": 42980,
+        "git_sha256": "bfc8c6353a92448489c2e16df7f21b6fb5c91fd174587b3eb277cf513953fe3b",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/GlmNbUDFs.vb.txt",
+          "bytes": 43728,
+          "sha256": "c3a553d1e6c72486ed6d627718849b7a2eb0a98cb801abd5f65403d7739a5da8"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+        "git_bytes": 69902,
+        "git_sha256": "f1e00d736169e8c78e24e9e2eaa63a4f14ed7b83c065e8549cecaeb4689fc812",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/GlmUDFs.vb.txt",
+          "bytes": 71118,
+          "sha256": "2341594e99df5f86d536249b301517b805885fc8b8c61025611c46560fe8a3e5"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+        "git_bytes": 46956,
+        "git_sha256": "eadc589736d2889c3cf4b52c590c67895115c89577f85d56ea121219da3a8729",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/LinearModelUDFs.vb.txt",
+          "bytes": 47838,
+          "sha256": "4585ad4f76a7639e0f47c766ac0a57bc8176f67239880625a74d794dd838d951"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+        "git_bytes": 66643,
+        "git_sha256": "c085eebb963f240e2c1a109f3167f879bda4be156c24ecf4541d966c2f11032f",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/LmmUDFs.vb.txt",
+          "bytes": 67747,
+          "sha256": "84b54141336919ff15afef3ec11033554fe9a2bbdd3235f6d975b6ced4437c34"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "git_bytes": 91129,
+        "git_sha256": "5fb706214e71863e561c5e09d571c0eb7e2a2ed070c8a4184776829d935d9d69",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/MixedModelUDFs.vb.txt",
+          "bytes": 92704,
+          "sha256": "596071f9fdb00fb94585e929a6899494293d2dc7ee0064faadf098b0d95dc13d"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "git_bytes": 53483,
+        "git_sha256": "eeed0287d5a67e911ba69c5836c5075178265eb088ad4babfaef1c1052afd4ec",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/MultinomialLogitUDFs.vb.txt",
+          "bytes": 54459,
+          "sha256": "1e48d992f8337f2030d8a1f8d6bbb252bd49417cfa6fb6cc8864cdfdad2030a8"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "git_bytes": 48628,
+        "git_sha256": "9f3076bd2ea14e59de8dc572f5131146d7c3762516a7813c3c562f18883d934a",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/OrdinalLogitUDFs.vb.txt",
+          "bytes": 49534,
+          "sha256": "bf4ce7f5bf21d0fc8008d4d4aa2ab6442086f13d203a3fddf740d00c9a888d92"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+        "git_bytes": 21737,
+        "git_sha256": "992e3c3755af4809e9ecb36286bc8b6d099d59bf7afa6d4f799af8b809df1194",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/RegressionFormulaUDFs.vb.txt",
+          "bytes": 22126,
+          "sha256": "842c21dcd5065f92440933c967dda0039a0bee9718d99222c928720d051774b6"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+        "git_bytes": 5383,
+        "git_sha256": "48441962e42f79873cb20660a26991718583b5d91e2e6a84ba205b9f9f58d6b0",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/UdfRegressionOutput.vb.txt",
+          "bytes": 5521,
+          "sha256": "73a9468d12bffcec6db5f326ee8aacefe8ed778b66a8ac3b6ac6276b04c6ab48"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+        "git_bytes": 57953,
+        "git_sha256": "cb173d38c78f16d33996ddbc6b913d1ab6139389fe6925e8b5f00041a473f45b",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/Regression/ZipUDFs.vb.txt",
+          "bytes": 58925,
+          "sha256": "06c3d5046779511c4a042f3633a131867a8ddd02d0e043ffa1af0a118161e926"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+        "git_bytes": 71997,
+        "git_sha256": "b480129275c6711bfa5d159d76e8c2f3367c71bf25f1b608c28b9c123d5d9b6d",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/SampleSizeUDFs.vb.txt",
+          "bytes": 73193,
+          "sha256": "0eb34bfc8e169dd64c02a212cf050012e1f99a0f80cd6abdc51047c8e838dd5c"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+        "git_bytes": 18534,
+        "git_sha256": "d627223970644488a51b0497a4c75f3f8d9f1d8460cae210c14dba88ac7b7cf3",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/SurvivalUDFs.vb.txt",
+          "bytes": 18862,
+          "sha256": "dc848cfe4fad16878d31f758657a4aef77ca269390ffa53fbd3b2ea17a8d6ed1"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "git_bytes": 34018,
+        "git_sha256": "b7029c9f710b00deaa8923e8e3fc16d4ff407a05d67e03a89350d4793696fbdc",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImport.vb.txt",
+          "bytes": 34785,
+          "sha256": "2bbcde54be67979ca6ec0bc3230d6b1ebd7d95379ef51518ca13bfb22059ef4e"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "git_bytes": 26140,
+        "git_sha256": "c02b47edbad1027226049c6adc137b2d7a395ad5ebe5536276237cf9dabd4845",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportAgreement.vb.txt",
+          "bytes": 26637,
+          "sha256": "c189fe7791979de5ef54fa4dabcfe3a2e9d9d1da34026615c90bc9fd1858c994"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportContingency.vb",
+        "git_bytes": 1390,
+        "git_sha256": "75f0367db7c34b18c517cd39d744f8fca68fbae83a2c5130760a4952c574fabf",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportContingency.vb.txt",
+          "bytes": 1426,
+          "sha256": "523fd952732b61e81996869d76c2c865f45deb2188d0df182f7bc5c8a4eded4d"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "git_bytes": 9139,
+        "git_sha256": "5a94f3e85d0ad637154009913aacdefa79cb0a222701f16c028b4357e8538e5d",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportFormula.vb.txt",
+          "bytes": 9333,
+          "sha256": "c6f8e19ba8f772c67a81987714a8bb81af4c2c7f929c4707858abb28f98dd642"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "git_bytes": 37805,
+        "git_sha256": "00a8535041bec62b792002ca5e5291932d94b12446a2a354e30c460207e878cb",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportMixedModel.vb.txt",
+          "bytes": 38595,
+          "sha256": "5297574cab59e631cf880807903a206f76dfb1509818a1825c1ca6798332071a"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+        "git_bytes": 11669,
+        "git_sha256": "12a812639a55fd42e78c920b2e5d2d2463e8f43147bfb9194c32ae155fc7c294",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportMultivariate.vb.txt",
+          "bytes": 11941,
+          "sha256": "f4f7f913b8b0f41ed1a7335ff56a5070338ebf7936dafbfd99f6049e91e7a10c"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+        "git_bytes": 6618,
+        "git_sha256": "39ffc01095ab0d2e59a35683709d322d79bbed573b4ae1c48085a1417686c133",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportOptions.vb.txt",
+          "bytes": 6783,
+          "sha256": "5b4047d7bb54394ddb27493c586a4cb279e4e6957ff6b4109f4a3c10364b193a"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+        "git_bytes": 8718,
+        "git_sha256": "ba47ad4de91894ea1f81ea7627723e7d98ba9a568e21e5961dd1d541b62e5fb8",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportPlot.vb.txt",
+          "bytes": 8917,
+          "sha256": "ca8ce9338405315b73a81ec3c7f48a5667cd67c0059121094b2cff12ff501ff3"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+        "git_bytes": 8491,
+        "git_sha256": "ca5911826d008e1ab06335b2f076620ec593ba2dbe141532d126fde0e73cdcc9",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportPsm.vb.txt",
+          "bytes": 8679,
+          "sha256": "ca34a806c3222359e7e862097502b20c20e0c958eb5dfbd92f1f5bce27d48309"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "git_bytes": 45541,
+        "git_sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+          "bytes": 45541,
+          "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+        },
+        "identity": "RAW_BYTE_EXACT"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+        "git_bytes": 3844,
+        "git_sha256": "c09edf8cb8933cf0f86602bc87a317acf82dd830a69e32e93b2d5c0279570dab",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRegressionOptions.vb.txt",
+          "bytes": 3947,
+          "sha256": "bef2cd60cedac489a73b452a8bab7a6e9d2463598072901b765b8a939dd5f5c3"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+        "git_bytes": 11463,
+        "git_sha256": "ebf7f551632356e661291f683b05fac23dd93e0c0d1bfbd01831d52e8bb8a3df",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportSurvival.vb.txt",
+          "bytes": 11730,
+          "sha256": "4d06a35bc858d6174143e7a9042dc4f15de89ebf805b1655a31677ae5b287037"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb",
+        "git_bytes": 2368,
+        "git_sha256": "6a3217ff868d95390f0c00b911f0fe75ed3e39f84a723a0a9fc94825345a26e5",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UDFhelpers.vb.txt",
+          "bytes": 2429,
+          "sha256": "1599b453f8f35b21c8a01781104c33e99ce93bc62e8f21b83cebb94d35fe7112"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "git_bytes": 1396,
+        "git_sha256": "a64534c051631dc7b718bcd6819cafd7f9b5500279b4a0f9c6a2c7cfc3379830",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UdfLinearAlgebra.vb.txt",
+          "bytes": 1441,
+          "sha256": "7469945a524fd93867d1ba208df9fc257cda5ba7f4e81a2fb70d5a82a6a12061"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "git_bytes": 19264,
+        "git_sha256": "242a84bf6fd3d7f9fc34e87b99bd2c608c682e866489a2679a362f526de0366a",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+          "bytes": 19696,
+          "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+        },
+        "identity": "CRLF_LF_ONLY"
+      },
+      {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+        "git_bytes": 12571,
+        "git_sha256": "c09c997de6bad5fa85a3ebaf98c74516e06579369debd7996e4e16e17a33d5c0",
+        "snapshot": {
+          "path": "evidence/04A38/preedit/source/UdfScalarUtilities.vb.txt",
+          "bytes": 12765,
+          "sha256": "7794a012c82a1581c3b67b5fed8864da067fb7569a7fcb0aa34edb95851ecc11"
+        },
+        "identity": "CRLF_LF_ONLY"
+      }
+    ],
+    "authoritative_tracked_protection": "Entry hashes plus explicit accepted and W2 successor/preimage graph",
+    "status_paths_sha256": "386df85ab5daedd7957121d942137c8b87bda1cb1d99709627ed3da72b9efda0"
+  },
+  "original_queries": 0,
+  "baseline": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "master_plan": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "bytes": 78245,
+    "sha256": "436b66c4307bd1571649c2604f8d90b5f0b5d843df3567b918698392fe5d6e7c"
+  },
+  "instructions": {
+    "path": "AGENTS.md",
+    "bytes": 3101,
+    "sha256": "9fb0b1351f975c33724fc62a023f66f74ceb8bb0990254731a4c897586955a3b"
+  }
+}

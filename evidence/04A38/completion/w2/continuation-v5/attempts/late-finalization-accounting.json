@@ -1,0 +1,76 @@
+{
+  "status": "LATE_ADVERSE_ATTEMPTS_RETAINED_AND_RESOLVED_WITHOUT_NEW_ORIGINAL_QUERIES",
+  "earlier": {
+    "path": "evidence/04A38/completion/w2/continuation-v5/attempts/complete-attempt-accounting.json",
+    "bytes": 4009,
+    "sha256": "c4e4a7ea16a19ce89a437a88224b7f0460cdfe00168f2e3aba54742e07eb106e"
+  },
+  "byref": {
+    "record": {
+      "path": "evidence/04A38/completion/w2/continuation-v5/byref-boundary-implementation.json",
+      "bytes": 1057,
+      "sha256": "453302c4db71573222c6c4bfbc6cbff7807d5bb19c1fd6e30a25a56e0c96af48"
+    },
+    "before": [
+      {
+        "path": "evidence/04A38/completion/w2/continuation-v5/alias-probe-before-Debug.json",
+        "bytes": 1804,
+        "sha256": "4bf11156e49c44ede8d08b27ed9c30b637d1ea84bd99f45749ea660b891a9fa1"
+      },
+      {
+        "path": "evidence/04A38/completion/w2/continuation-v5/alias-probe-before-Release.json",
+        "bytes": 1804,
+        "sha256": "4bf11156e49c44ede8d08b27ed9c30b637d1ea84bd99f45749ea660b891a9fa1"
+      }
+    ],
+    "after": [
+      {
+        "path": "evidence/04A38/completion/w2/continuation-v5/alias-probe-after-Debug.json",
+        "bytes": 1808,
+        "sha256": "8488c58ad48e0166044f579066ebab33e5a6f8fcf4dc28a4eb11643c9af0f56f"
+      },
+      {
+        "path": "evidence/04A38/completion/w2/continuation-v5/alias-probe-after-Release.json",
+        "bytes": 1808,
+        "sha256": "8488c58ad48e0166044f579066ebab33e5a6f8fcf4dc28a4eb11643c9af0f56f"
+      }
+    ],
+    "disposition": "Original-source reset timing restored through prepared phases; previous no-observable-operation assertion explicitly rejected; all intermediate bodies/ledgers retained"
+  },
+  "foreach_context": {
+    "record": {
+      "path": "evidence/04A38/completion/w2/continuation-v5/attempts/prepared-foreach-context-v3.json",
+      "bytes": 2444,
+      "sha256": "58e10841eacab574739a825b8652ecbf5972facf466dd7a426e203100e3c32a7"
+    },
+    "disposition": "v3 verifier wrongly required zero EH; v4 preserves the existing For Each disposal-Finally context exactly, without production change"
+  },
+  "encoding": {
+    "record": {
+      "path": "evidence/04A38/completion/w2/continuation-v5/python-encoding-correction-final.json",
+      "bytes": 345815,
+      "sha256": "9596ea556d595325fd71f75659c0eb3bd6fbb044bdbb7fa6015eadbb1167d144"
+    },
+    "disposition": "Actual unchanged targeted rerun restores inherited FAIL; raw UTF16 bytes retained locally; no assertion waived"
+  },
+  "narrative_errata": [
+    {
+      "record": "git-closeout-v3.json",
+      "field": "scope",
+      "correction": "Seven modified existing source/test paths plus one new Common source, not four plus one. The actual source_changes array and all eight transitions were already correct."
+    },
+    {
+      "record": "readiness-v3.json",
+      "field": "decision",
+      "correction": "Final executable authority is verify_slice_v4.py and verify_ownership_final.py. Generic earlier filenames in prose are superseded; independently recomputed nonzero counts/status remain correct."
+    }
+  ],
+  "final_authority": [
+    "source-transitions-v4.json",
+    "body-contracts-v3.json",
+    "verify_slice_v4.py",
+    "verify_ownership_final.py",
+    "verify_preservation_v3.py"
+  ],
+  "original_queries": 0
+}

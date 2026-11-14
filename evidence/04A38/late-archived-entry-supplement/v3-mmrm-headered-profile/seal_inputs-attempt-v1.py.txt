@@ -1,0 +1,70 @@
+"""Materialize exactly the approved two-culture matrix; freeze before any fit."""
+import csv
+from datetime import datetime,timezone
+from common import *
+
+def main():
+ folder=PRIVATE/'original-Debug-plain';exe=folder/'MaterializeMmrm38.exe'
+ facade=Path('C:/Program Files (x86)/Reference Assemblies/Microsoft/Framework/.NETFramework/v4.8/Facades/netstandard.dll')
+ args=[compiler('csc.exe'),'/nologo','/target:exe','/main:MaterializeMmrm38','/reference:System.Core.dll','/reference:System.Web.Extensions.dll',
+       '/reference:'+str(folder/'BESHStat.Core.dll'),'/reference:'+str(facade),'/out:'+str(exe),str(HERE/'MaterializeMmrm38.cs'),str(ROOT/'evidence/04A38/preedit/frozen-v2/Capture38.cs')]
+ compile_result=command('materialize-compile',args);assert compile_result['exit_code']==0
+ result=command('materialize-inputs',[str(exe),str(folder),str(HERE/'factory-inputs.json')]);assert result['exit_code']==0
+ factory=json.loads((HERE/'factory-inputs.json').read_bytes());assert factory['execution']=='INPUT_FACTORY_ONLY_NO_MODEL_OR_QUERY_EXECUTION'
+ # Independently bind the literal spec to both genuine successful archived queries.
+ sys.path.insert(0,str(ROOT/'evidence/04A38/continuation/v1'))
+ from audit_frozen_branches import children
+ proof=[]
+ for config in ['Debug','Release']:
+  p=ROOT/'evidence/04A38/preedit/frozen-v2'/('original-'+config+'.tsv')
+  with p.open(encoding='utf-8',newline='') as stream:rows={r['case_id']:r for r in csv.DictReader(stream,delimiter='\t')}
+  for case in ['BESH.REGR.MMRM_LSMESTIMATE.2bba629b67529c9361a84563','BESH.REGR.MMRM_LSMESTIMATE.1d928b04fc9dbf42c639dec9']:
+   r=rows[case];assert r['outcome']=='RETURN_ARRAY'
+   args=children(r['byref_arguments']);spec=children(args['values'][1]);assert spec['bounds']==[(0,2),(0,4)]
+   assert spec['values']==['STGFiZWw=','SV2VpZ2h0','SdmlzaXQ=','SdHJlYXRtZW50X2FjdGl2ZQ==','STA==','D3FF0000000000000','D3FF0000000000000','D3FF0000000000000']
+   proof.append(dict(configuration=config,case_id=case,original_output=pin(p),outcome=r['outcome'],recorded_spec=args['values'][1]))
+ expected_names=['Intercept','treatment_active','visit2','visit3','treatment_active:visit2','treatment_active:visit3']
+ at=dict(kind='Array',element_type='System.Object',rank=2,lengths=[3,2],lower_bounds=[0,0],upper_bounds=[2,1],values=[
+      dict(kind='String',value='Name'),dict(kind='String',value='Value'),dict(kind='String',value='treatment_active'),dict(kind='Double',bits='3FF0000000000000'),
+      dict(kind='String',value='visit'),dict(kind='Double',bits='3FF0000000000000')])
+ plan=dict(source_members=['TryGetMmrmLsmEstimateAtSpec','AddMmrmLsmEstimateAtValue','MMRM_LSMESTIMATE'],
+      required_ordered_events=['spec.accepted='+'|'.join(expected_names),'parser.entry=True','headerless.attempted=False','header.name_col=0','header.value_col=1','branch.headered_name_value=True',
+      'headered.row=1','helper.entry=treatment_active','helper.value=D3FF0000000000000','selection.design=treatment_active',
+      'headered.row=2','helper.entry=visit','helper.value=D3FF0000000000000','selection.visit=visit','selection.visit_value=D3FF0000000000000','profile.formed=True','profile.applied=True','row_selection.enter=True'],
+      forbidden_events=['branch.headerless_success=True','branch.wide=True'],
+      statistical_result='UNKNOWN_NOT_CAPTURED; row match count/report/later error must be observed, not forced')
+ maps=json.loads((HERE/'compile-original-Debug-trace.json').read_bytes())['instrumentation']
+ save('trace-plan.json',dict(plan=plan,source_map=maps,source_snapshot=pin(ROOT/'evidence/04A38/preedit/source/UDFdataImport/UdfDataImportMixedModel.vb.txt'),
+      member_id='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859'))
+ for config in ['Debug','Release']:
+  cases=[]
+  for culture in ['Invariant','sk-SK']:
+   cases.append(dict(case_id='AUTHORIZED-MMRM-HEADERED/'+culture+'/treatment-visit',culture='' if culture=='Invariant' else culture,ui_culture='' if culture=='Invariant' else culture,
+      configuration=config,reference_class=CLASS,public_entry='BESH.REGR.MMRM_LSMESTIMATE',
+      session=dict(lifetime='One real successful MMRM_FIT followed by one MMRM_LSMESTIMATE; cache cleared before next case',
+      creation_order=['Clear original/current private MMRM cache','Fit sealed original factory inputs','Validate nonnull cached Result and matching fixed-design names','Query same fitted handle with sealed spec/alpha/at'],
+      expected_parameter_names=expected_names,handle_contract='Actual fitted GUID recorded raw in sessions; declared HANDLE:MMRM:SESSION1 used only for comparison',
+      original_factory_case='BESH.REGR.MMRM_LSMESTIMATE.'+('2bba629b67529c9361a84563' if culture=='Invariant' else '1d928b04fc9dbf42c639dec9')),
+      semantics=dict(nothing='Typed Nothing defaults, not blank/error sentinel',blank_cells='NONE',excel_error_inputs='NONE',array='Actual System.Object[,] created with explicit zero lower bounds',
+      double_encoding='IEEE754 raw64 bits, not locale numeric text',public_byref_parameters=[],side_effect_observation='Every argument captured before/after; successful fit cache context recorded'),
+      operations=[dict(role='PUBLIC_EXPORT',target='BESH.REGR.MMRM_FIT',arguments=factory['fit_arguments']),
+      dict(role='PUBLIC_EXPORT',target='BESH.REGR.MMRM_LSMESTIMATE',arguments=[dict(name='handle',value=dict(kind='HandleReference',session='fresh-case')),dict(name='spec',value=factory['spec']),dict(name='alpha',value=dict(kind='Nothing')),dict(name='at',value=at)])],
+      branch_expectation=plan,expected_result='UNKNOWN_NOT_CAPTURED')))
+  with (HERE/('inputs-'+config+'.jsonl')).open('x',encoding='utf-8',newline='\n') as stream:
+   for case in cases:stream.write(json.dumps(case,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n')
+ # Compile recorders before freezing their compilation inputs; no case execution.
+ commands=[]
+ for config in ['Debug','Release']:
+  for mode in ['plain','trace']:
+   folder=PRIVATE/('original-'+config+'-'+mode);exe=folder/'MmrmCapture38.exe'
+   result=command('recorder-'+config+'-'+mode,[compiler('csc.exe'),'/nologo','/target:exe','/reference:System.Core.dll','/reference:System.Web.Extensions.dll',
+       '/reference:'+str(folder/'BESHStat.Core.dll'),'/reference:'+str(facade),'/out:'+str(exe),str(HERE/'MmrmCapture38.cs')]);assert result['exit_code']==0
+   commands.append(dict(configuration=config,mode=mode,executable=library_pin(exe),command=clean(result)))
+ save('materialization-receipt.json',dict(commands=[clean(compile_result),clean(result)],factory_execution='INPUTS_ONLY_NO_MODEL_OR_QUERY',
+      original_successful_spec_proof=proof,recorder_compilations=commands,original_factory=pin(ROOT/'evidence/04A38/preedit/frozen-v2/Capture38.cs'),
+      original_fixture=pin(ROOT/'evidence/04A38/preedit/native-safety/FixtureInputs38.vb'),typed_cases=2,configurations=2,model_executions=0,query_executions=0,input_corrections=[]))
+ files=[pin(p) for p in sorted(HERE.iterdir()) if p.is_file()]
+ save('input-seal.json',dict(status='INPUT_SEALED',sequence=1,sealed_utc=datetime.now(timezone.utc).isoformat(),source_commit=BASE,reference_class=CLASS,
+      cases_per_configuration=2,files=files,original_executions=0,current_executions=0,not_preedit_frozen=True))
+ print('INPUT_SEALED: exactly2 MMRM cases/configuration; successful archived factory/spec bound; no model or query execution')
+if __name__=='__main__':main()

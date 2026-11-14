@@ -1,0 +1,6 @@
+Public Function GetOptionalBool(v As Object, defaultValue As Boolean) As Boolean
+            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
+            If TypeOf v Is Boolean Then Return CBool(v)
+            Dim s As String = Convert.ToString(v).Trim()
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalBoolean(s, defaultValue)
+        End Function

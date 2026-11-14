@@ -1,0 +1,10 @@
+{
+  "status": "INVALID_MUTATION_CONTEXT_NOT_ACCEPTED",
+  "test_source": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/test_publication_v2.py",
+    "bytes": 4011,
+    "sha256": "82f050b33811a39e2ac0e662e1106e1792ecd778b83b3715f9cc7975fed6a960"
+  },
+  "cause": "Fixture changed reader.SELF to v3 after import, but Python function default manifest_path was already bound to v1. Mutations affected v3 while inspect() read v1. Those failures are fixture setup errors and cannot count as adverse rejection coverage.",
+  "correction": "v3 test source passes the chosen manifest explicitly to every inspect call. Reader code and its fail-closed rules are unchanged; preserve failed v2 source/raw outcomes."
+}

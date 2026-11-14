@@ -1,0 +1,537 @@
+{
+  "executed": [
+    {
+      "lane": "duplicate-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/verify_supplement.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.9384502999964752,
+        "stdout_sha256": "f4103846489939b0b5636df539c02a8664f663576da5e4cf09b378826994dbae",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "duplicate-closeout-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/verify_closeout.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 9.225193999998737,
+        "stdout_sha256": "735ecaff75c3ecdc5649859cf851e15e09c685bcf7bc52246c58c8a643f22ae9",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "preedit-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/preedit_reader.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 4.6906594000029145,
+        "stdout_sha256": "44818d302730ce8739a7521d5e769aecdd3e2f6f72e5f00d8767171371166293",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "addendum-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/preedit_addendum_reader.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.781963800000085,
+        "stdout_sha256": "630bbf880da9b4c267baf9a6372711604f01ed961f3ad15214efcb9e6df4fcf2",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "checkpoint-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/verify_review_packet.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.4041890000007697,
+        "stdout_sha256": "9d41abe5f91877508f497acac60a8c67840f6c6a83f2a49680122b4f9f2f047a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "continuation-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/continuation/v1/verify_continuation.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.6627614999961224,
+        "stdout_sha256": "e79b35c77b672256598c8970a8bb32365ecd69ba3153e271f0e22e8d35770e2f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "late432-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v1/verify_supplement.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.1815296999993734,
+        "stdout_sha256": "66ade008e6d76de6fc5e694e8bc7cec166a2708287cd6a264a48888de88582e6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "late432-packet-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v1/verify_packet.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.5584113000004436,
+        "stdout_sha256": "88cd6bc4810e7484f2db6acd8212ba3c040c31a8bdce1bcf9e3b6ce9e55b5e95",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/verify_gee.py",
+          "--publication"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.1934072000003653,
+        "stdout_sha256": "b73825b75d7ac65db326cd27b7f89420296265037f8b5b19f86b103dbd704e04",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee-closeout-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/verify_closeout.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 13.01192219999939,
+        "stdout_sha256": "4a6fea5b9ae5ac601e9047f88e6ac03203dbea556c680a4b5ab2619162a265c4",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "headered-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/verify_supplement.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.8982690999982879,
+        "stdout_sha256": "eb69bd6f3b5784ef56ea15edf6b7a799085a55b2c17e54f291feab1aa7b9da73",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "headered-closeout-reader",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/verify_closeout.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 9.453690499998629,
+        "stdout_sha256": "8c6b525ddbf8822f483054118e403d9b88ca0d2fdf3740f609713558b8699d79",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "preedit-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "evidence/04A38/late-archived-entry-supplement/v1/replay_preedit_adverse.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 21.40549949999695,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "9c9cf4a0dcc1e8ddc1691cdf355b78ed722aba349cb13fdbfbc2210cf705e5de",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "duplicate-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards",
+          "-p",
+          "test_supplement.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 36.428121500001,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "005bd09502c9056d448d036d725599bf8fdb10e170b9b78f5fd0e89ad43ebd6f",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "duplicate-manifest-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards",
+          "-p",
+          "test_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 11.01403240000218,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "544630dc7c135b5eb4a49bea40c7dd1358c8d862306dd4cebd2e249a76633505",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "old-mask-gap-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards",
+          "-p",
+          "test_mask_gap.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 33.60653089999687,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "034f9039c80c023d8241260cd32bb38014f8a70b4d0a0115a8b9055939bce4e8",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "checkpoint-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/",
+          "-p",
+          "test_review_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.3080033000005642,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "8b729b200b09f48c774f00139a764e104d1f98a67c4233de6e848f8542c50531",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "continuation-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/continuation/v1",
+          "-p",
+          "test_branch_audit.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.161216400003468,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "ef65a842b9ec2eb8754b1cbbccc4df33b5c85acb3d8a43d3a771b271ea399f5a",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "late432-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v1",
+          "-p",
+          "test_supplement.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.4100515000027372,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "bd4a0e8ee6c24aad37d686ddd931fc02b117267004a49f209b87a4aaa63cd238",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "late432-manifest-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v1",
+          "-p",
+          "test_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 9.189315399999032,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "1735b39062d0881b5f2e1617f159d361df54bb9dc58f1a13803e29608aa55bd7",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_gee.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 27.132626699996763,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "eb6f857974eeecd545c8e7fcbc7556a9ccee5ffe5f836199caffacae7028af00",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "protected-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_preservation.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.9443566999980249,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "11c18a64e06eccdae9c0fd9fa0ac96bb527298bfcea86c8cf6abcc82ddced6af",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "gee-manifest-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_manifest.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 10.509710600003018,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "6907dab2cf8ccd6672cf5861efdbeaa1876e32201681ce0d2968b7d2b4736795",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "old-header-gap-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v2-gee-profile",
+          "-p",
+          "test_mmrm_gap.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 23.416906099999323,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0bdad38122400626d49b85cd47fad7a1e0cbbf2eb192cc91645de6f907f8e85a",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "headered-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile",
+          "-p",
+          "test_supplement.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 29.534976700000698,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "463000aafe9dfbfd716b83420ccb9f84ef716b0d41c04f62b9dc889fa434b3bb",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "headered-manifest-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile",
+          "-p",
+          "test_packet.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 10.571872200001962,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "fb8fd98a4cbe1d6149cae94725eb5cc6e80efea456c7c329a250059be04d3847",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "lane": "old-guard-gap-adverse",
+      "receipt": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile",
+          "-p",
+          "test_guard_gap.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 30.750144899997395,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "c064b9b512c2acc4d9ec2057a2fe6e2a1265498d3de3d38ab2e9482f0a7cd745",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "all_exit_zero": true,
+  "expectations_changed": false
+}

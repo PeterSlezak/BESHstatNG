@@ -1,0 +1,110 @@
+{
+  "status": "AUTHENTICATED",
+  "executions": [
+    {
+      "label": "prior-sealed-reader-v2",
+      "result": {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13\\verify_c13_checkpoint_v2.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 252.9829834000011,
+        "stdout_sha256": "099cead8e7cd270c671f21ce63c543a8b26cb8dbc4d8a1365910d46885293a7e",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "prior-private-reader-v2",
+      "result": {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13-retained-private-reader-v2.py",
+          "--verify"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 131.17850850000104,
+        "stdout_sha256": "26b53ff715237095cf6e3c4ef936b28126a656e4f47376220023b5dfbc618f62",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "prior-live-preservation-v1",
+      "result": {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13\\verify_c13_preservation_v1.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 133.8074932999989,
+        "stdout_sha256": "c8cfd3131797cefb2493f2f6f333eb307402551b20c25a29ea56c6a8aba059cb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "prior-physical-union-v1",
+      "result": {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13\\verify_c13_publication_v1.py",
+          "--parts",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v13-review-parts-index-v1.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 42.0432581999994,
+        "stdout_sha256": "bc92e1f041df8a0552130f37a96d6c694225ecd84a762fd6016fd8f70adc4cfb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "prior-copied-default-reader-v1",
+      "result": {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\.c13p.tmp\\evidence\\04A38\\completion\\w2\\continuation-v13",
+          "<REPO_ROOT>\\.c13p.tmp\\evidence\\04A38\\completion\\w2\\continuation-v13\\verify_c13_publication_v1.py"
+        ],
+        "cwd": "<REPO_ROOT>\\.c13p.tmp",
+        "exit_code": 0,
+        "seconds": 285.232661500002,
+        "stdout_sha256": "16d1c35465a5de5b6dcf3fab7331a85595b792644fe60136e7e6a7a4f50369be",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "production_edits": 0,
+  "original_queries": 0
+}

@@ -1,0 +1,3 @@
+Private Function IsValidProbability(value As Double) As Boolean
+        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value) AndAlso value >= 0.0R AndAlso value <= 1.0R
+    End Function

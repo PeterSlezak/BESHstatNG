@@ -1,0 +1,67 @@
+{
+  "status": "REVIEW_DELIVERY_READY_FOR_INDEPENDENT_OWNER_REVIEW;NOT_ACCEPTED",
+  "final_readback": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1-final-additive-readback-v1.json",
+    "bytes": 6401,
+    "sha256": "7f00bbb19dc9f24a6b9a913b3e60457865866bf086e970cc7396eef79fbae35b"
+  },
+  "core_index": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1-review-parts-index-v1.json",
+    "bytes": 7948914,
+    "sha256": "837f9f5e367e6d53465f1fb2f6dd14b8ee13a973deda43c51affd31130e0e358"
+  },
+  "postseal_supplement": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont17-postcorrection-v1/BESHstatNG_04A38_W2_v17_postcorrection_v1_POSTSEAL_SUPPLEMENT.zip",
+    "bytes": 3174355,
+    "sha256": "2e3e5c94a4ad22ea9f6bde8c6de41a94c8cca178445298733e4b2f11e67c9a2c"
+  },
+  "supplement_reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/verify_postseal_supplement_v1.py",
+    "bytes": 2050,
+    "sha256": "a64d5c61d4e85f2a174491b806b74e5ce6c46fc26a71781d1c3f08fdfdfb74f5"
+  },
+  "supplement_reader_command": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\verify_postseal_supplement_v1.py",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1-final-additive-readback-v1.json",
+      "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\BESHstatNG_04A38_W2_v17_postcorrection_v1_POSTSEAL_SUPPLEMENT.zip"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.18424489999597427,
+    "stdout_sha256": "15f1760a0650d98dc766f3076f4a40fd06f5477321c6b5d857f1df91906d75e3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "last_completed_raw_pins": [
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-postseal-supplement-reader-v1/command.json",
+      "bytes": 1245,
+      "sha256": "5bd1adf6c0710fc9d47605c5c622739e631e400a1a900607f1c19a47ad1dd759"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-postseal-supplement-reader-v1/stdout.log",
+      "bytes": 178,
+      "sha256": "15f1760a0650d98dc766f3076f4a40fd06f5477321c6b5d857f1df91906d75e3"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-postseal-supplement-reader-v1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "base_audited_pins": 31896,
+  "postseal_previous_completed_raw": 10,
+  "supplement_archive_pins": 1,
+  "last_reader_raw_pins": 3,
+  "private_pin_union": 31910,
+  "physical_archive_union": 152,
+  "external_upload": "NOT_PERFORMED",
+  "terminal": "NOT_READY_04A38; W2_IN_PROGRESS; W3_NOT_STARTED; P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN; 04A39_BLOCKED"
+}

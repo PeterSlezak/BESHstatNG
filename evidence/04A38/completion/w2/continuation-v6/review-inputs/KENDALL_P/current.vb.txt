@@ -1,0 +1,33 @@
+ha", Description:="Optional alpha passed through for API consistency; p-value output is unchanged.")> Optional alpha As Object = Nothing) As Object
+
+            Dim err? As ExcelError = Nothing
+            Dim pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
+            If err.HasValue Then Return err.Value
+            If pairs Is Nothing OrElse pairs.GetLength(0) < 4 Then Return ExcelError.ExcelErrorNum
+
+            Dim alphaValue As Double = 0.05
+            If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+            Dim n As Integer = pairs.GetLength(0)
+            Dim x(n - 1) As Double
+            Dim y(n - 1) As Double
+            For i = 0 To n - 1
+                x(i) = pairs(i, 0)
+                y(i) = pairs(i, 1)
+            Next
+
+            Dim test = New KendallsTau(x, y, "X", "Y")
+            test.compute(Nothing, alphaValue)
+            Return test.pvalue
+        End Function
+
+        ' -------------------------------------------------------------------------------------------------------------
+        ' Kruskal-Wallis H test (independent samples, 2+ groups)
+        ' -------------------------------------------------------------------------------------------------------------
+
+        ''' <summary>
+        ''' Kruskal-Wallis test statistic (H) for comparing 2 or more independent groups.
+        ''' </summary>
+        ''' <param name="groups">
+        ''' Input data arranged as one column per group (a multi-column Excel range).
+        ''' Each column represents an independent group of

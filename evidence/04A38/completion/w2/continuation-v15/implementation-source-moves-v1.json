@@ -1,0 +1,204 @@
+{
+  "moves": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "name": "PrepareRecords",
+      "original_segment": "                Dim records As New List(Of survival.SurvivalRecord)(rowCount)\n                For i As Integer = 0 To rowCount - 1\n                    Dim rec As New survival.SurvivalRecord()\n                    rec.Time = imported.TimeData(i)\n                    rec.Censorship = imported.CensorData(i)\n                    rec.Index = imported.RowIds(i)\n\n                    Dim cov(fitColCount - 1) As Double\n                    For j As Integer = 0 To fitColCount - 1\n                        cov(j) = fitX(i, j)\n                    Next\n                    rec.Covariates = cov\n\n                    If imported.bStrata Then\n                        rec.Stratum = imported.StrataData(i)\n                        rec.strStratum = imported.StrataData(i)\n                    Else\n                        rec.Stratum = \"__ALL__\"\n                        rec.strStratum = \"__ALL__\"\n                    End If\n\n                    records.Add(rec)\n                Next",
+      "portable_segment": "Dim records As New List(Of survival.SurvivalRecord)(rowCount)\nFor i As Integer = 0 To rowCount - 1\n    Dim rec As New survival.SurvivalRecord()\n    rec.Time = imported.TimeData(i)\n    rec.Censorship = imported.CensorData(i)\n    rec.Index = imported.RowIds(i)\n\n    Dim cov(fitColCount - 1) As Double\n    For j As Integer = 0 To fitColCount - 1\n        cov(j) = fitX(i, j)\n    Next\n    rec.Covariates = cov\n\n    If imported.bStrata Then\n        rec.Stratum = imported.StrataData(i)\n        rec.strStratum = imported.StrataData(i)\n    Else\n        rec.Stratum = \"__ALL__\"\n        rec.strStratum = \"__ALL__\"\n    End If\n\n    records.Add(rec)\nNext",
+      "aliases": [],
+      "native_call": "                Dim records As List(Of survival.SurvivalRecord) = Global.BESHStatNG.ExcelCommon.UdfCoxInputPreparation38.PrepareRecords(imported, rowCount, fitColCount, fitX)",
+      "portable_signature": "Function PrepareRecords(imported As CoxPHData, rowCount As Integer, fitColCount As Integer, fitX As Double(,)) As List(Of survival.SurvivalRecord)",
+      "portable_suffix": "Return records",
+      "destination": "input"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "name": "BuildCoxSummaryTable",
+      "original_segment": "            Dim rows As Integer = If(hdr, p + 1, p)\n            Dim out(rows - 1, 7) As Object\n\n            Dim r0 As Integer = 0\n            If hdr Then\n                out(0, 0) = \"Variable\"\n                out(0, 1) = \"Coef\"\n                out(0, 2) = \"SE\"\n                out(0, 3) = \"Z\"\n                out(0, 4) = \"P-value\"\n                out(0, 5) = \"HR\"\n                out(0, 6) = \"HR \" & ciPct & \" LCL\"\n                out(0, 7) = \"HR \" & ciPct & \" UCL\"\n                r0 = 1\n            End If\n\n            For i As Integer = 0 To p - 1\n                Dim beta As Double = h.Result.Coefficients(i)\n                Dim se As Double\n                If h.Robust AndAlso h.Result.VarCovRobust IsNot Nothing AndAlso h.Result.VarCovRobust.GetLength(0) = p Then\n                    se = Math.Sqrt(h.Result.VarCovRobust(i, i))\n                Else\n                    se = Math.Sqrt(h.Result.VarCov(i, i))\n                End If\n\n                Dim z As Double = beta / se\n                Dim pv As Double = 2.0 * distributions.PNorm(-Math.Abs(z))\n                Dim hr As Object = ExpForDisplay(beta)\n                Dim lcl As Object = ExpForDisplay(beta - zCrit * se)\n                Dim ucl As Object = ExpForDisplay(beta + zCrit * se)\n\n                out(r0 + i, 0) = h.VarNames(i)\n                out(r0 + i, 1) = beta\n                out(r0 + i, 2) = se\n                out(r0 + i, 3) = z\n                out(r0 + i, 4) = pv\n                out(r0 + i, 5) = hr\n                out(r0 + i, 6) = lcl\n                out(r0 + i, 7) = ucl\n            Next",
+      "portable_segment": "Dim rows As Integer = If(hdr, p + 1, p)\nDim out(rows - 1, 7) As Object\n\nDim r0 As Integer = 0\nIf hdr Then\n    out(0, 0) = \"Variable\"\n    out(0, 1) = \"Coef\"\n    out(0, 2) = \"SE\"\n    out(0, 3) = \"Z\"\n    out(0, 4) = \"P-value\"\n    out(0, 5) = \"HR\"\n    out(0, 6) = \"HR \" & ciPct & \" LCL\"\n    out(0, 7) = \"HR \" & ciPct & \" UCL\"\n    r0 = 1\nEnd If\n\nFor i As Integer = 0 To p - 1\n    Dim beta As Double = result.Coefficients(i)\n    Dim se As Double\n    If robust AndAlso result.VarCovRobust IsNot Nothing AndAlso result.VarCovRobust.GetLength(0) = p Then\n        se = Math.Sqrt(result.VarCovRobust(i, i))\n    Else\n        se = Math.Sqrt(result.VarCov(i, i))\n    End If\n\n    Dim z As Double = beta / se\n    Dim pv As Double = 2.0 * distributions.PNorm(-Math.Abs(z))\n    Dim hr As Object = expForDisplay(beta)\n    Dim lcl As Object = expForDisplay(beta - zCrit * se)\n    Dim ucl As Object = expForDisplay(beta + zCrit * se)\n\n    out(r0 + i, 0) = varNames(i)\n    out(r0 + i, 1) = beta\n    out(r0 + i, 2) = se\n    out(r0 + i, 3) = z\n    out(r0 + i, 4) = pv\n    out(r0 + i, 5) = hr\n    out(r0 + i, 6) = lcl\n    out(r0 + i, 7) = ucl\nNext",
+      "aliases": [
+        {
+          "before": "h.VarNames",
+          "after": "varNames"
+        },
+        {
+          "before": "h.Result",
+          "after": "result"
+        },
+        {
+          "before": "h.Robust",
+          "after": "robust"
+        },
+        {
+          "before": "ExpForDisplay(",
+          "after": "expForDisplay("
+        }
+      ],
+      "native_call": "            Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxSummaryTable(hdr, p, h.VarNames, h.Result, h.Robust, zCrit, ciPct, AddressOf ExpForDisplay)",
+      "portable_signature": "Function BuildCoxSummaryTable(hdr As Boolean, p As Integer, varNames As String(), result As CoxResult, robust As Boolean, zCrit As Double, ciPct As String, expForDisplay As Func(Of Double, Object)) As Object(,)",
+      "portable_suffix": "Return out",
+      "destination": "report"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "name": "BuildCoxTestsTable",
+      "original_segment": "                Dim nRows As Integer = If(hdr, 7, 5)\n                Dim out(nRows - 1, 3) As Object\n                Dim r As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Item\"\n                    out(0, 1) = \"Value\"\n                    out(0, 2) = \"df\"\n                    out(0, 3) = \"P-value\"\n                    r = 1\n                End If\n\n                out(r + 0, 0) = \"Likelihood-ratio chi-square\"\n                out(r + 0, 1) = lr\n                out(r + 0, 2) = p\n                out(r + 0, 3) = lrP\n\n                out(r + 1, 0) = \"Wald chi-square\"\n                out(r + 1, 1) = wald\n                out(r + 1, 2) = p\n                out(r + 1, 3) = waldP\n\n                out(r + 2, 0) = \"Log-likelihood (null)\"\n                out(r + 2, 1) = If(Not Double.IsNaN(h.Result.LogLikelihoodNull) AndAlso Not Double.IsInfinity(h.Result.LogLikelihoodNull), CType(h.Result.LogLikelihoodNull, Object), ExcelError.ExcelErrorNA)\n                out(r + 2, 2) = \"\"\n                out(r + 2, 3) = \"\"\n\n                out(r + 3, 0) = \"Log-likelihood (fitted)\"\n                out(r + 3, 1) = If(Not Double.IsNaN(h.Result.LogLikelihood) AndAlso Not Double.IsInfinity(h.Result.LogLikelihood), CType(h.Result.LogLikelihood, Object), ExcelError.ExcelErrorNA)\n                out(r + 3, 2) = \"\"\n                out(r + 3, 3) = \"\"\n\n                out(r + 4, 0) = \"Iterations\"\n                out(r + 4, 1) = h.Result.Iterations\n                out(r + 4, 2) = \"\"\n                out(r + 4, 3) = \"\"\n\n                If hdr Then\n                    out(r + 5, 0) = \"Converged\"\n                    out(r + 5, 1) = h.Result.Converged\n                    out(r + 5, 2) = \"\"\n                    out(r + 5, 3) = \"\"\n                End If",
+      "portable_segment": "Dim nRows As Integer = If(hdr, 7, 5)\nDim out(nRows - 1, 3) As Object\nDim r As Integer = 0\n\nIf hdr Then\n    out(0, 0) = \"Item\"\n    out(0, 1) = \"Value\"\n    out(0, 2) = \"df\"\n    out(0, 3) = \"P-value\"\n    r = 1\nEnd If\n\nout(r + 0, 0) = \"Likelihood-ratio chi-square\"\nout(r + 0, 1) = lr\nout(r + 0, 2) = p\nout(r + 0, 3) = lrP\n\nout(r + 1, 0) = \"Wald chi-square\"\nout(r + 1, 1) = wald\nout(r + 1, 2) = p\nout(r + 1, 3) = waldP\n\nout(r + 2, 0) = \"Log-likelihood (null)\"\nout(r + 2, 1) = If(Not Double.IsNaN(result.LogLikelihoodNull) AndAlso Not Double.IsInfinity(result.LogLikelihoodNull), CType(result.LogLikelihoodNull, Object), unavailable)\nout(r + 2, 2) = \"\"\nout(r + 2, 3) = \"\"\n\nout(r + 3, 0) = \"Log-likelihood (fitted)\"\nout(r + 3, 1) = If(Not Double.IsNaN(result.LogLikelihood) AndAlso Not Double.IsInfinity(result.LogLikelihood), CType(result.LogLikelihood, Object), unavailable)\nout(r + 3, 2) = \"\"\nout(r + 3, 3) = \"\"\n\nout(r + 4, 0) = \"Iterations\"\nout(r + 4, 1) = result.Iterations\nout(r + 4, 2) = \"\"\nout(r + 4, 3) = \"\"\n\nIf hdr Then\n    out(r + 5, 0) = \"Converged\"\n    out(r + 5, 1) = result.Converged\n    out(r + 5, 2) = \"\"\n    out(r + 5, 3) = \"\"\nEnd If",
+      "aliases": [
+        {
+          "before": "h.Result",
+          "after": "result"
+        },
+        {
+          "before": "ExcelError.ExcelErrorNA",
+          "after": "unavailable"
+        }
+      ],
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxTestsTable(hdr, p, h.Result, lr, lrP, wald, waldP, ExcelError.ExcelErrorNA)",
+      "portable_signature": "Function BuildCoxTestsTable(hdr As Boolean, p As Integer, result As CoxResult, lr As Object, lrP As Object, wald As Object, waldP As Object, unavailable As Object) As Object(,)",
+      "portable_suffix": "Return out",
+      "destination": "report"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "name": "BuildCoxResidualTable",
+      "original_segment": "                Dim out(keys.Count, width) As Object\n                out(0, 0) = \"Row ID\"\n                If width = 1 Then\n                    out(0, 1) = ResidualLabel(rt)\n                Else\n                    For j As Integer = 0 To width - 1\n                        out(0, j + 1) = If(j < h.VarNames.Length, h.VarNames(j), \"V\" & (j + 1).ToString())\n                    Next\n                End If\n                For i As Integer = 0 To keys.Count - 1\n                    out(i + 1, 0) = keys(i)\n                    Dim vals = d(keys(i))\n                    For j As Integer = 0 To vals.Length - 1\n                        out(i + 1, j + 1) = vals(j)\n                    Next\n                Next",
+      "portable_segment": "Dim out(keys.Count, width) As Object\nout(0, 0) = \"Row ID\"\nIf width = 1 Then\n    out(0, 1) = CoxUDFsMetadata38.ResidualLabel(rt)\nElse\n    For j As Integer = 0 To width - 1\n        out(0, j + 1) = If(j < varNames.Length, varNames(j), \"V\" & (j + 1).ToString())\n    Next\nEnd If\nFor i As Integer = 0 To keys.Count - 1\n    out(i + 1, 0) = keys(i)\n    Dim vals = d(keys(i))\n    For j As Integer = 0 To vals.Length - 1\n        out(i + 1, j + 1) = vals(j)\n    Next\nNext",
+      "aliases": [
+        {
+          "before": "h.VarNames",
+          "after": "varNames"
+        },
+        {
+          "before": "ResidualLabel(rt)",
+          "after": "CoxUDFsMetadata38.ResidualLabel(rt)"
+        }
+      ],
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildCoxResidualTable(d, keys, width, h.VarNames, rt)",
+      "portable_signature": "Function BuildCoxResidualTable(d As Dictionary(Of Integer, Double()), keys As List(Of Integer), width As Integer, varNames As String(), rt As ResidualType) As Object(,)",
+      "portable_suffix": "Return out",
+      "destination": "report"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "name": "CreateCoxBaselineTable",
+      "original_segment": "                Dim cols As Integer = If(tp = \"survival\" OrElse tp = \"cumhaz\", 3, 4)\n                Dim out(total - 1, cols - 1) As Object\n                If cols = 4 Then\n                    out(0, 0) = \"Stratum\" : out(0, 1) = \"Time\" : out(0, 2) = \"Survival\" : out(0, 3) = \"CumHazard\"\n                Else\n                    out(0, 0) = \"Stratum\" : out(0, 1) = \"Time\" : out(0, 2) = If(tp = \"survival\", \"Survival\", \"CumHazard\")\n                End If",
+      "portable_segment": "Dim cols As Integer = If(tp = \"survival\" OrElse tp = \"cumhaz\", 3, 4)\nDim out(total - 1, cols - 1) As Object\nIf cols = 4 Then\n    out(0, 0) = \"Stratum\" : out(0, 1) = \"Time\" : out(0, 2) = \"Survival\" : out(0, 3) = \"CumHazard\"\nElse\n    out(0, 0) = \"Stratum\" : out(0, 1) = \"Time\" : out(0, 2) = If(tp = \"survival\", \"Survival\", \"CumHazard\")\nEnd If",
+      "aliases": [],
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateCoxBaselineTable(total, tp)",
+      "portable_signature": "Function CreateCoxBaselineTable(total As Integer, tp As String) As Object(,)",
+      "portable_suffix": "Return out",
+      "destination": "report"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "name": "AppendCoxBaselineRows",
+      "original_segment": "                    For i As Integer = 0 To arr.GetLength(0) - 1\n                        out(r, 0) = Convert.ToString(kv.Key)\n                        out(r, 1) = arr(i, 0)\n                        If tp = \"survival\" Then\n                            out(r, 2) = arr(i, 1)\n                        ElseIf tp = \"cumhaz\" OrElse tp = \"hazard\" Then\n                            out(r, 2) = arr(i, 2)\n                        Else\n                            out(r, 2) = arr(i, 1)\n                            out(r, 3) = arr(i, 2)\n                        End If\n                        r += 1\n                    Next",
+      "portable_segment": "For i As Integer = 0 To arr.GetLength(0) - 1\n    out(r, 0) = Convert.ToString(key)\n    out(r, 1) = arr(i, 0)\n    If tp = \"survival\" Then\n        out(r, 2) = arr(i, 1)\n    ElseIf tp = \"cumhaz\" OrElse tp = \"hazard\" Then\n        out(r, 2) = arr(i, 2)\n    Else\n        out(r, 2) = arr(i, 1)\n        out(r, 3) = arr(i, 2)\n    End If\n    r += 1\nNext",
+      "aliases": [
+        {
+          "before": "kv.Key",
+          "after": "key"
+        }
+      ],
+      "native_call": "                    Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.AppendCoxBaselineRows(out, arr, kv.Key, tp, r)",
+      "portable_signature": "Sub AppendCoxBaselineRows(out As Object(,), arr As Double(,), key As Object, tp As String, ByRef r As Integer)",
+      "portable_suffix": "",
+      "destination": "report"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "name": "BuildGeeSummaryTable",
+      "original_segment": "                Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)\n                Dim out(outRows - 1, 7) As Object\n                Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\n                Dim ciLabel As String = (100.0R * (1.0R - alphaValue)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"%\"\n                Dim r0 As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Parameter\"\n                    out(0, 1) = \"Type\"\n                    out(0, 2) = \"Coef\"\n                    out(0, 3) = \"SE\"\n                    out(0, 4) = \"Z\"\n                    out(0, 5) = \"P-value\"\n                    out(0, 6) = ciLabel & \" CI Lower\"\n                    out(0, 7) = ciLabel & \" CI Upper\"\n                    r0 = 1\n                End If\n\n                For i As Integer = 0 To beta.Length - 1\n                    Dim z As Double = If(se(i) > 0.0R, beta(i) / se(i), Double.NaN)\n                    Dim pv As Double = If(se(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)\n\n                    out(r0 + i, 0) = names(i)\n                    out(r0 + i, 1) = If(i = 0, \"Intercept\", \"Slope\")\n                    out(r0 + i, 2) = beta(i)\n                    out(r0 + i, 3) = se(i)\n                    out(r0 + i, 4) = z\n                    out(r0 + i, 5) = pv\n                    out(r0 + i, 6) = beta(i) - zCrit * se(i)\n                    out(r0 + i, 7) = beta(i) + zCrit * se(i)\n                Next",
+      "portable_segment": "Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)\nDim out(outRows - 1, 7) As Object\nDim zCrit As Double = distributions.ZCritTwoSided(alphaValue)\nDim ciLabel As String = (100.0R * (1.0R - alphaValue)).ToString(\"0.##\", CultureInfo.InvariantCulture) & \"%\"\nDim r0 As Integer = 0\n\nIf hdr Then\n    out(0, 0) = \"Parameter\"\n    out(0, 1) = \"Type\"\n    out(0, 2) = \"Coef\"\n    out(0, 3) = \"SE\"\n    out(0, 4) = \"Z\"\n    out(0, 5) = \"P-value\"\n    out(0, 6) = ciLabel & \" CI Lower\"\n    out(0, 7) = ciLabel & \" CI Upper\"\n    r0 = 1\nEnd If\n\nFor i As Integer = 0 To beta.Length - 1\n    Dim z As Double = If(se(i) > 0.0R, beta(i) / se(i), Double.NaN)\n    Dim pv As Double = If(se(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)\n\n    out(r0 + i, 0) = names(i)\n    out(r0 + i, 1) = If(i = 0, \"Intercept\", \"Slope\")\n    out(r0 + i, 2) = beta(i)\n    out(r0 + i, 3) = se(i)\n    out(r0 + i, 4) = z\n    out(r0 + i, 5) = pv\n    out(r0 + i, 6) = beta(i) - zCrit * se(i)\n    out(r0 + i, 7) = beta(i) + zCrit * se(i)\nNext",
+      "aliases": [],
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildGeeSummaryTable(beta, se, names, hdr, alphaValue)",
+      "portable_signature": "Function BuildGeeSummaryTable(beta As Double(), se As Double(), names As String(), hdr As Boolean, alphaValue As Double) As Object(,)",
+      "portable_suffix": "Return out",
+      "destination": "report"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "name": "BuildGeeTestsPrefix",
+      "original_segment": "                Dim outRows As Integer = If(hdr, labels.Length + 2, labels.Length + 1)\n                Dim out(outRows - 1, 3) As Object\n                Dim r As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Item\"\n                    out(0, 1) = \"Value\"\n                    out(0, 2) = \"df\"\n                    out(0, 3) = \"P-value\"\n                    r = 1\n                End If\n\n                For i As Integer = 0 To labels.Length - 1\n                    out(r, 0) = labels(i)\n                    out(r, 1) = vals(i, 0)\n                    out(r, 2) = If(vals.GetLength(1) > 1, vals(i, 1), \"\")\n                    out(r, 3) = If(vals.GetLength(1) > 2, vals(i, 2), \"\")\n                    r += 1\n                Next",
+      "portable_segment": "Dim outRows As Integer = If(hdr, labels.Length + 2, labels.Length + 1)\nDim out(outRows - 1, 3) As Object\nr = 0\n\nIf hdr Then\n    out(0, 0) = \"Item\"\n    out(0, 1) = \"Value\"\n    out(0, 2) = \"df\"\n    out(0, 3) = \"P-value\"\n    r = 1\nEnd If\n\nFor i As Integer = 0 To labels.Length - 1\n    out(r, 0) = labels(i)\n    out(r, 1) = vals(i, 0)\n    out(r, 2) = If(vals.GetLength(1) > 1, vals(i, 1), \"\")\n    out(r, 3) = If(vals.GetLength(1) > 2, vals(i, 2), \"\")\n    r += 1\nNext",
+      "aliases": [
+        {
+          "before": "Dim r As Integer = 0",
+          "after": "r = 0"
+        }
+      ],
+      "native_call": "                Dim r As Integer = 0\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildGeeTestsPrefix(labels, vals, hdr, r)",
+      "portable_signature": "Function BuildGeeTestsPrefix(labels As String(), vals As Object(,), hdr As Boolean, ByRef r As Integer) As Object(,)",
+      "portable_suffix": "Return out",
+      "destination": "report"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "name": "AppendGeeResidualRows",
+      "original_segment": "                        For i As Integer = 0 To raw.Length - 1\n                            rows.Add(New Object() {raw(i), dev(i), pear(i), sdev(i), spear(i), work(i)})\n                        Next",
+      "portable_segment": "For i As Integer = 0 To raw.Length - 1\n    rows.Add(New Object() {raw(i), dev(i), pear(i), sdev(i), spear(i), work(i)})\nNext",
+      "aliases": [],
+      "native_call": "                        Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.AppendGeeResidualRows(rows, raw, dev, pear, sdev, spear, work)",
+      "portable_signature": "Sub AppendGeeResidualRows(rows As List(Of Object()), raw As Double(), dev As Double(), pear As Double(), sdev As Double(), spear As Double(), work As Double())",
+      "portable_suffix": "",
+      "destination": "report"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "name": "CreateGeePredictionTable",
+      "original_segment": "                Dim outRows As Integer = If(hdr, nRows + 1, nRows)\n                Dim out(outRows - 1, 1) As Object\n                Dim r0 As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"PredictedResponse\"\n                    out(0, 1) = \"LinearPredictor\"\n                    r0 = 1\n                End If",
+      "portable_segment": "Dim outRows As Integer = If(hdr, nRows + 1, nRows)\nDim out(outRows - 1, 1) As Object\nr0 = 0\n\nIf hdr Then\n    out(0, 0) = \"PredictedResponse\"\n    out(0, 1) = \"LinearPredictor\"\n    r0 = 1\nEnd If",
+      "aliases": [
+        {
+          "before": "Dim r0 As Integer = 0",
+          "after": "r0 = 0"
+        }
+      ],
+      "native_call": "                Dim r0 As Integer = 0\n                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateGeePredictionTable(nRows, hdr, r0)",
+      "portable_signature": "Function CreateGeePredictionTable(nRows As Integer, hdr As Boolean, ByRef r0 As Integer) As Object(,)",
+      "portable_suffix": "Return out",
+      "destination": "report"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "name": "MaterializeGeeRows",
+      "original_segment": "            If rows Is Nothing Then Return ExcelError.ExcelErrorNA\n\n            Dim colCount As Integer = If(headers Is Nothing, 0, headers.Length)\n            If colCount = 0 AndAlso rows.Count > 0 Then\n                colCount = rows(0).Length\n            End If\n            If colCount < 1 Then Return ExcelError.ExcelErrorNA\n\n            Dim outRows As Integer = rows.Count + If(includeHeader, 1, 0)\n            Dim out(outRows - 1, colCount - 1) As Object\n            Dim r0 As Integer = 0\n\n            If includeHeader Then\n                For j As Integer = 0 To colCount - 1\n                    out(0, j) = headers(j)\n                Next\n                r0 = 1\n            End If\n\n            For i As Integer = 0 To rows.Count - 1\n                Dim row() As Object = rows(i)\n                For j As Integer = 0 To colCount - 1\n                    out(r0 + i, j) = If(j < row.Length, row(j), Nothing)\n                Next\n            Next\n\n            Return out",
+      "portable_segment": "If rows Is Nothing Then Return unavailable\n\nDim colCount As Integer = If(headers Is Nothing, 0, headers.Length)\nIf colCount = 0 AndAlso rows.Count > 0 Then\n    colCount = rows(0).Length\nEnd If\nIf colCount < 1 Then Return unavailable\n\nDim outRows As Integer = rows.Count + If(includeHeader, 1, 0)\nDim out(outRows - 1, colCount - 1) As Object\nDim r0 As Integer = 0\n\nIf includeHeader Then\n    For j As Integer = 0 To colCount - 1\n        out(0, j) = headers(j)\n    Next\n    r0 = 1\nEnd If\n\nFor i As Integer = 0 To rows.Count - 1\n    Dim row() As Object = rows(i)\n    For j As Integer = 0 To colCount - 1\n        out(r0 + i, j) = If(j < row.Length, row(j), Nothing)\n    Next\nNext\n\nReturn out",
+      "aliases": [
+        {
+          "before": "ExcelError.ExcelErrorNA",
+          "after": "unavailable"
+        }
+      ],
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.MaterializeGeeRows(rows, includeHeader, headers, ExcelError.ExcelErrorNA)",
+      "portable_signature": "Function MaterializeGeeRows(rows As List(Of Object()), includeHeader As Boolean, headers As String(), unavailable As Object) As Object",
+      "portable_suffix": "",
+      "destination": "report"
+    }
+  ],
+  "sources": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "bytes": 50307,
+      "sha256": "88d9667624c126a07831fbe7675b3c9d9eca0ae68e72527afc846336d08fbca2"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "bytes": 90398,
+      "sha256": "0b926439d30500c31fe130bc99532ac762bc5d709b36588714f83e33b20fe085"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfCoxInputPreparation38.vb",
+      "bytes": 1382,
+      "sha256": "4d65e2f34b1a6df9bea7793d14970cdf71fed95470d0c0f4d1dd67b7121e283c"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfCoxGeeReportPreparation38.vb",
+      "bytes": 10406,
+      "sha256": "0db44ec5ecdb028494855ab21481bb757babfc3e48f7aeaed4e65c9ba2949c8a"
+    }
+  ],
+  "original_queries": 0,
+  "notes": "Every segment is derived from authenticated current preimages. Engine formulas are not cloned; original fit/session/import/exception/materialization paths are retained."
+}

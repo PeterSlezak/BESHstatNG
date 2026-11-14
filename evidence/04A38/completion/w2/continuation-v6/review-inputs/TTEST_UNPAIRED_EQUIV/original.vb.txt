@@ -1,0 +1,69 @@
+<ExcelFunction(
+            Name:="BESH.PAR.TTEST_UNPAIRED_EQUIV",
+            Category:="BESHStatNG - Parametric",
+            Description:="TOST-style equivalence comparison for two independent means with interval-based decision reporting.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function TTEST_UNPAIRED_EQUIV(
+            <ExcelArgument(AllowReference:=True, Name:="control", Description:="Control/reference group as a single-column range. First cell may be a header.")> control As Object,
+            <ExcelArgument(AllowReference:=True, Name:="experimental", Description:="Experimental/test group as a single-column range. First cell may be a header.")> experimental As Object,
+            <ExcelArgument(Name:="lowerMargin", Description:="Lower equivalence margin, or a positive symmetric margin magnitude if upperMargin is omitted.")> lowerMargin As Object,
+            <ExcelArgument(Name:="upperMargin", Description:="Optional upper equivalence margin. When omitted, ±lowerMargin is used.")> Optional upperMargin As Object = Nothing,
+            <ExcelArgument(Name:="groupNames", Description:="Optional names as comma-separated text or a 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional variance assumption: welch (default) or equal/pooled/student.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional one-sided alpha for each TOST component. Default 0.025.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetIndependentNumericColumns(control, experimental, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
+                If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
+                If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim lowerValue As Double
+                Dim upperValue As Double
+                If Not TryGetEquivalenceMargins(lowerMargin, upperMargin, lowerValue, upperValue) Then Return ExcelError.ExcelErrorValue
+                If lowerValue >= upperValue Then Return ExcelError.ExcelErrorNum
+
+                Dim alphaValue As Double = 0.025
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim assumeEqual As Boolean = ParseEqualVarianceMode(method, False)
+                Dim names() As String = ParametricUDFs.ResolveNames(groupNames, detectedNames, 2, "Group")
+
+                Dim result As MeanEquivalenceResult = EquivalenceNonInferiorityMethods.TestUnpairedMeansEquivalence(
+                    data(0), data(1), lowerValue, upperValue, alphaValue, assumeEqual)
+
+                Dim body As Object(,) = {
+                    {"Control group", names(0)},
+                    {"Experimental group", names(1)},
+                    {"Variance model", If(result.AssumeEqualVariances, "Equal variances (pooled Student t)", "Unequal variances (Welch)")},
+                    {"Observations in control", result.NumberOfControls},
+                    {"Observations in experimental", result.NumberOfExperimental},
+                    {"Mean control", result.MeanControl},
+                    {"Mean experimental", result.MeanExperimental},
+                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
+                    {"Standard error of the difference", result.StandardError},
+                    {"Degrees of freedom", result.DegreesOfFreedom},
+                    {"Lower equivalence margin", result.LowerMargin},
+                    {"Upper equivalence margin", result.UpperMargin},
+                    {"One-sided alpha", result.AlphaOneSided},
+                    {"Lower TOST statistic", result.LowerComponentStatistic},
+                    {"Lower TOST p-value", result.LowerComponentPValue},
+                    {"Upper TOST statistic", result.UpperComponentStatistic},
+                    {"Upper TOST p-value", result.UpperComponentPValue},
+                    {"TOST p-value = max(component p-values)", result.TostPValue},
+                    {SafeCiLabel(result.EquivalentConfidenceInterval), SafeCiText(result.EquivalentConfidenceInterval)},
+                    {"Point estimate within margins", result.CiAssessment.IsPointEstimateWithinMargins},
+                    {"Confidence interval within margins", result.CiAssessment.IsConfidenceIntervalWithinMargins},
+                    {"Lower margin supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
+                    {"Upper margin supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
+                    {"Supports equivalence", result.SupportsEquivalence},
+                    {"Conclusion", result.Conclusion}
+                }
+
+                Return BuildResultTable("Unpaired Means Equivalence (TOST)", body)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.TTEST_UNPAIRED_EQUIV", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function

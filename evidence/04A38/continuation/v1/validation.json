@@ -1,0 +1,56 @@
+{
+  "executed": {
+    "bounded_checkpoint_reader": {
+      "status": "VALID_NOT_READY_REVIEW_PACKET",
+      "external_hashes": 611
+    },
+    "branch_audit": {
+      "status": "ESSENTIAL_GAPS_CONFIRMED",
+      "cases_per_configuration_read": 28966,
+      "original_execution": false
+    },
+    "branch_tests": {
+      "passed": 12,
+      "failed": 0,
+      "errors": 0,
+      "seconds": 2.419,
+      "command": "<PYTHON> -B -m unittest discover -s evidence/04A38/continuation/v1 -p test_branch_audit.py -v"
+    },
+    "live_preservation": {
+      "tracked": 4695,
+      "entry_exact": 4663,
+      "checkpoint_transitions": 32,
+      "lineage": 278,
+      "captures": 100,
+      "owner_documents": 16
+    }
+  },
+  "not_rerun": [
+    "Full managed Debug/Release",
+    "Node",
+    "Python aggregate",
+    "Historical packet audits",
+    "Strict/profile/MkDocs"
+  ],
+  "prior_results_only": {
+    "managed_per_configuration": {
+      "pass": 20556,
+      "fail": 14,
+      "new_pass": 49
+    },
+    "node_pass": 916,
+    "python": {
+      "pass": 767,
+      "fail": 178,
+      "error": 11
+    },
+    "strict_profile_docs": [
+      1,
+      1,
+      0
+    ]
+  },
+  "reason": "Evidence-only continuation hit mandatory reference-coverage stop; no production or prior test source changed; no expensive baseline reset",
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

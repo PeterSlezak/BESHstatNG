@@ -1,0 +1,32 @@
+{
+  "status": "REJECTED_BEFORE_ZIP",
+  "manifest": {
+    "path": "evidence/04A38/completion/w2/continuation-v2/publication-manifest-v1.json",
+    "bytes": 664264,
+    "sha256": "93dc36232bdb493cb72c7be7650af9e332774522d155281999ec85e78589b116"
+  },
+  "payload": {
+    "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+    "bytes": 7343036,
+    "sha256": "c393596b344d0d253e44c7eb4232db66dc8eea905ea057b4eb342fd1758b04ca"
+  },
+  "diagnostic_fields": [
+    {
+      "pointer": [
+        "results",
+        1,
+        "records",
+        2964,
+        "test_name"
+      ],
+      "matches": 1,
+      "value_sha256": "bf8e62e4bacba5ac40ccdfdff36fb18945f30ac94b53e6d9d642702346b07997",
+      "matched_bytes_sha256": [
+        "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273"
+      ],
+      "length": 59,
+      "contains_assertion": false
+    }
+  ],
+  "policy": "No URL whitelist; retain original diagnostic receipt locally; public derivative must be explicit and independently related. No statistical/source/reference byte change."
+}

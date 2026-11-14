@@ -1,0 +1,27 @@
+{
+  "status": "RETAINED_RECONCILIATION_GUARD_FAILURE",
+  "member": {
+    "canonical_original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4a1806f9c5baa4a2@99887:2213",
+    "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+    "name": "AddGeeLsmEstimateAtValue",
+    "git_original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4a1806f9c5baa4a2@99887:2213",
+    "current_ids": [],
+    "disposition": "PROOF_SUPPORTED_REVIEWED_BODY",
+    "proof": {
+      "kind": "CARRIED_C2_FULL_SOURCE_OR_CIL_PROOF",
+      "prior": {
+        "kind": "CARRIED_OPERATION_OR_FULL_IL_PROOF",
+        "prior": {
+          "kind": "PRESERVED_PRIOR_SOURCE_OPERATIONS",
+          "evidence": "prior8 Common bodies token-exact to entry; unchanged wrappers and model/cell boundary"
+        },
+        "source_token_exact": true,
+        "current_ids": []
+      },
+      "native_source_token_exact": true
+    },
+    "identity_note": "Explicit relocation to Common; current native method removed",
+    "partial_implementation": null
+  },
+  "cause": "A historical helper already relocated entirely to Common has no live Windows identity; the v4 proof and its portable consumer must be carried rather than require a new Windows body"
+}

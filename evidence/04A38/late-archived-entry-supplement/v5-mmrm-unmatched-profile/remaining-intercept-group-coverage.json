@@ -1,0 +1,84 @@
+{
+  "status": "NOT_READY_04A38",
+  "earliest_failed_phase": "POST_UNMATCHED_GATE_SCALAR_GROUP_INTERCEPT_REFERENCE_COVERAGE",
+  "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1a0bb79d9820bf54@87541:2014",
+  "signature": "Private Function TryGetDesignColumnValues(h As MmrmHandle, requestedName As String, ByRef resolvedName As String, ByRef values() As Double, ByRef errorMessage As String) As Boolean",
+  "inherited_ownership_row": {
+    "original_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1a0bb79d9820bf54@87541:2014",
+    "historical_member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1a0bb79d9820bf54@87541:2014",
+    "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+    "signature": "Private Function TryGetDesignColumnValues(h As MmrmHandle, requestedName As String, ByRef resolvedName As String, ByRef values() As Double, ByRef errorMessage As String) As Boolean",
+    "kind": "FunctionBlock",
+    "progress": "OPEN_REMAINING_MEMBER_BEHAVIOR_REVIEW",
+    "portable_source_transition": "",
+    "windows_bindings": "[\"BESHStatNG.WorksheetFunctions.MixedModelUDFs.TryGetDesignColumnValues(BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmHandle,System.String,System.String&,System.Double[]&,System.String&)\"]",
+    "registered_consumers": "[\"BESH.REGR.MMRM_CONTRASTS\", \"BESH.REGR.MMRM_LSMEANS\"]",
+    "portable_edges": "[]",
+    "predecessor_plan": "OPEN_PENDING_IMPLEMENTATION_AND_FINAL_CONSUMER_VALIDATION",
+    "ready_disposition": "NOT_CLOSED"
+  },
+  "source_snapshot": {
+    "path": "evidence/04A38/preedit/source/Regression/MixedModelUDFs.vb.txt",
+    "bytes": 92704,
+    "sha256": "596071f9fdb00fb94585e929a6899494293d2dc7ee0064faadf098b0d95dc13d"
+  },
+  "missing_source_branch": {
+    "line": 1477,
+    "continuation_line": 1478,
+    "rejection_line": 1479,
+    "condition": "If String.Equals(h.FixedEffectNames(idx), \"Intercept\", StringComparison.OrdinalIgnoreCase) OrElse",
+    "continuation": "String.Equals(h.FixedEffectNames(idx), \"(Intercept)\", StringComparison.OrdinalIgnoreCase) Then",
+    "source_error_literal": "the intercept column cannot be used as a grouping factor."
+  },
+  "observations": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/group-selection-coverage-observation.json",
+    "bytes": 41019,
+    "sha256": "320c810dc34d7440e3839a5debed3194631eb6678b1c2160ea40d98c73f4d10e"
+  },
+  "configurations": {
+    "Debug": {
+      "public_lsmeans_cases": 66,
+      "helper_entry_cases": 34,
+      "report_after_helper": 16,
+      "intercept_guard_outputs": 0
+    },
+    "Release": {
+      "public_lsmeans_cases": 66,
+      "helper_entry_cases": 34,
+      "report_after_helper": 16,
+      "intercept_guard_outputs": 0
+    }
+  },
+  "new_reference_executions": 0,
+  "new_case_packets": 0,
+  "new_production_changes": 0,
+  "proposed_public_entry": "BESH.REGR.MMRM_LSMEANS",
+  "proposed_public_argument_order": [
+    "handle",
+    "group",
+    "alpha"
+  ],
+  "proposed_semantic_input": {
+    "group_runtime_type": "System.String",
+    "group_literal": "Intercept",
+    "alpha": "Nothing",
+    "handle": "Existing same authenticated successful original MMRM factory and fresh fitted session; not a fabricated handle"
+  },
+  "proposed_cases_per_configuration": 2,
+  "proposed_cultures": [
+    "Invariant",
+    "sk-SK"
+  ],
+  "configurations_proposed": [
+    "Debug",
+    "Release"
+  ],
+  "expected_output": "UNKNOWN_NOT_CAPTURED",
+  "authorization": "NOT_AUTHORIZED_NOT_EXECUTED",
+  "why_essential": "Named grouping is a separate public LS-means/contrast path. Lookup succeeds for the intercept, but this mandatory reusable validation must reject it before a grouping vector is copied or a report is built. Other unknown-column errors, ordinary grouping reports, profile duplicate errors and unmatched rectangular-range errors do not establish that boundary or its ByRef/error propagation.",
+  "late_E_does_not_reach": "MMRM_LSMEANS sees Object[,] range and takes its earlier range-profile arm; scalar grouping uses the later Else arm and TryGetDesignColumnValues. No E case calls the scalar helper.",
+  "next_action": "STOP before another original query, new input packet or production change. Separate explicit owner decision for exactly the proposed two cases/configuration is required by owner continuation Section4.5.",
+  "qualification": "Next independently identified essential source gap, not a claim that every later member is reviewed. No HOST_ONLY substitution or deferred mandatory04A38 extraction.",
+  "scientific": "NOT_GOLDEN",
+  "native": "NOT_RUN"
+}

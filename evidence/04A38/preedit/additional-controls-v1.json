@@ -1,0 +1,146 @@
+{
+  "status": "PRE_EDIT_ADDITIONAL_COVERAGE_CONTROLS_PASS; NOT_IMPLEMENTATION_READY",
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "first_valid_freeze_sha256": "9f9a55337311bf37e010dcc078cb2ff8a8384122c1b105c4593732e90e13d165",
+  "first_rows_per_configuration": 24732,
+  "additional_rows_per_configuration": 4234,
+  "total_rows_per_configuration": 28966,
+  "corpora": {
+    "public-options-v1": {
+      "Debug": {
+        "rows": 2508,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52",
+        "bytes": 6942877,
+        "outcomes": {
+          "RETURN_ERROR_CELL": 910,
+          "RETURN_ARRAY": 808,
+          "RETURN_SCALAR": 110,
+          "HANDLE_CREATED": 484,
+          "RETURN_TEXT": 196
+        },
+        "repeat_exact": true,
+        "trace_exact": true,
+        "native_attempts": 0
+      },
+      "Release": {
+        "rows": 2508,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52",
+        "bytes": 6942877,
+        "outcomes": {
+          "RETURN_ERROR_CELL": 910,
+          "RETURN_ARRAY": 808,
+          "RETURN_SCALAR": 110,
+          "HANDLE_CREATED": 484,
+          "RETURN_TEXT": 196
+        },
+        "repeat_exact": true,
+        "trace_exact": true,
+        "native_attempts": 0
+      }
+    },
+    "public-primitives-v1": {
+      "Debug": {
+        "rows": 226,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b",
+        "bytes": 76370,
+        "outcomes": {
+          "RETURN_SCALAR": 114,
+          "RETURN_ERROR_CELL": 112
+        },
+        "repeat_exact": true,
+        "trace_exact": true,
+        "native_attempts": 0
+      },
+      "Release": {
+        "rows": 226,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b",
+        "bytes": 76370,
+        "outcomes": {
+          "RETURN_SCALAR": 114,
+          "RETURN_ERROR_CELL": 112
+        },
+        "repeat_exact": true,
+        "trace_exact": true,
+        "native_attempts": 0
+      }
+    },
+    "model-inputs-v2": {
+      "Debug": {
+        "rows": 882,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58",
+        "bytes": 6357582,
+        "outcomes": {
+          "TRANSACTION_FIT_ACCEPTED": 388,
+          "TRANSACTION_FIT_REJECTED": 494
+        },
+        "repeat_exact": true,
+        "trace_exact": true,
+        "native_attempts": 0
+      },
+      "Release": {
+        "rows": 882,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58",
+        "bytes": 6357582,
+        "outcomes": {
+          "TRANSACTION_FIT_ACCEPTED": 388,
+          "TRANSACTION_FIT_REJECTED": 494
+        },
+        "repeat_exact": true,
+        "trace_exact": true,
+        "native_attempts": 0
+      }
+    },
+    "math-edges-v1": {
+      "Debug": {
+        "rows": 618,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6",
+        "bytes": 174484,
+        "outcomes": {
+          "RETURN_NULL": 16,
+          "RETURN_EMPTY_ARRAY": 72,
+          "RETURN_ARRAY": 120,
+          "RETURN_SCALAR": 366,
+          "EXCEPTION": 38,
+          "RETURN_TEXT": 4,
+          "RETURN_ERROR_CELL": 2
+        },
+        "repeat_exact": true,
+        "trace_exact": true,
+        "native_attempts": 0
+      },
+      "Release": {
+        "rows": 618,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6",
+        "bytes": 174484,
+        "outcomes": {
+          "RETURN_NULL": 16,
+          "RETURN_EMPTY_ARRAY": 72,
+          "RETURN_ARRAY": 120,
+          "RETURN_SCALAR": 366,
+          "EXCEPTION": 38,
+          "RETURN_TEXT": 4,
+          "RETURN_ERROR_CELL": 2
+        },
+        "repeat_exact": true,
+        "trace_exact": true,
+        "native_attempts": 0
+      }
+    }
+  },
+  "actual_shipping_private_helper_subset": {
+    "Debug": {
+      "exact_rows": 10752,
+      "sha256": "5bc83a677e0828ef3a38f640c8ddfa8c15008dd29b21d0b5c9315eec015ce3a5",
+      "native": "NOT_RUN; source/input whitelist; no native execution claim"
+    },
+    "Release": {
+      "exact_rows": 10752,
+      "sha256": "6a8a8eb401ce4b2ee8a8250d9a48407338f4d3c5e6dbf50e543c062dad9f990d",
+      "native": "NOT_RUN; source/input whitelist; no native execution claim"
+    }
+  },
+  "chronology": "ALL_CAPTURES_BEFORE_FIRST_04A38_PRODUCT_EDIT; no late-capture exception",
+  "native": "NATIVE_EXCEL_NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "production_ready": false
+}

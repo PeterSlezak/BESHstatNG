@@ -1,0 +1,24 @@
+Friend Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean
+            value = -1
+
+            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then
+                Return False
+            End If
+
+            Dim d As Double? = ExcelArgNumeric.TryGetDouble(cell)
+            If d.HasValue Then
+                Dim iv As Integer = CInt(Math.Truncate(d.Value))
+                If iv = 0 OrElse iv = 1 Then
+                    value = iv
+                    Return True
+                End If
+                Return False
+            End If
+
+            If TypeOf cell Is Boolean Then
+                value = If(CBool(cell), 1, 0)
+                Return True
+            End If
+
+            Return False
+        End Function

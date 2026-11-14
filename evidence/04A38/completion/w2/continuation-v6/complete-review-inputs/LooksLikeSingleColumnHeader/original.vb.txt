@@ -1,0 +1,14 @@
+Friend Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean
+        If arr Is Nothing Then Return False
+        If arr.GetLength(1) <> 1 Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        If rows < 2 Then Return False
+        If TryGetDouble(arr(0, 0)).HasValue Then Return False
+
+        For r As Integer = 1 To rows - 1
+            If TryGetDouble(arr(r, 0)).HasValue Then Return True
+        Next
+
+        Return False
+    End Function

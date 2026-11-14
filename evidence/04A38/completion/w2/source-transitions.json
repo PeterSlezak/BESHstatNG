@@ -1,0 +1,97 @@
+{
+  "status": "AUTHORIZED_W2_TRANSITIONS",
+  "files": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/source-before/BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "bytes": 107811,
+        "sha256": "fd98039ac05755aa098f883b6e3e9ff59aefbdf71df1026e88849e932ae91df1"
+      },
+      "after": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "bytes": 94526,
+        "sha256": "c25f3bcfaaade7b9a0580c64385a838a2b4a46320cf21d3632764e082d76187f"
+      },
+      "reason": "Authorized04A38 profile/spec/grouping/saved-row preparation extraction; no statistical policy change"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/source-before/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "bytes": 89782,
+        "sha256": "4b3d004b1647a977e5e15a8c5dbde01fca55c354dc21d5366fa34173d709a901"
+      },
+      "after": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "bytes": 87658,
+        "sha256": "6d973e2ae8385e0257aa2fa2833036e1ef31a3b9435791946f063b8fdf7d709a"
+      },
+      "reason": "Authorized04A38 profile/spec/grouping/saved-row preparation extraction; no statistical policy change"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "bytes": 37283,
+        "sha256": "83341eca3d297812a1bd9d08fec7d5357bfd5fb56046eef637bf5ddece64859a"
+      },
+      "after": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "bytes": 20297,
+        "sha256": "285ab4113b594947691f0567120129c9196ae9bcb1a33d23c78ec80ad56cfcd2"
+      },
+      "reason": "Authorized04A38 profile/spec/grouping/saved-row preparation extraction; no statistical policy change"
+    },
+    {
+      "path": "BESHStat.Core/src/WorksheetFunctions/UdfProfilePreparation38.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/source-before/BESHStat.Core/src/WorksheetFunctions/UdfProfilePreparation38.vb",
+        "bytes": 2454,
+        "sha256": "16259f2803067ab31a957f21a73fa80d8f464c006b0c58a6a4df5aec65868943"
+      },
+      "after": {
+        "path": "BESHStat.Core/src/WorksheetFunctions/UdfProfilePreparation38.vb",
+        "bytes": 3915,
+        "sha256": "258b20b90d570505a2977351701eaf285469b0b7ec422be393cc797b3bbd6a1b"
+      },
+      "reason": "Authorized04A38 profile/spec/grouping/saved-row preparation extraction; no statistical policy change"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+      "before": null,
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "bytes": 35501,
+        "sha256": "056522b2fc840a451aa6ae14ecbcc93521c7a3c13ea67fa1e299a9c458cff8ae"
+      },
+      "reason": "New portable consumed contract or focused tests"
+    },
+    {
+      "path": "BESHStat.Core.Tests/src/UdfRowMaskPreparation38Tests.vb",
+      "before": null,
+      "after": {
+        "path": "BESHStat.Core.Tests/src/UdfRowMaskPreparation38Tests.vb",
+        "bytes": 3107,
+        "sha256": "d4b3423be59efb79a236d2171134b96aebc230963eb5e44f1ea277f492845206"
+      },
+      "reason": "New portable consumed contract or focused tests"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfModelProfilePreparation38Tests.vb",
+      "before": null,
+      "after": {
+        "path": "BESHStat.Excel.Common.Tests/src/UdfModelProfilePreparation38Tests.vb",
+        "bytes": 12282,
+        "sha256": "4f889fdba6086130ff65b17ab54af98d8320ef8d77dd56bfae8e7dbeac986568"
+      },
+      "reason": "New portable consumed contract or focused tests"
+    }
+  ],
+  "whole_body_closure_not_inferred_from_compilation": true,
+  "source_before_private_inventory": {
+    "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+    "bytes": 1685339,
+    "sha256": "17ffefe2e45af70e5011fe4e4b379055f383f434bf775ca70fe0f303b8b692bc"
+  }
+}

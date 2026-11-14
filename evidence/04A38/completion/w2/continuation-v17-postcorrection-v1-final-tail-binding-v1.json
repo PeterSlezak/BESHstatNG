@@ -1,0 +1,67 @@
+{
+  "status": "FINAL_LATE_AUTHORITY_BYTES_PRIVACY_RAW_IDS_AND_LIVE_GIT_PASS",
+  "authorities": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1-review-delivery-receipt-v1.json",
+      "bytes": 3235,
+      "sha256": "aa5505077bfa28e4401542a0a6638e09b2baa0b2b48da690853c6ad146873ca2",
+      "privacy_findings": []
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1-postseal-handover-v2.md",
+      "bytes": 4019,
+      "sha256": "6d4dfdea068c0a02ee10a191ea1d5368787de6f15b8aa965271c7c596d56714e",
+      "privacy_findings": []
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/verify_postseal_supplement_v1.py",
+      "bytes": 2050,
+      "sha256": "a64d5c61d4e85f2a174491b806b74e5ce6c46fc26a71781d1c3f08fdfdfb74f5",
+      "privacy_findings": []
+    }
+  ],
+  "last_reader_raw_identities": [
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-postseal-supplement-reader-v1/command.json",
+      "device_hex": "2668f64e68f61c6d",
+      "file_id_hex": "e0000000c18db"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-postseal-supplement-reader-v1/stdout.log",
+      "device_hex": "2668f64e68f61c6d",
+      "file_id_hex": "150000000c0f33"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-postseal-supplement-reader-v1/stderr.log",
+      "device_hex": "2668f64e68f61c6d",
+      "file_id_hex": "f0000000c16e8"
+    }
+  ],
+  "delivery": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1-review-delivery-receipt-v1.json",
+    "bytes": 3235,
+    "sha256": "aa5505077bfa28e4401542a0a6638e09b2baa0b2b48da690853c6ad146873ca2"
+  },
+  "index": {
+    "path": ".git/index",
+    "bytes": 620185,
+    "sha256": "2036821003b1e1fb1077e72183e0b6c2fa7d22cdb2e784b760637e6d6fe9bc2c"
+  },
+  "MasterPlan": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "bytes": 84627,
+    "sha256": "0ee45eae70aa35d6c87c636d82c3f33e105b8c12e6e5a4badb69e38fe7ad69dd"
+  },
+  "staged_empty": true,
+  "diff_check": 0,
+  "branch": "codex/04A-38",
+  "HEAD": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "main": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "merge_base": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "private_pin_union": 31910,
+  "physical_archive_union": 152,
+  "privacy_scope": "Only three final additive authority/reader files, never a repository rescan. Base audit and per-file postseal deltas remain versioned and unchanged.",
+  "extra_campaigns": 0,
+  "extra_repository_scanners": 0,
+  "terminal": "NOT_READY_04A38; W2_IN_PROGRESS; W3_NOT_STARTED; P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN; 04A39_BLOCKED"
+}

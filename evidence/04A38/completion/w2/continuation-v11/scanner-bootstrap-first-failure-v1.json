@@ -1,0 +1,30 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/common.py",
+    "bytes": 2197,
+    "sha256": "1eae39e451e923886cbf05ceb30c4e9a5e03c0085f71ff7bc5a7d25fa102f5f6"
+  },
+  "preimage": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/source-attempts/common-before-library-pin-fix-v1.py.txt",
+    "bytes": 2197,
+    "sha256": "1eae39e451e923886cbf05ceb30c4e9a5e03c0085f71ff7bc5a7d25fa102f5f6"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/common.py",
+    "bytes": 2287,
+    "sha256": "bfbaa6a5f80f39857f24bd9e552c888723aacfa9fe75a106c14b47b67bbc4d29"
+  },
+  "failure": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/scanner-base-proof-v1-execution.json",
+    "bytes": 487,
+    "sha256": "b13cf6f1f159dd3217f499a3a0a5b2595e93088488828d0d48fcd2f27268c3f7"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-scanner-base-proof-v1/stderr.log",
+    "bytes": 2258,
+    "sha256": "1c46fd91409374f5ce60ff85c59e8f0616dfd953276f17b816519835b86c9957"
+  },
+  "cause": "C11 library_pin incorrectly reused repository-relative pin for the external owner-specified Python executable.",
+  "correction": "Restore the v10 path-independent name/length/SHA library pin contract. No scanner/test/assertion changes. Preserve partial synthetic fixtures, rerun the proof in a new distinct directory.",
+  "original_queries": 0
+}

@@ -103,38 +103,7 @@ Namespace regression
         ''' </summary>
         Public Function BuildBinaryCrosstabUdfOutput(summary As BinaryClassificationSummary,
                                                      Optional includeHeader As Boolean = True) As Object
-            Dim rowOffset As Integer = If(includeHeader, 1, 0)
-            Dim outRows As Integer = rowOffset + 4
-            Dim out(outRows - 1, 3) As Object
-
-            If includeHeader Then
-                out(0, 0) = "Observed \ Predicted"
-                out(0, 1) = 0
-                out(0, 2) = 1
-                out(0, 3) = "Recall %"
-            End If
-
-            out(rowOffset + 0, 0) = 0
-            out(rowOffset + 0, 1) = summary.TN
-            out(rowOffset + 0, 2) = summary.FP
-            out(rowOffset + 0, 3) = PercentOrMissingValue(summary.Specificity)
-
-            out(rowOffset + 1, 0) = 1
-            out(rowOffset + 1, 1) = summary.FN
-            out(rowOffset + 1, 2) = summary.TP
-            out(rowOffset + 1, 3) = PercentOrMissingValue(summary.Sensitivity)
-
-            out(rowOffset + 2, 0) = "Precision % / Overall"
-            out(rowOffset + 2, 1) = PercentOrMissingValue(summary.NPV)
-            out(rowOffset + 2, 2) = PercentOrMissingValue(summary.Precision)
-            out(rowOffset + 2, 3) = PercentOrMissingValue(summary.Accuracy)
-
-            out(rowOffset + 3, 0) = "Threshold / Balanced accuracy"
-            out(rowOffset + 3, 1) = summary.Threshold
-            out(rowOffset + 3, 2) = PercentOrMissingValue(summary.BalancedAccuracy)
-            out(rowOffset + 3, 3) = PercentOrMissingValue(summary.YoudenJ)
-
-            Return PrepareResultTableForUdfLocal(out)
+            Return Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.BuildBinaryCrosstabUdfOutput(summary, MissingOutputValue, includeHeader)
         End Function
 
         ''' <summary>
@@ -142,49 +111,7 @@ Namespace regression
         ''' </summary>
         Public Function BuildThresholdTableUdfOutput(rows As IList(Of BinaryThresholdRow),
                                                      Optional includeHeader As Boolean = True) As Object
-            If rows Is Nothing OrElse rows.Count = 0 Then Return MissingOutputValue
-
-            Dim rowOffset As Integer = If(includeHeader, 1, 0)
-            Dim outRows As Integer = rowOffset + rows.Count
-            Dim out(outRows - 1, 13) As Object
-
-            If includeHeader Then
-                out(0, 0) = "Threshold"
-                out(0, 1) = "TP"
-                out(0, 2) = "FP"
-                out(0, 3) = "TN"
-                out(0, 4) = "FN"
-                out(0, 5) = "Sensitivity %"
-                out(0, 6) = "Specificity %"
-                out(0, 7) = "Precision %"
-                out(0, 8) = "Recall %"
-                out(0, 9) = "NPV %"
-                out(0, 10) = "Accuracy %"
-                out(0, 11) = "BalancedAccuracy %"
-                out(0, 12) = "YoudenJ %"
-                out(0, 13) = "F1 %"
-            End If
-
-            For i As Integer = 0 To rows.Count - 1
-                Dim r As BinaryThresholdRow = rows(i)
-                Dim rr As Integer = rowOffset + i
-                out(rr, 0) = r.Threshold
-                out(rr, 1) = r.TP
-                out(rr, 2) = r.FP
-                out(rr, 3) = r.TN
-                out(rr, 4) = r.FN
-                out(rr, 5) = PercentOrMissingValue(r.Sensitivity)
-                out(rr, 6) = PercentOrMissingValue(r.Specificity)
-                out(rr, 7) = PercentOrMissingValue(r.Precision)
-                out(rr, 8) = PercentOrMissingValue(r.Recall)
-                out(rr, 9) = PercentOrMissingValue(r.NPV)
-                out(rr, 10) = PercentOrMissingValue(r.Accuracy)
-                out(rr, 11) = PercentOrMissingValue(r.BalancedAccuracy)
-                out(rr, 12) = PercentOrMissingValue(r.YoudenJ)
-                out(rr, 13) = PercentOrMissingValue(r.F1)
-            Next
-
-            Return PrepareResultTableForUdfLocal(out)
+            Return Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.BuildThresholdTableUdfOutput(rows, MissingOutputValue, includeHeader)
         End Function
 
         ''' <summary>
@@ -192,33 +119,7 @@ Namespace regression
         ''' </summary>
         Public Function BuildCalibrationTableUdfOutput(rows As IList(Of CalibrationBinSummary),
                                                        Optional includeHeader As Boolean = True) As Object
-            If rows Is Nothing OrElse rows.Count = 0 Then Return MissingOutputValue
-
-            Dim rowOffset As Integer = If(includeHeader, 1, 0)
-            Dim outRows As Integer = rowOffset + rows.Count
-            Dim out(outRows - 1, 5) As Object
-
-            If includeHeader Then
-                out(0, 0) = "Bin"
-                out(0, 1) = "N"
-                out(0, 2) = "MeanPredicted"
-                out(0, 3) = "ObservedRate"
-                out(0, 4) = "LowerCI"
-                out(0, 5) = "UpperCI"
-            End If
-
-            For i As Integer = 0 To rows.Count - 1
-                Dim r As CalibrationBinSummary = rows(i)
-                Dim rr As Integer = rowOffset + i
-                out(rr, 0) = r.BinIndex
-                out(rr, 1) = r.N
-                out(rr, 2) = r.MeanPredicted
-                out(rr, 3) = r.ObservedRate
-                out(rr, 4) = r.LowerCI
-                out(rr, 5) = r.UpperCI
-            Next
-
-            Return PrepareResultTableForUdfLocal(out)
+            Return Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.BuildCalibrationTableUdfOutput(rows, MissingOutputValue, includeHeader)
         End Function
 
         ''' <summary>
@@ -259,36 +160,7 @@ Namespace regression
                                                  Optional n As Double = Double.NaN,
                                                  Optional eventRate As Double = Double.NaN,
                                                  Optional includeHeader As Boolean = True) As Object
-            Dim totalRows As Integer = 1
-            If Not Double.IsNaN(n) Then totalRows += 1
-            If Not Double.IsNaN(eventRate) Then totalRows += 1
-
-            Dim rowOffset As Integer = If(includeHeader, 1, 0)
-            Dim outRows As Integer = rowOffset + totalRows
-            Dim out(outRows - 1, 1) As Object
-
-            If includeHeader Then
-                out(0, 0) = "Item"
-                out(0, 1) = "Value"
-            End If
-
-            Dim r As Integer = rowOffset
-            out(r, 0) = "BrierScore"
-            out(r, 1) = score
-            r += 1
-
-            If Not Double.IsNaN(n) Then
-                out(r, 0) = "N"
-                out(r, 1) = n
-                r += 1
-            End If
-
-            If Not Double.IsNaN(eventRate) Then
-                out(r, 0) = "EventRate"
-                out(r, 1) = eventRate
-            End If
-
-            Return PrepareResultTableForUdfLocal(out)
+            Return Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.BuildBrierScoreUdfOutput(score, MissingOutputValue, n, eventRate, includeHeader)
         End Function
 
         ''' <summary>

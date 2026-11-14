@@ -1,0 +1,29 @@
+{
+  "command": {
+    "command": [
+      "dotnet",
+      "<ISOLATED_RUN>\\completion-w2-cont2\\domain-tool-v1\\bin\\CallDomains.dll",
+      "<REPO_ROOT>",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v2\\text-call-sites-final.json"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.9384304999839514,
+    "stdout_sha256": "766671282ce23a95ab397ff2508c5f45fc85a613a96c4ac2ee92086430c8f102",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "previous": {
+    "path": "evidence/04A38/completion/w2/continuation-v2/text-call-sites.json",
+    "bytes": 479816,
+    "sha256": "4fd881dd89b03f45cc2fba9f0ef062adb28780a2ac3fa054bc526b054ca6d7ff"
+  },
+  "final": {
+    "path": "evidence/04A38/completion/w2/continuation-v2/text-call-sites-final.json",
+    "bytes": 479816,
+    "sha256": "a1c7db1641ade75db727d8e0e863048e811f468183800c9ea8e2131a82c67d7f"
+  },
+  "all_comparison_sites_identical": true,
+  "note": "B1 changed a Common spill source with no text comparisons; full final Common syntax/source inventory freshly scanned. Earlier syntax/probe bytes remain unchanged. Fresh runtime comparison uses final current b1-v1 assemblies.",
+  "original_queries": 0
+}

@@ -1,0 +1,10 @@
+{
+  "status": "FAILED_TOO_NARROW_CIL_PREFIX_EXPECTATION",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v3/verify_unchanged_v2.py",
+    "bytes": 8217,
+    "sha256": "424c6bfa67996d9480afd3c9bfe6d1e5ec36c05236fa37d9c10a57e51227a411"
+  },
+  "error": "Native compiler emits System.Runtime.CompilerServices.RuntimeHelpers.GetObjectValue before AsString in BOTH original/current. V3 explicitly requires all3 calls and exact original/current first2 rather than ignoring boxing/context.",
+  "source_or_oracle_change": "NONE"
+}

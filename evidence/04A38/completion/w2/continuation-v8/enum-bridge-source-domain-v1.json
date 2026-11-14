@@ -1,0 +1,31 @@
+{
+  "provider": {
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb",
+    "bytes": 75202,
+    "sha256": "267dcf89164215ac10bfba738d3ef18facb61515c03edc5d232f0aa4938a24c5"
+  },
+  "native": {
+    "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+    "bytes": 53994,
+    "sha256": "ac0f65493602e1e09647659d9e83c0df1a583410f317994ad31be6cb52c5de82"
+  },
+  "prepared": {
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb",
+    "bytes": 24938,
+    "sha256": "55280194f3a54cc3ae700af525a069a28593010a0e9c8d8072f97e585eb1ee30"
+  },
+  "range": [
+    "Nothing",
+    "superiority",
+    "noninferiority",
+    "equivalence"
+  ],
+  "bridge": [
+    "Invalid",
+    "Superiority",
+    "NonInferiority",
+    "Equivalence"
+  ],
+  "proof": "Every provider Return is one of its three exact literals or Nothing; unchanged native AsString/accepted parser run lazily. The old native Text Select is retained by ResolveSampleSizeHypothesisKind38; Common switches on Integer-backed enum only. Existing Legacy policy caller CIL/source restrictions and eight synthetic counterexamples remain exact, not generalized.",
+  "original_queries": 0
+}

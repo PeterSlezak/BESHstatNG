@@ -1,0 +1,38 @@
+{
+  "status": "APPROVAL_G_COMBINED_GATE_PASS",
+  "recorded_utc": "2026-11-09T17:35:49.457438+00:00",
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/input-seal.json",
+    "bytes": 7509,
+    "sha256": "0cce11e2b2de60c5691df4d52d00d535f74df7b1526f63b7f81dc9451751dcdf"
+  },
+  "original_output_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-output-seal.json",
+    "bytes": 27449,
+    "sha256": "f1913f11c89b9f812df5c8c6584af5cb65753012c2ded8b4e1a63ac7c88ba79d"
+  },
+  "subgates": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/GEE_SPEC_INTERCEPT_ROLE_GATE_PASS.json",
+      "bytes": 8099,
+      "sha256": "f05f84e9e1eb9656b466e5918df9539f3fcba4164a9465fa45d6f6ba02f55694"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/MMRM_WIDE_MULTIROW_REJECTION_GATE_PASS.json",
+      "bytes": 9256,
+      "sha256": "a56498b6c88c38c9a0037a18258960a72fdd5bf8c5bcabe49ac946503d79edd2"
+    }
+  ],
+  "exact_per_configuration": {
+    "Debug": 4,
+    "Release": 4
+  },
+  "true_guard_witnesses": 8,
+  "accepted_original_executions_per_configuration": 12,
+  "total_original_executions_per_configuration": 24,
+  "current_executions_per_configuration": 4,
+  "returned_reports": 0,
+  "batch_status": "NOT_READY_04A38",
+  "next_action": "Continue W2A/W2B directly; no more original semantic cases authorized"
+}

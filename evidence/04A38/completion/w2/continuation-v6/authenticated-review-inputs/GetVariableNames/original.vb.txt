@@ -1,0 +1,58 @@
+Friend Function GetVariableNames(arg As Object, expectedCount As Integer) As String()
+        If expectedCount <= 0 Then Return New String() {}
+
+        Dim fallback(expectedCount - 1) As String
+        For i As Integer = 0 To expectedCount - 1
+            fallback(i) = "X" & (i + 1).ToString()
+        Next
+
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return fallback
+
+        Dim s As String = TryCast(arg, String)
+        If s IsNot Nothing Then
+            Dim parts As String() = s.Split({","c}, StringSplitOptions.RemoveEmptyEntries)
+            If parts.Length = expectedCount Then
+                For i As Integer = 0 To expectedCount - 1
+                    parts(i) = parts(i).Trim()
+                    If String.IsNullOrWhiteSpace(parts(i)) Then parts(i) = fallback(i)
+                Next
+                Return parts
+            End If
+        End If
+
+        Dim arr As Object(,) = Get2D(arg)
+        If arr Is Nothing Then Return fallback
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        Dim list As New List(Of String)()
+
+        If rows = 1 AndAlso cols >= 1 Then
+            For j As Integer = 0 To cols - 1
+                Dim cell As Object = arr(0, j)
+                If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell) Then
+                    list.Add(String.Empty)
+                Else
+                    list.Add(Convert.ToString(cell).Trim())
+                End If
+            Next
+        ElseIf cols = 1 AndAlso rows >= 1 Then
+            For i As Integer = 0 To rows - 1
+                Dim cell As Object = arr(i, 0)
+                If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell) Then
+                    list.Add(String.Empty)
+                Else
+                    list.Add(Convert.ToString(cell).Trim())
+                End If
+            Next
+        End If
+
+        If list.Count = expectedCount Then
+            For i As Integer = 0 To expectedCount - 1
+                If String.IsNullOrWhiteSpace(list(i)) Then list(i) = fallback(i)
+            Next
+            Return list.ToArray()
+        End If
+
+        Return fallback
+    End Function

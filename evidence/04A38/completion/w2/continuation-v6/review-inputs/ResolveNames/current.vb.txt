@@ -1,0 +1,10 @@
+"/>, followed by one blank row,
+        ''' followed by <paramref name="b"/>.
+        ''' If either input is <c>Nothing</c>, the other input is returned unchanged.
+        ''' </returns>
+        Friend Function StackWithBlankRow(a As Object(,), b As Object(,)) As Object(,)
+            Return Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.StackWithBlankRow(a, b)
+        End Function
+
+        Private Function ParseEqualVarianceMode(arg As Object, defaultEqual As Boolean) As Boolean
+            Return Global.BESHStatNG.ExcelCommon.ParametricUDFsOptions38.ParseEqualVari

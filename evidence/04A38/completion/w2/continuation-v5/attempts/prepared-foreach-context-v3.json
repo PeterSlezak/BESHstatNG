@@ -1,0 +1,97 @@
+{
+  "status": "READER_GUARD_FAILURE_RETAINED",
+  "reason": "Grouped source already owns a compiler-generated For Each disposal Finally region. Reject new catches/hidden state, but preserve and rebase this exact existing Finally region rather than require zero EH.",
+  "methods": [
+    {
+      "configuration": "Debug",
+      "name": "TryBinaryPrepared",
+      "exceptions": [],
+      "type_initializer": false,
+      "fields": 0
+    },
+    {
+      "configuration": "Debug",
+      "name": "TryWholeNumberPrepared",
+      "exceptions": [],
+      "type_initializer": false,
+      "fields": 0
+    },
+    {
+      "configuration": "Debug",
+      "name": "TryPositiveIntegerPrepared",
+      "exceptions": [],
+      "type_initializer": false,
+      "fields": 0
+    },
+    {
+      "configuration": "Debug",
+      "name": "TryGetGroupedCompleteMatrixPrepared",
+      "exceptions": [
+        {
+          "flags": "Finally",
+          "try_start": 240,
+          "try_end": 261,
+          "handler_start": 261,
+          "handler_end": 265,
+          "filter_start": null,
+          "catch_type": null
+        }
+      ],
+      "type_initializer": false,
+      "fields": 0
+    },
+    {
+      "configuration": "Debug",
+      "name": "TryGetNestedThreeColumnDataPrepared",
+      "exceptions": [],
+      "type_initializer": false,
+      "fields": 0
+    },
+    {
+      "configuration": "Release",
+      "name": "TryBinaryPrepared",
+      "exceptions": [],
+      "type_initializer": false,
+      "fields": 0
+    },
+    {
+      "configuration": "Release",
+      "name": "TryWholeNumberPrepared",
+      "exceptions": [],
+      "type_initializer": false,
+      "fields": 0
+    },
+    {
+      "configuration": "Release",
+      "name": "TryPositiveIntegerPrepared",
+      "exceptions": [],
+      "type_initializer": false,
+      "fields": 0
+    },
+    {
+      "configuration": "Release",
+      "name": "TryGetGroupedCompleteMatrixPrepared",
+      "exceptions": [
+        {
+          "flags": "Finally",
+          "try_start": 198,
+          "try_end": 217,
+          "handler_start": 217,
+          "handler_end": 221,
+          "filter_start": null,
+          "catch_type": null
+        }
+      ],
+      "type_initializer": false,
+      "fields": 0
+    },
+    {
+      "configuration": "Release",
+      "name": "TryGetNestedThreeColumnDataPrepared",
+      "exceptions": [],
+      "type_initializer": false,
+      "fields": 0
+    }
+  ],
+  "production_defect": false
+}

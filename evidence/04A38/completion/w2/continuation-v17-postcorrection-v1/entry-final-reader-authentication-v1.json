@@ -1,0 +1,89 @@
+{
+  "results": [
+    {
+      "label": "entry-final-v17-checkpoint",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\verify_c17_checkpoint_v2.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 53.242586599997594,
+        "stdout_sha256": "2e378aae37508fe7d57141a29f534222ef33547420c209e9a960f2e3ec74fb1a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "entry-final-v17-private",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\private_preservation_v1.py",
+          "verify",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\retained-private-preservation-v2.json",
+          "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\entry-private-actual-v1.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 400.18239889999677,
+        "stdout_sha256": "36fcbdce7be0568a24c8992f4a574d472162ad7b4c51184481ddb10b3666b662",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "entry-final-v17-physical-ZIPs",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "-c",
+          "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\verify_c17_transport_v2.py",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-review-parts-index-v1.json",
+          "<ISOLATED_RUN>\\completion-w2-cont17\\review-parts-v1"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 44.31885870000406,
+        "stdout_sha256": "1d06341529ae2ef5d5283c12f6658547961a64fab788d16f7e7c016aa47da5d4",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "entry-predecessor-v16-chain",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-I",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\replay_final_c16_v2.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 357.1611350000021,
+        "stdout_sha256": "685cf13391b53be3d420be927c2619f407841748231d1d9137c73e5c8e550bd6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "all_exit_zero": true,
+  "original_queries": 0,
+  "scope": "Actual unchanged final readers, physical ZIP SHA/payload CRC and private expected bytes/file identities; no test campaign or original code execution."
+}

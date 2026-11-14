@@ -1,0 +1,1611 @@
+{
+  "scope": "SYNTAX_ONLY_NO_VB_COMPILATION_OR_EXECUTION",
+  "sources": [
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb",
+      "bytes": 5564,
+      "sha256": "8c9edb6f3f91d92acc976909ab12c5c2096cce3c45ba4e595a0cacd3046cf8ef"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb",
+      "bytes": 1931,
+      "sha256": "3e5a243b4a2349ccaa702d1ec1062afea1cf7fe15c0e71412376a3dbbf5060ec"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+      "bytes": 5095,
+      "sha256": "59889f3e18e61b6de75a53f76fa4dd8cad080e01e612872dfaf16315bf4361e7"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+      "bytes": 45155,
+      "sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+    }
+  ],
+  "rows": [
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb|BESHStatNG.ExcelCommon.UdfSourceCellReference38|ConstructorBlock|61fbb5e033b3c228@631:101",
+      "owner": "BESHStatNG.ExcelCommon.UdfSourceCellReference38",
+      "header": "Public Sub New(sourceOrdinal As Integer)",
+      "parameters": [
+        {
+          "syntax": "sourceOrdinal As Integer",
+          "identifier": "sourceOrdinal",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb|BESHStatNG.ExcelCommon.UdfReportProjection38|ConstructorBlock|41c991fd41c82568@1386:386",
+      "owner": "BESHStatNG.ExcelCommon.UdfReportProjection38",
+      "header": "Public Sub New(model As Global.BESHStatNG.ResultTableOutputModel, Optional preparation As UdfReportPreparation38 = UdfReportPreparation38.Raw)",
+      "parameters": [
+        {
+          "syntax": "model As Global.BESHStatNG.ResultTableOutputModel",
+          "identifier": "model",
+          "type": "Global.BESHStatNG.ResultTableOutputModel",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "Optional preparation As UdfReportPreparation38 = UdfReportPreparation38.Raw",
+          "identifier": "preparation",
+          "type": "UdfReportPreparation38",
+          "byref": false,
+          "optional": true,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb|BESHStatNG.ExcelCommon.UdfReportProjection38|ConstructorBlock|479c8d4f17340b9a@1782:87",
+      "owner": "BESHStatNG.ExcelCommon.UdfReportProjection38",
+      "header": "Private Sub New(fault As UdfReportFault38)",
+      "parameters": [
+        {
+          "syntax": "fault As UdfReportFault38",
+          "identifier": "fault",
+          "type": "UdfReportFault38",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb|BESHStatNG.ExcelCommon.UdfReportProjection38|FunctionBlock|6e04fc1c6016582d@2010:157",
+      "owner": "BESHStatNG.ExcelCommon.UdfReportProjection38",
+      "header": "Public Shared Function FromFault(fault As UdfReportFault38) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "fault As UdfReportFault38",
+          "identifier": "fault",
+          "type": "UdfReportFault38",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb|BESHStatNG.ExcelCommon.UdfReportProjection38|FunctionBlock|d25ee0c9b16d1dca@2177:186",
+      "owner": "BESHStatNG.ExcelCommon.UdfReportProjection38",
+      "header": "Public Function ToOutputModel() As Global.BESHStatNG.ResultTableOutputModel",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb|BESHStatNG.ExcelCommon.UdfReportProjection38|FunctionBlock|afec7341f127b20b@2373:249",
+      "owner": "BESHStatNG.ExcelCommon.UdfReportProjection38",
+      "header": "Public Shared Function SafeNumber(value As Double) As OutputCell",
+      "parameters": [
+        {
+          "syntax": "value As Double",
+          "identifier": "value",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb|BESHStatNG.ExcelCommon.UdfReportProjection38|FunctionBlock|aa8ce8e2fe8b1df1@2632:528",
+      "owner": "BESHStatNG.ExcelCommon.UdfReportProjection38",
+      "header": "Private Shared Function CopyModel(model As Global.BESHStatNG.ResultTableOutputModel) As Global.BESHStatNG.ResultTableOutputModel",
+      "parameters": [
+        {
+          "syntax": "model As Global.BESHStatNG.ResultTableOutputModel",
+          "identifier": "model",
+          "type": "Global.BESHStatNG.ResultTableOutputModel",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb|BESHStatNG.ExcelCommon.UdfReportProjection38|FunctionBlock|a58bf48b8532e195@3170:1139",
+      "owner": "BESHStatNG.ExcelCommon.UdfReportProjection38",
+      "header": "Private Shared Function CopyArray(values As Array) As Array",
+      "parameters": [
+        {
+          "syntax": "values As Array",
+          "identifier": "values",
+          "type": "Array",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfReportProjection38.vb|BESHStatNG.ExcelCommon.UdfReportProjection38|SubBlock|401522722c285084@4319:1216",
+      "owner": "BESHStatNG.ExcelCommon.UdfReportProjection38",
+      "header": "Private Shared Sub ValidateScalar(value As Object)",
+      "parameters": [
+        {
+          "syntax": "value As Object",
+          "identifier": "value",
+          "type": "Object",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb|BESHStatNG.ExcelCommon.UdfSpillSlice38|ConstructorBlock|e06de251fa316c31@228:220",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillSlice38",
+      "header": "Public Sub New(sourceRows As Integer, columns As Integer, startRow As Integer)",
+      "parameters": [
+        {
+          "syntax": "sourceRows As Integer",
+          "identifier": "sourceRows",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "columns As Integer",
+          "identifier": "columns",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "startRow As Integer",
+          "identifier": "startRow",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb|BESHStatNG.ExcelCommon.UdfSpillStack38|ConstructorBlock|3e59011a2d6711a0@688:283",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillStack38",
+      "header": "Public Sub New(firstRows As Integer, firstColumns As Integer, secondRows As Integer, secondColumns As Integer)",
+      "parameters": [
+        {
+          "syntax": "firstRows As Integer",
+          "identifier": "firstRows",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "firstColumns As Integer",
+          "identifier": "firstColumns",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "secondRows As Integer",
+          "identifier": "secondRows",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "secondColumns As Integer",
+          "identifier": "secondColumns",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb|BESHStatNG.ExcelCommon.UdfSpillLayout38|ConstructorBlock|74ce9675914653be@1212:33",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillLayout38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb|BESHStatNG.ExcelCommon.UdfSpillLayout38|FunctionBlock|db07ad2361bea40c@1255:402",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillLayout38",
+      "header": "Public Shared Function WrappedTable(rows As Integer, columns As Integer, includeHeader As Boolean) As UdfSpillSlice38",
+      "parameters": [
+        {
+          "syntax": "rows As Integer",
+          "identifier": "rows",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "columns As Integer",
+          "identifier": "columns",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillLayout38.vb|BESHStatNG.ExcelCommon.UdfSpillLayout38|FunctionBlock|1a7587a240b48e65@1667:235",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillLayout38",
+      "header": "Public Shared Function ExistingTable(rows As Integer, columns As Integer, includeHeader As Boolean) As UdfSpillSlice38",
+      "parameters": [
+        {
+          "syntax": "rows As Integer",
+          "identifier": "rows",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "columns As Integer",
+          "identifier": "columns",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb|BESHStatNG.ExcelCommon.UdfSpillCell38|ConstructorBlock|12ab1f21dbaf8978@257:163",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillCell38",
+      "header": "Public Sub New(rowOrdinal As Integer, columnOrdinal As Integer)",
+      "parameters": [
+        {
+          "syntax": "rowOrdinal As Integer",
+          "identifier": "rowOrdinal",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "columnOrdinal As Integer",
+          "identifier": "columnOrdinal",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb|BESHStatNG.ExcelCommon.UdfSpillPreparation38|ConstructorBlock|74ce9675914653be@612:33",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillPreparation38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb|BESHStatNG.ExcelCommon.UdfSpillPreparation38|FunctionBlock|568b37c2eaa90b79@655:543",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillPreparation38",
+      "header": "Public Shared Function TwoValueTable(title As String, firstLabel As String, secondLabel As String) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "title As String",
+          "identifier": "title",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "firstLabel As String",
+          "identifier": "firstLabel",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "secondLabel As String",
+          "identifier": "secondLabel",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb|BESHStatNG.ExcelCommon.UdfSpillPreparation38|FunctionBlock|66b7eb4a4cae1fff@1312:1422",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillPreparation38",
+      "header": "Public Shared Function PvalueCells(model As Global.BESHStatNG.ResultTableOutputModel, rows As Integer, columns As Integer) As UdfSpillCell38()",
+      "parameters": [
+        {
+          "syntax": "model As Global.BESHStatNG.ResultTableOutputModel",
+          "identifier": "model",
+          "type": "Global.BESHStatNG.ResultTableOutputModel",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "rows As Integer",
+          "identifier": "rows",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "columns As Integer",
+          "identifier": "columns",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb|BESHStatNG.ExcelCommon.UdfSpillPreparation38|FunctionBlock|d6b9f98081718854@2744:437",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillPreparation38",
+      "header": "Public Shared Function IsPValueLabel(label As String) As Boolean",
+      "parameters": [
+        {
+          "syntax": "label As String",
+          "identifier": "label",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb|BESHStatNG.ExcelCommon.UdfSpillPreparation38|FunctionBlock|c4299ef41c140133@3191:968",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillPreparation38",
+      "header": "Public Shared Function StackWithBlankRow(a As Object(,), b As Object(,)) As Object(,)",
+      "parameters": [
+        {
+          "syntax": "a As Object(,)",
+          "identifier": "a",
+          "type": "Object(,)",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "b As Object(,)",
+          "identifier": "b",
+          "type": "Object(,)",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb|BESHStatNG.ExcelCommon.UdfSpillPreparation38|FunctionBlock|63984fb3997b8e38@4169:897",
+      "owner": "BESHStatNG.ExcelCommon.UdfSpillPreparation38",
+      "header": "Public Shared Function NormalizeBlanks(table As Object) As Object(,)",
+      "parameters": [
+        {
+          "syntax": "table As Object",
+          "identifier": "table",
+          "type": "Object",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.PlotDataUDFsReports38|ConstructorBlock|74ce9675914653be@472:33",
+      "owner": "BESHStatNG.ExcelCommon.PlotDataUDFsReports38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.PlotDataUDFsReports38|FunctionBlock|518944f28165df03@515:1237",
+      "owner": "BESHStatNG.ExcelCommon.PlotDataUDFsReports38",
+      "header": "Public Shared Function BuildCalibrationPointsTable(rows As IList(Of Global.BESHStatNG.regression.CalibrationBinSummary), missingIntervalValue As Double) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "rows As IList(Of Global.BESHStatNG.regression.CalibrationBinSummary)",
+          "identifier": "rows",
+          "type": "IList(Of Global.BESHStatNG.regression.CalibrationBinSummary)",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "missingIntervalValue As Double",
+          "identifier": "missingIntervalValue",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.PlotDataUDFsReports38|FunctionBlock|0a6df4b034903a1a@1762:1812",
+      "owner": "BESHStatNG.ExcelCommon.PlotDataUDFsReports38",
+      "header": "Public Shared Function BuildRocPointsTable(cutoffTable As Object(,), isLowerDirection As Boolean, tryFinite As UdfModelProfilePreparation38.FiniteDoubleReader) As Object(,)",
+      "parameters": [
+        {
+          "syntax": "cutoffTable As Object(,)",
+          "identifier": "cutoffTable",
+          "type": "Object(,)",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "isLowerDirection As Boolean",
+          "identifier": "isLowerDirection",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "tryFinite As UdfModelProfilePreparation38.FiniteDoubleReader",
+          "identifier": "tryFinite",
+          "type": "UdfModelProfilePreparation38.FiniteDoubleReader",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.PlotDataUDFsReports38|FunctionBlock|54b82d243e35deff@3584:695",
+      "owner": "BESHStatNG.ExcelCommon.PlotDataUDFsReports38",
+      "header": "Public Shared Function BuildRocStatsTable(summaryTable As Object(,)) As Object(,)",
+      "parameters": [
+        {
+          "syntax": "summaryTable As Object(,)",
+          "identifier": "summaryTable",
+          "type": "Object(,)",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.AssumptionsUDFsReports38|ConstructorBlock|74ce9675914653be@4360:33",
+      "owner": "BESHStatNG.ExcelCommon.AssumptionsUDFsReports38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.AssumptionsUDFsReports38|FunctionBlock|57557631e4dee52e@4403:638",
+      "owner": "BESHStatNG.ExcelCommon.AssumptionsUDFsReports38",
+      "header": "Public Shared Function BuildGrubbsTable(alpha As Double, res As TestResult) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "alpha As Double",
+          "identifier": "alpha",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "res As TestResult",
+          "identifier": "res",
+          "type": "TestResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.AssumptionsUDFsReports38|FunctionBlock|03118353d44792e0@5051:1272",
+      "owner": "BESHStatNG.ExcelCommon.AssumptionsUDFsReports38",
+      "header": "Public Shared Function BuildRosnerTable(alpha As Double, outliers() As Double, addCaution As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "alpha As Double",
+          "identifier": "alpha",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "outliers() As Double",
+          "identifier": "outliers()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "addCaution As Boolean",
+          "identifier": "addCaution",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|ConstructorBlock|74ce9675914653be@6412:33",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|6055de3dc5b34ebb@6455:1829",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildClusterPreprocessingTable(varNames() As String, locations() As Double, scales() As Double, mode As Multivariate.ClusterStandardizationMode) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "varNames() As String",
+          "identifier": "varNames()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "locations() As Double",
+          "identifier": "locations()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "scales() As Double",
+          "identifier": "scales()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "mode As Multivariate.ClusterStandardizationMode",
+          "identifier": "mode",
+          "type": "Multivariate.ClusterStandardizationMode",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|782689f172f89da1@8294:1552",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildRemovedRowsOutput(rowIds() As Integer, rowLabels() As String) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "rowIds() As Integer",
+          "identifier": "rowIds()",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "rowLabels() As String",
+          "identifier": "rowLabels()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|2a27bb73aafba21b@9856:1820",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildHierarchicalLeafOrderTable(result As Multivariate.HierarchicalClusterResult) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "result As Multivariate.HierarchicalClusterResult",
+          "identifier": "result",
+          "type": "Multivariate.HierarchicalClusterResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|22dde9df6be7cafe@11686:1162",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildCaEigenOutput(model As Multivariate.CA, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "model As Multivariate.CA",
+          "identifier": "model",
+          "type": "Multivariate.CA",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|4be7a86bf9a39b35@12858:1339",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildCaOverviewOutput(idHeader As String, names() As String, quality() As Double, mass() As Double, distance() As Double, inertia() As Double, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "idHeader As String",
+          "identifier": "idHeader",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "names() As String",
+          "identifier": "names()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "quality() As Double",
+          "identifier": "quality()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "mass() As Double",
+          "identifier": "mass()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "distance() As Double",
+          "identifier": "distance()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "inertia() As Double",
+          "identifier": "inertia()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|34424cb225fad2ba@14207:661",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function ResolveAvailableAxisCount(preferredAxisCount As Integer, valueSelector As Func(Of Integer, Double())) As Integer",
+      "parameters": [
+        {
+          "syntax": "preferredAxisCount As Integer",
+          "identifier": "preferredAxisCount",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "valueSelector As Func(Of Integer, Double())",
+          "identifier": "valueSelector",
+          "type": "Func(Of Integer, Double())",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|6521b524f567e802@14878:1504",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildCaAxisMetricOutput(idHeader As String, names() As String, axisPrefix As String, axisCount As Integer, valueSelector As Func(Of Integer, Double()), includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "idHeader As String",
+          "identifier": "idHeader",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "names() As String",
+          "identifier": "names()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "axisPrefix As String",
+          "identifier": "axisPrefix",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "axisCount As Integer",
+          "identifier": "axisCount",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "valueSelector As Func(Of Integer, Double())",
+          "identifier": "valueSelector",
+          "type": "Func(Of Integer, Double())",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|e8bce72a205fa449@16392:1505",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildMcaCategoryOverviewOutput(varNames() As String, categories() As String, quality() As Double, mass() As Double, distance() As Double, inertia() As Double, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "varNames() As String",
+          "identifier": "varNames()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "categories() As String",
+          "identifier": "categories()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "quality() As Double",
+          "identifier": "quality()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "mass() As Double",
+          "identifier": "mass()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "distance() As Double",
+          "identifier": "distance()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "inertia() As Double",
+          "identifier": "inertia()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|57135bfe5c887acb@17907:1580",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildMcaCategoryAxisMetricOutput(varNames() As String, categories() As String, axisPrefix As String, axisCount As Integer, valueSelector As Func(Of Integer, Double()), includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "varNames() As String",
+          "identifier": "varNames()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "categories() As String",
+          "identifier": "categories()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "axisPrefix As String",
+          "identifier": "axisPrefix",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "axisCount As Integer",
+          "identifier": "axisCount",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "valueSelector As Func(Of Integer, Double())",
+          "identifier": "valueSelector",
+          "type": "Func(Of Integer, Double())",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|bfa25ac92bdca8ba@19497:380",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function CombinedCategoryHeaders(varNames() As String, categories() As String) As String()",
+      "parameters": [
+        {
+          "syntax": "varNames() As String",
+          "identifier": "varNames()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "categories() As String",
+          "identifier": "categories()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|f68988d517bbe561@19887:1242",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildMcaBurtOutput(model As Multivariate.CA, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "model As Multivariate.CA",
+          "identifier": "model",
+          "type": "Multivariate.CA",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|42733bdd465dbdfe@21139:1205",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildMcaIndicatorOutput(model As Multivariate.CA, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "model As Multivariate.CA",
+          "identifier": "model",
+          "type": "Multivariate.CA",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|5a56d72625ceae32@22354:1081",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildDiscriminantGroupSummaryTable(model As Multivariate.DiscriminantAnalysis) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "model As Multivariate.DiscriminantAnalysis",
+          "identifier": "model",
+          "type": "Multivariate.DiscriminantAnalysis",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|253c0415cc341943@23445:1192",
+      "owner": "BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38",
+      "header": "Public Shared Function BuildDiscriminantMeansTable(model As Multivariate.DiscriminantAnalysis, useOriginalScale As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "model As Multivariate.DiscriminantAnalysis",
+          "identifier": "model",
+          "type": "Multivariate.DiscriminantAnalysis",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "useOriginalScale As Boolean",
+          "identifier": "useOriginalScale",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.GEEUDFsReports38|ConstructorBlock|74ce9675914653be@24709:33",
+      "owner": "BESHStatNG.ExcelCommon.GEEUDFsReports38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.GEEUDFsReports38|FunctionBlock|a998d44055f39424@24752:2203",
+      "owner": "BESHStatNG.ExcelCommon.GEEUDFsReports38",
+      "header": "Public Shared Function BuildLabeledMatrixOutput(matrix(,) As Double, rowNames() As String, colNames() As String, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "matrix(,) As Double",
+          "identifier": "matrix(,)",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "rowNames() As String",
+          "identifier": "rowNames()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "colNames() As String",
+          "identifier": "colNames()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfRegressionOutputReports38|ConstructorBlock|74ce9675914653be@27039:33",
+      "owner": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfRegressionOutputReports38|FunctionBlock|76e6291090f9a603@27082:785",
+      "owner": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38",
+      "header": "Public Shared Function BuildResidualVectorOutput(vec() As Double, header As String, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "vec() As Double",
+          "identifier": "vec()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "header As String",
+          "identifier": "header",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfRegressionOutputReports38|FunctionBlock|0822c4b2c80bc119@27877:429",
+      "owner": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38",
+      "header": "Public Shared Function CategoryHeaders(prefix As String, categories() As Integer) As String()",
+      "parameters": [
+        {
+          "syntax": "prefix As String",
+          "identifier": "prefix",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "categories() As Integer",
+          "identifier": "categories()",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfRegressionOutputReports38|FunctionBlock|e4dcaec651bee22d@28316:996",
+      "owner": "BESHStatNG.ExcelCommon.UdfRegressionOutputReports38",
+      "header": "Public Shared Function BuildResidualMatrixOutput(mat(,) As Double, headers() As String, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "mat(,) As Double",
+          "identifier": "mat(,)",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "headers() As String",
+          "identifier": "headers()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|ConstructorBlock|74ce9675914653be@29391:33",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|FunctionBlock|33647d4a8a528f7a@29434:411",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Public Shared Function MakeMetricValueTable(metric As String, value As Integer) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "metric As String",
+          "identifier": "metric",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "value As Integer",
+          "identifier": "value",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|FunctionBlock|46bf5e5134478a98@29855:521",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Public Shared Function MakeTwoGroupTable(metric As String, nControls As Integer, nExperimental As Integer) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "metric As String",
+          "identifier": "metric",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "nControls As Integer",
+          "identifier": "nControls",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "nExperimental As Integer",
+          "identifier": "nExperimental",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|FunctionBlock|0d8f51beef715aed@30386:1060",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Public Shared Function MakeEquivalenceTwoGroupTable(result As EquivalenceUnpairedTTestSampleSizeResult) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "result As EquivalenceUnpairedTTestSampleSizeResult",
+          "identifier": "result",
+          "type": "EquivalenceUnpairedTTestSampleSizeResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|FunctionBlock|62b8c83626a92215@31456:768",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Public Shared Function MakeIndependentProportionsTable(result As IndependentProportionsSampleSizeResult) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "result As IndependentProportionsSampleSizeResult",
+          "identifier": "result",
+          "type": "IndependentProportionsSampleSizeResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|FunctionBlock|d23a06bd696d7787@32234:2178",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Public Shared Function MakeEquivalenceIndependentProportionsTable(result As EquivalenceIndependentProportionsSampleSizeResult) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "result As EquivalenceIndependentProportionsSampleSizeResult",
+          "identifier": "result",
+          "type": "EquivalenceIndependentProportionsSampleSizeResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|FunctionBlock|488f8d260b26ae9e@34422:1054",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Public Shared Function MakeLogRankPlanningTable(result As LogRankSampleSizeResult) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "result As LogRankSampleSizeResult",
+          "identifier": "result",
+          "type": "LogRankSampleSizeResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|FunctionBlock|f96b12614a28380d@35486:1337",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Public Shared Function MakeCoxPlanningTable(modelLabel As String, result As CoxEventCountPlanningResult) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "modelLabel As String",
+          "identifier": "modelLabel",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "result As CoxEventCountPlanningResult",
+          "identifier": "result",
+          "type": "CoxEventCountPlanningResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|FunctionBlock|6ab536bb42e9bb95@36833:812",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Public Shared Function MakeIccPlanningTable(result As IccHypothesisTestSampleSizeResult) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "result As IccHypothesisTestSampleSizeResult",
+          "identifier": "result",
+          "type": "IccHypothesisTestSampleSizeResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.SampleSizeUDFsReports38|FunctionBlock|0772645301883fdb@37655:910",
+      "owner": "BESHStatNG.ExcelCommon.SampleSizeUDFsReports38",
+      "header": "Public Shared Function MakeBlandAltmanPlanningTable(result As BlandAltmanAgreementStudyPlanningResult) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "result As BlandAltmanAgreementStudyPlanningResult",
+          "identifier": "result",
+          "type": "BlandAltmanAgreementStudyPlanningResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfOutputTablesReports38|ConstructorBlock|74ce9675914653be@38645:33",
+      "owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfOutputTablesReports38|FunctionBlock|b50c9c73e60a9ef1@38688:277",
+      "owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38",
+      "header": "Public Shared Function SafeCiLabel(ci As ConfidenceIntervalResult) As String",
+      "parameters": [
+        {
+          "syntax": "ci As ConfidenceIntervalResult",
+          "identifier": "ci",
+          "type": "ConfidenceIntervalResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfOutputTablesReports38|FunctionBlock|7f545be7dec7062c@38975:203",
+      "owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38",
+      "header": "Public Shared Function SafeCiText(ci As ConfidenceIntervalResult) As String",
+      "parameters": [
+        {
+          "syntax": "ci As ConfidenceIntervalResult",
+          "identifier": "ci",
+          "type": "ConfidenceIntervalResult",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfOutputTablesReports38|FunctionBlock|79e1ef401063fbb5@39188:1345",
+      "owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38",
+      "header": "Public Shared Function BuildNamedMatrixOutput(idHeader As String, rowNames() As String, colNames() As String, mat(,) As Double, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "idHeader As String",
+          "identifier": "idHeader",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "rowNames() As String",
+          "identifier": "rowNames()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "colNames() As String",
+          "identifier": "colNames()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "mat(,) As Double",
+          "identifier": "mat(,)",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfOutputTablesReports38|FunctionBlock|af5a977120163091@40543:1261",
+      "owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38",
+      "header": "Public Shared Function BuildCaseMatrixOutput(idHeader As String, rowIds() As Integer, colNames() As String, mat(,) As Double, includeHeader As Boolean) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "idHeader As String",
+          "identifier": "idHeader",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "rowIds() As Integer",
+          "identifier": "rowIds()",
+          "type": "Integer",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "colNames() As String",
+          "identifier": "colNames()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "mat(,) As Double",
+          "identifier": "mat(,)",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "includeHeader As Boolean",
+          "identifier": "includeHeader",
+          "type": "Boolean",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.UdfOutputTablesReports38|FunctionBlock|994312c91c4a02ae@41814:405",
+      "owner": "BESHStatNG.ExcelCommon.UdfOutputTablesReports38",
+      "header": "Public Shared Function BuildSimpleNoteTable(label As String, value As String) As UdfReportProjection38",
+      "parameters": [
+        {
+          "syntax": "label As String",
+          "identifier": "label",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "value As String",
+          "identifier": "value",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.ParametricUdfReports38|ConstructorBlock|74ce9675914653be@42398:33",
+      "owner": "BESHStatNG.ExcelCommon.ParametricUdfReports38",
+      "header": "Private Sub New()",
+      "parameters": []
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.ParametricUdfReports38|FunctionBlock|a4e7f6607e0f3c98@42441:316",
+      "owner": "BESHStatNG.ExcelCommon.ParametricUdfReports38",
+      "header": "Public Shared Function BuildOneWayAnovaTable(data()() As Double, names() As String) As Global.BESHStatNG.ResultTable",
+      "parameters": [
+        {
+          "syntax": "data()() As Double",
+          "identifier": "data()()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "names() As String",
+          "identifier": "names()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.ParametricUdfReports38|FunctionBlock|4b36537aff3f513c@42767:747",
+      "owner": "BESHStatNG.ExcelCommon.ParametricUdfReports38",
+      "header": "Public Shared Function BuildWelchAnovaTable(data()() As Double, names() As String) As Global.BESHStatNG.ResultTable",
+      "parameters": [
+        {
+          "syntax": "data()() As Double",
+          "identifier": "data()()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "names() As String",
+          "identifier": "names()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    },
+    {
+      "symbol_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.ParametricUdfReports38|FunctionBlock|383e4d917c49e913@43694:1432",
+      "owner": "BESHStatNG.ExcelCommon.ParametricUdfReports38",
+      "header": "Public Shared Function BuildOneWayMcpTables(data()() As Double, names() As String, which As String, alphaValue As Double, ByRef stackAll As Boolean) As List(Of Global.BESHStatNG.ResultTable)",
+      "parameters": [
+        {
+          "syntax": "data()() As Double",
+          "identifier": "data()()",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "names() As String",
+          "identifier": "names()",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "which As String",
+          "identifier": "which",
+          "type": "String",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "alphaValue As Double",
+          "identifier": "alphaValue",
+          "type": "Double",
+          "byref": false,
+          "optional": false,
+          "paramarray": false
+        },
+        {
+          "syntax": "ByRef stackAll As Boolean",
+          "identifier": "stackAll",
+          "type": "Boolean",
+          "byref": true,
+          "optional": false,
+          "paramarray": false
+        }
+      ]
+    }
+  ]
+}

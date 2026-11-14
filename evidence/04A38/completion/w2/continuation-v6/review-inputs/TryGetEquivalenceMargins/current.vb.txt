@@ -1,0 +1,20 @@
+rValue As Double, ByRef upperValue As Double) As Boolean
+        lowerValue = Double.NaN
+        upperValue = Double.NaN
+
+        If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(lowerArg, lowerValue) Then Return False
+
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(upperArg) Then
+            Dim m As Double = Math.Abs(lowerValue)
+            If m <= 0.0 Then Return False
+            lowerValue = -m
+            upperValue = m
+            Return True
+        End If
+
+        If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(upperArg, upperValue) Then Return False
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Attempts to parse and validate an alpha value from an optional Excel argument.

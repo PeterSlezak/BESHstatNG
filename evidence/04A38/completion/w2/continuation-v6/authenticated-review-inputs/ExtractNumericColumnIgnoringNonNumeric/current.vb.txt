@@ -1,0 +1,14 @@
+Friend Function ExtractNumericColumnIgnoringNonNumeric(arg As Object, ByRef err As ExcelError?) As Double()
+        err = Nothing
+
+        Dim arr As Object(,) = CoerceToObjectMatrix(arg, err)
+        If err.HasValue OrElse arr Is Nothing Then Return Array.Empty(Of Double)()
+
+        If arr.GetLength(1) <> 1 Then
+            err = ExcelError.ExcelErrorValue
+            Return Array.Empty(Of Double)()
+        End If
+
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.ReadFiniteColumn(
+            arr.GetLength(0), 0, Function(row) TryGetDouble(arr(row, 0)), initialCapacity:=arr.GetLength(0))
+    End Function

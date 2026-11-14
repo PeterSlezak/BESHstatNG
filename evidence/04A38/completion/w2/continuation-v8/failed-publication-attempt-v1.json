@@ -1,0 +1,41 @@
+{
+  "status": "FAILED_CANDIDATE_RETAINED_NO_ZIP_CREATED",
+  "candidate_manifest": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/publication-manifest-v1.json",
+    "bytes": 1371003,
+    "sha256": "8d8cfccea2c70a9087fae1a6e515637fab5b30f60cd0d70ef259e77fa9784bd0"
+  },
+  "candidate_inventory": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/file-inventory-v1.json",
+    "bytes": 568546,
+    "sha256": "bc17fa778e9f6576de3f790a4b30a5cc6b8bb1ed9f9a8ad69d3195fd9276c255"
+  },
+  "publisher": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/publish_v4.py",
+    "bytes": 7254,
+    "sha256": "5bf3eccc01b2804405653252c51902a4e564dadc8ed88f508be750fc6c356590"
+  },
+  "verifier": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/verify_c8_publication_v3.py",
+    "bytes": 4864,
+    "sha256": "de1f39646cf730edf208f3c97681840500777da860943938149b22f9f4c6b25e"
+  },
+  "first_error": "ValueError: New managed test unsupported",
+  "cause": "Publication policy appended C6 to sys.path before inherited C7 compute appended its own folder; same helper basename resolved to C6. Standalone source reader had correctly resolved C7. No actual validation population changed.",
+  "raw": "Conversation tool execution receipt for publish_v4.py export; no separate original raw stream is fabricated.",
+  "correction": {
+    "verifier": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/verify_c8_publication_v4.py",
+      "bytes": 5282,
+      "sha256": "eb2235fb1eb5ab29f20f963b6c4e0ead5a9e16b00e3b07d783d5f61c1d8a5b08"
+    },
+    "publisher": {
+      "path": "evidence/04A38/completion/w2/continuation-v8/publish_v5.py",
+      "bytes": 7254,
+      "sha256": "9683ffa01f76f7a146dcd27ad2940c930ccb25a56565ad823050d145276c3fdb"
+    },
+    "scope": "Put C7 ahead of C6 and require exact inherited helper file path and sealed C7 source hash; reject an already cached wrong helper. No generic alias and no change to prior checkpoint files."
+  },
+  "source_or_test_changes": 0,
+  "original_queries": 0
+}

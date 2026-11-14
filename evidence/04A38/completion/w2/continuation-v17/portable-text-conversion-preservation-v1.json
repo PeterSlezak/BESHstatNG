@@ -1,0 +1,67 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/portable-text-conversion-before-v1.vb.txt",
+    "bytes": 25815,
+    "sha256": "ed7c41297a4505ba64c21431712f2b5d22af9a79fa2035b0fbeb0fade93d00e4"
+  },
+  "after": {
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+    "bytes": 25926,
+    "sha256": "b8c7833083d5e8e14cf13d50e66c5ac264aae3b120f6973392c09dfa0474ed27"
+  },
+  "transformations": [
+    {
+      "before": "normalizedFormula = String.Empty",
+      "after": "LegacyUdfText38.EqualText(normalizedFormula, String.Empty)"
+    },
+    {
+      "before": "If letter = String.Empty",
+      "after": "If LegacyUdfText38.EqualText(letter, String.Empty)"
+    },
+    {
+      "before": "selectedLetter <> String.Empty",
+      "after": "Not LegacyUdfText38.EqualText(selectedLetter, String.Empty)"
+    },
+    {
+      "method": "GetReferenceCategory",
+      "before": "        Public Shared Function GetReferenceCategory(s As String) As Global.BESHStatNG.regression.ReferenceCategory\nIf String.IsNullOrWhiteSpace(s) Then Return Global.BESHStatNG.regression.ReferenceCategory.Last\n\n        Select Case s.Trim().ToLowerInvariant()\n            Case \"first\", \"smallest\", \"min\"\n                Return Global.BESHStatNG.regression.ReferenceCategory.First\n            Case Else\n                Return Global.BESHStatNG.regression.ReferenceCategory.Last\n        End Select\n",
+      "after": "        Public Shared Function GetReferenceCategory(s As String) As Global.BESHStatNG.regression.ReferenceCategory\nIf String.IsNullOrWhiteSpace(s) Then Return Global.BESHStatNG.regression.ReferenceCategory.Last\n\n            Dim key As String = s.Trim().ToLowerInvariant()\n            Case \"first\", \"smallest\", \"min\"\n                Return Global.BESHStatNG.regression.ReferenceCategory.First\n            Case Else\n                Return Global.BESHStatNG.regression.ReferenceCategory.Last\n\n"
+    },
+    {
+      "method": "ParseSurvivalWeightText",
+      "before": "        Public Shared Function ParseSurvivalWeightText(s As String) As String\n        Select Case s.Trim().ToLowerInvariant()\n            Case \"logrank\", \"lr\"\n                Return \"logrank\"\n            Case \"gehan-breslow\", \"gehan\", \"breslow\", \"wilcoxon\"\n                Return \"gehan-breslow\"\n            Case \"tarone-ware\", \"tarone\", \"ware\"\n                Return \"tarone-ware\"\n            Case \"peto\", \"peto-peto\"\n                Return \"peto\"\n            Case \"modified peto\", \"modifiedpeto\", \"anderson\", \"modpeto\"\n                Return \"modified peto\"\n            Case Else\n                Return Nothing\n        End Select\n",
+      "after": "        Public Shared Function ParseSurvivalWeightText(s As String) As String\n            Dim key As String = s.Trim().ToLowerInvariant()\n            Case \"logrank\", \"lr\"\n                Return \"logrank\"\n            Case \"gehan-breslow\", \"gehan\", \"breslow\", \"wilcoxon\"\n                Return \"gehan-breslow\"\n            Case \"tarone-ware\", \"tarone\", \"ware\"\n                Return \"tarone-ware\"\n            Case \"peto\", \"peto-peto\"\n                Return \"peto\"\n            Case \"modified peto\", \"modifiedpeto\", \"anderson\", \"modpeto\"\n                Return \"modified peto\"\n            Case Else\n                Return Nothing\n\n"
+    },
+    {
+      "before": "Dim med As Double = CDbl(mci(j, 0))",
+      "after": "Dim med As Double = DirectCast(mci(j, 0), Double)"
+    },
+    {
+      "before": "Dim ll As Double = CDbl(mci(j, 1))",
+      "after": "Dim ll As Double = DirectCast(mci(j, 1), Double)"
+    },
+    {
+      "before": "Dim ul As Double = CDbl(mci(j, 2))",
+      "after": "Dim ul As Double = DirectCast(mci(j, 2), Double)"
+    }
+  ],
+  "native_project": {
+    "path": "BESHstatNG/BESHStatNG.vbproj",
+    "bytes": 30519,
+    "sha256": "b60d19153a8539240b1562abc0055d2cb0de8217838d4579d0bf2874962a0383"
+  },
+  "native_OptionCompare": "Text",
+  "text_policy": {
+    "path": "BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb",
+    "bytes": 968,
+    "sha256": "d42882ab96ae198e6e8c2c260f38d3e59439ab1adbe7c49e1c4f9347fb1c46cf"
+  },
+  "median_CI_return_authority": {
+    "path": "BESHStat.Core/src/StatTests/Survival.vb",
+    "bytes": 76088,
+    "sha256": "866afb40a100cc88fbb31ba2fa5003dd87d27383ddc9926682421cb425b44598"
+  },
+  "median_CI_reachable_domain": "Exact existing Core producer at lines1000-1006 boxes MedianSurvivalTime/LLCI/ULCI, all Double arrays, into every returned cell. No arbitrary Object matrix enters this private phase; old CDbl and direct Double unbox agree on all reachable cells, including NaN/infinity.",
+  "Core_modified": false,
+  "original_queries": 0
+}

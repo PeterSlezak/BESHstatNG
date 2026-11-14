@@ -1,0 +1,26 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/build_v2.py",
+    "bytes": 1986,
+    "sha256": "1e047ea434a89e5f3f53cff77e411911cb70b674352a570a509a97ab42131585"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\build_v2.py",
+      "packet-v3",
+      "Release"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 15.707133200005046,
+    "stdout_sha256": "ab4e4d8e12e3d0466fd825446860cb2be67d5538fdb4363f22e8e9df7fb6fa1a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

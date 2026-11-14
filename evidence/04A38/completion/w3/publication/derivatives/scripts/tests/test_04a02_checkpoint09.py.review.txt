@@ -1,0 +1,296 @@
+"""C09 host-free admission/comparison tests. Synthetic references are MOCKS, never R observations."""
+import copy
+import importlib.util
+import json
+import os
+from pathlib import Path
+import subprocess
+import tempfile
+import unittest
+from unittest.mock import patch
+ROOT=Path(__file__).resolve().parents[2]
+
+
+def module(name,path):
+    spec=importlib.util.spec_from_file_location(name,ROOT/path);value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
+
+
+r=module('oracle_c09_tests','scripts/04a02/oracle_operator_v4.py')
+cmp=module('compare_c09_tests','scripts/04a02/compare_reference_v1.py')
+n=module('native_c09_tests','scripts/04a02/native_n1_supervisor_v1.py')
+DOC=ROOT/'docs/architecture/04A02'
+
+
+class Acl09Tests(unittest.TestCase):
+    def setUp(self):
+        self.root=Path('<PRIVATE_HOME>/AppData/Local/OWNER-ONLY-MOCK')
+        self.rows=[dict(path=str(p),owner_sid=r.OWNER_SID,sddl='MOCK',canonical=True,reparse=False,
+                       current_token_effective=dict(create_file=True,create_directory=True,read_control=True),access=[])
+                   for p in reversed([self.root,*self.root.parents])]
+        self.rows[0]['owner_sid']=next(s for s in r.OS_TRUST if s.startswith('<PRIVATE_SID>-'))
+        self.rows[1]['owner_sid']='<PRIVATE_SID>'
+        self.evidence=dict(execution_sid=r.OWNER_SID,ancestors=self.rows)
+
+    def test_legitimate_owner_root_accepts_os_maintenance_and_different_ancestor_owners(self):
+        self.assertEqual([],r.assess_acl(self.evidence,self.root))
+
+    def test_ancestor_sibling_creation_is_not_replacement(self):
+        self.rows[0]['access']=[dict(sid='<PRIVATE_SID>',type='Allow',rights=4,propagation='None')]
+        self.assertEqual([],r.assess_acl(self.evidence,self.root))
+
+    def test_inherit_only_grant_does_not_apply_to_existing_ancestor(self):
+        self.rows[0]['access']=[dict(sid='<PRIVATE_SID>',type='Allow',rights=0x40000000,propagation='InheritOnly')]
+        self.assertEqual([],r.assess_acl(self.evidence,self.root))
+
+    def test_trusted_admin_system_owner_grants_do_not_create_automatic_no_go(self):
+        for sid in r.OS_TRUST|{r.OWNER_SID}:
+            self.rows[0]['access'].append(dict(sid=sid,type='Allow',rights=0x10000000,propagation='None'))
+        self.assertEqual([],r.assess_acl(self.evidence,self.root))
+
+    def test_root_unknown_creator_or_writer_rejected(self):
+        for rights in [2,4,0x10,0x100,0x40000000,0x10000000]:
+            self.rows[-1]['access']=[dict(sid='UNKNOWN',type='Allow',rights=rights,propagation='None')]
+            with self.subTest(rights=rights):self.assertTrue(r.assess_acl(self.evidence,self.root))
+
+    def test_parent_delete_child_dacl_owner_and_delete_are_rejected(self):
+        for rights in [0x40,0x10000,0x40000,0x80000]:
+            self.rows[-2]['access']=[dict(sid='UNKNOWN',type='Allow',rights=rights,propagation='None')]
+            with self.subTest(rights=rights):self.assertTrue(r.assess_acl(self.evidence,self.root))
+
+    def test_raw_deny_does_not_fabricate_other_principal_effective_access(self):
+        self.rows[-1]['access']=[dict(sid='UNKNOWN',type=k,rights=2,propagation='None') for k in ['Deny','Allow']]
+        self.assertTrue(r.assess_acl(self.evidence,self.root))
+
+    def test_incomplete_chain_reparse_or_unknown_dacl_rejected(self):
+        for key,value in [('reparse',True),('canonical',False),('sddl',''),('error','Access denied'),('owner_sid','UNKNOWN')]:
+            bad=copy.deepcopy(self.evidence);bad['ancestors'][2][key]=value
+            with self.subTest(key=key):self.assertTrue(r.assess_acl(bad,self.root))
+        self.assertTrue(r.assess_acl(dict(self.evidence,ancestors=self.rows[1:]),self.root))
+
+    def test_sandbox_identity_cannot_be_claimed_as_owner_context(self):
+        bad=dict(self.evidence,execution_sid='<PRIVATE_SID>')
+        self.assertIn('EXECUTION_NOT_NORMAL_OWNER',r.assess_acl(bad,self.root))
+
+    def test_unknown_root_owner_and_missing_current_accesscheck_rejected(self):
+        self.rows[-1]['owner_sid']='<PRIVATE_SID>'
+        self.rows[-1].pop('current_token_effective')
+        result=r.assess_acl(self.evidence,self.root)
+        self.assertIn('REFERENCE_ROOT_NOT_OWNER_OWNED',result)
+        self.assertIn('OWNER_LACKS_REFERENCE_ROOT_ACCESS',result)
+
+    def test_relative_unc_alias_and_ads_paths_refuse(self):
+        for value in ['relative','\\\\server\\share\\root','C:/bad:ads','C:/bad.','C:/CON']:
+            with self.subTest(value=value),self.assertRaises(r.Refused):r.assess_acl({},Path(value))
+
+    def test_accesscheck_collector_executes_readonly_for_actual_token(self):
+        value=r.collect_acl(ROOT)
+        self.assertEqual('04A02-C09-output-acl-observation-v4',value['schema'])
+        self.assertTrue(value['execution_sid'])
+        self.assertTrue(any('current_token_effective' in row for row in value['ancestors']))
+        self.assertTrue(r.assess_acl(value,ROOT)) # Actual shared sandbox repository is not an exclusive owner root.
+
+    def test_held_full_chain_refuses_child_directory_rename(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp);child=path/'child';child.mkdir()
+            # Current sandbox cannot qualify the protected owner ancestor. Check
+            # the same Windows deny-delete primitive on the accessible subtree;
+            # this deliberately does NOT qualify the full R execution chain.
+            with r.locked_directory(child):
+                with self.assertRaises(OSError):child.rename(path/'swapped')
+            self.assertTrue(child.is_dir())
+
+    def test_full_execution_chain_fails_closed_under_current_sandbox_identity(self):
+        with tempfile.TemporaryDirectory() as temp:
+            entered=False
+            try:
+                with r.lock_chain_complete(Path(temp)):
+                    entered=True
+            except PermissionError as error:
+                self.assertIn('Cannot hold required ancestor lock:',str(error))
+            if entered:
+                value=r.collect_acl(Path(temp))
+                self.assertFalse(r.assess_acl(value,Path(temp)), 'A full positive chain also needs legitimate owner ACL admission')
+
+    def test_held_file_refuses_mutation_and_reparse_swaps(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp)/'input';path.write_bytes(b'FROZEN')
+            with r.v2.locked_path(path):
+                with self.assertRaises(OSError):path.write_bytes(b'CHANGED')
+            self.assertEqual(b'FROZEN',path.read_bytes())
+
+
+class Startup09Tests(unittest.TestCase):
+    def setUp(self):
+        self.job=Path('C:/MOCK/attempt')
+        self.value=dict(schema='04A02-C09-R-startup-v1',r='4.5.1',stats='4.5.1',arch='x86_64',locale='C',
+            home=str(self.job/'home').replace('\\','/'),r_profile=str(self.job/'empty-startup').replace('\\','/'),
+            r_environ=str(self.job/'empty-startup').replace('\\','/'),libraries=[str(r.R_HOME/'library').replace('\\','/')],namespaces=['base','stats','utils'])
+
+    def test_mock_startup_shape_is_not_real_r_execution(self):
+        r.validate_probe(self.value,self.job)
+
+    def test_version_arch_locale_and_profile_injection_refused(self):
+        for key,value in [('r','4.4.3'),('stats','4.4.3'),('arch','i386'),('locale','sk_SK'),('home','PERSONAL'),('r_profile','PERSONAL'),('r_environ','PERSONAL')]:
+            with self.subTest(key=key),self.assertRaises(r.Refused):r.validate_probe(dict(self.value,**{key:value}),self.job)
+
+    def test_personal_library_or_unapproved_package_refused(self):
+        for key,value in [('libraries',['<PRIVATE_HOME>/AppData/Local/R/win-library/4.5']),('namespaces',['base','lme4'])]:
+            with self.subTest(key=key),self.assertRaises(r.Refused):r.validate_probe(dict(self.value,**{key:value}),self.job)
+
+    def test_environment_excludes_inherited_loader_and_r_variables(self):
+        with tempfile.TemporaryDirectory() as temp,patch.dict(os.environ,{'R_PROFILE':'INJECT','R_LIBS_USER':'PERSONAL','PATH':'INJECT','R_DEFAULT_PACKAGES':'lme4','COMSPEC':'INJECT'}):
+            env=r.v3.private_environment(Path(temp),r.R_HOME)
+            self.assertTrue(all('INJECT' not in v and 'PERSONAL' not in v for v in env.values()))
+            self.assertNotIn('COMSPEC',env)
+            self.assertEqual('utils,stats',env['R_DEFAULT_PACKAGES'])
+
+    def test_missing_or_stale_technical_receipt_refuses_without_r(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp)/'go.json';path.write_bytes(r.canonical(dict(schema='04A02-C09-R-technical-v1',status='R_TECHNICAL_NO_GO')))
+            with patch.object(r.subprocess,'run') as execute,self.assertRaises(r.Refused):r.qualification(path,r.digest(path),'0'*64,'C30-SYN-ANOVA',Path(temp),{})
+            execute.assert_not_called()
+            with self.assertRaises(r.Refused):r.v3.pinned(path,'0'*64)
+
+    def test_current_v4_manifest_runtime_and_case_pins_are_checked(self):
+        path=DOC/'oracle-proposals/manifest-v4-qualified-v3.json'
+        for case in r.v3.CASES:
+            manifest,_,entry,fixture,policy=r.pins(path,r.digest(path),case)
+            self.assertEqual(fixture['dataset'],policy['dataset'])
+            self.assertEqual(case,entry['case_id']);self.assertEqual('NO',manifest['P'])
+
+    def test_changed_executable_or_operator_pin_refuses(self):
+        path=DOC/'oracle-proposals/manifest-v4-qualified-v3.json'
+        with tempfile.TemporaryDirectory() as temp:
+            value=json.loads(path.read_bytes());value['operator_files']['scripts/04a02/oracle_operator_v4.py']='0'*64
+            bad=Path(temp)/'bad.json';bad.write_bytes(r.canonical(value))
+            with self.assertRaises(r.Refused):r.pins(bad,r.digest(bad),'C30-SYN-ANOVA')
+
+    def test_current_rscript_and_runtime_drift_refuse_before_any_r(self):
+        manifest=DOC/'oracle-proposals/manifest-v4-qualified-v3.json';manifest_sha=r.digest(manifest)
+        actual=r.digest
+        for target in [r.R_HOME/'bin/x64/Rscript.exe',r.R_HOME/'bin/x64/R.dll']:
+            def drift(path):
+                return '0'*64 if Path(path)==target else actual(path)
+            with self.subTest(target=str(target)),patch.object(r,'digest',side_effect=drift),patch.object(r.subprocess,'run') as execute:
+                with self.assertRaises(r.Refused):r.pins(manifest,manifest_sha,'C30-SYN-ANOVA')
+                execute.assert_not_called()
+
+    def test_real_startup_never_bypasses_owner_context_acl_gate(self):
+        # No R launch. The actual current SID cannot qualify the proposed root;
+        # runtime pins are real, while the lock and observation are supplied to
+        # isolate admission from the independently observed ancestor-handle denial.
+        from contextlib import nullcontext
+        manifest=DOC/'oracle-proposals/manifest-v4-qualified-v3.json'
+        observation=r.collect_acl(ROOT)
+        with patch.object(r,'lock_chain_complete',return_value=nullcontext(ROOT)),patch.object(r,'collect_acl',return_value=observation),patch.object(r.subprocess,'run') as execute:
+            with self.assertRaises(r.Refused):r.probe(manifest,r.digest(manifest),ROOT,'MUST_NOT_CREATE',Path('ABSENT'), '0'*64)
+            execute.assert_not_called()
+            self.assertFalse((ROOT/'MUST_NOT_CREATE').exists())
+
+
+class Comparison09Tests(unittest.TestCase):
+    def setUp(self):
+        old=json.loads((DOC/'oracle-proposals/manifest-v2.json').read_bytes())
+        self.case,self.fixture=r.v2.load_case(old,'C30-SYN-ANOVA')
+        self.policy=json.loads((DOC/'04A02-C07-scientific-decision-form.json').read_bytes())['cases'][0]
+        observation=next((ROOT/'TestResults/04A-02-initial-fixtures-c08-20261101T135337Z/executions/c8D-Common/observations').glob('C30-SYN-ANOVA-invariant.candidate.json'),None)
+        if observation is None:
+            observation=next(p for p in (ROOT/'TestResults/04A-02-initial-fixtures-c08-20261101T135337Z/executions/c8D-Common/observations').glob('*.candidate.json') if json.loads(p.read_bytes())['case_id']=='C30-SYN-ANOVA')
+        self.candidate=json.loads(observation.read_bytes())
+        metrics=dict(self.candidate['metrics'])
+        metrics.update({k:self.candidate['tables'][0]['cells'][i][j]['value'] for k,(i,j) in cmp.ANOVA_CELLS.items()})
+        self.reference=dict(schema='04A02-independent-candidate-v2',comparison=dict(case_id=self.case['case_id'],status='PENDING_REVIEW_NOT_A_GOLDEN',
+            source_commit=self.fixture['source_commit'],dataset_sha256=self.fixture['dataset_sha256'],dataset=self.fixture['dataset'],
+            row_id_transport='provenance-only',alpha=.05,seed='N/A',culture='InvariantCulture/C',options=self.fixture['options'],
+            method_id=self.case['method_id'],tail_policy=self.case['tail_policy'],metrics=metrics),
+            provenance=dict(decision_id='MOCK-NOT-R',r_version='4.5.1',stats_version='4.5.1',script_version='proposal-2',
+                script_sha256=self.case['script_sha256'],rscript_sha256=self.policy['runtime_proposal']['rscript_sha256'],runtime_set_sha256='a'*64))
+
+    def compare(self):return cmp.compare(self.candidate,self.reference,self.policy,self.case,self.fixture,'MOCK-NOT-R','a'*64)
+
+    def test_mock_self_consistency_exercises_comparator_not_independent_science(self):
+        result=self.compare();self.assertEqual([],result['failed']);self.assertEqual('NO',result['P'])
+        self.assertEqual(10,len(result['fields']))
+
+    def test_unapproved_delta_fails_without_changing_tolerances(self):
+        self.reference['comparison']['metrics']['SSBetween']+=.01
+        result=self.compare();self.assertIn('SSBetween',result['failed'])
+        row=next(x for x in result['fields'] if x['field']=='SSBetween')
+        self.assertEqual((1e-12,2e-13),(row['atol'],row['rtol']))
+
+    def test_extreme_p_missing_extra_fields_and_wrong_df_refuse(self):
+        for mutation in ['p','extra','missing','df']:
+            saved=copy.deepcopy(self.reference)
+            m=self.reference['comparison']['metrics']
+            if mutation=='p':m['PValue']=1e-13
+            elif mutation=='extra':m['EXTRA']=1
+            elif mutation=='missing':del m['SSBetween']
+            else:m['DFBetween']=2.0
+            with self.subTest(mutation=mutation),self.assertRaises(cmp.r.Refused):self.compare()
+            self.reference=saved
+
+    def test_table_header_order_and_clr_type_mismatch_refuse(self):
+        for mutation in ['header','type','cell']:
+            saved=copy.deepcopy(self.candidate)
+            cells=self.candidate['tables'][0]['cells']
+            if mutation=='header':cells[0][1]['value']='CHANGED'
+            elif mutation=='type':cells[1][2]['type']='System.String'
+            else:cells[1][4]['value']+=.1
+            with self.subTest(mutation=mutation),self.assertRaises(ValueError):self.compare()
+            self.candidate=saved
+
+    def test_kw_raw_corrected_and_reference_only_auxiliaries_remain_distinct(self):
+        old=json.loads((DOC/'oracle-proposals/manifest-v2.json').read_bytes())
+        self.case,self.fixture=r.v2.load_case(old,'C30-SYN-KW')
+        self.policy=json.loads((DOC/'04A02-C07-scientific-decision-form.json').read_bytes())['cases'][1]
+        folder=ROOT/'TestResults/04A-02-initial-fixtures-c08-20261101T135337Z/executions/c8D-Common/observations'
+        self.candidate=next(json.loads(p.read_bytes()) for p in folder.glob('*.candidate.json') if json.loads(p.read_bytes())['case_id']=='C30-SYN-KW')
+        comparison=self.reference['comparison']
+        comparison.update(case_id=self.case['case_id'],dataset_sha256=self.fixture['dataset_sha256'],dataset=self.fixture['dataset'],
+            options=self.fixture['options'],method_id=self.case['method_id'],tail_policy=self.case['tail_policy'])
+        comparison['metrics']=dict(self.candidate['metrics'],DF=2,tie_correction=.9,rank_sums=[1.,2.,3.],
+            formula_corrected_H_for_separate_review=self.candidate['metrics']['TieCorrectedHStatistic'])
+        self.reference['provenance']['script_sha256']=self.case['script_sha256']
+        result=self.compare()
+        self.assertEqual([],result['failed'])
+        self.assertEqual(4,len([f for f in result['fields'] if f['status']=='REFERENCE_ONLY_NO_COMMON_MEMBER']))
+        comparison['metrics']['PValue']=.4
+        result=self.compare()
+        self.assertEqual(['PValue'],result['failed'])
+
+
+class Native09Tests(unittest.TestCase):
+    def test_pending_stage_refuses_before_subprocess_or_output(self):
+        with tempfile.TemporaryDirectory() as temp:
+            plan=Path(temp)/'plan.json';plan.write_bytes(r.canonical(dict(stage='N1',case_id=n.g.CASE)))
+            output=Path(temp)/'MUST_NOT_EXIST'
+            with patch.object(n.subprocess,'run') as execute,self.assertRaises(ValueError):n.execute(plan,n.digest(plan),output)
+            execute.assert_not_called();self.assertFalse(output.exists())
+
+    def test_n2_is_not_admitted_by_n1_supervisor(self):
+        self.assertTrue(n.gate(dict(stage='N2',case_id=n.g.CASE)))
+
+    def test_stale_source_or_plan_hash_refuses(self):
+        with tempfile.TemporaryDirectory() as temp:
+            plan=Path(temp)/'plan.json';plan.write_bytes(b'{}')
+            with self.assertRaises(ValueError):n.execute(plan,'0'*64,Path(temp)/'output')
+
+    def test_real_adapter_has_no_rot_sendkeys_or_global_quit(self):
+        text=(ROOT/'scripts/04a02/native_n1_c09.cs').read_text()
+        for forbidden in ['GetActiveObject(', 'SendKeys.', '.Quit(', 'ReleaseComObject(']:self.assertNotIn(forbidden,text)
+        for required in ['AccessibleObjectFromWindow','[STAThread]','used.Value2','used.Formula','book.Saved','FileMode.CreateNew']:
+            self.assertIn(required,text)
+
+    def test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook(self):
+        proposal=module('proposal09','scripts/04a02/make_refedit_patch_c09.py')
+        before=(ROOT/'BESHstatNG/src/UI/Refedit/Excel2007RefEdit.vb').read_text(encoding='utf-8-sig')
+        after=proposal.proposed(before)
+        active='\n'.join(l for l in after.splitlines() if not l.lstrip().startswith(chr(39)))
+        self.assertNotIn('AddHandler xlSheet.SelectionChange, AddressOf SelectionChange',active)
+        self.assertNotIn('RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange',active)
+        self.assertIn('xlBook = Nothing',active);self.assertIn('xlApp = Nothing',active)
+        self.assertNotIn('Call _NAR(rng)',active)
+        self.assertEqual(before,(ROOT/'BESHstatNG/src/UI/Refedit/Excel2007RefEdit.vb').read_text(encoding='utf-8-sig'))
+
+
+if __name__=='__main__':unittest.main(verbosity=2)

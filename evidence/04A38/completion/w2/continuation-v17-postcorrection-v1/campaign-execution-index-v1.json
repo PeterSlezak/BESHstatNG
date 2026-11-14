@@ -1,0 +1,161 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/production-test-freeze-v1.json",
+    "bytes": 424596,
+    "sha256": "43cd9af03ab09829c205b694f6650df1779766692159da791144b9f48f7c868e"
+  },
+  "managed_parts": [
+    {
+      "suite": "Core",
+      "part": "all",
+      "name": "w2c17pc1-replacement-v1-Debug-serial-Core",
+      "selection": null,
+      "state": "COMPLETED"
+    },
+    {
+      "suite": "Common",
+      "part": "main",
+      "name": "w2c17pc1-replacement-v1-Debug-serial-Common-main",
+      "selection": "FullyQualifiedName!~MigrationSemantic04A02Tests",
+      "state": "COMPLETED"
+    },
+    {
+      "suite": "Common",
+      "part": "semantic",
+      "name": "w2c17pc1-CS",
+      "selection": "FullyQualifiedName~MigrationSemantic04A02Tests",
+      "state": "NOT_STARTED"
+    },
+    {
+      "suite": "Legacy",
+      "part": "all",
+      "name": "w2c17pc1-Legacy",
+      "selection": null,
+      "state": "NOT_STARTED"
+    },
+    {
+      "suite": "ControlMitigation",
+      "part": "all",
+      "name": "w2c17pc1-Mitigation",
+      "selection": null,
+      "state": "NOT_STARTED"
+    },
+    {
+      "suite": "OfficeAddin",
+      "part": "all",
+      "name": "w2c17pc1-OfficeAddin",
+      "selection": null,
+      "state": "NOT_STARTED"
+    },
+    {
+      "suite": "OfficeExecution",
+      "part": "all",
+      "name": "w2c17pc1-OfficeExecution",
+      "selection": null,
+      "state": "NOT_STARTED"
+    }
+  ],
+  "managed": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/managed-full-execution-v1.json",
+    "bytes": 1098,
+    "sha256": "b5d87f8f6935b7f75a9dc0ffb8b5b353f6ca4b4aaf872f37f71bf5f9b7b35f8d"
+  },
+  "managed_identities": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/managed-Debug-identities-v1.json",
+    "bytes": 8844095,
+    "sha256": "e8a34691232f69fe2c69e6b9e01ef4c8ea580943c1e6dcfa39dcff8bc83347b7"
+  },
+  "Python_execution": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/python-execution-summary-v1.json",
+    "bytes": 1765,
+    "sha256": "245ac8909da925a8333f9f9610062c5ffd2a4775bb5803ffb17e1f8826f27e20"
+  },
+  "Python_receipts": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/python-worker-receipts-v1.json",
+    "bytes": 7795,
+    "sha256": "4243c01b26009cc02e34e56af3178530e0c01c17ab46885c05fef0016e05f523"
+  },
+  "Python_journals": [
+    {
+      "path": ".test-rationalization-04A38.tmp/c17pc1-py/python-v1/2/parent-journal.jsonl",
+      "bytes": 13675,
+      "sha256": "b7012e78c81ffcfa08abb6c7b38585c9282cf9c225c8af79c5393359afff2fbd"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/c17pc1-py/python-v1/3/parent-journal.jsonl",
+      "bytes": 8056,
+      "sha256": "3cac540b0310ec33d8cf7b6f82548bb3e99702474b4f42e72bc181920a5ec38b"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/c17pc1-py/python-v1/4/parent-journal.jsonl",
+      "bytes": 1366427,
+      "sha256": "15a9af4ab0d73ff0b0ae6cc45c7e1b7454de4e04f09538fff29ddaa857343960"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/c17pc1-py/python-v1/5/parent-journal.jsonl",
+      "bytes": 621712,
+      "sha256": "fda997e3b21388a3c79298a93bdeb7238c4c58d113ca353aeff664b8a646ff50"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/c17pc1-py/python-v1/6/parent-journal.jsonl",
+      "bytes": 342498,
+      "sha256": "7002d14dcdeecb8401bb07cb964240f3d9db6c54775283ec53f551c01502d05d"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/c17pc1-py/python-v1/5-disposable/parent-journal.jsonl",
+      "bytes": 2097,
+      "sha256": "1e29c91cb3bf37ae9dfaabb244530c935ed4c9cda2f12ef2699464e1601700da"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/c17pc1-py/python-v1/1/parent-journal.jsonl",
+      "bytes": 80658,
+      "sha256": "f04d773bb92624887ebbba1b10c43f1526a2d56f6ad6d9963bcc9b61962e051a"
+    }
+  ],
+  "actual_scripts": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/run_Debug_campaign_v1.py",
+      "bytes": 1693,
+      "sha256": "8889381b848b5c29fa63e3d2b5544cbf1ea7a1a909f9e9c2649bf51287fb8060"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/continue_unstarted_managed_v1.py",
+      "bytes": 1825,
+      "sha256": "307ddb57e3b51947e5f3c10b26daa2b24f9772cb00e955f50669a1f727381060"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/reconcile_Debug_v5.py",
+      "bytes": 6062,
+      "sha256": "43de373adbb9ee5e685e3cf33346c413cd762905598c776383b247a7e2739f8a"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/python_workers_v4.py",
+      "bytes": 17830,
+      "sha256": "43b8fd77629236ea4b64e4d80022674f4642ec5815456d33d81dc72744e05769"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/run_python_v3.py",
+      "bytes": 802,
+      "sha256": "c1503f05f67c29b80eff1339002afcff5ac475e88ff2d39ec28262e0e34d5cea"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/reconcile_Python_v3.py",
+      "bytes": 8684,
+      "sha256": "8290c469a888247a965ef4192cffefc58e64d3ef6f2706374d95d50ae41f12e6"
+    }
+  ],
+  "managed_campaigns": 1,
+  "Python_campaigns": 1,
+  "completed_identity_repeats": 0,
+  "failed_prelaunch_copy": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/managed-execution-path-map-v1.json",
+    "bytes": 2316,
+    "sha256": "ad1c58ed7a6a166809fc7633b098b5124dde3fa84d05766d19135c4f0f3c672a"
+  },
+  "failed_report_schema": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/metadata-report-schema-correction-v1.json",
+    "bytes": 1549,
+    "sha256": "8f23911e91ac34a7308c3ba939b14c5c60ccf565aa62445af97bd6d31206a3f9"
+  },
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+}

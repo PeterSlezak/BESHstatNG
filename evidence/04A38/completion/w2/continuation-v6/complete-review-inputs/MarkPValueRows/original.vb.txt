@@ -1,0 +1,15 @@
+0) - 1
+            If Not IsPValueLabel(out(rowIndex, 0)) Then Continue For
+            For columnIndex As Integer = 1 To out.GetLength(1) - 1
+                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))
+            Next
+        Next
+
+        Return out
+    End Function
+
+    Private Sub MarkPValueRows(table As ResultTable, body As Object(,))
+        If table Is Nothing OrElse body Is Nothing OrElse body.GetLength(1) < 2 Then Return
+
+        For rowIndex As Integer = 0 To body.GetLength(0) - 1
+            If Not IsPValueL

@@ -1,0 +1,31 @@
+s after filtering.
+        ''' </returns>
+        ''' <remarks>
+        ''' Use this test when the same subjects (or blocks) are measured under <c>k</c> different conditions
+        ''' and you want a distribution-free alternative to repeated-measures ANOVA.
+        ''' <para>
+        ''' Interpretation: larger statistics indicate stronger evidence that at least one condition tends to produce
+        ''' systematically different values (in terms of ranks) compared with the others.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' ' Data layout: columns = conditions A..C, rows = subjects
+        ''' =BESH.NP.FRIEDMAN_STAT(A2:C21,"T1")
+        ''' =BESH.NP.FRIEDMAN_STAT(A2:C21,"F")
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.NP.FRIEDMAN_STAT",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Friedman test statistic for repeated-measures/blocked designs (T1 chi-square or T2 F-approximation).",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/nonparametric/"
+        )>
+        Public Function FRIEDMAN_STAT(
+            <ExcelArgument(Name:="data", Description:="Multi-column range: columns=treatments, rows=blocks/subjects (complete rows only).")> data As Object,
+            <ExcelArgument(Name:="statType", Description:="Statistic type: ""T1""/""CHI"" (chi-square) or ""T2""/""F"" (F-approx). Default ""T1"".")> Optional statType As Object = Nothing
+        ) As Object
+
+            Try
+                Dim mat As Double(,) = Nothing
+                Dim k As Integer = 0, b As Inte

@@ -13,15 +13,59 @@ Imports ExcelDna.Integration
 ''' </summary>
 Friend Module UdfOutputTables
 
+    ''' <summary>Marshals prepared portable report intent into the original CLR spill cells.</summary>
+    Friend Function MaterializePortableReport38(projection As Global.BESHStatNG.ExcelCommon.UdfReportProjection38,
+                                                Optional sourceValues As Object() = Nothing) As Object
+        If projection Is Nothing Then Return Nothing
+        Select Case projection.Fault
+            Case Global.BESHStatNG.ExcelCommon.UdfReportFault38.NotAvailable : Return ExcelError.ExcelErrorNA
+            Case Global.BESHStatNG.ExcelCommon.UdfReportFault38.InvalidValue : Return ExcelError.ExcelErrorValue
+            Case Global.BESHStatNG.ExcelCommon.UdfReportFault38.InvalidNumber : Return ExcelError.ExcelErrorNum
+        End Select
+        Dim model As ResultTableOutputModel = projection.ToOutputModel()
+        Dim values As Object(,) = model.Values
+        If values Is Nothing Then Return Nothing
+        For row As Integer = values.GetLowerBound(0) To values.GetUpperBound(0)
+            For column As Integer = values.GetLowerBound(1) To values.GetUpperBound(1)
+                Dim reference = TryCast(values(row, column), Global.BESHStatNG.ExcelCommon.UdfSourceCellReference38)
+                If reference IsNot Nothing Then values(row, column) = sourceValues(reference.SourceOrdinal)
+                Dim cell = TryCast(values(row, column), Global.BESHStatNG.ExcelCommon.OutputCell)
+                If cell IsNot Nothing Then
+                    If cell.Kind = Global.BESHStatNG.ExcelCommon.OutputCellKind.Number Then
+                        If cell.NumberKind.Value = Global.BESHStatNG.ExcelCommon.OutputNumberKind.Binary64 Then
+                            values(row, column) = cell.BinaryValue.Value
+                        Else
+                            values(row, column) = cell.DecimalValue.Value
+                        End If
+                    Else
+                        Select Case cell.ErrorKind.Value
+                            Case Global.BESHStatNG.ExcelCommon.OutputErrorKind.NotAvailable : values(row, column) = ExcelError.ExcelErrorNA
+                            Case Global.BESHStatNG.ExcelCommon.OutputErrorKind.InvalidValue : values(row, column) = ExcelError.ExcelErrorValue
+                            Case Global.BESHStatNG.ExcelCommon.OutputErrorKind.InvalidNumber : values(row, column) = ExcelError.ExcelErrorNum
+                        End Select
+                    End If
+                End If
+            Next
+        Next
+        Select Case projection.Preparation
+            Case Global.BESHStatNG.ExcelCommon.UdfReportPreparation38.NormalizeBlanks
+                Dim prepared As Object(,) = PrepareResultTableForUdf(values)
+                For Each address In Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.PvalueCells(model, prepared.GetLength(0), prepared.GetLength(1))
+                    prepared(address.RowOrdinal, address.ColumnOrdinal) = FormatPValueForUdf(prepared(address.RowOrdinal, address.ColumnOrdinal))
+                Next
+                Return prepared
+            Case Global.BESHStatNG.ExcelCommon.UdfReportPreparation38.PvalueRows
+                Return PreparePValueRowsForUdf(values)
+        End Select
+        Return values
+    End Function
+
     Friend Function SafeCiLabel(ci As ConfidenceIntervalResult) As String
-        If ci Is Nothing Then Return "Confidence interval"
-        If String.IsNullOrWhiteSpace(ci.CIlabel) Then Return "Confidence interval"
-        Return ci.CIlabel
+        Return Global.BESHStatNG.ExcelCommon.UdfOutputTablesReports38.SafeCiLabel(ci)
     End Function
 
     Friend Function SafeCiText(ci As ConfidenceIntervalResult) As String
-        If ci Is Nothing Then Return ""
-        Return ci.strConfidenceInterval(CIformat.LL_to_UL)
+        Return Global.BESHStatNG.ExcelCommon.UdfOutputTablesReports38.SafeCiText(ci)
     End Function
 
     Friend Function BuildResultTable(title As String, body As Object(,)) As Object(,)
@@ -52,29 +96,7 @@ Friend Module UdfOutputTables
     ''' </returns>
     Friend Function BuildNamedMatrixOutput(idHeader As String, rowNames() As String, colNames() As String,
                                            mat(,) As Double, includeHeader As Boolean) As Object
-        If mat Is Nothing Then Return ExcelError.ExcelErrorNA
-
-        Dim n As Integer = mat.GetLength(0)
-        Dim p As Integer = mat.GetLength(1)
-        Dim out(n - 1 + If(includeHeader, 1, 0), p) As Object
-        Dim r0 As Integer = 0
-
-        If includeHeader Then
-            out(0, 0) = idHeader
-            For j As Integer = 0 To p - 1
-                out(0, j + 1) = If(colNames IsNot Nothing AndAlso j < colNames.Length, colNames(j), (j + 1).ToString(CultureInfo.InvariantCulture))
-            Next
-            r0 = 1
-        End If
-
-        For i As Integer = 0 To n - 1
-            out(r0 + i, 0) = If(rowNames IsNot Nothing AndAlso i < rowNames.Length, rowNames(i), (i + 1).ToString(CultureInfo.InvariantCulture))
-            For j As Integer = 0 To p - 1
-                out(r0 + i, j + 1) = mat(i, j)
-            Next
-        Next
-
-        Return PrepareResultTableForUdf(out)
+        Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildNamedMatrixOutput(idHeader, rowNames, colNames, mat, includeHeader))
     End Function
 
     ''' <summary>
@@ -97,29 +119,7 @@ Friend Module UdfOutputTables
     ''' </returns>
     Friend Function BuildCaseMatrixOutput(idHeader As String, rowIds() As Integer,
                                           colNames() As String, mat(,) As Double, includeHeader As Boolean) As Object
-        If mat Is Nothing OrElse rowIds Is Nothing Then Return ExcelError.ExcelErrorNA
-
-        Dim n As Integer = mat.GetLength(0)
-        Dim p As Integer = mat.GetLength(1)
-        Dim out(n - 1 + If(includeHeader, 1, 0), p) As Object
-        Dim r0 As Integer = 0
-
-        If includeHeader Then
-            out(0, 0) = idHeader
-            For j As Integer = 0 To p - 1
-                out(0, j + 1) = If(colNames IsNot Nothing AndAlso j < colNames.Length, colNames(j), (j + 1).ToString(CultureInfo.InvariantCulture))
-            Next
-            r0 = 1
-        End If
-
-        For i As Integer = 0 To n - 1
-            out(r0 + i, 0) = rowIds(i)
-            For j As Integer = 0 To p - 1
-                out(r0 + i, j + 1) = mat(i, j)
-            Next
-        Next
-
-        Return PrepareResultTableForUdf(out)
+        Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildCaseMatrixOutput(idHeader, rowIds, colNames, mat, includeHeader))
     End Function
 
     ''' <summary>
@@ -145,9 +145,9 @@ Friend Module UdfOutputTables
         Dim totalRows As Integer = tableWithTitle.GetLength(0)
         Dim totalCols As Integer = tableWithTitle.GetLength(1)
         If totalRows <= 1 Then Return PrepareResultTableForUdf(tableWithTitle)
-        Dim startRow As Integer = If(includeHeader, 1, 2)
-        If startRow >= totalRows Then startRow = totalRows - 1
-        Dim out(totalRows - startRow - 1, totalCols - 1) As Object
+        Dim layout = Global.BESHStatNG.ExcelCommon.UdfSpillLayout38.WrappedTable(totalRows, totalCols, includeHeader)
+        Dim startRow As Integer = layout.SourceStartRow
+        Dim out(layout.RowCount - 1, layout.ColumnCount - 1) As Object
         For i As Integer = startRow To totalRows - 1
             For j As Integer = 0 To totalCols - 1
                 out(i - startRow, j) = tableWithTitle(i, j)
@@ -176,8 +176,9 @@ Friend Module UdfOutputTables
         Dim totalCols As Integer = table.GetLength(1)
         If totalRows <= 1 Then Return PrepareResultTableForUdf(table)
 
-        Dim out(totalRows - 2, totalCols - 1) As Object
-        For i As Integer = 1 To totalRows - 1
+        Dim layout = Global.BESHStatNG.ExcelCommon.UdfSpillLayout38.ExistingTable(totalRows, totalCols, includeHeader)
+        Dim out(layout.RowCount - 1, layout.ColumnCount - 1) As Object
+        For i As Integer = layout.SourceStartRow To totalRows - 1
             For j As Integer = 0 To totalCols - 1
                 out(i - 1, j) = table(i, j)
             Next
@@ -194,12 +195,7 @@ Friend Module UdfOutputTables
     ''' A two-row object table whose first row acts as the header and whose second row contains the supplied note.
     ''' </returns>
     Friend Function BuildSimpleNoteTable(label As String, value As String) As Object(,)
-        Dim out(1, 1) As Object
-        out(0, 0) = label
-        out(0, 1) = "Value"
-        out(1, 0) = label
-        out(1, 1) = value
-        Return out
+        Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildSimpleNoteTable(label, value)), Object(,))
     End Function
 
     ''' <summary>
@@ -216,28 +212,7 @@ Friend Module UdfOutputTables
     ''' a two-dimensional object array.
     ''' </returns>
     Friend Function PrepareResultTableForUdf(table As Object) As Object(,)
-        Dim arr As Object(,) = TryCast(table, Object(,))
-        If arr Is Nothing Then Return Nothing
-
-        Dim rows As Integer = arr.GetLength(0)
-        Dim cols As Integer = arr.GetLength(1)
-        Dim out(rows - 1, cols - 1) As Object
-
-        For r As Integer = 0 To rows - 1
-            For c As Integer = 0 To cols - 1
-                Dim v As Object = arr(r, c)
-
-                If v Is Nothing Then
-                    out(r, c) = String.Empty ' ExcelEmpty.Value
-                ElseIf TypeOf v Is DBNull Then
-                    out(r, c) = String.Empty ' ExcelEmpty.Value
-                Else
-                    out(r, c) = v
-                End If
-            Next
-        Next
-
-        Return out
+        Return Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.NormalizeBlanks(table)
     End Function
 
     ''' <summary>
@@ -255,24 +230,8 @@ Friend Module UdfOutputTables
         Dim out As Object(,) = PrepareResultTableForUdf(model.Values)
         If out Is Nothing Then Return Nothing
 
-        Dim firstBodyRow As Integer = model.TitleRows + model.HeaderTopRows
-        Dim lastBodyRow As Integer = out.GetLength(0) - model.FooterRows - 1
-
-        For Each bodyColumn As Integer In model.PvalueColumns
-            Dim columnIndex As Integer = model.HeaderLeftColumns + bodyColumn - 1
-            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For
-
-            For rowIndex As Integer = Math.Max(0, firstBodyRow) To Math.Min(lastBodyRow, out.GetLength(0) - 1)
-                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))
-            Next
-        Next
-
-        For Each address As ResultTableCellAddress In model.PvalueCells
-            Dim rowIndex As Integer = firstBodyRow + address.BodyRow - 1
-            Dim columnIndex As Integer = model.HeaderLeftColumns + address.BodyColumn - 1
-            If rowIndex < firstBodyRow OrElse rowIndex > lastBodyRow Then Continue For
-            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For
-            out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))
+        For Each address In Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.PvalueCells(model, out.GetLength(0), out.GetLength(1))
+            out(address.RowOrdinal, address.ColumnOrdinal) = FormatPValueForUdf(out(address.RowOrdinal, address.ColumnOrdinal))
         Next
 
         Return out
@@ -330,14 +289,7 @@ Friend Module UdfOutputTables
 
     Private Function IsPValueLabel(value As Object) As Boolean
         If value Is Nothing OrElse TypeOf value Is DBNull Then Return False
-        Dim label As String = Convert.ToString(value, CultureInfo.InvariantCulture)
-        If String.IsNullOrWhiteSpace(label) Then Return False
-
-        Dim normalized As New System.Text.StringBuilder(label.Length)
-        For Each ch As Char In label
-            If Char.IsLetterOrDigit(ch) Then normalized.Append(Char.ToLowerInvariant(ch))
-        Next
-        Return normalized.ToString().Contains("pvalue")
+        Return Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.IsPValueLabel(Convert.ToString(value, CultureInfo.InvariantCulture))
     End Function
 
     Private Function FormatPValueForUdf(value As Object) As Object
@@ -356,14 +308,7 @@ Friend Module UdfOutputTables
     Private Function IsNumericValue(value As Object) As Boolean
         If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is Boolean Then Return False
 
-        Select Case Type.GetTypeCode(value.GetType())
-            Case TypeCode.Byte, TypeCode.SByte, TypeCode.Int16, TypeCode.UInt16,
-                 TypeCode.Int32, TypeCode.UInt32, TypeCode.Int64, TypeCode.UInt64,
-                 TypeCode.Single, TypeCode.Double, TypeCode.Decimal
-                Return True
-            Case Else
-                Return False
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.IsNumericTypeCode(Type.GetTypeCode(value.GetType()))
     End Function
 
     ''' <summary>
@@ -371,9 +316,7 @@ Friend Module UdfOutputTables
     ''' </summary>
     Friend Function ClampProb(p As Double) As Object
         If Double.IsNaN(p) OrElse Double.IsInfinity(p) Then Return ExcelError.ExcelErrorNum
-        If p < 0.0 Then p = 0.0
-        If p > 1.0 Then p = 1.0
-        Return p
+        Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ClampProbabilityValue(p)
     End Function
 
     Friend Function StackResultTables(tables As List(Of ResultTable)) As Object(,)
@@ -426,8 +369,7 @@ Friend Module UdfOutputTables
     ''' <param name="title">Table title text.</param>
     ''' <returns>Uppercase title text containing only letters and digits.</returns>
     Friend Function NormalizeResultTableTitle(title As String) As String
-        If title Is Nothing Then Return String.Empty
-        Return New String(title.Trim().ToUpperInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch)).ToArray())
+        Return Global.BESHStatNG.ExcelCommon.UdfOutputTablesOptions38.NormalizeResultTableTitle(title)
     End Function
 
 End Module

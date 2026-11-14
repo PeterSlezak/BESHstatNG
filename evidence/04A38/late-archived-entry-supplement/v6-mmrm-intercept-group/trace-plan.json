@@ -1,0 +1,192 @@
+{
+  "source_snapshot": {
+    "path": "evidence/04A38/preedit/source/Regression/MixedModelUDFs.vb.txt",
+    "bytes": 92704,
+    "sha256": "596071f9fdb00fb94585e929a6899494293d2dc7ee0064faadf098b0d95dc13d"
+  },
+  "source_map": [
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMEANS",
+      "archived_source_line": 626,
+      "source_anchor": "ElseIf IsMmrmWorksheetRangeArgument(group) Then",
+      "event": "public.range",
+      "value_expression": "True",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMEANS",
+      "archived_source_line": 648,
+      "source_anchor": "Dim groupName As String = ExcelArgReaders.AsString(group)",
+      "event": "public.scalar_group",
+      "value_expression": "groupName",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMEANS",
+      "archived_source_line": 648,
+      "source_anchor": "Dim groupName As String = ExcelArgReaders.AsString(group)",
+      "event": "public.alpha_missing",
+      "value_expression": "ExcelArgPredicates.IsMissingArg(alpha)",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMEANS",
+      "archived_source_line": 659,
+      "source_anchor": "ElseIf Not TryGetDesignColumnValues(h, groupName, resolvedGroupName, groupValues, errorMessage) Then",
+      "event": "public.group_rejected",
+      "value_expression": "True",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMEANS",
+      "archived_source_line": 659,
+      "source_anchor": "ElseIf Not TryGetDesignColumnValues(h, groupName, resolvedGroupName, groupValues, errorMessage) Then",
+      "event": "public.resolved_name",
+      "value_expression": "If(resolvedGroupName Is Nothing, \"N\", \"S\" & Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(resolvedGroupName)))",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMEANS",
+      "archived_source_line": 659,
+      "source_anchor": "ElseIf Not TryGetDesignColumnValues(h, groupName, resolvedGroupName, groupValues, errorMessage) Then",
+      "event": "public.values",
+      "value_expression": "groupValues",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMEANS",
+      "archived_source_line": 659,
+      "source_anchor": "ElseIf Not TryGetDesignColumnValues(h, groupName, resolvedGroupName, groupValues, errorMessage) Then",
+      "event": "public.error",
+      "value_expression": "errorMessage",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMEANS",
+      "archived_source_line": 672,
+      "source_anchor": "If table Is Nothing Then Return ExcelError.ExcelErrorNA",
+      "event": "report.continued",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1456,
+      "source_anchor": "resolvedName = Nothing",
+      "event": "helper.entry",
+      "value_expression": "requestedName",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1458,
+      "source_anchor": "errorMessage = Nothing",
+      "event": "initialized.resolved_name",
+      "value_expression": "If(resolvedName Is Nothing, \"N\", \"S\" & Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(resolvedName)))",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1458,
+      "source_anchor": "errorMessage = Nothing",
+      "event": "initialized.values",
+      "value_expression": "values",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1458,
+      "source_anchor": "errorMessage = Nothing",
+      "event": "initialized.error",
+      "value_expression": "If(errorMessage Is Nothing, \"N\", \"S\" & Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(errorMessage)))",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1470,
+      "source_anchor": "Dim idx As Integer = FindDesignColumnIndex(h.FixedEffectNames, requestedName)",
+      "event": "lookup.index",
+      "value_expression": "idx",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1477,
+      "source_anchor": "If String.Equals(h.FixedEffectNames(idx), \"Intercept\", StringComparison.OrdinalIgnoreCase) OrElse",
+      "event": "lookup.resolved_name",
+      "value_expression": "h.FixedEffectNames(idx)",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1478,
+      "source_anchor": "String.Equals(h.FixedEffectNames(idx), \"(Intercept)\", StringComparison.OrdinalIgnoreCase) Then",
+      "event": "guard.intercept",
+      "value_expression": "True",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1479,
+      "source_anchor": "errorMessage = \"the intercept column cannot be used as a grouping factor.\"",
+      "event": "guard.error_assigned",
+      "value_expression": "errorMessage",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1479,
+      "source_anchor": "errorMessage = \"the intercept column cannot be used as a grouping factor.\"",
+      "event": "guard.resolved_name",
+      "value_expression": "If(resolvedName Is Nothing, \"N\", \"S\" & Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(resolvedName)))",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "archived_source_line": 1479,
+      "source_anchor": "errorMessage = \"the intercept column cannot be used as a grouping factor.\"",
+      "event": "guard.values",
+      "value_expression": "values",
+      "after_anchor": true
+    }
+  ],
+  "public_entry": "BESH.REGR.MMRM_LSMEANS",
+  "argument_order": [
+    "handle",
+    "group",
+    "alpha"
+  ],
+  "source_member": "TryGetDesignColumnValues",
+  "original_true_branch_line": 1477,
+  "original_true_branch": "Intercept or (Intercept) ordinal-ignore-case rejection, lines1477-1480",
+  "prospective_path": [
+    "public scalar name route",
+    "successful fitted name lookup with observed index",
+    "intercept condition true at1477-1478",
+    "error assignment1479 thenFalse return1480",
+    "private ByRef state propagated through public return"
+  ],
+  "observed_result": "UNKNOWN_NOT_CAPTURED",
+  "observed_private_state": "UNKNOWN_NOT_CAPTURED",
+  "private_observation": "Trace-only observation of actual lookup index/name and initialized/returned ByRef name/vector/error; compare plain/repeat/trace public output bytes exactly",
+  "source_justification": "Original factory contains 54 rows, visit1/2/3 each18; approved scalar Intercept is an actual fitted name; observe index rather than assume it. Expected reachability is prospective, not an observed output.",
+  "handle_normalization": "Only actual fitted GUID -> HANDLE:MMRM:SESSION1. Preserve raw GUIDs separately; no other normalization permitted."
+}

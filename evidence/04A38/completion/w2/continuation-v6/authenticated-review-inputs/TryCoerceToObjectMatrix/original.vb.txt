@@ -1,0 +1,27 @@
+Friend Function TryCoerceToObjectMatrix(v As Object, allowScalar As Boolean, ByRef mat As Object(,),
+                                        ByRef err As ExcelError?) As Boolean
+        mat = Nothing
+        err = Nothing
+        If v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty Then
+            mat = New Object(0, 0) {{ExcelEmpty.Value}}
+            Return True
+        End If
+
+        If TypeOf v Is ExcelError Then
+            err = DirectCast(v, ExcelError)
+            Return False
+        End If
+
+        Dim arr As Object(,) = Get2D(v)
+        If arr IsNot Nothing Then
+            mat = arr
+            Return True
+        End If
+
+        If Not allowScalar Then Return False
+
+        Dim singleValue(0, 0) As Object
+        singleValue(0, 0) = v
+        mat = singleValue
+        Return True
+    End Function

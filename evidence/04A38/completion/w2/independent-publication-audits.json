@@ -1,0 +1,88 @@
+{
+  "source_and_IL_controls": {
+    "label": "w2-independent-slice-adverse-v3",
+    "total": 17,
+    "passed": 17,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "45316ce7d51a7979c2c47dcab9272e9cdc6b0a30f173867e664f3ff485937b44",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_average_engine_altered (test_independent_slice_v3.SliceTests.test_average_engine_altered)",
+      "test_bad_host_cell_policy (test_independent_slice_v3.SliceTests.test_bad_host_cell_policy)",
+      "test_changed_constructor_CIL_stays_open (test_independent_slice_v3.SliceTests.test_changed_constructor_CIL_stays_open)",
+      "test_current_output_changed (test_independent_slice_v3.SliceTests.test_current_output_changed)",
+      "test_error_text_rewritten (test_independent_slice_v3.SliceTests.test_error_text_rewritten)",
+      "test_fabricated_literal_CIL_stays_open (test_independent_slice_v3.SliceTests.test_fabricated_literal_CIL_stays_open)",
+      "test_intact_full_body_proof (test_independent_slice_v3.SliceTests.test_intact_full_body_proof)",
+      "test_intact_predecessor_preservation (test_independent_slice_v3.SliceTests.test_intact_predecessor_preservation)",
+      "test_intact_source_result_and_export_proof (test_independent_slice_v3.SliceTests.test_intact_source_result_and_export_proof)",
+      "test_mask_order_changed (test_independent_slice_v3.SliceTests.test_mask_order_changed)",
+      "test_missing_intercept_rejection (test_independent_slice_v3.SliceTests.test_missing_intercept_rejection)",
+      "test_new_unapproved_production_edit (test_independent_slice_v3.SliceTests.test_new_unapproved_production_edit)",
+      "test_older_NOT_READY_rewritten (test_independent_slice_v3.SliceTests.test_older_NOT_READY_rewritten)",
+      "test_original_output_changed (test_independent_slice_v3.SliceTests.test_original_output_changed)",
+      "test_postcompile_source_edit (test_independent_slice_v3.SliceTests.test_postcompile_source_edit)",
+      "test_source_preimage_mutation (test_independent_slice_v3.SliceTests.test_source_preimage_mutation)",
+      "test_weakened_multirow_guard (test_independent_slice_v3.SliceTests.test_weakened_multirow_guard)"
+    ],
+    "nonpasses": []
+  },
+  "manifest_controls": {
+    "label": "w2-publication-adverse",
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "bc03115a8fdaa98abbd7d0e8f46e7ca2e49e37ba61c714137b107e03f9c5fc62",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_absolute (test_publication.PacketTests.test_absolute)",
+      "test_casefold_duplicate (test_publication.PacketTests.test_casefold_duplicate)",
+      "test_duplicate (test_publication.PacketTests.test_duplicate)",
+      "test_forged_ready (test_publication.PacketTests.test_forged_ready)",
+      "test_intact (test_publication.PacketTests.test_intact)",
+      "test_missing_ignored_capture (test_publication.PacketTests.test_missing_ignored_capture)",
+      "test_missing_payload (test_publication.PacketTests.test_missing_payload)",
+      "test_missing_self (test_publication.PacketTests.test_missing_self)",
+      "test_nonnull_self (test_publication.PacketTests.test_nonnull_self)",
+      "test_path_escape (test_publication.PacketTests.test_path_escape)",
+      "test_private_path (test_publication.PacketTests.test_private_path)",
+      "test_reserved_path (test_publication.PacketTests.test_reserved_path)",
+      "test_windows_path (test_publication.PacketTests.test_windows_path)",
+      "test_wrong_digest (test_publication.PacketTests.test_wrong_digest)",
+      "test_wrong_order (test_publication.PacketTests.test_wrong_order)",
+      "test_wrong_size (test_publication.PacketTests.test_wrong_size)"
+    ],
+    "nonpasses": []
+  },
+  "public_copy": {
+    "status": "W2_PUBLIC_COPY_PASS_NOT_READY",
+    "entries": 2126,
+    "proof": {
+      "status": "VALID_W2_PARTIAL_PUBLICATION_NOT_READY",
+      "hashed_payloads": 2125,
+      "historical_proof_supported": 47,
+      "historical_OPEN": 657,
+      "source_and_IL_proof": "RECOMPUTED_FROM_PUBLISHED_SOURCE_AND_METADATA",
+      "binary_boundary": "Original/current compilation and CIL were executed locally; private loaded binaries/package cache are not in this compact publication and cannot be independently loaded from it",
+      "protection": {
+        "status": "PROTECTED_BYTES_AND_EXPLICIT_TRANSITIONS_PASS",
+        "predecessor_payloads": 1605,
+        "old_manifests": "BYTE_PRESERVED",
+        "source_preimages": 4,
+        "original_snapshots": 41,
+        "lineage_pins": 278,
+        "protected_captures": 100,
+        "original_preedit_per_configuration": 28966,
+        "authorized_late_per_configuration": 458,
+        "live_Git": "NOT_CHECKED_IN_COPY",
+        "TestResults": "Only100 declared protected captures/known tracked paths checked; no ignored-tree traversal"
+      }
+    },
+    "scope": "Copied source/results/recorded IL metadata only, not live Git or omitted loaded binaries/owner files"
+  },
+  "batch_ready": false
+}

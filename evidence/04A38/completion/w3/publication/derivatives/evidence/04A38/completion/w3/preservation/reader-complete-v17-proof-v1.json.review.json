@@ -1,0 +1,25 @@
+{
+  "name": "complete-v17-proof",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/verify_c17_checkpoint_v2.py",
+    "bytes": 9225,
+    "sha256": "ccdba66f9bcaa2580ce3cbe74eb7a395d741b9ede0502437394be32ed7e92b40"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\verify_c17_checkpoint_v2.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 65.9147647000209,
+    "stdout_sha256": "2e378aae37508fe7d57141a29f534222ef33547420c209e9a960f2e3ec74fb1a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

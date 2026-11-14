@@ -1,0 +1,13 @@
+ody(rowIndex, 0)) Then Continue For
+            For columnIndex As Integer = 1 To body.GetLength(1) - 1
+                If IsNumericValue(body(rowIndex, columnIndex)) Then
+                    table.AddPvalueCellToFormat(rowIndex + 1, columnIndex + 1)
+                End If
+            Next
+        Next
+    End Sub
+
+    Private Function IsPValueLabel(value As Object) As Boolean
+        If value Is Nothing OrElse TypeOf value Is DBNull Then Return False
+        Dim label As String = Convert.ToString(value, CultureInfo.InvariantCulture)
+        If S

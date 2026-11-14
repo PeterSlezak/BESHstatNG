@@ -1,0 +1,57 @@
+{
+  "reader": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v2\\verify_ownership_v4.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 4.669978599995375,
+    "stdout_sha256": "17bb9bd75669239b35dcbab0797d7e499495c958da35cdcfa343b327f2200a78",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "adverse": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v2",
+      "-p",
+      "test_ownership.py",
+      "-v"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 32.93312840000726,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e0882ebf18f425ada12d0e9b92bd9d9b10a2ebd3cbe5018f3a8bfc68cd618fd0",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "tests": {
+    "label": "w2c2-independent-ownership-adverse",
+    "total": 9,
+    "passed": 9,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "e0882ebf18f425ada12d0e9b92bd9d9b10a2ebd3cbe5018f3a8bfc68cd618fd0",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_container_closure_from_header (test_ownership.OwnershipControls.test_container_closure_from_header)",
+      "test_duplicate_support_identity (test_ownership.OwnershipControls.test_duplicate_support_identity)",
+      "test_forged_ready (test_ownership.OwnershipControls.test_forged_ready)",
+      "test_missing_current_identity (test_ownership.OwnershipControls.test_missing_current_identity)",
+      "test_missing_historical_identity (test_ownership.OwnershipControls.test_missing_historical_identity)",
+      "test_missing_support_identity (test_ownership.OwnershipControls.test_missing_support_identity)",
+      "test_true_partial_state (test_ownership.OwnershipControls.test_true_partial_state)",
+      "test_unsupported_host_only (test_ownership.OwnershipControls.test_unsupported_host_only)",
+      "test_wrong_inline_parent (test_ownership.OwnershipControls.test_wrong_inline_parent)"
+    ],
+    "nonpasses": []
+  }
+}

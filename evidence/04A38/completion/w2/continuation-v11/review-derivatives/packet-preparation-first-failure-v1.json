@@ -1,0 +1,17 @@
+{
+  "command": [
+    "<PYTHON>",
+    "-B",
+    "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v11\\prepare_packet_v1.py"
+  ],
+  "exit_code": 1,
+  "exception": "AssertionError: assert len(h['current_ids']) == 1 and not h['proof']",
+  "cause": "OPEN historical lambda candidate lists intentionally contain nine signature matches. No source was changed. Resume and tool copies had completed; no packet plan or targets had been written.",
+  "correction": "Version2 reconciles original parent through its own historical identity and requires the callback exact body/token hashes within that one current parent.",
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/prepare_packet_v1.py",
+    "bytes": 5420,
+    "sha256": "8edb4bad286f336511b24b97d92d315b6c06ac2d1e19889e91a71629fbe9ad8a"
+  },
+  "production_edits": 0
+}

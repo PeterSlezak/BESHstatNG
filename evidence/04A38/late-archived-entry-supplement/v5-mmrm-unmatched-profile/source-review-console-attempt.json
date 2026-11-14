@@ -1,0 +1,25 @@
+{
+  "status": "FAILED_CONSOLE_PRESENTATION_AFTER_OBSERVATION_FILE_SAVED",
+  "exit_code": 1,
+  "command": [
+    "<PYTHON>",
+    "-B",
+    "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/review_group_selection.py"
+  ],
+  "exception": "UnicodeEncodeError: cp1252 cannot encode U+221E in printed historical culture-specific witness text",
+  "preserved_source": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/review_group_selection.py",
+    "bytes": 3264,
+    "sha256": "5f8a35e1ee06a3579b7a77ccf668717088d80e2f2502e9837bcca9697be32b16"
+  },
+  "preserved_complete_observation": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/group-selection-coverage-observation.json",
+    "bytes": 41019,
+    "sha256": "320c810dc34d7440e3839a5debed3194631eb6678b1c2160ea40d98c73f4d10e"
+  },
+  "observation_file_written_before_failure": true,
+  "original_or_current_model_executions": 0,
+  "new_reference_executions": 0,
+  "remedy": "Independent reader recomputes raw corpus and emits ASCII-safe summary; no source/statistical/evidence-byte correction",
+  "other_read_only_attempt": "An earlier Get-Content request for nonexistent validate_previous.py was corrected by directory inspection to validate_prior.py; no compiler/capture/test failure"
+}

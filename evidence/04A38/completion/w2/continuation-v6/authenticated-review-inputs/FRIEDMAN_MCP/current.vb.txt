@@ -1,0 +1,46 @@
+<ExcelFunction(
+            Name:="BESH.NP.FRIEDMAN_MCP",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Friedman post-hoc multiple comparisons: Dunn (default) or Conover.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/")>
+        Public Function FRIEDMAN_MCP(
+            <ExcelArgument(Name:="data", Description:="Numeric matrix; rows=blocks/subjects, columns=conditions. First row may contain headers.")> data As Object,
+            <ExcelArgument(Name:="conditionNames", Description:="Optional condition names as comma-separated text or 1-row/1-column range.")> Optional conditionNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional: dunn/spss (default), conover, or all.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha parameter reserved for API consistency; currently no CI is reported.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(conditionNames, detectedNames, mat.GetLength(1), "Condition")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim which As String = NormalizeText(method)
+                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildFriedmanMcpTables(mat, names, alphaValue)
+
+                Select Case which
+                    Case "", "DUNN", "SPSS"
+                        Return PrepareResultTableForUdf(tables(3))
+
+                    Case "CONOVER", "CON"
+                        Return PrepareResultTableForUdf(tables(2))
+
+                    Case "ALL", "BOTH"
+                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(2))
+                        stacked = ParametricUDFs.StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(3)))
+                        Return PrepareResultTableForUdf(stacked)
+
+                    Case Else
+                        Return ExcelError.ExcelErrorValue
+                End Select
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+        End Function

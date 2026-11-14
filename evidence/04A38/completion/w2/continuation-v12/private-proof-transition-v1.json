@@ -1,0 +1,39 @@
+{
+  "status": "CURRENT_SYNTHETIC_CONTROL_PREIMAGE_CAPTURED_BEFORE_DELIBERATE_MUTATION",
+  "rows": [
+    {
+      "before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont12/parallel-scan-proof-v1/fixtures/0.txt",
+        "bytes": 17,
+        "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+      },
+      "preimage": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont12/parallel-scan-proof-v1/preimages/0-before.txt",
+        "bytes": 17,
+        "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+      },
+      "after": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont12/parallel-scan-proof-v1/fixtures/0.txt",
+        "bytes": 29,
+        "sha256": "862340991bdbc503da2f9433b77067c206f05c4c8d4c26db79c111ad09c310a2"
+      },
+      "generator": {
+        "path": "evidence/04A38/completion/w2/continuation-v12/prove_parallel_scan_base_v1.py",
+        "bytes": 6645,
+        "sha256": "b2535fe11b8f5ac192eb2b2290f969b10e53670ca2ed1adc10cee519487182a6"
+      },
+      "observed_before": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont12/parallel-scan-proof-v1/execution/3/input.json",
+        "bytes": 2513,
+        "sha256": "fb55de28e827d7b59af7b37ee1df6a789f91285f3e73aeb0a2713614948b9051"
+      },
+      "observed_after": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont12/parallel-scan-proof-v1/invalidated-execution/1/input.json",
+        "bytes": 1519,
+        "sha256": "425f9962e505deb48f90109ca3e2aeeb3e7c618783df3d3394a0edd240825dd5"
+      }
+    }
+  ],
+  "scope": "New C12 stale-cache synthetic control only. Actual before bytes captured before mutation, never an original statistical reference or pre-edit production capture.",
+  "original_queries": 0
+}

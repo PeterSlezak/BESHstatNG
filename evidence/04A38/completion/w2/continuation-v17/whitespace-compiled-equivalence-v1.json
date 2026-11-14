@@ -1,0 +1,38 @@
+{
+  "status": "EXACT_ALL_MEASURED_METHOD_TYPE_CIL_SIGNATURE_EXCEPTION_AND_EXPORT_EQUIVALENCE",
+  "before_metadata": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/final-v7/current-Debug.json",
+    "bytes": 76259957,
+    "sha256": "e69f17546e052f92654f49c9bd191dd5aa06df07d43d012f1debddb7b2bd1d09"
+  },
+  "after_metadata": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/final-v8/current-Debug.json",
+    "bytes": 76259957,
+    "sha256": "1036add3b71746fde9f3d61e83b644b814a0972604afa159dfcfb1640ad892f2"
+  },
+  "before_source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/production-test-freeze-v7.json",
+    "bytes": 97798,
+    "sha256": "dcc6f2205828f4e6190606e442d3f45b41bcb0de361e1351bde71881883add12"
+  },
+  "after_source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/production-test-freeze-v8.json",
+    "bytes": 97798,
+    "sha256": "3d5e9be63940c1b2526fe51e541f5f861fad53e679c236521cfdcb49b3ae8a78"
+  },
+  "source_delta": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/whitespace-source-correction-v1.json",
+    "bytes": 1012,
+    "sha256": "de009dad2ee9d2660e250fd75c5903562ae14e38be3081647bd24bac1bb9089f"
+  },
+  "changed_rebuild_identity_fields": [
+    "assemblies/sha256",
+    "assemblies/MVID",
+    "loaded_modules/sha256",
+    "loaded_modules/MVID",
+    "export_document/mvid"
+  ],
+  "initial_overbroad_assertions": "Full JSON equality and then full export-document equality failed solely on rebuilt assembly hashes/MVIDs. Both complete documents are retained; every measured method/type/instruction/exception/signature and public export is exact.",
+  "compatibility_scope": "29424 comparisons executed at functional freeze7; final byte-freeze8 has identical measured executable methods/types. No fourth compatibility or additional full test campaign.",
+  "original_queries": 0
+}

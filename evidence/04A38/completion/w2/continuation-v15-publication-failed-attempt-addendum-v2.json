@@ -1,0 +1,36 @@
+{
+  "status": "PRESERVED_MISSING_PUBLICATION_RUNTIME_DEPENDENCY",
+  "failed_receipt": {
+    "path": "evidence/04A38/completion/w2/continuation-v15-copied-review-reader-v2.json",
+    "bytes": 1473,
+    "sha256": "b834e983dfe3a2fbaa08bb5ab9ca23d3bcdaec3ed8b12095ca4ddb8af520aa5b"
+  },
+  "command_raw": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c15-copied-union-reader-v2/command.json",
+    "bytes": 1117,
+    "sha256": "4dcb8bdb9d8a0ff58a0ba099ffac828c319367d1de9b31f0036c23a3b0d3f513"
+  },
+  "stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c15-copied-union-reader-v2/stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c15-copied-union-reader-v2/stderr.log",
+    "bytes": 1818,
+    "sha256": "9f2bb34bec18c35c9b023fe589207f43b5e0a6429d3cbcf57b5b46c547f7533b"
+  },
+  "cause": "Copied run.py imports scripts/test_suite_rationalization.py; this unchanged runtime source was absent from the initial review union.",
+  "previous_index": {
+    "path": "evidence/04A38/completion/w2/continuation-v15-review-parts-index-v1.json",
+    "bytes": 3926908,
+    "sha256": "ffd59df6c1924019c04188ce9f632d9b1888f8c12c9265dcc988ac26be6ea279"
+  },
+  "correction": "Additive eighth complementary dependency archive. All seven original physical archives and all9724 original payloads remain byte-identical. New manifest/index/reader preserve and assert the exact prior union. No weakened assertion or test run.",
+  "dependency": {
+    "path": "scripts/test_suite_rationalization.py",
+    "bytes": 18786,
+    "sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "original_queries": 0
+}

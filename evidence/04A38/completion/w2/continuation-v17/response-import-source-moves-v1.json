@@ -1,0 +1,87 @@
+{
+  "moves": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "host": "TryGetIntegerOutcomeColumn",
+      "original_segment": "        For i As Integer = 0 To data.nRows - 1\r\n            Dim d As Double = CDbl(data.FinalData(i, 0))\r\n            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return False\r\n\r\n            Dim rounded As Double = Math.Round(d)\r\n            If Math.Abs(d - rounded) > 0.0000001R Then Return False\r\n\r\n            values.Add(CInt(rounded))\r\n        Next\r\n\r\n        Return values.Count > 0\r\n",
+      "native_call": "        Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ReadIntegerOutcomes(data.FinalData, data.nRows, values, AddressOf Microsoft.VisualBasic.CompilerServices.Conversions.ToDouble)\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function ReadIntegerOutcomes(matrix(,) As Object, rowCount As Integer, values As List(Of Integer), convertDouble As Func(Of Object, Double)) As Boolean",
+        "body": "For i As Integer = 0 To rowCount - 1\n            Dim d As Double = convertDouble(matrix(i, 0))\n            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return False\n\n            Dim rounded As Double = Math.Round(d)\n            If Math.Abs(d - rounded) > 0.0000001R Then Return False\n\n            values.Add(CInt(rounded))\n        Next\n\n        Return values.Count > 0"
+      },
+      "aliases": [
+        {
+          "before": "data.nRows",
+          "after": "rowCount"
+        },
+        {
+          "before": "CDbl(data.FinalData(i, 0))",
+          "after": "convertDouble(matrix(i, 0))"
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "host": "TryGetZipData",
+      "original_segment": "        Dim countCols As Integer = xCountMat.GetLength(1)\r\n        Dim zeroCols As Integer = xZeroMat.GetLength(1)\r\n\r\n        Dim rawCount(rowCount - 1, countCols + If(hasOffset, 1, 0)) As Object\r\n        Dim countNames(countCols + If(hasOffset, 1, 0)) As String\r\n        countNames(0) = If(String.IsNullOrWhiteSpace(yName), \"Y\", yName)\r\n\r\n        For i As Integer = 0 To rowCount - 1\r\n            rawCount(i, 0) = yCol(i, 0)\r\n        Next\r\n        For j As Integer = 0 To countCols - 1\r\n            countNames(j + 1) = countPredictorNames(j)\r\n            For i As Integer = 0 To rowCount - 1\r\n                rawCount(i, j + 1) = xCountMat(i, j)\r\n            Next\r\n        Next\r\n        If hasOffset Then\r\n            countNames(countCols + 1) = If(String.IsNullOrWhiteSpace(offsetName), \"Offset\", offsetName)\r\n            For i As Integer = 0 To rowCount - 1\r\n                rawCount(i, countCols + 1) = offsetCol(i, 0)\r\n            Next\r\n        End If\r\n\r\n        Dim rawZero(rowCount - 1, zeroCols) As Object\r\n        Dim zeroNames(zeroCols) As String\r\n        zeroNames(0) = If(String.IsNullOrWhiteSpace(yName), \"Y\", yName)\r\n\r\n        For i As Integer = 0 To rowCount - 1\r\n            rawZero(i, 0) = yCol(i, 0)\r\n        Next\r\n        For j As Integer = 0 To zeroCols - 1\r\n            zeroNames(j + 1) = zeroPredictorNames(j)\r\n            For i As Integer = 0 To rowCount - 1\r\n                rawZero(i, j + 1) = xZeroMat(i, j)\r\n            Next\r\n        Next\r\n\r\n",
+      "native_call": "        Dim rawCount(,) As Object = Nothing\r\n        Dim countNames() As String = Nothing\r\n        Dim rawZero(,) As Object = Nothing\r\n        Dim zeroNames() As String = Nothing\r\n        Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.BuildZipRawMatrices(yCol, xCountMat, xZeroMat, offsetCol, rowCount, hasOffset, yName, offsetName, countPredictorNames, zeroPredictorNames, rawCount, countNames, rawZero, zeroNames)\r\n\r\n",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Sub BuildZipRawMatrices(yCol(,) As Object, xCountMat(,) As Object, xZeroMat(,) As Object, offsetCol(,) As Object, rowCount As Integer, hasOffset As Boolean, yName As String, offsetName As String, countPredictorNames() As String, zeroPredictorNames() As String, ByRef rawCount(,) As Object, ByRef countNames() As String, ByRef rawZero(,) As Object, ByRef zeroNames() As String)",
+        "body": "        Dim countCols As Integer = xCountMat.GetLength(1)\n        Dim zeroCols As Integer = xZeroMat.GetLength(1)\n\n        ReDim rawCount(rowCount - 1, countCols + If(hasOffset, 1, 0))\n        ReDim countNames(countCols + If(hasOffset, 1, 0))\n        countNames(0) = If(String.IsNullOrWhiteSpace(yName), \"Y\", yName)\n\n        For i As Integer = 0 To rowCount - 1\n            rawCount(i, 0) = yCol(i, 0)\n        Next\n        For j As Integer = 0 To countCols - 1\n            countNames(j + 1) = countPredictorNames(j)\n            For i As Integer = 0 To rowCount - 1\n                rawCount(i, j + 1) = xCountMat(i, j)\n            Next\n        Next\n        If hasOffset Then\n            countNames(countCols + 1) = If(String.IsNullOrWhiteSpace(offsetName), \"Offset\", offsetName)\n            For i As Integer = 0 To rowCount - 1\n                rawCount(i, countCols + 1) = offsetCol(i, 0)\n            Next\n        End If\n\n        ReDim rawZero(rowCount - 1, zeroCols)\n        ReDim zeroNames(zeroCols)\n        zeroNames(0) = If(String.IsNullOrWhiteSpace(yName), \"Y\", yName)\n\n        For i As Integer = 0 To rowCount - 1\n            rawZero(i, 0) = yCol(i, 0)\n        Next\n        For j As Integer = 0 To zeroCols - 1\n            zeroNames(j + 1) = zeroPredictorNames(j)\n            For i As Integer = 0 To rowCount - 1\n                rawZero(i, j + 1) = xZeroMat(i, j)\n            Next\n        Next",
+        "projection": "Local arrays become ByRef unpublished native locals; allocations/copy ordering unchanged."
+      },
+      "aliases": [],
+      "original_queries": 0
+    }
+  ],
+  "before": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "bytes": 26607,
+        "sha256": "1fe93a15fd979814fac0cc150f2dc3acb502fba874f801ee79bcbad9b0a6468b"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/response-import-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "bytes": 26607,
+        "sha256": "1fe93a15fd979814fac0cc150f2dc3acb502fba874f801ee79bcbad9b0a6468b"
+      }
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 26662,
+        "sha256": "3dc33834563708f309ac727494397a179b5b20cbb39eeb84573500efdcb83b22"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/response-import-before/BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 26662,
+        "sha256": "3dc33834563708f309ac727494397a179b5b20cbb39eeb84573500efdcb83b22"
+      }
+    }
+  ],
+  "current": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "bytes": 25375,
+      "sha256": "3089d4d2a08693facc9b81e90863d3efe91734a52749efe7f1d14c6ab9865732"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "bytes": 29048,
+      "sha256": "86b4176d1a8b97a6c058d45bd95fd4da4370df642e4244076232d63e23bb167c"
+    }
+  ],
+  "supersedes_candidate_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/production-test-freeze-v1.json",
+    "bytes": 97052,
+    "sha256": "70e905b211f320ac60dceff9df95062a6e6bcdb8bc4521ddc62d1fd70262bcf1"
+  },
+  "campaigns_started": 0,
+  "original_queries": 0
+}

@@ -1,0 +1,75 @@
+{
+  "status": "INVESTIGATIVE_CURRENT_POLICY_NONPASS_NOT_NEW_ARCHIVED_REFERENCE",
+  "records": [
+    {
+      "configuration": "Debug",
+      "compile": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont1\\text-policy-v2\\Debug\\BESHStat.Excel.Common.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Microsoft.VisualBasic.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\completion-w2-cont1\\text-policy-v2\\Debug\\CulturePolicyProbeV2.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v1\\CulturePolicyProbe-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.348404299991671,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "run": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont1\\text-policy-v2\\Debug\\CulturePolicyProbeV2.exe"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 0.3050777000025846,
+        "stdout_sha256": "e5f7086759ee0f17196e4fe5d39e27e9a49eade41bec20c69324e064c5618197",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": "DIFF culture=Invariant left_utf16=NULL right_utf16=AD-00 runtime=False portable=True\nDIFF culture=Invariant left_utf16=NULL right_utf16=00-00 runtime=False portable=True\nDIFF culture=Invariant left_utf16=AD-00 right_utf16=NULL runtime=False portable=True\nDIFF culture=Invariant left_utf16=00-00 right_utf16=NULL runtime=False portable=True\nDIFF culture=sk-SK left_utf16=NULL right_utf16=AD-00 runtime=False portable=True\nDIFF culture=sk-SK left_utf16=NULL right_utf16=00-00 runtime=False portable=True\nDIFF culture=sk-SK left_utf16=AD-00 right_utf16=NULL runtime=False portable=True\nDIFF culture=sk-SK left_utf16=00-00 right_utf16=NULL runtime=False portable=True\nCURRENT_RUNTIME_POLICY_CONTROL pairs=1352 differences=8 nonnull_differences=0 original_BESH_UDF_queries=0\n"
+    },
+    {
+      "configuration": "Release",
+      "compile": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont1\\text-policy-v2\\Release\\BESHStat.Excel.Common.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Microsoft.VisualBasic.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\completion-w2-cont1\\text-policy-v2\\Release\\CulturePolicyProbeV2.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v1\\CulturePolicyProbe-v2.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.30325869997614063,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "run": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont1\\text-policy-v2\\Release\\CulturePolicyProbeV2.exe"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 0.28767429999425076,
+        "stdout_sha256": "e5f7086759ee0f17196e4fe5d39e27e9a49eade41bec20c69324e064c5618197",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": "DIFF culture=Invariant left_utf16=NULL right_utf16=AD-00 runtime=False portable=True\nDIFF culture=Invariant left_utf16=NULL right_utf16=00-00 runtime=False portable=True\nDIFF culture=Invariant left_utf16=AD-00 right_utf16=NULL runtime=False portable=True\nDIFF culture=Invariant left_utf16=00-00 right_utf16=NULL runtime=False portable=True\nDIFF culture=sk-SK left_utf16=NULL right_utf16=AD-00 runtime=False portable=True\nDIFF culture=sk-SK left_utf16=NULL right_utf16=00-00 runtime=False portable=True\nDIFF culture=sk-SK left_utf16=AD-00 right_utf16=NULL runtime=False portable=True\nDIFF culture=sk-SK left_utf16=00-00 right_utf16=NULL runtime=False portable=True\nCURRENT_RUNTIME_POLICY_CONTROL pairs=1352 differences=8 nonnull_differences=0 original_BESH_UDF_queries=0\n"
+    }
+  ],
+  "new_original_BESH_queries": 0,
+  "production_changed": false,
+  "first_failure": "w2c1-text-policy-Debug exit3762504530 preserved unhandled assertion; v2 emits all mismatches",
+  "next_action": "Keep affected option bodies OPEN; inspect null versus empty normalization and original/runtime comparison semantics before any closure or compatible source change."
+}

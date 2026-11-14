@@ -1,0 +1,16 @@
+Friend Function ExtractNumericGroupsFromColumnsIgnoringNonNumeric(arg As Object, ByRef err As ExcelError?) As Double()()
+        err = Nothing
+
+        Dim mat As Object(,) = CoerceToObjectMatrix(arg, err)
+        If err.HasValue OrElse mat Is Nothing Then Return Nothing
+
+        Dim groups()() As Double = Nothing
+        Dim names() As String = Nothing
+        If Not TryExtractNumericGroupsFromMatrix(mat, startRow:=0, hasHeader:=False,
+                                             defaultPrefix:="Group ", groups:=groups, names:=names) Then
+            err = ExcelError.ExcelErrorValue
+            Return Nothing
+        End If
+
+        Return groups
+    End Function

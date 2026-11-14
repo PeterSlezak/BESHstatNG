@@ -1,0 +1,7 @@
+Friend Function ResolveNames(explicitNames As Object, detectedNames() As String, expectedCount As Integer, prefix As String) As String()
+            If Not IsMissingArg(explicitNames) Then
+                Dim names = Global.BESHStatNG.UdfDataImport.GetVariableNames(explicitNames, expectedCount)
+                Return Global.BESHStatNG.ExcelCommon.UdfNamePreparation38.FillExplicitNames(names, prefix)
+            End If
+            Return Global.BESHStatNG.ExcelCommon.UdfNamePreparation38.ResolveDetectedNames(detectedNames, expectedCount, prefix)
+        End Function

@@ -1,0 +1,678 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+Imports System.Globalization
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports BESHStatNG
+Imports BESHStatNG.ExcelCommon
+
+<TestClass>
+Public Class UdfPreparation38Tests
+    <TestMethod>
+    Public Sub ExplicitTextPolicyRetainsWidthCaseAndNullComparison()
+        For Each name As String In {String.Empty, "sk-SK"}
+            Dim previous As CultureInfo = CultureInfo.CurrentCulture
+            Try
+                CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(name)
+                Assert.IsTrue(LegacyUdfText38.EqualText(Nothing, String.Empty))
+                Assert.IsTrue(LegacyUdfText38.EqualText("ml", "ML"))
+                Assert.IsTrue(LegacyUdfText38.EqualText("ＭＬ", "ML"))
+                Assert.AreEqual("ML", LegacyUdfText38.CaseToken("ｍｌ", {"REML", "ML"}))
+            Finally
+                CultureInfo.CurrentCulture = previous
+            End Try
+        Next
+    End Sub
+
+    <TestMethod>
+    Public Sub MixedOptionStrictnessAndAliasDefaultsRemainDistinct()
+        Assert.AreEqual(Global.BESHStatNG.regression.MixedModelFitMethod.REML, UdfScalarUtilitiesOptions38.ParseMixedModelFitMethodStrict(String.Empty, "MMRM"))
+        Assert.AreEqual(Global.BESHStatNG.regression.MixedModelFitMethod.ML, UdfScalarUtilitiesOptions38.ParseMixedModelFitMethodStrict("maximum likelihood", "MMRM"))
+        Dim errorValue = Assert.ThrowsException(Of ArgumentException)(Sub() UdfScalarUtilitiesOptions38.ParseMixedModelFitMethodStrict("unknown", "MMRM"))
+        Assert.AreEqual("Unsupported MMRM fitMethod. Use REML or ML.", errorValue.Message)
+    End Sub
+
+    <TestMethod>
+    Public Sub NormalizationKeepsSeparateSeparatorPolicies()
+        Assert.AreEqual("AB_C", UdfScalarUtilitiesOptions38.NormalizeMatchToken(" a-b_c "))
+        Assert.AreEqual("abc", UdfScalarUtilitiesOptions38.NormalizeKey(" A-B_C "))
+        Assert.AreEqual("AR1", UdfScalarUtilitiesOptions38.NormalizeMixedModelOptionToken(" AR(1) "))
+    End Sub
+
+    <TestMethod>
+    Public Sub ReportProjectionDefensivelyCopiesValuesAndMetadata()
+        Dim raw As Object(,) = {{"Header", BitConverter.Int64BitsToDouble(Long.MinValue)}, {"Nested", New Double() {1.0, 2.0}}}
+        Dim model As New ResultTableOutputModel(raw, pvalueColumns:={2}, pvalueCells:={New ResultTableCellAddress(1, 2)})
+        Dim projection As New UdfReportProjection38(model)
+        raw(0, 0) = "changed"
+        DirectCast(raw(1, 1), Double())(0) = 99.0
+        model.PvalueColumns.Clear()
+        Dim first As ResultTableOutputModel = projection.ToOutputModel()
+        Assert.AreEqual("Header", first.Values(0, 0))
+        Assert.AreEqual(1.0, DirectCast(first.Values(1, 1), Double())(0))
+        Assert.AreEqual(Long.MinValue, BitConverter.DoubleToInt64Bits(CDbl(first.Values(0, 1))))
+        first.Values(0, 0) = "modified getter"
+        first.PvalueCells.Clear()
+        Assert.AreEqual("Header", projection.ToOutputModel().Values(0, 0))
+        Assert.AreEqual(1, projection.ToOutputModel().PvalueCells.Count)
+        Assert.AreEqual(1, projection.ToOutputModel().PvalueColumns.Count)
+    End Sub
+
+    <TestMethod>
+    Public Sub ProjectionRetainsEmptyDimensionsAndArrayBounds()
+        Dim empty As New UdfReportProjection38(New ResultTableOutputModel(New Object(-1, 2) {}))
+        Assert.AreEqual(0, empty.ToOutputModel().RowCount)
+        Assert.AreEqual(3, empty.ToOutputModel().ColumnCount)
+        Dim bounded As Array = Array.CreateInstance(GetType(Object), {2, 2}, {3, 5})
+        bounded.SetValue("source", 3, 5)
+        Dim projection As New UdfReportProjection38(New ResultTableOutputModel(DirectCast(bounded, Object(,))))
+        Assert.AreEqual(3, projection.ToOutputModel().Values.GetLowerBound(0))
+        Assert.AreEqual(5, projection.ToOutputModel().Values.GetLowerBound(1))
+    End Sub
+
+    <TestMethod>
+    Public Sub TypedReportBuildersPreserveHeaderAndObservationIdentity()
+        Dim report As UdfReportProjection38 = UdfOutputTablesReports38.BuildCaseMatrixOutput("Row", {17, 4}, {"PC1", "PC2"}, New Double(,) {{1.0, 2.0}, {3.0, 4.0}}, True)
+        Dim values As Object(,) = report.ToOutputModel().Values
+        Assert.AreEqual("Row", values(0, 0))
+        Assert.AreEqual(17, values(1, 0))
+        Assert.AreEqual(4, values(2, 0))
+        Assert.AreEqual(4.0, values(2, 2))
+        values(1, 0) = 999
+        Assert.AreEqual(17, report.ToOutputModel().Values(1, 0))
+        Assert.AreEqual(UdfReportPreparation38.NormalizeBlanks, report.Preparation)
+    End Sub
+
+    <TestMethod>
+    Public Sub NativeAndMutablePayloadsCannotEnterReportProjection()
+        Assert.ThrowsException(Of ArgumentException)(Sub()
+                                                        Dim rejected As New UdfReportProjection38(New ResultTableOutputModel(New Object(,) {{DayOfWeek.Monday}}))
+                                                    End Sub)
+        Assert.ThrowsException(Of ArgumentException)(Sub()
+                                                        Dim rejected As New UdfReportProjection38(New ResultTableOutputModel(New Object(,) {{New Object()}}))
+                                                    End Sub)
+    End Sub
+
+    <TestMethod>
+    Public Sub ExplicitSafeNumberUsesExistingTypedErrorIntent()
+        Assert.AreEqual(OutputErrorKind.InvalidNumber, UdfReportProjection38.SafeNumber(Double.NaN).ErrorKind.Value)
+        Assert.AreEqual(OutputErrorKind.InvalidNumber, UdfReportProjection38.SafeNumber(Double.PositiveInfinity).ErrorKind.Value)
+        Assert.AreEqual(Long.MinValue, BitConverter.DoubleToInt64Bits(UdfReportProjection38.SafeNumber(BitConverter.Int64BitsToDouble(Long.MinValue)).BinaryValue.Value))
+    End Sub
+
+    <TestMethod>
+    Public Sub ScalarChoicesRetainTruncationAndDistinctBooleanRules()
+        Dim binary As Integer
+        Assert.IsTrue(UdfScalarChoice38.TryBinary(0.75, Nothing, binary))
+        Assert.AreEqual(0, binary)
+        Assert.AreEqual(-1, UdfScalarChoice38.OptionalInteger(-1.9, 7))
+        Assert.IsTrue(UdfScalarChoice38.OptionalBoolean("yes", False))
+        Assert.IsFalse(UdfScalarChoice38.OptionalBoolean("unknown", False))
+        Assert.ThrowsException(Of OverflowException)(Sub() UdfScalarChoice38.OptionalInteger(Double.MaxValue, 0))
+    End Sub
+
+    <TestMethod>
+    Public Sub NumericChoicesRetainFailureResultsAndInvariantFirstParsing()
+        Dim whole As Integer = 9
+        Assert.IsFalse(UdfScalarChoice38.TryWholeNumber(1.5, whole))
+        Assert.AreEqual(0, whole)
+        Assert.IsTrue(UdfScalarChoice38.TryWholeNumber(1.00000001, whole))
+        Assert.AreEqual(1, whole)
+        Dim parsed As Double
+        Assert.IsFalse(UdfScalarChoice38.TryFiniteText("NaN", parsed))
+        Assert.IsTrue(Double.IsNaN(parsed))
+        Assert.IsTrue(UdfScalarChoice38.TryPositiveInteger(Nothing, True, whole, 4, 1))
+        Assert.AreEqual(4, whole)
+    End Sub
+
+    <TestMethod>
+    Public Sub HeaderDecisionDoesNotReadCellsBehindAnEarlyGuard()
+        Dim read As Func(Of Integer, Integer, Boolean) = Function(row, column) ThrowUnexpectedRead38()
+        Assert.IsFalse(UdfRangePreparation38.HasNumericMatrixHeader(0, 2, read, read))
+        Assert.IsFalse(UdfRangePreparation38.HasNumericColumnHeader(0, 1, read, read))
+        Assert.IsFalse(UdfRangePreparation38.HasBinaryColumnHeader(0, read))
+        Assert.IsFalse(UdfRangePreparation38.LooksLikeHeaderRow(1, {0}, read))
+        Assert.IsFalse(UdfRangePreparation38.LooksLikeSingleColumnHeader(1, read))
+    End Sub
+
+    Private Shared Function ThrowUnexpectedRead38() As Boolean
+        Throw New InvalidOperationException("An early guard must not evaluate the cell reader.")
+    End Function
+
+    <TestMethod>
+    Public Sub TrailingBlankScanRetainsBottomUpRowMajorEvaluation()
+        Dim calls As New System.Collections.Generic.List(Of String)()
+        Dim last As Integer = UdfRangePreparation38.FindLastNonBlankRow(3, 2,
+            Function(row, column)
+                calls.Add(row.ToString() & ":" & column.ToString())
+                Return row <> 1 OrElse column <> 0
+            End Function)
+        Assert.AreEqual(1, last)
+        CollectionAssert.AreEqual(New String() {"2:0", "2:1", "1:0"}, calls.ToArray())
+    End Sub
+
+    <TestMethod>
+    Public Sub NumericMatrixHeaderDistinguishesMissingDataFromLabelRow()
+        Dim blanks As Func(Of Integer, Integer, Boolean) = Function(row, column) False
+        Assert.IsTrue(UdfRangePreparation38.HasNumericMatrixHeader(1, 2, blanks, Function(row, column) row = 1))
+        Assert.IsFalse(UdfRangePreparation38.HasNumericMatrixHeader(1, 2, blanks, Function(row, column) row = 1 OrElse column = 1))
+    End Sub
+
+    <TestMethod>
+    Public Sub PvalueAddressIntentRetainsOrderAndDuplicateCells()
+        Dim model As New ResultTableOutputModel(New Object(2, 1) {}, headerTopRows:=1,
+            pvalueColumns:={2}, pvalueCells:={New ResultTableCellAddress(1, 2)})
+        Dim cells As UdfSpillCell38() = UdfSpillPreparation38.PvalueCells(model, 3, 2)
+        Assert.AreEqual(3, cells.Length)
+        Assert.AreEqual(1, cells(0).RowOrdinal)
+        Assert.AreEqual(2, cells(1).RowOrdinal)
+        Assert.AreEqual(1, cells(2).RowOrdinal)
+        Assert.AreEqual(1, cells(2).ColumnOrdinal)
+        cells(0) = Nothing
+        Assert.IsNotNull(UdfSpillPreparation38.PvalueCells(model, 3, 2)(0))
+    End Sub
+
+    <TestMethod>
+    Public Sub NativeScalarReferencesUseSourceOrdinalRatherThanWorksheetRows()
+        Dim projection As UdfReportProjection38 = UdfSpillPreparation38.TwoValueTable("Test", "Statistic", "P-value")
+        Dim model As ResultTableOutputModel = projection.ToOutputModel()
+        Assert.AreEqual(0, DirectCast(model.Values(1, 1), UdfSourceCellReference38).SourceOrdinal)
+        Assert.AreEqual(1, DirectCast(model.Values(2, 1), UdfSourceCellReference38).SourceOrdinal)
+        Assert.AreEqual(1, UdfSpillPreparation38.PvalueCells(model, 3, 2).Length)
+        Assert.IsTrue(UdfSpillPreparation38.IsPValueLabel("Two-sided p-value"))
+        Assert.IsFalse(UdfSpillPreparation38.IsPValueLabel("Estimate"))
+    End Sub
+
+    <TestMethod>
+    Public Sub ParameterNamePoliciesKeepTheirDifferentFallbackRules()
+        CollectionAssert.AreEqual(New String() {"X1"}, MixedModelUDFsMetadata38.NormalizeMmrmNameList({"X1"}, 1, "Z"))
+        CollectionAssert.AreEqual(New String() {"Z1"}, LmmUDFsMetadata38.NormalizeNameList({"X1"}, 1, "Z"))
+        CollectionAssert.AreEqual(New String() {"Intercept", "x", "Param3"}, GEEUDFsMetadata38.BuildParameterNames({"x"}, 3))
+    End Sub
+
+    <TestMethod>
+    Public Sub FormulaDiagnosticKeepsQuotedFragmentAndCharacterOrdinal()
+        Dim fragment As String = Nothing
+        Dim position As Integer
+        Assert.IsTrue(RegressionFormulaUDFsMetadata38.TryLocateOffendingFragment("y ~ 'a b'", "Unknown variable 'a b'", fragment, position))
+        Assert.AreEqual("'a b'", fragment)
+        Assert.AreEqual(4, position)
+    End Sub
+
+    <TestMethod>
+    Public Sub GroupExtractionNamesOnlyNonemptyColumnsInAcceptedOrder()
+        Dim values As Double?(,) = {{1.0, Nothing, 7.0}, {2.0, Nothing, Nothing}}
+        Dim groups As Double()() = Nothing
+        Dim names As String() = Nothing
+        Assert.IsTrue(UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix(2, 3, 0, False, "Group ",
+            Function(row, column) values(row, column), Function(row, column) "unused", groups, names))
+        CollectionAssert.AreEqual(New String() {"Group 1", "Group 2"}, names)
+        CollectionAssert.AreEqual(New Double() {1.0, 2.0}, groups(0))
+        CollectionAssert.AreEqual(New Double() {7.0}, groups(1))
+    End Sub
+
+    <TestMethod>
+    Public Sub CompleteCaseImportRetainsLegacySmallSampleShape()
+        Dim matrix As Double(,) = Nothing
+        Dim rows As Integer
+        Dim columns As Integer
+        Assert.IsTrue(UdfNumericImportPreparation38.ExtractCompleteNumericMatrixCompleteCases(1, 2,
+            Function(row, column) CType(column + 1.0, Double?), matrix, rows, columns))
+        Assert.AreEqual(1, rows)
+        Assert.AreEqual(2, columns)
+        Assert.IsNull(matrix)
+    End Sub
+
+    <TestMethod>
+    Public Sub StrictVectorSkipsOneHeaderTrimsOnlyTrailingBlanksAndRejectsInteriorGaps()
+        Dim cells As Double?() = {Nothing, 2.0, 3.0, Nothing}
+        Dim result As Double() = Nothing
+        Assert.IsTrue(UdfNumericImportPreparation38.TryStrictVector(4, Function(index) index = 3, Function(index) cells(index), result))
+        CollectionAssert.AreEqual(New Double() {2.0, 3.0}, result)
+        cells(3) = 4.0
+        Assert.IsFalse(UdfNumericImportPreparation38.TryStrictVector(4, Function(index) index = 2, Function(index) cells(index), result))
+        Assert.IsNull(result)
+    End Sub
+
+    <TestMethod>
+    Public Sub NonparametricChoicesRetainSeparateUnknownOptionPolicies()
+        Dim result As Integer
+        Assert.IsTrue(UdfScalarChoice38.TryKwType(" H_COR ", False, result))
+        Assert.AreEqual(1, result)
+        Assert.IsFalse(UdfScalarChoice38.TryKwType("unknown", True, result))
+        Assert.AreEqual(0, result)
+        Assert.AreEqual(1, UdfScalarChoice38.FriedmanType("unknown", False))
+        Assert.AreEqual(2, UdfScalarChoice38.FriedmanType("", False))
+    End Sub
+
+    <TestMethod>
+    Public Sub AlphaParsingPreservesParsedValueOnRejectedBoundary()
+        Dim alpha As Double = 0.05
+        Assert.IsFalse(UdfScalarChoice38.TryAlphaText("1", alpha))
+        Assert.AreEqual(1.0, alpha)
+        Assert.IsFalse(UdfScalarChoice38.IsOpenProbability(Double.NaN))
+        Assert.IsTrue(UdfScalarChoice38.TryAlphaText("0.025", alpha))
+        Assert.AreEqual(0.025, alpha)
+    End Sub
+
+    <TestMethod>
+    Public Sub PositiveClassHonorsExplicitLabelWithoutReadingTheData()
+        Dim result As String = Nothing
+        Assert.IsTrue(UdfClassLabelPreparation38.GuessPositiveClass("yes", Function() ThrowUnexpectedCount38(),
+            Function(index) "unused", Function(index) False, result))
+        Assert.AreEqual("yes", result)
+    End Sub
+
+    Private Shared Function ThrowUnexpectedCount38() As Integer
+        Throw New InvalidOperationException("Explicit label must return before acquiring data dimensions.")
+    End Function
+
+    <TestMethod>
+    Public Sub PositiveClassRetainsEmptyBinaryAndFirstSeenFallbackSemantics()
+        Dim result As String = Nothing
+        Assert.IsTrue(UdfClassLabelPreparation38.GuessPositiveClass(Nothing, Function() 0, Function(index) "unused", Function(index) False, result))
+        Assert.AreEqual("1", result)
+        Dim labels As String() = {"control", "treated", "control"}
+        Assert.IsTrue(UdfClassLabelPreparation38.GuessPositiveClass(Nothing, Function() 3, Function(index) labels(index), Function(index) False, result))
+        Assert.AreEqual("control", result)
+    End Sub
+
+    <TestMethod>
+    Public Sub SpillStackKeepsIdentityPaddingAndCellReferences()
+        Dim marker As New Object()
+        Dim a As Object(,) = {{marker, 2.0}}
+        Dim b As Object(,) = {{"B"}, {DBNull.Value}}
+        Assert.AreSame(a, UdfSpillPreparation38.StackWithBlankRow(a, Nothing))
+        Assert.AreSame(b, UdfSpillPreparation38.StackWithBlankRow(Nothing, b))
+        Assert.IsNull(UdfSpillPreparation38.StackWithBlankRow(Nothing, Nothing))
+        Dim combined = UdfSpillPreparation38.StackWithBlankRow(a, b)
+        Assert.AreEqual(4, combined.GetLength(0))
+        Assert.AreEqual(2, combined.GetLength(1))
+        Assert.AreEqual(0, combined.GetLowerBound(0))
+        Assert.AreSame(marker, combined(0, 0))
+        Assert.IsNull(combined(1, 0)) : Assert.IsNull(combined(1, 1))
+        Assert.AreEqual("B", combined(2, 0)) : Assert.IsNull(combined(2, 1))
+        Assert.AreSame(DBNull.Value, combined(3, 0))
+        combined(0, 0) = "changed"
+        Assert.AreSame(marker, a(0, 0))
+        Dim empty = UdfSpillPreparation38.StackWithBlankRow(New Object(-1, 0) {}, New Object(-1, 1) {})
+        Assert.AreEqual(1, empty.GetLength(0)) : Assert.AreEqual(2, empty.GetLength(1))
+    End Sub
+
+    <TestMethod>
+    Public Sub BlankProjectionDoesNotCoerceCellsAndKeepsOriginalBoundsFailure()
+        Dim marker As New Object()
+        Dim negativeZero As Double = BitConverter.Int64BitsToDouble(Long.MinValue)
+        Dim original As Object(,) = {{Nothing, DBNull.Value, marker, negativeZero, Double.NaN}}
+        Dim result = UdfSpillPreparation38.NormalizeBlanks(original)
+        Assert.AreNotSame(original, result)
+        Assert.AreEqual(String.Empty, result(0, 0)) : Assert.AreEqual(String.Empty, result(0, 1))
+        Assert.AreSame(marker, result(0, 2))
+        Assert.AreEqual(Long.MinValue, BitConverter.DoubleToInt64Bits(CDbl(result(0, 3))))
+        Assert.IsTrue(Double.IsNaN(CDbl(result(0, 4))))
+        Assert.IsNull(original(0, 0)) : Assert.AreSame(DBNull.Value, original(0, 1))
+        Assert.IsNull(UdfSpillPreparation38.NormalizeBlanks(New Object() {1.0}))
+        Assert.IsNull(UdfSpillPreparation38.NormalizeBlanks(Nothing))
+        Dim shifted = DirectCast(Array.CreateInstance(GetType(Object), {1, 1}, {1, 1}), Object(,))
+        Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() UdfSpillPreparation38.NormalizeBlanks(shifted))
+        Assert.AreSame(shifted, UdfSpillPreparation38.StackWithBlankRow(shifted, Nothing))
+        Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() UdfSpillPreparation38.StackWithBlankRow(shifted, original))
+    End Sub
+
+    <TestMethod>
+    Public Sub SpillCoordinateSurfaceContainsOnlyCoordinates()
+        Dim t = GetType(UdfSpillCell38)
+        Assert.AreEqual(0, t.GetMethods(System.Reflection.BindingFlags.Public Or System.Reflection.BindingFlags.Static Or System.Reflection.BindingFlags.DeclaredOnly).Length)
+        Assert.AreEqual(2, t.GetProperties().Length)
+        Assert.IsFalse(t.GetProperty("RowOrdinal").CanWrite)
+        Assert.IsFalse(t.GetProperty("ColumnOrdinal").CanWrite)
+        Dim cell As New UdfSpillCell38(4, 7)
+        Assert.AreEqual(4, cell.RowOrdinal) : Assert.AreEqual(7, cell.ColumnOrdinal)
+        Assert.IsNotNull(GetType(UdfSpillPreparation38).GetMethod("StackWithBlankRow"))
+        Assert.IsNotNull(GetType(UdfSpillPreparation38).GetMethod("NormalizeBlanks"))
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub NameOwnershipAndFallbackOrderStayDistinct(cultureName As String)
+        Dim prior = CultureInfo.CurrentCulture, priorUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim explicit As String() = {Nothing, " padded ", " "}
+            Assert.AreSame(explicit, UdfNamePreparation38.FillExplicitNames(explicit, "Group"))
+            CollectionAssert.AreEqual(New String() {"Group 1", " padded ", "Group 3"}, explicit)
+            Dim detected As String() = {Nothing, " padded ", " "}
+            Dim copied = UdfNamePreparation38.ResolveDetectedNames(detected, 3, "Condition")
+            Assert.AreNotSame(detected, copied)
+            CollectionAssert.AreEqual(New String() {"Condition 1", " padded ", "Condition 3"}, copied)
+            Assert.IsNull(detected(0)) : Assert.AreEqual(" ", detected(2))
+            CollectionAssert.AreEqual(New String() {" 1", " 2"}, UdfNamePreparation38.ResolveDetectedNames({"one"}, 2, Nothing))
+            Dim empty As String() = {}
+            Assert.AreSame(empty, UdfNamePreparation38.FillExplicitNames(empty, "unused"))
+            Assert.AreNotSame(empty, UdfNamePreparation38.ResolveDetectedNames(empty, 0, "unused"))
+            Assert.ThrowsException(Of NullReferenceException)(Sub() UdfNamePreparation38.FillExplicitNames(Nothing, "Group"))
+            Assert.ThrowsException(Of OverflowException)(Sub() UdfNamePreparation38.ResolveDetectedNames(Nothing, -1, "Group"))
+            Assert.ThrowsException(Of OverflowException)(Sub() UdfNamePreparation38.ResolveDetectedNames(Nothing, Integer.MinValue, "Group"))
+        Finally
+            CultureInfo.CurrentCulture = prior : CultureInfo.CurrentUICulture = priorUi
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub NameParsingDoesNotAcquireUnusedHostInputs()
+        For Each count As Integer In {0, -1, Integer.MinValue}
+            Assert.AreEqual(0, UdfNamePreparation38.GetVariableNames(count, Nothing, Nothing, Nothing).Length)
+        Next
+        CollectionAssert.AreEqual(New String() {"X1", "X2"}, UdfNamePreparation38.GetVariableNames(2, Function() True, Nothing, Nothing))
+        CollectionAssert.AreEqual(New String() {"a", "b"}, UdfNamePreparation38.GetVariableNames(2, Function() False, Function() " a,, b ", Nothing))
+        CollectionAssert.AreEqual(New String() {"a", "X2"}, UdfNamePreparation38.GetVariableNames(2, Function() False, Function() "a, ", Nothing))
+    End Sub
+
+    <TestMethod>
+    Public Sub NameRangeTraversesBeforeMismatchAndKeepsRowPriority()
+        Dim events As New System.Collections.Generic.List(Of String)()
+        Dim range As New UdfVariableNameRange38(1, 3, Function(row, column)
+                                                         events.Add(row.ToString() & ":" & column.ToString())
+                                                         Return "name"
+                                                     End Function)
+        Dim result = UdfNamePreparation38.GetVariableNames(2, Function() False, Function() Nothing, Function() range)
+        CollectionAssert.AreEqual(New String() {"X1", "X2"}, result)
+        CollectionAssert.AreEqual(New String() {"0:0", "0:1", "0:2"}, events.ToArray())
+        Dim columnRange As New UdfVariableNameRange38(2, 1, Function(row, col) If(row = 0, "first", " "))
+        CollectionAssert.AreEqual(New String() {"first", "X2"}, UdfNamePreparation38.GetVariableNames(2, Function() False, Function() Nothing, Function() columnRange))
+        Dim unreadable As New UdfVariableNameRange38(2, 2, Nothing)
+        CollectionAssert.AreEqual(New String() {"X1"}, UdfNamePreparation38.GetVariableNames(1, Function() False, Function() Nothing, Function() unreadable))
+        Dim throws As New UdfVariableNameRange38(1, 2, Function(row, col) ThrowNameConversion38())
+        Assert.ThrowsException(Of InvalidOperationException)(Sub() UdfNamePreparation38.GetVariableNames(1, Function() False, Function() Nothing, Function() throws))
+    End Sub
+
+    Private Shared Function ThrowNameConversion38() As String
+        Throw New InvalidOperationException("name conversion stopped")
+    End Function
+
+    <DataTestMethod> <DataRow("")> <DataRow("sk-SK")>
+    Public Sub AnovaReportContractsRetainEngineOrderAndMetadata(cultureName As String)
+        Dim old = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = If(cultureName = "", CultureInfo.InvariantCulture, New CultureInfo(cultureName))
+            Dim data As Double()() = {New Double() {1, 2, 4, 5}, New Double() {3, 4, 6, 7}, New Double() {5, 8, 9, 12}}
+            Dim names = New String() {" A ", "B", "C"}
+            Dim model = ParametricUdfReports38.BuildWelchAnovaTable(data, names).ToOutputModel()
+            Assert.AreEqual(1, model.HeaderTopRows)
+            Assert.AreEqual(1, model.HeaderLeftColumns)
+            Assert.AreEqual(2, model.Values(1, 1))
+            Assert.AreEqual(GetType(Integer), model.Values(1, 1).GetType())
+            Assert.AreEqual(GetType(Double), model.Values(1, 2).GetType())
+            CollectionAssert.AreEqual(New Integer() {4}, model.PvalueColumns)
+            Dim stack As Boolean = False
+            Dim all = ParametricUdfReports38.BuildOneWayMcpTables(data, names, "ALL", 0.05, stack)
+            Assert.IsTrue(stack)
+            Assert.AreEqual(5, all.Count)
+            Dim selected = ParametricUdfReports38.BuildOneWayMcpTables(data, names, "GH", 0.05, stack)
+            Assert.IsFalse(stack)
+            Assert.AreEqual(2, selected.Count)
+            Assert.IsNull(ParametricUdfReports38.BuildOneWayMcpTables(data, names, "invalid", 0.05, stack))
+            stack = True
+            Assert.ThrowsException(Of NullReferenceException)(Sub() ParametricUdfReports38.BuildOneWayMcpTables(Nothing, names, "invalid", 0.05, stack))
+            Assert.IsTrue(stack)
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub CellConversion38RetainsLegacyRoundingAndTypeDomains(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Assert.AreEqual("a", UdfCellConversion38.CellToTrimmedText(" " & vbTab & "a" & ChrW(&HA0)))
+            Assert.AreEqual("", UdfCellConversion38.CellToTrimmedText(DBNull.Value))
+            Assert.AreEqual("True", UdfCellConversion38.CellToTrimmedText(True))
+            Assert.AreEqual("0.5", UdfCellConversion38.CellToTrimmedText(0.5R))
+            Assert.AreEqual("0", UdfCellConversion38.CellToTrimmedText(-0.0R))
+            Assert.AreEqual("0", UdfCellConversion38.CellToTrimmedText(0.0000000000004R))
+            Assert.AreEqual("18446744073709551615", UdfCellConversion38.CellToTrimmedText(ULong.MaxValue))
+            For Each value As Object In {Double.NaN, Double.PositiveInfinity, Single.NegativeInfinity}
+                Assert.AreEqual("", UdfCellConversion38.CellToTrimmedText(value))
+            Next
+            Assert.ThrowsException(Of OverflowException)(Sub() UdfCellConversion38.CellToTrimmedText(Long.MaxValue))
+            Assert.ThrowsException(Of OverflowException)(Sub() UdfCellConversion38.CellToTrimmedText(Double.MaxValue))
+            Dim input As Object(,) = {{1.0R, "x"}}
+            Assert.AreEqual("System.Object[,]", UdfCellConversion38.CellToTrimmedText(CType(input, Object)))
+            Assert.AreEqual(1.0R, input(0, 0))
+            Assert.AreEqual("x", input(0, 1))
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub UncaughtNumericConversion38PreservesCultureAndFailureBoundary(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Assert.AreEqual(1.25R, UdfCellConversion38.ConvertFiniteNumber(1.25D).Value)
+            Assert.AreEqual(Convert.ToDouble("1,5"), UdfCellConversion38.ConvertFiniteNumber("1,5").Value)
+            Assert.IsFalse(UdfCellConversion38.ConvertFiniteNumber(Double.NaN).HasValue)
+            Assert.IsFalse(UdfCellConversion38.ConvertFiniteNumber(Double.PositiveInfinity).HasValue)
+            Assert.ThrowsException(Of InvalidCastException)(Sub() UdfCellConversion38.ConvertFiniteNumber(DBNull.Value))
+            Assert.ThrowsException(Of InvalidCastException)(Sub() UdfCellConversion38.ConvertFiniteNumber(New Object(,) {{1}}))
+            Assert.ThrowsException(Of InvalidCastException)(Sub() UdfCellConversion38.ConvertFiniteNumber(DateTime.MinValue))
+            For Each code As TypeCode In [Enum].GetValues(GetType(TypeCode))
+                Dim expected As Boolean = code >= TypeCode.SByte AndAlso code <= TypeCode.Decimal
+                Assert.AreEqual(expected, UdfCellConversion38.IsNumericTypeCode(code), code.ToString())
+            Next
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub GroupedImport38PreservesColumnCompactionAndLazyHeaderOrder()
+        Dim calls As New List(Of String)()
+        Dim groups()() As Double = {New Double() {99}}
+        Dim names() As String = {"old"}
+        Dim read As Func(Of Integer, Integer, Double?) =
+            Function(row, column)
+                calls.Add("n" & row.ToString() & column.ToString())
+                If column = 1 OrElse row = 2 Then Return Nothing
+                Return CDbl(10 * column + row)
+            End Function
+        Dim text As Func(Of Integer, Integer, String) =
+            Function(row, column)
+                calls.Add("t" & row.ToString() & column.ToString())
+                Return "H" & column.ToString()
+            End Function
+        Assert.IsTrue(UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix(3, 3, 1, True, "Group ", read, text, groups, names))
+        CollectionAssert.AreEqual(New String() {"H0", "H2"}, names)
+        CollectionAssert.AreEqual(New Double() {1}, groups(0))
+        CollectionAssert.AreEqual(New Double() {21}, groups(1))
+        CollectionAssert.AreEqual(New String() {"n10", "n20", "t00", "n11", "n21", "n12", "n22", "t02"}, calls.ToArray())
+        Dim fail As Func(Of Integer, Integer, String) =
+            Function(row, column)
+                Throw New FormatException("header")
+            End Function
+        Assert.ThrowsException(Of FormatException)(Sub() UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix(3, 3, 1, True, "", read, fail, groups, names))
+        Assert.IsNull(groups)
+        Assert.IsNull(names)
+    End Sub
+
+    <TestMethod>
+    Public Sub PreparedPhases38KeepCallerStateAndExistingApisKeepEntryReset()
+        Dim value As Integer = 17
+        Assert.IsFalse(UdfScalarChoice38.TryBinaryPrepared(2.25R, Nothing, value))
+        Assert.AreEqual(17, value)
+        Assert.IsFalse(UdfScalarChoice38.TryBinary(2.25R, Nothing, value))
+        Assert.AreEqual(-1, value)
+        value = 17
+        Assert.IsFalse(UdfScalarChoice38.TryWholeNumberPrepared(2.25R, value))
+        Assert.AreEqual(17, value)
+        Assert.IsFalse(UdfScalarChoice38.TryWholeNumber(2.25R, value))
+        Assert.AreEqual(0, value)
+        value = 17
+        Assert.IsFalse(UdfScalarChoice38.TryPositiveIntegerPrepared(2.25R, value, 1))
+        Assert.AreEqual(17, value)
+        Assert.IsFalse(UdfScalarChoice38.TryPositiveInteger(2.25R, False, value, 10, 1))
+        Assert.AreEqual(10, value)
+        Dim groups As New List(Of Double(,)) From {New Double(,) {{17.0R}}}
+        Dim names As New List(Of String) From {"seed"}
+        Dim seedGroups = groups
+        Dim seedNames = names
+        Assert.IsFalse(UdfNumericImportPreparation38.TryGetGroupedCompleteMatrixPrepared(Nothing, Nothing, Nothing, Nothing, Nothing, groups, names))
+        Assert.AreSame(seedGroups, groups)
+        Assert.AreSame(seedNames, names)
+        Assert.IsFalse(UdfNumericImportPreparation38.TryGetGroupedCompleteMatrix(Nothing, Nothing, Nothing, Nothing, Nothing, groups, names))
+        Assert.IsNull(groups)
+        Assert.IsNull(names)
+        Dim data As Object(,) = {{17}}
+        Dim nestedNames As String() = {"seed"}
+        Dim seedData = data
+        Dim seedNested = nestedNames
+        Assert.IsFalse(UdfNumericImportPreparation38.TryGetNestedThreeColumnDataPrepared(Nothing, Nothing, Nothing, data, nestedNames))
+        Assert.AreSame(seedData, data)
+        Assert.AreSame(seedNested, nestedNames)
+        Assert.IsFalse(UdfNumericImportPreparation38.TryGetNestedThreeColumnData(Nothing, Nothing, Nothing, data, nestedNames))
+        Assert.IsNull(data)
+        Assert.IsNull(nestedNames)
+    End Sub
+
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub IndependentImport38KeepsCallbackOrderAndPostGroupNameFailure(culture As String)
+        Dim old = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Dim trace As New System.Collections.Generic.List(Of String)()
+            Dim groups()() As Double = Nothing
+            Dim names() As String = {"entry"}
+            Dim numericX As Func(Of Integer, Double?) = Function(row)
+                trace.Add("x" & row.ToString())
+                names = {"callback"}
+                Return If(row = 1, CType(2.0R, Double?), Nothing)
+            End Function
+            Dim numericY As Func(Of Integer, Double?) = Function(row)
+                trace.Add("y" & row.ToString())
+                Return row + 10.0R
+            End Function
+            Dim textX As Func(Of String) = Function()
+                Assert.AreEqual(2, groups.Length)
+                trace.Add("nameX")
+                Throw New FormatException("name failed after values")
+            End Function
+            Assert.ThrowsException(Of FormatException)(Sub() UdfNumericImportPreparation38.TryReadIndependentNumericColumnsPrepared(
+                3, 2, 1, 0, True, False, numericX, numericY, textX, Function() "unused", groups, names))
+            CollectionAssert.AreEqual(New String() {"x1", "x2", "y0", "y1", "nameX"}, trace)
+            CollectionAssert.AreEqual(New Double() {2.0R}, groups(0))
+            CollectionAssert.AreEqual(New Double() {10.0R, 11.0R}, groups(1))
+            CollectionAssert.AreEqual(New String() {"callback"}, names)
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub Probability38DeduplicationComparesAdjacentSortedInputs()
+        Dim input() As Double = {0.5R + 0.0000000000015R, 0.5R, 0.5R + 0.00000000000075R}
+        Dim output() As Double = {99.0R}
+        Assert.IsTrue(UdfNumericImportPreparation38.TryReadProbabilityThresholdsPrepared(1, input.Length,
+            Function(row, column, values)
+                values.Add(input(column))
+                Return True
+            End Function, output))
+        CollectionAssert.AreEqual(New Double() {0.5R}, output)
+        CollectionAssert.AreEqual(New Double() {0.5R + 0.0000000000015R, 0.5R, 0.5R + 0.00000000000075R}, input)
+        Dim sentinel = New Double() {17.0R}
+        output = sentinel
+        Assert.IsFalse(UdfNumericImportPreparation38.TryReadProbabilityThresholdsPrepared(2, 2,
+            Function(row, column, values) ThrowUnexpectedProbabilityCallback38(), output))
+        Assert.AreSame(sentinel, output)
+    End Sub
+
+    Private Shared Function ThrowUnexpectedProbabilityCallback38() As Boolean
+        Throw New InvalidOperationException("shape must reject before callback")
+    End Function
+
+    <TestMethod>
+    Public Sub CompleteMatrix38PreparedPhaseRetainsAcquisitionReentryWhilePublicApiResets()
+        Dim original As Double(,) = {{17.0R, 18.0R}}
+        Dim matrix As Double(,) = original
+        Dim rows As Integer = 17, columns As Integer = 18
+        Assert.IsTrue(UdfNumericImportPreparation38.ExtractCompleteNumericMatrixCompleteCasesPrepared(
+            0, 2, Function(row, column) CType(Nothing, Double?), matrix, rows, columns))
+        Assert.AreSame(original, matrix)
+        Assert.AreEqual(0, rows)
+        Assert.AreEqual(2, columns)
+        Assert.IsTrue(UdfNumericImportPreparation38.ExtractCompleteNumericMatrixCompleteCases(
+            0, 2, Function(row, column) CType(Nothing, Double?), matrix, rows, columns))
+        Assert.IsNull(matrix)
+        matrix = original
+        Dim names() As String = Nothing
+        Assert.IsFalse(UdfNumericImportPreparation38.TryReadCompleteNumericMatrixWithHeadersPrepared(
+            0, 2, Function(row, column) CType(Nothing, Double?), Function(row, column) "unused", matrix, names))
+        Assert.AreSame(original, matrix)
+        CollectionAssert.AreEqual(New String() {"Condition 1", "Condition 2"}, names)
+        Assert.IsFalse(UdfNumericImportPreparation38.TryReadCompleteNumericMatrixWithHeaders(
+            0, 2, Function(row, column) CType(Nothing, Double?), Function(row, column) "unused", matrix, names))
+        Assert.IsNull(matrix)
+    End Sub
+
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub Inference38KeepsReportChoicesNamesAndPairOwnership(culture As String)
+        Dim old = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Assert.AreEqual(0, UdfInferencePreparation38.NestedTableSelection("BOTH"))
+            Assert.AreEqual(1, UdfInferencePreparation38.NestedTableSelection("CLASSICAL"))
+            Assert.AreEqual(2, UdfInferencePreparation38.NestedTableSelection("SW"))
+            Assert.AreEqual(-1, UdfInferencePreparation38.NestedTableSelection("unknown"))
+            Assert.AreEqual(If(culture = "sk-SK", -1, 2), UdfInferencePreparation38.IndependentTTableSelection("ＷＥＬＣＨ"))
+            CollectionAssert.AreEqual(New String() {"G1", "G2", "G3"}, UdfInferencePreparation38.KruskalGroupNames(3))
+            CollectionAssert.AreEqual(New String() {"G1", "G2", "G3"}, UdfInferencePreparation38.FriedmanGroupNames(3))
+            Dim pairs As Double(,) = {{1.0R, 9.0R}, {3.0R, 2.0R}, {7.0R, 5.0R}}
+            Dim x() As Double = Nothing, y() As Double = Nothing
+            UdfInferencePreparation38.SplitCorrelationColumns(pairs, x, y)
+            CollectionAssert.AreEqual(New Double() {1.0R, 3.0R, 7.0R}, x)
+            CollectionAssert.AreEqual(New Double() {9.0R, 2.0R, 5.0R}, y)
+            x(0) = 99.0R
+            Assert.AreEqual(1.0R, pairs(0, 0))
+            Dim lower = DirectCast(Array.CreateInstance(GetType(Double), {2, 2}, {1, 1}), Double(,))
+            Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() UdfInferencePreparation38.SplitCorrelationColumns(lower, x, y))
+            Assert.AreEqual(2, x.Length)
+            Assert.AreEqual(2, y.Length)
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub Inference38MeanReportBodiesKeepLabelsRawNumbersAndCiHelpers()
+        Dim a() As Double = {1.0R, 2.0R, 4.0R, 8.0R}
+        Dim b() As Double = {2.0R, 4.0R, 7.0R, 11.0R}
+        Dim ni = Global.BESHStatNG.equivalencetests.EquivalenceNonInferiorityMethods.TestUnpairedMeansNonInferiority(a, b, 1.0R, 0.025R, False)
+        Dim body = UdfInferencePreparation38.MeanNonInferiorityBody(ni, {"Control", "Trial"})
+        Assert.AreEqual(22, body.GetLength(0))
+        Assert.AreEqual(2, body.GetLength(1))
+        Assert.AreEqual("Control", body(0, 1))
+        Assert.AreEqual("Trial", body(1, 1))
+        Assert.AreEqual("One-sided p-value", body(14, 0))
+        Assert.AreEqual(ni.PValue, body(14, 1))
+        Assert.AreEqual(UdfOutputTablesReports38.SafeCiLabel(ni.TwoSidedEquivalentConfidenceInterval), body(16, 0))
+        Assert.ThrowsException(Of ArgumentOutOfRangeException)(Sub() Global.BESHStatNG.equivalencetests.EquivalenceNonInferiorityMethods.TestUnpairedMeansEquivalence(a, b, -2.0R, 2.0R, 0.025R, False))
+        Dim eq = Global.BESHStatNG.equivalencetests.EquivalenceNonInferiorityMethods.TestUnpairedMeansEquivalence(a, b, -4.0R, 4.0R, 0.025R, False)
+        body = UdfInferencePreparation38.MeanEquivalenceBody(eq, {"Control", "Trial"})
+        Assert.AreEqual(25, body.GetLength(0))
+        Assert.AreEqual(eq.TostPValue, body(17, 1))
+        Assert.AreEqual("Conclusion", body(24, 0))
+    End Sub
+
+End Class

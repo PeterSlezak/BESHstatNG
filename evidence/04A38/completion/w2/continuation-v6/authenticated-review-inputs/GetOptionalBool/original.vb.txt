@@ -1,0 +1,14 @@
+Public Function GetOptionalBool(v As Object, defaultValue As Boolean) As Boolean
+            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
+            If TypeOf v Is Boolean Then Return CBool(v)
+            Dim s As String = Convert.ToString(v).Trim()
+            If String.IsNullOrEmpty(s) Then Return defaultValue
+            Select Case s.ToLowerInvariant()
+                Case "true", "t", "yes", "y", "1"
+                    Return True
+                Case "false", "f", "no", "n", "0"
+                    Return False
+                Case Else
+                    Return defaultValue
+            End Select
+        End Function

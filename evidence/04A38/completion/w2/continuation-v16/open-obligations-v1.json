@@ -1,0 +1,317 @@
+{
+  "blocked": {
+    "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@6597:322": {
+      "reason": "UNPROVED_ORIGINAL_FALLBACK_RECONVERSION: original NormalizeMixedModelOptionToken invokes AsString(arg), then unknown nonempty token invokes AsString(arg) a second time; current wrapper converts once before Common. Arbitrary Object conversion may be stateful or throw on second invocation. No archived original execution permitted; this helper and transitive parents must remain OPEN pending bounded decision.",
+      "direct": true,
+      "unresolved_current_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@6597:322"
+    },
+    "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|25db4fbfc139db6c@10149:19201": {
+      "reason": "Unresolved genuine outbound dependency; parent remains OPEN",
+      "direct": false,
+      "unresolved_current_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@6597:322",
+      "compiled_method": "BESHStatNG.UdfScalarUtilities @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeMixedModelResidualCovarianceName(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+    }
+  },
+  "source_obligations": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@11023:1530",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@6597:322",
+      "name": "NormalizeMixedModelResidualCovarianceName",
+      "reason": "UNPROVED_ORIGINAL_FALLBACK_RECONVERSION: original NormalizeMixedModelOptionToken invokes AsString(arg), then unknown nonempty token invokes AsString(arg) a second time; current wrapper converts once before Common. Arbitrary Object conversion may be stateful or throw on second invocation. No archived original execution permitted; this helper and transitive parents must remain OPEN pending bounded decision."
+    }
+  ],
+  "selected58": [
+    {
+      "ordinal": 1,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|250a00c96963749f@76028:7950",
+      "supported": true
+    },
+    {
+      "ordinal": 2,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|6354f4c72882a598@86334:405",
+      "supported": true
+    },
+    {
+      "ordinal": 3,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|2083976c680ad5d9@103712:1884",
+      "supported": true
+    },
+    {
+      "ordinal": 4,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|9dfa836c95f56a69@105606:588",
+      "supported": true
+    },
+    {
+      "ordinal": 5,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|8b2f24168cad46d9@106204:692",
+      "supported": true
+    },
+    {
+      "ordinal": 6,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|9af7fa1eae0f5e6c@106906:256",
+      "supported": true
+    },
+    {
+      "ordinal": 7,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SingleLineFunctionLambdaExpression|428d1e4fd4aba8cd@107092:37",
+      "supported": true
+    },
+    {
+      "ordinal": 8,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb|BESHStatNG.WorksheetFunctions.GLMNbUDFs|FunctionBlock|4891274129715627@9810:10706",
+      "supported": true
+    },
+    {
+      "ordinal": 9,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb|BESHStatNG.WorksheetFunctions.GLMNbUDFs|FunctionBlock|54b24a79c977b856@22147:3439",
+      "supported": true
+    },
+    {
+      "ordinal": 10,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb|BESHStatNG.WorksheetFunctions.GLMNbUDFs|FunctionBlock|44542fceed15653a@27194:3284",
+      "supported": true
+    },
+    {
+      "ordinal": 11,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb|BESHStatNG.WorksheetFunctions.GLMNbUDFs|FunctionBlock|2fab7feade1a6597@31945:2706",
+      "supported": true
+    },
+    {
+      "ordinal": 12,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb|BESHStatNG.WorksheetFunctions.GLMNbUDFs|FunctionBlock|d79f57da0c4d4f40@36276:5008",
+      "supported": true
+    },
+    {
+      "ordinal": 13,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb|BESHStatNG.WorksheetFunctions.GLMNbUDFs|FunctionBlock|6f13aeaf87314c57@42684:937",
+      "supported": true
+    },
+    {
+      "ordinal": 14,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|d7242ffcfa929151@12068:11651",
+      "supported": true
+    },
+    {
+      "ordinal": 15,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|1a28ab1e5f9607c0@25706:3425",
+      "supported": true
+    },
+    {
+      "ordinal": 16,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|2290f3cb868d9afd@30886:3378",
+      "supported": true
+    },
+    {
+      "ordinal": 17,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|dd747d13379e1c4e@36329:2690",
+      "supported": true
+    },
+    {
+      "ordinal": 18,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|1442d93dc14d4bcc@41290:4990",
+      "supported": true
+    },
+    {
+      "ordinal": 19,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|51d3658abb64d4ed@49432:2162",
+      "supported": true
+    },
+    {
+      "ordinal": 20,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|66e4a6ed1d924e62@53874:2242",
+      "supported": true
+    },
+    {
+      "ordinal": 21,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|f559aeaa536e0523@58532:2457",
+      "supported": true
+    },
+    {
+      "ordinal": 22,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|3479c819b534546e@62449:1849",
+      "supported": true
+    },
+    {
+      "ordinal": 23,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|3ee624ae604c621e@67385:935",
+      "supported": true
+    },
+    {
+      "ordinal": 24,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|2e1244d59ae5e84c@68332:977",
+      "supported": true
+    },
+    {
+      "ordinal": 25,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb|BESHStatNG.WorksheetFunctions.GLMUDFs|FunctionBlock|4aeed379ebe50504@69321:1653",
+      "supported": true
+    },
+    {
+      "ordinal": 26,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|6bd14a263e961f38@8528:11076",
+      "supported": true
+    },
+    {
+      "ordinal": 27,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|fd61cf7bb018104d@20728:3772",
+      "supported": true
+    },
+    {
+      "ordinal": 28,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|7a2e57f7db6976f3@25179:2308",
+      "supported": true
+    },
+    {
+      "ordinal": 29,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|8903ffb4f5c8c7a3@28315:2157",
+      "supported": true
+    },
+    {
+      "ordinal": 30,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|6f248dc0953807fe@31155:1493",
+      "supported": true
+    },
+    {
+      "ordinal": 31,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|c2fe4031501e0169@33741:2983",
+      "supported": true
+    },
+    {
+      "ordinal": 32,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|d7818e0f5fa33c17@37767:4891",
+      "supported": true
+    },
+    {
+      "ordinal": 33,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|fb4d504a88468bdb@43952:529",
+      "supported": true
+    },
+    {
+      "ordinal": 34,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|bc0a8e187bc59f94@44616:929",
+      "supported": true
+    },
+    {
+      "ordinal": 35,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|3353677d5e879cde@45699:759",
+      "supported": true
+    },
+    {
+      "ordinal": 36,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|FunctionBlock|3a118759717c1f3e@46595:726",
+      "supported": true
+    },
+    {
+      "ordinal": 37,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb|BESHStatNG.WorksheetFunctions.LinearModelUDFs|SubBlock|bd1e4f68088f9f4e@47486:299",
+      "supported": true
+    },
+    {
+      "ordinal": 38,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs.LmmImportedInputs|PropertyBlock|73cbbf0cfbb92765@3110:167",
+      "supported": true
+    },
+    {
+      "ordinal": 39,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs.LmmImportedInputs.N|GetAccessorBlock|5fb9c3aba7ad5106@3165:86",
+      "supported": true
+    },
+    {
+      "ordinal": 40,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|25db4fbfc139db6c@10103:19201",
+      "supported": false
+    },
+    {
+      "ordinal": 41,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|4afde59f5c2b1b0d@31013:2852",
+      "supported": true
+    },
+    {
+      "ordinal": 42,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|babd7e8e861538f3@34682:728",
+      "supported": true
+    },
+    {
+      "ordinal": 43,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|140aca375a606bc4@36368:759",
+      "supported": true
+    },
+    {
+      "ordinal": 44,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|e5e608768fbbc7c7@37780:579",
+      "supported": true
+    },
+    {
+      "ordinal": 45,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|66a0421262013ff2@38892:600",
+      "supported": true
+    },
+    {
+      "ordinal": 46,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|d9b9866a74436285@40047:604",
+      "supported": true
+    },
+    {
+      "ordinal": 47,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|d7ac96dc18b4b4b1@41227:595",
+      "supported": true
+    },
+    {
+      "ordinal": 48,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|f4bacf4c3fca76b6@42428:599",
+      "supported": true
+    },
+    {
+      "ordinal": 49,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|c282ec120bb0afe1@43648:586",
+      "supported": true
+    },
+    {
+      "ordinal": 50,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|be37d0682a98884c@44758:556",
+      "supported": true
+    },
+    {
+      "ordinal": 51,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|19d3d7a23776ce16@46019:1776",
+      "supported": true
+    },
+    {
+      "ordinal": 52,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|05c0e75d1f0d32de@48547:2112",
+      "supported": true
+    },
+    {
+      "ordinal": 53,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|fb046e57ca52ebe0@52596:472",
+      "supported": true
+    },
+    {
+      "ordinal": 54,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|69c312053e9d59e1@53080:7639",
+      "supported": true
+    },
+    {
+      "ordinal": 55,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|bf3c00f844104327@60731:3932",
+      "supported": true
+    },
+    {
+      "ordinal": 56,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|62e48b22b283476e@64675:887",
+      "supported": true
+    },
+    {
+      "ordinal": 57,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|6346c2d973a92d6d@65574:848",
+      "supported": true
+    },
+    {
+      "ordinal": 58,
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|SubBlock|2f1997b24bb50f61@67151:556",
+      "supported": true
+    }
+  ],
+  "source_changes_after_final_freeze": false,
+  "original_queries": 0
+}

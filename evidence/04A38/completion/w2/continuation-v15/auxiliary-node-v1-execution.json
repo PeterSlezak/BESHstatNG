@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/run_auxiliary_v1.py",
+    "bytes": 789,
+    "sha256": "4cbaa6fef5d14d695828e848dd8775852fe1593633574f8080bc9b9b83dfc8ac"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\run_auxiliary_v1.py",
+      "node"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 17.597233299995423,
+    "stdout_sha256": "820801c240420e26e66336fe9e5d18bfc14f61b6ca7a365d8decb92e0246a727",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

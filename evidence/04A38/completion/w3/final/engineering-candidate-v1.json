@@ -1,0 +1,167 @@
+{
+  "status": "W3_SOFTWARE_VERIFICATION_COMPLETED_OWNER_REVIEW_PENDING",
+  "managed": {
+    "Debug": {
+      "identities": 21094,
+      "outcomes": {
+        "Passed": 21080,
+        "Failed": 14
+      },
+      "nonpass_categories": {
+        "RETAINED_IDENTICAL": 14
+      }
+    },
+    "Release": {
+      "identities": 21094,
+      "outcomes": {
+        "Passed": 21080,
+        "Failed": 14
+      },
+      "nonpass_categories": {
+        "RETAINED_IDENTICAL": 5,
+        "RETAINED_CHANGED_TRACE": 9
+      }
+    }
+  },
+  "compatibility": {
+    "Debug": 29424,
+    "Release": 29424
+  },
+  "exports": {
+    "Debug": 268,
+    "Release": 268
+  },
+  "closure": {
+    "historical": 704,
+    "current": 726,
+    "support": 303,
+    "OPEN": 0
+  },
+  "Python": {
+    "parents": 956,
+    "parent_outcomes": {
+      "PASS": 830,
+      "ERROR": 13,
+      "FAIL": 113
+    },
+    "nonpass_event_outcomes": {
+      "ERROR": 13,
+      "FAIL": 185
+    },
+    "event_categories": {
+      "RETAINED_IDENTICAL": 198
+    },
+    "parent_changes": [],
+    "missing_events": [],
+    "two_historical_privacy_errors_retained": 2,
+    "prior_message_trace_drift": "W2 one changed message and three changed raw traces remain disclosed; no waiver",
+    "raw_event_count": 198,
+    "campaigns": 1,
+    "worker_schedule": {
+      "non_scanner_end_seconds": 454.9900346000213,
+      "disposable_end_seconds": 456.12853800001903,
+      "scanner_start_seconds": 456.12853950000135,
+      "scanner_end_seconds": 1132.024753100006,
+      "other_lanes_completed_before_scanner": true,
+      "max_non_scanner_workers": 3,
+      "max_scanner_helpers": 0,
+      "max_scanner_parent_plus_helpers": 1,
+      "owner_process_ceiling": 8
+    }
+  },
+  "Node": 916,
+  "strict_profile_MkDocs": {
+    "strict": 1,
+    "profile": 1,
+    "docs": 0
+  },
+  "inherited_nonpasses": "VERIFIED_NONPASS_INHERITED;NOT_WAIVED",
+  "native_science_manual": "NOT_RUN_UNAUTHORIZED",
+  "owner_gates": "REQUIRES_OWNER_DECISION",
+  "changed_nonpass_messages": [],
+  "final_receipt_required": true,
+  "restrictions": "NOT_READY_04A38; P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN; 04A39_BLOCKED",
+  "owner_assertion": {
+    "date": "2026-11-13",
+    "assertion": "W2 source completion accepted after independent v17 post-correction review",
+    "source": "Current owner instruction history; not a Git commit or pre-existing repo receipt"
+  },
+  "exact_commands": "Versioned matrix, execution receipts and private per-command stdout/stderr/TRX hashes",
+  "evidence": [
+    {
+      "path": "evidence/04A38/completion/w3/entry/entry-manifest-v2.json",
+      "bytes": 1371,
+      "sha256": "0f00c65bb391b61738dedfaa223775e9cd9c2979f4867d940bfb79966746119b"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/entry/review-source-crosswalk-v2.json",
+      "bytes": 4888,
+      "sha256": "59d8ba15a7b0fddda07a61517669d6dae90faed9f1270329f1571c699c334c28"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/matrix/verification-matrix-v1.json",
+      "bytes": 37145,
+      "sha256": "571906c4395fb7dad91433f854aebdede43cb07b423eab1dc5273a5240b60545"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/matrix/python-campaign-amendment-v2.json",
+      "bytes": 1209,
+      "sha256": "c5dc253b464c43ed00c1b9f727166fa9892817191b7f38e8bec5044c2a72639d"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/abi-cil/complete-closure-v4.json",
+      "bytes": 6155858,
+      "sha256": "58b7482af0aff6ac7e894b8df9bcef985ccfca8958cb9768fc87b1bab286af85"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/abi-cil/targeted-regressions-v1.json",
+      "bytes": 37750,
+      "sha256": "3e20a8a965122d1e78c5ca1478140cf08cc3a1fd00f99bcfcdadf585a66229b9"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/compatibility/reference-authority-audit-v2.json",
+      "bytes": 633980,
+      "sha256": "249506d3b9dbfce70721c9d00d2c7aade1ef18f20770d79182007c12716d4626"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/python-node-scanners/python-identities-v1.json",
+      "bytes": 2427375,
+      "sha256": "b72670cdeda0e28636dba0c4f7df29108b9f417a196b149cd93bcb2b4e9fe394"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/python-node-scanners/python-input-postcheck-v2.json",
+      "bytes": 1500,
+      "sha256": "624ee0b13737d3ca016377a9c5f1915e51d5b9fe11088917edc5ad5aeabf875d"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/python-node-scanners/node-v1.json",
+      "bytes": 73284,
+      "sha256": "06c287b99f62ce69f6183049251acf61fa7fff7441a45c6579dc53efab12ba2a"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/python-node-scanners/serial-v1.json",
+      "bytes": 4250,
+      "sha256": "0e2f0d3e97988e24a23b8ba929f2b91d9a1bf23626d90df45a3ba0aa428a5782"
+    },
+    {
+      "path": "evidence/04A38/completion/w3/final/adverse-controls-v2.json",
+      "bytes": 4108,
+      "sha256": "db3e3abc1182b3f282b9cb33cd1cd8c21164a81ee7123fe5e59ae9749630fe47"
+    }
+  ],
+  "exceptions": {
+    "path": "evidence/04A38/completion/w3/final/unresolved-exceptions-v1.json",
+    "bytes": 88928,
+    "sha256": "cd89299eb0c671dd4c7587f6033e7117b94adf06f45ad6b700d40b7506c08bf5"
+  },
+  "Release_categories": {
+    "compilation": "FRESH_W3_EXECUTED;SEE_SEPARATE_NONPASS_AND_PARITY_RECEIPTS",
+    "full-six-suite-unit-testing": "FRESH_W3_EXECUTED;SEE_SEPARATE_NONPASS_AND_PARITY_RECEIPTS",
+    "ABI-CIL-signatures-exports": "FRESH_W3_EXECUTED;SEE_SEPARATE_NONPASS_AND_PARITY_RECEIPTS",
+    "current-frozen-compatibility": "FRESH_W3_EXECUTED;SEE_SEPARATE_NONPASS_AND_PARITY_RECEIPTS"
+  },
+  "independent_review_limits": "Local source/build/test/private/archive audits were executed by Codex on the owner machine. Upload readers verify derivative bytes and census, not independent live/private/test reproduction. The independent ChatGPT v17 review was not located through the local authority chain; no copy manufactured.",
+  "manual_checks": "NOT_RUN_UNAUTHORIZED: live Excel/native/COM/UIA/RefEdit, R/scientific, Office/Mac/browser/manual. Suggested later authorized smoke: covariance unknown-object conversion/error boxing/no-intercept alias in a controlled Excel session; existing WASM harness ANOVA/KW input/output route.",
+  "prohibited_actions": "No production/test correction, original execution, install/sign/deploy, stage/commit/merge/rebase/reset/push, or04A39",
+  "terminal": "W2_OWNER_ACCEPTED; W3_VERIFICATION_CANDIDATE_OR_BLOCKED; NOT_READY_04A38; P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN; 04A39_BLOCKED"
+}

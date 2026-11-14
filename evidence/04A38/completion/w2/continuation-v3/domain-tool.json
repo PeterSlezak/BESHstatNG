@@ -1,0 +1,52 @@
+{
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<ISOLATED_RUN>\\completion-w2-cont3\\domain-tool-v1\\CallDomains.csproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:ProjectAssetsFile=<ISOLATED_RUN>\\mmrm38-v6\\w1-census-tool-v2\\obj\\project.assets.json",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont3\\domain-tool-v1\\bin\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont3\\domain-tool-v1\\obj\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.155560899991542,
+      "stdout_sha256": "7055b0508d4839bd925279e110a8decf170dd486e936dd174631a979be6f008c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "dotnet",
+        "<ISOLATED_RUN>\\completion-w2-cont3\\domain-tool-v1\\bin\\CallDomains.dll",
+        "<REPO_ROOT>",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v3\\text-call-sites.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.8874937999935355,
+      "stdout_sha256": "766671282ce23a95ab397ff2508c5f45fc85a613a96c4ac2ee92086430c8f102",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v3/CallDomains.cs",
+    "bytes": 5774,
+    "sha256": "82cae5ce7873c8bcbde39aa1ccfd6170f365fa00511dbba7a62a59d3720ebdac"
+  },
+  "cached_assets": {
+    "path": ".test-rationalization-04A38.tmp/mmrm38-v6/w1-census-tool-v2/obj/project.assets.json",
+    "bytes": 21353,
+    "sha256": "553fe218b3bf311ad271b438940dc79e1f976bd7abf9e554ea1419411dbc686a"
+  },
+  "assets_unchanged": true,
+  "restore_install": "NOT_RUN",
+  "original_queries": 0
+}

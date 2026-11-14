@@ -11,19 +11,7 @@ Partial Friend Module UdfDataImport
     ''' Parses a formula-addressing argument such as relative or absolute, preserving the existing defaulting behavior.
     ''' </summary>
     Friend Function GetFormulaAddressingMode(arg As Object, defaultMode As String) As String
-        Dim s As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg)
-        If String.IsNullOrWhiteSpace(s) Then Return defaultMode
-
-        Select Case s.Trim().ToLowerInvariant()
-            Case "relative", "rel", "x"
-                Return "relative"
-            Case "absolute", "abs", "worksheet"
-                Return "absolute"
-            Case "names", "name", "quoted", "variables", "varnames"
-                Return "names"
-            Case Else
-                Return defaultMode
-        End Select
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportOptions38.GetFormulaAddressingMode(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg), defaultMode)
     End Function
 
     ''' <summary>
@@ -62,61 +50,21 @@ Partial Friend Module UdfDataImport
     ''' </summary>
     Friend Function GetVariableNames(arg As Object, expectedCount As Integer) As String()
         If expectedCount <= 0 Then Return New String() {}
-
-        Dim fallback(expectedCount - 1) As String
-        For i As Integer = 0 To expectedCount - 1
-            fallback(i) = "X" & (i + 1).ToString()
-        Next
-
-        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return fallback
-
-        Dim s As String = TryCast(arg, String)
-        If s IsNot Nothing Then
-            Dim parts As String() = s.Split({","c}, StringSplitOptions.RemoveEmptyEntries)
-            If parts.Length = expectedCount Then
-                For i As Integer = 0 To expectedCount - 1
-                    parts(i) = parts(i).Trim()
-                    If String.IsNullOrWhiteSpace(parts(i)) Then parts(i) = fallback(i)
-                Next
-                Return parts
-            End If
-        End If
-
-        Dim arr As Object(,) = Get2D(arg)
-        If arr Is Nothing Then Return fallback
-
-        Dim rows As Integer = arr.GetLength(0)
-        Dim cols As Integer = arr.GetLength(1)
-        Dim list As New List(Of String)()
-
-        If rows = 1 AndAlso cols >= 1 Then
-            For j As Integer = 0 To cols - 1
-                Dim cell As Object = arr(0, j)
-                If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell) Then
-                    list.Add(String.Empty)
-                Else
-                    list.Add(Convert.ToString(cell).Trim())
-                End If
-            Next
-        ElseIf cols = 1 AndAlso rows >= 1 Then
-            For i As Integer = 0 To rows - 1
-                Dim cell As Object = arr(i, 0)
-                If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell) Then
-                    list.Add(String.Empty)
-                Else
-                    list.Add(Convert.ToString(cell).Trim())
-                End If
-            Next
-        End If
-
-        If list.Count = expectedCount Then
-            For i As Integer = 0 To expectedCount - 1
-                If String.IsNullOrWhiteSpace(list(i)) Then list(i) = fallback(i)
-            Next
-            Return list.ToArray()
-        End If
-
-        Return fallback
+        Return Global.BESHStatNG.ExcelCommon.UdfNamePreparation38.GetVariableNames(expectedCount,
+            Function() Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg),
+            Function() TryCast(arg, String),
+            Function() As Global.BESHStatNG.ExcelCommon.UdfVariableNameRange38
+                Dim arr As Object(,) = Get2D(arg)
+                If arr Is Nothing Then Return Nothing
+                Dim rows As Integer = arr.GetLength(0)
+                Dim cols As Integer = arr.GetLength(1)
+                Return New Global.BESHStatNG.ExcelCommon.UdfVariableNameRange38(rows, cols,
+                    Function(row As Integer, column As Integer) As String
+                        Dim cell As Object = arr(row, column)
+                        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell) Then Return String.Empty
+                        Return Convert.ToString(cell).Trim()
+                    End Function)
+            End Function)
     End Function
 
     ''' <summary>
@@ -183,12 +131,7 @@ Partial Friend Module UdfDataImport
     End Function
 
     Private Function SequenceEqualStrings(left As String(), right As String()) As Boolean
-        If left Is Nothing OrElse right Is Nothing Then Return left Is right
-        If left.Length <> right.Length Then Return False
-        For i As Integer = 0 To left.Length - 1
-            If Not String.Equals(left(i), right(i), StringComparison.Ordinal) Then Return False
-        Next
-        Return True
+        Return Global.BESHStatNG.ExcelCommon.UdfDataImportMetadata38.SequenceEqualStrings(left, right)
     End Function
 
 End Module

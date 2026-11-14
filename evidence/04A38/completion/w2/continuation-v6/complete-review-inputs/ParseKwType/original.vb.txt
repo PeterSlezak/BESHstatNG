@@ -1,0 +1,26 @@
+ase "CONOVER", "CON"
+                        Return PrepareResultTableForUdf(tables(2))
+
+                    Case "ALL", "BOTH"
+                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(2))
+                        stacked = ParametricUDFs.StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(3)))
+                        Return PrepareResultTableForUdf(stacked)
+
+                    Case Else
+                        Return ExcelError.ExcelErrorValue
+                End Select
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+        End Function
+
+        ' -------------------------------------------------------------------------------------------------------------
+        ' Helpers
+        ' -------------------------------------------------------------------------------------------------------------
+
+        ''' <summary>
+        ''' Parses the Kruskal-Wallis output selection (H vs Hcor).
+        ''' Returns 0 for H, 1 for Hcor.
+        ''' </summary>
+        Private Function ParseKwType(arg As Object, defaultTieCorrected As Boolean, ByRef err As ExcelError?) As Integer
+            

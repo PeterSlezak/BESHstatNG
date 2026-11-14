@@ -1,0 +1,14 @@
+{
+  "before": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/verify_c14_composition_v1.py",
+    "bytes": 12598,
+    "sha256": "73041479de23d9199c0397f76fc5be981f5e3807e825ebea3d1e63f51461c337"
+  },
+  "after": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont14/bookkeeping-code-v1/verify_c14_composition_v2.py",
+    "bytes": 12625,
+    "sha256": "ef703107dfb307702ddbd811c4203907cc37ddd4eafc96356b1eab2a914c110f"
+  },
+  "reason": "SourceViews callable body starts at the Function token; the stored exact whole-file dispatch prefix includes its leading indentation. Remove only leading whitespace from both stored prefixes before exact replacement. Complete token/source/body checks remain.",
+  "original_queries": 0
+}

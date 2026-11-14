@@ -1,0 +1,96 @@
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub NativeCellConversion38KeepsSentinelsAndRealCatch(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            For Each value As Object In {Nothing, ExcelEmpty.Value, ExcelMissing.Value}
+                Assert.AreEqual("", ExcelArgReaders.CellToTrimmedText(value))
+                Assert.IsFalse(ExcelArgNumeric.TryGetDouble(value).HasValue)
+            Next
+            For Each value As Object In {ExcelError.ExcelErrorNA, True, "1.5", "", DBNull.Value, New Object(,) {{1.0R}}}
+                Assert.IsFalse(ExcelArgNumeric.TryGetDouble(value).HasValue)
+            Next
+            Assert.AreEqual("ExcelErrorNA", ExcelArgReaders.CellToTrimmedText(ExcelError.ExcelErrorNA))
+            Assert.AreEqual("1.5", ExcelArgReaders.CellToTrimmedText(1.5R))
+            Assert.AreEqual(1.5R, ExcelArgNumeric.TryGetDouble(1.5D).Value)
+            Assert.ThrowsException(Of OverflowException)(Sub() ExcelArgReaders.CellToTrimmedText(Long.MaxValue))
+            Microsoft.VisualBasic.Err().Raise(5)
+        Catch ex As Exception
+            Assert.AreEqual(5, Microsoft.VisualBasic.Err().Number)
+            Assert.IsFalse(ExcelArgNumeric.TryGetDouble(DBNull.Value).HasValue)
+            Assert.AreEqual(0, Microsoft.VisualBasic.Err().Number)
+        Finally
+            Microsoft.VisualBasic.Err().Clear()
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub GroupedImport38RetainsBoundsNamesAndCallerArrays(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Dim source As Object(,) = {{" A ", "empty", " C "}, {1.0R, Nothing, 3.0R}, {2.0R, ExcelError.ExcelErrorNA, "4"}}
+            Dim groups()() As Double = Nothing
+            Dim names() As String = Nothing
+            Assert.IsTrue(UdfDataImport.TryGetGroupedNumericColumns(source, groups, names))
+            CollectionAssert.AreEqual(New String() {"A", "C"}, names)
+            CollectionAssert.AreEqual(New Double() {1.0R, 2.0R}, groups(0))
+            CollectionAssert.AreEqual(New Double() {3.0R}, groups(1))
+            Assert.AreEqual(" A ", source(0, 0))
+            Assert.AreEqual("4", source(2, 2))
+            groups(0)(0) = 99
+            names(0) = "changed"
+            Assert.AreEqual(1.0R, source(1, 0))
+            Assert.AreEqual(" A ", source(0, 0))
+            Dim bounded As Object(,) = DirectCast(Array.CreateInstance(GetType(Object), {3, 3}, {1, -1}), Object(,))
+            For row As Integer = 0 To 2
+                For column As Integer = 0 To 2
+                    bounded(row + 1, column - 1) = source(row, column)
+                Next
+            Next
+            Assert.IsTrue(UdfDataImport.TryGetGroupedNumericColumns(bounded, groups, names))
+            Assert.AreEqual(1.0R, groups(0)(0))
+            Assert.AreEqual(1, bounded.GetLowerBound(0))
+            Assert.AreEqual(-1, bounded.GetLowerBound(1))
+            Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() UdfDataImport.TryExtractNumericGroupsFromMatrix(bounded, 1, True, "", groups, names))
+            Assert.IsNull(groups)
+            Assert.IsNull(names)
+            Assert.IsFalse(UdfDataImport.TryGetGroupedNumericColumns(1.0R, groups, names))
+            Assert.IsNull(groups)
+            Assert.IsNull(names)
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub NativeAlpha38RetainsDefaultParsePrecedenceAndByRef(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Dim alpha As Double = 99
+            Assert.IsTrue(UdfDataImport.TryParseAlpha(ExcelMissing.Value, alpha))
+            Assert.AreEqual(0.05R, alpha)
+            Assert.IsTrue(UdfDataImport.TryParseAlpha(" 0.1 ", alpha))
+            Assert.AreEqual(0.1R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha("0,1", alpha))
+            Assert.AreEqual(1.0R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha("bad", alpha))
+            Assert.AreEqual(0.0R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha(DBNull.Value, alpha))
+            Assert.AreEqual(0.05R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha(True, alpha))
+            Assert.AreEqual(1.0R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha(Double.NaN, alpha))
+            Assert.IsTrue(Double.IsNaN(alpha))
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub

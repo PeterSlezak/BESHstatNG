@@ -1,0 +1,276 @@
+{
+  "status": "ALL8_G_ORIGINAL_TRUE_GUARDS_AND_PRIVATE_STATE_OBSERVED",
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "configurations": {
+    "Debug": {
+      "unique_cases": 4,
+      "original_executions": 12,
+      "G1_true_guards": 2,
+      "G2_true_guards": 2,
+      "repeated_and_traced_public_bytes_exact": true,
+      "cases": [
+        {
+          "case_id": "AUTHORIZED-G/Invariant/GEE_SPEC_INTERCEPT_ROLE",
+          "kind": "GEE_SPEC_INTERCEPT_ROLE",
+          "events": [
+            "G1.spec.entry=True",
+            "G1.header.weight_col=1",
+            "G1.header.label_col=0",
+            "G1.lookup.index=0",
+            "G1.lookup.name=Intercept",
+            "G1.guard.intercept=True",
+            "G1.guard.components_count=0",
+            "G1.guard.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+            "G1.public.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+            "G1.public.components_count=0",
+            "G1.public.spec_rejected=True"
+          ],
+          "public_kind": "RETURN_TEXT",
+          "public_result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogdGhlIGludGVyY2VwdCBjb2x1bW4gc2hvdWxkIG5vdCBiZSB1c2VkIGFzIGEgcHJvZmlsZSBjb2x1bW47IGl0IGlzIHN1cHBsaWVkIGF1dG9tYXRpY2FsbHkgYnkgdGhlIGZpdHRlZCBkZXNpZ24u",
+          "decoded_result": "BESH.REGR.GEE_LSMESTIMATE error: the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "private_ByRef": {
+            "components_type": "List(Of GeeLsmEstimateComponent)",
+            "components_nonnull": true,
+            "components_count": 0,
+            "errorMessage": "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+          },
+          "returned_report": false
+        },
+        {
+          "case_id": "AUTHORIZED-G/Invariant/MMRM_WIDE_MULTIROW_REJECTION",
+          "kind": "MMRM_WIDE_MULTIROW_REJECTION",
+          "events": [
+            "G2.spec.accepted=True",
+            "G2.parser.entry=True",
+            "G2.headerless.bad_precondition=False",
+            "G2.headerless.columns=1",
+            "G2.headerless.column_guard_true=True",
+            "G2.headerless.attempted=False",
+            "G2.branch.wide=True",
+            "G2.header.visit_col=0",
+            "G2.wide.row=1",
+            "G2.wide.prior_data_row=-1",
+            "G2.first_row.accepted=1",
+            "G2.wide.row=2",
+            "G2.wide.prior_data_row=1",
+            "G2.guard.multirow=True",
+            "G2.guard.atProfile_Nothing=True",
+            "G2.guard.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+            "G2.public.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+            "G2.public.atProfile_Nothing=True",
+            "G2.public.at_rejected=True"
+          ],
+          "public_kind": "RETURN_TEXT",
+          "public_result": "SQkVTSC5SRUdSLk1NUk1fTFNNRVNUSU1BVEUgZXJyb3I6IHdpZGUtZm9ybSBhdCByYW5nZXMgbXVzdCBjb250YWluIGV4YWN0bHkgb25lIG5vbmJsYW5rIGRhdGEgcm93LiBVc2UgbmFtZS92YWx1ZSBmb3JtIGZvciBtdWx0aXBsZSBBVCBzZXR0aW5ncyBieSByb3cu",
+          "decoded_result": "BESH.REGR.MMRM_LSMESTIMATE error: wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "private_ByRef": {
+            "atProfile": null,
+            "attemptedHeaderless": false,
+            "accepted_dataRow": 1,
+            "rejected_row": 2,
+            "errorMessage": "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+          },
+          "returned_report": false
+        },
+        {
+          "case_id": "AUTHORIZED-G/sk-SK/GEE_SPEC_INTERCEPT_ROLE",
+          "kind": "GEE_SPEC_INTERCEPT_ROLE",
+          "events": [
+            "G1.spec.entry=True",
+            "G1.header.weight_col=1",
+            "G1.header.label_col=0",
+            "G1.lookup.index=0",
+            "G1.lookup.name=Intercept",
+            "G1.guard.intercept=True",
+            "G1.guard.components_count=0",
+            "G1.guard.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+            "G1.public.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+            "G1.public.components_count=0",
+            "G1.public.spec_rejected=True"
+          ],
+          "public_kind": "RETURN_TEXT",
+          "public_result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogdGhlIGludGVyY2VwdCBjb2x1bW4gc2hvdWxkIG5vdCBiZSB1c2VkIGFzIGEgcHJvZmlsZSBjb2x1bW47IGl0IGlzIHN1cHBsaWVkIGF1dG9tYXRpY2FsbHkgYnkgdGhlIGZpdHRlZCBkZXNpZ24u",
+          "decoded_result": "BESH.REGR.GEE_LSMESTIMATE error: the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "private_ByRef": {
+            "components_type": "List(Of GeeLsmEstimateComponent)",
+            "components_nonnull": true,
+            "components_count": 0,
+            "errorMessage": "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+          },
+          "returned_report": false
+        },
+        {
+          "case_id": "AUTHORIZED-G/sk-SK/MMRM_WIDE_MULTIROW_REJECTION",
+          "kind": "MMRM_WIDE_MULTIROW_REJECTION",
+          "events": [
+            "G2.spec.accepted=True",
+            "G2.parser.entry=True",
+            "G2.headerless.bad_precondition=False",
+            "G2.headerless.columns=1",
+            "G2.headerless.column_guard_true=True",
+            "G2.headerless.attempted=False",
+            "G2.branch.wide=True",
+            "G2.header.visit_col=0",
+            "G2.wide.row=1",
+            "G2.wide.prior_data_row=-1",
+            "G2.first_row.accepted=1",
+            "G2.wide.row=2",
+            "G2.wide.prior_data_row=1",
+            "G2.guard.multirow=True",
+            "G2.guard.atProfile_Nothing=True",
+            "G2.guard.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+            "G2.public.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+            "G2.public.atProfile_Nothing=True",
+            "G2.public.at_rejected=True"
+          ],
+          "public_kind": "RETURN_TEXT",
+          "public_result": "SQkVTSC5SRUdSLk1NUk1fTFNNRVNUSU1BVEUgZXJyb3I6IHdpZGUtZm9ybSBhdCByYW5nZXMgbXVzdCBjb250YWluIGV4YWN0bHkgb25lIG5vbmJsYW5rIGRhdGEgcm93LiBVc2UgbmFtZS92YWx1ZSBmb3JtIGZvciBtdWx0aXBsZSBBVCBzZXR0aW5ncyBieSByb3cu",
+          "decoded_result": "BESH.REGR.MMRM_LSMESTIMATE error: wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "private_ByRef": {
+            "atProfile": null,
+            "attemptedHeaderless": false,
+            "accepted_dataRow": 1,
+            "rejected_row": 2,
+            "errorMessage": "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+          },
+          "returned_report": false
+        }
+      ]
+    },
+    "Release": {
+      "unique_cases": 4,
+      "original_executions": 12,
+      "G1_true_guards": 2,
+      "G2_true_guards": 2,
+      "repeated_and_traced_public_bytes_exact": true,
+      "cases": [
+        {
+          "case_id": "AUTHORIZED-G/Invariant/GEE_SPEC_INTERCEPT_ROLE",
+          "kind": "GEE_SPEC_INTERCEPT_ROLE",
+          "events": [
+            "G1.spec.entry=True",
+            "G1.header.weight_col=1",
+            "G1.header.label_col=0",
+            "G1.lookup.index=0",
+            "G1.lookup.name=Intercept",
+            "G1.guard.intercept=True",
+            "G1.guard.components_count=0",
+            "G1.guard.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+            "G1.public.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+            "G1.public.components_count=0",
+            "G1.public.spec_rejected=True"
+          ],
+          "public_kind": "RETURN_TEXT",
+          "public_result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogdGhlIGludGVyY2VwdCBjb2x1bW4gc2hvdWxkIG5vdCBiZSB1c2VkIGFzIGEgcHJvZmlsZSBjb2x1bW47IGl0IGlzIHN1cHBsaWVkIGF1dG9tYXRpY2FsbHkgYnkgdGhlIGZpdHRlZCBkZXNpZ24u",
+          "decoded_result": "BESH.REGR.GEE_LSMESTIMATE error: the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "private_ByRef": {
+            "components_type": "List(Of GeeLsmEstimateComponent)",
+            "components_nonnull": true,
+            "components_count": 0,
+            "errorMessage": "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+          },
+          "returned_report": false
+        },
+        {
+          "case_id": "AUTHORIZED-G/Invariant/MMRM_WIDE_MULTIROW_REJECTION",
+          "kind": "MMRM_WIDE_MULTIROW_REJECTION",
+          "events": [
+            "G2.spec.accepted=True",
+            "G2.parser.entry=True",
+            "G2.headerless.bad_precondition=False",
+            "G2.headerless.columns=1",
+            "G2.headerless.column_guard_true=True",
+            "G2.headerless.attempted=False",
+            "G2.branch.wide=True",
+            "G2.header.visit_col=0",
+            "G2.wide.row=1",
+            "G2.wide.prior_data_row=-1",
+            "G2.first_row.accepted=1",
+            "G2.wide.row=2",
+            "G2.wide.prior_data_row=1",
+            "G2.guard.multirow=True",
+            "G2.guard.atProfile_Nothing=True",
+            "G2.guard.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+            "G2.public.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+            "G2.public.atProfile_Nothing=True",
+            "G2.public.at_rejected=True"
+          ],
+          "public_kind": "RETURN_TEXT",
+          "public_result": "SQkVTSC5SRUdSLk1NUk1fTFNNRVNUSU1BVEUgZXJyb3I6IHdpZGUtZm9ybSBhdCByYW5nZXMgbXVzdCBjb250YWluIGV4YWN0bHkgb25lIG5vbmJsYW5rIGRhdGEgcm93LiBVc2UgbmFtZS92YWx1ZSBmb3JtIGZvciBtdWx0aXBsZSBBVCBzZXR0aW5ncyBieSByb3cu",
+          "decoded_result": "BESH.REGR.MMRM_LSMESTIMATE error: wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "private_ByRef": {
+            "atProfile": null,
+            "attemptedHeaderless": false,
+            "accepted_dataRow": 1,
+            "rejected_row": 2,
+            "errorMessage": "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+          },
+          "returned_report": false
+        },
+        {
+          "case_id": "AUTHORIZED-G/sk-SK/GEE_SPEC_INTERCEPT_ROLE",
+          "kind": "GEE_SPEC_INTERCEPT_ROLE",
+          "events": [
+            "G1.spec.entry=True",
+            "G1.header.weight_col=1",
+            "G1.header.label_col=0",
+            "G1.lookup.index=0",
+            "G1.lookup.name=Intercept",
+            "G1.guard.intercept=True",
+            "G1.guard.components_count=0",
+            "G1.guard.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+            "G1.public.error=the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+            "G1.public.components_count=0",
+            "G1.public.spec_rejected=True"
+          ],
+          "public_kind": "RETURN_TEXT",
+          "public_result": "SQkVTSC5SRUdSLkdFRV9MU01FU1RJTUFURSBlcnJvcjogdGhlIGludGVyY2VwdCBjb2x1bW4gc2hvdWxkIG5vdCBiZSB1c2VkIGFzIGEgcHJvZmlsZSBjb2x1bW47IGl0IGlzIHN1cHBsaWVkIGF1dG9tYXRpY2FsbHkgYnkgdGhlIGZpdHRlZCBkZXNpZ24u",
+          "decoded_result": "BESH.REGR.GEE_LSMESTIMATE error: the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.",
+          "private_ByRef": {
+            "components_type": "List(Of GeeLsmEstimateComponent)",
+            "components_nonnull": true,
+            "components_count": 0,
+            "errorMessage": "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+          },
+          "returned_report": false
+        },
+        {
+          "case_id": "AUTHORIZED-G/sk-SK/MMRM_WIDE_MULTIROW_REJECTION",
+          "kind": "MMRM_WIDE_MULTIROW_REJECTION",
+          "events": [
+            "G2.spec.accepted=True",
+            "G2.parser.entry=True",
+            "G2.headerless.bad_precondition=False",
+            "G2.headerless.columns=1",
+            "G2.headerless.column_guard_true=True",
+            "G2.headerless.attempted=False",
+            "G2.branch.wide=True",
+            "G2.header.visit_col=0",
+            "G2.wide.row=1",
+            "G2.wide.prior_data_row=-1",
+            "G2.first_row.accepted=1",
+            "G2.wide.row=2",
+            "G2.wide.prior_data_row=1",
+            "G2.guard.multirow=True",
+            "G2.guard.atProfile_Nothing=True",
+            "G2.guard.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+            "G2.public.error=wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+            "G2.public.atProfile_Nothing=True",
+            "G2.public.at_rejected=True"
+          ],
+          "public_kind": "RETURN_TEXT",
+          "public_result": "SQkVTSC5SRUdSLk1NUk1fTFNNRVNUSU1BVEUgZXJyb3I6IHdpZGUtZm9ybSBhdCByYW5nZXMgbXVzdCBjb250YWluIGV4YWN0bHkgb25lIG5vbmJsYW5rIGRhdGEgcm93LiBVc2UgbmFtZS92YWx1ZSBmb3JtIGZvciBtdWx0aXBsZSBBVCBzZXR0aW5ncyBieSByb3cu",
+          "decoded_result": "BESH.REGR.MMRM_LSMESTIMATE error: wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+          "private_ByRef": {
+            "atProfile": null,
+            "attemptedHeaderless": false,
+            "accepted_dataRow": 1,
+            "rejected_row": 2,
+            "errorMessage": "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+          },
+          "returned_report": false
+        }
+      ]
+    }
+  }
+}

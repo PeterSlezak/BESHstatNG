@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name="__main__")
+                                                                                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\peter\source\repos\BESHstatNG\evidence\04A38\completion\w3\abi-cil\reconcile-closure-v1.py", line 45, in <module>
+    assert all(r['classification']!='UNEXPLAINED' for r in edges),'UNEXPLAINED_DEPENDENCY_EDGE_DIFFERENCE'
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: UNEXPLAINED_DEPENDENCY_EDGE_DIFFERENCE

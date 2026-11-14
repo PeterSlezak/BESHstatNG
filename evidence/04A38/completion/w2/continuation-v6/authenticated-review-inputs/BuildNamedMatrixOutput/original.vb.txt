@@ -1,0 +1,26 @@
+Friend Function BuildNamedMatrixOutput(idHeader As String, rowNames() As String, colNames() As String,
+                                           mat(,) As Double, includeHeader As Boolean) As Object
+        If mat Is Nothing Then Return ExcelError.ExcelErrorNA
+
+        Dim n As Integer = mat.GetLength(0)
+        Dim p As Integer = mat.GetLength(1)
+        Dim out(n - 1 + If(includeHeader, 1, 0), p) As Object
+        Dim r0 As Integer = 0
+
+        If includeHeader Then
+            out(0, 0) = idHeader
+            For j As Integer = 0 To p - 1
+                out(0, j + 1) = If(colNames IsNot Nothing AndAlso j < colNames.Length, colNames(j), (j + 1).ToString(CultureInfo.InvariantCulture))
+            Next
+            r0 = 1
+        End If
+
+        For i As Integer = 0 To n - 1
+            out(r0 + i, 0) = If(rowNames IsNot Nothing AndAlso i < rowNames.Length, rowNames(i), (i + 1).ToString(CultureInfo.InvariantCulture))
+            For j As Integer = 0 To p - 1
+                out(r0 + i, j + 1) = mat(i, j)
+            Next
+        Next
+
+        Return PrepareResultTableForUdf(out)
+    End Function

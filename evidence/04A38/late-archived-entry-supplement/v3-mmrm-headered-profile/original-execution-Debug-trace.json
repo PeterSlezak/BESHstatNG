@@ -1,0 +1,55 @@
+{
+  "role": "original",
+  "configuration": "Debug",
+  "mode": "trace",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/input-seal.json",
+    "bytes": 6539,
+    "sha256": "01cc313340fec74a06951d8456ecfaea06562c46ba3b3f7fd3b490e160ad8dec"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 38400,
+    "sha256": "61e626f948f7641f5a9ce05faefff1b4d5fa82cf9ce1eee260f2deda0cd5a186"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Debug/trace/execution.json",
+      "bytes": 1178,
+      "sha256": "33cc8023a198aa86007f90c3ce983589cbdbd966b2f110b9fb322e032b19db2e"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Debug/trace/results.tsv",
+      "bytes": 33646,
+      "sha256": "c036ff73ec9a6eb56fef45551fc69254bf8b66375ff913795cfd7647af40d16e"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Debug/trace/results.tsv.branches.json",
+      "bytes": 1738,
+      "sha256": "0fcbf5640e905b59db0514fde33c973f13f19614af5153144fc0a9abe50781e2"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Debug/trace/results.tsv.sessions.json",
+      "bytes": 14789,
+      "sha256": "d4d4511b6d4f1539cdfd7901b409d28086911a6a644f13627f73628d372c259b"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-trace",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Debug.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\trace\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\trace\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.45746279999730177,
+    "stdout_sha256": "f91ed326f60e6adcb27e78fbf38a363949c6942a3e5f220ab64f6617ab6a8f56",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

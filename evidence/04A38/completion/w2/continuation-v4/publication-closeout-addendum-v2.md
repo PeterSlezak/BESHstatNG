@@ -1,0 +1,5 @@
+# Failed first export and corrected derivative
+
+The physical ZIP reader rejected the first export (exit 1) because new final_live.py contained descriptive slash-separated wording matching the existing home-path pattern. The actual privacy rule is unchanged. That script and the first ZIP remain local, unchanged. The new derivative excludes that diagnostic helper and includes final_live_v2.py with neutral descriptive wording; no production, model, typed input, result, trace, test outcome or scientific source bytes changed.
+
+The first v2 manifest remains unchanged as an honest failed publication attempt. It references the omitted helper and cannot be completely revalidated from the derivative; the failed-attempt receipt retains its hash/size. The new v3 manifest has a complete explicit inclusion/exclusion inventory and its own one null self-entry. Its observed count and new review_v2 ZIP identity are recorded after execution. No new fixture exception or privacy-policy weakening was added.

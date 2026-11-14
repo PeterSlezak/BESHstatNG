@@ -1,0 +1,56 @@
+{
+  "status": "SOURCE_BODY_PROVENANCE_ABI_STAGE_COMPILED_DEPENDENCY_PRIVATE_MUTATIONS_REJECTED",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v12/verify_c12_checkpoint_v2.py",
+    "bytes": 84115,
+    "sha256": "2984668ab911008ffaee6ec3d67eb38078c4d7faf1247af50335f65fd38492c9"
+  },
+  "controls": [
+    {
+      "name": "Changed actual production bytes",
+      "status": "REJECTED",
+      "reason": "Sealed C12 input changed BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb"
+    },
+    {
+      "name": "Missing whole-body dependency",
+      "status": "REJECTED",
+      "reason": "Sealed C12 input changed evidence/04A38/completion/w2/continuation-v12/whole-body-contracts-v1.json"
+    },
+    {
+      "name": "Altered frozen original provenance",
+      "status": "REJECTED",
+      "reason": "Sealed C12 input changed evidence/04A38/completion/w2/continuation-v12/compatibility-packet-v1.json"
+    },
+    {
+      "name": "Changed public export ABI",
+      "status": "REJECTED",
+      "reason": "Sealed C12 input changed evidence/04A38/completion/w2/continuation-v12/inspection/packet-v1/Inspect38-Debug.json"
+    },
+    {
+      "name": "Unsupported closure/readiness stage",
+      "status": "REJECTED",
+      "reason": "Sealed C12 input changed evidence/04A38/completion/w2/continuation-v12/readiness-v1.json"
+    },
+    {
+      "name": "Dropped genuine original fragment",
+      "status": "REJECTED",
+      "reason": "Sealed C12 input changed evidence/04A38/completion/w2/continuation-v12/new-parent-fragment-crosswalk-v1.json"
+    },
+    {
+      "name": "Structurally missing actual internal compiled dependency",
+      "status": "REJECTED",
+      "reason": "Missing internal real constructed target"
+    },
+    {
+      "name": "Changed inherited private pin",
+      "status": "REJECTED",
+      "reason": "Private preservation mismatch .test-rationalization-04A38.tmp/builds/w2c11-checkpoint-v1/Debug/legacy/BESHStat.Core.deps.json"
+    },
+    {
+      "name": "Missing inherited private pin",
+      "status": "REJECTED",
+      "reason": ".test-rationalization-04A38.tmp/builds/w2c11-checkpoint-v1/Debug/legacy/BESHStat.Core.deps.json"
+    }
+  ],
+  "original_queries": 0
+}

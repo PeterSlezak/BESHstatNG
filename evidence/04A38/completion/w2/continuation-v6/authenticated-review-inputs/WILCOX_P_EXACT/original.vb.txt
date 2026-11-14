@@ -1,0 +1,39 @@
+<ExcelFunction(
+            Name:="BESH.NP.WILCOX_P_EXACT",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Wilcoxon signed-rank test: exact p-value (paired samples; up to 60 non-zero diffs). side: two/lower/upper.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/")>
+        Public Function WILCOX_P_EXACT(
+            <ExcelArgument(Name:="x", Description:="First paired sample (single-column; paired by row; non-numeric rows ignored).")> x As Object,
+            <ExcelArgument(Name:="y", Description:="Second paired sample (single-column; paired by row; non-numeric rows ignored).")> y As Object,
+            <ExcelArgument(Name:="side", Description:="Which exact p-value to return: two/lower/upper.")> side As String) As Object
+
+            Dim pairs As Double(,)
+            Dim err As ExcelError? = Nothing
+
+            pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(x, y, err)
+            If err.HasValue Then Return err.Value
+
+            If pairs Is Nothing OrElse pairs.GetLength(0) < 1 Then
+                Return ExcelError.ExcelErrorNum
+            End If
+
+            Dim w As New WilcoxonTest(pairs, "x", "y")
+            Dim res As TestResult = w.Compute()
+
+            If Not res.bExactAvailable Then
+                Return ExcelError.ExcelErrorNum
+            End If
+
+            Dim which As String = If(side, "").Trim().ToLowerInvariant()
+            Select Case which
+                Case "two", "two-sided", "twosided", "2"
+                    Return ClampProb(res.PvalueExact)
+                Case "lower", "less", "left", "l"
+                    Return ClampProb(res.pValueExactLowerSide)
+                Case "upper", "greater", "right", "u"
+                    Return ClampProb(res.pValueExactUpperSide)
+                Case Else
+                    Return ExcelError.ExcelErrorValue
+            End Select
+        End Function

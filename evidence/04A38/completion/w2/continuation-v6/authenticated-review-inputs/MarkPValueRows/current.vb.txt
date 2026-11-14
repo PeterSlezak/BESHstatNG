@@ -1,0 +1,12 @@
+Private Sub MarkPValueRows(table As ResultTable, body As Object(,))
+        If table Is Nothing OrElse body Is Nothing OrElse body.GetLength(1) < 2 Then Return
+
+        For rowIndex As Integer = 0 To body.GetLength(0) - 1
+            If Not IsPValueLabel(body(rowIndex, 0)) Then Continue For
+            For columnIndex As Integer = 1 To body.GetLength(1) - 1
+                If IsNumericValue(body(rowIndex, columnIndex)) Then
+                    table.AddPvalueCellToFormat(rowIndex + 1, columnIndex + 1)
+                End If
+            Next
+        Next
+    End Sub

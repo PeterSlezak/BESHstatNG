@@ -1,0 +1,32 @@
+{
+  "suite": "Common",
+  "part": "main",
+  "selection": "FullyQualifiedName!~MigrationSemantic04A02Tests",
+  "outcomes": {
+    "Passed": 9231,
+    "Failed": 5
+  },
+  "trx_sha256": "4a75b2245215fc1ab50dc0a70773d82c0dcdc5d93743730e3de06c5733c4923e",
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w2c12-checkpoint-v1-Debug-serial-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c12-checkpoint-v1-Debug-serial-Common-main\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c12-checkpoint-v1-Debug-serial-Common-main\\results",
+      "/Logger:trx;LogFileName=Common.trx",
+      "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 116.98017810000056,
+    "stdout_sha256": "423f71ad7b2ba21bef26d8b63c48eecf6755a34fa56f5da307054e3b7f98d471",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c12-checkpoint-v1-Debug-serial-Common-main/cases.json",
+    "bytes": 2971666,
+    "sha256": "8dc89000d0d08b47d425fd8a9936581dd82166bfdfedafe2a51e366cc62807ef"
+  }
+}

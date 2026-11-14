@@ -1,0 +1,6 @@
+Friend Function TryGetCompleteNumericMatrixCompleteCases(input As Object,
+                                                             ByRef mat As Double(,),
+                                                             ByRef noRows As Integer,
+                                                             ByRef noCols As Integer) As Boolean
+        Return ExtractCompleteNumericMatrixCompleteCases(input, mat, noRows, noCols)
+    End Function

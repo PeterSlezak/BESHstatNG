@@ -1,0 +1,14 @@
+{
+  "status": "SOURCE_BACKED_BYREF_TIMING_CORRECTION",
+  "new_sources": [
+    "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+    "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb"
+  ],
+  "defect": "A custom IConvertible can mutate an aliased caller output during native conversion. Repeating a reset in Common after conversion erases an original observable side effect on failed validation. Acquisition is likewise outside the portable reset boundary.",
+  "correction": "Existing public portable APIs retain entry resets; new prepared phases do not reset. Native adapters retain the original reset before conversion/acquisition and call prepared validation only.",
+  "original_queries": 0,
+  "statistical_engine_changes": "NONE",
+  "existing_portable_public_signatures": "UNCHANGED",
+  "provisional_review": "Earlier C5 source contracts claiming no intervening observable operation are retained as adverse review attempts; final contracts must supersede them."
+}

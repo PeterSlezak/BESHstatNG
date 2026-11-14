@@ -1,0 +1,108 @@
+{
+  "status": "ALL_ADVERSE_CONTROLS_REJECTED",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/verify_c15_checkpoint_v1.py",
+    "bytes": 212500,
+    "sha256": "c2f8b8d6d138034bd866b0d28f847491de48032ab921951f3b973d766e85d3b7"
+  },
+  "positive": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/checkpoint-positive-v1.json",
+    "bytes": 4474,
+    "sha256": "4d153c7b5bc684a979896d0c4d3c243465c257f96e8ae674f78989d651ebad75"
+  },
+  "controls": [
+    {
+      "name": "missing current source",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed full parent branch",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing exact Cox callback",
+      "status": "REJECTED"
+    },
+    {
+      "name": "wrong original property owner",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed constructed generic accessor/default",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed ByRef/return CIL",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed Release signature",
+      "status": "REJECTED"
+    },
+    {
+      "name": "omitted branch fragment",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsupported canonical closure",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed ordered OPEN queue",
+      "status": "REJECTED"
+    },
+    {
+      "name": "relabelled inherited test failure",
+      "status": "REJECTED"
+    },
+    {
+      "name": "relabelled Python ERROR",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing owner replacement authority",
+      "status": "REJECTED"
+    },
+    {
+      "name": "internal transitive method omitted",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe archive path ../escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe archive path A/../escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe archive path C:/escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe archive path A\\escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe archive path A/CON",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe archive path A/name.",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe archive path A//double",
+      "status": "REJECTED"
+    },
+    {
+      "name": "fresh privacy key",
+      "status": "REJECTED"
+    },
+    {
+      "name": "fresh privacy credential",
+      "status": "REJECTED"
+    }
+  ],
+  "original_queries": 0
+}

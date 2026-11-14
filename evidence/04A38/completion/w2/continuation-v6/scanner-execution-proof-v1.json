@@ -1,0 +1,47 @@
+{
+  "result": {
+    "scanner_sources_unchanged": true,
+    "scanner_ast_sha256": "11c38010824cd1a0791eb7dbbd5a3c054f9054b2d6e737a63678d243287e47e9",
+    "per_file_cache": {
+      "fresh": 3617,
+      "reused": 3604
+    },
+    "law": "Original per-file findings concatenation and reviewed-set union, identical function/git AST, ROOT/env/path/bytes key; changed bytes invalidate cache; positive findings retained",
+    "guarded": [
+      {
+        "source": "verify-04a11-publication.py",
+        "empty_email_cases": 194,
+        "original_finditer_fallbacks": 0
+      },
+      {
+        "source": "verify-04a13-publication.py",
+        "empty_email_cases": 12673,
+        "original_finditer_fallbacks": 37
+      },
+      {
+        "source": "verify-04a14-publication.py",
+        "empty_email_cases": 24,
+        "original_finditer_fallbacks": 1
+      },
+      {
+        "source": "verify-04a14-publication.py",
+        "empty_email_cases": 0,
+        "original_finditer_fallbacks": 0
+      },
+      {
+        "source": "verify-04a14-publication.py",
+        "empty_email_cases": 0,
+        "original_finditer_fallbacks": 0
+      },
+      {
+        "source": "verify-04a14-publication.py",
+        "empty_email_cases": 0,
+        "original_finditer_fallbacks": 0
+      }
+    ]
+  },
+  "raw_stdout_sha256": "31cf321fc96ec1e79d177e50e8585ad1106864094c52ffff6605df3312b46806",
+  "all_original_assertions_executed": true,
+  "files_filtered": 0,
+  "positive_findings_waived": 0
+}

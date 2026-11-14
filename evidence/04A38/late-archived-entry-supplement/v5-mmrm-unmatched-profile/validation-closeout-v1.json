@@ -1,0 +1,69 @@
+{
+  "gate_validation": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/gate-validation.json",
+    "bytes": 50207,
+    "sha256": "72d1926ba93470a288f623a5e81262fe727aed3a52681f333f2017530decd02f"
+  },
+  "group_gap_adverse": {
+    "label": "mmrm38-v5-group-gap-adverse",
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "68794c3158a50652addd66191958dbfc0bb4f4c94e1c592b9457a4c8040d6a78",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_array_as_scalar_group (test_group_gap.GroupGapTests.test_array_as_scalar_group)",
+      "test_borrowed_profile_guard (test_group_gap.GroupGapTests.test_borrowed_profile_guard)",
+      "test_false_authority (test_group_gap.GroupGapTests.test_false_authority)",
+      "test_false_ready (test_group_gap.GroupGapTests.test_false_ready)",
+      "test_intact (test_group_gap.GroupGapTests.test_intact)",
+      "test_invented_output (test_group_gap.GroupGapTests.test_invented_output)",
+      "test_production_after_stop (test_group_gap.GroupGapTests.test_production_after_stop)",
+      "test_proposal_third_case (test_group_gap.GroupGapTests.test_proposal_third_case)",
+      "test_report_as_intercept_guard (test_group_gap.GroupGapTests.test_report_as_intercept_guard)",
+      "test_unapproved_reference (test_group_gap.GroupGapTests.test_unapproved_reference)",
+      "test_wrong_member (test_group_gap.GroupGapTests.test_wrong_member)",
+      "test_wrong_original_line (test_group_gap.GroupGapTests.test_wrong_original_line)"
+    ],
+    "nonpasses": []
+  },
+  "group_gap_reader": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\verify_group_gap.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 3.8367490000018734,
+    "stdout_sha256": "1ae6c315c3ba6f7d9ed50619202405941ea66c80a5064d3617e16ff987073246",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "new_test_total": 93,
+  "old_test_total": 352,
+  "failed_read_only_presentation": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/source-review-console-attempt.json",
+    "bytes": 1331,
+    "sha256": "4ee1ca7f30ee3f30f9a950a474198a83900e8d660e9719e35f9153236138ba5e"
+  },
+  "gate_compiler_materialization_capture_test_nonpasses": [],
+  "full_suites": "NOT_RUN: evidence-only; no production/existing test/project change; mandatory stop at newly established essential scalar-group reference gap",
+  "inherited_receipts_only": {
+    "managed_Debug": "20556 PASS /14 inherited FAIL",
+    "managed_Release": "20556 PASS /14 inherited FAIL",
+    "Python": "767 PASS /178 FAIL /11 ERROR",
+    "Node": "916 PASS",
+    "strict": 1,
+    "profile": 1,
+    "MkDocs": 0
+  },
+  "wrappers": "Inspected;NOT_RUN: implicit restore/shared TestResults/Legacy packaging; safe isolated offline equivalents ran",
+  "native_Excel_COM_UIA_RefEdit": "NOT_RUN",
+  "independent_R": "NOT_RUN",
+  "Office_Mac_manual": "NOT_RUN",
+  "packaging_signing_installation_deployment": "NOT_RUN",
+  "full_ready_verifier": "NOT_COMPLETED_NOT_RUN"
+}

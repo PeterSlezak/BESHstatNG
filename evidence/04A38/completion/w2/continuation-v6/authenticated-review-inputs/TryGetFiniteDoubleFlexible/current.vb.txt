@@ -1,0 +1,14 @@
+Friend Function TryGetFiniteDoubleFlexible(v As Object, ByRef x As Double) As Boolean
+            x = 0.0R
+
+            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)
+            If d.HasValue Then
+                x = d.Value
+                Return True
+            End If
+
+            If ExcelArgPredicates.IsMissingArg(v) OrElse TypeOf v Is ExcelError OrElse TypeOf v Is Boolean Then Return False
+
+            Dim s As String = ExcelArgReaders.CellToTrimmedText(v)
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryFiniteText(s, x)
+        End Function

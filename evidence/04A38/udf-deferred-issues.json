@@ -1,0 +1,72 @@
+{
+  "status": "DEFERRED_SCIENTIFIC_POLICY_NATIVE_OBLIGATIONS_NOT_DISCHARGED",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED"
+  },
+  "issues": [
+    {
+      "id": "UDF38-D39-ALPHA-DEFAULT",
+      "source": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb:ParseAlphaOrDefault; UdfDataImportOptions.vb:TryParseAlpha",
+      "observation": "TryParseAlpha resets alpha to0.05 even when ParseAlphaOrDefault was supplied another default. Existing behavior is preserved.",
+      "batch": "04A.39",
+      "status": "DEFERRED; NOT_FIXED"
+    },
+    {
+      "id": "UDF38-D39-TEXT-PRECISION",
+      "source": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb:CellToTrimmedText",
+      "observation": "Existing numeric-to-text conversion/whole-number CLng behavior, header stripping, truncation, native coercion and paired/source identity require the planned policy investigation. Physical worksheet rows are not inferred.",
+      "batch": "04A.39",
+      "status": "DEFERRED; NOT_FIXED"
+    },
+    {
+      "id": "UDF38-D39-BINARY-TRUNCATION",
+      "source": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb:TryGetBinary01",
+      "observation": "Legacy numeric0.75 is truncated to0; large finite values can overflow CInt. This is captured and preserved, not silently hardened.",
+      "batch": "04A.39",
+      "status": "DEFERRED; NOT_FIXED"
+    },
+    {
+      "id": "UDF38-D40-GLMNB-RESID",
+      "source": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb:GLMNB_RESID",
+      "observation": "Archived original fixture encounters null model residual state before selector dispatch. These are negative legacy cases, not successful residual-option coverage.",
+      "batch": "04A.40",
+      "status": "DEFERRED; NOT_FIXED"
+    },
+    {
+      "id": "UDF38-D41-ALIGNMENT",
+      "source": "docs/architecture/WindowsMigrationLedger/",
+      "observation": "Historical basic/agreement/assumptions/sample-size GUI/UDF alignment findings remain candidates. No alpha, Shapiro, DAgostino, Liddell, nested-label or scientific estimator correction is approved by this extraction.",
+      "batch": "04A.41",
+      "status": "DEFERRED; NOT_FIXED"
+    },
+    {
+      "id": "UDF38-D42-FA-FACTORABILITY",
+      "source": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb:FA_FACTORABILITY",
+      "observation": "Archived original allocates five/six rows then writes an additional row, causing IndexOutOfRange in captured public cases. Negative original outputs are preserved.",
+      "batch": "04A.42",
+      "status": "DEFERRED; NOT_FIXED"
+    },
+    {
+      "id": "UDF38-D42-PLOT-MODEL",
+      "source": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb; PlotDataUDFs.vb; PropensityScoreUDFs.vb",
+      "observation": "Prior multivariate/PSM/classification and plotted-statistic/source alignment obligations remain open scientifically; source-compatible projection is not adjudication.",
+      "batch": "04A.42",
+      "status": "DEFERRED; NOT_FIXED"
+    },
+    {
+      "id": "UDF38-D43-CACHE-LIFECYCLE",
+      "source": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb:UdfCacheHelpers and per-family dictionaries",
+      "observation": "Session ownership, invalidation, recalculation, concurrency/workbook identity and handle redesign remain Windows-owned. No cache dictionary or comparer/lifetime redesign is made.",
+      "batch": "04A.43",
+      "status": "DEFERRED; NOT_FIXED"
+    }
+  ],
+  "scope_qualification": "These deferred semantic/scientific/native issues do not close unfinished04A38 migration ownership. The separate progress ledger retains its OPEN review entries.",
+  "scientific": "NOT_GOLDEN",
+  "native": "NOT_RUN",
+  "next_batch": "04A39_NOT_AUTHORIZED"
+}

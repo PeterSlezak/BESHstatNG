@@ -1,0 +1,11 @@
+Friend Function TryGetNestedThreeColumnData(input As Object,
+                                                ByRef data(,) As Object,
+                                                ByRef names() As String) As Boolean
+        data = Nothing
+        names = Nothing
+
+        Dim arr As Object(,) = Get2D(input)
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryGetNestedThreeColumnDataPrepared(
+            arr, Function(cell) Convert.ToString(cell).Trim(),
+            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble, data, names)
+    End Function

@@ -1,0 +1,289 @@
+{
+  "configurations": [
+    {
+      "configuration": "Debug",
+      "metadata": {
+        "path": "evidence/04A38/completion/w2/continuation-v4/metadata-v6/parametric-v4/current-Debug.json",
+        "bytes": 10971103,
+        "sha256": "a5f24f64ecf2b17b1433ce7510a57200b5221574ff4f6ef997e0f635193431c8"
+      },
+      "edges": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ANOVA1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.ParametricUdfReports38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildOneWayAnovaTable(System.Double[][] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ANOVA1_WELCH(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.ParametricUdfReports38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildWelchAnovaTable(System.Double[][] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ANOVA1_MCP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.ParametricUdfReports38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildOneWayMcpTables(System.Double[][] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ResolveNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfNamePreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FillExplicitNames(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ResolveNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfNamePreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ResolveDetectedNames(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.StackWithBlankRow(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.StackWithBlankRow(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CountDistinctOutcomeCategories(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CountDistinctOutcomeCategories(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsValidProbability(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsValidProbability(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampProbabilityValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampProbabilityValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasOnlyFinite(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasOnlyFinite(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetNonnegativeIntegerResponse(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32[]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetNonnegativeIntegerResponse(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32[]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.RowsToMatrix(System.Collections.Generic.List`1[[System.Double[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.RowsToMatrix(System.Collections.Generic.List`1[[System.Double[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "newobj",
+          "target": "METHOD:System.Func`1[[BESHStatNG.ExcelCommon.UdfVariableNameRange38, BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfNamePreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[BESHStatNG.ExcelCommon.UdfVariableNameRange38, BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfLinearAlgebra @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryInvertMatrix(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetSquareMatrixDimensions(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfLinearAlgebra @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryInvertMatrix(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryInvertPreparedSquareMatrix(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.MaterializePortableReport38(BESHStatNG.ExcelCommon.UdfReportProjection38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Object[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PvalueCells(BESHStatNG.ResultTableOutputModel @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PrepareResultTableForUdf(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeBlanks(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PrepareResultTableForUdf(BESHStatNG.ResultTable @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PvalueCells(BESHStatNG.ResultTableOutputModel @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsPValueLabel(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsPValueLabel(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampProb(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampProbabilityValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__2()",
+          "opcode": "newobj",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfVariableNameRange38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "metadata": {
+        "path": "evidence/04A38/completion/w2/continuation-v4/metadata-v6/parametric-v4/current-Release.json",
+        "bytes": 10240528,
+        "sha256": "c722b3a36965c3f68ee1a844aa5af58d7db79ad50d33d5280c01516f32dcf809"
+      },
+      "edges": [
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ANOVA1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.ParametricUdfReports38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildOneWayAnovaTable(System.Double[][] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ANOVA1_WELCH(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.ParametricUdfReports38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildWelchAnovaTable(System.Double[][] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ANOVA1_MCP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.ParametricUdfReports38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildOneWayMcpTables(System.Double[][] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ResolveNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfNamePreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FillExplicitNames(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ResolveNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfNamePreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ResolveDetectedNames(System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.WorksheetFunctions.ParametricUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.StackWithBlankRow(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.StackWithBlankRow(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CountDistinctOutcomeCategories(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CountDistinctOutcomeCategories(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsValidProbability(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsValidProbability(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampProbabilityValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampProbabilityValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasOnlyFinite(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasOnlyFinite(System.Double[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetNonnegativeIntegerResponse(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32[]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetNonnegativeIntegerResponse(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32[]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.RowsToMatrix(System.Collections.Generic.List`1[[System.Double[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.RowsToMatrix(System.Collections.Generic.List`1[[System.Double[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "newobj",
+          "target": "METHOD:System.Func`1[[BESHStatNG.ExcelCommon.UdfVariableNameRange38, BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfNamePreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[BESHStatNG.ExcelCommon.UdfVariableNameRange38, BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfLinearAlgebra @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryInvertMatrix(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetSquareMatrixDimensions(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfLinearAlgebra @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryInvertMatrix(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryInvertPreparedSquareMatrix(System.Double[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double[,]& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.MaterializePortableReport38(BESHStatNG.ExcelCommon.UdfReportProjection38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Object[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PvalueCells(BESHStatNG.ResultTableOutputModel @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PrepareResultTableForUdf(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeBlanks(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PrepareResultTableForUdf(BESHStatNG.ResultTable @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PvalueCells(BESHStatNG.ResultTableOutputModel @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsPValueLabel(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfSpillPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsPValueLabel(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfOutputTables @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampProb(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "opcode": "call",
+          "target": "METHOD:BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38 @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampProbabilityValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        },
+        {
+          "caller": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__2()",
+          "opcode": "newobj",
+          "target": "METHOD:BESHStatNG.ExcelCommon.UdfVariableNameRange38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "offset": null
+        }
+      ]
+    }
+  ],
+  "proof_scope": "Actual freshly compiled native instructions; full-body proof separately verify_names.py; original metadata inspection only"
+}

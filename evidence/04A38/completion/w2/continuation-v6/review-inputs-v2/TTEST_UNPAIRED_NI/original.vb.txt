@@ -1,0 +1,66 @@
+fidence level <c>1 - 2α</c>. Non-inferiority is supported when
+        ''' the lower confidence bound exceeds <c>-M</c> and, equivalently, when the one-sided p-value is at most <c>α</c>.
+        ''' </para>
+        ''' <para>
+        ''' Missing or non-numeric cells are removed independently within each supplied group before the comparison is formed.
+        ''' Each retained sample must contribute at least two usable numeric observations.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.PAR.TTEST_UNPAIRED_NI(A2:A21,B2:B19,0.5)
+        ''' =BESH.PAR.TTEST_UNPAIRED_NI(A1:A21,B1:B19,1.25,"Control,Treatment","welch",0.025)
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.PAR.TTEST_UNPAIRED_NI",
+            Category:="BESHStatNG - Parametric",
+            Description:="Non-inferiority comparison for two independent means with CI-based decision reporting.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function TTEST_UNPAIRED_NI(
+            <ExcelArgument(AllowReference:=True, Name:="control", Description:="Control/reference group as a single-column range. First cell may be a header.")> control As Object,
+            <ExcelArgument(AllowReference:=True, Name:="experimental", Description:="Experimental/test group as a single-column range. First cell may be a header.")> experimental As Object,
+            <ExcelArgument(Name:="margin", Description:="Positive non-inferiority margin magnitude M. The null limit is -M on the experimental-minus-control scale.")> margin As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional names as comma-separated text or a 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional variance assumption: welch (default) or equal/pooled/student.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional one-sided alpha. Default 0.025.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetIndependentNumericColumns(control, experimental, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
+                If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
+                If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim marginValue As Double
+                If Not TryGetFiniteDouble(margin, marginValue) Then Return ExcelError.ExcelErrorValue
+                If marginValue <= 0.0 Then Return ExcelError.ExcelErrorNum
+
+                Dim alphaValue As Double = 0.025
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim assumeEqual As Boolean = ParseEqualVarianceMode(method, False)
+                Dim names() As String = ParametricUDFs.ResolveNames(groupNames, detectedNames, 2, "Group")
+
+                Dim result As MeanNonInferiorityResult = EquivalenceNonInferiorityMethods.TestUnpairedMeansNonInferiority(
+                    data(0), data(1), marginValue, alphaValue, assumeEqual)
+
+                Dim body As Object(,) = {
+                    {"Control group", names(0)},
+                    {"Experimental group", names(1)},
+                    {"Variance model", If(result.AssumeEqualVariances, "Equal variances (pooled Student t)", "Unequal variances (Welch)")},
+                    {"Observations in control", result.NumberOfControls},
+                    {"Observations in experimental", result.NumberOfExperimental},
+                    {"Mean control", result.MeanControl},
+                    {"Mean experimental", result.MeanExperimental},
+                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
+                    {"Standard error of the difference", result.StandardError},
+                    {"Degrees of freedom", result.DegreesOfFreedom},
+                    {"Non-inferiority margin magnitude", result.NonInferiorityMargin},
+                    {"Null boundary on difference scale", result.NonInferiorityLimit},
+                    {"One-sided alpha", result.AlphaOneSided},
+                    {"Test statistic", result.TestStatistic},
+                    {"One-sided p-value", result.PValue},
+                    {"Lower one-sided confidence limit", result.LowerOneSidedConfidenceLimit},
+                    {SafeCiLabel(result.TwoSidedEquivalentConfidenceInterval), SafeCiText(result.TwoSidedEquivalentConfidenceInterval)}

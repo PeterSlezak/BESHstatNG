@@ -1,0 +1,75 @@
+{
+  "status": "ALL5829_RETAINED_SUCCESS_ROWS_BOUND_TO_IMMUTABLE_C15_INPUT_AUTHORITIES",
+  "successful_rows": 5829,
+  "receipts": [
+    {
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/1/input.json",
+        "bytes": 329711,
+        "sha256": "5180b910f917640a869a448fe0c389d4e200f4841ecae0f8df9e5de8b822828b"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/1/raw-result.json",
+        "bytes": 133851,
+        "sha256": "17c4227703d539e6de80bd25ffe0cda77c659916a0bf985ff3dadb1729392fff"
+      }
+    },
+    {
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/2/input.json",
+        "bytes": 336166,
+        "sha256": "ff7c8dc8888b514b4c681fd789185cd4a081edb25b1cd70c297900151feadf93"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/2/raw-result.json",
+        "bytes": 429486,
+        "sha256": "c4809f0eda621a5401c975816d9871b5d791e031b7e0a3b1a1109c10b5c4cf08"
+      }
+    },
+    {
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/3/input.json",
+        "bytes": 330205,
+        "sha256": "ed320fec2b888d70cbf059f402f434c33a76deb8c64be8f8690826e5da941565"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/3/raw-result.json",
+        "bytes": 481614,
+        "sha256": "d926a7965b8710588ebfbd440055bac4d2750d6bfb7ace8d2b5546ab0a726214"
+      }
+    },
+    {
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/4/input.json",
+        "bytes": 330667,
+        "sha256": "a44e339b02d50ec3e2ae0b0f2fbe62591c160de5ff5213ad4e5f8ab14a02d1b6"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/4/raw-result.json",
+        "bytes": 461270,
+        "sha256": "9bb382bd318ede823b5e22e02af46327f9fe0651f247ea1a8fa328b08c869eaf"
+      }
+    },
+    {
+      "plan": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/5/input.json",
+        "bytes": 330171,
+        "sha256": "dead7c9ecd89c6ad6837727e586d6af6682290237e29f52cc23c2b8c9ea3e24d"
+      },
+      "result": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/python-v1/1-owner-replacement-v1/parallel-scan-1/5/raw-result.json",
+        "bytes": 449065,
+        "sha256": "b1ecb62b14ea725043b09e64c7e06e6f72a50ce52e04f535cefd8d302d8625c2"
+      }
+    }
+  ],
+  "source_kernel": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/retained_scan_cache_v16_v2.py",
+    "bytes": 5064,
+    "sha256": "c2e3ddb22e462d3adbe32d15eb08b5fd2d54828964a4feb149ba90155593f4d0"
+  },
+  "original_scanner_calls": 0,
+  "repository_corpus_rehashes": 0,
+  "scope": "Only small recorded plan/result/index metadata parsed. Real source/environment/current-byte validation happens once inside the ordinary scanner lane. Frozen self-document and later additive inputs use actual immutable final C15 index/exclusion pins, without a manufactured recursive hash.",
+  "original_queries": 0
+}

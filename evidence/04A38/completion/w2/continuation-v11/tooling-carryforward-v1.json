@@ -1,0 +1,88 @@
+{
+  "files": [
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/build_v1.py",
+        "bytes": 1986,
+        "sha256": "e760141f3102f76386204d07c54177d50c2e8c163e2e8c0b35283652d1e8d232"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/build_v1.py",
+        "bytes": 1986,
+        "sha256": "e760141f3102f76386204d07c54177d50c2e8c163e2e8c0b35283652d1e8d232"
+      }
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/inspect_stage_v1.py",
+        "bytes": 2936,
+        "sha256": "c12cb2250c6f70eef8f4acd310182781d0fdfd162fe6138d402d88879f8b812b"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/inspect_stage_v1.py",
+        "bytes": 2936,
+        "sha256": "c12cb2250c6f70eef8f4acd310182781d0fdfd162fe6138d402d88879f8b812b"
+      }
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/compatibility_v1.py",
+        "bytes": 5359,
+        "sha256": "e092b0f613519ddad743a78502d005ac7807536b2c229b5df00c75a5b881f5cc"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/compatibility_v1.py",
+        "bytes": 5359,
+        "sha256": "e092b0f613519ddad743a78502d005ac7807536b2c229b5df00c75a5b881f5cc"
+      }
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/inspect_metadata_v5.py",
+        "bytes": 1556,
+        "sha256": "3bc7eb34086f359aa06f2098d274b8818e0ceccee2140164324e9eebea5eebea"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/inspect_metadata_v5.py",
+        "bytes": 1556,
+        "sha256": "a2f8704927143635cec35339619e71b33711f6b7288610798c88c2a9acd1d6c8"
+      }
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/declaration_shapes_v1.py",
+        "bytes": 1534,
+        "sha256": "32c2fd10ae128e30c57e6a4e29060ec31d9363db117494dda256a70a43da6841"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/declaration_shapes_v1.py",
+        "bytes": 1534,
+        "sha256": "32c2fd10ae128e30c57e6a4e29060ec31d9363db117494dda256a70a43da6841"
+      }
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/return_metadata_v1.py",
+        "bytes": 1524,
+        "sha256": "755636e0935565509f02821e442476e85382a6c55eaf430d95ff30df7a08b420"
+      },
+      "after": {
+        "path": "evidence/04A38/completion/w2/continuation-v11/return_metadata_v1.py",
+        "bytes": 1524,
+        "sha256": "755636e0935565509f02821e442476e85382a6c55eaf430d95ff30df7a08b420"
+      }
+    }
+  ],
+  "kernel_before": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/proof_kernel_v2.py",
+    "bytes": 5991,
+    "sha256": "c715fcd4a04170af7488234a6b3f8ac5a3e0912dbb683eb6d4c4c259f8936af6"
+  },
+  "kernel_after": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/proof_kernel_v3.py",
+    "bytes": 6053,
+    "sha256": "731d258e566316d7e3e207285c1dd7826bfb739f41a32d24f17eede16b7c45d9"
+  },
+  "change": "Explicit declared native nested handle parameter types for this cohort. Preserve all rank/ByRef/owner checks. Prior sealed readers and tool bytes remain unchanged.",
+  "original_queries": 0
+}

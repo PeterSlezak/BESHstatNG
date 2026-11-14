@@ -1,0 +1,78 @@
+{
+  "status": "AUTHENTICATED_PREIMAGES_BEFORE_C10_IMPLEMENTATION",
+  "source_paths": [
+    "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+    "BESHStat.Excel.Common/src/Analysis/UdfContingencyPreparation38.vb",
+    "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb",
+    "BESHStat.Excel.Common.Tests/src/UdfContinuation10Tests.vb"
+  ],
+  "source_before": [
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+        "bytes": 77923,
+        "sha256": "17537109025f4f0d55e7647d852e7284f2c2ef3d106f2630d5156dc1515399f9"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/source-before/BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb.txt",
+        "bytes": 77923,
+        "sha256": "17537109025f4f0d55e7647d852e7284f2c2ef3d106f2630d5156dc1515399f9"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 221916,
+        "sha256": "ead88a15ee8de7d18446d9ae7d09a5cb270fc16cf07fad171192b61ad74ddd3c"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/source-before/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb.txt",
+        "bytes": 221916,
+        "sha256": "ead88a15ee8de7d18446d9ae7d09a5cb270fc16cf07fad171192b61ad74ddd3c"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfContingencyPreparation38.vb",
+        "bytes": 2871,
+        "sha256": "7967832e43c3b11f943b4950b54b4c5d91cf7d0177952a9674ad351bde60b468"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/source-before/BESHStat.Excel.Common/src/Analysis/UdfContingencyPreparation38.vb.txt",
+        "bytes": 2871,
+        "sha256": "7967832e43c3b11f943b4950b54b4c5d91cf7d0177952a9674ad351bde60b468"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 76206,
+        "sha256": "6d75ee8af5aef784404ff0e6ecdcedd8cc7bc2ab1187e6b21d2d9d72a4cca74f"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "bytes": 76206,
+        "sha256": "6d75ee8af5aef784404ff0e6ecdcedd8cc7bc2ab1187e6b21d2d9d72a4cca74f"
+      }
+    }
+  ],
+  "new_sources": [
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb",
+      "entry_state": "ABSENT"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation10Tests.vb",
+      "entry_state": "ABSENT"
+    }
+  ],
+  "entry": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/entry-v1.json",
+    "bytes": 15718,
+    "sha256": "044997d66d026033313983bdb52f3410faf64353f79cea04aedc991a5b027163"
+  },
+  "scope": "Eleven complete typed Contingency calculation/report phases and four PCA/FA report phases. Original Core engines, host conversions/acquisition/defaults, caches/handles, errors and exported ABI remain. FA fitting stays unchanged because its ordered typed Core delegation is already portable; source/CIL proof preferred to a facade. FA eigen header parsing stays lazy through a named native delegate and a ByRef Object slot; no extra boxed Object copies are allowed.",
+  "original_queries": 0
+}

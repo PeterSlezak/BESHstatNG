@@ -1,0 +1,84 @@
+{
+  "status": "POSITIVE_AND_ADVERSE_READBACK_CONTROLS_PASS",
+  "controls": [
+    {
+      "name": "missing production source",
+      "status": "REJECTED"
+    },
+    {
+      "name": "modified production source",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsupported closure",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing entire-body proof",
+      "status": "REJECTED"
+    },
+    {
+      "name": "renumbered original identity",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing supported identity",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe transport ../escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe transport /absolute",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe transport C:/absolute",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe transport folder/../escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe transport a\\b",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe transport .git/config",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe transport a/CON.txt",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe transport folder/trailing.",
+      "status": "REJECTED"
+    },
+    {
+      "name": "duplicate logical payload",
+      "status": "REJECTED"
+    },
+    {
+      "name": "casefold collision",
+      "status": "REJECTED"
+    },
+    {
+      "name": "private raw tamper",
+      "status": "REJECTED"
+    },
+    {
+      "name": "late-reference provenance relabelling",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing original branch fragment BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb|SingleLineIfStatement@5558:53",
+      "status": "REJECTED"
+    }
+  ],
+  "repository_files_modified": 0,
+  "original_queries": 0,
+  "scope": "Real validators with altered in-memory specimens; actual source/private/reference bytes remain unchanged. Exact prior source/CIL/whole-body fragment proofs separately replayed and pinned."
+}

@@ -1,0 +1,32 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/entry_queue_v2.py",
+    "bytes": 15926,
+    "sha256": "2fc1249560f717ca8d5e67d49160593c7b56dc1d358077d19f733ce5a6705688"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/entry_queue_v3.py",
+    "bytes": 16050,
+    "sha256": "8173bc25be05f55eec9b1c964fdef15a8f8249d8e364890ad0a660e058ee3756"
+  },
+  "unsuccessful_attempt": {
+    "command.json": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-queue-v2/command.json",
+      "bytes": 587,
+      "sha256": "eee58b9bda40d2d4d91669e73c67840efd68e6fecaa270720d76b6a74f128ead"
+    },
+    "stdout.log": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-queue-v2/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.log": {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c13-entry-queue-v2/stderr.log",
+      "bytes": 760,
+      "sha256": "2a7df82d943abd10154869868f728e3a2e8dd8d571dbc6a36c80f406c44eb761"
+    }
+  },
+  "reason": "V2 fully bound the selected24 including both distinct lambdas, then unnecessarily applied the lambda resolver to all704 historical members while constructing the native-root map. An unrelated Lmm accessor correctly rejected that misuse. V3 maps only exact current IDs of selected native parent/lifecycle roots and requires every root. No closure or source identity was changed or guessed.",
+  "production_edits": 0,
+  "original_queries": 0
+}

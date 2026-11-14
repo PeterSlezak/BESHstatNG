@@ -1,0 +1,7 @@
+Friend Function BuildResultTable(title As String, body As Object(,)) As Object(,)
+        Dim t As New ResultTable
+        t.SetBody(body)
+        MarkPValueRows(t, body)
+        t.AddHeaderTopRow({title, ""})
+        Return PrepareResultTableForUdf(t)
+    End Function

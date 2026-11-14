@@ -1,0 +1,108 @@
+{
+  "commands": [
+    {
+      "configuration": "Debug",
+      "compile": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\text-domains-v5\\Debug\\BESHStat.Excel.Common.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Microsoft.VisualBasic.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\text-domains-v5\\Debug\\TextDomainProbe.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\TextDomainProbe-v3.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4158960999920964,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "run": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\text-domains-v5\\Debug\\TextDomainProbe.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\text-call-sites.json",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\text-domains-parametric-v4-v5-Debug.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.248863699991489,
+        "stdout_sha256": "43028b88e8f05250d524e85acdfdf03796b305bc37d60c70bf57e51b68432859",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "result": {
+        "path": "evidence/04A38/completion/w2/continuation-v4/text-domains-parametric-v4-v5-Debug.json",
+        "bytes": 357521,
+        "sha256": "81262c122b700cbfa8686b30ad58c7d33995686622506fe0ff9a6a39ba301007"
+      },
+      "assembly": {
+        "name": "BESHStat.Excel.Common.dll",
+        "bytes": 1071104,
+        "sha256": "88f8e96c1aa85d4c280197a47b6feeadf3385726737ba5fcb916ab657119375b"
+      }
+    },
+    {
+      "configuration": "Release",
+      "compile": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+          "/nologo",
+          "/target:exe",
+          "/reference:System.Core.dll",
+          "/reference:System.Web.Extensions.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\text-domains-v5\\Release\\BESHStat.Excel.Common.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Microsoft.VisualBasic.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "/out:<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\text-domains-v5\\Release\\TextDomainProbe.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\TextDomainProbe-v3.cs"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.36369580001337454,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "run": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\text-domains-v5\\Release\\TextDomainProbe.exe",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\text-call-sites.json",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\text-domains-parametric-v4-v5-Release.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.0496851000061724,
+        "stdout_sha256": "43028b88e8f05250d524e85acdfdf03796b305bc37d60c70bf57e51b68432859",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "result": {
+        "path": "evidence/04A38/completion/w2/continuation-v4/text-domains-parametric-v4-v5-Release.json",
+        "bytes": 357521,
+        "sha256": "81262c122b700cbfa8686b30ad58c7d33995686622506fe0ff9a6a39ba301007"
+      },
+      "assembly": {
+        "name": "BESHStat.Excel.Common.dll",
+        "bytes": 995840,
+        "sha256": "c044210d50dc50f11342accc8b5707649f8d974bd404b1d808d118e686b009f6"
+      }
+    }
+  ],
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v4/TextDomainProbe-v3.cs",
+    "bytes": 6160,
+    "sha256": "04105b0f2276f1edca10c16b494f25f4248a5e774a629debf4bdb66275bf8202"
+  },
+  "policy": {
+    "path": "BESHStat.Excel.Common/src/Analysis/LegacyUdfText38.vb",
+    "bytes": 968,
+    "sha256": "d42882ab96ae198e6e8c2c260f38d3e59439ab1adbe7c49e1c4f9347fb1c46cf"
+  },
+  "production_policy_changed": false,
+  "original_queries": 0
+}

@@ -552,173 +552,71 @@ Namespace WorksheetFunctions
                                          scoreMethod As Object,
                                          matchingOptions As Object,
                                          diagnosticOptions As Object) As PsmComprehensiveFitOptions
-            Dim fitOptions As New PsmComprehensiveFitOptions()
-            fitOptions.StandardOptions = New PsmOptions()
+            Dim fitOptions As PsmComprehensiveFitOptions = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.CreateFitOptionsPrepared()
             fitOptions.RunMethod = ParseRunMethod(ExcelArgReaders.AsString(method), PsmBackendRunMethod.StandardNearestNeighbor)
             fitOptions.StandardOptions.Estimand = ParseEstimand(ExcelArgReaders.AsString(estimand), PsmEstimand.ATT)
             fitOptions.StandardOptions.ScoreMethod = ParseScoreMethod(ExcelArgReaders.AsString(scoreMethod), PsmScoreMethod.LogisticRegression)
             ApplyOptionText(fitOptions, ExcelArgReaders.AsString(matchingOptions))
             ApplyOptionText(fitOptions, ExcelArgReaders.AsString(diagnosticOptions))
-            NormalizeFitOptions(fitOptions)
-            PsmMethodCapabilities.ValidateFitOptions(fitOptions)
-            Return fitOptions
+            Return Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.CompleteFitOptionsPrepared(fitOptions)
         End Function
 
         Private Sub NormalizeFitOptions(fitOptions As PsmComprehensiveFitOptions)
-            Dim o As PsmOptions = fitOptions.StandardOptions
-            If fitOptions.RunMethod = PsmBackendRunMethod.OptimalPairMatching Then
-                o.MatchingRatio = 1
-                o.WithReplacement = False
-            End If
-            If Not PsmMethodCapabilities.UsesMatchingControls(fitOptions.RunMethod) Then
-                o.MatchingRatio = 1
-                o.WithReplacement = False
-                o.DistanceMetric = PsmDistanceMetric.PropensityScore
-                o.CaliperScale = PsmCaliperScale.None
-                o.Caliper = Double.NaN
-            End If
-            If fitOptions.RunMethod = PsmBackendRunMethod.CoarsenedExactMatching AndAlso fitOptions.CoarseningSpec Is Nothing Then
-                fitOptions.CoarseningSpec = New PsmCoarseningSpec With {
-                    .Estimand = o.Estimand,
-                    .NormalizeWeightsToSampleSize = o.NormalizeWeightsToSampleSize
-                }
-            End If
+            Global.BESHStatNG.ExcelCommon.UdfPsmPreparation38.NormalizeFitOptions(fitOptions)
         End Sub
 
         Private Sub ApplyOptionText(fitOptions As PsmComprehensiveFitOptions, optionText As String)
-            If String.IsNullOrWhiteSpace(optionText) Then Return
-            Dim parts As String() = optionText.Split({";"c, ChrW(10), ChrW(13)}, StringSplitOptions.RemoveEmptyEntries)
-            For Each raw As String In parts
-                Dim p As String = raw.Trim()
-                If p.Length = 0 Then Continue For
-                Dim eq As Integer = p.IndexOf("="c)
-                Dim key As String = NormalizeOptionKey(If(eq >= 0, p.Substring(0, eq), p))
-                Dim value As String = If(eq >= 0, p.Substring(eq + 1).Trim(), "true")
-                ApplyOption(fitOptions, key, value)
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfPsmPreparation38.ApplyOptionText(fitOptions, optionText)
         End Sub
 
         Private Sub ApplyOption(fitOptions As PsmComprehensiveFitOptions, key As String, value As String)
-            Dim o As PsmOptions = fitOptions.StandardOptions
-            Select Case key
-                Case "method", "runmethod"
-                    fitOptions.RunMethod = ParseRunMethod(value, fitOptions.RunMethod)
-                Case "estimand"
-                    o.Estimand = ParseEstimand(value, o.Estimand)
-                Case "scoremethod", "score"
-                    o.ScoreMethod = ParseScoreMethod(value, o.ScoreMethod)
-                Case "distance", "distancemetric"
-                    o.DistanceMetric = ParseDistance(value, o.DistanceMetric)
-                Case "ratio", "matchingratio", "k"
-                    o.MatchingRatio = Math.Max(1, ParseInteger(value, o.MatchingRatio))
-                Case "replacement", "withreplacement"
-                    o.WithReplacement = ParseBoolean(value, o.WithReplacement)
-                Case "caliperscale", "calipertype"
-                    o.CaliperScale = ParseCaliperScale(value, o.CaliperScale)
-                Case "caliper"
-                    o.Caliper = ParseDouble(value, o.Caliper)
-                Case "order", "matchingorder"
-                    o.MatchingOrder = ParseOrder(value, o.MatchingOrder)
-                Case "support", "commonsupport"
-                    o.CommonSupport = ParseSupport(value, o.CommonSupport)
-                Case "seed", "randomseed"
-                    o.RandomSeed = ParseInteger(value, o.RandomSeed)
-                Case "intercept", "includeintercept"
-                    o.IncludeIntercept = ParseBoolean(value, o.IncludeIntercept)
-                Case "standardize", "standardizecovariates"
-                    o.StandardizeCovariates = ParseBoolean(value, o.StandardizeCovariates)
-                Case "maxiter", "logisticmaxiterations"
-                    o.LogisticMaxIterations = Math.Max(1, ParseInteger(value, o.LogisticMaxIterations))
-                Case "tol", "tolerance", "logistictolerance"
-                    o.LogisticTolerance = ParseDouble(value, o.LogisticTolerance)
-                Case "ridge", "ridgepenalty", "logisticridgepenalty"
-                    o.LogisticRidgePenalty = ParseDouble(value, o.LogisticRidgePenalty)
-                Case "smd", "smdthreshold", "balancesmdthreshold"
-                    o.BalanceSmdThreshold = ParseDouble(value, o.BalanceSmdThreshold)
-                    fitOptions.LovePlotThreshold = o.BalanceSmdThreshold
-                Case "vrlower", "varianceratiolower"
-                    o.BalanceVarianceRatioLower = ParseDouble(value, o.BalanceVarianceRatioLower)
-                Case "vrupper", "varianceratioupper"
-                    o.BalanceVarianceRatioUpper = ParseDouble(value, o.BalanceVarianceRatioUpper)
-                Case "strata", "subclasses", "subclassificationstrata"
-                    o.SubclassificationStrata = Math.Max(2, ParseInteger(value, o.SubclassificationStrata))
-                Case "normalize", "normalizeweights", "normalizeweightstosamplesize"
-                    o.NormalizeWeightsToSampleSize = ParseBoolean(value, o.NormalizeWeightsToSampleSize)
-                Case "trimlower", "trimpropensitylower"
-                    o.TrimPropensityLower = ParseDouble(value, o.TrimPropensityLower)
-                Case "trimupper", "trimpropensityupper"
-                    o.TrimPropensityUpper = ParseDouble(value, o.TrimPropensityUpper)
-                Case "dr", "aipw", "doublyrobust"
-                    fitOptions.IncludeDoublyRobustEstimate = ParseBoolean(value, fitOptions.IncludeDoublyRobustEstimate)
-                Case "overlap", "overlapdiagnostics"
-                    fitOptions.IncludeOverlapDiagnostics = ParseBoolean(value, fitOptions.IncludeOverlapDiagnostics)
-                Case "weightdiagnostics"
-                    fitOptions.IncludeWeightDiagnostics = ParseBoolean(value, fitOptions.IncludeWeightDiagnostics)
-                Case "loveplot", "loveplotrows"
-                    fitOptions.IncludeLovePlotRows = ParseBoolean(value, fitOptions.IncludeLovePlotRows)
-                Case "overlapbins", "overlapbincount"
-                    fitOptions.OverlapBinCount = Math.Max(2, ParseInteger(value, fitOptions.OverlapBinCount))
-                Case "extremeweight", "extremeweightcutoff"
-                    fitOptions.ExtremeWeightCutoff = ParseDouble(value, fitOptions.ExtremeWeightCutoff)
-                Case "cembins", "bins", "defaultcovariatebins"
-                    EnsureCoarseningSpec(fitOptions)
-                    fitOptions.CoarseningSpec.DefaultCovariateBins = Math.Max(2, ParseInteger(value, fitOptions.CoarseningSpec.DefaultCovariateBins))
-                    fitOptions.CoarseningSpec.PropensityScoreBins = fitOptions.CoarseningSpec.DefaultCovariateBins
-                Case "psbins", "propensityscorebins"
-                    EnsureCoarseningSpec(fitOptions)
-                    fitOptions.CoarseningSpec.PropensityScoreBins = Math.Max(2, ParseInteger(value, fitOptions.CoarseningSpec.PropensityScoreBins))
-                Case "includeps", "includepropensityscore"
-                    EnsureCoarseningSpec(fitOptions)
-                    fitOptions.CoarseningSpec.IncludePropensityScore = ParseBoolean(value, fitOptions.CoarseningSpec.IncludePropensityScore)
-            End Select
+            Global.BESHStatNG.ExcelCommon.UdfPsmPreparation38.ApplyOption(fitOptions, key, value)
         End Sub
 
         Private Sub EnsureCoarseningSpec(fitOptions As PsmComprehensiveFitOptions)
-            If fitOptions.CoarseningSpec Is Nothing Then fitOptions.CoarseningSpec = New PsmCoarseningSpec()
-            fitOptions.CoarseningSpec.Estimand = fitOptions.StandardOptions.Estimand
-            fitOptions.CoarseningSpec.NormalizeWeightsToSampleSize = fitOptions.StandardOptions.NormalizeWeightsToSampleSize
+            Global.BESHStatNG.ExcelCommon.UdfPsmPreparation38.EnsureCoarseningSpec(fitOptions)
         End Sub
 
         Private Function ResolveNamedTable(h As PsmUdfHandle, requested As String) As Object(,)
-            Dim name As String = NormalizeOptionKey(requested)
+            Dim name As Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38 = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.ResolveTableKindPrepared(requested)
             Select Case name
-                Case "summary", "runsummary"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RunSummary
                     Return PsmComprehensiveTables.RunSummaryTable(h.Result)
-                Case "options"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Options
                     Return PsmFrontEndTables.OptionsTable(h.FitOptions)
-                Case "import", "dataimport"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ImportSummary
                     Return DataImportSummaryTable(h)
-                Case "sample", "samplesize", "samplesizesummary"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.SampleSize
                     Return PsmFrontEndTables.SampleSizeTable(h.Result.Result)
-                Case "scoremodel", "model"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ScoreModel
                     Return PsmBackendTables.ScoreModelTable(h.Result.Result)
-                Case "scores", "audit", "rowaudit", "weights"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RowAudit
                     Return PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds)
-                Case "matches", "matchedpairs"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Matches
                     Return PsmBackendTables.MatchesTable(h.Result.Result, h.Data.Input)
-                Case "matcheddata", "matcheddataset"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.MatchedData
                     Return PsmFrontEndTables.MatchedDatasetTable(h.Data.Input, h.Result.Result, h.Data.RowIds)
-                Case "balance", "diagnostics"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Balance
                     Return PsmBackendTables.BalanceTable(h.Result.Result)
-                Case "effect", "effects"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Effect
                     Return PsmBackendTables.EffectTable(h.Result.Result)
-                Case "dr", "aipw", "doublyrobust"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.DoublyRobust
                     Return PsmAdvancedTables.DoublyRobustEffectTable(h.Result.DoublyRobustResult)
-                Case "weightdiagnostics"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.WeightDiagnostics
                     Return PsmAdvancedTables.WeightDiagnosticsTable(h.Result.WeightDiagnostics)
-                Case "overlap", "overlapsummary"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapSummary
                     Return PsmAdvancedTables.OverlapSummaryTable(h.Result.OverlapDiagnostics)
-                Case "overlapbins", "overlaphistogram"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapBins
                     Return PsmAdvancedTables.OverlapBinsTable(h.Result.OverlapDiagnostics)
-                Case "loveplot", "loveplotdata"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.LovePlot
                     Return PsmAdvancedTables.LovePlotTable(h.Result.LovePlotRows)
-                Case "subclasses", "subclassification"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Subclass
                     Return PsmFrontEndTables.SubclassTable(h.Result.Result)
-                Case "cemstrata"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemStrata
                     Return PsmAdvancedMatchingTables.CoarsenedExactStrataTable(h.Result.CoarsenedExactResult)
-                Case "cemweights"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemWeights
                     Return PsmAdvancedMatchingTables.CoarsenedExactWeightsTable(h.Data.Input, h.Result.CoarsenedExactResult)
-                Case "warnings"
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Warnings
                     Return PsmComprehensiveTables.WarningsTable(h.Result)
                 Case Else
                     Return PsmResult.EmptyTable("Unknown PSM table: " & If(requested, String.Empty))
@@ -736,116 +634,35 @@ Namespace WorksheetFunctions
                 New Object() {"Created UTC", If(h Is Nothing, "", h.CreatedUtc.ToString("u", CultureInfo.InvariantCulture))}
             }
 
-            Dim table(rows.Count, 1) As Object
-            table(0, 0) = "Item"
-            table(0, 1) = "Value"
-            For i As Integer = 0 To rows.Count - 1
-                table(i + 1, 0) = rows(i)(0)
-                table(i + 1, 1) = rows(i)(1)
-            Next
-            Return table
+            Return Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildImportSummaryPrepared(rows)
         End Function
 
         Private Function ParseRunMethod(value As String, defaultValue As PsmBackendRunMethod) As PsmBackendRunMethod
-            Dim s As String = NormalizeOptionKey(value)
-            Select Case s
-                Case "matching", "nearest", "nearestneighbor", "nn", "standardnearestneighbor"
-                    Return PsmBackendRunMethod.StandardNearestNeighbor
-                Case "weighting", "weights", "iptw", "overlap", "weightingonly"
-                    Return PsmBackendRunMethod.WeightingOnly
-                Case "subclassification", "subclass", "strata", "standardsubclassification"
-                    Return PsmBackendRunMethod.StandardSubclassification
-                Case "optimal", "optimalpair", "optimalpairmatching"
-                    Return PsmBackendRunMethod.OptimalPairMatching
-                Case "cem", "coarsenedexact", "coarsenedexactmatching"
-                    Return PsmBackendRunMethod.CoarsenedExactMatching
-                Case Else
-                    Return defaultValue
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseRunMethod(value, defaultValue)
         End Function
 
         Private Function ParseEstimand(value As String, defaultValue As PsmEstimand) As PsmEstimand
-            Return CType(ParseEnumValue(GetType(PsmEstimand), value, defaultValue), PsmEstimand)
+            Return Global.BESHStatNG.ExcelCommon.UdfPsmPreparation38.ParseEstimand(value, defaultValue)
         End Function
 
         Private Function ParseScoreMethod(value As String, defaultValue As PsmScoreMethod) As PsmScoreMethod
-            Dim s As String = NormalizeOptionKey(value)
-            Select Case s
-                Case "supplied", "existing", "score", "propensityscore"
-                    Return PsmScoreMethod.Supplied
-                Case "logit", "logistic", "logisticregression", "glm"
-                    Return PsmScoreMethod.LogisticRegression
-                Case Else
-                    Return defaultValue
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseScoreMethod(value, defaultValue)
         End Function
 
         Private Function ParseDistance(value As String, defaultValue As PsmDistanceMetric) As PsmDistanceMetric
-            Dim s As String = NormalizeOptionKey(value)
-            Select Case s
-                Case "ps", "propensity", "propensityscore"
-                    Return PsmDistanceMetric.PropensityScore
-                Case "logit", "logitps", "logitpropensity", "logitpropensityscore"
-                    Return PsmDistanceMetric.LogitPropensityScore
-                Case "mahalanobis"
-                    Return PsmDistanceMetric.Mahalanobis
-                Case "mahalanobiswithpropensitycaliper", "mahalanobiswithpscaliper", "mahalanobiswithinpropensitycaliper"
-                    Return PsmDistanceMetric.MahalanobisWithinPropensityCaliper
-                Case Else
-                    Return defaultValue
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseDistance(value, defaultValue)
         End Function
 
         Private Function ParseCaliperScale(value As String, defaultValue As PsmCaliperScale) As PsmCaliperScale
-            Dim s As String = NormalizeOptionKey(value)
-            Select Case s
-                Case "none", "no", "false", "0"
-                    Return PsmCaliperScale.None
-                Case "raw", "ps", "rawps", "rawpropensity", "rawpropensityscore"
-                    Return PsmCaliperScale.RawPropensityScore
-                Case "sd", "sdps", "standardized", "standardizedps", "standardizedpropensityscore"
-                    Return PsmCaliperScale.StandardizedPropensityScore
-                Case "logit", "logitps", "logitpropensityscore"
-                    Return PsmCaliperScale.LogitPropensityScore
-                Case "sdlogit", "standardizedlogit", "standardizedlogitpropensityscore"
-                    Return PsmCaliperScale.StandardizedLogitPropensityScore
-                Case Else
-                    Return defaultValue
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseCaliperScale(value, defaultValue)
         End Function
 
         Private Function ParseOrder(value As String, defaultValue As PsmMatchingOrder) As PsmMatchingOrder
-            Dim s As String = NormalizeOptionKey(value)
-            Select Case s
-                Case "asinput", "input", "original"
-                    Return PsmMatchingOrder.AsInput
-                Case "ascending", "psascending", "propensityascending"
-                    Return PsmMatchingOrder.PropensityAscending
-                Case "descending", "psdescending", "propensitydescending"
-                    Return PsmMatchingOrder.PropensityDescending
-                Case "random"
-                    Return PsmMatchingOrder.Random
-                Case "hardest", "hardestfirst", "bestfirst"
-                    Return PsmMatchingOrder.HardestFirst
-                Case Else
-                    Return defaultValue
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseOrder(value, defaultValue)
         End Function
 
         Private Function ParseSupport(value As String, defaultValue As PsmCommonSupportMode) As PsmCommonSupportMode
-            Dim s As String = NormalizeOptionKey(value)
-            Select Case s
-                Case "none", "no", "false", "0"
-                    Return PsmCommonSupportMode.None
-                Case "overlap", "minmax", "dropoutsideoverlaprange"
-                    Return PsmCommonSupportMode.DropOutsideOverlapRange
-                Case "treated", "dropoutsidetreated", "dropcontrolsoutsidetreatedrange"
-                    Return PsmCommonSupportMode.DropControlsOutsideTreatedRange
-                Case "control", "controls", "dropoutsidcontrol", "droptreatedoutsidecontrolrange"
-                    Return PsmCommonSupportMode.DropTreatedOutsideControlRange
-                Case Else
-                    Return defaultValue
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseSupport(value, defaultValue)
         End Function
 
         Private Function ParseEnumValue(enumType As Type, value As String, defaultValue As Object) As Object
@@ -858,37 +675,19 @@ Namespace WorksheetFunctions
         End Function
 
         Private Function ParseBoolean(value As String, defaultValue As Boolean) As Boolean
-            If String.IsNullOrWhiteSpace(value) Then Return defaultValue
-            Select Case value.Trim().ToLowerInvariant()
-                Case "true", "t", "yes", "y", "1", "on"
-                    Return True
-                Case "false", "f", "no", "n", "0", "off"
-                    Return False
-                Case Else
-                    Return defaultValue
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseBoolean(value, defaultValue)
         End Function
 
         Private Function ParseInteger(value As String, defaultValue As Integer) As Integer
-            Dim parsed As Integer
-            If Integer.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, parsed) Then Return parsed
-            Return defaultValue
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseInteger(value, defaultValue)
         End Function
 
         Private Function ParseDouble(value As String, defaultValue As Double) As Double
-            Dim parsed As Double
-            If Double.TryParse(value, NumberStyles.Float Or NumberStyles.AllowThousands, CultureInfo.InvariantCulture, parsed) Then Return parsed
-            If Double.TryParse(value, NumberStyles.Float Or NumberStyles.AllowThousands, CultureInfo.CurrentCulture, parsed) Then Return parsed
-            Return defaultValue
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.ParseDouble(value, defaultValue)
         End Function
 
         Private Function NormalizeOptionKey(value As String) As String
-            If value Is Nothing Then Return String.Empty
-            Dim chars As New List(Of Char)()
-            For Each ch As Char In value.Trim().ToLowerInvariant()
-                If Char.IsLetterOrDigit(ch) Then chars.Add(ch)
-            Next
-            Return New String(chars.ToArray())
+            Return Global.BESHStatNG.ExcelCommon.PropensityScoreUDFsOptions38.NormalizeOptionKey(value)
         End Function
 
     End Module

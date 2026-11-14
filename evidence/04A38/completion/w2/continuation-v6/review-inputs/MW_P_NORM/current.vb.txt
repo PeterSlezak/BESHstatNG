@@ -1,0 +1,36 @@
+RM",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Mann–Whitney test: two-sided p-value (normal approximation with ties & continuity correction).",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/")>
+        Public Function MW_P_NORM(
+            <ExcelArgument(Name:="group1", Description:="Group 1 data (single-column range; non-numeric ignored).")> group1 As Object,
+            <ExcelArgument(Name:="group2", Description:="Group 2 data (single-column range; non-numeric ignored).")> group2 As Object
+        ) As Object
+
+            Dim x1 As Double(), x2 As Double()
+            Dim err As ExcelError? = Nothing
+
+            x1 = Global.BESHStatNG.UdfDataImport.GetNumericColumnIgnoringNonNumeric(group1, err)
+            If err.HasValue Then Return err.Value
+
+            x2 = Global.BESHStatNG.UdfDataImport.GetNumericColumnIgnoringNonNumeric(group2, err)
+            If err.HasValue Then Return err.Value
+
+            If x1.Length < 1 OrElse x2.Length < 1 Then
+                Return ExcelError.ExcelErrorNum
+            End If
+
+            Dim data As Double()() = {x1, x2}
+            Dim mw As New MannWhitney(data, "group1", "group2")
+            Dim res As TestResult = mw.Compute()
+
+            Dim p As Double = res.Pvalue
+            If Double.IsNaN(p) OrElse Double.IsInfinity(p) OrElse p < 0.0 OrElse p > 1.0 Then
+                Return ExcelError.ExcelErrorNum
+            End If
+            Return p
+        End Function
+
+
+        ''' <summary>
+        ''' Mann–Whitney (Wilcoxon rank-sum) test — exact

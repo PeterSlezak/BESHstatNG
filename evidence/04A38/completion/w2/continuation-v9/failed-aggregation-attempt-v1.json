@@ -1,0 +1,26 @@
+{
+  "status": "INTERRUPTED_BOOKKEEPING_NOT_TEST_EXECUTION",
+  "partial": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/python-first-failures-v1.json",
+    "bytes": 4213129746,
+    "sha256": "3ed32a23d2a6ee59a64c80ce3977ca89b6dcc8572453222c957af1596ca302eb"
+  },
+  "command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c9-report-validation-v2/command.json",
+    "bytes": 600,
+    "sha256": "84098d0f8997b134884e9a7571968fa62dec24a91948900d6262a2cc49ba29e3"
+  },
+  "stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c9-report-validation-v2/stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c9-report-validation-v2/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reason": "Parent-keyed prior history was replicated into every failing subtest event. The incomplete large file remains byte-for-byte in the authoritative checkout, explicitly excluded only from the bounded derivative ZIP. Corrected receipt links exact prior event keys and source pin instead of copying nested histories.",
+  "new_authoritative": "python-first-failures-v2.json",
+  "production_or_test_change": false
+}

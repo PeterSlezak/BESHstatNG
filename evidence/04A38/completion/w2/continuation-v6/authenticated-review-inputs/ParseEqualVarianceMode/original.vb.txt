@@ -1,0 +1,12 @@
+Private Function ParseEqualVarianceMode(arg As Object, defaultEqual As Boolean) As Boolean
+            Dim s As String = NormalizeToken(arg)
+            If s = "" Then Return defaultEqual
+            Select Case s
+                Case "WELCH", "UNEQUAL", "ASSUMEUNEQUAL", "ASSUME-UNEQUAL"
+                    Return False
+                Case "EQUAL", "POOLED", "STUDENT", "ASSUMEEQUAL", "ASSUME-EQUAL"
+                    Return True
+                Case Else
+                    Throw New ArgumentException("Unsupported variance method. Use welch or equal/pooled/student.")
+            End Select
+        End Function

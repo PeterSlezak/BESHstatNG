@@ -1,0 +1,38 @@
+<ExcelFunction(
+            Name:="BESH.PAR.RMANOVA1_MCP",
+            Category:="BESHStatNG - Parametric",
+            Description:="Repeated-measures ANOVA multiple comparisons: TukeyKramerRM2 (default) or Tukey assuming sphericity.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function RMANOVA1_MCP(
+            <ExcelArgument(Name:="data", Description:="Numeric matrix; rows=subjects, columns=conditions. First row may contain headers.")> data As Object,
+            <ExcelArgument(Name:="conditionNames", Description:="Optional condition names as comma-separated text or 1-row/1-column range.")> Optional conditionNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional: rm2/tukeyrm2 (default), tukey/sphericity, or all.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(conditionNames, detectedNames, mat.GetLength(1), "Condition")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim which As String = NormalizeText(method)
+                Dim stackAll As Boolean = False
+                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildRepeatedMcpTables(mat, names, which, alphaValue, stackAll)
+                If tables Is Nothing Then Return ExcelError.ExcelErrorValue
+                If Not stackAll Then Return PrepareResultTableForUdf(tables(1))
+                Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))
+                For i As Integer = 2 To tables.Count - 1
+                    stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))
+                Next
+                Return PrepareResultTableForUdf(stacked)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.RMANOVA1_MCP", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function

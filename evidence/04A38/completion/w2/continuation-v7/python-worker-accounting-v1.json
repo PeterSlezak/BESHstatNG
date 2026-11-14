@@ -1,0 +1,156 @@
+{
+  "workers_at_peak": 6,
+  "initial_worker_processes": 6,
+  "additional_serial_corrective_processes": 1,
+  "initial": [
+    {
+      "lane": 1,
+      "methods": 40,
+      "method_outcomes": {
+        "FAIL": 16,
+        "PASS": 24
+      },
+      "failure_events": 16,
+      "error_events": 0,
+      "seconds": 2673.115961500007,
+      "exit_code": 1
+    },
+    {
+      "lane": 2,
+      "methods": 27,
+      "method_outcomes": {
+        "PASS": 27
+      },
+      "failure_events": 0,
+      "error_events": 0,
+      "seconds": 367.89679319999414,
+      "exit_code": 0
+    },
+    {
+      "lane": 3,
+      "methods": 16,
+      "method_outcomes": {
+        "PASS": 16
+      },
+      "failure_events": 0,
+      "error_events": 0,
+      "seconds": 144.87180670001544,
+      "exit_code": 0
+    },
+    {
+      "lane": 4,
+      "methods": 168,
+      "method_outcomes": {
+        "ERROR": 5,
+        "PASS": 157,
+        "FAIL": 6
+      },
+      "failure_events": 6,
+      "error_events": 5,
+      "seconds": 5.282600799982902,
+      "exit_code": 1
+    },
+    {
+      "lane": 5,
+      "methods": 331,
+      "method_outcomes": {
+        "PASS": 267,
+        "FAIL": 59,
+        "ERROR": 5
+      },
+      "failure_events": 124,
+      "error_events": 5,
+      "seconds": 43.62059790000785,
+      "exit_code": 1
+    },
+    {
+      "lane": 6,
+      "methods": 374,
+      "method_outcomes": {
+        "PASS": 335,
+        "FAIL": 34,
+        "ERROR": 5
+      },
+      "failure_events": 35,
+      "error_events": 5,
+      "seconds": 35.52028649998829,
+      "exit_code": 1
+    }
+  ],
+  "effective_method_outcomes": {
+    "FAIL": 115,
+    "PASS": 830,
+    "ERROR": 11
+  },
+  "effective_nonpass_events": {
+    "FAIL": 181,
+    "ERROR": 11
+  },
+  "receipt_compatible_arithmetic": {
+    "total": 956,
+    "passed": 764,
+    "failed": 181,
+    "errors": 11
+  },
+  "accounting": "V6 reports956 parent unittest methods, but subtracts181 failure events (including failed subtests) and11 error events to derive764. C7 preserves those raw192 nonpass events and that historical arithmetic, while separately reporting actual830 passing/115 failing/11 error parent methods.66 additional failure events are failed subtests within already failing methods; none are relabelled PASS.",
+  "nonpass_event_delta": {
+    "extra": [],
+    "lost": []
+  },
+  "actual_executed_methods": 956,
+  "initial_raw_attempts": 956,
+  "corrective_raw_attempts": 4,
+  "writer_guard_errors_retained": 4,
+  "scanner": [
+    {
+      "stats": {
+        "fresh": 3780,
+        "reused": 3743
+      },
+      "authority": "11c38010824cd1a0791eb7dbbd5a3c054f9054b2d6e737a63678d243287e47e9",
+      "proxies": [
+        {
+          "source": "verify-04a11-publication.py",
+          "skips": 194,
+          "fallbacks": 0
+        },
+        {
+          "source": "verify-04a13-publication.py",
+          "skips": 13032,
+          "fallbacks": 38
+        },
+        {
+          "source": "verify-04a14-publication.py",
+          "skips": 89,
+          "fallbacks": 0
+        }
+      ],
+      "sources": {
+        "scripts/verify-04a11-publication.py": {
+          "path": "scripts/verify-04a11-publication.py",
+          "bytes": 20515,
+          "sha256": "d82bf9787c06ce94e69e561577df5ca99fdd653b07175c51f34eccd74d594027"
+        },
+        "scripts/verify-04a13-publication.py": {
+          "path": "scripts/verify-04a13-publication.py",
+          "bytes": 9176,
+          "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+        },
+        "scripts/verify-04a14-publication.py": {
+          "path": "scripts/verify-04a14-publication.py",
+          "bytes": 9320,
+          "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+        }
+      }
+    }
+  ],
+  "tools": [
+    {
+      "counters": {
+        "ignored_directories_pruned": 943,
+        "relevant_files": 55577
+      },
+      "audit_source_unchanged": true
+    }
+  ]
+}

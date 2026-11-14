@@ -1,0 +1,20 @@
+{
+  "phase": "BEFORE_ANY_INPUT_SEAL_OR_REFERENCE_EXECUTION",
+  "commands": [
+    "<PYTHON> -B <V4>/build_original.py Debug",
+    "<PYTHON> -B <V4>/build_original.py Release",
+    "<PYTHON> -B <V4>/compile_harness.py Debug original plain",
+    "<PYTHON> -B <V4>/compile_harness.py Debug original trace",
+    "<PYTHON> -B <V4>/compile_harness.py Release original plain",
+    "<PYTHON> -B <V4>/compile_harness.py Release original trace"
+  ],
+  "exit_codes": [1, 1, 1, 1, 1, 1],
+  "exceptions": ["FileNotFoundError: entry-inspection.json was not yet written", "FileNotFoundError: original build assemblies did not exist"],
+  "cause": "Dependent build sequence started while independent preflight process was still running.",
+  "correction": "Waited for successful preflight completion. Retained empty failed harness directories and original compiler driver snapshot. Use fresh -v2 harness directories; no cleanup or overwriting.",
+  "original_compiler_driver": "compile_harness-attempt-v1.py.txt",
+  "compiler_executions": 0,
+  "model_executions": 0,
+  "query_executions": 0,
+  "sealed_fields_changed": 0
+}

@@ -1,0 +1,50 @@
+{
+  "results": [
+    {
+      "label": "strict",
+      "exit_code": 1,
+      "streams": {
+        "stdout": {
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sanitized_value": ""
+        },
+        "stderr": {
+          "raw_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+          "sanitized_value": "System.Exception: Stale or ambiguous review decision: BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe\r\n   at Audit.Classify() in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 242\r\n   at Audit.Run(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 457\r\n   at Audit.Main(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 436\r\n"
+        }
+      }
+    },
+    {
+      "label": "profile",
+      "exit_code": 1,
+      "streams": {
+        "stdout": {
+          "raw_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+          "sanitized_value": {
+            "status": "INTEGRITY_FAILURE",
+            "error": ""
+          }
+        },
+        "stderr": {
+          "raw_sha256": "b717b8fc7846e3490b0a0758b7555d41d003402dbc4ba6b5be3234b132a1d076",
+          "sanitized_value": "warning: in the working copy of 'BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb', CRLF will be replaced by LF the next time Git touches it\n"
+        }
+      }
+    },
+    {
+      "label": "docs",
+      "exit_code": 0,
+      "streams": {
+        "stdout": {
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sanitized_value": ""
+        },
+        "stderr": {
+          "raw_sha256": "85841f438ff8c3d9b6513e98e7b141e3b5169d73b6373e5406825446654b77ac",
+          "sanitized_value": "\r\n \\u2502  Material for MkDocs reaches end of life on May 5, 2027.\r\n \\u2502  Critical fixes and security updates continue until that date.\r\n \\u2502\r\n \\u2502  Zensical is its maintained successor, built by the same team.\r\n \\u2502  Try it alongside MkDocs with your existing mkdocs.yml:\r\n \\u2502  https://zensical.org/docs/compatibility/mkdocs/migration/\r\n\r\n  To disable this warning, set NO_MKDOCS_2_WARNING=1.\r\n\r\nINFO    -  Cleaning site directory\r\nINFO    -  Building documentation to directory: <ISOLATED_RUN>\\w2c6-validation-v1\\site\r\nINFO    -  The following pages exist in the docs directory, but are not included in the \"nav\" configuration:\r\n  - methods\\family-link-covmat.md\r\nINFO    -  Documentation built in 8.72 seconds\r\n"
+        }
+      }
+    }
+  ],
+  "classification": "Actual strict/profile findings retained; exit1 is not a pass or a scientific/native gate waiver"
+}

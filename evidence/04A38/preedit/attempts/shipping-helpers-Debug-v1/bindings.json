@@ -1,0 +1,21 @@
+{
+  "status": "EXECUTED_ACTUAL_ENTRY_WINDOWS_PRIVATE_HELPERS",
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "original_shipping_library": {
+    "bytes": 2758144,
+    "sha256": "133e9aee57ef7cc700374319c2bd1b5724ba6598286c241ef347eb10361bc4e0"
+  },
+  "cases": {
+    "path": "evidence/04A38/preedit/attempts/shipping-helpers-Debug-v1/cases.jsonl",
+    "bytes": 5598816,
+    "sha256": "9edb9cb108b664e97b584f4154e35432085e137ae797abd6e746e64312c87d3e"
+  },
+  "recorder": {
+    "path": "evidence/04A38/preedit/attempts/shipping-helpers-Debug-v1/ShippingHelperCapture38.cs",
+    "bytes": 32746,
+    "sha256": "2656c6323b0a52cddd72c3367765c342957484c4a1ed00314d64d5ce46ca12ce"
+  },
+  "changes": "Binding to original shipping assembly; fixed source-owner and helper-only whitelist; cache-clock traversal limited to UDF owner types; native stub counters omitted honestly. No expected/calculation logic changed.",
+  "native": "NOT_RUN; no ExcelReference construction, XlCall, wizard, exported UDF body, UI or COM invocation",
+  "scientific": "NOT_GOLDEN"
+}

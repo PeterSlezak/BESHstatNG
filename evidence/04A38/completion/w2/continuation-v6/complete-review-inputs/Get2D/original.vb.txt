@@ -1,0 +1,10 @@
+Friend Function Get2D(v As Object) As Object(,)
+        If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return Nothing
+
+        Try
+            Return WindowsSpreadsheetTransport.ReadUdfMatrix(v,
+                Function(reference) XlCall.Excel(XlCall.xlCoerce, reference))
+        Catch
+            Return Nothing
+        End Try
+    End Function

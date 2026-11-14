@@ -1,0 +1,119 @@
+{
+  "moves": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "host": "FORMULA_VALIDATE",
+      "original_segment": "                Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing\r\n                Dim designErr As String = Nothing\r\n                If RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=xMat,\r\n                                                                                           result:=designBuild,\r\n                                                                                           errorMessage:=designErr,\r\n                                                                                           predictorNames:=rawVarNames,\r\n                                                                                           formulaText:=formulaText,\r\n                                                                                           absoluteColumnLetters:=absoluteColumnLetters,\r\n                                                                                           allowRelativeColumnLetters:=allowRelativeColumnLetters,\r\n                                                                                           allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,\r\n                                                                                           allowQuotedVariableNames:=allowQuotedVariableNames,\r\n                                                                                           omitCategoricalReference:=True) Then\r\n                    Return True\r\n                End If\r\n\r\n                Return BuildValidationFailureMessage(formulaText:=formulaText,\r\n                                                     addressingMode:=addressingMode,\r\n                                                     rawVarNames:=rawVarNames,\r\n                                                     absoluteColumnLetters:=absoluteColumnLetters,\r\n                                                     parserOrBuilderMessage:=designErr)",
+      "native_call": "                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ValidateWorksheetFormula(xMat, rawVarNames, formulaText, addressingMode, absoluteColumnLetters, allowRelativeColumnLetters, allowAbsoluteColumnLetters, allowQuotedVariableNames)",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function ValidateWorksheetFormula(xMat(,) As Double, rawVarNames() As String, formulaText As String, addressingMode As String, absoluteColumnLetters() As String, allowRelativeColumnLetters As Boolean, allowAbsoluteColumnLetters As Boolean, allowQuotedVariableNames As Boolean) As Object",
+        "body": "                Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing\n                Dim designErr As String = Nothing\n                If RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=xMat,\n                                                                                           result:=designBuild,\n                                                                                           errorMessage:=designErr,\n                                                                                           predictorNames:=rawVarNames,\n                                                                                           formulaText:=formulaText,\n                                                                                           absoluteColumnLetters:=absoluteColumnLetters,\n                                                                                           allowRelativeColumnLetters:=allowRelativeColumnLetters,\n                                                                                           allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,\n                                                                                           allowQuotedVariableNames:=allowQuotedVariableNames,\n                                                                                           omitCategoricalReference:=True) Then\n                    Return True\n                End If\n\n                Return RegressionFormulaUDFsMetadata38.BuildValidationFailureMessage(formulaText:=formulaText,\n                                                     addressingMode:=addressingMode,\n                                                     rawVarNames:=rawVarNames,\n                                                     absoluteColumnLetters:=absoluteColumnLetters,\n                                                     parserOrBuilderMessage:=designErr)"
+      },
+      "aliases": [
+        {
+          "before": "BuildValidationFailureMessage(",
+          "after": "RegressionFormulaUDFsMetadata38.BuildValidationFailureMessage("
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "host": "MMRM_FIT",
+      "original_segment": "                Select Case fixedInference\r\n                    Case regression.MixedModelFixedInferenceMethod.KenwardRoger\r\n                        req.EnableFullKenwardRogerForMmrm()\r\n                    Case regression.MixedModelFixedInferenceMethod.Satterthwaite\r\n                        req.UseSatterthwaite = True\r\n                        req.UseKenwardRoger = False\r\n                    Case Else\r\n                        req.UseSatterthwaite = False\r\n                        req.UseKenwardRoger = False\r\n                End Select",
+      "native_call": "                Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.ApplyMmrmInference(req, fixedInference)",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Sub ApplyMmrmInference(req As Global.BESHStatNG.regression.MixedModelFitRequest, fixedInference As Global.BESHStatNG.regression.MixedModelFixedInferenceMethod)",
+        "body": "                Select Case fixedInference\n                    Case Global.BESHStatNG.regression.MixedModelFixedInferenceMethod.KenwardRoger\n                        req.EnableFullKenwardRogerForMmrm()\n                    Case Global.BESHStatNG.regression.MixedModelFixedInferenceMethod.Satterthwaite\n                        req.UseSatterthwaite = True\n                        req.UseKenwardRoger = False\n                    Case Else\n                        req.UseSatterthwaite = False\n                        req.UseKenwardRoger = False\n                End Select"
+      },
+      "aliases": [
+        {
+          "before": "regression.",
+          "after": "Global.BESHStatNG.regression."
+        }
+      ],
+      "original_queries": 0
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "host": "ResolveMmrmImportedPredictorNames",
+      "original_segment": "                    Dim byLetter As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)\r\n                    For i As Integer = 0 To Math.Min(suppliedNames.Length, suppliedLetters.Length) - 1\r\n                        Dim letter As String = If(suppliedLetters(i), String.Empty).Trim()\r\n                        If letter = String.Empty Then Continue For\r\n                        If Not byLetter.ContainsKey(letter) Then byLetter(letter) = If(suppliedNames(i), String.Empty).Trim()\r\n                    Next\r\n\r\n                    Dim mapped(selectedCount - 1) As String\r\n                    Dim anyMapped As Boolean = False\r\n                    For j As Integer = 0 To selectedCount - 1\r\n                        Dim selectedLetter As String = If(selectedAbsoluteLetters(j), String.Empty).Trim()\r\n                        Dim mappedName As String = Nothing\r\n                        If selectedLetter <> String.Empty AndAlso byLetter.TryGetValue(selectedLetter, mappedName) Then\r\n                            mapped(j) = mappedName\r\n                            anyMapped = True\r\n                        Else\r\n                            mapped(j) = inferred(j)\r\n                        End If\r\n                    Next\r\n\r\n                    If anyMapped Then Return NormalizeMmrmNameList(mapped, selectedCount, \"X\")",
+      "native_call": "                    Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionPreparation38.MapMmrmNamesByLetter(suppliedNames, suppliedLetters, selectedAbsoluteLetters, inferred, selectedCount)",
+      "portable": {
+        "owner": "UdfW2CompletionPreparation38",
+        "signature": "Public Shared Function MapMmrmNamesByLetter(suppliedNames() As String, suppliedLetters() As String, selectedAbsoluteLetters() As String, inferred() As String, selectedCount As Integer) As String()",
+        "body": "                    Dim byLetter As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)\n                    For i As Integer = 0 To Math.Min(suppliedNames.Length, suppliedLetters.Length) - 1\n                        Dim letter As String = If(suppliedLetters(i), String.Empty).Trim()\n                        If letter = String.Empty Then Continue For\n                        If Not byLetter.ContainsKey(letter) Then byLetter(letter) = If(suppliedNames(i), String.Empty).Trim()\n                    Next\n\n                    Dim mapped(selectedCount - 1) As String\n                    Dim anyMapped As Boolean = False\n                    For j As Integer = 0 To selectedCount - 1\n                        Dim selectedLetter As String = If(selectedAbsoluteLetters(j), String.Empty).Trim()\n                        Dim mappedName As String = Nothing\n                        If selectedLetter <> String.Empty AndAlso byLetter.TryGetValue(selectedLetter, mappedName) Then\n                            mapped(j) = mappedName\n                            anyMapped = True\n                        Else\n                            mapped(j) = inferred(j)\n                        End If\n                    Next\n\n                    If anyMapped Then Return MixedModelUDFsMetadata38.NormalizeMmrmNameList(mapped, selectedCount, \"X\")",
+        "suffix": "Return inferred"
+      },
+      "aliases": [
+        {
+          "before": "NormalizeMmrmNameList(",
+          "after": "MixedModelUDFsMetadata38.NormalizeMmrmNameList("
+        }
+      ],
+      "original_queries": 0
+    }
+  ],
+  "before": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+        "bytes": 16108,
+        "sha256": "dd402e908bc4b9f4bca4acbd458ddd08033a06347997f5f939a939b655fe5ef6"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/formula-mmrm-tail-before/BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+        "bytes": 16108,
+        "sha256": "dd402e908bc4b9f4bca4acbd458ddd08033a06347997f5f939a939b655fe5ef6"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "bytes": 82503,
+        "sha256": "d3904c4a42cb6339926d097ab4f534bd444788a64c9039cefc4604fd1cfe7096"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/formula-mmrm-tail-before/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "bytes": 82503,
+        "sha256": "d3904c4a42cb6339926d097ab4f534bd444788a64c9039cefc4604fd1cfe7096"
+      }
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 21213,
+        "sha256": "06f25ccd773d8ec737ca405497a74dae238647f89cdb24da0ea76ce3b17486a7"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/formula-mmrm-tail-before/BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 21213,
+        "sha256": "06f25ccd773d8ec737ca405497a74dae238647f89cdb24da0ea76ce3b17486a7"
+      }
+    }
+  ],
+  "current": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "bytes": 14461,
+      "sha256": "700b461dcae1577186c0f152735c4f4279d05f363f8c23487e528723d167451d"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "bytes": 80941,
+      "sha256": "4d121749c338b2fd3e9f0739465710c183c3ac7c0295b2ea2d44be4e87d0314a"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "bytes": 25815,
+      "sha256": "ed7c41297a4505ba64c21431712f2b5d22af9a79fa2035b0fbeb0fade93d00e4"
+    }
+  ],
+  "original_queries": 0,
+  "tests_run": false
+}

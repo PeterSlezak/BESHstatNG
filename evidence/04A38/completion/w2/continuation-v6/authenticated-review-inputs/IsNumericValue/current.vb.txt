@@ -1,0 +1,5 @@
+Private Function IsNumericValue(value As Object) As Boolean
+        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is Boolean Then Return False
+
+        Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.IsNumericTypeCode(Type.GetTypeCode(value.GetType()))
+    End Function

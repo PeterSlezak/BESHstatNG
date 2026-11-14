@@ -1,0 +1,14 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/source-provisional/adapter-tests-precompile-v1.vb.txt",
+    "bytes": 126325,
+    "sha256": "8e381b48eb4d823cfc43e725da447ed48c4f585647fafdf4b4f4d64aa4dbb119"
+  },
+  "after": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 126337,
+    "sha256": "adb0fd85fa8ba1aa74babd25cee0075b35a9dd398f60c1d063e12076e806beda"
+  },
+  "reason": "Before first test compilation: authenticated native CellToTrimmedText expressly converts ExcelError to its enum text; the explicit positive token is ExcelErrorValue, rather than inferred yes. Preserve this legacy policy instead of correcting it. No production assertion or historical test changed.",
+  "original_queries": 0
+}

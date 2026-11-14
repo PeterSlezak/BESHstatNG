@@ -1,0 +1,28 @@
+{
+  "before": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 86726,
+    "sha256": "f2e6c53988aa18bc15a364c102f29c87a3cab900a6a25fde6eadf4c3aedb004b"
+  },
+  "preimage": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/source-attempts/new-copy-assertion-v2/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+    "bytes": 86726,
+    "sha256": "f2e6c53988aa18bc15a364c102f29c87a3cab900a6a25fde6eadf4c3aedb004b"
+  },
+  "after": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 86734,
+    "sha256": "2ac26b70d220abaa8546e49a98b4803602683ffd4b0877f6dad2fbbf2d12716b"
+  },
+  "basis": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/boxing-copy-investigation-v1.json",
+    "bytes": 94534,
+    "sha256": "2056359416614ccbc30a80ea046a16aa736a78a223060a7af37a23c5fe0e63fc"
+  },
+  "first_build": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c10-copy-corrective-build-v1/command.json",
+    "bytes": 1157,
+    "sha256": "f6a01daf5849045f5ab8f43a7544beea134e60c6464ed7feec1d8a2332f80a8f"
+  },
+  "reason": "VB List.Count property shadows the LINQ Count(predicate) extension. Use Where(predicate).Count(). New test only; production and historical assertions unchanged."
+}

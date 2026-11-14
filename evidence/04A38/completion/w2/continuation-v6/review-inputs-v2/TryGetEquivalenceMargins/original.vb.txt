@@ -1,0 +1,20 @@
+0R Then Return 0.0R
+        If value > 1.0R Then Return 1.0R
+        Return value
+    End Function
+
+    Friend Function TryGetEquivalenceMargins(lowerArg As Object, upperArg As Object, ByRef lowerValue As Double, ByRef upperValue As Double) As Boolean
+        lowerValue = Double.NaN
+        upperValue = Double.NaN
+
+        If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(lowerArg, lowerValue) Then Return False
+
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(upperArg) Then
+            Dim m As Double = Math.Abs(lowerValue)
+            If m <= 0.0 Then Return False
+            lowerValue = -m
+            upperValue = m
+            Return True
+        End If
+
+        If Not Global.BESHStatNG.Workshe

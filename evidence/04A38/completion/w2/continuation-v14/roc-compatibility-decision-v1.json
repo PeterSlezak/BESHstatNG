@@ -1,0 +1,1399 @@
+{
+  "status": "NARROW_SOURCE_BACKED_REPAIR_PERMITTED_CLOSURE_PENDING_COMPLETE_PROOF",
+  "prior_defect": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/open-byref-alias-defect-v1.json",
+    "bytes": 16717,
+    "sha256": "11faacd6ef465faa0dae161cabe8b69c8127eabfc302e4a075ef374147fb1d5a"
+  },
+  "existing_Common_method": {
+    "method": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GuessPositiveClass(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "declaring_type": "BESHStatNG.ExcelCommon.UdfClassLabelPreparation38",
+    "member_name": "GuessPositiveClass",
+    "parameter_types": [
+      "System.String",
+      "System.Func`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+      "System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+      "System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]",
+      "System.String&"
+    ],
+    "attributes": "PrivateScope, Public, Static",
+    "implementation_flags": "Managed",
+    "raw_IL_sha256": "e21c57aa8d4b46e7d39fc5a673f7e0a20c7df0a33940f3ae116dded914f3fc28",
+    "type_initializer": false,
+    "nonliteral_static_fields": 0,
+    "locals": [
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Collections.Generic.HashSet`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+      "System.UInt32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+    ],
+    "init_locals": true,
+    "exceptions": [],
+    "instructions": [
+      {
+        "op": "ldarg.s",
+        "operand": 4
+      },
+      {
+        "op": "ldnull",
+        "operand": null
+      },
+      {
+        "op": "stind.ref",
+        "operand": null
+      },
+      {
+        "op": "ldarg.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNullOrWhiteSpace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 4
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 4
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          16
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 4
+      },
+      {
+        "op": "ldarg.0",
+        "operand": null
+      },
+      {
+        "op": "stind.ref",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          272
+        ]
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+      },
+      {
+        "op": "stloc.1",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.StringComparer @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_OrdinalIgnoreCase()"
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Collections.Generic.HashSet`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Collections.Generic.IEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.2",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.3",
+        "operand": null
+      },
+      {
+        "op": "ldarg.1",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Func`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Invoke()"
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "sub.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 5
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 6
+      },
+      {
+        "op": "br",
+        "operand": [
+          73
+        ]
+      },
+      {
+        "op": "ldarg.2",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Invoke(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 7
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 7
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.IsNullOrWhiteSpace(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 9
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 9
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          41
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          69
+        ]
+      },
+      {
+        "op": "ldarg.3",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Invoke(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 10
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 10
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          51
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.3",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 7
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.ExcelCommon.UdfDataImportOptions38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeOptionKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 8
+      },
+      {
+        "op": "ldloc.2",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.HashSet`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Contains(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 11
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 11
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          69
+        ]
+      },
+      {
+        "op": "ldloc.2",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 8
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.HashSet`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "pop",
+        "operand": null
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 7
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Add(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "add.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 6
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 6
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 5
+      },
+      {
+        "op": "ble",
+        "operand": [
+          31
+        ]
+      },
+      {
+        "op": "ldloc.3",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 12
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 12
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          86
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 4
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:1"
+      },
+      {
+        "op": "stind.ref",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          272
+        ]
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Count()"
+      },
+      {
+        "op": "ldc.i4.2",
+        "operand": null
+      },
+      {
+        "op": "ceq",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 13
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 13
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          269
+        ]
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "ldsfld",
+        "operand": "FIELD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__.$I1-0:System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          98
+        ]
+      },
+      {
+        "op": "ldsfld",
+        "operand": "FIELD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__.$I1-0:System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "br",
+        "operand": [
+          103
+        ]
+      },
+      {
+        "op": "ldsfld",
+        "operand": "FIELD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__.$I:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+      },
+      {
+        "op": "ldftn",
+        "operand": "METHOD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__ @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1-0(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "newobj",
+        "operand": "METHOD:System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "dup",
+        "operand": null
+      },
+      {
+        "op": "stsfld",
+        "operand": "FIELD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38+_Closure$__.$I1-0:System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Select``2(System.Collections.Generic.IEnumerable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:System.Linq.Enumerable @ System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToArray``1(System.Collections.Generic.IEnumerable`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 14
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 14
+      },
+      {
+        "op": "ldlen",
+        "operand": null
+      },
+      {
+        "op": "conv.i4",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "sub.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 15
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 16
+      },
+      {
+        "op": "br",
+        "operand": [
+          258
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 14
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldelem.ref",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.8",
+        "operand": null
+      },
+      {
+        "op": "newarr",
+        "operand": "TYPE:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      },
+      {
+        "op": "dup",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:positive"
+      },
+      {
+        "op": "stelem.ref",
+        "operand": null
+      },
+      {
+        "op": "dup",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:pos"
+      },
+      {
+        "op": "stelem.ref",
+        "operand": null
+      },
+      {
+        "op": "dup",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.2",
+        "operand": null
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:case"
+      },
+      {
+        "op": "stelem.ref",
+        "operand": null
+      },
+      {
+        "op": "dup",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.3",
+        "operand": null
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:cases"
+      },
+      {
+        "op": "stelem.ref",
+        "operand": null
+      },
+      {
+        "op": "dup",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.4",
+        "operand": null
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:event"
+      },
+      {
+        "op": "stelem.ref",
+        "operand": null
+      },
+      {
+        "op": "dup",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.5",
+        "operand": null
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:events"
+      },
+      {
+        "op": "stelem.ref",
+        "operand": null
+      },
+      {
+        "op": "dup",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.6",
+        "operand": null
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:yes"
+      },
+      {
+        "op": "stelem.ref",
+        "operand": null
+      },
+      {
+        "op": "dup",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.7",
+        "operand": null
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:true"
+      },
+      {
+        "op": "stelem.ref",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:BESHStatNG.ExcelCommon.LegacyUdfText38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CaseToken(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:<PrivateImplementationDetails> @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ComputeStringHash(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": 1412654217
+      },
+      {
+        "op": "bgt.un",
+        "operand": [
+          179
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": 1303515621
+      },
+      {
+        "op": "bgt.un",
+        "operand": [
+          171
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": 316203908
+      },
+      {
+        "op": "beq",
+        "operand": [
+          228
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          167
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": 1303515621
+      },
+      {
+        "op": "beq",
+        "operand": [
+          240
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": 1319056784
+      },
+      {
+        "op": "beq",
+        "operand": [
+          234
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          175
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": 1412654217
+      },
+      {
+        "op": "beq",
+        "operand": [
+          204
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": -1097991558
+      },
+      {
+        "op": "bgt.un",
+        "operand": [
+          190
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": -1692059471
+      },
+      {
+        "op": "beq",
+        "operand": [
+          210
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          186
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": -1097991558
+      },
+      {
+        "op": "beq",
+        "operand": [
+          198
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": -40347290
+      },
+      {
+        "op": "beq",
+        "operand": [
+          216
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          194
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 18
+      },
+      {
+        "op": "ldc.i4",
+        "operand": -30355297
+      },
+      {
+        "op": "beq",
+        "operand": [
+          222
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:positive"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.EmbeddedOperators @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CompareString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          246
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:pos"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.EmbeddedOperators @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CompareString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          246
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:case"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.EmbeddedOperators @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CompareString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          246
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:cases"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.EmbeddedOperators @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CompareString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          246
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:event"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.EmbeddedOperators @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CompareString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          246
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:events"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.EmbeddedOperators @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CompareString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          246
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:yes"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.EmbeddedOperators @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CompareString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          246
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 17
+      },
+      {
+        "op": "ldstr",
+        "operand": "STRING:true"
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "call",
+        "operand": "METHOD:Microsoft.VisualBasic.CompilerServices.EmbeddedOperators @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CompareString(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "brfalse",
+        "operand": [
+          246
+        ]
+      },
+      {
+        "op": "br",
+        "operand": [
+          254
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 4
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Item(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stind.ref",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          272
+        ]
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "add.ovf",
+        "operand": null
+      },
+      {
+        "op": "stloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 16
+      },
+      {
+        "op": "ldloc.s",
+        "operand": 15
+      },
+      {
+        "op": "ble",
+        "operand": [
+          115
+        ]
+      },
+      {
+        "op": "ldarg.s",
+        "operand": 4
+      },
+      {
+        "op": "ldloc.1",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "callvirt",
+        "operand": "METHOD:System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_Item(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+      },
+      {
+        "op": "stind.ref",
+        "operand": null
+      },
+      {
+        "op": "ldc.i4.1",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          272
+        ]
+      },
+      {
+        "op": "ldc.i4.0",
+        "operand": null
+      },
+      {
+        "op": "stloc.0",
+        "operand": null
+      },
+      {
+        "op": "br",
+        "operand": [
+          272
+        ]
+      },
+      {
+        "op": "ldloc.0",
+        "operand": null
+      },
+      {
+        "op": "ret",
+        "operand": null
+      }
+    ]
+  },
+  "actual_shipping_callers": [
+    {
+      "method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GuessPositiveClass(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "declaring_type": "BESHStatNG.UdfDataImport",
+      "member_name": "GuessPositiveClass",
+      "parameter_types": [
+        "System.Object[,]",
+        "System.Object",
+        "System.String&"
+      ],
+      "attributes": "PrivateScope, Private, Static",
+      "implementation_flags": "Managed",
+      "raw_IL_sha256": "f8960a695cd2c2df5250f0040c169eb31b7b6e9545bb199e8afdc2cc05c54913",
+      "type_initializer": false,
+      "nonliteral_static_fields": 0,
+      "locals": [
+        "BESHStatNG.UdfDataImport+_Closure$__89-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+        "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      ],
+      "init_locals": true,
+      "exceptions": [],
+      "instructions": [
+        {
+          "op": "newobj",
+          "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__89-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+        },
+        {
+          "op": "stloc.0",
+          "operand": null
+        },
+        {
+          "op": "ldloc.0",
+          "operand": null
+        },
+        {
+          "op": "ldarg.0",
+          "operand": null
+        },
+        {
+          "op": "stfld",
+          "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__89-0.$VB$Local_statusCol:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+        },
+        {
+          "op": "ldarg.2",
+          "operand": null
+        },
+        {
+          "op": "ldnull",
+          "operand": null
+        },
+        {
+          "op": "stind.ref",
+          "operand": null
+        },
+        {
+          "op": "ldarg.1",
+          "operand": null
+        },
+        {
+          "op": "call",
+          "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "op": "call",
+          "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgReaders @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CellToTrimmedText(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "op": "stloc.2",
+          "operand": null
+        },
+        {
+          "op": "ldloc.2",
+          "operand": null
+        },
+        {
+          "op": "ldloc.0",
+          "operand": null
+        },
+        {
+          "op": "ldftn",
+          "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__89-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0()"
+        },
+        {
+          "op": "newobj",
+          "operand": "METHOD:System.Func`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "op": "ldloc.0",
+          "operand": null
+        },
+        {
+          "op": "ldftn",
+          "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__89-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "op": "newobj",
+          "operand": "METHOD:System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "op": "ldloc.0",
+          "operand": null
+        },
+        {
+          "op": "ldftn",
+          "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__89-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__2(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "op": "newobj",
+          "operand": "METHOD:System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "op": "ldarg.2",
+          "operand": null
+        },
+        {
+          "op": "call",
+          "operand": "METHOD:BESHStatNG.ExcelCommon.UdfClassLabelPreparation38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GuessPositiveClass(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+        },
+        {
+          "op": "stloc.1",
+          "operand": null
+        },
+        {
+          "op": "br",
+          "operand": [
+            26
+          ]
+        },
+        {
+          "op": "ldloc.1",
+          "operand": null
+        },
+        {
+          "op": "ret",
+          "operand": null
+        }
+      ]
+    }
+  ],
+  "original_prediction": "Original resets before explicit conversion and assigns output only immediately before each True return afterward. False and exception preserve any alias mutation during conversion/status callbacks.",
+  "repair": "New API calls the unchanged existing Common API with a private local output; copies to caller output only when result True. False/throw do not overwrite native output alias. Every existing direct caller keeps the old public API and reset contract.",
+  "required_proof": "Exact archived original body and actual native/Common callbacks, assignment/return adjacency and absence of intervening external effects, current focused diagnostics and actual Debug/Release CIL. Do not count as original oracle or supplement.",
+  "original_execution": 0,
+  "new_original_reference_inputs": 0,
+  "new_reference_captures": 0,
+  "closed_before_validation": 0
+}

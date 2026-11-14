@@ -1,0 +1,2693 @@
+{
+  "rows": [
+    {
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|a712c539c10e0e5c@2442:84",
+      "parent_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|f2174ff6d80f42c7@2185:1186",
+      "current_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|a712c539c10e0e5c@2442:84",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|a712c539c10e0e5c",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.UdfDataImport",
+        "signature": "Function()",
+        "span_start": 2442,
+        "span_length": 84,
+        "start_line": 54,
+        "end_line": 54,
+        "body_sha256": "f73fbe82bed5b3131a2d84c6869cc48b3acbe1c1d68305c2c8098c6341e3adb6",
+        "body_token_sha256": "ec63ba2e43d86a36472774707d028bc8876ead48db31bba93736ea2d32f3f345",
+        "source_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|f2174ff6d80f42c7@2185:1186",
+        "invocations": [
+          {
+            "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg)",
+            "line": 54
+          }
+        ]
+      },
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "bytes": 7635,
+        "sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+      },
+      "whole_body": "Function() Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg)",
+      "source_view": "RAW_BYTES",
+      "new_support": false,
+      "new_declaration": false,
+      "original_id": null,
+      "original_record": null,
+      "original_source": null,
+      "original_whole_body": null,
+      "original_source_view": null,
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0()",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0()",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "member_name": "_Lambda$__0",
+            "parameter_types": [],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "24f321b547572fe871e10db7cd2d2d3a3b2179947723643a4c3fcf43a75168f9",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-0.$VB$Local_arg:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgPredicates @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsMissingArg(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  6
+                ]
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "assembly": "BESHStatNG",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arg",
+                "type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "d4e8028985e5e28584629cd1b7aaf7ed2b49da6b6245ae7f7a51943868e5fdb2",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "configuration": "Release",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0()",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0()",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "member_name": "_Lambda$__0",
+            "parameter_types": [],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "34f3c6b3e2cf80520e791d07e19595173a4dd62b86c87430d24d487615bc61b1",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [],
+            "init_locals": false,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-0.$VB$Local_arg:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgPredicates @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsMissingArg(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "assembly": "BESHStatNG",
+            "type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arg",
+                "type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "4aaae62c9703f812e7ec61e8b2954bd2b11afe290b7655b5188094061920234f",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "qualification": "A current-only callback introduced in an earlier extraction is an explicit separate obligation, not an invented original member. Its captured fields/constructors and actual immediate ldftn caller are retained."
+    },
+    {
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|a712c539c10e0e5c@2541:31",
+      "parent_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|f2174ff6d80f42c7@2185:1186",
+      "current_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|a712c539c10e0e5c@2541:31",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|a712c539c10e0e5c",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.UdfDataImport",
+        "signature": "Function()",
+        "span_start": 2541,
+        "span_length": 31,
+        "start_line": 55,
+        "end_line": 55,
+        "body_sha256": "82d3b6607981b9f535b1e5d4562d2961a1f04673e120724e47f1cf2141192c93",
+        "body_token_sha256": "83ea600a465583d0cb64ce6962961f9d273878cec8befcbfe767c92816cc6b64",
+        "source_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|f2174ff6d80f42c7@2185:1186",
+        "invocations": []
+      },
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "bytes": 7635,
+        "sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+      },
+      "whole_body": "Function() TryCast(arg, String)",
+      "source_view": "RAW_BYTES",
+      "new_support": false,
+      "new_declaration": false,
+      "original_id": null,
+      "original_record": null,
+      "original_source": null,
+      "original_whole_body": null,
+      "original_source_view": null,
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1()",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1()",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "member_name": "_Lambda$__1",
+            "parameter_types": [],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "38a1e55d4b4cd8215153c91bcd442450c462113360c36955e4f5a1aebbbdc928",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-0.$VB$Local_arg:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "isinst",
+                "operand": "TYPE:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  5
+                ]
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "assembly": "BESHStatNG",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arg",
+                "type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "d4e8028985e5e28584629cd1b7aaf7ed2b49da6b6245ae7f7a51943868e5fdb2",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "configuration": "Release",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1()",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1()",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "member_name": "_Lambda$__1",
+            "parameter_types": [],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "2536bc89a21dc7389934a0a803ab01002e23f08e4f41f9ac59531df056ad2465",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [],
+            "init_locals": false,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-0.$VB$Local_arg:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "isinst",
+                "operand": "TYPE:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "assembly": "BESHStatNG",
+            "type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arg",
+                "type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "4aaae62c9703f812e7ec61e8b2954bd2b11afe290b7655b5188094061920234f",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "qualification": "A current-only callback introduced in an earlier extraction is an explicit separate obligation, not an invented original member. Its captured fields/constructors and actual immediate ldftn caller are retained."
+    },
+    {
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|MultiLineFunctionLambdaExpression|48164cf7ec0d453e@2587:765",
+      "parent_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|f2174ff6d80f42c7@2185:1186",
+      "current_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|MultiLineFunctionLambdaExpression|48164cf7ec0d453e@2587:765",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|MultiLineFunctionLambdaExpression|48164cf7ec0d453e",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "name": "lambda",
+        "kind": "MultiLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.UdfDataImport",
+        "signature": "Function() As Global.BESHStatNG.ExcelCommon.UdfVariableNameRange38",
+        "span_start": 2587,
+        "span_length": 765,
+        "start_line": 56,
+        "end_line": 67,
+        "body_sha256": "f903971c5293170f6b884e8e303e8b94db14f524269ac674143a1d44477390f2",
+        "body_token_sha256": "bff30ea78aa064f32f1a6c10a802001aad39b1bc9b2eb8d2a67705a9695729fc",
+        "source_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|f2174ff6d80f42c7@2185:1186",
+        "invocations": [
+          {
+            "text": "Get2D(arg)",
+            "line": 57
+          },
+          {
+            "text": "arr.GetLength(0)",
+            "line": 59
+          },
+          {
+            "text": "arr.GetLength(1)",
+            "line": 60
+          }
+        ]
+      },
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "bytes": 7635,
+        "sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+      },
+      "whole_body": "Function() As Global.BESHStatNG.ExcelCommon.UdfVariableNameRange38\r\n                Dim arr As Object(,) = Get2D(arg)\r\n                If arr Is Nothing Then Return Nothing\r\n                Dim rows As Integer = arr.GetLength(0)\r\n                Dim cols As Integer = arr.GetLength(1)\r\n                Return New Global.BESHStatNG.ExcelCommon.UdfVariableNameRange38(rows, cols,\r\n                    Function(row As Integer, column As Integer) As String\r\n                        Dim cell As Object = arr(row, column)\r\n                        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell) Then Return String.Empty\r\n                        Return Convert.ToString(cell).Trim()\r\n                    End Function)\r\n            End Function",
+      "source_view": "RAW_BYTES",
+      "new_support": false,
+      "new_declaration": false,
+      "original_id": null,
+      "original_record": null,
+      "original_source": null,
+      "original_whole_body": null,
+      "original_source_view": null,
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__2()",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__2()",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "member_name": "_Lambda$__2",
+            "parameter_types": [],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "2aa5701d5ea58bf02f081bb7ca7e9f77aef077daf8bb0b3e1f27b892d7aca4b7",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+              "BESHStatNG.ExcelCommon.UdfVariableNameRange38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+              "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "newobj",
+                "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-0.$VB$Local_arg:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Get2D(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldnull",
+                "operand": null
+              },
+              {
+                "op": "ceq",
+                "operand": null
+              },
+              {
+                "op": "stloc.s",
+                "operand": 4
+              },
+              {
+                "op": "ldloc.s",
+                "operand": 4
+              },
+              {
+                "op": "brfalse",
+                "operand": [
+                  18
+                ]
+              },
+              {
+                "op": "ldnull",
+                "operand": null
+              },
+              {
+                "op": "stloc.1",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  36
+                ]
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldc.i4.0",
+                "operand": null
+              },
+              {
+                "op": "callvirt",
+                "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.2",
+                "operand": null
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldc.i4.1",
+                "operand": null
+              },
+              {
+                "op": "callvirt",
+                "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.3",
+                "operand": null
+              },
+              {
+                "op": "ldloc.2",
+                "operand": null
+              },
+              {
+                "op": "ldloc.3",
+                "operand": null
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldftn",
+                "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__3(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "newobj",
+                "operand": "METHOD:System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "newobj",
+                "operand": "METHOD:BESHStatNG.ExcelCommon.UdfVariableNameRange38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.1",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  36
+                ]
+              },
+              {
+                "op": "ldloc.1",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "assembly": "BESHStatNG",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arg",
+                "type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "d4e8028985e5e28584629cd1b7aaf7ed2b49da6b6245ae7f7a51943868e5fdb2",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "configuration": "Release",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetVariableNames(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__2()",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__2()",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "member_name": "_Lambda$__2",
+            "parameter_types": [],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "1d77a3a22afb1ff9dc914a339d38c3b1531eb1372d7fbb6f396978859b5d59b4",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+              "BESHStatNG.ExcelCommon.UdfVariableNameRange38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+              "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "newobj",
+                "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-0.$VB$Local_arg:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Get2D(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "brtrue",
+                "operand": [
+                  14
+                ]
+              },
+              {
+                "op": "ldnull",
+                "operand": null
+              },
+              {
+                "op": "stloc.1",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  31
+                ]
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldc.i4.0",
+                "operand": null
+              },
+              {
+                "op": "callvirt",
+                "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.2",
+                "operand": null
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldc.i4.1",
+                "operand": null
+              },
+              {
+                "op": "callvirt",
+                "operand": "METHOD:System.Array @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetLength(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.3",
+                "operand": null
+              },
+              {
+                "op": "ldloc.2",
+                "operand": null
+              },
+              {
+                "op": "ldloc.3",
+                "operand": null
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldftn",
+                "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__3(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "newobj",
+                "operand": "METHOD:System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.IntPtr @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "newobj",
+                "operand": "METHOD:BESHStatNG.ExcelCommon.UdfVariableNameRange38 @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Func`3[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.1",
+                "operand": null
+              },
+              {
+                "op": "ldloc.1",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "assembly": "BESHStatNG",
+            "type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arg",
+                "type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "4aaae62c9703f812e7ec61e8b2954bd2b11afe290b7655b5188094061920234f",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "qualification": "A current-only callback introduced in an earlier extraction is an explicit separate obligation, not an invented original member. Its captured fields/constructors and actual immediate ldftn caller are retained."
+    },
+    {
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|103f86b31077cee4@960:60",
+      "parent_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|c840480158b0fe1d@713:382",
+      "current_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|103f86b31077cee4@960:60",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|103f86b31077cee4",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.UdfDataImport",
+        "signature": "Function(reference)",
+        "span_start": 960,
+        "span_length": 60,
+        "start_line": 29,
+        "end_line": 29,
+        "body_sha256": "085afc2c9f9a34deb1ca39fbef4a15af2d289cef82df9db516ff53838eefd619",
+        "body_token_sha256": "07c1834839f8acea9d04d000bdc1fc0ff95772dd416e0d63e9772f25d1dc959f",
+        "source_sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|c840480158b0fe1d@713:382",
+        "invocations": [
+          {
+            "text": "XlCall.Excel(XlCall.xlCoerce, reference)",
+            "line": 29
+          }
+        ]
+      },
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 39624,
+        "sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753"
+      },
+      "whole_body": "Function(reference) XlCall.Excel(XlCall.xlCoerce, reference)",
+      "source_view": "RAW_BYTES",
+      "new_support": false,
+      "new_declaration": false,
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|103f86b31077cee4@803:60",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|103f86b31077cee4@803:60",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|103f86b31077cee4",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.UdfDataImport",
+        "signature": "Function(reference)",
+        "span_start": 803,
+        "span_length": 60,
+        "start_line": 24,
+        "end_line": 24,
+        "body_sha256": "085afc2c9f9a34deb1ca39fbef4a15af2d289cef82df9db516ff53838eefd619",
+        "body_token_sha256": "07c1834839f8acea9d04d000bdc1fc0ff95772dd416e0d63e9772f25d1dc959f",
+        "source_sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|c840480158b0fe1d@556:382",
+        "invocations": [
+          {
+            "text": "XlCall.Excel(XlCall.xlCoerce, reference)",
+            "line": 24
+          }
+        ]
+      },
+      "original_source": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      },
+      "original_whole_body": "Function(reference) XlCall.Excel(XlCall.xlCoerce, reference)",
+      "original_source_view": "RAW_BYTES",
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Get2D(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__94-0(ExcelDna.Integration.ExcelReference @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__94-0(ExcelDna.Integration.ExcelReference @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__",
+            "member_name": "_Lambda$__94-0",
+            "parameter_types": [
+              "ExcelDna.Integration.ExcelReference"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "20307cac7ed334d798685a9cf33d70bd49235bc8281eca6d48676a434c388efe",
+            "type_initializer": true,
+            "nonliteral_static_fields": 7,
+            "locals": [
+              "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldsfld",
+                "operand": "FIELD:ExcelDna.Integration.XlCall.xlCoerce:System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldc.i4.1",
+                "operand": null
+              },
+              {
+                "op": "newarr",
+                "operand": "TYPE:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "dup",
+                "operand": null
+              },
+              {
+                "op": "ldc.i4.0",
+                "operand": null
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "stelem.ref",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:ExcelDna.Integration.XlCall @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe.Excel(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  10
+                ]
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "type": "BESHStatNG.UdfDataImport+_Closure$__",
+            "assembly": "BESHStatNG",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed, Serializable",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$I",
+                "type": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+                "attributes": "Public, Static, InitOnly",
+                "is_static": true,
+                "is_readonly": true,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I32-0",
+                "type": "System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I33-0",
+                "type": "System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I43-0",
+                "type": "System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I69-0",
+                "type": "System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I71-2",
+                "type": "System.Func`2[[BESHStatNG.RegressionVariableCatalogEntry, BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I94-0",
+                "type": "System.Func`2[[ExcelDna.Integration.ExcelReference, ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "d4e8028985e5e28584629cd1b7aaf7ed2b49da6b6245ae7f7a51943868e5fdb2",
+              "type_initializer": true,
+              "nonliteral_static_fields": 7,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            },
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__",
+              "member_name": ".cctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "7e6dece20911fc5417df3c5850044a7f341d2f5b7c4ea7d67e55468a84ed22e5",
+              "type_initializer": true,
+              "nonliteral_static_fields": 7,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "newobj",
+                  "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+                },
+                {
+                  "op": "stsfld",
+                  "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__.$I:BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "configuration": "Release",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Get2D(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__94-0(ExcelDna.Integration.ExcelReference @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__94-0(ExcelDna.Integration.ExcelReference @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__",
+            "member_name": "_Lambda$__94-0",
+            "parameter_types": [
+              "ExcelDna.Integration.ExcelReference"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "d0e8b192df3584994f8bab8ff950d260eedcd8c87581035adb3291d9003bac17",
+            "type_initializer": true,
+            "nonliteral_static_fields": 7,
+            "locals": [],
+            "init_locals": false,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldsfld",
+                "operand": "FIELD:ExcelDna.Integration.XlCall.xlCoerce:System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldc.i4.1",
+                "operand": null
+              },
+              {
+                "op": "newarr",
+                "operand": "TYPE:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "dup",
+                "operand": null
+              },
+              {
+                "op": "ldc.i4.0",
+                "operand": null
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "stelem.ref",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:ExcelDna.Integration.XlCall @ ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe.Excel(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Object[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "assembly": "BESHStatNG",
+            "type": "BESHStatNG.UdfDataImport+_Closure$__",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed, Serializable",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$I",
+                "type": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+                "attributes": "Public, Static, InitOnly",
+                "is_static": true,
+                "is_readonly": true,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I32-0",
+                "type": "System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I33-0",
+                "type": "System.Func`2[[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I43-0",
+                "type": "System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I69-0",
+                "type": "System.Func`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I71-2",
+                "type": "System.Func`2[[BESHStatNG.RegressionVariableCatalogEntry, BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null],[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              },
+              {
+                "name": "$I94-0",
+                "type": "System.Func`2[[ExcelDna.Integration.ExcelReference, ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe],[System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public, Static",
+                "is_static": true,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "4aaae62c9703f812e7ec61e8b2954bd2b11afe290b7655b5188094061920234f",
+              "type_initializer": true,
+              "nonliteral_static_fields": 7,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            },
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__",
+              "member_name": ".cctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "7e6dece20911fc5417df3c5850044a7f341d2f5b7c4ea7d67e55468a84ed22e5",
+              "type_initializer": true,
+              "nonliteral_static_fields": 7,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "newobj",
+                  "operand": "METHOD:BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+                },
+                {
+                  "op": "stsfld",
+                  "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__.$I:BESHStatNG.UdfDataImport+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "qualification": "A current-only callback introduced in an earlier extraction is an explicit separate obligation, not an invented original member. Its captured fields/constructors and actual immediate ldftn caller are retained."
+    },
+    {
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|244db21114a88f42@23780:51",
+      "parent_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|9700fe899e4bb41e@23551:298",
+      "current_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|244db21114a88f42@23780:51",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|244db21114a88f42",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.UdfDataImport",
+        "signature": "Function(row, column)",
+        "span_start": 23780,
+        "span_length": 51,
+        "start_line": 531,
+        "end_line": 531,
+        "body_sha256": "4a9dc9635816214db4b0fa6c2c461b7a0e816ff30fe00ee44006176fd6d4ab64",
+        "body_token_sha256": "fe24bbf5d4eca427c33878b02056c160633e011445594a03b2c60c2351ab87fa",
+        "source_sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|9700fe899e4bb41e@23551:298",
+        "invocations": [
+          {
+            "text": "IsBlankCell(arr(row, column))",
+            "line": 531
+          },
+          {
+            "text": "arr(row, column)",
+            "line": 531
+          }
+        ]
+      },
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 39624,
+        "sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753"
+      },
+      "whole_body": "Function(row, column) IsBlankCell(arr(row, column))",
+      "source_view": "RAW_BYTES",
+      "new_support": false,
+      "new_declaration": false,
+      "original_id": null,
+      "original_record": null,
+      "original_source": null,
+      "original_whole_body": null,
+      "original_source_view": null,
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FindLastNonBlankRow(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__107-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__107-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__107-0",
+            "member_name": "_Lambda$__0",
+            "parameter_types": [
+              "System.Int32",
+              "System.Int32"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "cd4f52fab5da8218f6c7c2516325eb7ba8ccee5f5c8a981f85f6b3313dadf630",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__107-0.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "ldarg.2",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgPredicates @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsBlankCell(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  9
+                ]
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "type": "BESHStatNG.UdfDataImport+_Closure$__107-0",
+            "assembly": "BESHStatNG",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arr",
+                "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__107-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__107-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "d4e8028985e5e28584629cd1b7aaf7ed2b49da6b6245ae7f7a51943868e5fdb2",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "configuration": "Release",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FindLastNonBlankRow(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__107-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__107-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__107-0",
+            "member_name": "_Lambda$__0",
+            "parameter_types": [
+              "System.Int32",
+              "System.Int32"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "9608e4d42e7c8e3d0adb693ecfccca9c17b29dadbefdd71b72209cfe15d27875",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [],
+            "init_locals": false,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__107-0.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "ldarg.2",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgPredicates @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsBlankCell(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "assembly": "BESHStatNG",
+            "type": "BESHStatNG.UdfDataImport+_Closure$__107-0",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arr",
+                "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__107-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__107-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "4aaae62c9703f812e7ec61e8b2954bd2b11afe290b7655b5188094061920234f",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "qualification": "A current-only callback introduced in an earlier extraction is an explicit separate obligation, not an invented original member. Its captured fields/constructors and actual immediate ldftn caller are retained."
+    },
+    {
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|244db21114a88f42@27396:51",
+      "parent_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|099b4934aa8c10b4@27147:381",
+      "current_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|244db21114a88f42@27396:51",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|244db21114a88f42",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.UdfDataImport",
+        "signature": "Function(row, column)",
+        "span_start": 27396,
+        "span_length": 51,
+        "start_line": 594,
+        "end_line": 594,
+        "body_sha256": "4a9dc9635816214db4b0fa6c2c461b7a0e816ff30fe00ee44006176fd6d4ab64",
+        "body_token_sha256": "fe24bbf5d4eca427c33878b02056c160633e011445594a03b2c60c2351ab87fa",
+        "source_sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|099b4934aa8c10b4@27147:381",
+        "invocations": [
+          {
+            "text": "IsBlankCell(arr(row, column))",
+            "line": 594
+          },
+          {
+            "text": "arr(row, column)",
+            "line": 594
+          }
+        ]
+      },
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 39624,
+        "sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753"
+      },
+      "whole_body": "Function(row, column) IsBlankCell(arr(row, column))",
+      "source_view": "RAW_BYTES",
+      "new_support": false,
+      "new_declaration": false,
+      "original_id": null,
+      "original_record": null,
+      "original_source": null,
+      "original_whole_body": null,
+      "original_source_view": null,
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasNumericMatrixHeader(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+            "member_name": "_Lambda$__0",
+            "parameter_types": [
+              "System.Int32",
+              "System.Int32"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "e51e8cfa3b5e9d810b5b7ea6a85ae6343a3a7134552afe4915e28854c683d3ea",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__111-0.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "ldarg.2",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgPredicates @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsBlankCell(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  9
+                ]
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+            "assembly": "BESHStatNG",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arr",
+                "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "d4e8028985e5e28584629cd1b7aaf7ed2b49da6b6245ae7f7a51943868e5fdb2",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "configuration": "Release",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasNumericMatrixHeader(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__0(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+            "member_name": "_Lambda$__0",
+            "parameter_types": [
+              "System.Int32",
+              "System.Int32"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "37f3b66a46e6454b77d56883fb4102d374ba6cc202e1a941a9cfcc50da5a2eb6",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [],
+            "init_locals": false,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__111-0.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "ldarg.2",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgPredicates @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsBlankCell(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "assembly": "BESHStatNG",
+            "type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arr",
+                "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "4aaae62c9703f812e7ec61e8b2954bd2b11afe290b7655b5188094061920234f",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "qualification": "A current-only callback introduced in an earlier extraction is an explicit separate obligation, not an invented original member. Its captured fields/constructors and actual immediate ldftn caller are retained."
+    },
+    {
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|244db21114a88f42@27449:61",
+      "parent_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|099b4934aa8c10b4@27147:381",
+      "current_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|244db21114a88f42@27449:61",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|244db21114a88f42",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.UdfDataImport",
+        "signature": "Function(row, column)",
+        "span_start": 27449,
+        "span_length": 61,
+        "start_line": 594,
+        "end_line": 594,
+        "body_sha256": "b5926750f64119280d0cd0cba1f10944003747d8b9ffa34561eb0cbc3c57eea9",
+        "body_token_sha256": "fde3d8e10c47fa0750db589adc9e46e9e8fcb47eba5cebb93dd645f54424cbc9",
+        "source_sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|099b4934aa8c10b4@27147:381",
+        "invocations": [
+          {
+            "text": "TryGetDouble(arr(row, column))",
+            "line": 594
+          },
+          {
+            "text": "arr(row, column)",
+            "line": 594
+          }
+        ]
+      },
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 39624,
+        "sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753"
+      },
+      "whole_body": "Function(row, column) TryGetDouble(arr(row, column)).HasValue",
+      "source_view": "RAW_BYTES",
+      "new_support": false,
+      "new_declaration": false,
+      "original_id": null,
+      "original_record": null,
+      "original_source": null,
+      "original_whole_body": null,
+      "original_source_view": null,
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasNumericMatrixHeader(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+            "member_name": "_Lambda$__1",
+            "parameter_types": [
+              "System.Int32",
+              "System.Int32"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "e9f8dcf92b8659615869827b99c033d42bc6d599bc392e544e546e770b8f55c2",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__111-0.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "ldarg.2",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgNumeric @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetDouble(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.1",
+                "operand": null
+              },
+              {
+                "op": "ldloca.s",
+                "operand": 1
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_HasValue()"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  12
+                ]
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+            "assembly": "BESHStatNG",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arr",
+                "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "d4e8028985e5e28584629cd1b7aaf7ed2b49da6b6245ae7f7a51943868e5fdb2",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "configuration": "Release",
+          "parent_method": "BESHStatNG.UdfDataImport @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasNumericMatrixHeader(System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__1(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+            "member_name": "_Lambda$__1",
+            "parameter_types": [
+              "System.Int32",
+              "System.Int32"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "e2374525de72508ac7515ea4a2d8c8de65e4f2a6020605ed726ac79ee53a9083",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__111-0.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "ldarg.2",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgNumeric @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetDouble(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldloca.s",
+                "operand": 0
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_HasValue()"
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "assembly": "BESHStatNG",
+            "type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arr",
+                "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__111-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__111-0",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "4aaae62c9703f812e7ec61e8b2954bd2b11afe290b7655b5188094061920234f",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "qualification": "A current-only callback introduced in an earlier extraction is an explicit separate obligation, not an invented original member. Its captured fields/constructors and actual immediate ldftn caller are retained."
+    },
+    {
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|MultiLineFunctionLambdaExpression|de4a6fe5e45da79d@2986:339",
+      "parent_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|MultiLineFunctionLambdaExpression|48164cf7ec0d453e@2587:765",
+      "current_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|MultiLineFunctionLambdaExpression|de4a6fe5e45da79d@2986:339",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|MultiLineFunctionLambdaExpression|de4a6fe5e45da79d",
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "name": "lambda",
+        "kind": "MultiLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.UdfDataImport",
+        "signature": "Function(row As Integer, column As Integer) As String",
+        "span_start": 2986,
+        "span_length": 339,
+        "start_line": 62,
+        "end_line": 66,
+        "body_sha256": "3948cc11fe9f5a4885a1ae6486f8d20f2eff977d7da9f081c035f91009ad107b",
+        "body_token_sha256": "790aaf461253e51eb1cd344f7e9ac9bc45f1920ad4dba9ddd645992b31d01b2a",
+        "source_sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|MultiLineFunctionLambdaExpression|48164cf7ec0d453e@2587:765",
+        "invocations": [
+          {
+            "text": "arr(row, column)",
+            "line": 63
+          },
+          {
+            "text": "Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell)",
+            "line": 64
+          },
+          {
+            "text": "Convert.ToString(cell).Trim()",
+            "line": 65
+          },
+          {
+            "text": "Convert.ToString(cell)",
+            "line": 65
+          }
+        ]
+      },
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "bytes": 7635,
+        "sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+      },
+      "whole_body": "Function(row As Integer, column As Integer) As String\r\n                        Dim cell As Object = arr(row, column)\r\n                        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(cell) Then Return String.Empty\r\n                        Return Convert.ToString(cell).Trim()\r\n                    End Function",
+      "source_view": "RAW_BYTES",
+      "new_support": false,
+      "new_declaration": false,
+      "original_id": null,
+      "original_record": null,
+      "original_source": null,
+      "original_whole_body": null,
+      "original_source_view": null,
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "parent_method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__2()",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__3(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__3(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-1",
+            "member_name": "_Lambda$__3",
+            "parameter_types": [
+              "System.Int32",
+              "System.Int32"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "062af351b6abd2ec730099781f0176fdaff88a8f9b8815bf8b8c501d0be81206",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "ldarg.2",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.1",
+                "operand": null
+              },
+              {
+                "op": "ldloc.1",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgPredicates @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsBlankCell(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.2",
+                "operand": null
+              },
+              {
+                "op": "ldloc.2",
+                "operand": null
+              },
+              {
+                "op": "brfalse",
+                "operand": [
+                  16
+                ]
+              },
+              {
+                "op": "ldsfld",
+                "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  22
+                ]
+              },
+              {
+                "op": "ldloc.1",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Convert @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToString(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "callvirt",
+                "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  22
+                ]
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "type": "BESHStatNG.UdfDataImport+_Closure$__66-1",
+            "assembly": "BESHStatNG",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arr",
+                "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-1",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "d4e8028985e5e28584629cd1b7aaf7ed2b49da6b6245ae7f7a51943868e5fdb2",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "configuration": "Release",
+          "parent_method": "BESHStatNG.UdfDataImport+_Closure$__66-0 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__2()",
+          "target": "BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__3(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "complete_method": {
+            "method": "BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__3(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+            "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-1",
+            "member_name": "_Lambda$__3",
+            "parameter_types": [
+              "System.Int32",
+              "System.Int32"
+            ],
+            "attributes": "PrivateScope, Assembly, SpecialName",
+            "implementation_flags": "Managed",
+            "raw_IL_sha256": "0e7c11daf72e17b622ed66b3bcbe5a12f93a3b1698547c52f505b9bed64e4a05",
+            "type_initializer": false,
+            "nonliteral_static_fields": 0,
+            "locals": [
+              "System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+              "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            ],
+            "init_locals": true,
+            "exceptions": [],
+            "instructions": [
+              {
+                "op": "ldarg.0",
+                "operand": null
+              },
+              {
+                "op": "ldfld",
+                "operand": "FIELD:BESHStatNG.UdfDataImport+_Closure$__66-1.$VB$Local_arr:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "ldarg.1",
+                "operand": null
+              },
+              {
+                "op": "ldarg.2",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Get(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "stloc.1",
+                "operand": null
+              },
+              {
+                "op": "ldloc.1",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:BESHStatNG.WorksheetFunctions.ExcelArgPredicates @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsBlankCell(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "brfalse",
+                "operand": [
+                  14
+                ]
+              },
+              {
+                "op": "ldsfld",
+                "operand": "FIELD:System.String.Empty:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "br",
+                "operand": [
+                  19
+                ]
+              },
+              {
+                "op": "ldloc.1",
+                "operand": null
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Runtime.CompilerServices.RuntimeHelpers @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.GetObjectValue(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "call",
+                "operand": "METHOD:System.Convert @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.ToString(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+              },
+              {
+                "op": "callvirt",
+                "operand": "METHOD:System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.Trim()"
+              },
+              {
+                "op": "stloc.0",
+                "operand": null
+              },
+              {
+                "op": "ldloc.0",
+                "operand": null
+              },
+              {
+                "op": "ret",
+                "operand": null
+              }
+            ]
+          },
+          "declaring_type": {
+            "assembly": "BESHStatNG",
+            "type": "BESHStatNG.UdfDataImport+_Closure$__66-1",
+            "root_owner": "BESHStatNG.UdfDataImport",
+            "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly, Sealed",
+            "interfaces": [],
+            "fields": [
+              {
+                "name": "$VB$Local_arr",
+                "type": "System.Object[,] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "attributes": "Public",
+                "is_static": false,
+                "is_readonly": false,
+                "is_literal": false,
+                "literal": null
+              }
+            ]
+          },
+          "constructors": [
+            {
+              "method": "BESHStatNG.UdfDataImport+_Closure$__66-1 @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+              "declaring_type": "BESHStatNG.UdfDataImport+_Closure$__66-1",
+              "member_name": ".ctor",
+              "parameter_types": [],
+              "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+              "implementation_flags": "Managed",
+              "raw_IL_sha256": "4aaae62c9703f812e7ec61e8b2954bd2b11afe290b7655b5188094061920234f",
+              "type_initializer": false,
+              "nonliteral_static_fields": 0,
+              "locals": [],
+              "init_locals": false,
+              "exceptions": [],
+              "instructions": [
+                {
+                  "op": "ldarg.0",
+                  "operand": null
+                },
+                {
+                  "op": "call",
+                  "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+                },
+                {
+                  "op": "ret",
+                  "operand": null
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "qualification": "A current-only callback introduced in an earlier extraction is an explicit separate obligation, not an invented original member. Its captured fields/constructors and actual immediate ldftn caller are retained."
+    }
+  ],
+  "new_declarations": 0,
+  "original_queries": 0
+}

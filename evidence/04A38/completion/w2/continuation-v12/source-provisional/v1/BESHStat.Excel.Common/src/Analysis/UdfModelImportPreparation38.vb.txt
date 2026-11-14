@@ -1,0 +1,178 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
+
+Namespace ExcelCommon
+    Public NotInheritable Class UdfModelImportPreparation38
+        Private Sub New()
+        End Sub
+
+        Public Shared Sub InitializeResponsePredictorsPrepared(rowCount As Integer, _
+            totalCols As Integer, _
+            xCols As Integer, _
+            yName As String, _
+            predictorNames As String(), _
+            yCol As Object(,), _
+            xMat As Object(,), _
+            ByRef raw As Object(,), _
+            ByRef names As String())
+            ReDim raw(rowCount - 1, totalCols - 1)
+            ReDim names(totalCols - 1)
+
+            names(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, 0) = yCol(i, 0)
+            Next
+
+            For j As Integer = 0 To xCols - 1
+                names(j + 1) = predictorNames(j)
+                For i As Integer = 0 To rowCount - 1
+                    raw(i, j + 1) = xMat(i, j)
+                Next
+            Next
+
+        End Sub
+
+        Public Shared Sub CopyNamedColumnPrepared(raw As Object(,), _
+            names As String(), _
+            rowCount As Integer, _
+            nextCol As Integer, _
+            columnName As String, _
+            fallbackName As String, _
+            column As Object(,))
+            names(nextCol) = If(String.IsNullOrWhiteSpace(columnName), fallbackName, columnName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, nextCol) = column(i, 0)
+            Next
+        End Sub
+
+        Public Shared Sub InitializePredictorsPrepared(rowCount As Integer, _
+            totalCols As Integer, _
+            xCols As Integer, _
+            expectedPredictorNames As String(), _
+            xMat As Object(,), _
+            ByRef raw As Object(,), _
+            ByRef names As String())
+            ReDim raw(rowCount - 1, totalCols - 1)
+            ReDim names(totalCols - 1)
+
+            For j As Integer = 0 To xCols - 1
+                names(j) = expectedPredictorNames(j)
+                For i As Integer = 0 To rowCount - 1
+                    raw(i, j) = xMat(i, j)
+                Next
+            Next
+
+        End Sub
+
+        Public Shared Sub InitializeCoxPrepared(rowCount As Integer, _
+            totalCols As Integer, _
+            xCols As Integer, _
+            timeName As String, _
+            statusName As String, _
+            strataName As String, _
+            predictorNames As String(), _
+            timeCol As Object(,), _
+            statusCol As Object(,), _
+            strataCol As Object(,), _
+            xMat As Object(,), _
+            hasStrata As Boolean, _
+            ByRef raw As Object(,), _
+            ByRef names As String())
+            ReDim raw(rowCount - 1, totalCols - 1)
+            ReDim names(totalCols - 1)
+
+            names(0) = If(String.IsNullOrWhiteSpace(timeName), "Time", timeName)
+            names(1) = If(String.IsNullOrWhiteSpace(statusName), "Status", statusName)
+
+            For i As Integer = 0 To rowCount - 1
+                raw(i, 0) = timeCol(i, 0)
+                raw(i, 1) = statusCol(i, 0)
+            Next
+
+            Dim firstPredictorCol As Integer = 2
+            If hasStrata Then
+                names(2) = If(String.IsNullOrWhiteSpace(strataName), "Strata", strataName)
+                For i As Integer = 0 To rowCount - 1
+                    raw(i, 2) = strataCol(i, 0)
+                Next
+                firstPredictorCol = 3
+            End If
+
+            For j As Integer = 0 To xCols - 1
+                names(firstPredictorCol + j) = predictorNames(j)
+                For i As Integer = 0 To rowCount - 1
+                    raw(i, firstPredictorCol + j) = xMat(i, j)
+                Next
+            Next
+
+        End Sub
+        Public Shared Function CompleteCategoricalMatrixPrepared(arr As Object(,), ByRef varNames As Object, cols As Integer, assumeHeader As Boolean, startRow As Integer, rows As Integer, isBlank As Func(Of Object, Boolean), toText As Func(Of Object, String), resolveNames As Func(Of Object, Integer, String, String(), String()), ByRef data(,) As String, ByRef resolvedNames() As String) As Boolean
+        Dim inferred(cols - 1) As String
+        For j As Integer = 0 To cols - 1
+            inferred(j) = "Variable " & (j + 1).ToString(CultureInfo.InvariantCulture)
+            If assumeHeader AndAlso Not isBlank(arr(0, j)) Then
+                inferred(j) = toText(arr(0, j))
+            End If
+        Next
+        resolvedNames = resolveNames(varNames, cols, "Variable ", inferred)
+
+        ReDim data(rows - 1, cols - 1)
+        For i As Integer = 0 To rows - 1
+            For j As Integer = 0 To cols - 1
+                data(i, j) = toText(arr(startRow + i, j))
+            Next
+        Next
+
+        Return True
+        End Function
+
+        Public Shared Function TryGetStringVectorPrepared(arr As Object(,), convertCell As Func(Of Object, String), ByRef values() As String) As Boolean
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        Dim list As New List(Of String)()
+        If rows = 1 Then
+            For j As Integer = 0 To cols - 1
+                list.Add(convertCell(arr(0, j)))
+            Next
+        ElseIf cols = 1 Then
+            For i As Integer = 0 To rows - 1
+                list.Add(convertCell(arr(i, 0)))
+            Next
+        Else
+            Return False
+        End If
+
+        values = list.ToArray()
+        Return values.Length > 0
+        End Function
+
+        Public Shared Function TryGetDoubleVectorPrepared(arr As Object(,), convertCell As Func(Of Object, Double?), ByRef values() As Double) As Boolean
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        Dim vals As New List(Of Double)()
+        If rows = 1 Then
+            For j As Integer = 0 To cols - 1
+                Dim d As Double? = convertCell(arr(0, j))
+                If Not d.HasValue Then Return False
+                vals.Add(d.Value)
+            Next
+        ElseIf cols = 1 Then
+            For i As Integer = 0 To rows - 1
+                Dim d As Double? = convertCell(arr(i, 0))
+                If Not d.HasValue Then Return False
+                vals.Add(d.Value)
+            Next
+        Else
+            Return False
+        End If
+
+        values = vals.ToArray()
+        Return values.Length > 0
+        End Function
+
+    End Class
+End Namespace

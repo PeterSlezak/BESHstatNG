@@ -1,0 +1,576 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+Imports System.Globalization
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports BESHStatNG.ExcelCommon
+
+<TestClass>
+Public Class UdfModelProfilePreparation38Tests
+    Private Shared Function Blank(cell As Object) As Boolean
+        Return cell Is Nothing OrElse (TypeOf cell Is String AndAlso String.IsNullOrWhiteSpace(DirectCast(cell, String)))
+    End Function
+
+    Private Shared Function Text(cell As Object) As String
+        Return If(cell Is Nothing, String.Empty, Convert.ToString(cell, CultureInfo.CurrentCulture).Trim())
+    End Function
+
+    Private Shared Function Finite(cell As Object, ByRef value As Double) As Boolean
+        value = Double.NaN
+        If Not TypeOf cell Is Double Then Return False
+        value = DirectCast(cell, Double)
+        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
+    End Function
+
+    Private Shared Function Gee(input As Object(,), ByRef profile As UdfGeeAtProfile38(Of UdfLsmProfileValue38), ByRef message As String) As Boolean
+        Return UdfModelProfilePreparation38.TryGetGeeAtSpec(Of UdfGeeAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            input, {"Intercept", "X1", "X2"}, AddressOf Blank, AddressOf Text, AddressOf Finite, profile, message)
+    End Function
+
+    Private Shared Function Mmrm(input As Object(,), ByRef profile As UdfMmrmAtProfile38(Of UdfLsmProfileValue38), ByRef message As String) As Boolean
+        Return UdfModelProfilePreparation38.TryGetMmrmAtSpec(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            input, True, Function() {"Intercept", "treatment_active"}, AddressOf Blank, AddressOf Text, AddressOf Finite, profile, message)
+    End Function
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub HeaderedVisitAndFittedColumnPreserveTypedValues(cultureName As String)
+        Dim before = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim gp As UdfGeeAtProfile38(Of UdfLsmProfileValue38) = Nothing
+            Dim mp As UdfMmrmAtProfile38(Of UdfLsmProfileValue38) = Nothing
+            Dim message As String = Nothing
+            Assert.IsTrue(Gee(New Object(,) {{"Name", "Value"}, {"visit", 1.0R}, {"x1", -0.0R}}, gp, message))
+            Assert.IsTrue(gp.TimeSpecified)
+            Assert.AreEqual(1.0R, gp.TimeValue)
+            Assert.AreEqual("X1", gp.ProfileValues(0).Name)
+            Assert.AreEqual(1, gp.ProfileValues(0).ColumnIndex)
+            Assert.AreEqual(Long.MinValue, BitConverter.DoubleToInt64Bits(gp.ProfileValues(0).Value))
+            Assert.IsTrue(Mmrm(New Object(,) {{"Name", "Value"}, {"treatment_active", 1.0R}, {"visit", 1.0R}}, mp, message))
+            Assert.IsTrue(mp.VisitSpecified)
+            Assert.AreEqual(1, mp.ProfileValues(0).ColumnIndex)
+            Assert.IsNull(message)
+        Finally
+            CultureInfo.CurrentCulture = before
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub FamilyHeaderlessDivergenceIsRetained(cultureName As String)
+        Dim before = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim gp As UdfGeeAtProfile38(Of UdfLsmProfileValue38) = Nothing
+            Dim mp As UdfMmrmAtProfile38(Of UdfLsmProfileValue38) = Nothing
+            Dim message As String = Nothing
+            Assert.IsTrue(Mmrm(New Object(,) {{"visit", 1.0R}}, mp, message))
+            Assert.IsTrue(mp.VisitSpecified)
+            Assert.IsFalse(Gee(New Object(,) {{"visit", 1.0R}}, gp, message))
+            Assert.AreEqual("at must contain a header row and at least one data row, or be omitted.", message)
+            Assert.IsNull(gp)
+        Finally
+            CultureInfo.CurrentCulture = before
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(True), DataRow(False)>
+    Public Sub DuplicateVisitAliasesRemainFamilySpecific(isMmrm As Boolean)
+        Dim input As Object(,) = {{"Name", "Value"}, {"visit", 1.0R}, {"time", 2.0R}}
+        Dim message As String = Nothing
+        If isMmrm Then
+            Dim profile As UdfMmrmAtProfile38(Of UdfLsmProfileValue38) = Nothing
+            Assert.IsFalse(Mmrm(input, profile, message))
+            Assert.AreEqual("at specifies visit/time more than once.", message)
+            Assert.IsNull(profile)
+        Else
+            Dim profile As UdfGeeAtProfile38(Of UdfLsmProfileValue38) = Nothing
+            Assert.IsFalse(Gee(input, profile, message))
+            Assert.AreEqual("at specifies time more than once.", message)
+            Assert.IsNull(profile)
+        End If
+    End Sub
+
+    <TestMethod>
+    Public Sub DuplicateDesignNamesResolveCaseInsensitively()
+        Dim gp As UdfGeeAtProfile38(Of UdfLsmProfileValue38) = Nothing
+        Dim mp As UdfMmrmAtProfile38(Of UdfLsmProfileValue38) = Nothing
+        Dim message As String = Nothing
+        Assert.IsFalse(Gee(New Object(,) {{"Name", "Value"}, {"X1", 1.0R}, {"x1", 2.0R}}, gp, message))
+        Assert.AreEqual("at specifies design column ""X1"" more than once.", message)
+        Assert.IsFalse(Mmrm(New Object(,) {{"Name", "Value"}, {"treatment_active", 1.0R}, {"TREATMENT_ACTIVE", 2.0R}}, mp, message))
+        Assert.AreEqual("at specifies design column ""treatment_active"" more than once.", message)
+    End Sub
+
+    <DataTestMethod, DataRow(True), DataRow(False)>
+    Public Sub WideMultipleRowsFailBeforeNumericValueReading(isMmrm As Boolean)
+        Dim input As Object(,) = {{"visit"}, {1.0R}, {2.0R}}
+        Dim message As String = Nothing
+        If isMmrm Then
+            Dim profile As UdfMmrmAtProfile38(Of UdfLsmProfileValue38) = Nothing
+            Assert.IsFalse(Mmrm(input, profile, message))
+            Assert.IsNull(profile)
+        Else
+            Dim profile As UdfGeeAtProfile38(Of UdfLsmProfileValue38) = Nothing
+            Assert.IsFalse(Gee(input, profile, message))
+            Assert.IsNull(profile)
+        End If
+        Assert.AreEqual("wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.", message)
+    End Sub
+
+    <TestMethod>
+    Public Sub WideBlankRowsDoNotCountAndInputsAreNotMutated()
+        Dim input As Object(,) = {{"time", "X2"}, {Nothing, " "}, {1.0R, 2.0R}, {"", Nothing}}
+        Dim copy = DirectCast(input.Clone(), Object(,))
+        Dim profile As UdfGeeAtProfile38(Of UdfLsmProfileValue38) = Nothing
+        Dim message As String = Nothing
+        Assert.IsTrue(Gee(input, profile, message))
+        Assert.AreEqual(2.0R, profile.ProfileValues(0).Value)
+        CollectionAssert.AreEqual(copy, input)
+        profile.ProfileValues(0).Value = 99.0R
+        Assert.AreEqual(2.0R, input(2, 1))
+    End Sub
+
+    <DataTestMethod, DataRow(Double.NaN), DataRow(Double.PositiveInfinity), DataRow(Double.NegativeInfinity)>
+    Public Sub NonfiniteCellsFailThroughTheSuppliedHostPolicy(value As Double)
+        Dim profile As UdfGeeAtProfile38(Of UdfLsmProfileValue38) = Nothing
+        Dim message As String = Nothing
+        Assert.IsFalse(Gee(New Object(,) {{"time"}, {value}}, profile, message))
+        Assert.AreEqual("at time value must be numeric and finite.", message)
+    End Sub
+
+    <TestMethod>
+    Public Sub StringNumericDoesNotBypassTheSuppliedCellPolicy()
+        Dim profile As UdfGeeAtProfile38(Of UdfLsmProfileValue38) = Nothing
+        Dim message As String = Nothing
+        Assert.IsFalse(Gee(New Object(,) {{"time"}, {"1.0"}}, profile, message))
+        Assert.IsNull(profile)
+    End Sub
+
+    <TestMethod>
+    Public Sub ExistingOneBasedArrayFailureIsNotSilentlyRebased()
+        Dim array = DirectCast(System.Array.CreateInstance(GetType(Object), {2, 1}, {1, 1}), Object(,))
+        array(1, 1) = "time"
+        array(2, 1) = 1.0R
+        Dim profile As UdfGeeAtProfile38(Of UdfLsmProfileValue38) = Nothing
+        Dim message As String = Nothing
+        Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() Gee(array, profile, message))
+        Assert.IsNull(profile)
+    End Sub
+
+    <TestMethod>
+    Public Sub TimeSelectionDoesNotReadModelNames()
+        Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38)()
+        Dim message As String = Nothing
+        Dim names As Func(Of String()) = Function() ThrowNames()
+        Assert.IsTrue(UdfModelProfilePreparation38.AddMmrmAtValue(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(profile, names, "time", 1.0R, "source", message))
+        Assert.IsTrue(profile.VisitSpecified)
+    End Sub
+
+    Private Shared Function ThrowNames() As String()
+        Throw New InvalidOperationException("names must stay lazy")
+    End Function
+
+    <TestMethod>
+    Public Sub GroupInterceptRejectsBeforeAllocatingValues()
+        Dim name As String = Nothing
+        Dim values As Double() = Nothing
+        Dim message As String = Nothing
+        Assert.IsFalse(UdfModelProfilePreparation38.TryGetMmrmDesignColumnValues(New Double(,) {{1.0R, 2.0R}}, {"Intercept", "X1"}, "Intercept", name, values, message))
+        Assert.IsNull(name)
+        Assert.IsNull(values)
+        Assert.AreEqual("the intercept column cannot be used as a grouping factor.", message)
+    End Sub
+
+    <TestMethod>
+    Public Sub GroupValuesAreCopiedInSavedRowOrder()
+        Dim design As Double(,) = {{1.0R, 2.0R}, {1.0R, -0.0R}}
+        Dim name As String = Nothing
+        Dim values As Double() = Nothing
+        Dim message As String = Nothing
+        Assert.IsTrue(UdfModelProfilePreparation38.TryGetMmrmDesignColumnValues(design, {"Intercept", "X1"}, "x1", name, values, message))
+        Assert.AreEqual("X1", name)
+        Assert.AreEqual(Long.MinValue, BitConverter.DoubleToInt64Bits(values(1)))
+        values(0) = 99.0R
+        Assert.AreEqual(2.0R, design(0, 1))
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub MmrmDescriptionPreservesInvariantVisitThenProfileOrder(cultureName As String)
+        Dim originalCulture = CultureInfo.CurrentCulture
+        Dim originalUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38) With {.VisitSpecified = True, .VisitValue = 2.0000000001R}
+            Dim first As New UdfLsmProfileValue38 With {.Name = "B", .ColumnIndex = 2, .Value = 1.23456789R}
+            Dim second As New UdfLsmProfileValue38 With {.Name = "A", .ColumnIndex = 1, .Value = BitConverter.Int64BitsToDouble(Long.MinValue)}
+            profile.ProfileValues.Add(first)
+            profile.ProfileValues.Add(second)
+            Dim actual = UdfModelProfilePreparation38.FormatMmrmAtProfileDescription(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(profile)
+            Assert.AreEqual("visit=2, B=1.23457, A=0", actual)
+            Assert.AreSame(first, profile.ProfileValues(0))
+            Assert.AreSame(second, profile.ProfileValues(1))
+            Assert.AreEqual(Long.MinValue, BitConverter.DoubleToInt64Bits(second.Value))
+        Finally
+            CultureInfo.CurrentCulture = originalCulture
+            CultureInfo.CurrentUICulture = originalUi
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub MmrmDescriptionKeepsNullEmptyAndUnselectedVisitDistinct()
+        Assert.AreEqual(String.Empty, UdfModelProfilePreparation38.FormatMmrmAtProfileDescription(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(Nothing))
+        Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38) With {.VisitValue = Double.MaxValue}
+        Assert.AreEqual(String.Empty, UdfModelProfilePreparation38.FormatMmrmAtProfileDescription(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(profile))
+        profile.ProfileValues.Add(New UdfLsmProfileValue38 With {.Name = Nothing, .Value = 1.5R})
+        Assert.AreEqual("=1.5", UdfModelProfilePreparation38.FormatMmrmAtProfileDescription(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(profile))
+    End Sub
+
+    <DataTestMethod, DataRow(Double.NaN), DataRow(Double.PositiveInfinity), DataRow(Double.NegativeInfinity)>
+    Public Sub MmrmDescriptionRetainsExistingNonfiniteEmptyValuePolicy(value As Double)
+        Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38) With {.VisitSpecified = True, .VisitValue = value}
+        profile.ProfileValues.Add(New UdfLsmProfileValue38 With {.Name = "X", .Value = value})
+        Assert.AreEqual("visit=, X=", UdfModelProfilePreparation38.FormatMmrmAtProfileDescription(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(profile))
+    End Sub
+
+    <TestMethod>
+    Public Sub MmrmDescriptionPreservesOverflowAndNullElementExceptionOrder()
+        Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38) With {.VisitSpecified = True, .VisitValue = Double.MaxValue}
+        profile.ProfileValues.Add(Nothing)
+        Assert.ThrowsException(Of OverflowException)(Sub() UdfModelProfilePreparation38.FormatMmrmAtProfileDescription(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(profile))
+        profile.VisitSpecified = False
+        Assert.ThrowsException(Of NullReferenceException)(Sub() UdfModelProfilePreparation38.FormatMmrmAtProfileDescription(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(profile))
+        profile.ProfileValues = Nothing
+        Assert.ThrowsException(Of NullReferenceException)(Sub() UdfModelProfilePreparation38.FormatMmrmAtProfileDescription(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(profile))
+    End Sub
+
+    <TestMethod>
+    Public Sub MmrmMaskMissingModelResetsByRefWithoutReadingItsArrays()
+        Dim mask As Boolean() = {True}
+        Dim description As String = "previous"
+        Dim message As String = "previous"
+        Dim design As Func(Of Double(,)) = Function() ThrowDesign()
+        Dim visits As Func(Of Double()) = Function() ThrowVisits()
+        Dim format As Func(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), String) = Function(p) ThrowDescription()
+        Assert.IsFalse(UdfModelProfilePreparation38.TryBuildMmrmAtProfileRowMask(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            False, design, visits, Nothing, format, mask, description, message))
+        Assert.IsNull(mask)
+        Assert.IsNull(description)
+        Assert.AreEqual("the fit does not contain the design rows and visit values required for LS-means profiles.", message)
+    End Sub
+
+    <TestMethod>
+    Public Sub MmrmMaskKeepsArrayAlignmentGuardBeforeAllocation()
+        Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38) With {.VisitSpecified = True, .VisitValue = 1.0R}
+        Dim mask As Boolean() = Nothing
+        Dim description As String = Nothing
+        Dim message As String = Nothing
+        Assert.IsFalse(UdfModelProfilePreparation38.TryBuildMmrmAtProfileRowMask(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            True, Function() New Double(,) {{1.0R}, {1.0R}}, Function() New Double() {1.0R}, profile, Function(p) ThrowDescription(), mask, description, message))
+        Assert.IsNull(mask)
+        Assert.IsNull(description)
+        Assert.AreEqual("the fit does not contain usable visit values for the saved design rows.", message)
+    End Sub
+
+    <TestMethod>
+    Public Sub MmrmMaskUnmatchedRowsNeverCallDescriptionPolicy()
+        Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38) With {.VisitSpecified = True, .VisitValue = 99.0R}
+        Dim mask As Boolean() = Nothing
+        Dim description As String = Nothing
+        Dim message As String = Nothing
+        Assert.IsFalse(UdfModelProfilePreparation38.TryBuildMmrmAtProfileRowMask(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            True, Function() New Double(,) {{1.0R}, {1.0R}, {1.0R}}, Function() New Double() {1.0R, 2.0R, 3.0R}, profile, Function(p) ThrowDescription(), mask, description, message))
+        CollectionAssert.AreEqual(New Boolean() {False, False, False}, mask)
+        Assert.IsNull(description)
+        Assert.AreEqual("no observed design rows matched the supplied LS-means profile.", message)
+    End Sub
+
+    <TestMethod>
+    Public Sub MmrmMaskRetainsCompletedMaskWhenDescriptionThrows()
+        Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38) With {.VisitSpecified = True, .VisitValue = 1.0R}
+        Dim mask As Boolean() = Nothing
+        Dim description As String = "previous"
+        Dim message As String = "previous"
+        Dim ex = Assert.ThrowsException(Of InvalidOperationException)(Sub() UdfModelProfilePreparation38.TryBuildMmrmAtProfileRowMask(Of UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            True, Function() New Double(,) {{1.0R}, {1.0R}, {1.0R}}, Function() New Double() {1.0R, 2.0R, 1.0R}, profile, Function(p) ThrowDescription(), mask, description, message))
+        CollectionAssert.AreEqual(New Boolean() {True, False, True}, mask)
+        Assert.IsNull(description)
+        Assert.IsNull(message)
+        Assert.AreEqual("description stopped", ex.Message)
+    End Sub
+
+    Private Shared Function ThrowDescription() As String
+        Throw New InvalidOperationException("description stopped")
+    End Function
+
+    Private Shared Function ThrowDesign() As Double(,)
+        Throw New InvalidOperationException("design must stay lazy")
+    End Function
+
+    Private Shared Function ThrowVisits() As Double()
+        Throw New InvalidOperationException("visits must stay lazy")
+    End Function
+
+    <TestMethod>
+    Public Sub GeeSpecInterceptRoleIsRejectedBeforeWeightCellsAreRead()
+        Dim components As New Collections.Generic.List(Of UdfGeeComponent38(Of UdfLsmProfileValue38))()
+        Dim message As String = Nothing
+        Dim called As Boolean = False
+        Dim finitePolicy As UdfModelProfilePreparation38.FiniteDoubleReader =
+            Function(cell As Object, ByRef value As Double) As Boolean
+                called = True
+                Return Finite(cell, value)
+            End Function
+        Assert.IsFalse(UdfModelProfilePreparation38.TryGetGeeSpec(Of UdfGeeComponent38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            New Object(,) {{"Label", "Weight", "Intercept"}, {"L", 1.0R, 1.0R}}, {"Intercept", "X1", "X2"},
+            AddressOf Blank, AddressOf Text, finitePolicy, components, message))
+        Assert.IsFalse(called)
+        Assert.AreEqual(0, components.Count)
+        Assert.AreEqual("the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.", message)
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub MmrmSpecRetainsLabelsWeightsVisitAndColumnRoles(cultureName As String)
+        Dim before = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim components As New Collections.Generic.List(Of UdfMmrmComponent38(Of UdfLsmProfileValue38))()
+            Dim message As String = Nothing
+            Assert.IsTrue(UdfModelProfilePreparation38.TryGetMmrmSpec(Of UdfMmrmComponent38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+                New Object(,) {{"Label", "Weight", "visit", "treatment_active"}, {"L", -1.0R, 1.0R, 1.0R}},
+                Function() {"Intercept", "treatment_active"}, AddressOf Blank, AddressOf Text, AddressOf Finite, components, message))
+            Assert.AreEqual(1, components.Count)
+            Assert.AreEqual("L", components(0).Label)
+            Assert.AreEqual(-1.0R, components(0).Weight)
+            Assert.AreEqual(1.0R, components(0).VisitValue)
+            Assert.AreEqual("treatment_active", components(0).ProfileValues(0).Name)
+            Assert.AreEqual(1, components(0).ProfileValues(0).ColumnIndex)
+        Finally
+            CultureInfo.CurrentCulture = before
+        End Try
+    End Sub
+    <TestMethod>
+    Public Sub GeeApplicationCopiesOnlyUnselectedColumnsAndPreservesSpecifiedTime()
+        Dim owned As New UdfLsmProfileValue38 With {.Name = "own", .ColumnIndex = 1, .Value = -0.0R}
+        Dim inherited As New UdfLsmProfileValue38 With {.Name = "copied", .ColumnIndex = 2, .Value = 7.0R}
+        Dim component As New UdfGeeComponent38(Of UdfLsmProfileValue38) With {.TimeSpecified = True, .TimeValue = 9.0R}
+        component.ProfileValues.Add(owned)
+        Dim profile As New UdfGeeAtProfile38(Of UdfLsmProfileValue38) With {.TimeSpecified = True, .TimeValue = 1.0R}
+        profile.ProfileValues.Add(New UdfLsmProfileValue38 With {.ColumnIndex = 1, .Value = 999.0R})
+        profile.ProfileValues.Add(inherited)
+        UdfModelProfilePreparation38.ApplyGeeAtProfile(Of UdfGeeComponent38(Of UdfLsmProfileValue38), UdfGeeAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            New Collections.Generic.List(Of UdfGeeComponent38(Of UdfLsmProfileValue38)) From {Nothing, component}, profile)
+        Assert.AreEqual(9.0R, component.TimeValue)
+        Assert.AreSame(owned, component.ProfileValues(0))
+        Assert.AreEqual(2, component.ProfileValues.Count)
+        Assert.AreNotSame(inherited, component.ProfileValues(1))
+        inherited.Value = 22.0R
+        Assert.AreEqual(7.0R, component.ProfileValues(1).Value)
+    End Sub
+
+    <TestMethod>
+    Public Sub MmrmApplicationPropagatesVisitBeforeNullValuesFail()
+        Dim component As New UdfMmrmComponent38(Of UdfLsmProfileValue38)
+        Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38) With {.VisitSpecified = True, .VisitValue = -0.0R, .ProfileValues = Nothing}
+        Assert.ThrowsException(Of NullReferenceException)(Sub() UdfModelProfilePreparation38.ApplyMmrmAtProfile(Of UdfMmrmComponent38(Of UdfLsmProfileValue38), UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            New Collections.Generic.List(Of UdfMmrmComponent38(Of UdfLsmProfileValue38)) From {component}, profile))
+        Assert.IsTrue(component.VisitSpecified)
+        Assert.AreEqual(BitConverter.DoubleToInt64Bits(-0.0R), BitConverter.DoubleToInt64Bits(component.VisitValue))
+        UdfModelProfilePreparation38.ApplyMmrmAtProfile(Of UdfMmrmComponent38(Of UdfLsmProfileValue38), UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(Nothing, profile)
+    End Sub
+
+    <TestMethod>
+    Public Sub MmrmApplicationCopiesAndSkipsExistingColumnInInsertionOrder()
+        Dim value As New UdfLsmProfileValue38 With {.Name = "A", .ColumnIndex = 2, .Value = Double.PositiveInfinity}
+        Dim profile As New UdfMmrmAtProfile38(Of UdfLsmProfileValue38)
+        profile.ProfileValues.Add(value)
+        profile.ProfileValues.Add(New UdfLsmProfileValue38 With {.Name = "a", .ColumnIndex = 2, .Value = 5.0R})
+        Dim component As New UdfMmrmComponent38(Of UdfLsmProfileValue38)
+        UdfModelProfilePreparation38.ApplyMmrmAtProfile(Of UdfMmrmComponent38(Of UdfLsmProfileValue38), UdfMmrmAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            New Collections.Generic.List(Of UdfMmrmComponent38(Of UdfLsmProfileValue38)) From {Nothing, component}, profile)
+        Assert.AreEqual(1, component.ProfileValues.Count)
+        Assert.AreNotSame(value, component.ProfileValues(0))
+        Assert.IsTrue(Double.IsPositiveInfinity(component.ProfileValues(0).Value))
+    End Sub
+
+    <TestMethod>
+    Public Sub GeeApplicationWithNoComponentsDoesNotReadNullValues()
+        Dim profile As New UdfGeeAtProfile38(Of UdfLsmProfileValue38) With {.ProfileValues = Nothing}
+        UdfModelProfilePreparation38.ApplyGeeAtProfile(Of UdfGeeComponent38(Of UdfLsmProfileValue38), UdfGeeAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            New Collections.Generic.List(Of UdfGeeComponent38(Of UdfLsmProfileValue38)) From {Nothing}, profile)
+        Dim component As New UdfGeeComponent38(Of UdfLsmProfileValue38) With {.ProfileValues = Nothing}
+        profile.ProfileValues = New Collections.Generic.List(Of UdfLsmProfileValue38) From {New UdfLsmProfileValue38 With {.ColumnIndex = 1}}
+        Assert.ThrowsException(Of NullReferenceException)(Sub() UdfModelProfilePreparation38.ApplyGeeAtProfile(Of UdfGeeComponent38(Of UdfLsmProfileValue38), UdfGeeAtProfile38(Of UdfLsmProfileValue38), UdfLsmProfileValue38)(
+            New Collections.Generic.List(Of UdfGeeComponent38(Of UdfLsmProfileValue38)) From {component}, profile))
+    End Sub
+
+    <TestMethod>
+    Public Sub CalibrationProjectionKeepsBinTypesBoundsAndLegacyNumericMissingInterval()
+        Dim rows As New Collections.Generic.List(Of BESHStatNG.regression.CalibrationBinSummary) From {
+            New BESHStatNG.regression.CalibrationBinSummary With {.BinIndex = 3, .N = 4.5R, .MeanPredicted = -0.0R, .ObservedRate = 0.25R, .LowerCI = Double.NaN, .UpperCI = Double.PositiveInfinity}}
+        Dim projection = PlotDataUDFsReports38.BuildCalibrationPointsTable(rows, 42.0R)
+        Dim cells = projection.ToOutputModel().Values
+        Assert.AreEqual(UdfReportPreparation38.NormalizeBlanks, projection.Preparation)
+        Assert.AreEqual(2, cells.GetLength(0))
+        Assert.AreEqual(8, cells.GetLength(1))
+        Assert.IsInstanceOfType(cells(1, 0), GetType(Integer))
+        Assert.IsInstanceOfType(cells(1, 1), GetType(Double))
+        Assert.AreEqual(BitConverter.DoubleToInt64Bits(-0.0R), BitConverter.DoubleToInt64Bits(DirectCast(cells(1, 2), Double)))
+        Assert.IsTrue(Double.IsNaN(DirectCast(cells(1, 4), Double)))
+        Assert.AreEqual(42.0R, DirectCast(cells(1, 6), Double))
+        Assert.IsTrue(Double.IsPositiveInfinity(DirectCast(cells(1, 7), Double)))
+        cells(1, 0) = -1
+        Assert.AreEqual(3, DirectCast(projection.ToOutputModel().Values(1, 0), Integer))
+    End Sub
+
+    <TestMethod>
+    Public Sub CalibrationEmptyListKeepsEightHeadersAndNullListStillThrows()
+        Dim cells = PlotDataUDFsReports38.BuildCalibrationPointsTable(New Collections.Generic.List(Of BESHStatNG.regression.CalibrationBinSummary), 42.0R).ToOutputModel().Values
+        Assert.AreEqual(1, cells.GetLength(0))
+        Assert.AreEqual("ErrorPlus", cells(0, 7))
+        Assert.ThrowsException(Of NullReferenceException)(Sub() PlotDataUDFsReports38.BuildCalibrationPointsTable(Nothing, 42.0R))
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub RocPointsKeepEndpointOrderDirectionBitsAndInvariantRates(cultureName As String)
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim cells = PlotDataUDFsReports38.BuildRocPointsTable(New Object(,) {{"Threshold", "Sensitivity", "Specificity"}, {0.0R, "0.25", "0.75"}}, True, AddressOf Finite)
+            Assert.AreEqual(4, cells.GetLength(0))
+            Assert.AreEqual(5, cells.GetLength(1))
+            Assert.AreEqual("", cells(1, 0))
+            Assert.AreEqual(BitConverter.DoubleToInt64Bits(-0.0R), BitConverter.DoubleToInt64Bits(DirectCast(cells(2, 0), Double)))
+            Assert.AreEqual(0.25R, DirectCast(cells(2, 3), Double))
+            Assert.AreEqual(0.0R, DirectCast(cells(3, 1), Double))
+            Assert.AreEqual(1.0R, DirectCast(cells(3, 2), Double))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub RocPointsKeepUnparsedOpaqueThresholdIdentityAndFailMalformedRates()
+        Dim marker As New Object()
+        Dim cells = PlotDataUDFsReports38.BuildRocPointsTable(New Object(,) {{"T", "S", "P"}, {marker, 0.1R, 0.2R}}, False, AddressOf Finite)
+        Assert.AreSame(marker, cells(2, 0))
+        Assert.ThrowsException(Of FormatException)(Sub() PlotDataUDFsReports38.BuildRocPointsTable(New Object(,) {{"T", "S", "P"}, {1.0R, "bad", 0.2R}}, False, AddressOf Finite))
+    End Sub
+
+    <TestMethod>
+    Public Sub RocMissingAndShortTablesKeepNotesWithoutReadingFinitePolicy()
+        Dim points = PlotDataUDFsReports38.BuildRocPointsTable(Nothing, False, Nothing)
+        Assert.AreEqual("No ROC cut-off table was returned.", points(1, 1))
+        Dim stats = PlotDataUDFsReports38.BuildRocStatsTable(New Object(0, 0) {})
+        Assert.AreEqual("No ROC summary table was returned.", stats(1, 1))
+        Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() PlotDataUDFsReports38.BuildRocStatsTable(New Object(1, 0) {}))
+    End Sub
+
+    <TestMethod>
+    Public Sub RocStatsKeepOriginalCellIdentityOrderAndOnlyFirstTwoColumns()
+        Dim marker As New Object()
+        Dim cells = PlotDataUDFsReports38.BuildRocStatsTable(New Object(,) {{"a", "b", "c"}, {"p-value", marker, "ignored"}, {"next", -0.0R, "ignored"}})
+        Assert.AreEqual(3, cells.GetLength(0))
+        Assert.AreEqual(2, cells.GetLength(1))
+        Assert.AreEqual("Metric", cells(0, 0))
+        Assert.AreSame(marker, cells(1, 1))
+        Assert.AreEqual("next", cells(2, 0))
+    End Sub
+
+    Private Shared Function NumericCell(value As Object) As Double?
+        If TypeOf value Is Double Then Return DirectCast(value, Double)
+        Return Nothing
+    End Function
+
+    Private Shared Function LabelCell(value As Object) As String
+        Return Convert.ToString(value).Trim()
+    End Function
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub GroupedImportRetainsFirstAcceptedLabelOrderAndCompleteFiniteRows(cultureName As String)
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim matrices As Collections.Generic.List(Of Double(,)) = Nothing
+            Dim names As Collections.Generic.List(Of String) = Nothing
+            Dim data As Object(,) = {{"X", "Y"}, {1.0R, 2.0R}, {3.0R, Double.NaN}, {4.0R, 5.0R}, {6.0R, 7.0R}, {8.0R, Double.PositiveInfinity}}
+            Dim groups As Object(,) = {{"Group"}, {" b "}, {"ignored"}, {"B"}, {"A"}, {"ignored"}}
+            Assert.IsTrue(UdfNumericImportPreparation38.TryGetGroupedCompleteMatrix(data, groups, Function(a, c) True, AddressOf LabelCell, AddressOf NumericCell, matrices, names))
+            CollectionAssert.AreEqual(New String() {"b", "A"}, names.ToArray())
+            Assert.AreEqual(2, matrices(0).GetLength(0))
+            Assert.AreEqual(4.0R, matrices(0)(1, 0))
+            Assert.AreEqual(6.0R, matrices(1)(0, 0))
+            Assert.AreEqual(0, matrices(0).GetLowerBound(0))
+            Assert.AreEqual(" b ", DirectCast(groups(1, 0), String))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub GroupedImportPreservesEmptySuccessAndAlignmentFailureByRefs()
+        Dim matrices As New Collections.Generic.List(Of Double(,))
+        Dim names As New Collections.Generic.List(Of String)
+        Assert.IsFalse(UdfNumericImportPreparation38.TryGetGroupedCompleteMatrix(New Object(,) {{1.0R}}, New Object(2, 0) {}, Function(a, c) False, AddressOf LabelCell, AddressOf NumericCell, matrices, names))
+        Assert.IsNull(matrices)
+        Assert.IsNull(names)
+        Assert.IsTrue(UdfNumericImportPreparation38.TryGetGroupedCompleteMatrix(New Object(,) {{Double.NaN}}, New Object(,) {{"A"}}, Function(a, c) False, AddressOf LabelCell, AddressOf NumericCell, matrices, names))
+        Assert.AreEqual(0, matrices.Count)
+        Assert.AreEqual(0, names.Count)
+    End Sub
+
+    <TestMethod>
+    Public Sub GroupedBlankLabelsDoNotReadNumericCells()
+        Dim matrices As Collections.Generic.List(Of Double(,)) = Nothing
+        Dim names As Collections.Generic.List(Of String) = Nothing
+        Assert.IsTrue(UdfNumericImportPreparation38.TryGetGroupedCompleteMatrix(New Object(,) {{New Object()}}, New Object(,) {{" "}}, Function(a, c) False, AddressOf LabelCell,
+            Function(v) ThrowNumericCell(), matrices, names))
+        Assert.AreEqual(0, matrices.Count)
+    End Sub
+
+    Private Shared Function ThrowNumericCell() As Double?
+        Throw New InvalidOperationException("numeric cell was read")
+    End Function
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub NestedImportPreservesHeadersOrderAndLegacyNonfiniteAcceptance(cultureName As String)
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim data As Object(,) = Nothing
+            Dim names As String() = Nothing
+            Assert.IsTrue(UdfNumericImportPreparation38.TryGetNestedThreeColumnData(
+                New Object(,) {{" G ", " S ", " Y "}, {"B", "b1", Double.NaN}, {"A", "a1", Double.PositiveInfinity}, {" ", "excluded", 3.0R}}, AddressOf LabelCell, AddressOf NumericCell, data, names))
+            CollectionAssert.AreEqual(New String() {"G", "S", "Y"}, names)
+            Assert.AreEqual(2, data.GetLength(0))
+            Assert.AreEqual("B", data(0, 0))
+            Assert.IsTrue(Double.IsNaN(DirectCast(data(0, 2), Double)))
+            Assert.IsTrue(Double.IsPositiveInfinity(DirectCast(data(1, 2), Double)))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub NestedNoRowsRetainsAllocatedDefaultNamesAndNullData()
+        Dim data As Object(,) = New Object(0, 0) {}
+        Dim names As String() = {"previous"}
+        Assert.IsFalse(UdfNumericImportPreparation38.TryGetNestedThreeColumnData(New Object(,) {{"", "", 1.0R}}, AddressOf LabelCell, AddressOf NumericCell, data, names))
+        Assert.IsNull(data)
+        CollectionAssert.AreEqual(New String() {"Group", "Subgroup", "Response"}, names)
+    End Sub
+
+    <TestMethod>
+    Public Sub NestedNumericProbeOrderRemainsFirstBelowThenEveryRow()
+        Dim calls As New Collections.Generic.List(Of Object)
+        Dim numeric As Func(Of Object, Double?) = Function(v)
+                                                     calls.Add(v)
+                                                     Return NumericCell(v)
+                                                 End Function
+        Dim data As Object(,) = Nothing
+        Dim names As String() = Nothing
+        Assert.IsTrue(UdfNumericImportPreparation38.TryGetNestedThreeColumnData(New Object(,) {{"A", "a", 1.0R}, {"B", "b", 2.0R}}, AddressOf LabelCell, numeric, data, names))
+        CollectionAssert.AreEqual(New Object() {1.0R, 2.0R, 1.0R, 2.0R}, calls.ToArray())
+    End Sub
+End Class

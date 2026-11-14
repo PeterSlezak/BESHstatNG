@@ -1,0 +1,150 @@
+{
+  "phases": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "parent": "BuildFitOptions",
+      "api": "CreateFitOptionsPrepared",
+      "original_segment": "            Dim fitOptions As New PsmComprehensiveFitOptions()\n            fitOptions.StandardOptions = New PsmOptions()\n",
+      "actual_native_call": "            Dim fitOptions As PsmComprehensiveFitOptions = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.CreateFitOptionsPrepared()\n",
+      "portable_segment": "            Dim fitOptions As New PsmComprehensiveFitOptions()\n            fitOptions.StandardOptions = New PsmOptions()\n            Return fitOptions\n",
+      "bindings": {},
+      "portable_signature": "CreateFitOptionsPrepared() As PsmComprehensiveFitOptions"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "parent": "BuildFitOptions",
+      "api": "CompleteFitOptionsPrepared",
+      "original_segment": "            NormalizeFitOptions(fitOptions)\n            PsmMethodCapabilities.ValidateFitOptions(fitOptions)\n            Return fitOptions\n",
+      "actual_native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.CompleteFitOptionsPrepared(fitOptions)\n",
+      "portable_segment": "            UdfPsmPreparation38.NormalizeFitOptions(fitOptions)\n            PsmMethodCapabilities.ValidateFitOptions(fitOptions)\n            Return fitOptions\n",
+      "bindings": {
+        "NormalizeFitOptions": "UdfPsmPreparation38.NormalizeFitOptions"
+      },
+      "portable_signature": "CompleteFitOptionsPrepared(fitOptions As PsmComprehensiveFitOptions) As PsmComprehensiveFitOptions"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "parent": "ResolveNamedTable",
+      "api": "ResolveTableKindPrepared",
+      "original_whole_prefix": "        Private Function ResolveNamedTable(h As PsmUdfHandle, requested As String) As Object(,)\n            Dim name As String = NormalizeOptionKey(requested)\n            Select Case name\n                Case \"summary\", \"runsummary\"\n                    Return PsmComprehensiveTables.RunSummaryTable(h.Result)\n                Case \"options\"\n                    Return PsmFrontEndTables.OptionsTable(h.FitOptions)\n                Case \"import\", \"dataimport\"\n                    Return DataImportSummaryTable(h)\n                Case \"sample\", \"samplesize\", \"samplesizesummary\"\n                    Return PsmFrontEndTables.SampleSizeTable(h.Result.Result)\n                Case \"scoremodel\", \"model\"\n                    Return PsmBackendTables.ScoreModelTable(h.Result.Result)\n                Case \"scores\", \"audit\", \"rowaudit\", \"weights\"\n                    Return PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds)\n                Case \"matches\", \"matchedpairs\"\n                    Return PsmBackendTables.MatchesTable(h.Result.Result, h.Data.Input)\n                Case \"matcheddata\", \"matcheddataset\"\n                    Return PsmFrontEndTables.MatchedDatasetTable(h.Data.Input, h.Result.Result, h.Data.RowIds)\n                Case \"balance\", \"diagnostics\"\n                    Return PsmBackendTables.BalanceTable(h.Result.Result)\n                Case \"effect\", \"effects\"\n                    Return PsmBackendTables.EffectTable(h.Result.Result)\n                Case \"dr\", \"aipw\", \"doublyrobust\"\n                    Return PsmAdvancedTables.DoublyRobustEffectTable(h.Result.DoublyRobustResult)\n                Case \"weightdiagnostics\"\n                    Return PsmAdvancedTables.WeightDiagnosticsTable(h.Result.WeightDiagnostics)\n                Case \"overlap\", \"overlapsummary\"\n                    Return PsmAdvancedTables.OverlapSummaryTable(h.Result.OverlapDiagnostics)\n                Case \"overlapbins\", \"overlaphistogram\"\n                    Return PsmAdvancedTables.OverlapBinsTable(h.Result.OverlapDiagnostics)\n                Case \"loveplot\", \"loveplotdata\"\n                    Return PsmAdvancedTables.LovePlotTable(h.Result.LovePlotRows)\n                Case \"subclasses\", \"subclassification\"\n                    Return PsmFrontEndTables.SubclassTable(h.Result.Result)\n                Case \"cemstrata\"\n                    Return PsmAdvancedMatchingTables.CoarsenedExactStrataTable(h.Result.CoarsenedExactResult)\n                Case \"cemweights\"\n                    Return PsmAdvancedMatchingTables.CoarsenedExactWeightsTable(h.Data.Input, h.Result.CoarsenedExactResult)\n                Case \"warnings\"\n                    Return PsmComprehensiveTables.WarningsTable(h.Result)\n                Case Else\n                    Return PsmResult.EmptyTable(\"Unknown PSM table: \" & If(requested, String.Empty))\n            End Select\n",
+      "current_whole_prefix": "        Private Function ResolveNamedTable(h As PsmUdfHandle, requested As String) As Object(,)\n            Dim name As Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38 = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.ResolveTableKindPrepared(requested)\n            Select Case name\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RunSummary\n                    Return PsmComprehensiveTables.RunSummaryTable(h.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Options\n                    Return PsmFrontEndTables.OptionsTable(h.FitOptions)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ImportSummary\n                    Return DataImportSummaryTable(h)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.SampleSize\n                    Return PsmFrontEndTables.SampleSizeTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ScoreModel\n                    Return PsmBackendTables.ScoreModelTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RowAudit\n                    Return PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Matches\n                    Return PsmBackendTables.MatchesTable(h.Result.Result, h.Data.Input)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.MatchedData\n                    Return PsmFrontEndTables.MatchedDatasetTable(h.Data.Input, h.Result.Result, h.Data.RowIds)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Balance\n                    Return PsmBackendTables.BalanceTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Effect\n                    Return PsmBackendTables.EffectTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.DoublyRobust\n                    Return PsmAdvancedTables.DoublyRobustEffectTable(h.Result.DoublyRobustResult)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.WeightDiagnostics\n                    Return PsmAdvancedTables.WeightDiagnosticsTable(h.Result.WeightDiagnostics)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapSummary\n                    Return PsmAdvancedTables.OverlapSummaryTable(h.Result.OverlapDiagnostics)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapBins\n                    Return PsmAdvancedTables.OverlapBinsTable(h.Result.OverlapDiagnostics)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.LovePlot\n                    Return PsmAdvancedTables.LovePlotTable(h.Result.LovePlotRows)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Subclass\n                    Return PsmFrontEndTables.SubclassTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemStrata\n                    Return PsmAdvancedMatchingTables.CoarsenedExactStrataTable(h.Result.CoarsenedExactResult)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemWeights\n                    Return PsmAdvancedMatchingTables.CoarsenedExactWeightsTable(h.Data.Input, h.Result.CoarsenedExactResult)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Warnings\n                    Return PsmComprehensiveTables.WarningsTable(h.Result)\n                Case Else\n                    Return PsmResult.EmptyTable(\"Unknown PSM table: \" & If(requested, String.Empty))\n            End Select\n",
+      "portable_segment": "            Dim name As String = PropensityScoreUDFsOptions38.NormalizeOptionKey(requested)\n            Select Case LegacyUdfText38.CaseToken(name, New String() {\"summary\", \"runsummary\", \"options\", \"import\", \"dataimport\", \"sample\", \"samplesize\", \"samplesizesummary\", \"scoremodel\", \"model\", \"scores\", \"audit\", \"rowaudit\", \"weights\", \"matches\", \"matchedpairs\", \"matcheddata\", \"matcheddataset\", \"balance\", \"diagnostics\", \"effect\", \"effects\", \"dr\", \"aipw\", \"doublyrobust\", \"weightdiagnostics\", \"overlap\", \"overlapsummary\", \"overlapbins\", \"overlaphistogram\", \"loveplot\", \"loveplotdata\", \"subclasses\", \"subclassification\", \"cemstrata\", \"cemweights\", \"warnings\"})\n                Case \"summary\", \"runsummary\"\n                    Return PsmUdfTableKind38.RunSummary\n                Case \"options\"\n                    Return PsmUdfTableKind38.Options\n                Case \"import\", \"dataimport\"\n                    Return PsmUdfTableKind38.ImportSummary\n                Case \"sample\", \"samplesize\", \"samplesizesummary\"\n                    Return PsmUdfTableKind38.SampleSize\n                Case \"scoremodel\", \"model\"\n                    Return PsmUdfTableKind38.ScoreModel\n                Case \"scores\", \"audit\", \"rowaudit\", \"weights\"\n                    Return PsmUdfTableKind38.RowAudit\n                Case \"matches\", \"matchedpairs\"\n                    Return PsmUdfTableKind38.Matches\n                Case \"matcheddata\", \"matcheddataset\"\n                    Return PsmUdfTableKind38.MatchedData\n                Case \"balance\", \"diagnostics\"\n                    Return PsmUdfTableKind38.Balance\n                Case \"effect\", \"effects\"\n                    Return PsmUdfTableKind38.Effect\n                Case \"dr\", \"aipw\", \"doublyrobust\"\n                    Return PsmUdfTableKind38.DoublyRobust\n                Case \"weightdiagnostics\"\n                    Return PsmUdfTableKind38.WeightDiagnostics\n                Case \"overlap\", \"overlapsummary\"\n                    Return PsmUdfTableKind38.OverlapSummary\n                Case \"overlapbins\", \"overlaphistogram\"\n                    Return PsmUdfTableKind38.OverlapBins\n                Case \"loveplot\", \"loveplotdata\"\n                    Return PsmUdfTableKind38.LovePlot\n                Case \"subclasses\", \"subclassification\"\n                    Return PsmUdfTableKind38.Subclass\n                Case \"cemstrata\"\n                    Return PsmUdfTableKind38.CemStrata\n                Case \"cemweights\"\n                    Return PsmUdfTableKind38.CemWeights\n                Case \"warnings\"\n                    Return PsmUdfTableKind38.Warnings\n                Case Else\n                    Return PsmUdfTableKind38.Unknown\n            End Select\n",
+      "case_bindings": [
+        {
+          "original_case": "\"summary\", \"runsummary\"",
+          "portable_case": "RunSummary"
+        },
+        {
+          "original_case": "\"options\"",
+          "portable_case": "Options"
+        },
+        {
+          "original_case": "\"import\", \"dataimport\"",
+          "portable_case": "ImportSummary"
+        },
+        {
+          "original_case": "\"sample\", \"samplesize\", \"samplesizesummary\"",
+          "portable_case": "SampleSize"
+        },
+        {
+          "original_case": "\"scoremodel\", \"model\"",
+          "portable_case": "ScoreModel"
+        },
+        {
+          "original_case": "\"scores\", \"audit\", \"rowaudit\", \"weights\"",
+          "portable_case": "RowAudit"
+        },
+        {
+          "original_case": "\"matches\", \"matchedpairs\"",
+          "portable_case": "Matches"
+        },
+        {
+          "original_case": "\"matcheddata\", \"matcheddataset\"",
+          "portable_case": "MatchedData"
+        },
+        {
+          "original_case": "\"balance\", \"diagnostics\"",
+          "portable_case": "Balance"
+        },
+        {
+          "original_case": "\"effect\", \"effects\"",
+          "portable_case": "Effect"
+        },
+        {
+          "original_case": "\"dr\", \"aipw\", \"doublyrobust\"",
+          "portable_case": "DoublyRobust"
+        },
+        {
+          "original_case": "\"weightdiagnostics\"",
+          "portable_case": "WeightDiagnostics"
+        },
+        {
+          "original_case": "\"overlap\", \"overlapsummary\"",
+          "portable_case": "OverlapSummary"
+        },
+        {
+          "original_case": "\"overlapbins\", \"overlaphistogram\"",
+          "portable_case": "OverlapBins"
+        },
+        {
+          "original_case": "\"loveplot\", \"loveplotdata\"",
+          "portable_case": "LovePlot"
+        },
+        {
+          "original_case": "\"subclasses\", \"subclassification\"",
+          "portable_case": "Subclass"
+        },
+        {
+          "original_case": "\"cemstrata\"",
+          "portable_case": "CemStrata"
+        },
+        {
+          "original_case": "\"cemweights\"",
+          "portable_case": "CemWeights"
+        },
+        {
+          "original_case": "\"warnings\"",
+          "portable_case": "Warnings"
+        }
+      ],
+      "bindings": {
+        "NormalizeOptionKey": "PropensityScoreUDFsOptions38.NormalizeOptionKey"
+      },
+      "portable_signature": "ResolveTableKindPrepared(requested As String) As PsmUdfTableKind38"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+      "parent": "DataImportSummaryTable",
+      "api": "BuildImportSummaryPrepared",
+      "original_segment": "            Dim table(rows.Count, 1) As Object\n            table(0, 0) = \"Item\"\n            table(0, 1) = \"Value\"\n            For i As Integer = 0 To rows.Count - 1\n                table(i + 1, 0) = rows(i)(0)\n                table(i + 1, 1) = rows(i)(1)\n            Next\n            Return table\n",
+      "actual_native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildImportSummaryPrepared(rows)\n",
+      "portable_segment": "            Dim table(rows.Count, 1) As Object\n            table(0, 0) = \"Item\"\n            table(0, 1) = \"Value\"\n            For i As Integer = 0 To rows.Count - 1\n                table(i + 1, 0) = rows(i)(0)\n                table(i + 1, 1) = rows(i)(1)\n            Next\n            Return table\n",
+      "bindings": {},
+      "portable_signature": "BuildImportSummaryPrepared(rows As IList(Of Object())) As Object(,)"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+      "parent": "TryGetPsmData",
+      "api": "BuildModelNamesPrepared",
+      "original_segment": "        Dim modelNames(p) As String\n        modelNames(0) = treatmentKey\n        For j As Integer = 0 To p - 1\n            modelNames(j + 1) = covariateNames(j)\n        Next\n",
+      "actual_native_call": "        Dim modelNames() As String = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildModelNamesPrepared(treatmentKey, covariateNames, p)\n",
+      "portable_segment": "            Dim modelNames(p) As String\n            modelNames(0) = treatmentKey\n            For j As Integer = 0 To p - 1\n                modelNames(j + 1) = covariateNames(j)\n            Next\n            Return modelNames\n",
+      "bindings": {},
+      "portable_signature": "BuildModelNamesPrepared(treatmentKey As String, covariateNames() As String, p As Integer) As String()"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+      "parent": "TryGetPsmData",
+      "api": "BuildModelInputPrepared",
+      "original_segment": "        Dim modelInput(n - 1, p) As Object\n        For i As Integer = 0 To n - 1\n            modelInput(i, 0) = treatmentCol(i, 0)\n            For j As Integer = 0 To p - 1\n                modelInput(i, j + 1) = covariateMatrix(i, j)\n            Next\n        Next\n",
+      "actual_native_call": "        Dim modelInput(,) As Object = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildModelInputPrepared(treatmentCol, covariateMatrix, n, p)\n",
+      "portable_segment": "            Dim modelInput(n - 1, p) As Object\n            For i As Integer = 0 To n - 1\n                modelInput(i, 0) = treatmentCol(i, 0)\n                For j As Integer = 0 To p - 1\n                    modelInput(i, j + 1) = covariateMatrix(i, j)\n                Next\n            Next\n            Return modelInput\n",
+      "bindings": {},
+      "portable_signature": "BuildModelInputPrepared(treatmentCol(,) As Object, covariateMatrix(,) As Object, n As Integer, p As Integer) As Object(,)"
+    }
+  ],
+  "ROC_new_method": "\n        ' The native wrapper has already reset its output before converting the\n        ' explicit-positive cell. False/throw must retain conversion/callback aliases.\n        ' Existing callers keep the original resetting GuessPositiveClass contract.\n        Public Shared Function GuessPositiveClassAfterConversion(explicitText As String, rowCount As Func(Of Integer),\n                                                                  text As Func(Of Integer, String), binary As Func(Of Integer, Boolean),\n                                                                  ByRef positiveLabel As String) As Boolean\n            Dim prepared As String = Nothing\n            Dim result As Boolean = GuessPositiveClass(explicitText, rowCount, text, binary, prepared)\n            If result Then positiveLabel = prepared\n            Return result\n        End Function\n",
+  "ROC_original_native_target": "Global.BESHStatNG.ExcelCommon.UdfClassLabelPreparation38.GuessPositiveClass(",
+  "ROC_current_native_target": "Global.BESHStatNG.ExcelCommon.UdfClassLabelPreparation38.GuessPositiveClassAfterConversion(",
+  "original_queries": 0
+}

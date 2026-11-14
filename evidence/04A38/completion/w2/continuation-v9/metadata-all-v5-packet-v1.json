@@ -1,0 +1,89 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1\\metadata-all-v5\\MethodMetadata38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v9\\MethodMetadata-v11.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.35386010000365786,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1\\metadata-all-v5\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v9\\metadata-all\\packet-v1-context-v5\\current-Debug.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v9\\native-metadata-owners-v3.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.77953269999125,
+      "stdout_sha256": "5ed88d2a0a2efce34b2cf6c8b15577d8faca387554da3a66a4788c71b2fc5777",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1\\metadata-all-v5\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont9\\packet-v1\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v9\\metadata-all\\packet-v1-context-v5\\current-Release.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v9\\native-metadata-owners-v3.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 5.259359099989524,
+      "stdout_sha256": "76fa1f88e2fb07544f44faf85e80dd0ca9ccec21dbbf774899a54671db6f6f02",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "current": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/metadata-all/packet-v1-context-v5/current-Debug.json",
+      "bytes": 67093272,
+      "sha256": "5763eae26e3f2acb841a04ad759fcc803b5a7af30c84b141d455dd0180be8938"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/metadata-all/packet-v1-context-v5/current-Release.json",
+      "bytes": 62912747,
+      "sha256": "37fb924fe4a49a0b2700bab204657d4389200939b773bfc9ab0d695d45beccdb"
+    }
+  ],
+  "original": [
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/metadata-all/packet-v1-context-v3/original-Debug.json",
+        "bytes": 65219455,
+        "sha256": "c076947fce3431de339fd5dfbf1f972fb71cb687ca59e8f469c53e9afe4ccc98"
+      },
+      "copy": {
+        "path": "evidence/04A38/completion/w2/continuation-v9/metadata-all/packet-v1-context-v5/original-Debug.json",
+        "bytes": 65219455,
+        "sha256": "c076947fce3431de339fd5dfbf1f972fb71cb687ca59e8f469c53e9afe4ccc98"
+      }
+    },
+    {
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/metadata-all/packet-v1-context-v3/original-Release.json",
+        "bytes": 61093615,
+        "sha256": "5fe756510fc1c42a75b1425b5da061d858d82f463961c45a6235da884e359e64"
+      },
+      "copy": {
+        "path": "evidence/04A38/completion/w2/continuation-v9/metadata-all/packet-v1-context-v5/original-Release.json",
+        "bytes": 61093615,
+        "sha256": "5fe756510fc1c42a75b1425b5da061d858d82f463961c45a6235da884e359e64"
+      }
+    }
+  ],
+  "original_queries": 0,
+  "original_activity": "EXACT_REUSE_AUTHENTICATED_RETAINED_C8_METADATA_NO_ORIGINAL_DLL_LOAD_OR_EXECUTION"
+}

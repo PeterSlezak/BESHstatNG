@@ -1,0 +1,56 @@
+{
+  "status": "PASS_REGISTRATION_AND_HISTORY; OWNERSHIP_AND_EXECUTABLE_COVERAGE_NOT_COMPLETE",
+  "sources": 41,
+  "export_bearing_sources": 23,
+  "support_sources": 18,
+  "exports": 268,
+  "current_members": 704,
+  "historical_members": 703,
+  "matched_historical_members": 703,
+  "additional_members": 1,
+  "removed_historical_members": 0,
+  "public_registration_changes": 0,
+  "historical_export_hints": {
+    "extract-to-Common": 248,
+    "retain-Windows-host-only": 20
+  },
+  "current_open_members": 704,
+  "additional_identity": [
+    {
+      "current_member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|SingleLineFunctionLambdaExpression|103f86b31077cee4@803:60",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "kind": "SingleLineFunctionLambdaExpression",
+      "member": "lambda",
+      "owner": "BESHStatNG.UdfDataImport",
+      "signature": "Function(reference)",
+      "entry_source_sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185",
+      "entry_body_sha256": "085afc2c9f9a34deb1ca39fbef4a15af2d289cef82df9db516ff53838eefd619",
+      "entry_body_token_sha256": "07c1834839f8acea9d04d000bdc1fc0ff95772dd416e0d63e9772f25d1dc959f",
+      "historical_member_id": "ADDITIONAL_ACCEPTED_WINDOWS_COERCION_CALLBACK",
+      "historical_source_sha256": "",
+      "historical_disposition": "",
+      "historical_reason": "Get2D delegates to accepted WindowsSpreadsheetTransport with native XlCall coercion callback; no additional export.",
+      "historical_runtime_boundary": "Windows native ExcelReference coercion; NATIVE_NOT_RUN",
+      "current_disposition": "OPEN_ENTRY_REVIEW",
+      "planned_owner": "",
+      "portable_equivalent": "",
+      "actual_windows_consumer": "",
+      "evidence_refs": "entry-members.json; preedit/entry-source-snapshot.json",
+      "test_case_ids": "",
+      "future_issue": "04A.39/04A.44-48"
+    }
+  ],
+  "historical_authorities": [
+    {
+      "path": "docs/architecture/WindowsMigrationLedger/symbols.csv",
+      "bytes": 35861897,
+      "sha256": "68be9da47884f41cbeff2c5867ae22e3f26a063628fd976e7c8fe45f6dce65dd"
+    },
+    {
+      "path": "docs/architecture/WindowsMigrationLedger/udf-exports.csv",
+      "bytes": 1071765,
+      "sha256": "dbb7be627c0f29f43ddb435377ae87f6fb9109f0bc9c6bcdfce5891ce8b45cd3"
+    }
+  ],
+  "product_edit_gate": "NOT_SATISFIED; full baseline and independent reached-behavior freeze required before implementation"
+}

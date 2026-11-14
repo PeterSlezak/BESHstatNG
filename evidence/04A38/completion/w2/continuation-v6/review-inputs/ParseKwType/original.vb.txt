@@ -1,0 +1,34 @@
+Private Function ParseKwType(arg As Object, defaultTieCorrected As Boolean, ByRef err As ExcelError?) As Integer
+            err = Nothing
+
+            If arg Is Nothing OrElse TypeOf arg Is ExcelMissing OrElse TypeOf arg Is ExcelEmpty Then
+                Return If(defaultTieCorrected, 1, 0)
+            End If
+
+            If TypeOf arg Is ExcelError Then
+                err = DirectCast(arg, ExcelError)
+                Return 0
+            End If
+
+            Dim s As String = Nothing
+            Try
+                s = Convert.ToString(arg)
+            Catch
+                s = Nothing
+            End Try
+
+            If String.IsNullOrWhiteSpace(s) Then
+                Return If(defaultTieCorrected, 1, 0)
+            End If
+
+            s = s.Trim().ToUpperInvariant()
+            If s = "H" OrElse s = "UNCOR" OrElse s = "UNCORRECTED" OrElse s = "RAW" Then
+                Return 0
+            End If
+            If s = "HCOR" OrElse s = "H_COR" OrElse s = "TIE" OrElse s = "TIES" OrElse s = "COR" OrElse s = "CORR" OrElse s = "CORRECTED" Then
+                Return 1
+            End If
+
+            err = ExcelError.ExcelErrorValue
+            Return 0
+        End Function

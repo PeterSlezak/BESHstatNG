@@ -1,0 +1,88 @@
+{
+  "commands": [
+    {
+      "label": "publication-local-v1",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v1\\verify_publication.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 10.872208099986892,
+        "stdout_sha256": "650b4d311b2a5fbda0c0a291ac79437defbd62c50e3d53dbd64740e0c2c9a838",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "publication-copy-v1",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v1\\check_public_copy.py"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 35.079430799989495,
+        "stdout_sha256": "3682c6f276843ac193408483e1bf6df8a95d42ca4319fcc2adaf97305df54789",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "label": "publication-adverse-v1",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v1",
+          "-p",
+          "test_publication.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 71.59722769999644,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "34c30a2f47a23f1aecd77051e1e0df81cd19c0817234e3476478fc45b2bcec0b",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "adverse": {
+    "label": "w2c1-publication-adverse-v1",
+    "total": 14,
+    "passed": 14,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "34c30a2f47a23f1aecd77051e1e0df81cd19c0817234e3476478fc45b2bcec0b",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_casefold_collision (test_publication.PublicationTests.test_casefold_collision)",
+      "test_duplicate (test_publication.PublicationTests.test_duplicate)",
+      "test_intact (test_publication.PublicationTests.test_intact)",
+      "test_manifest_truncation (test_publication.PublicationTests.test_manifest_truncation)",
+      "test_missing_payload (test_publication.PublicationTests.test_missing_payload)",
+      "test_null_payload (test_publication.PublicationTests.test_null_payload)",
+      "test_prior_manifest_mutation (test_publication.PublicationTests.test_prior_manifest_mutation)",
+      "test_ready_promotion (test_publication.PublicationTests.test_ready_promotion)",
+      "test_recursive_self (test_publication.PublicationTests.test_recursive_self)",
+      "test_reserved_name (test_publication.PublicationTests.test_reserved_name)",
+      "test_self_consistent_forged_ownership (test_publication.PublicationTests.test_self_consistent_forged_ownership)",
+      "test_self_consistent_native_promotion (test_publication.PublicationTests.test_self_consistent_native_promotion)",
+      "test_self_consistent_privacy_leak (test_publication.PublicationTests.test_self_consistent_privacy_leak)",
+      "test_traversal (test_publication.PublicationTests.test_traversal)"
+    ],
+    "nonpasses": []
+  },
+  "status": "PARTIAL_PACKET_VERIFIED_NOT_BATCH_READY",
+  "copy_scope": "Only included payloads; live Git/omitted files/private assemblies require local receipts"
+}

@@ -1,0 +1,254 @@
+{
+  "configuration": "Debug",
+  "parts": [
+    {
+      "suite": "Core",
+      "part": "all",
+      "name": "w3D-Core",
+      "outcomes": {
+        "Passed": 1280
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-Core/cases.json",
+        "bytes": 388929,
+        "sha256": "bc0fbd89d02cc4e2cd1180a1c608d715db99967afd4ba7b8560904da193b1b42"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-Core/results/Core.trx",
+        "bytes": 1844705,
+        "sha256": "f6a82eb19a4eac316cd11601d685c81c4e70b2417c6e167c1a68e58dbe61f217"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3D-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3D-Core\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3D-Core\\results",
+          "/Logger:trx;LogFileName=Core.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 5.996785600000294,
+        "stdout_sha256": "bad69bb6d77c1bef00e61ccfb4fa14baa46970cff08da194c8586fda25999eba",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "Common",
+      "part": "main",
+      "name": "w3D-Common-main",
+      "outcomes": {
+        "Passed": 9394,
+        "Failed": 5
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-Common-main/cases.json",
+        "bytes": 3025855,
+        "sha256": "1fa943cee713edf7ac6dbd7950e78715861a62699147eaf5fc8cb063e96b4b55"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-Common-main/results/Common.trx",
+        "bytes": 332656574,
+        "sha256": "5ae0c05d9ae90c649cf1fea3170e7d1b1b94632f9c64680a5a26d208f6c87fd0"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3D-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3D-Common-main\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3D-Common-main\\results",
+          "/Logger:trx;LogFileName=Common.trx",
+          "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 110.45074000000022,
+        "stdout_sha256": "0deb89e1201dd47fdf9e7dfa858d87e47279cdb2b1cc47b60c77a639fa19f488",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "Common",
+      "part": "semantic",
+      "name": "w3D-Common-semantic",
+      "outcomes": {
+        "Passed": 15
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-Common-semantic/cases.json",
+        "bytes": 6361,
+        "sha256": "b16114168a80e6e6b57e767e197234b8cecebfab659f9ab430c8bb03c6505e9d"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-Common-semantic/results/Common.trx",
+        "bytes": 23673,
+        "sha256": "607ee0c737b038ee5cb261b96e441ab6db05efe87c93dccfc633f1cd6bcc9a4e"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3D-Common-semantic\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3D-Common-semantic\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3D-Common-semantic\\results",
+          "/Logger:trx;LogFileName=Common.trx",
+          "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.450089599995408,
+        "stdout_sha256": "01594e998f3d47c705aa4b27f41dda279cea8bbd718a84104bbe2be883c0b658",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "Legacy",
+      "part": "all",
+      "name": "w3D-Legacy",
+      "outcomes": {
+        "Passed": 9777,
+        "Failed": 9
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-Legacy/cases.json",
+        "bytes": 3022267,
+        "sha256": "0e9efb8e12a54ec8182284f19ee1b24b02206c6e6258615a584fe82f9f85894d"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-Legacy/results/Legacy.trx",
+        "bytes": 332303352,
+        "sha256": "7354ba9179aabf588f53dc2e63ba31d05716c2b5524632659cb932ccd4f01543"
+      },
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\executions\\w3D-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3D-Legacy\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3D-Legacy\\results",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+          "/Logger:trx;LogFileName=Legacy.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 176.18429070001002,
+        "stdout_sha256": "36da31e01245f39fa8a42729dffc12c6f12e68c0eef0d6f62273fe5942050d75",
+        "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "ControlMitigation",
+      "part": "all",
+      "name": "w3D-ControlMitigation",
+      "outcomes": {
+        "Passed": 61
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-ControlMitigation/cases.json",
+        "bytes": 23237,
+        "sha256": "48e13e8b9f018458d8ecb2b4d8cf21dcaeaa2beb8679c3cc1625ce4626a0deaf"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-ControlMitigation/results/ControlMitigation.trx",
+        "bytes": 91016,
+        "sha256": "c76e1c395981ffbd85ce10cb72392ea1fcae54b596a4efea4a837ba4905fc11d"
+      },
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\executions\\w3D-ControlMitigation\\sandbox\\ControlMitigation\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3D-ControlMitigation\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3D-ControlMitigation\\results",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+          "/Logger:trx;LogFileName=ControlMitigation.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 8.939396300003864,
+        "stdout_sha256": "31e033436168c9e2da42e39d1a97494b8a1f1e2e90638e129b6b36cab5f0e5ad",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "OfficeAddin",
+      "part": "all",
+      "name": "w3D-OfficeAddin",
+      "outcomes": {
+        "Passed": 508
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-OfficeAddin/cases.json",
+        "bytes": 172743,
+        "sha256": "f76373aeb5442d724b678e79accf46b4fe19c7a16e8153304ce6c7c8c090f78c"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-OfficeAddin/results/OfficeAddin.trx",
+        "bytes": 729276,
+        "sha256": "85233fce1e36c6ec680a0a75c4ffd7115049d60d4d4f3b4f0c34c26391e96242"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3D-OfficeAddin\\sandbox\\tests\\bin\\Debug\\net10.0\\OfficeAddin.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3D-OfficeAddin\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3D-OfficeAddin\\results",
+          "/Logger:trx;LogFileName=OfficeAddin.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 35.034770500002196,
+        "stdout_sha256": "9ad186c3e4118ed1139c5e382ffd576e90743423fbb8472469454790b7fa4515",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "suite": "OfficeExecution",
+      "part": "all",
+      "name": "w3D-OfficeExecution",
+      "outcomes": {
+        "Passed": 45
+      },
+      "cases": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-OfficeExecution/cases.json",
+        "bytes": 15540,
+        "sha256": "66f390a48fb558dfc35f5dd6b9301ab8d57b9cc2bbe155918b8afc8b9007c188"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A38.tmp/executions/w3D-OfficeExecution/results/OfficeExecution.trx",
+        "bytes": 65349,
+        "sha256": "856617305158d9f3388442c2f15f45c25b6941a208e7dfa9d5a880de438199a9"
+      },
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w3D-OfficeExecution\\sandbox\\Execution\\bin\\Debug\\net10.0\\Execution.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w3D-OfficeExecution\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3D-OfficeExecution\\results",
+          "/Logger:trx;LogFileName=OfficeExecution.trx"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.573820000019623,
+        "stdout_sha256": "3a74e21488f4506027bd8c9d171a7f5ef15809e74d97d1d4d48248bbca2135c7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "outcomes": {
+    "Passed": 21080,
+    "Failed": 14
+  },
+  "identities": 21094,
+  "campaigns": 1,
+  "source_unchanged": true
+}

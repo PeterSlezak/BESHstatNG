@@ -1,0 +1,82 @@
+{
+  "build": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+      "<REPO_ROOT>\\BESHStatNG.Test\\BESHStatNG.Tests.vbproj",
+      "/t:Build",
+      "/p:Configuration=Debug",
+      "/p:BuildProjectReferences=false",
+      "/p:ProduceReferenceAssembly=false",
+      "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont10\\focused-copy-corrective-v2\\lib\\",
+      "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont10\\focused-copy-corrective-v2\\obj\\",
+      "/p:PythonExe=<PYTHON>",
+      "/m:4",
+      "/v:minimal",
+      "/nr:false"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 2.352041099977214,
+    "stdout_sha256": "beffa0ebc461c91d6391ba4eef6d8c82e25b40abdfe16591b743e79502b14b21",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "test": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "<ISOLATED_RUN>\\completion-w2-cont10\\focused-copy-corrective-v2\\lib\\BESHStatNG.Test.dll",
+      "/Settings:<REPO_ROOT>\\test.runsettings",
+      "/TestCaseFilter:FullyQualifiedName~Continuation10PcaFactorCompiledConsumersKeepPortableAndHeaderTargets",
+      "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+      "/Logger:trx;LogFileName=corrective.trx",
+      "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont10\\focused-copy-corrective-v2\\results"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 4.517930699978024,
+    "stdout_sha256": "019e1867c7528153eea9a4445619896a84fdb81cf229079700c0911f6b9e5a3f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "result": {
+    "records": [
+      {
+        "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+        "method": "Continuation10PcaFactorCompiledConsumersKeepPortableAndHeaderTargets",
+        "test_name": "Continuation10PcaFactorCompiledConsumersKeepPortableAndHeaderTargets",
+        "outcome": "Passed",
+        "duration": "00:00:00.0184485",
+        "message": ""
+      }
+    ],
+    "outcomes": {
+      "Passed": 1
+    },
+    "counters": {
+      "total": "1",
+      "executed": "1",
+      "passed": "1",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "sha256": "d3828f0722e2f6453295f100a0c368adef9055fff1a5257f200b7b9d1ba8e125"
+  },
+  "raw_TRX": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/focused-copy-corrective-v2/results/corrective.trx",
+    "bytes": 3439,
+    "sha256": "d3828f0722e2f6453295f100a0c368adef9055fff1a5257f200b7b9d1ba8e125"
+  },
+  "scope": "One affected new test rerun; first BC4PASS/1FAIL and first corrective compile failure retained separately.",
+  "original_queries": 0
+}

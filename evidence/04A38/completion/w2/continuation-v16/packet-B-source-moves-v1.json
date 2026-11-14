@@ -1,0 +1,143 @@
+{
+  "status": "SUBSTANTIVE_PACKET_B_IMPLEMENTED_NOT_YET_CLOSED_OR_TESTED",
+  "moves": [
+    {
+      "kind": "TYPED_PREPARED_ROWS_AND_NATIVE_NAME_METADATA_COMPOSITE",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "host": "TryGetLmmAlignedInputs",
+      "name": "TryPrepareRows",
+      "destination": "UdfLmmInputPreparation38",
+      "original_segment": "            Dim yList As New List(Of Double)()\n            Dim xRows As New List(Of Double())()\n            Dim zRows As New List(Of Double())()\n            Dim subjectList As New List(Of Object)()\n            Dim visitList As New List(Of Double)()\n            Dim dropped As Integer = 0\n\n            For i As Integer = 0 To n - 1\n                Dim yi As Double? = ExcelArgNumeric.TryGetDouble(yCol(i, 0))\n                Dim subjectText As String = ExcelArgReaders.CellToTrimmedText(subjectCol(i, 0))\n                Dim valid As Boolean = yi.HasValue AndAlso Not String.IsNullOrWhiteSpace(subjectText)\n\n                Dim xRow(pX - 1) As Double\n                If valid Then\n                    For j As Integer = 0 To pX - 1\n                        Dim xij As Double? = ExcelArgNumeric.TryGetDouble(xRaw(i, j))\n                        If Not xij.HasValue Then\n                            valid = False\n                            Exit For\n                        End If\n                        xRow(j) = xij.Value\n                    Next\n                End If\n\n                Dim zRow() As Double = Nothing\n                If valid AndAlso zSupplied Then\n                    ReDim zRow(pZ - 1)\n                    For j As Integer = 0 To pZ - 1\n                        Dim zij As Double? = ExcelArgNumeric.TryGetDouble(zRaw(i, j))\n                        If Not zij.HasValue Then\n                            valid = False\n                            Exit For\n                        End If\n                        zRow(j) = zij.Value\n                    Next\n                End If\n\n                Dim vi As Double = Double.NaN\n                If valid AndAlso visitSupplied Then\n                    Dim parsedVisit As Double? = ExcelArgNumeric.TryGetDouble(visitCol(i, 0))\n                    If Not parsedVisit.HasValue Then\n                        valid = False\n                    Else\n                        vi = parsedVisit.Value\n                    End If\n                End If\n\n                If valid Then\n                    yList.Add(yi.Value)\n                    xRows.Add(xRow)\n                    If zSupplied Then zRows.Add(zRow)\n                    subjectList.Add(subjectText)\n                    If visitSupplied Then visitList.Add(vi)\n                Else\n                    dropped += 1\n                End If\n            Next\n\n            If yList.Count = 0 Then\n                errorMessage = \"no valid complete rows remain after removing rows with missing/invalid y, x, z, subject, or visit values.\"\n                Return False\n            End If\n\n            Dim xValues(yList.Count - 1, pX - 1) As Double\n            For i As Integer = 0 To yList.Count - 1\n                For j As Integer = 0 To pX - 1\n                    xValues(i, j) = xRows(i)(j)\n                Next\n            Next\n\n            Dim zValues(,) As Double = Nothing\n            If zSupplied Then\n                ReDim zValues(yList.Count - 1, pZ - 1)\n                For i As Integer = 0 To yList.Count - 1\n                    For j As Integer = 0 To pZ - 1\n                        zValues(i, j) = zRows(i)(j)\n                    Next\n                Next\n            End If\n\n            Dim finalVisit() As Double = Nothing\n            If visitSupplied Then finalVisit = visitList.ToArray()\n\n            imported = New LmmImportedInputs With {\n                .Y = yList.ToArray(),\n                .X = xValues,\n                .Z = zValues,\n                .Subject = subjectList.ToArray(),\n                .Visit = finalVisit,\n                .InferredXNames = inferredXNames,\n                .InferredZNames = If(zSupplied, inferredZNames, New String() {}),\n                .InferredXAbsoluteLetters = xLetters,\n                .InferredZAbsoluteLetters = zLetters,\n                .DroppedRows = dropped\n            }\n            Return True",
+      "original_row_prefix": "            Dim yList As New List(Of Double)()\n            Dim xRows As New List(Of Double())()\n            Dim zRows As New List(Of Double())()\n            Dim subjectList As New List(Of Object)()\n            Dim visitList As New List(Of Double)()\n            Dim dropped As Integer = 0\n\n            For i As Integer = 0 To n - 1\n                Dim yi As Double? = ExcelArgNumeric.TryGetDouble(yCol(i, 0))\n                Dim subjectText As String = ExcelArgReaders.CellToTrimmedText(subjectCol(i, 0))\n                Dim valid As Boolean = yi.HasValue AndAlso Not String.IsNullOrWhiteSpace(subjectText)\n\n                Dim xRow(pX - 1) As Double\n                If valid Then\n                    For j As Integer = 0 To pX - 1\n                        Dim xij As Double? = ExcelArgNumeric.TryGetDouble(xRaw(i, j))\n                        If Not xij.HasValue Then\n                            valid = False\n                            Exit For\n                        End If\n                        xRow(j) = xij.Value\n                    Next\n                End If\n\n                Dim zRow() As Double = Nothing\n                If valid AndAlso zSupplied Then\n                    ReDim zRow(pZ - 1)\n                    For j As Integer = 0 To pZ - 1\n                        Dim zij As Double? = ExcelArgNumeric.TryGetDouble(zRaw(i, j))\n                        If Not zij.HasValue Then\n                            valid = False\n                            Exit For\n                        End If\n                        zRow(j) = zij.Value\n                    Next\n                End If\n\n                Dim vi As Double = Double.NaN\n                If valid AndAlso visitSupplied Then\n                    Dim parsedVisit As Double? = ExcelArgNumeric.TryGetDouble(visitCol(i, 0))\n                    If Not parsedVisit.HasValue Then\n                        valid = False\n                    Else\n                        vi = parsedVisit.Value\n                    End If\n                End If\n\n                If valid Then\n                    yList.Add(yi.Value)\n                    xRows.Add(xRow)\n                    If zSupplied Then zRows.Add(zRow)\n                    subjectList.Add(subjectText)\n                    If visitSupplied Then visitList.Add(vi)\n                Else\n                    dropped += 1\n                End If\n            Next\n\n            If yList.Count = 0 Then\n                errorMessage = \"no valid complete rows remain after removing rows with missing/invalid y, x, z, subject, or visit values.\"\n                Return False\n            End If\n\n            Dim xValues(yList.Count - 1, pX - 1) As Double\n            For i As Integer = 0 To yList.Count - 1\n                For j As Integer = 0 To pX - 1\n                    xValues(i, j) = xRows(i)(j)\n                Next\n            Next\n\n            Dim zValues(,) As Double = Nothing\n            If zSupplied Then\n                ReDim zValues(yList.Count - 1, pZ - 1)\n                For i As Integer = 0 To yList.Count - 1\n                    For j As Integer = 0 To pZ - 1\n                        zValues(i, j) = zRows(i)(j)\n                    Next\n                Next\n            End If\n\n            Dim finalVisit() As Double = Nothing\n            If visitSupplied Then finalVisit = visitList.ToArray()",
+      "portable_segment": "Dim yList As New List(Of Double)()\nDim xRows As New List(Of Double())()\nDim zRows As New List(Of Double())()\nDim subjectList As New List(Of Object)()\nDim visitList As New List(Of Double)()\nDim dropped As Integer = 0\n\nFor i As Integer = 0 To n - 1\n    Dim yi As Double? = readNumber(yCol(i, 0))\n    Dim subjectText As String = readText(subjectCol(i, 0))\n    Dim valid As Boolean = yi.HasValue AndAlso Not String.IsNullOrWhiteSpace(subjectText)\n\n    Dim xRow(pX - 1) As Double\n    If valid Then\n        For j As Integer = 0 To pX - 1\n            Dim xij As Double? = readNumber(xRaw(i, j))\n            If Not xij.HasValue Then\n                valid = False\n                Exit For\n            End If\n            xRow(j) = xij.Value\n        Next\n    End If\n\n    Dim zRow() As Double = Nothing\n    If valid AndAlso zSupplied Then\n        ReDim zRow(pZ - 1)\n        For j As Integer = 0 To pZ - 1\n            Dim zij As Double? = readNumber(zRaw(i, j))\n            If Not zij.HasValue Then\n                valid = False\n                Exit For\n            End If\n            zRow(j) = zij.Value\n        Next\n    End If\n\n    Dim vi As Double = Double.NaN\n    If valid AndAlso visitSupplied Then\n        Dim parsedVisit As Double? = readNumber(visitCol(i, 0))\n        If Not parsedVisit.HasValue Then\n            valid = False\n        Else\n            vi = parsedVisit.Value\n        End If\n    End If\n\n    If valid Then\n        yList.Add(yi.Value)\n        xRows.Add(xRow)\n        If zSupplied Then zRows.Add(zRow)\n        subjectList.Add(subjectText)\n        If visitSupplied Then visitList.Add(vi)\n    Else\n        dropped += 1\n    End If\nNext\n\nIf yList.Count = 0 Then\n    errorMessage = \"no valid complete rows remain after removing rows with missing/invalid y, x, z, subject, or visit values.\"\n    Return False\nEnd If\n\nDim xValues(yList.Count - 1, pX - 1) As Double\nFor i As Integer = 0 To yList.Count - 1\n    For j As Integer = 0 To pX - 1\n        xValues(i, j) = xRows(i)(j)\n    Next\nNext\n\nDim zValues(,) As Double = Nothing\nIf zSupplied Then\n    ReDim zValues(yList.Count - 1, pZ - 1)\n    For i As Integer = 0 To yList.Count - 1\n        For j As Integer = 0 To pZ - 1\n            zValues(i, j) = zRows(i)(j)\n        Next\n    Next\nEnd If\n\nDim finalVisit() As Double = Nothing\nIf visitSupplied Then finalVisit = visitList.ToArray()",
+      "portable_prefix": "prepared = Nothing",
+      "portable_projection": "prepared = New UdfLmmPreparedRows38 With {\n    .Y = yList.ToArray(),\n    .X = xValues,\n    .Z = zValues,\n    .Subject = subjectList.ToArray(),\n    .Visit = finalVisit,\n    .DroppedRows = dropped\n}\nReturn True",
+      "native_call": "            Dim prepared As Global.BESHStatNG.ExcelCommon.UdfLmmPreparedRows38 = Nothing\n            If Not Global.BESHStatNG.ExcelCommon.UdfLmmInputPreparation38.TryPrepareRows(\n                yCol, xRaw, zRaw, subjectCol, visitCol, zSupplied, visitSupplied, n, pX, pZ,\n                AddressOf ExcelArgNumeric.TryGetDouble, AddressOf ExcelArgReaders.CellToTrimmedText,\n                prepared, errorMessage) Then Return False\n\n            imported = New LmmImportedInputs With {\n                .Y = prepared.Y,\n                .X = prepared.X,\n                .Z = prepared.Z,\n                .Subject = prepared.Subject,\n                .Visit = prepared.Visit,\n                .InferredXNames = inferredXNames,\n                .InferredZNames = If(zSupplied, inferredZNames, New String() {}),\n                .InferredXAbsoluteLetters = xLetters,\n                .InferredZAbsoluteLetters = zLetters,\n                .DroppedRows = prepared.DroppedRows\n            }\n            Return True",
+      "portable_signature": "Function TryPrepareRows(yCol As Object(,), xRaw As Object(,), zRaw As Object(,), subjectCol As Object(,), visitCol As Object(,), zSupplied As Boolean, visitSupplied As Boolean, n As Integer, pX As Integer, pZ As Integer, readNumber As Func(Of Object, Double?), readText As Func(Of Object, String), ByRef prepared As UdfLmmPreparedRows38, ByRef errorMessage As String) As Boolean",
+      "aliases": [
+        {
+          "before": "ExcelArgNumeric.TryGetDouble(",
+          "after": "readNumber("
+        },
+        {
+          "before": "ExcelArgReaders.CellToTrimmedText(",
+          "after": "readText("
+        }
+      ],
+      "native_conversion_callbacks": [
+        "ExcelArgNumeric.TryGetDouble",
+        "ExcelArgReaders.CellToTrimmedText"
+      ],
+      "state": "Native imported/error resets and all import/dimension/absolute-letter checks remain before this exact row-order phase. Prepared DTO is unpublished until success; native name/letter aliases retained."
+    },
+    {
+      "kind": "EXTRACTION",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "host": "TryBuildLmmExpandedDesign",
+      "name": "TryBuildExpandedDesign",
+      "destination": "UdfLmmInputPreparation38",
+      "original_segment": "            design = Nothing\n            designNames = New String() {}\n            errorMessage = Nothing\n\n            If raw Is Nothing OrElse raw.GetLength(0) <= 0 OrElse raw.GetLength(1) <= 0 Then\n                errorMessage = role & \" requires a non-empty predictor matrix.\"\n                Return False\n            End If\n\n            Dim p As Integer = raw.GetLength(1)\n            Dim prefix As String = If(String.IsNullOrWhiteSpace(fallbackPrefix), \"X\", fallbackPrefix.Trim())\n            Dim names() As String = NormalizeNameList(rawNames, p, prefix)\n\n            If String.IsNullOrWhiteSpace(formulaText) Then\n                design = raw\n                designNames = names\n                Return True\n            End If\n\n            Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing\n            Dim designErr As String = Nothing\n\n            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=raw,\n                                                                                            result:=designBuild,\n                                                                                            errorMessage:=designErr,\n                                                                                            predictorNames:=names,\n                                                                                            formulaText:=formulaText,\n                                                                                            absoluteColumnLetters:=absoluteColumnLetters,\n                                                                                            allowRelativeColumnLetters:=allowRelativeColumnLetters,\n                                                                                            allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,\n                                                                                            allowQuotedVariableNames:=allowQuotedVariableNames,\n                                                                                            omitCategoricalReference:=True) Then\n                errorMessage = role & \" could not be parsed or expanded: \" & If(designErr, String.Empty)\n                Return False\n            End If\n\n            If designBuild Is Nothing OrElse designBuild.ExpandedPredictorMatrix Is Nothing OrElse designBuild.ExpandedPredictorMatrix.GetLength(1) <= 0 Then\n                errorMessage = role & \" expansion did not produce any design columns.\"\n                Return False\n            End If\n\n            design = designBuild.ExpandedPredictorMatrix\n            designNames = If(designBuild.ExpandedPredictorNames, New String() {})\n            If designNames.Length <> design.GetLength(1) Then designNames = regression.MixedModelFrontEndHelpers.DefaultNames(design.GetLength(1), prefix)\n            Return True",
+      "portable_segment": "design = Nothing\ndesignNames = New String() {}\nerrorMessage = Nothing\n\nIf raw Is Nothing OrElse raw.GetLength(0) <= 0 OrElse raw.GetLength(1) <= 0 Then\n    errorMessage = role & \" requires a non-empty predictor matrix.\"\n    Return False\nEnd If\n\nDim p As Integer = raw.GetLength(1)\nDim prefix As String = If(String.IsNullOrWhiteSpace(fallbackPrefix), \"X\", fallbackPrefix.Trim())\nDim names() As String = LmmUDFsMetadata38.NormalizeNameList(rawNames, p, prefix)\n\nIf String.IsNullOrWhiteSpace(formulaText) Then\n    design = raw\n    designNames = names\n    Return True\nEnd If\n\nDim designBuild As RegressionFormulaMatrixBuildResult = Nothing\nDim designErr As String = Nothing\n\nIf Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=raw,\n                                                                                result:=designBuild,\n                                                                                errorMessage:=designErr,\n                                                                                predictorNames:=names,\n                                                                                formulaText:=formulaText,\n                                                                                absoluteColumnLetters:=absoluteColumnLetters,\n                                                                                allowRelativeColumnLetters:=allowRelativeColumnLetters,\n                                                                                allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,\n                                                                                allowQuotedVariableNames:=allowQuotedVariableNames,\n                                                                                omitCategoricalReference:=True) Then\n    errorMessage = role & \" could not be parsed or expanded: \" & If(designErr, String.Empty)\n    Return False\nEnd If\n\nIf designBuild Is Nothing OrElse designBuild.ExpandedPredictorMatrix Is Nothing OrElse designBuild.ExpandedPredictorMatrix.GetLength(1) <= 0 Then\n    errorMessage = role & \" expansion did not produce any design columns.\"\n    Return False\nEnd If\n\ndesign = designBuild.ExpandedPredictorMatrix\ndesignNames = If(designBuild.ExpandedPredictorNames, New String() {})\nIf designNames.Length <> design.GetLength(1) Then designNames = regression.MixedModelFrontEndHelpers.DefaultNames(design.GetLength(1), prefix)\nReturn True",
+      "portable_suffix": "",
+      "portable_signature": "Function TryBuildExpandedDesign(raw As Double(,), rawNames As String(), formulaText As String, absoluteColumnLetters As String(), allowRelativeColumnLetters As Boolean, allowAbsoluteColumnLetters As Boolean, allowQuotedVariableNames As Boolean, role As String, fallbackPrefix As String, ByRef design As Double(,), ByRef designNames As String(), ByRef errorMessage As String) As Boolean",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfLmmInputPreparation38.TryBuildExpandedDesign(raw, rawNames, formulaText, absoluteColumnLetters, allowRelativeColumnLetters, allowAbsoluteColumnLetters, allowQuotedVariableNames, role, fallbackPrefix, design, designNames, errorMessage)",
+      "aliases": [
+        {
+          "before": "NormalizeNameList(",
+          "after": "LmmUDFsMetadata38.NormalizeNameList("
+        }
+      ]
+    },
+    {
+      "kind": "EXTRACTION",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "host": "EnsureLmmResultUsesHandleNames",
+      "name": "ApplyHandleNames",
+      "destination": "UdfLmmReportPreparation38",
+      "original_segment": "            If h.FixedEffectNames IsNot Nothing AndAlso h.FixedEffectNames.Length > 0 Then\n                h.Result.FixedEffectNames = CType(h.FixedEffectNames.Clone(), String())\n            End If\n            If h.RandomEffectNames IsNot Nothing AndAlso h.RandomEffectNames.Length > 0 Then\n                h.Result.RandomCovarianceLabels = CType(h.RandomEffectNames.Clone(), String())\n            End If",
+      "portable_segment": "If fixedEffectNames IsNot Nothing AndAlso fixedEffectNames.Length > 0 Then\n    result.FixedEffectNames = CType(fixedEffectNames.Clone(), String())\nEnd If\nIf randomEffectNames IsNot Nothing AndAlso randomEffectNames.Length > 0 Then\n    result.RandomCovarianceLabels = CType(randomEffectNames.Clone(), String())\nEnd If",
+      "portable_suffix": "",
+      "portable_signature": "Sub ApplyHandleNames(result As regression.MixedModelResult, fixedEffectNames As String(), randomEffectNames As String())",
+      "native_call": "            Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.ApplyHandleNames(h.Result, h.FixedEffectNames, h.RandomEffectNames)",
+      "aliases": [
+        {
+          "before": "h.FixedEffectNames",
+          "after": "fixedEffectNames"
+        },
+        {
+          "before": "h.RandomEffectNames",
+          "after": "randomEffectNames"
+        },
+        {
+          "before": "h.Result",
+          "after": "result"
+        }
+      ]
+    },
+    {
+      "kind": "EXTRACTION",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "host": "LMM_FITTED",
+      "name": "BuildFittedTable",
+      "destination": "UdfLmmReportPreparation38",
+      "original_segment": "                Dim out(fitted.Length - 1 + If(hdr, 1, 0), 1) As Object\n                Dim r As Integer = 0\n\n                If hdr Then\n                    out(0, 0) = \"Row\"\n                    out(0, 1) = \"Fitted\"\n                    r = 1\n                End If\n\n                For i As Integer = 0 To fitted.Length - 1\n                    out(r + i, 0) = i + 1\n                    out(r + i, 1) = fitted(i)\n                Next",
+      "portable_segment": "Dim out(fitted.Length - 1 + If(hdr, 1, 0), 1) As Object\nDim r As Integer = 0\n\nIf hdr Then\n    out(0, 0) = \"Row\"\n    out(0, 1) = \"Fitted\"\n    r = 1\nEnd If\n\nFor i As Integer = 0 To fitted.Length - 1\n    out(r + i, 0) = i + 1\n    out(r + i, 1) = fitted(i)\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function BuildFittedTable(fitted As Double(), hdr As Boolean) As Object(,)",
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.BuildFittedTable(fitted, hdr)",
+      "aliases": []
+    },
+    {
+      "kind": "EXTRACTION",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "host": "LMM_RESID",
+      "name": "BuildResidualTable",
+      "destination": "UdfLmmReportPreparation38",
+      "original_segment": "                Dim out(n - 1 + If(hdr, 1, 0), 2) As Object\n                Dim r As Integer = 0\n                If hdr Then\n                    out(0, 0) = \"Row\"\n                    out(0, 1) = \"Fitted\"\n                    out(0, 2) = \"Residual\"\n                    r = 1\n                End If\n\n                For i As Integer = 0 To n - 1\n                    out(r + i, 0) = i + 1\n                    out(r + i, 1) = If(i < fitted.Length, CType(fitted(i), Object), String.Empty)\n                    out(r + i, 2) = If(i < resid.Length, CType(resid(i), Object), String.Empty)\n                Next",
+      "portable_segment": "Dim out(n - 1 + If(hdr, 1, 0), 2) As Object\nDim r As Integer = 0\nIf hdr Then\n    out(0, 0) = \"Row\"\n    out(0, 1) = \"Fitted\"\n    out(0, 2) = \"Residual\"\n    r = 1\nEnd If\n\nFor i As Integer = 0 To n - 1\n    out(r + i, 0) = i + 1\n    out(r + i, 1) = If(i < fitted.Length, CType(fitted(i), Object), String.Empty)\n    out(r + i, 2) = If(i < resid.Length, CType(resid(i), Object), String.Empty)\nNext",
+      "portable_suffix": "Return out",
+      "portable_signature": "Function BuildResidualTable(fitted As Double(), resid As Double(), n As Integer, hdr As Boolean) As Object(,)",
+      "native_call": "                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.BuildResidualTable(fitted, resid, n, hdr)",
+      "aliases": []
+    },
+    {
+      "kind": "PROPERTY_GETTER_VALUE_PROJECTION",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "host": "N/Get",
+      "name": "ObservationCount",
+      "destination": "UdfLmmReportPreparation38",
+      "original_segment": "                    Return If(Y Is Nothing, 0, Y.Length)",
+      "portable_segment": "Return If(values Is Nothing, 0, values.Length)",
+      "portable_suffix": "",
+      "native_call": "                    Return Global.BESHStatNG.ExcelCommon.UdfLmmReportPreparation38.ObservationCount(Y)",
+      "aliases": [
+        {
+          "before": "Y",
+          "after": "values"
+        }
+      ],
+      "constraint": "Native imported Y auto-getter has no side effects; exact constructor/setter/writer inventory required before closure. N and Get remain distinct source identities bound to the actual get_N method."
+    }
+  ],
+  "sources": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "bytes": 60523,
+      "sha256": "9a3fd0c6ab9217f1f481fb64d59dec2eae4e183b8dd3f54c46d847f7b9335d4c"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfLmmInputPreparation38.vb",
+      "bytes": 7894,
+      "sha256": "86b582d78da30a407c2ed13ebd299f0b9b9b8559821f544c7cc4edcb230a3ede"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfLmmReportPreparation38.vb",
+      "bytes": 2220,
+      "sha256": "4b12a5462422315f837d8ab474d01da54951fc473edd5b6e81147de6f80e7e3b"
+    }
+  ],
+  "scientific_Core_changes": 0,
+  "unit_test_runs": 0,
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "original_queries": 0
+}

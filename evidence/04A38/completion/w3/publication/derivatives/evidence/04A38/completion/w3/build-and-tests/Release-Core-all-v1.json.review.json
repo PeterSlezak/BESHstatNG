@@ -1,0 +1,34 @@
+{
+  "suite": "Core",
+  "part": "all",
+  "name": "w3R-Core",
+  "outcomes": {
+    "Passed": 1280
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-Core/cases.json",
+    "bytes": 388933,
+    "sha256": "a4988ffc47e037319ff50bb7d4b7792445e0dabcae1aeeb335527ecf058ad147"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-Core/results/Core.trx",
+    "bytes": 1828307,
+    "sha256": "f3ab1a833b4793b5a447e2bc2fd417bc68c996e71a55cada78eec53c8859a1b2"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w3R-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Release\\net10.0\\BESHStat.Core.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w3R-Core\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-Core\\results",
+      "/Logger:trx;LogFileName=Core.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 5.658249500003876,
+    "stdout_sha256": "b787f2754044f350a2f57b5161e4d3f088d0ddb068fa79b43ee86607486aec0c",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

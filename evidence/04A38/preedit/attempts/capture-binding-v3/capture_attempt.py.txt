@@ -1,0 +1,24 @@
+"""Append-only execution of pre-edit original source capture attempts."""
+from pathlib import Path
+import os
+import shutil
+import subprocess
+import sys
+from run import ROOT,HERE,PRIVATE,m
+
+def main():
+    config,case_version,reference_version,attempt=sys.argv[1:5]
+    folder=PRIVATE/('capture-'+case_version+'-'+config+'-'+attempt);folder.mkdir(exist_ok=False)
+    locator=Path(os.environ['ProgramFiles(x86)'])/'Microsoft Visual Studio/Installer/vswhere.exe'
+    compiler=subprocess.check_output([str(locator),'-products','*','-version','[18.0,19.0)','-find','MSBuild/Current/Bin/Roslyn/csc.exe'],text=True).splitlines()[0]
+    runner=m.Runner(PRIVATE);tag='capture-'+case_version+'-'+config+'-'+attempt
+    reference=PRIVATE/('udf-clone-entry-'+config+'-'+reference_version)
+    shutil.copy2(reference/'BESHStat.Core.dll',folder/'BESHStat.Core.dll')
+    facade=Path(os.environ['ProgramFiles(x86)'])/'Reference Assemblies/Microsoft/Framework/.NETFramework/v4.8/Facades/netstandard.dll'
+    code=runner.command(tag+'-compile',[compiler,'/nologo','/target:exe','/reference:System.Core.dll','/reference:System.Web.Extensions.dll','/reference:'+str(reference/'BESHStat.Core.dll'),'/reference:'+str(facade),'/out:'+str(folder/'Capture38.exe'),str(HERE/'helpers/Capture38.cs')])
+    assert code['exit_code']==0
+    evidence=HERE/'preedit/attempts'/case_version
+    code=runner.command(tag+'-run',[str(folder/'Capture38.exe'),str(PRIVATE/('udf-clone-entry-'+config+'-'+reference_version)),str(evidence/'cases.jsonl'),str(evidence/('capture-'+config+'-'+attempt+'.tsv')),str(evidence/('execution-'+config+'-'+attempt+'.json'))])
+    assert code['exit_code']==0
+
+if __name__=='__main__':main()

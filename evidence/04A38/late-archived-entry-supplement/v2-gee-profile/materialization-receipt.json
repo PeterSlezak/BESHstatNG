@@ -1,0 +1,60 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/main:MaterializeGee38",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\BESHStat.Core.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+        "/out:<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\MaterializeGee38.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\MaterializeGee38.cs",
+        "<REPO_ROOT>\\evidence\\04A38\\preedit\\frozen-v2\\Capture38.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.4093538000015542,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain\\MaterializeGee38.exe",
+        "<ISOLATED_RUN>\\gee38-v2\\original-Debug-plain",
+        "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\factory-inputs.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.3253100000001723,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "executable": {
+    "name": "MaterializeGee38.exe",
+    "bytes": 58880,
+    "sha256": "4b9954148ce14a2beed01fb343cb5574482eea99cb1471df36ee87d85480fbcc"
+  },
+  "sources": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/MaterializeGee38.cs",
+      "bytes": 2534,
+      "sha256": "1ef597b62de57d7dd39e9b05ff73620d996f4ae24c26e67f4bf89333b5ae190a"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+      "bytes": 30438,
+      "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+    }
+  ],
+  "model_executions": 0,
+  "query_executions": 0,
+  "proposed_input_corrections": [],
+  "design_name": "X1 preserved exactly; original default raw predictor naming and BuildParameterNames source",
+  "handle_encoding": "SESSION1 symbol bound to actual GUID handle with raw sidecar retained; no statistical normalization"
+}

@@ -1,0 +1,11 @@
+{
+  "exit_code": 1,
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/verify_p1_v2.py",
+    "bytes": 13922,
+    "sha256": "ba684f628fc4c89814f8eb66811b44bd22c297cc43423983bbd908765c1d375f"
+  },
+  "error": "Import operation/partial ByRef/order changed TryGetNestedThreeColumnData",
+  "diagnosis": "Signature reader matched the nonfinal ByRef data(,) As Object, line as the end of the method signature. Token diff contains only the remaining ByRef names declaration. Reader v3 requires a final signature line without a trailing comma; operation checks remain exact.",
+  "product_changed": false
+}

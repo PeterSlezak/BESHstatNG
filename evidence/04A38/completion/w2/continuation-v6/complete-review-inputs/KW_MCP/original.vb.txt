@@ -1,0 +1,27 @@
+ labels, it is treated as a header row and used as group names.
+        ''' </param>
+        ''' <param name="groupNames">
+        ''' Optional group names supplied as a comma-separated string or as a one-row/one-column range.
+        ''' When omitted, names are taken from the first row of <paramref name="groups"/> when it looks like a header;
+        ''' otherwise default names such as Group 1, Group 2, … are used.
+        ''' </param>
+        ''' <param name="alpha">
+        ''' Reserved for API consistency with other MCP UDFs.
+        ''' The current Dunn implementation reports adjusted p-values only and does not compute confidence intervals.
+        ''' </param>
+        ''' <returns>
+        ''' A labeled Dunn multiple-comparison table as a dynamic array.
+        ''' Returns <c>#VALUE!</c> for invalid input.
+        ''' Returns <c>#NUM!</c> for invalid alpha or too few groups.
+        ''' </returns>
+        <ExcelFunction(
+            Name:="BESH.NP.KW_MCP",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Kruskal-Wallis post-hoc multiple comparisons (Dunn test).",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/")>
+        Public Function KW_MCP(
+            <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha parameter reserved for API consistency; currently no CI is reported.")> Optional alpha As Object = Nothing
+        ) As Object
+    

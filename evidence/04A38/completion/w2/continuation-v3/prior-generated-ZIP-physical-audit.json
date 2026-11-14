@@ -1,0 +1,31 @@
+{
+  "status": "COMPLETE_PHYSICAL_ZIP_HASH_CRC_PRIVACY_PASS",
+  "entries": 3125,
+  "privacy_findings": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/test_publication.py",
+      "kind": "home",
+      "view": "raw",
+      "whole_file_sha256": "77db10fd2989f6f8b688f603e89ed280d1582fe397f82aa31f8ba0b460f174f1",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "72583f66d242718f0660aa45b4199099a0988fa5435b1b9cffd26b953df197b0": 1
+      },
+      "classification": "EXACT_INHERITED_SYNTHETIC_ADVERSE_FIXTURE;NOT_MACHINE_OR_REAL_CREDENTIAL"
+    },
+    {
+      "path": "evidence/04A38/managed-test-identities-entry.csv",
+      "kind": "credential_uri",
+      "view": "raw",
+      "whole_file_sha256": "7bec5946a791584dcc548bcfc5adb9550c9ecb7d3f92d004414e6b4e31b9d2d3",
+      "occurrences": 1,
+      "fragment_sha256_counts": {
+        "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273": 1
+      },
+      "classification": "EXACT_INHERITED_SYNTHETIC_ADVERSE_FIXTURE;NOT_MACHINE_OR_REAL_CREDENTIAL"
+    }
+  ],
+  "scope": "PRIOR_GENERATED_220MB_C2_ZIP;NOT_OWNER_UPLOAD_313MB",
+  "bytes": 220235190,
+  "sha256": "d879ff8ae371839d04adeb5887c366e5a29c06ea98dff412e2a731e5dc5e30ae"
+}

@@ -1,0 +1,56 @@
+{
+  "artifact": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/python-first-failures-v1.json",
+    "bytes": 4213129746,
+    "sha256": "3ed32a23d2a6ee59a64c80ce3977ca89b6dcc8572453222c957af1596ca302eb"
+  },
+  "current_errors": [
+    {
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "outcome": "ERROR",
+      "message": "Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)",
+      "raw_message_sha256": "f819977cb14a8510372e728be57bf4d45a075d3d9eb1e413c5673661d8310705",
+      "raw_traceback_sha256": "60bdb49c56e058ae71516aca806353ce2562ff9d7135b4937890542de4577b50",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values"
+    },
+    {
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "outcome": "ERROR",
+      "message": "Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)",
+      "raw_message_sha256": "f819977cb14a8510372e728be57bf4d45a075d3d9eb1e413c5673661d8310705",
+      "raw_traceback_sha256": "3488ef5e91fa391f93789f52dc7d4daebd0dfef166e467c42d4bf4518853de47",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy"
+    }
+  ],
+  "v10": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/python-first-failures-v2.json",
+    "bytes": 1173772,
+    "sha256": "0e1b92867f1044bacdb77557246d231328d2f99f09afed44927558ecd1526838"
+  },
+  "v9": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/python-first-failures-v2.json",
+    "bytes": 1173678,
+    "sha256": "9618d3b763f552b8eb87355f73cb0611b2710033077de33b7b67df591ad6f56c"
+  },
+  "scanner_sources": [
+    {
+      "path": "scripts/verify-04a13-publication.py",
+      "bytes": 9176,
+      "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+    },
+    {
+      "path": "scripts/verify-04a14-publication.py",
+      "bytes": 9320,
+      "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+    }
+  ],
+  "remedy": "No remedy applied under unchanged assertions/reference authority: original scan uses full JSON parsing, and the protected immutable interrupted aggregation is malformed. Truncating, rewriting, omitting or translating its error would change the protected input or historical semantics. A reference-authority/assertion change requires a separate specific owner decision. Current errors and earlier FAIL histories remain.",
+  "controls": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/parallel-scanner-equivalence-v1.json",
+    "bytes": 12002,
+    "sha256": "1bd524c7fb3ab3d84044a89f556d1bfd89b6faa486a4fdfa591f5c411aafd505"
+  },
+  "assertions_changed": 0,
+  "artifact_modified": false,
+  "original_queries": 0
+}

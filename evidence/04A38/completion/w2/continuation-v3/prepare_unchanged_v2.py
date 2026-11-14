@@ -1,0 +1,4 @@
+from common import *
+s=(HERE/'verify_unchanged.py').read_text(encoding='utf-8').replace("('UdfScalarUtilities.vb','CloneStringArray','BESHStatNG.ExcelCommon.UdfScalarUtilitiesOptions38','BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb')", "('UdfScalarUtilities.vb','CloneStringArray','BESHStatNG.ExcelCommon.UdfScalarUtilitiesMetadata38','BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb')")
+with (HERE/'verify_unchanged_v2.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+save('attempts/unchanged-reader-v1.json',dict(status='FAILED_SOURCE_TARGET_LOOKUP',error='CloneStringArray actual target is UdfScalarUtilitiesMetadata38 in UdfMetadataPreparation38, not option class. Correct actual source/compiled target; no production or original evidence change.',reader=pin(HERE/'verify_unchanged.py')))

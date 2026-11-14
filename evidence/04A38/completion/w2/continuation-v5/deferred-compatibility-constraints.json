@@ -1,0 +1,15 @@
+{
+  "prior_charter": {
+    "path": "evidence/04A38/completion/w2/continuation-v4/deferred-defect-candidates.json",
+    "bytes": 2120,
+    "sha256": "2eaa9f2acc5ac08cbca1ef35d77f2a8d4e4a05884870f3bca2fceadf16bb833f"
+  },
+  "constraints": [
+    "Signed large integer cell text can overflow after Double rounding; unsigned fallback differs by original type domain",
+    "Invariant-first alpha text can reject locale-style comma decimal even under sk-SK; fixed missing default remains.05",
+    "Empty selected group columns prevent automatic header detection; retained names/default numbering stay original",
+    "Numeric TypeCode enum eligibility is preserved, including host ExcelError classification; no new original report query performed"
+  ],
+  "disposition": "Compatibility constraints and deferred-source findings only; no scientific correction or 04A.39–48 implementation",
+  "original_queries": 0
+}

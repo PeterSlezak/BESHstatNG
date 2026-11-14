@@ -1,0 +1,43 @@
+{
+  "status": "ACTUAL_V16_CACHE_VALIDATOR_SYNTHETIC_POSITIVE_AND_ADVERSE_CONTROLS_PASS",
+  "kernel": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/retained_scan_cache_v16.py",
+    "bytes": 4748,
+    "sha256": "d51b36c9329284532399dbe64b77a0e699b11574ff620185ca773ea8d0bfe36c"
+  },
+  "controls": [
+    {
+      "name": "wrong authority",
+      "status": "REJECTED"
+    },
+    {
+      "name": "duplicate row",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed SHA",
+      "status": "REJECTED"
+    },
+    {
+      "name": "missing prefix",
+      "status": "REJECTED"
+    },
+    {
+      "name": "false complete",
+      "status": "REJECTED"
+    },
+    {
+      "name": "translated exception",
+      "status": "REJECTED"
+    },
+    {
+      "name": "wrong failed file",
+      "status": "REJECTED"
+    }
+  ],
+  "historical_scanner_calls": 0,
+  "Python_parent_tests_run": 0,
+  "bulk_helper_jobs": 0,
+  "original_queries": 0,
+  "scope": "Actual validator used by the ordinary controlled scanner lane. Synthetic rows only; real retained5829-row/source/environment/byte binding occurs once inside that lane. Failed binary remains uncached and original assertions/exceptions execute unchanged."
+}

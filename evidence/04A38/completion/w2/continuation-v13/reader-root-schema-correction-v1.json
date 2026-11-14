@@ -1,0 +1,14 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/verify_c13_checkpoint_template_v2.py",
+    "bytes": 19643,
+    "sha256": "066a28dc6450ce39dd651c15e8887ff9fd70f719289324cb7559074d21cbcb2f"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/verify_c13_checkpoint_template_v3.py",
+    "bytes": 19740,
+    "sha256": "37f0b12ee511b111dc5c8b10c095e724d23a976621a6c733ad7fb3b2d81127dc"
+  },
+  "reason": "C13 diagnostic roots are actual complete compiled handles, not source IDs. Independently bind every one of96 source parents and require exact root-set equality before executable graph reconstruction. Actual predecessor replays in rejected attempts completed before the current schema lookup failed; final version still replays the predecessor, after current checks to fail quickly.",
+  "original_queries": 0
+}

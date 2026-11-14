@@ -1,0 +1,168 @@
+"""Publication derivation/privacy checks; development inputs remain original local evidence."""
+import importlib.util
+import json
+from pathlib import Path
+import re
+import shutil
+import tempfile
+import unittest
+
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def module(name, filename):
+    spec = importlib.util.spec_from_file_location(name, ROOT/'scripts'/filename)
+    result = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(result)
+    return result
+
+
+p = module('relocation08', 'relocate-04a08-evidence.py')
+c = module('capture08_reader', 'capture-04a08-contract.py')
+
+
+class EvidenceRelocation08Tests(unittest.TestCase):
+    def temporary_root(self):
+        temporary = tempfile.TemporaryDirectory(prefix='.04a08-check-', dir=ROOT/'evidence')
+        root = Path(temporary.name).resolve()
+        self.assertEqual((ROOT/'evidence').resolve(), root.parent)
+
+        def cleanup():
+            # Only remove this test's freshly created, verified workspace child.
+            self.assertEqual((ROOT/'evidence').resolve(), Path(temporary.name).resolve().parent)
+            temporary.cleanup()
+
+        self.addCleanup(cleanup)
+        return root
+
+    def clone_payload(self):
+        root = self.temporary_root()
+        destination = root/p.NEW
+        destination.mkdir(parents=True)
+        for name in list(p.PINS)+['relocation-manifest-v1.json']:
+            shutil.copyfile(ROOT/p.NEW/name, destination/name)
+        return root
+
+    def test_seven_original_pins_six_exact_copies_one_explicit_sanitized_derivative(self):
+        mapping = p.validate_mapping(ROOT, require_sources=True)
+        self.assertEqual(7, len(mapping['items']))
+        self.assertEqual(7, len({r['new_path'] for r in mapping['items']}))
+        self.assertEqual(p.PINS['publication-inventory-v2.json'], mapping['original_inventory_sha256'])
+        for row in mapping['items']:
+            name = Path(row['new_path']).name
+            source = (ROOT/row['old_path']).read_bytes()
+            published = (ROOT/row['new_path']).read_bytes()
+            self.assertEqual(p.PINS[name], row['source_sha256'])
+            self.assertEqual(p.publication_bytes(name, source), published)
+            self.assertEqual(p.sha(published), row['sha256'])
+            if name == 'validation-v2.json':
+                self.assertNotEqual(source, published)
+                self.assertEqual('sanitized-derived', row['disposition'])
+            else:
+                self.assertEqual(source, published)
+                self.assertEqual('copied-byte-identically', row['disposition'])
+
+    def test_each_destination_and_parents_are_not_ignored_by_live_git(self):
+        for path in [p.NEW.parent, p.NEW]+[p.NEW/name for name in p.PINS]:
+            self.assertEqual(1, p.not_ignored(ROOT, path)['exit_code'])
+
+    def test_excluded_evidence_and_historical_tree_are_not_in_payload(self):
+        self.assertFalse(any((ROOT/p.NEW/name).exists() for name in p.EXCLUDED))
+        names = {path.name for path in (ROOT/p.NEW).iterdir()}
+        self.assertEqual(set(p.PINS)|{'README.md', 'relocation-manifest-v1.json'}, names)
+
+    def test_clone_shaped_payload_reads_without_any_ignored_originals(self):
+        root = self.clone_payload()
+        self.assertFalse((root/p.OLD).exists())
+        values = p.read_published(root)
+        self.assertEqual(set(p.PINS), set(values))
+        p.validate_mapping(root, require_sources=False, check_ignore=False)
+        self.assertEqual(root/p.OLD/'restriction-crosswalk.json', c.restriction_snapshot(root))
+        with self.assertRaises(FileNotFoundError):
+            p.read_development(root)
+
+    def test_development_reader_uses_local_original_even_when_publication_exists(self):
+        root = self.temporary_root()
+        old = root/p.OLD/'restriction-crosswalk.json'
+        old.parent.mkdir(parents=True)
+        old.write_text('{}', encoding='utf-8')
+        self.assertEqual(old, c.restriction_snapshot(root))
+        new = root/p.NEW/'restriction-crosswalk.json'
+        new.parent.mkdir(parents=True)
+        new.write_text('invalid json', encoding='utf-8')
+        self.assertEqual(old, c.restriction_snapshot(root))
+        old.write_text('invalid original', encoding='utf-8')
+        with self.assertRaises(json.JSONDecodeError):
+            json.loads(c.restriction_snapshot(root).read_bytes())
+        self.assertEqual(ROOT/p.OLD, c.OUT, 'Historical capture destination must stay unchanged')
+
+    def test_corrupted_published_copy_fails_closed(self):
+        root = self.clone_payload()
+        with (root/p.NEW/'formula-compatibility.json').open('ab') as stream:
+            stream.write(b' ')
+        with self.assertRaisesRegex(ValueError, 'SHA-256 mismatch'):
+            p.read_published(root)
+
+    def test_duplicate_mapping_or_excluded_injection_is_rejected(self):
+        root = self.clone_payload()
+        path = root/p.NEW/'relocation-manifest-v1.json'
+        data = json.loads(path.read_bytes())
+        data['items'].append(data['items'][0])
+        path.write_text(json.dumps(data), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'seven unique'):
+            p.validate_mapping(root, check_ignore=False)
+
+    def test_open_obligations_and_no_native_or_scientific_release(self):
+        data = p.read_development()['restriction-crosswalk.json']
+        self.assertEqual((0, 0, 'NO', 'NO GO', 'NO', 'UNMET'), tuple(data[k] for k in ['released_controls', 'discharged_obligations', 'P', 'N1', 'N2', 'C2']))
+        obligations = [r for r in data['affected_controls'] if r['obligation_id'] is not None]
+        self.assertEqual(42, len(obligations))
+        self.assertTrue(all(r['status'] == 'OPEN' for r in obligations))
+        validation = p.read_development()['validation-v2.json']
+        for config in ['Debug', 'Release']:
+            self.assertEqual(5, validation['configurations'][config]['managed_fail'])
+            self.assertEqual(49, validation['configurations'][config]['python_nonpassing_methods'])
+
+    def test_publication_has_no_raw_machine_paths_or_account_names(self):
+        mapping = json.loads((ROOT/p.NEW/'relocation-manifest-v1.json').read_bytes())
+        for row in mapping['items']:
+            data = json.loads((ROOT/row['new_path']).read_bytes())
+            self.assertFalse(any(p.privacy_inventory(data)['findings'].values()))
+        raw = p.read_development()['validation-v2.json']
+        accounts = {row['value'] for row in p.privacy_inventory(raw)['findings']['windows_accounts']}
+        self.assertTrue(accounts)
+        for path in [ROOT/p.NEW/name for name in p.PINS]+[ROOT/p.NEW/'relocation-manifest-v1.json', ROOT/p.NEW/'README.md', ROOT/'docs/architecture/batch-04A-08-evidence-relocation-addendum.md']:
+            text = path.read_text(encoding='utf-8')
+            # Inspect decoded JSON strings; serialization escapes are not UNC paths.
+            content = json.loads(text) if path.suffix == '.json' else {'text': text}
+            self.assertFalse(any(p.privacy_inventory(content)['findings'].values()), path.name)
+            for account in accounts:
+                self.assertNotRegex(text.lower(), r'\b'+re.escape(account.lower())+r'\b')
+        self.assertTrue(p.privacy_inventory({'path': r'\\example-server\share'})['findings']['unc_paths'])
+        synthetic = p.privacy_inventory({'value': 'password=synthetic_example_only'})
+        finding = synthetic['findings']['secret_token_patterns'][0]
+        self.assertIn('match_sha256', finding)
+        self.assertNotIn('synthetic_example_only', json.dumps(finding))
+
+    def test_sanitizer_only_changes_machine_path_text_and_adds_derivation_notice(self):
+        original = p.read_development()['validation-v2.json']
+        public = p.read_published()['validation-v2.json']
+        notice = public.pop('publication_derivation')
+        self.assertEqual(p.PINS['validation-v2.json'], notice['source_sha256'])
+        self.assertEqual('sanitized-derived', notice['kind'])
+        self.assertEqual(p.sanitize_value(original), public)
+        for config in ['Debug', 'Release']:
+            for field in ['managed_fail', 'managed_pass', 'managed_total', 'python_nonpassing_methods', 'python_nonpasses', 'managed_failures']:
+                self.assertEqual(original['configurations'][config][field], public['configurations'][config][field])
+        samples = ['<PRIVATE_HOME>/Desktop/WPyExample/python/python.exe',
+                   'E:/work/BESHstatNG/TestResults/run/results',
+                   '<PRIVATE_HOME>\\custom\\file.txt']
+        for text in samples:
+            sanitized = p.sanitize_text(text)
+            self.assertIn('<', sanitized)
+            self.assertNotIn('example', sanitized)
+            self.assertEqual(sanitized, p.sanitize_text(sanitized))
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,0 +1,27 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v16",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v16\\verify_c16_publication_v4.py",
+      "--index",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v16-review-parts-index-v3.json",
+      "--parts"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 430.4174243000016,
+    "stdout_sha256": "68c2d561b873274f1fe1169bab85c25b7cc63bf4858d69b906e525a3625af042",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/verify_c16_publication_v4.py",
+    "bytes": 7560,
+    "sha256": "8ec352b4d54328c387e6dd41ab394651a7b7f6457e6e19fd7ebc961974d3d1bd"
+  }
+}

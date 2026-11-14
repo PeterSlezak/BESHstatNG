@@ -1,0 +1,5 @@
+odule ExcelArgReaders
+
+        Public Function AsString(v As Object) As String
+            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return Nothing
+            Return Convert.ToSt

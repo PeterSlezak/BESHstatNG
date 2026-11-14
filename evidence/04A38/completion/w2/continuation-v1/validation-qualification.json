@@ -1,0 +1,147 @@
+{
+  "final_source_validation": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/validation.json",
+    "bytes": 75012,
+    "sha256": "b15f72f2ff63b9103898bc9c856008402037986d17311916df709ff5a024d8da"
+  },
+  "reported_python": {
+    "passed": 766,
+    "failed": 180,
+    "errors": 10
+  },
+  "previous_first_current_full": {
+    "passed": 766,
+    "failed": 179,
+    "errors": 11
+  },
+  "historical_checkpoint": {
+    "passed": 767,
+    "failed": 178,
+    "errors": 11
+  },
+  "source_pin_occurrence": "One extra FAIL at test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved,subtest PlotDataUDFs.vb; exact expected/current hashes in transition ledger; not rewritten or promoted.",
+  "inherited_outcome_transition": {
+    "status": "INHERITED_UNORDERED_SOURCE_TEST_NONPASS_NOT_PRODUCT_EDIT",
+    "records": [
+      {
+        "seed": "0",
+        "command": {
+          "command": [
+            "<PYTHON>",
+            "-B",
+            "-m",
+            "unittest",
+            "test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact",
+            "-v"
+          ],
+          "cwd": "<REPO_ROOT>\\scripts\\tests",
+          "exit_code": 1,
+          "seconds": 0.2745812999783084,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "1af3c48cd2db928acada28fa6f2325dcfac1caeb1c88c1ca8d5a1559e580663b",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "receipt": {
+          "label": "w2c1-inherited-spc-order-seed0",
+          "total": 1,
+          "passed": 0,
+          "failed": 0,
+          "errors": 1,
+          "stderr_sha256": "1af3c48cd2db928acada28fa6f2325dcfac1caeb1c88c1ca8d5a1559e580663b",
+          "console_decoding": "utf-8-sig",
+          "exit_code": 1,
+          "identities": [
+            "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)"
+          ],
+          "nonpasses": [
+            {
+              "outcome": "ERROR",
+              "identity": "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)",
+              "subtest": ""
+            }
+          ]
+        }
+      },
+      {
+        "seed": "1",
+        "command": {
+          "command": [
+            "<PYTHON>",
+            "-B",
+            "-m",
+            "unittest",
+            "test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact",
+            "-v"
+          ],
+          "cwd": "<REPO_ROOT>\\scripts\\tests",
+          "exit_code": 1,
+          "seconds": 0.27175879999413155,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "9af117d2ac1a73d577629d3b3c97d25932acebd529da32733087e111d9e77c81",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "receipt": {
+          "label": "w2c1-inherited-spc-order-seed1",
+          "total": 1,
+          "passed": 0,
+          "failed": 0,
+          "errors": 1,
+          "stderr_sha256": "9af117d2ac1a73d577629d3b3c97d25932acebd529da32733087e111d9e77c81",
+          "console_decoding": "utf-8-sig",
+          "exit_code": 1,
+          "identities": [
+            "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)"
+          ],
+          "nonpasses": [
+            {
+              "outcome": "ERROR",
+              "identity": "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)",
+              "subtest": ""
+            }
+          ]
+        }
+      }
+    ],
+    "first_complete_run": "ERROR:KeyError AddZoneLine",
+    "final_complete_run": "FAIL:ComputeYAxisBounds assertion",
+    "source_reason": "The unchanged test loops for name in set(a)-changed. Different hash iteration order encounters either the preexisting missing method or the preexisting changed method first. Current Spc renderer is protected unchanged by the live4695 ledger.",
+    "expectations_modified": false,
+    "normalization": "NONE;final766PASS/180FAIL/10ERROR is reported exactly, not rewritten to the older767/178/11 receipt."
+  },
+  "raw_occurrences": "Retained old raw logs + targeted privacy reruns reconstruct189 inherited nonpass occurrences. Final has190:one added source-pin failure and one existing ERROR now FAIL, not removed. Identity-only comparison cannot capture repeated subtests.",
+  "current_new_managed_nonpasses": 0,
+  "unresolved_investigative_probe": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/options-policy-diagnostic.json",
+    "bytes": 5526,
+    "sha256": "4faa7c2ea40daa8c5504d8aa825e3f0700be33a4914874aa0b853198cb178db5"
+  },
+  "actual_P1_adverse_conditions": 15,
+  "adverse": {
+    "label": "w2c1-p1-adverse-v3",
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "480638f7bf0d7dd5bdc617f4e55cdd352639597803cafc213c3d7a38bafcd58d",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_case_omission (test_p1_v3.P1Tests.test_case_omission)",
+      "test_changed_export_name (test_p1_v3.P1Tests.test_changed_export_name)",
+      "test_changed_optional_default (test_p1_v3.P1Tests.test_changed_optional_default)",
+      "test_current_result_changed (test_p1_v3.P1Tests.test_current_result_changed)",
+      "test_extra_case (test_p1_v3.P1Tests.test_extra_case)",
+      "test_failed_tests_not_green (test_p1_v3.P1Tests.test_failed_tests_not_green)",
+      "test_fake_edge (test_p1_v3.P1Tests.test_fake_edge)",
+      "test_hidden_static_state (test_p1_v3.P1Tests.test_hidden_static_state)",
+      "test_intact (test_p1_v3.P1Tests.test_intact)",
+      "test_original_snapshot_lost (test_p1_v3.P1Tests.test_original_snapshot_lost)",
+      "test_ornamental_contains (test_p1_v3.P1Tests.test_ornamental_contains)",
+      "test_self_consistent_changed_column_guard (test_p1_v3.P1Tests.test_self_consistent_changed_column_guard)",
+      "test_self_consistent_error_coercion_change (test_p1_v3.P1Tests.test_self_consistent_error_coercion_change)",
+      "test_self_consistent_group_nonfinite_policy_change (test_p1_v3.P1Tests.test_self_consistent_group_nonfinite_policy_change)",
+      "test_stale_preimage (test_p1_v3.P1Tests.test_stale_preimage)"
+    ],
+    "nonpasses": []
+  }
+}

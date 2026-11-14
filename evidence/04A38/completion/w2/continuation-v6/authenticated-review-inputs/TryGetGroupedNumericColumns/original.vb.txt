@@ -1,0 +1,5 @@
+Friend Function TryGetGroupedNumericColumns(input As Object,
+                                                ByRef groups()() As Double,
+                                                ByRef names() As String) As Boolean
+        Return TryReadGroupedNumericColumns(input, groups, names)
+    End Function

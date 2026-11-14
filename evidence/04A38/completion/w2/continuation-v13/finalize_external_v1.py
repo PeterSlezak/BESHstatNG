@@ -1,0 +1,51 @@
+"""Final additive receipts, actual private replay and correctly bound final Git."""
+from common import *
+FLAGS='NOT_READY_04A38; W2_IN_PROGRESS; W3_NOT_STARTED; P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN; 04A39_BLOCKED'
+def external(name,value):
+ path=W2/name
+ with path.open('x',encoding='utf-8',newline='\n') as f:json.dump(value,f,indent=2,ensure_ascii=False);f.write('\n')
+ return pin(path)
+privatepath=W2/'continuation-v13-retained-private-preservation-v1.json';private=json.loads(privatepath.read_bytes());reader=ROOT/private['reader']['path']
+args=[sys.executable,'-I','-B',str(reader),'--verify'];start=time.monotonic();r=subprocess.run(args,cwd=ROOT,capture_output=True)
+verified=external('continuation-v13-private-reader-verification-v1.json',dict(command=clean(args),exit_code=r.returncode,seconds=time.monotonic()-start,stdout=clean(r.stdout.decode()),stderr=clean(r.stderr.decode()),stdout_sha256=sha(r.stdout),stderr_sha256=sha(r.stderr),reader=pin(reader),receipt=pin(privatepath),original_queries=0));assert r.returncode==0
+index=W2/'continuation-v13-review-parts-index-v1.json';parts=json.loads(index.read_bytes());publication=W2/'continuation-v13-publication-receipt-v1.json';copied=W2/'continuation-v13-copied-review-reader-v1.json';live=W2/'continuation-v13-live-preservation-v1.json';privacy=W2/'continuation-v13-publication-privacy-receipt-v1.json'
+compiled=[]
+for config in ['Debug','Release']:
+ for role in ['lib','udf']:
+  compiled.extend(dict(configuration=config,role=role,**pin(p)) for p in sorted((PRIVATE/'packet-v1'/config/role).glob('*')) if p.is_file() and p.suffix.lower() in ['.dll','.exe','.config'])
+artifacts=external('continuation-v13-post-publication-artifacts-v1.json',dict(status='ADDITIVE_FINAL_AUTHORITY_NOT_READY',checkpoint_reader=pin(HERE/'verify_c13_checkpoint_v2.py'),checkpoint_seal=pin(HERE/'review-seal-v1.json'),publication_reader=pin(HERE/'verify_c13_publication_v1.py'),
+ sealed_review=pin(HERE/'owner-review.md'),sealed_handover=pin(HERE/'NEXT_WAVE_HANDOVER.md'),parts_index=pin(index),publication=pin(publication),privacy_checkpoint=pin(privacy),copied_reader=pin(copied),live_preservation=pin(live),
+ authoritative_private_reader=pin(reader),authoritative_private_preservation=pin(privatepath),private_reader_verification=verified,private_pin_count=private['private_pin_count'],physical_archive_count=len(private['retained_prior_physical_archives']),
+ current_compiled_artifacts=compiled,source_after_images=[t['after'] for t in json.loads((HERE/'source-transitions-final-v1.json').read_bytes())['files']],final_git_receipt='continuation-v13-final-git-preservation-v1.json',standalone='NOT_CREATED',original_queries=0))
+summary=json.loads((HERE/'ownership-summary-v2.json').read_bytes());queue=json.loads((HERE/'remaining-work-queue-v1.json').read_bytes());validation=json.loads((HERE/'validation-independent-replay-v1.json').read_bytes())
+lines=['# Continuation-v13 final external handover addendum','',FLAGS,'',
+ 'Final additive authority after the immutable sealed owner review and package inventory. No acceptance, merge, W3 launch, scientific truth or native Office validation. Read this addendum, post-publication-artifacts-v1.json, final-git-preservation-v1.json, the actual sealed readers, private verification and part index together. Earlier attempts and v12 addendum-v2/Git corrections remain unchanged.','',
+ 'Checkpoint reader continuation-v13/verify_c13_checkpoint_v2.py; physical/logical reader continuation-v13/verify_c13_publication_v1.py. Actual copied default reader and complete union: continuation-v13-copied-review-reader-v1.json. Actual successor private reader **continuation-v13-retained-private-reader-v2.py**, receipt **continuation-v13-retained-private-preservation-v1.json** and verification-v1. Private-reader v1 was retained unexecuted; v2 corrects the current bounded command/build/execution glob to w2c13 before generation.','',
+ f'Exact private pins **{private["private_pin_count"]}**: all8801 inherited plus{private["new_current_private_count"]} current additions. Physical archives **{len(private["retained_prior_physical_archives"])}**, all45 inherited and both serializations of every new review part. Actual prior v12 private reader replay and successor --verify exit0. The4213129746-byte interrupted v9 JSON remains at SHA2563ed32a23d2a6ee59a64c80ce3977ca89b6dcc8572453222c957af1596ca302eb; the two original privacy tests still ERROR. No historical TestResults traversal/deletion.','',
+ f'One logical inventory **{len(parts["files"])} payloads**, **{len(parts["parts"])} independently valid ACTIVE/REFERENCE ZIPs** below180MiB. Every path/SHA/size/CRC/part is indexed exactly once. Independent deterministic second serializations match physical SHA/size; no standalone ZIP exists and no binary-volume or standalone-byte equivalence is asserted.','',
+ '| Part | Bytes | SHA256 |','|---|---:|---|']
+lines+=['|'+p['name']+'|'+str(p['bytes'])+'|`'+p['sha256']+'`|' for p in parts['parts']]
+lines+=['',
+ 'Supported461/704 historical (243 OPEN),494/726 Windows (232 OPEN),253/303 distinct support (50 OPEN). New26 historical/29 current/one support. All655 new original fragments have correspondence; original coverage11114/20683, current6494/14492. Four ROC ByRef-dependent parents and PlotData module remain OPEN; source-backed original prediction is separate from two actual current-only managed probes. Scientific/GUI differences remain deferred candidates.','',
+ 'Debug20874 PASS/14 inherited FAIL;40 new PASS. Python956 parents830 PASS/113 FAIL/13 ERROR, events181 FAIL/13 ERROR; exact once, zero lost/new events and three source-pin message deltas from v12. The v12 new Multivariate importer subtest and six prior message changes remain, as do v9 FAIL/v10–v12 privacy ERROR histories and unordered-SPC ERROR. Node916 PASS; strict/profile/MkDocs1/1/0. Full and selected Release unit suites NOT_RUN_OWNER_PREFERENCE. Debug/Release compilation,268 exact exports and29424 fresh current-only comparisons/configuration passed (28966 genuine plus458 LATE_ARCHIVED_ENTRY_SUPPLEMENT).','',
+ 'Original callback return ABI is grounded in archived actual closed generic delegate construction CIL; no original lambda return reflection row is invented. Current return metadata is measured. Eight new CLR delegate runtime methods carry CodeTypeMask/Runtime metadata and intentionally have no managed IL. Extra Common frames and non-executed dynamic/native arms remain explicit.','',
+ 'Earlier reader attempts rejected compiled-root schema and an owner/name overload false positive. Final reader uses full actual signature/ByRef/rank binding, all native dependencies, separate KM parameter slots, seven host classes/eight Object-copy boundaries, exact universes/fragments and actual predecessor replay. Every failed attempt/raw stream/source correction is retained. The sealed owner review entry reconciliation reference resolves to v12-independent-entry-reconciliation-v1.json.','',
+ 'Live preservation verifies16 owner documents,278 lineage pins,100 mixed-model captures,41 original UDF snapshots and4695 tracked paths with all source-transition versions. Required AGENTS/master-plan context is included;15 optional owner READMEs and authenticated raw/private giant diagnostics are excluded only from review derivatives. The original scanner candidates/assertions remain unchanged. Final review decisions authenticate exact policy/content cache entries; new/changed bytes were evaluated once at the publication checkpoint.','',
+ 'Final exact next24 historical IDs from the authenticated final remaining queue:','']+ [str(i)+'. `'+r['original_id']+'`' for i,r in enumerate(queue['first_members'],1)]
+lines+=['',FLAGS,'']
+addendum=W2/'continuation-v13-postseal-handover-addendum-v1.md'
+with addendum.open('x',encoding='utf-8',newline='\n') as f:f.write('\n'.join(lines))
+prior=json.loads((PRIVATE/'exit-git-receipt-v1.json').read_bytes());checks=[]
+for name,args in [('branch',['branch','--show-current']),('HEAD',['rev-parse','HEAD']),('main',['rev-parse','main']),('merge-base',['merge-base','HEAD','main']),('index',['diff','--cached','--name-status']),('status',['status','--porcelain=v1']),('diff-check',['diff','--check'])]:
+ argv=['git','-c','safe.directory='+ROOT.as_posix(),'--no-optional-locks',*args];start=time.monotonic();r=subprocess.run(argv,cwd=ROOT,capture_output=True);assert r.returncode==0
+ p=next(p for p in prior['checks'] if p['check']==name);assert sha(r.stdout)==p['raw_stdout']['sha256']
+ assert '/w2c13-exit-git-' in p['raw_stdout']['path'] and '/w2c13-exit-git-' in p['raw_command']['path']
+ if name=='branch':assert r.stdout.decode().strip()=='codex/04A-38'
+ if name in ['HEAD','main','merge-base']:assert r.stdout.decode().strip()==BASE
+ if name=='index':assert not r.stdout
+ checks.append(dict(check=name,command=clean(argv),exit_code=r.returncode,seconds=time.monotonic()-start,stdout=r.stdout.decode(),stderr=clean(r.stderr.decode()),stdout_sha256=sha(r.stdout),stderr_sha256=sha(r.stderr),exact_raw_predecessor_command=p['raw_command'],exact_raw_predecessor_stdout=p['raw_stdout'],exact_stdout_equal=True))
+indexfile=pin(ROOT/'.git/index');assert indexfile==prior['index_file'] and indexfile['sha256']=='2036821003b1e1fb1077e72183e0b6c2fa7d22cdb2e784b760637e6d6fe9bc2c'
+for row in json.loads((HERE/'production-test-freeze-v1.json').read_bytes())['sources']:assert pin(ROOT/row['path'])==row
+receipt=external('continuation-v13-final-git-preservation-v1.json',dict(status='NOT_READY_04A38',W2='IN_PROGRESS',W3='NOT_STARTED',P='NO',N1='NO GO',N2='NO',C2='UNMET',C3='UNAPPROVED',science='NOT_GOLDEN',phase04A39='BLOCKED',Git=checks,index_file=indexfile,
+ private_preservation=pin(privatepath),private_verification=verified,live_preservation=pin(live),publication=pin(publication),privacy_checkpoint=pin(privacy),parts_index=pin(index),copied_reader=pin(copied),post_publication_artifacts=artifacts,postseal_addendum=pin(addendum),postseal_tool=pin(Path(__file__).resolve()),original_queries=0))
+print(json.dumps(dict(final_git=receipt,private_pins=private['private_pin_count'],archives=len(private['retained_prior_physical_archives']),parts=len(parts['parts']),files=len(parts['files']),status=FLAGS)))

@@ -1,0 +1,22 @@
+{
+  "status": "5_NEW_CURRENT_ONLY_FIXTURE_FAILURES_PER_CONFIGURATION_PRESERVED",
+  "raw_fixture": {
+    "path": "evidence/04A38/completion/w2/continuation-v3/attempts/names-host-fixture-v2.vb.txt",
+    "bytes": 33036,
+    "sha256": "ff1eb8b8b1fbe6a4f6c6a74cd9d04991db7d7f29a62f9fc490482f075668429f"
+  },
+  "rationale": [
+    "Original unchanged ReadUdfMatrix returns Nothing for scalar arguments; a comma-count mismatch scalar therefore uses X fallback, not a fabricated1x1 worksheet range.",
+    "Actual cell is Object-typed: Convert.ToString(CObj(ExcelError)) is enum-name conversion; unboxed enum expression in old fixture selected a different numeric overload.",
+    "Original Get2D acquisition copies and normalizes rank2 array bounds. Conversion observes acquired detached slots; mutation of original outer array is visible externally but not retroactive in that snapshot.",
+    "Nonzero-bound arrays are normalized by original host CopyValues, not indexed directly by GetVariableNames. Expect normalized names, no invented bounds exception."
+  ],
+  "transport_current": {
+    "path": "BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb",
+    "bytes": 10860,
+    "sha256": "a2a5e1c896b36d8fcfae43c4310e55fd6cc2f8384df30fd090688620e960b0cb"
+  },
+  "transport_pinned_Git_sha256": "a2a5e1c896b36d8fcfae43c4310e55fd6cc2f8384df30fd090688620e960b0cb",
+  "production_fix": "NONE; new test expectations corrected from authenticated source, no archived original execution/expectation edit",
+  "original_queries": 0
+}

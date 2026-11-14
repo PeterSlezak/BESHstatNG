@@ -1,0 +1,26 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "\\\\?\\<ISOLATED_RUN>\\w2-before-v2\\evidence\\04A38\\late-archived-entry-supplement\\v1",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "cwd": "<ISOLATED_RUN>\\w2-before-v2",
+    "exit_code": 0,
+    "seconds": 9.598508199997013,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "8867b69e8b8dc7a01cdbcd7525afbfc1ee276bed16057a7478c8fc17b8e975ae",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "original_queries": 0,
+  "prior_attempt": "early-reader-A: Windows long-path fixture errors retained",
+  "source_or_expectation_changes": false,
+  "environment": "Only extended-length Windows pathname spelling; same source files/fixture conditions"
+}

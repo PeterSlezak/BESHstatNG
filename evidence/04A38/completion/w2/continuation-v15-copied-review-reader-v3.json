@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<ISOLATED_RUN>\\r3\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<ISOLATED_RUN>\\r3\\evidence\\04A38\\completion\\w2\\continuation-v15\\verify_c15_publication_v3.py",
+      "--index",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15-review-parts-index-v2.json"
+    ],
+    "cwd": "<ISOLATED_RUN>\\r3",
+    "exit_code": 0,
+    "seconds": 286.9073283999969,
+    "stdout_sha256": "08b831b2e43c501acfb0c4af1d05b6934711d73457ae283b41b56dca00a31e33",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "copied_files": 9740,
+  "index": {
+    "path": "evidence/04A38/completion/w2/continuation-v15-review-parts-index-v2.json",
+    "bytes": 3934068,
+    "sha256": "f6b7da0001967238c0c7327e4dbd1435953567aba21fa4dd13ead99475956327"
+  },
+  "git_metadata": "ABSENT",
+  "standalone": "NOT_CREATED",
+  "scope": "Actual reader in the freshly extracted logical union, isolated imports, current Windows Python. No production installation or cross-platform standalone equivalence claim.",
+  "original_queries": 0
+}

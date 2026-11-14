@@ -1,0 +1,16 @@
+{
+  "command": [
+    "<PYTHON>",
+    "-I",
+    "-B",
+    "-c",
+    "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+    "<REPO_ROOT>\\evidence\\04A38\\completion\\w3",
+    "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\abi-cil\\optimization-diagnostic-v1.py"
+  ],
+  "cwd": "<REPO_ROOT>",
+  "start_utc": "2026-11-14T07:22:13Z",
+  "end_utc": "2026-11-14T07:22:13Z",
+  "seconds": 0.22520709037780762,
+  "exit_code": 0
+}

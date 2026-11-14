@@ -1,0 +1,88 @@
+{
+  "status": "INHERITED_UNORDERED_SOURCE_TEST_NONPASS_NOT_PRODUCT_EDIT",
+  "records": [
+    {
+      "seed": "0",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\scripts\\tests",
+        "exit_code": 1,
+        "seconds": 0.2745812999783084,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "1af3c48cd2db928acada28fa6f2325dcfac1caeb1c88c1ca8d5a1559e580663b",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "receipt": {
+        "label": "w2c1-inherited-spc-order-seed0",
+        "total": 1,
+        "passed": 0,
+        "failed": 0,
+        "errors": 1,
+        "stderr_sha256": "1af3c48cd2db928acada28fa6f2325dcfac1caeb1c88c1ca8d5a1559e580663b",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 1,
+        "identities": [
+          "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)"
+        ],
+        "nonpasses": [
+          {
+            "outcome": "ERROR",
+            "identity": "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)",
+            "subtest": ""
+          }
+        ]
+      }
+    },
+    {
+      "seed": "1",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>\\scripts\\tests",
+        "exit_code": 1,
+        "seconds": 0.27175879999413155,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "9af117d2ac1a73d577629d3b3c97d25932acebd529da32733087e111d9e77c81",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "receipt": {
+        "label": "w2c1-inherited-spc-order-seed1",
+        "total": 1,
+        "passed": 0,
+        "failed": 0,
+        "errors": 1,
+        "stderr_sha256": "9af117d2ac1a73d577629d3b3c97d25932acebd529da32733087e111d9e77c81",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 1,
+        "identities": [
+          "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)"
+        ],
+        "nonpasses": [
+          {
+            "outcome": "ERROR",
+            "identity": "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)",
+            "subtest": ""
+          }
+        ]
+      }
+    }
+  ],
+  "first_complete_run": "ERROR:KeyError AddZoneLine",
+  "final_complete_run": "FAIL:ComputeYAxisBounds assertion",
+  "source_reason": "The unchanged test loops for name in set(a)-changed. Different hash iteration order encounters either the preexisting missing method or the preexisting changed method first. Current Spc renderer is protected unchanged by the live4695 ledger.",
+  "expectations_modified": false,
+  "normalization": "NONE;final766PASS/180FAIL/10ERROR is reported exactly, not rewritten to the older767/178/11 receipt."
+}

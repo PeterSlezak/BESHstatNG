@@ -1,0 +1,131 @@
+{
+  "stage": "names-v2",
+  "configuration": "Debug",
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Core\\BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont3\\names-v2\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont3\\names-v2\\Debug\\obj\\core\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.02611259999685,
+      "stdout_sha256": "40762ae66e6baf31a562df4e3ea3b938547590ea6ebe745868cb3885bde4f6a2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "<REPO_ROOT>\\BESHStat.Excel.Common\\BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont3\\names-v2\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont3\\names-v2\\Debug\\obj\\common\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 1.8417476000031456,
+      "stdout_sha256": "ce376e5f175020ac61a51c2fde1a8f46ac330748849b2cf8242889ba39cf6a5a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "<REPO_ROOT>\\BESHstatNG\\BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont3\\names-v2\\Debug\\lib\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont3\\names-v2\\Debug\\obj\\host\\",
+        "/p:PythonExe=<PYTHON>",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.625427999999374,
+      "stdout_sha256": "4196348358359b40ea063e963db2cbeeb2d780d226a1408fb1bdaa1c6de233da",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "all_exit_zero": true,
+  "assemblies": [
+    {
+      "name": "BESHStat.Core.dll",
+      "bytes": 2087936,
+      "sha256": "1b6a26574397f083946d162a4804435cef1fc023681e8c0b84209b32b8420fa2"
+    },
+    {
+      "name": "BESHStat.Excel.Common.dll",
+      "bytes": 1069056,
+      "sha256": "bb69ec39274770db059d8f2b68bcd8d6cf95e3e4799d3096dc55c7b7e9d93eac"
+    },
+    {
+      "name": "BESHStatNG.dll",
+      "bytes": 2682880,
+      "sha256": "33bd5b86b70f5f76b5f51e40838f45f5432a9a293e9061abdd6cd80568f68854"
+    },
+    {
+      "name": "ExcelDna.Integration.dll",
+      "bytes": 308224,
+      "sha256": "c92fcabda2f18eb68d0d1e91cfa4bf05ea079eb66eecb9762884ab576a84f41f"
+    }
+  ],
+  "sources": [
+    {
+      "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+      "bytes": 5095,
+      "sha256": "59889f3e18e61b6de75a53f76fa4dd8cad080e01e612872dfaf16315bf4361e7"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "bytes": 25433,
+      "sha256": "5629e3325038b2759866c6b951b0d01177c6d149e971b24d395f7d1ddfd3d873"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "bytes": 60463,
+      "sha256": "d69232fb40425c4338535dbae0abb961b05b2ae2cb97cba455105463cfafe3d5"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+      "bytes": 7635,
+      "sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+      "bytes": 22516,
+      "sha256": "5acb3b8ce5fa3f169873db04c319ddada5681b7494b80028568d76778764a979"
+    },
+    {
+      "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+      "bytes": 33036,
+      "sha256": "ff1eb8b8b1fbe6a4f6c6a74cd9d04991db7d7f29a62f9fc490482f075668429f"
+    }
+  ],
+  "original_queries": 0,
+  "restore": "NOT_RUN",
+  "packaging": "NOT_RUN",
+  "native": "NOT_RUN"
+}

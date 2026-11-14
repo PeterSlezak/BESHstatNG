@@ -1,0 +1,8 @@
+on
+
+    ''' <summary>
+    ''' Imports a complete numeric matrix and optional header row for repeated-measures and multivariate UDFs.
+    ''' </summary>
+    Friend Function TryGetCompleteNumericMatrixWithHeaders(input As Object,
+                                                           ByRef mat As Double(,),
+                      

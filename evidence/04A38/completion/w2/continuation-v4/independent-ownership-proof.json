@@ -1,0 +1,88 @@
+{
+  "result": {
+    "status": "INDEPENDENT_C4_PARTIAL_OWNERSHIP_PASS_NOT_READY",
+    "historical": {
+      "total": 704,
+      "closed": 166,
+      "OPEN": 538
+    },
+    "current": {
+      "total": 717,
+      "closed": 169,
+      "OPEN": 548
+    },
+    "support": {
+      "raw": 325,
+      "distinct": 303,
+      "distinct_closed": 234,
+      "distinct_OPEN": 69
+    },
+    "fragments": {
+      "total": 15768,
+      "branches": 3678,
+      "inline": 1093,
+      "covered": 858
+    },
+    "retained_context": {
+      "status": "FRESH_RETAINED_METHOD_FIELD_STATIC_GENERIC_CONTEXT_PASS_NOT_READY",
+      "configurations": [
+        {
+          "configuration": "Debug",
+          "existing_current_methods_exact": 1628,
+          "existing_types_exact": 162,
+          "changed_methods": [
+            "BESHStatNG.UdfLinearAlgebra::TryInvertMatrix",
+            "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38::TryInvertMatrix",
+            "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1",
+            "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_MCP",
+            "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_WELCH"
+          ],
+          "prior_whole_CIL_proofs_exact": 39
+        },
+        {
+          "configuration": "Release",
+          "existing_current_methods_exact": 1628,
+          "existing_types_exact": 162,
+          "changed_methods": [
+            "BESHStatNG.UdfLinearAlgebra::TryInvertMatrix",
+            "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38::TryInvertMatrix",
+            "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1",
+            "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_MCP",
+            "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_WELCH"
+          ],
+          "prior_whole_CIL_proofs_exact": 39
+        }
+      ],
+      "raw_IL_metadata_tokens": "Raw hashes retained; only token-bearing raw hash excluded from semantic equality. All resolved instructions/operands/branches/locals/EH/params/fields/initializers remain mandatory.",
+      "original_queries": 0
+    },
+    "new_proven_bodies": 35,
+    "public_ANOVA_bodies": "OPEN:remaining import/output dependencies",
+    "text": {
+      "status": "CURRENT_DOMAIN_EQUIVALENCE_PASS_NOT_GLOBAL_TEXT_IDENTITY",
+      "direct_lines": 59,
+      "direct_calls": 145,
+      "CaseToken_sites": 64,
+      "choices": 750,
+      "comparisons_per_configuration": 1608882,
+      "source_domain_differences": 0,
+      "raw_synthetic_differences_per_configuration": 8,
+      "policy_unchanged": true,
+      "original_queries": 0
+    },
+    "original_queries": 0
+  },
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v4\\verify_ownership.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 2.596157399995718,
+    "stdout_sha256": "a93436f103f9522a82edf7f942d2c6809e70cc8b58fac18c02114ae3cdbfeb52",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

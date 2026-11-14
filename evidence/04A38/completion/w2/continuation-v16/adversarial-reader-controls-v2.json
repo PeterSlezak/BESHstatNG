@@ -1,0 +1,74 @@
+{
+  "status": "ALL_REAL_READER_AND_SAFE_PATH_CONTROLS_REJECTED",
+  "controls": [
+    {
+      "name": "changed live source",
+      "status": "REJECTED",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "reason": "Sealed v16 input changed BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb"
+    },
+    {
+      "name": "missing live source",
+      "status": "REJECTED",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+      "reason": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb"
+    },
+    {
+      "name": "unsupported historical closure",
+      "status": "REJECTED",
+      "path": "evidence/04A38/completion/w2/continuation-v16/historical-ownership-v1.json",
+      "reason": "Sealed v16 input changed evidence/04A38/completion/w2/continuation-v16/historical-ownership-v1.json"
+    },
+    {
+      "name": "deferred Release falsely labelled PASS",
+      "status": "REJECTED",
+      "path": "evidence/04A38/completion/w2/continuation-v16/validation-v1.json",
+      "reason": "Sealed v16 input changed evidence/04A38/completion/w2/continuation-v16/validation-v1.json"
+    },
+    {
+      "name": "changed frozen late-reference input",
+      "status": "REJECTED",
+      "path": "evidence/04A38/late-archived-entry-supplement/v1/inputs-Debug.jsonl",
+      "reason": "Changed source/evidence evidence/04A38/late-archived-entry-supplement/v1/inputs-Debug.jsonl"
+    },
+    {
+      "name": "late provenance relabelled as pre-edit",
+      "status": "REJECTED",
+      "path": "evidence/04A38/completion/w2/continuation-v16/compatibility-combined-v3.json",
+      "reason": "Sealed v16 input changed evidence/04A38/completion/w2/continuation-v16/compatibility-combined-v3.json"
+    },
+    {
+      "name": "modified predecessor reader",
+      "status": "REJECTED",
+      "path": "evidence/04A38/completion/w2/continuation-v15/verify_c15_checkpoint_v1.py",
+      "reason": "Sealed v16 input changed evidence/04A38/completion/w2/continuation-v15/verify_c15_checkpoint_v1.py"
+    },
+    {
+      "name": "unsafe extraction path",
+      "path": "../escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe extraction path",
+      "path": "/absolute",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe extraction path",
+      "path": "C:/absolute",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe extraction path",
+      "path": "a/../../escape",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unsafe extraction path",
+      "path": "a\\escape",
+      "status": "REJECTED"
+    }
+  ],
+  "positive": "Final actual positive reader command is separately recorded. Negative runs fail before predecessor execution; no test suite or historical scanner repeated.",
+  "original_queries": 0
+}

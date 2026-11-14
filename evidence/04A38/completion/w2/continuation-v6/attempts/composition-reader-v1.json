@@ -1,0 +1,12 @@
+{
+  "status": "SOURCE_RECONSTRUCTION_GUARD_RETAINED",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/verify_source_composition_v1.py",
+    "bytes": 7135,
+    "sha256": "a04fe98ebcdf1549cb1d5f9dbb2cf552f86285e4296b6f84165618e15afed84d"
+  },
+  "failure": "Exact source-token guard rejected explicit For i As Integer versus original inferred For i; both are Int32 loops over the same Int32 count.",
+  "correction": "Normalize only that explicit Int32 declaration in the pair-column reconstruction. Keep all expressions, array allocation/order and complete metadata checks.",
+  "production_changes": 0,
+  "original_queries": 0
+}

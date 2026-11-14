@@ -1,0 +1,50 @@
+{
+  "role": "original",
+  "configuration": "Debug",
+  "mode": "repeat",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/input-seal.json",
+    "bytes": 6084,
+    "sha256": "5a78297ef1b45c95f3c4f23dd079a9bcc55ec79c067f1ee27465f6a50bb59708"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 38400,
+    "sha256": "d5ff317e367d5cd08981f7886392e9e98c90d9df7ea132b28c634a7d65753b53"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Debug/repeat/execution.json",
+      "bytes": 1017,
+      "sha256": "155fe8d92a1980c538e8512e4db136ab4e9528a95c2ff96a2d566a81c2dc1c90"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Debug/repeat/results.tsv",
+      "bytes": 64486,
+      "sha256": "fb1372bc77b3cb05b8e0c6964522e10ac6b94c04760eb1ba0e8c7d6490005f4c"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Debug/repeat/results.tsv.sessions.json",
+      "bytes": 29607,
+      "sha256": "f9ca1d37eee3adf9772a1f660b02dd7ae6f90c391657283981c0fd057d786c75"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v4\\original-Debug-plain-v2\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v4\\original-Debug-plain-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\inputs-Debug.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\original-results\\Debug\\repeat\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\original-results\\Debug\\repeat\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.37325020000571385,
+    "stdout_sha256": "5d37f4a223ad596de91c609f6e8ed7ba20ebb58157bbdfb9ec8dd85480c549d0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

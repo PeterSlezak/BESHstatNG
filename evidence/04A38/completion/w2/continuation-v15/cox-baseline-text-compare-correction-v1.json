@@ -1,0 +1,26 @@
+{
+  "before": {
+    "path": "BESHStat.Excel.Common/src/Results/UdfCoxGeeReportPreparation38.vb",
+    "bytes": 10406,
+    "sha256": "0db44ec5ecdb028494855ab21481bb757babfc3e48f7aeaed4e65c9ba2949c8a"
+  },
+  "after": {
+    "path": "BESHStat.Excel.Common/src/Results/UdfCoxGeeReportPreparation38.vb",
+    "bytes": 10562,
+    "sha256": "76d311b4573107121d8825b6f17c74acc45e560ea51bbaf87e7520b145f4821c"
+  },
+  "replacements": 6,
+  "retained_preimage": "source-provisional/before-text-compare-correction-v1/BESHStat.Excel.Common/src/Results/UdfCoxGeeReportPreparation38.vb.txt",
+  "current_only_regression": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/focused-text-defect-v1-packet-v2-Debug.json",
+    "bytes": 4171,
+    "sha256": "638124d1af73da38142614ed93935c1c3e2e683f59ecf8fc11f60e22ae9b84b8"
+  },
+  "regression_outcomes": {
+    "Failed": 3
+  },
+  "correction": "Six moved comparisons now call unchanged LegacyUdfText38.EqualText. The earlier intent text said five; actual complete source/CIL review shows six moved comparisons plus two retained host plot comparisons.",
+  "original_queries": 0,
+  "first_comprehensive_campaign": "RETAINED_NONFINAL_AFTER_SOURCE_CORRECTION",
+  "replacement_comprehensive_Debug": "REQUIRES_OWNER_EXACT_ONCE_EXCEPTION"
+}

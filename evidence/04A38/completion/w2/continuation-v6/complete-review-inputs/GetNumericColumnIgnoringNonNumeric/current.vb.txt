@@ -1,0 +1,3 @@
+Friend Function GetNumericColumnIgnoringNonNumeric(input As Object, ByRef err As ExcelError?) As Double()
+        Return ExtractNumericColumnIgnoringNonNumeric(input, err)
+    End Function

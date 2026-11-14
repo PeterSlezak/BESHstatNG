@@ -1,0 +1,42 @@
+{
+  "resolved": [
+    {
+      "subject": "Entry branch/inline labels",
+      "reported": "Original70/3678 branches;19/1093 inline",
+      "observed": {
+        "original": {
+          "total": 20683,
+          "branches": 5511,
+          "inline": 1397,
+          "covered": 3303,
+          "branches_covered": 941,
+          "inline_covered": 136
+        },
+        "current": {
+          "total": 15768,
+          "branches": 3678,
+          "inline": 1093,
+          "covered": 858,
+          "branches_covered": 70,
+          "inline_covered": 19
+        },
+        "whole_universe_closed": false
+      },
+      "resolution": "Reported fractions are the v4 CURRENT syntax universe. Immutable original crosswalk separately contains941/5511 covered branches and136/1397 covered inline. Neither universe relabeled or rewritten."
+    },
+    {
+      "subject": "v4 validation text-domain string",
+      "reported": "1568736 checks/config in validation.json",
+      "resolution": "Stale descriptive string only; v4 owner report and actual final v5 observer record1608882 checks/config,3849 values,418 observations. Exact v4 bytes retained. No global EqualText/CaseToken policy change."
+    },
+    {
+      "subject": "Long v4 publication entry reader",
+      "resolution": "3777 payload hashes and individual semantic readers passed before C5 edits; late combined reader reached live source after edits. Failed receipt retained; exact authenticated historical-view replay passed."
+    },
+    {
+      "subject": "Reader executable MVID",
+      "resolution": "Only newly compiled metadata-reader executable identity differed; original DLLs, complete methods/types and other loaded modules match exactly; initial rejection retained."
+    }
+  ],
+  "unresolved_mandatory_entry_failures": []
+}

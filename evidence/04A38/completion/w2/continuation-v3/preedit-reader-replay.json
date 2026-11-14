@@ -1,0 +1,58 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v3\\recheck_preedit.py"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 20.24627679999685,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "6a7c6d3995b9b162087bb52941654732c4dc31b9a3e4a13ffe955ee2e998477f",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "tests": {
+    "label": "w2c3-earlier-reader-preedit-isolated",
+    "total": 28,
+    "passed": 28,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "6a7c6d3995b9b162087bb52941654732c4dc31b9a3e4a13ffe955ee2e998477f",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_case_descriptor_edit_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_descriptor_edit_rejected)",
+      "test_case_duplicate_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_duplicate_rejected)",
+      "test_case_omission_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_omission_rejected)",
+      "test_case_recorder_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_recorder_change_rejected)",
+      "test_case_reorder_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_reorder_rejected)",
+      "test_compiled_metadata_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_compiled_metadata_change_rejected)",
+      "test_drive_path_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_drive_path_rejected)",
+      "test_essential_grid_missing_cell_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_essential_grid_missing_cell_rejected)",
+      "test_essential_grid_unexpected_cell_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_essential_grid_unexpected_cell_rejected)",
+      "test_false_golden_receipt_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_false_golden_receipt_rejected)",
+      "test_false_outcome_accounting_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_false_outcome_accounting_rejected)",
+      "test_false_registration_census_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_false_registration_census_rejected)",
+      "test_false_trace_member_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_false_trace_member_rejected)",
+      "test_native_attempt_receipt_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_native_attempt_receipt_rejected)",
+      "test_original_and_repeats_cannot_refresh_expected_output (preedit38_unchanged_test.PreeditReaderAdverseTests.test_original_and_repeats_cannot_refresh_expected_output)",
+      "test_original_result_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_original_result_change_rejected)",
+      "test_path_traversal_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_path_traversal_rejected)",
+      "test_rehashed_source_inventory_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_rehashed_source_inventory_rejected)",
+      "test_release_result_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_release_result_change_rejected)",
+      "test_repeat_result_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_repeat_result_change_rejected)",
+      "test_reserved_windows_path_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_reserved_windows_path_rejected)",
+      "test_source_corruption_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_source_corruption_rejected)",
+      "test_trace_case_omission_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_trace_case_omission_rejected)",
+      "test_trace_result_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_trace_result_change_rejected)",
+      "test_untouched_original_view_passes (preedit38_unchanged_test.PreeditReaderAdverseTests.test_untouched_original_view_passes)",
+      "test_windows_backslash_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_windows_backslash_rejected)",
+      "test_windows_trailing_dot_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_windows_trailing_dot_rejected)",
+      "test_wrong_entry_commit_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_wrong_entry_commit_rejected)"
+    ],
+    "nonpasses": []
+  },
+  "scope": "Unchanged historical reader and original snapshots; fresh private adverse output only",
+  "new_original_queries": 0
+}

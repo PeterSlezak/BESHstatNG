@@ -1,0 +1,6 @@
+Friend Function TryGetIndependentNumericColumns(x As Object,
+                                                    y As Object,
+                                                    ByRef groups()() As Double,
+                                                    ByRef names() As String) As Boolean
+        Return TryReadIndependentNumericColumns(x, y, groups, names)
+    End Function

@@ -1,0 +1,11 @@
+{
+  "exit_code": 1,
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/verify_p1_v3.py",
+    "bytes": 13935,
+    "sha256": "7fd553e9e9120beafb56df2a8e6bfc4d1b6822723fdfc209c5a3419c29b2efa1"
+  },
+  "error": "Header dependency changed",
+  "diagnosis": "Original local rows = arr.GetLength(0) is supplied once at the current native call boundary. Reader v3 retained a spurious Dim rows = rows declaration after substituting the parameter. v4 maps that exact former local into the verified native argument; all branches and call counts remain checked.",
+  "product_changed": false
+}

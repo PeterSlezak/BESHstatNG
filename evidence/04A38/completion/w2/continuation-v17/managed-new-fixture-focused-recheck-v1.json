@@ -1,0 +1,464 @@
+{
+  "configuration": "Debug",
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/production-test-freeze-v5.json",
+    "bytes": 97798,
+    "sha256": "0e6118900efe7ad0e058ab318b228e755a926c760ebf14d3d18362ba3de1fcb9"
+  },
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\w2c17-new-fixture-correction-v1\\Debug\\portable\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\w2c17-new-fixture-correction-v1\\Debug\\obj\\Common\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 3.2604622000071686,
+      "stdout_sha256": "7258a133865a4a147f4037683d2e046a5cdaa665d2d603b1fec16f6102713883",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\w2c17-new-fixture-correction-v1\\Debug\\legacy\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\w2c17-new-fixture-correction-v1\\Debug\\obj\\Legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.2309698999888496,
+      "stdout_sha256": "859b67bf12942ea42fb169411d241c381d763305a345256818e93fd46993854e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "results": [
+    {
+      "records": [
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Migrated17SelectorsRetainWindowsTextComparisonForWidthAndCase",
+          "test_name": "Migrated17SelectorsRetainWindowsTextComparisonForWidthAndCase",
+          "outcome": "Passed",
+          "duration": "00:00:00.0014538",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap",
+          "test_name": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap (\"DIAG\",\"Diagonal\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000089",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Mmrm17AlignmentDropsCompleteRowsInOriginalOrderAndRetainsVisitAlignment",
+          "test_name": "Mmrm17AlignmentDropsCompleteRowsInOriginalOrderAndRetainsVisitAlignment",
+          "outcome": "Passed",
+          "duration": "00:00:00.0043758",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Zip17MaterializationPadsTruncatesAndRetainsOneEmptyRow",
+          "test_name": "Zip17MaterializationPadsTruncatesAndRetainsOneEmptyRow",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004442",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Mmrm17AbsoluteFormulaRejectsMissingRangeBeforeParsing",
+          "test_name": "Mmrm17AbsoluteFormulaRejectsMissingRangeBeforeParsing",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001126",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap",
+          "test_name": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap (\"exchangeable\",\"CS\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005370",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Mmrm17FormulaBlankClonesNamesAndRetainsRawColumnOrder",
+          "test_name": "Mmrm17FormulaBlankClonesNamesAndRetainsRawColumnOrder",
+          "outcome": "Passed",
+          "duration": "00:00:00.0011888",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap",
+          "test_name": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap (\"auto-regressive\",\"AR(1)\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000105",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Response17IntegerRejectionRetainsThePartialByRefArray",
+          "test_name": "Response17IntegerRejectionRetainsThePartialByRefArray",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004637",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Survival17WeightAliasesRemainOriginal",
+          "test_name": "Survival17WeightAliasesRemainOriginal (\"peto-peto\",\"peto\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000065",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Survival17WeightAliasesRemainOriginal",
+          "test_name": "Survival17WeightAliasesRemainOriginal (\"anderson\",\"modified peto\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000063",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Survival17WeightAliasesRemainOriginal",
+          "test_name": "Survival17WeightAliasesRemainOriginal (\"LR\",\"logrank\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0002620",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap",
+          "test_name": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap (\"ID\",\"Identity\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0047505",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap",
+          "test_name": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap (\"UN\",\"UN\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000097",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Categorical17AllResidualBlocksKeepDifferentObservedColumnShapes",
+          "test_name": "Categorical17AllResidualBlocksKeepDifferentObservedColumnShapes",
+          "outcome": "Passed",
+          "duration": "00:00:00.0014148",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap",
+          "test_name": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap (\"TOEPH\",\"Heterogeneous Toeplitz (TOEPH)\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000129",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Mmrm17LetterMappingUsesFirstDuplicateAndFallbackWithoutChangingSource",
+          "test_name": "Mmrm17LetterMappingUsesFirstDuplicateAndFallbackWithoutChangingSource",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006055",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Mmrm17AlignmentNoValidRowsPreservesFailureAndUnpublishedOutputs",
+          "test_name": "Mmrm17AlignmentNoValidRowsPreservesFailureAndUnpublishedOutputs",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003273",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap",
+          "test_name": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap (\"TOEP\",\"Toeplitz (TOEP)\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000095",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Survival17WeightAliasesRemainOriginal",
+          "test_name": "Survival17WeightAliasesRemainOriginal (\"wilcoxon\",\"gehan-breslow\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001710",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap",
+          "test_name": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap (\"CSH\",\"Heterogeneous CS\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000093",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Mmrm17StackingKeepsBlankSeparatorsAndOriginalColumnWidths",
+          "test_name": "Mmrm17StackingKeepsBlankSeparatorsAndOriginalColumnWidths",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004298",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Survival17WeightAliasesRemainOriginal",
+          "test_name": "Survival17WeightAliasesRemainOriginal (\"ware\",\"tarone-ware\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000067",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UnknownResetsOnlyItsNewOutParameterAndOldStringApiReturnsOriginalReference",
+          "test_name": "CovarianceClassifier17UnknownResetsOnlyItsNewOutParameterAndOldStringApiReturnsOriginalReference",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004446",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap",
+          "test_name": "CovarianceClassifier17UsesTheSingleCanonicalAliasMap (\"ARH\",\"Heterogeneous AR(1)\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000092",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "CovarianceClassifier17BlankAndByRefAliasDefaultsRetainValues",
+          "test_name": "CovarianceClassifier17BlankAndByRefAliasDefaultsRetainValues",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000944",
+          "message": ""
+        }
+      ],
+      "outcomes": {
+        "Passed": 26
+      },
+      "counters": {
+        "total": "26",
+        "executed": "26",
+        "passed": "26",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "sha256": "9b6070fcb112bedb9b4756bc1434f5df4e32e32b8d4ca23e10b9df7a8c6aa7f4",
+      "configuration": "Debug",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w2c17-new-fixture-correction-v1-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w2c17-new-fixture-correction-v1-Common\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-new-fixture-correction-v1-Common\\results",
+          "/Logger:trx;LogFileName=Common.trx",
+          "/TestCaseFilter:FullyQualifiedName~UdfContinuation17Tests"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.8090520999976434,
+        "stdout_sha256": "5e839604f537df8dd26d22fdf459b22abf3deb3a41d37572d8dcdf167b1de7f2",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "records": [
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17ConversionExceptionPropagatesFromTheOriginalStage",
+          "test_name": "Covariance17ConversionExceptionPropagatesFromTheOriginalStage (1)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0017405",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17ConversionExceptionPropagatesFromTheOriginalStage",
+          "test_name": "Covariance17ConversionExceptionPropagatesFromTheOriginalStage (2)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003574",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17KnownOrBlankConvertsExactlyOnce",
+          "test_name": "Covariance17KnownOrBlankConvertsExactlyOnce (unstructured,UN)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000121",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17KnownOrBlankConvertsExactlyOnce",
+          "test_name": "Covariance17KnownOrBlankConvertsExactlyOnce (toep-h,Heterogeneous Toeplitz (TOEPH))",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000112",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17KnownOrBlankConvertsExactlyOnce",
+          "test_name": "Covariance17KnownOrBlankConvertsExactlyOnce (   ,default)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000214",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17KnownOrBlankConvertsExactlyOnce",
+          "test_name": "Covariance17KnownOrBlankConvertsExactlyOnce (,default)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0963852",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17BothConversionsObserveTheNativeCurrentCulture",
+          "test_name": "Covariance17BothConversionsObserveTheNativeCurrentCulture ()",
+          "outcome": "Passed",
+          "duration": "00:00:00.0311847",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17KnownOrBlankConvertsExactlyOnce",
+          "test_name": "Covariance17KnownOrBlankConvertsExactlyOnce (identity,Identity)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0019865",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17UnknownReevaluatesAndReturnsSecondTrimmedValueWithoutRemapping",
+          "test_name": "Covariance17UnknownReevaluatesAndReturnsSecondTrimmedValueWithoutRemapping",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001115",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17MissingNullAndExcelErrorKeepHostConversionPolicy",
+          "test_name": "Covariance17MissingNullAndExcelErrorKeepHostConversionPolicy",
+          "outcome": "Passed",
+          "duration": "00:00:00.0009453",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Mmrm17NoInterceptRetainsOriginalArrayAliasAndNullPrecedence",
+          "test_name": "Mmrm17NoInterceptRetainsOriginalArrayAliasAndNullPrecedence",
+          "outcome": "Passed",
+          "duration": "00:00:00.0036152",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17KnownOrBlankConvertsExactlyOnce",
+          "test_name": "Covariance17KnownOrBlankConvertsExactlyOnce ( hetero_geneous AR(1) ,Heterogeneous AR(1))",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000174",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Covariance17BothConversionsObserveTheNativeCurrentCulture",
+          "test_name": "Covariance17BothConversionsObserveTheNativeCurrentCulture (sk-SK)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001062",
+          "message": ""
+        }
+      ],
+      "outcomes": {
+        "Passed": 13
+      },
+      "counters": {
+        "total": "13",
+        "executed": "13",
+        "passed": "13",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "sha256": "dcf8eb0fae8122c7053d5a71e56e5f5ded907636e9aac7f711c055483a01c036",
+      "configuration": "Debug",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\executions\\w2c17-new-fixture-correction-v1-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w2c17-new-fixture-correction-v1-Legacy\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-new-fixture-correction-v1-Legacy\\results",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+          "/Logger:trx;LogFileName=Legacy.trx",
+          "/TestCaseFilter:FullyQualifiedName~Covariance17|FullyQualifiedName~Mmrm17NoInterceptRetainsOriginalArrayAliasAndNullPrecedence"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.459409000002779,
+        "stdout_sha256": "8e7edc003db9e8f1b5e40d273212e2b01acbf8dc25f1003f9f6bfb053c418934",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "scope": "ONLY39_NEW_V17_IDENTITIES;NO_SECOND_FULL_CAMPAIGN;PRODUCTION_IDENTICAL_TO_COMPREHENSIVE_FREEZE4",
+  "full_campaign": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/managed-full-execution-v1.json",
+    "bytes": 1143,
+    "sha256": "924b09ac7eb220332dfce4e9d87d5fd375d8fbc4e1791d21784e11421ddc28e0"
+  },
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+}

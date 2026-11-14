@@ -1,0 +1,19 @@
+{
+  "status": "PUBLIC_ENVIRONMENT_REDACTION_ONLY",
+  "private_raw_receipt": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+    "bytes": 1360288,
+    "sha256": "950a88e9f77f809f25da4a4c2daf0e96374b70e29d2953c7a535d35178592367"
+  },
+  "public_view": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection-public.json",
+    "bytes": 1360261,
+    "sha256": "d856f6d81128d51fea83084f1f6048039846b9aa429bb66f55865ad0409de296"
+  },
+  "json_pointer": "/git/worktrees",
+  "replacement": "<REPO_ROOT>",
+  "retained": "Every other JSON field unchanged, including all4695 original source hashes,41 UDF snapshot proofs, Git identities and predecessor hashes",
+  "source_input_output_trace_normalization": false,
+  "publication_disposition": "EXCLUDE_PRIVATE_RAW_ENVIRONMENT_LOG; retain raw file locally byte-for-byte; publish this disclosure and public view",
+  "seal_references": "Original seals retain the raw diagnostic digest. The public reader independently pins the public view and original source against authenticated original-source metadata; no sealed statistical/input/source payload is omitted."
+}

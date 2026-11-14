@@ -355,39 +355,7 @@ Namespace WorksheetFunctions
                 Dim q As Integer = coef.Length
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim noteCount As Integer = If(h.PredictorCodingFootnotes Is Nothing, 0, h.PredictorCodingFootnotes.Length)
-                Dim outRows As Integer = q + If(hdr, 1, 0) + noteCount
-                Dim out(outRows - 1, 7) As Object
-
-                Dim r0 As Integer = 0
-                If hdr Then
-                    out(0, 0) = "Parameter"
-                    out(0, 1) = "Type"
-                    out(0, 2) = "Coef"
-                    out(0, 3) = "SE"
-                    out(0, 4) = "T"
-                    out(0, 5) = "P-value"
-                    out(0, 6) = $"{100.0 * (1.0 - alphaValue):0.##}% CI LCL"
-                    out(0, 7) = $"{100.0 * (1.0 - alphaValue):0.##}% CI UCL"
-                    r0 = 1
-                End If
-
-                Dim tCrit As Double = distributions.T_Inv_2T(alphaValue, dfResid)
-                For i As Integer = 0 To q - 1
-                    Dim pname As String = If(h.Model.results.bIntercept AndAlso i = 0,
-                                             "Intercept",
-                                             h.Model.results.varNames(i - If(h.Model.results.bIntercept, 1, 0)))
-                    Dim tVal As Double = If(se(i) > 0.0, coef(i) / se(i), Double.NaN)
-                    Dim pVal As Double = If(se(i) > 0.0, distributions.T_2T(Math.Abs(tVal), dfResid), Double.NaN)
-
-                    out(r0 + i, 0) = pname
-                    out(r0 + i, 1) = If(h.Model.results.bIntercept AndAlso i = 0, "Intercept", "Slope")
-                    out(r0 + i, 2) = coef(i)
-                    out(r0 + i, 3) = se(i)
-                    out(r0 + i, 4) = tVal
-                    out(r0 + i, 5) = pVal
-                    out(r0 + i, 6) = coef(i) - tCrit * se(i)
-                    out(r0 + i, 7) = coef(i) + tCrit * se(i)
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildLmCoefficientTable(h.Model, coef, se, dfResid, q, hdr, noteCount, alphaValue)
 
                 AppendFootnotesInPlace(out, q + If(hdr, 1, 0), h.PredictorCodingFootnotes)
                 Return PreparePValueTableForUdf(out, 6)
@@ -433,24 +401,7 @@ Namespace WorksheetFunctions
                 Dim n As Integer = labels.Length
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim noteCount As Integer = If(h.PredictorCodingFootnotes Is Nothing, 0, h.PredictorCodingFootnotes.Length)
-                Dim outRows As Integer = n + If(hdr, 1, 0) + noteCount
-                Dim out(outRows - 1, 3) As Object
-
-                Dim r0 As Integer = 0
-                If hdr Then
-                    out(0, 0) = "Item"
-                    out(0, 1) = "Value"
-                    out(0, 2) = "df"
-                    out(0, 3) = "P-value"
-                    r0 = 1
-                End If
-
-                For i As Integer = 0 To n - 1
-                    out(r0 + i, 0) = labels(i)
-                    out(r0 + i, 1) = vals(i, 0)
-                    out(r0 + i, 2) = vals(i, 1)
-                    out(r0 + i, 3) = vals(i, 2)
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildLmTestsTable(labels, vals, n, hdr, noteCount)
 
                 AppendFootnotesInPlace(out, n + If(hdr, 1, 0), h.PredictorCodingFootnotes)
                 Return PreparePValueTableForUdf(out, 4)
@@ -629,20 +580,7 @@ Namespace WorksheetFunctions
                         colIndex = 5 : colName = "Jackknife Residual"
                 End Select
 
-                Dim startRow As Integer = If(hdr, 0, 1)
-                Dim rowCount As Integer = fullTable.GetLength(0) - startRow
-                Dim out(rowCount - 1, 0) As Object
-
-                Dim r As Integer = 0
-                If hdr Then
-                    out(0, 0) = colName
-                    r = 1
-                End If
-
-                For i As Integer = 1 To fullTable.GetLength(0) - 1
-                    out(r, 0) = fullTable(i, colIndex)
-                    r += 1
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildLmResidualColumn(fullTable, hdr, colIndex, colName)
 
                 Return PrepareResultTableForUdf(out)
 
@@ -719,14 +657,8 @@ Namespace WorksheetFunctions
 
                 Dim nRows As Integer = imported.nRows
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, nRows + 1, nRows)
-                Dim out(outRows - 1, 0) As Object
-
                 Dim r0 As Integer = 0
-                If hdr Then
-                    out(0, 0) = "PredictedY"
-                    r0 = 1
-                End If
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.CreateLmPredictionTable(nRows, hdr, r0)
 
                 For i As Integer = 0 To nRows - 1
                     Dim pred As Double = 0.0
@@ -783,99 +715,38 @@ Namespace WorksheetFunctions
         ''' Parses the requested ANOVA-table selector into a canonical value.
         ''' </summary>
         Private Function ParseLmAnovaScope(v As Object) As String
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return "overall"
-
-            Select Case s.Trim().ToLowerInvariant()
-                Case "type1", "typei", "i", "seq", "sequential"
-                    Return "type1"
-                Case "type3", "typeiii", "iii", "partial"
-                    Return "type3"
-                Case Else
-                    Return "overall"
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.LinearModelUDFsOptions38.ParseLmAnovaScope(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         ''' <summary>
         ''' Parses the requested residual selector into a canonical value.
         ''' </summary>
         Private Function ParseLmResidualType(v As Object) As String
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return "all"
-
-            Select Case s.Trim().ToLowerInvariant()
-                Case "fitted", "fit", "mean", "pred", "prediction"
-                    Return "fitted"
-                Case "residual", "resid", "raw"
-                    Return "residual"
-                Case "leverage", "hat"
-                    Return "leverage"
-                Case "stdresid", "standardized", "standardizedresidual", "std", "studentized"
-                    Return "stdresid"
-                Case "cooksd", "cook", "cooks", "cooksdistance"
-                    Return "cooksd"
-                Case "jackknife", "press", "deleted"
-                    Return "jackknife"
-                Case Else
-                    Return "all"
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.LinearModelUDFsOptions38.ParseLmResidualType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         ''' <summary>
         ''' Returns a copy of the supplied table with a specified number of top rows removed.
         ''' </summary>
         Private Function DropTopRows(arr As Object(,), rowsToDrop As Integer) As Object(,)
-            If arr Is Nothing Then Return Nothing
-            If rowsToDrop <= 0 Then Return arr
+            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.DropTopRows(arr, rowsToDrop)
 
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rowsToDrop >= rows Then
-                Dim emptyOut(0, Math.Max(0, cols - 1)) As Object
-                Return emptyOut
-            End If
-
-            Dim out(rows - rowsToDrop - 1, cols - 1) As Object
-            For i As Integer = rowsToDrop To rows - 1
-                For j As Integer = 0 To cols - 1
-                    out(i - rowsToDrop, j) = arr(i, j)
-                Next
-            Next
-            Return out
         End Function
 
         ''' <summary>
         ''' Appends footnote rows to a table and returns the expanded array.
         ''' </summary>
         Private Function AppendFootnotes(arr As Object(,), notes As String()) As Object(,)
-            If arr Is Nothing Then Return Nothing
-            If notes Is Nothing OrElse notes.Length = 0 Then Return arr
+            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.AppendFootnotes(arr, notes)
 
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            Dim out(rows + notes.Length - 1, cols - 1) As Object
-
-            For i As Integer = 0 To rows - 1
-                For j As Integer = 0 To cols - 1
-                    out(i, j) = arr(i, j)
-                Next
-            Next
-
-            For i As Integer = 0 To notes.Length - 1
-                out(rows + i, 0) = notes(i)
-            Next
-
-            Return out
         End Function
 
         ''' <summary>
         ''' Writes footnote rows into an already-sized output matrix starting at the supplied row index.
         ''' </summary>
         Private Sub AppendFootnotesInPlace(arr As Object(,), startRow As Integer, notes As String())
-            If arr Is Nothing OrElse notes Is Nothing Then Exit Sub
-            For i As Integer = 0 To notes.Length - 1
-                arr(startRow + i, 0) = notes(i)
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.AppendFootnotesInPlace(arr, startRow, notes)
+
         End Sub
 
     End Module

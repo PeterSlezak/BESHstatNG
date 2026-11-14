@@ -1,0 +1,27 @@
+description></item>
+        '''   <item><description>At least 4 valid numeric pairs are required for the associated significance test.</description></item>
+        '''   <item><description><c>alpha</c> must satisfy 0 &lt; alpha &lt; 1.</description></item>
+        ''' </list>
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.NP.KENDALL_TAU(A2:A51, B2:B51)
+        ''' =BESH.NP.KENDALL_TAU(A2:A51, B2:B51, 0.1)
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.NP.KENDALL_TAU",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Kendall rank correlation coefficient (τb) for two paired samples.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
+        )>
+        Public Function KENDALL_TAU(
+            <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
+            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha for internal CI metadata; coefficient output is unchanged.")> Optional alpha As Object = Nothing) As Object
+
+            Dim err? As ExcelError = Nothing
+            Dim pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
+            If err.HasValue Then Return err.Value
+            If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.Exc

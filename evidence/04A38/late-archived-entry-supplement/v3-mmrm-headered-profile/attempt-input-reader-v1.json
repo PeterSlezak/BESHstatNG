@@ -1,0 +1,17 @@
+{
+  "phase": "INPUT_READER_BEFORE_ANY_MODEL_OR_QUERY_EXECUTION",
+  "commands": [
+    "<PYTHON> -B <V3>/verify_inputs.py",
+    "<PYTHON> -B <V3>/execute_original.py Debug plain",
+    "<PYTHON> -B <V3>/execute_original.py Debug repeat",
+    "<PYTHON> -B <V3>/execute_original.py Debug trace"
+  ],
+  "exit_codes": [1, 1, 1, 1],
+  "exception": "InvalidEvidence: Changed input seal",
+  "cause": "Reader transcription error: SHA256 literal had63 characters and omitted one hex digit. The independently read seal bytes had not changed.",
+  "correction": "Correct the reader literal to the independently recomputed64-character digest. Preserve the original reader source. No sealed input, source, receipt or output changed.",
+  "old_reader": "verify_inputs-attempt-v1.py.txt",
+  "model_executions": 0,
+  "query_executions": 0,
+  "current_comparisons": 0
+}

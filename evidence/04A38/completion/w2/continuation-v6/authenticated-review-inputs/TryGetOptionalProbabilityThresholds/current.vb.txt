@@ -1,0 +1,19 @@
+Friend Function TryGetOptionalProbabilityThresholds(arg As Object, ByRef thresholds() As Double) As Boolean
+        thresholds = Nothing
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return True
+
+        Dim scalarValue As Double
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(arg, scalarValue) Then
+            If Not IsValidProbability(scalarValue) Then Return False
+            thresholds = New Double() {ClampProbabilityValue(scalarValue)}
+            Return True
+        End If
+
+        Dim arr As Object(,) = Get2D(arg)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryReadProbabilityThresholdsPrepared(
+            rows, cols, Function(row, column, values) TryAppendProbabilityThreshold(arr(row, column), values), thresholds)
+    End Function

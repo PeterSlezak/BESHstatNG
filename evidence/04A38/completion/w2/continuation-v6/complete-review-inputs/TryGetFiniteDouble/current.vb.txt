@@ -1,0 +1,9 @@
+Public Function TryGetFiniteDouble(arg As Object, ByRef value As Double) As Boolean
+            Dim parsed As Double? = ExcelArgNumeric.TryGetDouble(arg)
+            If Not parsed.HasValue Then
+                value = Double.NaN
+                Return False
+            End If
+            value = parsed.Value
+            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
+        End Function

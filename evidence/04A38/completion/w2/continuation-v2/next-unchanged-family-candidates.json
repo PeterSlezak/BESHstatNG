@@ -1,0 +1,43 @@
+{
+  "status": "READ_ONLY_CANDIDATES_NOT_ADDED_TO_CLOSED_COUNTS",
+  "source": "Disjoint read-only worker independently reviewed actual v4 metadata and original/current sources; no file edits or original queries",
+  "candidates": [
+    {
+      "name": "CategoryHeaders",
+      "historical_suffix": "10a60d5f1f4a8061@3828:401",
+      "reason": "Exact full instructions/locals/EH original→portable bothconfigs; invariant formatting; current host edge"
+    },
+    {
+      "name": "SafeCiLabel",
+      "historical_suffix": "e5657115d6b65b15@368:258",
+      "reason": "Exact full IL bothconfigs; same null and repeated CIlabel getter timing"
+    },
+    {
+      "name": "SafeCiText",
+      "historical_suffix": "e6e26645997a95af@634:187",
+      "reason": "Exact full IL bothconfigs; preserve mutable CI cache/current-culture single-precision formatter and LL_to_UL enum1"
+    },
+    {
+      "name": "NormalizeMatchToken",
+      "historical_suffix": "c153721ea7532907@311:562",
+      "reason": "Exact full IL bothconfigs; null/trim/invariant case/separator order; no EqualText dependency"
+    },
+    {
+      "name": "NormalizeKey",
+      "historical_suffix": "85ca50ff31c8e32d@1599:156",
+      "reason": "Only reviewed NormalizeMatchToken relocation and identical False/True arguments"
+    },
+    {
+      "name": "CloneStringArray",
+      "historical_suffix": "8af0f670f324f0df@12561:185",
+      "reason": "Exact full IL bothconfigs; Nothing, shallow clone and array identity semantics"
+    }
+  ],
+  "keep_OPEN": {
+    "name": "TryInvertMatrix",
+    "historical_suffix": "4d1c333cd643ca30@512:910",
+    "reason": "Source operations and unchanged matrix engine match, but original Microsoft.VisualBasic.ProjectData catch calls differ from Core embedded ProjectData shim. Must prove exception/Err-state context; no full-body closure from a passing inversion example or call edge."
+  },
+  "new_reference_decision": "NONE_YET; investigate metadata/source/runtime context before deciding whether any authentic-original oracle is essential",
+  "new_original_queries": 0
+}

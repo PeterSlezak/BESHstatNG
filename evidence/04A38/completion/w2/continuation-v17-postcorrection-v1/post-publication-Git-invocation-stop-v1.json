@@ -1,0 +1,26 @@
+{
+  "failed_command": [
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-final-git-branch/command.json",
+      "bytes": 467,
+      "sha256": "9e321cdfa30f1ebc1cec273c76f1d5c9d4382cf9780f2eaac815cfc575abee56"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-final-git-branch/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-final-git-branch/stderr.log",
+      "bytes": 393,
+      "sha256": "af376a8a350dbe256aa86c00d51242402905853fb0dfb3de47147a8b73af452c"
+    }
+  ],
+  "failed_finalizer": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/finalize_postcorrection_v5.py",
+    "bytes": 8047,
+    "sha256": "beb938156e1eeb1085c180402c2d6f9d68450612662baf9ee561b8ce532dd484"
+  },
+  "reason": "Command omitted the exact per-invocation safe.directory ROOT flag already used by entry and unchanged common.git. Git refused the sandbox user versus owner SID before reading the branch. Restore that exact command-scoped flag; no global configuration, history or index change. Continue only unexecuted final Git/private/audit steps; no test/scanner/publication retry.",
+  "campaign_repeats": 0
+}

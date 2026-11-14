@@ -1,0 +1,82 @@
+"""Independent duplicate-guard source/input/runtime/chronology comparison reader.
+
+No producer, instrumenter or statistical implementation is imported.
+"""
+import base64,csv,json,re
+from datetime import datetime
+from pathlib import Path
+from verify_inputs import ROOT,PREFIX,BASE,KINDS,InvalidEvidence,need,load,digest,check_pin,inspect as inputs
+SEAL='c9f1c38bddee70d7f8ca722d85ff4db3bc1f79288a0ad237423bbca89fca26f3'
+PREVIOUS='evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/publication-manifest-closeout-v1.json'
+START=['spec.accepted=Intercept|treatment_active|visit2|visit3|treatment_active:visit2|treatment_active:visit3','parser.entry=True','headerless.attempted=False','header.name_col=0','header.value_col=1','branch.headered_name_value=True']
+EVENTS={
+ 'duplicate-visit-time':START+['headered.row=1','helper.entry=visit','helper.value=D3FF0000000000000','visit.previously_specified=False','visit.normalized_dispatch=visit','selection.visit=visit','selection.visit_value=D3FF0000000000000',
+      'headered.row=2','helper.entry=time','helper.value=D4000000000000000','visit.previously_specified=True','visit.normalized_dispatch=time','guard.duplicate_visit_time=True'],
+ 'duplicate-fitted-column':START+['headered.row=1','helper.entry=treatment_active','helper.value=D3FF0000000000000','design.resolved_index=1','design.existing_count=0','selection.design=treatment_active',
+      'headered.row=2','helper.entry=TREATMENT_ACTIVE','helper.value=D4000000000000000','design.resolved_index=1','design.existing_count=1','design.existing_index=1','guard.duplicate_design=True']}
+MESSAGES={
+ 'duplicate-visit-time':'BESH.REGR.MMRM_LSMESTIMATE error: at specifies visit/time more than once.',
+ 'duplicate-fitted-column':'BESH.REGR.MMRM_LSMESTIMATE error: at specifies design column "treatment_active" more than once.'}
+def time(s):return datetime.fromisoformat(s.replace('Z','+00:00'))
+
+def inspect(root=ROOT):
+ root=Path(root);here=root/PREFIX;inputs(root)
+ need(digest((here/'original-output-seal.json').read_bytes())==SEAL,'Original output/source/chronology seal changed')
+ seal=load(here/'original-output-seal.json')
+ need(seal['status']=='ORIGINAL_OUTPUT_SEALED' and seal['sequence']==2 and seal['source_commit']==BASE and seal['reference_class']=='LATE_ARCHIVED_ENTRY_SUPPLEMENT','Wrong original seal/provenance')
+ need(seal['current_executions']==0 and seal['current_compilation']=='NOT_STARTED' and seal['is_pre_edit_frozen'] is False,'Late/postcomparison seal or pre-edit relabel')
+ for row in seal['files']:check_pin(root,row)
+ entry=load(here/'entry-inspection.json');check_pin(root,entry['predecessor_manifest'])
+ for row in load(root/PREVIOUS)['entries']:
+  if row['sha256'] is not None:check_pin(root,row)
+ input_time=time(load(here/'input-seal.json')['sealed_utc']);output_time=time(seal['sealed_utc']);need(input_time<output_time,'Broken input/output seal order')
+ results={}
+ for config in ['Debug','Release']:
+  original=here/'original-results'/config;current=here/'current-results'/config
+  raw=(original/'plain/results.tsv').read_bytes()
+  need(raw==(original/'repeat/results.tsv').read_bytes()==(original/'trace/results.tsv').read_bytes()==(current/'results.tsv').read_bytes(),'Full output bytes differ/omitted/reordered/normalized')
+  need((original/'trace/results.tsv.branches.json').read_bytes()==(current/'results.tsv.branches.json').read_bytes(),'Actual original/current branch traces differ')
+  lines=(here/('inputs-'+config+'.jsonl')).read_bytes().splitlines(keepends=True);cases=[json.loads(line) for line in lines]
+  with (original/'plain/results.tsv').open(encoding='utf-8',newline='') as stream:rows=list(csv.DictReader(stream,delimiter='\t'))
+  traces=load(original/'trace/results.tsv.branches.json')
+  need([r['case_id'] for r in rows]==[r['case_id'] for r in traces]==[c['case_id'] for c in cases],'Missing/reordered/extra case IDs')
+  current_receipt=load(here/('current-execution-'+config+'.json'))
+  need(current_receipt['role']=='current' and current_receipt['original_output_seal']['sha256']==SEAL,'Current did not bind sealed original')
+  for row in current_receipt['files']:check_pin(root,row)
+  allowed={mode:{r['name']:r for r in load(here/('compile-original-'+config+'-'+mode+'.json'))['assemblies']} for mode in ['plain','trace']}
+  for mode in ['plain','repeat','trace']:
+   runtime=load(original/mode/'execution.json')
+   need(runtime['role']=='original' and runtime['configuration']==config and runtime['cases']==4 and runtime['source_commit']==BASE and runtime['native_attempts']==0 and runtime['reference_class']=='LATE_ARCHIVED_ENTRY_SUPPLEMENT','Wrong original runtime/source/count/native boundary')
+   need(input_time<time(runtime['started_utc'])<=time(runtime['completed_utc'])<output_time,'Original outside sealed chronology')
+   expected=allowed['trace' if mode=='trace' else 'plain']
+   for assembly in runtime['assemblies']:
+    need(assembly['name']+'.dll' in expected,'Foreign original assembly')
+    target=expected[assembly['name']+'.dll'];need((assembly['bytes'],assembly['sha256'])==(target['bytes'],target['sha256']) and re.fullmatch('[0-9a-f-]{36}',assembly['mvid']),'Wrong original loaded module')
+  runtime=load(current/'execution.json')
+  need(runtime['role']=='current' and runtime['configuration']==config and runtime['cases']==4 and runtime['native_attempts']==0 and time(runtime['started_utc'])>output_time,'Current before seal or wrong runtime/count')
+  old_sessions=load(original/'plain/results.tsv.sessions.json');new_sessions=load(current/'results.tsv.sessions.json');need(len(old_sessions)==len(new_sessions)==4,'Lost model/session context')
+  detail=[]
+  for i,(case,row,trace,old,new) in enumerate(zip(cases,rows,traces,old_sessions,new_sessions)):
+   kind=case['case_kind'];need(row['input_sha256']==digest(lines[i]),'Runtime input differs from sealed packet')
+   need(trace['culture']==case['culture'] and trace['operations'][1]['events']==EVENTS[kind],'Earlier guard/fabricated witness/incorrect true branch/index/order')
+   ops=json.loads(row['operations']);need(len(ops)==2,'Unapproved extra operation')
+   fit,query=ops
+   need(fit['target']=='BESH.REGR.MMRM_FIT' and fit['kind']=='HANDLE_CREATED' and fit['result']=='HANDLE:MMRM:SESSION1','Not real successful original/current fit')
+   need(query['target']=='BESH.REGR.MMRM_LSMESTIMATE' and query['kind']=='RETURN_TEXT' and query['result']=='S'+base64.b64encode(MESSAGES[kind].encode()).decode(),'Wrong original/public guard outcome/type/text')
+   for op in ops:need(op['phase']=='RETURNED_FROM_SOURCE' and op['error']=='None' and op['caught_errors']==[] and op['input']==op['byref_arguments'],'Changed argument/ByRef/exception side effects')
+   for session in [old,new]:
+    need(session['case_id']==case['case_id'] and session['parameter_names']==case['session']['expected_parameter_names'] and session['creation_order']==1 and session['symbol']=='HANDLE:MMRM:SESSION1','Lost fixed-design/real session provenance')
+    need(re.fullmatch('MMRM:[0-9a-f]{32}',session['raw_handle']),'Synthetic handle')
+   need({k:v for k,v in old.items() if k!='raw_handle'}=={k:v for k,v in new.items() if k!='raw_handle'},'Fitted matrix/visits/source rows/IEEE bits differ')
+   qb=json.dumps(query,ensure_ascii=False,separators=(',',':')).encode()
+   detail.append(dict(case_id=case['case_id'],culture=case['culture'],kind=kind,exact=True,true_guard_observed=True,outcome='RETURN_TEXT',returned_report=False,
+      input_sha256=row['input_sha256'],original_query_sha256=digest(qb),current_query_sha256=digest(qb),decoded_result=MESSAGES[kind],events=EVENTS[kind]))
+  results[config]=dict(unique_cases=4,exact=4,visit_time_guard_cases=2,design_guard_cases=2,returned_reports=0,original_executions=12,current_executions=4,
+      result_bytes=len(raw),original_sha256=digest(raw),current_sha256=digest((current/'results.tsv').read_bytes()),cases=detail)
+ report=dict(status='MMRM_DUPLICATE_GUARD_EVIDENCE_PASS_NOT_BATCH_READY',configurations=results,reference_class='LATE_ARCHIVED_ENTRY_SUPPLEMENT',
+      distinct_components_per_configuration=dict(genuine_preedit=28966,late432=432,lateGEE=12,lateMMRMheadered=2,lateMMRMduplicate=4),native='NOT_RUN',scientific='NOT_GOLDEN')
+ if (here/'compatibility-comparison.json').exists():need(load(here/'compatibility-comparison.json')==report,'Producer comparison differs from independent byte/branch analysis')
+ return report
+if __name__=='__main__':
+ try:print(json.dumps(inspect()))
+ except (ValueError,OSError,KeyError,TypeError) as e:print(json.dumps(dict(status='NOT_READY_04A38',error=str(e))));raise SystemExit(1)

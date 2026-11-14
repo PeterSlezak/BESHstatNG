@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 Option Strict On
 
 Imports System
@@ -78,23 +78,15 @@ Namespace WorksheetFunctions
         End Class
 
         Private Class GeeLsmEstimateProfileValue
-            Public Property Name As String
-            Public Property ColumnIndex As Integer
-            Public Property Value As Double
+            Inherits Global.BESHStatNG.ExcelCommon.UdfLsmProfileValue38
         End Class
 
         Private Class GeeLsmEstimateComponent
-            Public Property Label As String
-            Public Property Weight As Double
-            Public Property TimeSpecified As Boolean
-            Public Property TimeValue As Double
-            Public Property ProfileValues As New List(Of GeeLsmEstimateProfileValue)()
+            Inherits Global.BESHStatNG.ExcelCommon.UdfGeeComponent38(Of GeeLsmEstimateProfileValue)
         End Class
 
         Private Class GeeLsmEstimateAtProfile
-            Public Property TimeSpecified As Boolean = False
-            Public Property TimeValue As Double = Double.NaN
-            Public Property ProfileValues As New List(Of GeeLsmEstimateProfileValue)()
+            Inherits Global.BESHStatNG.ExcelCommon.UdfGeeAtProfile38(Of GeeLsmEstimateProfileValue)
         End Class
 
         ''' <summary>
@@ -487,37 +479,7 @@ Namespace WorksheetFunctions
 
                 Dim names() As String = BuildParameterNames(h.VarNames, beta.Length)
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)
-                Dim out(outRows - 1, 7) As Object
-                Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)
-                Dim ciLabel As String = (100.0R * (1.0R - alphaValue)).ToString("0.##", CultureInfo.InvariantCulture) & "%"
-                Dim r0 As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Parameter"
-                    out(0, 1) = "Type"
-                    out(0, 2) = "Coef"
-                    out(0, 3) = "SE"
-                    out(0, 4) = "Z"
-                    out(0, 5) = "P-value"
-                    out(0, 6) = ciLabel & " CI Lower"
-                    out(0, 7) = ciLabel & " CI Upper"
-                    r0 = 1
-                End If
-
-                For i As Integer = 0 To beta.Length - 1
-                    Dim z As Double = If(se(i) > 0.0R, beta(i) / se(i), Double.NaN)
-                    Dim pv As Double = If(se(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)
-
-                    out(r0 + i, 0) = names(i)
-                    out(r0 + i, 1) = If(i = 0, "Intercept", "Slope")
-                    out(r0 + i, 2) = beta(i)
-                    out(r0 + i, 3) = se(i)
-                    out(r0 + i, 4) = z
-                    out(r0 + i, 5) = pv
-                    out(r0 + i, 6) = beta(i) - zCrit * se(i)
-                    out(r0 + i, 7) = beta(i) + zCrit * se(i)
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildGeeSummaryTable(beta, se, names, hdr, alphaValue)
 
                 Return PreparePValueTableForUdf(out, 6)
 
@@ -571,25 +533,8 @@ Namespace WorksheetFunctions
                 If vals.GetLength(0) <> labels.Length Then Return ExcelError.ExcelErrorNA
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, labels.Length + 2, labels.Length + 1)
-                Dim out(outRows - 1, 3) As Object
                 Dim r As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Item"
-                    out(0, 1) = "Value"
-                    out(0, 2) = "df"
-                    out(0, 3) = "P-value"
-                    r = 1
-                End If
-
-                For i As Integer = 0 To labels.Length - 1
-                    out(r, 0) = labels(i)
-                    out(r, 1) = vals(i, 0)
-                    out(r, 2) = If(vals.GetLength(1) > 1, vals(i, 1), "")
-                    out(r, 3) = If(vals.GetLength(1) > 2, vals(i, 2), "")
-                    r += 1
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.BuildGeeTestsPrefix(labels, vals, hdr, r)
 
                 out(r, 0) = "Computational time (s)"
                 out(r, 1) = h.Model.ComputationalTimeSeconds
@@ -805,9 +750,7 @@ Namespace WorksheetFunctions
                             Return ExcelError.ExcelErrorNA
                         End If
 
-                        For i As Integer = 0 To raw.Length - 1
-                            rows.Add(New Object() {raw(i), dev(i), pear(i), sdev(i), spear(i), work(i)})
-                        Next
+                        Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.AppendGeeResidualRows(rows, raw, dev, pear, sdev, spear, work)
 
                         Return MaterializeRows(rows,
                                                hdr,
@@ -920,15 +863,8 @@ Namespace WorksheetFunctions
                 If beta Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, nRows + 1, nRows)
-                Dim out(outRows - 1, 1) As Object
                 Dim r0 As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "PredictedResponse"
-                    out(0, 1) = "LinearPredictor"
-                    r0 = 1
-                End If
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateGeePredictionTable(nRows, hdr, r0)
 
                 For i As Integer = 0 To nRows - 1
                     Dim eta As Double = ComputeLinearPredictor(expandedX, i, beta, True, offsetVals)
@@ -1346,14 +1282,7 @@ Namespace WorksheetFunctions
                     Return "BESH.REGR.GEE_LSMESTIMATE error: no non-zero custom contrast rows were produced."
                 End If
 
-                Dim hdr() As String = {"Label", "Estimate", "Std. Error", "Z", "P-value",
-                                       ((100.0R * (1.0R - alphaValue)).ToString("0.##", CultureInfo.InvariantCulture) & "% CI Lower"),
-                                       ((100.0R * (1.0R - alphaValue)).ToString("0.##", CultureInfo.InvariantCulture) & "% CI Upper"),
-                                       "Scale", "Covariance"}
-                Dim out(labels.Count, hdr.Length - 1) As Object
-                For j As Integer = 0 To hdr.Length - 1
-                    out(0, j) = hdr(j)
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.CreateGeeLsmEstimateTable(labels.Count, alphaValue)
 
                 Dim zCrit As Double = distributions.NormSInv(1.0R - alphaValue / 2.0R)
                 For r As Integer = 0 To labels.Count - 1
@@ -1380,15 +1309,8 @@ Namespace WorksheetFunctions
                         scaleLabel = "Response"
                     End If
 
-                    out(r + 1, 0) = labels(r)
-                    out(r + 1, 1) = SafeExcelNumber(estOut)
-                    out(r + 1, 2) = SafeExcelNumber(seOut)
-                    out(r + 1, 3) = SafeExcelNumber(z)
-                    out(r + 1, 4) = SafeExcelNumber(pValue)
-                    out(r + 1, 5) = SafeExcelNumber(loOut)
-                    out(r + 1, 6) = SafeExcelNumber(hiOut)
-                    out(r + 1, 7) = scaleLabel
-                    out(r + 1, 8) = covName
+                    Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.AppendGeeLsmEstimateRow(out, r, labels(r), estOut, seOut, z, pValue, loOut, hiOut, scaleLabel, covName, AddressOf SafeExcelNumber)
+
                 Next
 
                 Return PreparePValueTableForUdf(out, 5)
@@ -1426,35 +1348,15 @@ Namespace WorksheetFunctions
         End Function
 
         Private Function BuildGeeFittedDesignWithIntercept(fitData(,) As Double) As Double(,)
-            If fitData Is Nothing Then Return Nothing
-            Dim nRows As Integer = fitData.GetLength(0)
-            Dim nCols As Integer = fitData.GetLength(1)
-            If nRows < 1 OrElse nCols < 1 Then Return Nothing
-
-            Dim out(nRows - 1, nCols - 1) As Double
-            For i As Integer = 0 To nRows - 1
-                out(i, 0) = 1.0R
-                For j As Integer = 1 To nCols - 1
-                    out(i, j) = fitData(i, j)
-                Next
-            Next
-            Return out
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.BuildGeeFittedDesignWithIntercept(fitData)
         End Function
 
         Private Function CloneDoubleArray(values() As Double) As Double()
-            If values Is Nothing Then Return Nothing
-            Return DirectCast(values.Clone(), Double())
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.CloneDoubleArray(values)
         End Function
 
         Private Function ParseGeeLsmEstimateScale(v As Object) As Boolean
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return False
-            Select Case NormalizeKey(s)
-                Case "response", "mean", "probability", "mu"
-                    Return True
-                Case Else
-                    Return False
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeLsmEstimateScale(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         Private Function TryGetGeeLsmEstimateSpec(spec As Object,
@@ -1470,118 +1372,10 @@ Namespace WorksheetFunctions
                 Return False
             End If
 
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows < 2 OrElse cols < 2 Then
-                errorMessage = "spec must contain a header row and at least one data row."
-                Return False
-            End If
-
-            Dim header(cols - 1) As String
-            For c As Integer = 0 To cols - 1
-                header(c) = ExcelArgReaders.CellToTrimmedText(arr(0, c))
-            Next
-
-            Dim labelCol As Integer = GeeFindHeaderIndex(header, "label", "contrast", "estimate", "name")
-            Dim weightCol As Integer = GeeFindHeaderIndex(header, "weight", "coef", "coefficient", "contrastweight")
-            Dim timeCol As Integer = GeeFindHeaderIndex(header, "time", "visit")
-
-            If weightCol < 0 Then
-                errorMessage = "spec header must include a weight column."
-                Return False
-            End If
-
-            Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()
-            For c As Integer = 0 To cols - 1
-                If c = labelCol OrElse c = weightCol OrElse c = timeCol Then Continue For
-                If String.IsNullOrWhiteSpace(header(c)) Then Continue For
-
-                Dim idx As Integer = GeeFindDesignColumnIndex(parameterNames, header(c))
-                If idx < 0 Then
-                    errorMessage = "profile column header """ & header(c) & """ was not found among fitted design columns: " &
-                                   String.Join(", ", parameterNames) & ". Use header 'time' for the fitted time/order column."
-                    Return False
-                End If
-
-                If String.Equals(parameterNames(idx), "Intercept", StringComparison.OrdinalIgnoreCase) OrElse
-                   String.Equals(parameterNames(idx), "(Intercept)", StringComparison.OrdinalIgnoreCase) Then
-                    errorMessage = "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
-                    Return False
-                End If
-
-                profileColumns.Add(New KeyValuePair(Of Integer, Integer)(c, idx))
-            Next
-
-            If profileColumns.Count = 0 AndAlso timeCol < 0 Then
-                errorMessage = "spec must include at least one profile column: time and/or a fitted design column name."
-                Return False
-            End If
-
-            Dim defaultIndex As Integer = 1
-            For r As Integer = 1 To rows - 1
-                Dim rowHasAny As Boolean = False
-                For c As Integer = 0 To cols - 1
-                    If Not ExcelArgPredicates.IsBlankCell(arr(r, c)) Then
-                        rowHasAny = True
-                        Exit For
-                    End If
-                Next
-                If Not rowHasAny Then Continue For
-
-                Dim w As Double
-                If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, weightCol), w) Then
-                    errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing or nonnumeric weight."
-                    Return False
-                End If
-
-                Dim label As String = Nothing
-                If labelCol >= 0 Then label = ExcelArgReaders.CellToTrimmedText(arr(r, labelCol))
-                If String.IsNullOrWhiteSpace(label) Then label = "Estimate " & defaultIndex.ToString(CultureInfo.InvariantCulture)
-
-                Dim comp As New GeeLsmEstimateComponent With {
-                    .Label = label,
-                    .Weight = w,
-                    .TimeSpecified = False,
-                    .TimeValue = Double.NaN
-                }
-
-                If timeCol >= 0 AndAlso Not ExcelArgPredicates.IsBlankCell(arr(r, timeCol)) Then
-                    Dim tv As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, timeCol), tv) Then
-                        errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a nonnumeric time value."
-                        Return False
-                    End If
-                    comp.TimeSpecified = True
-                    comp.TimeValue = tv
-                End If
-
-                For Each pair As KeyValuePair(Of Integer, Integer) In profileColumns
-                    If ExcelArgPredicates.IsBlankCell(arr(r, pair.Key)) Then Continue For
-
-                    Dim profileValue As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, pair.Key), profileValue) Then
-                        errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
-                                       " has a nonnumeric value for profile column """ & header(pair.Key) & """."
-                        Return False
-                    End If
-
-                    comp.ProfileValues.Add(New GeeLsmEstimateProfileValue With {
-                        .Name = parameterNames(pair.Value),
-                        .ColumnIndex = pair.Value,
-                        .Value = profileValue
-                    })
-                Next
-
-                components.Add(comp)
-                defaultIndex += 1
-            Next
-
-            If components.Count = 0 Then
-                errorMessage = "spec does not contain any nonblank data rows."
-                Return False
-            End If
-
-            Return True
+            Return Global.BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.TryGetGeeSpec(Of GeeLsmEstimateComponent, GeeLsmEstimateProfileValue)(
+                arr, parameterNames, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell,
+                AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble,
+                components, errorMessage)
         End Function
 
         Private Function TryGetGeeLsmEstimateAtSpec(at As Object,
@@ -1599,317 +1393,53 @@ Namespace WorksheetFunctions
                 Return False
             End If
 
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows < 2 OrElse cols < 1 Then
-                errorMessage = "at must contain a header row and at least one data row, or be omitted."
-                Return False
-            End If
-
-            Dim header(cols - 1) As String
-            For c As Integer = 0 To cols - 1
-                header(c) = ExcelArgReaders.CellToTrimmedText(arr(0, c))
-            Next
-
-            Dim nameCol As Integer = GeeFindHeaderIndex(header, "name", "variable", "effect", "column", "profile", "at")
-            Dim valueCol As Integer = GeeFindHeaderIndex(header, "value", "val", "setting", "atvalue")
-            Dim parsed As New GeeLsmEstimateAtProfile()
-
-            If nameCol >= 0 AndAlso valueCol >= 0 AndAlso nameCol <> valueCol Then
-                For r As Integer = 1 To rows - 1
-                    Dim rowHasAny As Boolean = False
-                    For c As Integer = 0 To cols - 1
-                        If Not ExcelArgPredicates.IsBlankCell(arr(r, c)) Then
-                            rowHasAny = True
-                            Exit For
-                        End If
-                    Next
-                    If Not rowHasAny Then Continue For
-
-                    Dim requestedName As String = ExcelArgReaders.CellToTrimmedText(arr(r, nameCol))
-                    If String.IsNullOrWhiteSpace(requestedName) Then
-                        errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing name/variable value."
-                        Return False
-                    End If
-
-                    Dim value As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, valueCol), value) Then
-                        errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
-                                       " has a missing or nonnumeric value for """ & requestedName & """."
-                        Return False
-                    End If
-
-                    If Not AddGeeLsmEstimateAtValue(parsed, parameterNames, requestedName, value,
-                                                    "at row " & (r + 1).ToString(CultureInfo.InvariantCulture),
-                                                    errorMessage) Then
-                        Return False
-                    End If
-                Next
-            Else
-                Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()
-                Dim timeCol As Integer = GeeFindHeaderIndex(header, "time", "visit")
-
-                For c As Integer = 0 To cols - 1
-                    If c = timeCol Then Continue For
-                    If String.IsNullOrWhiteSpace(header(c)) Then Continue For
-
-                    Dim idx As Integer = GeeFindDesignColumnIndex(parameterNames, header(c))
-                    If idx < 0 Then
-                        errorMessage = "at column header """ & header(c) & """ was not found among fitted design columns: " &
-                                       String.Join(", ", parameterNames) & ". Use header 'time' for the fitted time/order column."
-                        Return False
-                    End If
-
-                    profileColumns.Add(New KeyValuePair(Of Integer, Integer)(c, idx))
-                Next
-
-                If timeCol < 0 AndAlso profileColumns.Count = 0 Then
-                    errorMessage = "at must contain either name/value headers or at least one time/design-column header."
-                    Return False
-                End If
-
-                Dim dataRow As Integer = -1
-                For r As Integer = 1 To rows - 1
-                    Dim rowHasAny As Boolean = False
-                    For c As Integer = 0 To cols - 1
-                        If Not ExcelArgPredicates.IsBlankCell(arr(r, c)) Then
-                            rowHasAny = True
-                            Exit For
-                        End If
-                    Next
-                    If Not rowHasAny Then Continue For
-
-                    If dataRow >= 0 Then
-                        errorMessage = "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
-                        Return False
-                    End If
-                    dataRow = r
-                Next
-
-                If dataRow < 0 Then
-                    errorMessage = "at does not contain any nonblank data row."
-                    Return False
-                End If
-
-                If timeCol >= 0 AndAlso Not ExcelArgPredicates.IsBlankCell(arr(dataRow, timeCol)) Then
-                    Dim timeValue As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(dataRow, timeCol), timeValue) Then
-                        errorMessage = "at time value must be numeric and finite."
-                        Return False
-                    End If
-
-                    If Not AddGeeLsmEstimateAtValue(parsed, parameterNames, "time", timeValue, "at time column", errorMessage) Then
-                        Return False
-                    End If
-                End If
-
-                For Each pair As KeyValuePair(Of Integer, Integer) In profileColumns
-                    If ExcelArgPredicates.IsBlankCell(arr(dataRow, pair.Key)) Then Continue For
-
-                    Dim profileValue As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(dataRow, pair.Key), profileValue) Then
-                        errorMessage = "at value for column """ & header(pair.Key) & """ must be numeric and finite."
-                        Return False
-                    End If
-
-                    If Not AddGeeLsmEstimateAtValue(parsed, parameterNames, parameterNames(pair.Value), profileValue,
-                                                    "at column """ & header(pair.Key) & """", errorMessage) Then
-                        Return False
-                    End If
-                Next
-            End If
-
-            If Not parsed.TimeSpecified AndAlso parsed.ProfileValues.Count = 0 Then
-                errorMessage = "at does not specify any nonblank time or fitted design-column values."
-                Return False
-            End If
-
-            atProfile = parsed
-            Return True
+            Return Global.BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.TryGetGeeAtSpec(Of GeeLsmEstimateAtProfile, GeeLsmEstimateProfileValue)(
+                arr, parameterNames,
+                AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText,
+                AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble, atProfile, errorMessage)
         End Function
 
-        Private Function AddGeeLsmEstimateAtValue(atProfile As GeeLsmEstimateAtProfile,
-                                                  parameterNames() As String,
-                                                  requestedName As String,
-                                                  value As Double,
-                                                  sourceDescription As String,
-                                                  ByRef errorMessage As String) As Boolean
-            If atProfile Is Nothing Then
-                errorMessage = "internal error: AT profile was not initialized."
-                Return False
-            End If
 
-            If String.Equals(GeeNormalizeDesignColumnName(requestedName), GeeNormalizeDesignColumnName("time"), StringComparison.OrdinalIgnoreCase) OrElse
-               String.Equals(GeeNormalizeDesignColumnName(requestedName), GeeNormalizeDesignColumnName("visit"), StringComparison.OrdinalIgnoreCase) Then
-                If atProfile.TimeSpecified Then
-                    errorMessage = "at specifies time more than once."
-                    Return False
-                End If
-                atProfile.TimeSpecified = True
-                atProfile.TimeValue = value
-                Return True
-            End If
-
-            Dim idx As Integer = GeeFindDesignColumnIndex(parameterNames, requestedName)
-            If idx < 0 Then
-                errorMessage = sourceDescription & " names """ & requestedName & """, which was not found among fitted design columns: " &
-                               String.Join(", ", parameterNames) & "."
-                Return False
-            End If
-
-            For Each existing As GeeLsmEstimateProfileValue In atProfile.ProfileValues
-                If existing.ColumnIndex = idx Then
-                    errorMessage = "at specifies design column """ & parameterNames(idx) & """ more than once."
-                    Return False
-                End If
-            Next
-
-            atProfile.ProfileValues.Add(New GeeLsmEstimateProfileValue With {
-                .Name = parameterNames(idx),
-                .ColumnIndex = idx,
-                .Value = value
-            })
-            Return True
-        End Function
 
         Private Sub ApplyGeeLsmEstimateAtProfile(components As List(Of GeeLsmEstimateComponent),
                                                  atProfile As GeeLsmEstimateAtProfile)
-            If components Is Nothing OrElse atProfile Is Nothing Then Exit Sub
-
-            For Each component As GeeLsmEstimateComponent In components
-                If component Is Nothing Then Continue For
-
-                If Not component.TimeSpecified AndAlso atProfile.TimeSpecified Then
-                    component.TimeSpecified = True
-                    component.TimeValue = atProfile.TimeValue
-                End If
-
-                For Each atValue As GeeLsmEstimateProfileValue In atProfile.ProfileValues
-                    If Not GeeComponentHasProfileColumn(component, atValue.ColumnIndex) Then
-                        component.ProfileValues.Add(New GeeLsmEstimateProfileValue With {
-                            .Name = atValue.Name,
-                            .ColumnIndex = atValue.ColumnIndex,
-                            .Value = atValue.Value
-                        })
-                    End If
-                Next
-            Next
+            Global.BESHStatNG.ExcelCommon.UdfModelProfilePreparation38.ApplyGeeAtProfile(Of GeeLsmEstimateComponent, GeeLsmEstimateAtProfile, GeeLsmEstimateProfileValue)(components, atProfile)
         End Sub
 
-        Private Function GeeComponentHasProfileColumn(component As GeeLsmEstimateComponent, columnIndex As Integer) As Boolean
-            If component Is Nothing OrElse component.ProfileValues Is Nothing Then Return False
-            For Each value As GeeLsmEstimateProfileValue In component.ProfileValues
-                If value.ColumnIndex = columnIndex Then Return True
-            Next
-            Return False
-        End Function
+
 
         Private Function AverageGeeFittedDesignRowForLsmProfile(h As GeeHandle,
                                                                 component As GeeLsmEstimateComponent,
                                                                 ByRef matchedCount As Integer) As Double()
             matchedCount = 0
             If h Is Nothing OrElse h.FittedDesign Is Nothing OrElse component Is Nothing Then Return Nothing
-
-            Dim n As Integer = h.FittedDesign.GetLength(0)
-            Dim p As Integer = h.FittedDesign.GetLength(1)
-            Dim sums(p - 1) As Double
-
-            For i As Integer = 0 To n - 1
-                If component.TimeSpecified Then
-                    If h.FittedTimeValues Is Nothing OrElse h.FittedTimeValues.Length <> n Then Continue For
-                    If Not NearlyEqual(h.FittedTimeValues(i), component.TimeValue) Then Continue For
-                End If
-
-                Dim match As Boolean = True
-                For Each profileValue As GeeLsmEstimateProfileValue In component.ProfileValues
-                    If profileValue.ColumnIndex < 0 OrElse profileValue.ColumnIndex >= p Then
-                        match = False
-                        Exit For
-                    End If
-
-                    If Not NearlyEqual(h.FittedDesign(i, profileValue.ColumnIndex), profileValue.Value) Then
-                        match = False
-                        Exit For
-                    End If
-                Next
-
-                If Not match Then Continue For
-
-                matchedCount += 1
-                For j As Integer = 0 To p - 1
-                    sums(j) += h.FittedDesign(i, j)
-                Next
-            Next
-
-            If matchedCount <= 0 Then Return Nothing
-
-            For j As Integer = 0 To p - 1
-                sums(j) /= CDbl(matchedCount)
-            Next
-            Return sums
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38.AverageDesign(
+                h.FittedDesign, h.FittedTimeValues, component.TimeSpecified, component.TimeValue,
+                component.ProfileValues, Function(profile) profile.ColumnIndex, Function(profile) profile.Value,
+                AddressOf NearlyEqual, matchedCount)
         End Function
 
         Private Function GeeFindHeaderIndex(headers() As String, ParamArray acceptedNames() As String) As Integer
-            If headers Is Nothing OrElse acceptedNames Is Nothing Then Return -1
-            For i As Integer = 0 To headers.Length - 1
-                Dim h As String = GeeNormalizeDesignColumnName(headers(i))
-                For Each accepted As String In acceptedNames
-                    If String.Equals(h, GeeNormalizeDesignColumnName(accepted), StringComparison.OrdinalIgnoreCase) Then Return i
-                Next
-            Next
-            Return -1
+            Return Global.BESHStatNG.ExcelCommon.GEEUDFsMetadata38.GeeFindHeaderIndex(headers, acceptedNames)
         End Function
 
         Private Function GeeFindDesignColumnIndex(names() As String, requestedName As String) As Integer
-            If names Is Nothing OrElse String.IsNullOrWhiteSpace(requestedName) Then Return -1
-            For i As Integer = 0 To names.Length - 1
-                If String.Equals(names(i), requestedName, StringComparison.OrdinalIgnoreCase) Then Return i
-            Next
-            Dim wanted As String = GeeNormalizeDesignColumnName(requestedName)
-            For i As Integer = 0 To names.Length - 1
-                If String.Equals(GeeNormalizeDesignColumnName(names(i)), wanted, StringComparison.OrdinalIgnoreCase) Then Return i
-            Next
-            Return -1
+            Return Global.BESHStatNG.ExcelCommon.GEEUDFsMetadata38.GeeFindDesignColumnIndex(names, requestedName)
         End Function
 
         Private Function GeeNormalizeDesignColumnName(s As String) As String
-            If s Is Nothing Then Return String.Empty
-            Return New String(s.Trim().ToLowerInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch)).ToArray())
+            Return Global.BESHStatNG.ExcelCommon.GEEUDFsMetadata38.GeeNormalizeDesignColumnName(s)
         End Function
 
 
 
 
         Private Function NearlyEqual(a As Double, b As Double) As Boolean
-            Dim tol As Double = 0.00000001R * Math.Max(1.0R, Math.Max(Math.Abs(a), Math.Abs(b)))
-            Return Math.Abs(a - b) <= tol
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.NearlyEqual(a, b)
         End Function
 
         Private Function BuildGeeTimeLabels(model As GEE, size As Integer) As String()
-            Dim labels(size - 1) As String
-
-            Dim dict = model.TimesDict
-            If dict Is Nothing OrElse dict.Count <> size Then
-                For i As Integer = 0 To size - 1
-                    labels(i) = "t" & (i + 1).ToString(CultureInfo.InvariantCulture)
-                Next
-                Return labels
-            End If
-
-            For Each kvp In dict
-                Dim idx As Integer = kvp.Value
-                If idx >= 0 AndAlso idx < size Then
-                    labels(idx) = "t=" & kvp.Key.ToString("0.###############", CultureInfo.InvariantCulture)
-                End If
-            Next
-
-            For i As Integer = 0 To size - 1
-                If String.IsNullOrWhiteSpace(labels(i)) Then
-                    labels(i) = "t" & (i + 1).ToString(CultureInfo.InvariantCulture)
-                End If
-            Next
-
-            Return labels
+            Return Global.BESHStatNG.ExcelCommon.GEEUDFsMetadata38.BuildGeeTimeLabels(model, size)
         End Function
 
         Private Function BuildLabeledMatrixOutput(matrix(,) As Double,
@@ -1917,157 +1447,28 @@ Namespace WorksheetFunctions
                                                   colNames() As String,
                                                   includeHeader As Boolean) As Object
 
-            If matrix Is Nothing Then Return ExcelError.ExcelErrorNA
-
-            Dim nRows As Integer = matrix.GetLength(0)
-            Dim nCols As Integer = matrix.GetLength(1)
-
-            If rowNames Is Nothing OrElse rowNames.Length <> nRows Then
-                ReDim rowNames(nRows - 1)
-                For i As Integer = 0 To nRows - 1
-                    rowNames(i) = "Row" & (i + 1).ToString(CultureInfo.InvariantCulture)
-                Next
-            End If
-
-            If colNames Is Nothing OrElse colNames.Length <> nCols Then
-                ReDim colNames(nCols - 1)
-                For j As Integer = 0 To nCols - 1
-                    colNames(j) = "Col" & (j + 1).ToString(CultureInfo.InvariantCulture)
-                Next
-            End If
-
-            If Not includeHeader Then
-                Dim outNoHdr(nRows - 1, nCols - 1) As Object
-                For i As Integer = 0 To nRows - 1
-                    For j As Integer = 0 To nCols - 1
-                        outNoHdr(i, j) = SafeExcelNumber(matrix(i, j))
-                    Next
-                Next
-                Return outNoHdr
-            End If
-
-            Dim out(nRows, nCols) As Object
-            out(0, 0) = ""
-
-            For j As Integer = 0 To nCols - 1
-                out(0, j + 1) = colNames(j)
-            Next
-
-            For i As Integer = 0 To nRows - 1
-                out(i + 1, 0) = rowNames(i)
-                For j As Integer = 0 To nCols - 1
-                    out(i + 1, j + 1) = SafeExcelNumber(matrix(i, j))
-                Next
-            Next
-
-            Return out
+            Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.GEEUDFsReports38.BuildLabeledMatrixOutput(matrix, rowNames, colNames, includeHeader))
         End Function
 
         Private Function ParseGeeCovarianceName(v As Object) As String
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return "Independence"
-
-            Select Case NormalizeKey(s)
-                Case "independence", "independent", "id", "identity"
-                    Return "Independence"
-                Case "exchangeable", "exchangable", "compoundsymmetry", "cs", "exch", "exchangeablecs", "compoundsymmetrycs"
-                    Return "Exchangable"
-                Case "autoregressive", "ar1", "ar", "autoregressivear1", "ar1autoregressive"
-                    Return "Autoregressive"
-                Case "toeplitz", "toep", "toeplitztoep", "toeptoeplitz", "stationary", "stationarymdependent"
-                    Return "Toeplitz"
-                Case "unstructured", "un", "uns", "unstructuredun"
-                    Return "Unstructured"
-                Case Else
-                    Return Nothing
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeCovarianceName(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         Private Function ParseGeeStandardErrorType(v As Object) As String
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return "Robust"
-
-            Select Case NormalizeKey(s)
-                Case "robust", "sandwich", "empirical"
-                    Return "Robust"
-                Case "naive", "modelbased", "model"
-                    Return "Naive"
-                Case "biasreduced", "biascorrected", "biascorr", "manclderouen"
-                    Return "Bias Reduced"
-                Case Else
-                    Return Nothing
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeStandardErrorType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         Private Function ParseGeeResidualType(v As Object) As String
-            Dim s As String = AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return "all"
-
-            Select Case NormalizeKey(s)
-                Case "all"
-                    Return "all"
-                Case "raw", "response"
-                    Return "raw"
-                Case "deviance", "dev"
-                    Return "deviance"
-                Case "pearson"
-                    Return "pearson"
-                Case "stdpearson", "standardizedpearson", "scaledpearson"
-                    Return "stdpearson"
-                Case "stddeviance", "standardizeddeviance", "scaleddeviance"
-                    Return "stddeviance"
-                Case "working", "work"
-                    Return "working"
-                Case Else
-                    Return "all"
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.GEEUDFsOptions38.ParseGeeResidualType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(v))
         End Function
 
         Private Function BuildParameterNames(predictorNames() As String, coefficientCount As Integer) As String()
-            If coefficientCount < 1 Then Return New String() {}
-
-            Dim out(coefficientCount - 1) As String
-            out(0) = "Intercept"
-            Dim source() As String = If(predictorNames, New String() {})
-            For i As Integer = 1 To coefficientCount - 1
-                Dim srcIndex As Integer = i - 1
-                If srcIndex < source.Length Then
-                    out(i) = source(srcIndex)
-                Else
-                    out(i) = "Param" & (i + 1).ToString(CultureInfo.InvariantCulture)
-                End If
-            Next
-            Return out
+            Return Global.BESHStatNG.ExcelCommon.GEEUDFsMetadata38.BuildParameterNames(predictorNames, coefficientCount)
         End Function
 
         Private Function MaterializeRows(rows As List(Of Object()), includeHeader As Boolean, headers() As String) As Object
-            If rows Is Nothing Then Return ExcelError.ExcelErrorNA
+            Return Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.MaterializeGeeRows(rows, includeHeader, headers, ExcelError.ExcelErrorNA)
 
-            Dim colCount As Integer = If(headers Is Nothing, 0, headers.Length)
-            If colCount = 0 AndAlso rows.Count > 0 Then
-                colCount = rows(0).Length
-            End If
-            If colCount < 1 Then Return ExcelError.ExcelErrorNA
-
-            Dim outRows As Integer = rows.Count + If(includeHeader, 1, 0)
-            Dim out(outRows - 1, colCount - 1) As Object
-            Dim r0 As Integer = 0
-
-            If includeHeader Then
-                For j As Integer = 0 To colCount - 1
-                    out(0, j) = headers(j)
-                Next
-                r0 = 1
-            End If
-
-            For i As Integer = 0 To rows.Count - 1
-                Dim row() As Object = rows(i)
-                For j As Integer = 0 To colCount - 1
-                    out(r0 + i, j) = If(j < row.Length, row(j), Nothing)
-                Next
-            Next
-
-            Return out
         End Function
 
     End Module

@@ -1,0 +1,569 @@
+{
+  "status": "COMPATIBILITY_CANDIDATE_CONTROLS_PASS; NOT_AN_IMPLEMENTATION_READINESS_DECISION",
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "candidate": "capture-v10",
+  "sources": 41,
+  "exports": 268,
+  "behavioral_members": 704,
+  "callable_members": 643,
+  "configurations": {
+    "Debug": {
+      "rows": 24732,
+      "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e",
+      "bytes": 17065755,
+      "repeat_exact": true,
+      "trace_exact": true,
+      "callable_entries_reached": 643,
+      "native_attempts": 0,
+      "outcomes": {
+        "RETURN_ARRAY": 3308,
+        "RETURN_SCALAR": 6750,
+        "HANDLE_CREATED": 114,
+        "RETURN_TEXT": 1878,
+        "RETURN_ERROR_CELL": 10266,
+        "RETURN_NULL": 838,
+        "EXCEPTION": 956,
+        "RETURN_EMPTY_ARRAY": 622
+      },
+      "cohorts": {
+        "all_exports_ordinary": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 404,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 82,
+          "ORIGINAL_SOURCE_BODY_REACHED/HANDLE_CREATED": 36,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 10
+        },
+        "required_argument_states": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 9880,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 94,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 452,
+          "ORIGINAL_SOURCE_BODY_REACHED/HANDLE_CREATED": 10,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 300
+        },
+        "scalar_and_native_marker_boundary": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 420,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 38,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 268,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 10
+        },
+        "original_option_literal_cross_product": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 712,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 68,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 182,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 14
+        },
+        "spill_header_option": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 872,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 16,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 32
+        },
+        "explicit_prediction_matrix": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 8,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 16
+        },
+        "independent_import_shape_header_gap": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 2560,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 458,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 54
+        },
+        "independent_paired_lengths_gaps": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 216,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 48,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 168
+        },
+        "threshold_shape_value_policy": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 30
+        },
+        "numeric_vector_branches": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 8,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 22
+        },
+        "native_cell_type_and_spill_projection": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 6
+        },
+        "pattern_structure_independent": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 128,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 384
+        },
+        "pattern_structure_missing_mismatched": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 8,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 4
+        },
+        "all_named_option_inputs": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 910,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 218,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 1328,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 38
+        },
+        "additional_typed_vector_helpers": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 22,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 2
+        },
+        "independent_linear_predictor_dimensions": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 396,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 576
+        },
+        "model_header_and_exclusion_identity": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 516,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 8,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 20
+        },
+        "handle_identity_variants": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 258,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 282,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 4
+        },
+        "handle_repeated_operations": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 308
+        },
+        "isolated_actual_cache_helper": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 40
+        },
+        "lmm_kr_type3": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 2
+        },
+        "additional_vector_alignment_helpers": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 160
+        },
+        "intercept_only_prediction": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 24
+        },
+        "strict_single_row": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 10,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 2
+        },
+        "aligned_object_matrix": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 32
+        },
+        "default_names": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 24,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 24
+        },
+        "random_covariance_default": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 36
+        },
+        "residual_spill_vector": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 6
+        },
+        "residual_spill_matrix": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 12,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 6,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 12,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 18
+        },
+        "simple_note_spill": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 2
+        },
+        "formula_diagnostic_fragment": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 32
+        },
+        "step_lookup": {
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 64,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 96
+        },
+        "psm_option_mutation": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 552
+        },
+        "real_model_at_profile": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 6
+        },
+        "equivalence_planning_success": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 4
+        },
+        "observed_design_lsmeans_profiles": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 6,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 4
+        },
+        "explicit_model_row_and_label_identity": {
+          "ORIGINAL_SOURCE_BODY_REACHED/HANDLE_CREATED": 68,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 258,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 10
+        },
+        "additional_native_value_kinds": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 166,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 108,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 14
+        }
+      }
+    },
+    "Release": {
+      "rows": 24732,
+      "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf",
+      "bytes": 17067771,
+      "repeat_exact": true,
+      "trace_exact": true,
+      "callable_entries_reached": 643,
+      "native_attempts": 0,
+      "outcomes": {
+        "RETURN_ARRAY": 3308,
+        "RETURN_SCALAR": 6750,
+        "HANDLE_CREATED": 114,
+        "RETURN_TEXT": 1878,
+        "RETURN_ERROR_CELL": 10266,
+        "RETURN_NULL": 838,
+        "EXCEPTION": 956,
+        "RETURN_EMPTY_ARRAY": 622
+      },
+      "cohorts": {
+        "all_exports_ordinary": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 404,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 82,
+          "ORIGINAL_SOURCE_BODY_REACHED/HANDLE_CREATED": 36,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 10
+        },
+        "required_argument_states": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 9880,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 94,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 452,
+          "ORIGINAL_SOURCE_BODY_REACHED/HANDLE_CREATED": 10,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 300
+        },
+        "scalar_and_native_marker_boundary": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 420,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 38,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 268,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 10
+        },
+        "original_option_literal_cross_product": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 712,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 68,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 182,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 14
+        },
+        "spill_header_option": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 872,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 16,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 32
+        },
+        "explicit_prediction_matrix": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 8,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 16
+        },
+        "independent_import_shape_header_gap": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 2560,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 458,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 54
+        },
+        "independent_paired_lengths_gaps": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 216,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 48,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 168
+        },
+        "threshold_shape_value_policy": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 30
+        },
+        "numeric_vector_branches": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 8,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 22
+        },
+        "native_cell_type_and_spill_projection": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 6
+        },
+        "pattern_structure_independent": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 128,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 384
+        },
+        "pattern_structure_missing_mismatched": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 8,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 4
+        },
+        "all_named_option_inputs": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 910,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 218,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 1328,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 38
+        },
+        "additional_typed_vector_helpers": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 22,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 2
+        },
+        "independent_linear_predictor_dimensions": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 396,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 576
+        },
+        "model_header_and_exclusion_identity": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 516,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 8,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 20
+        },
+        "handle_identity_variants": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 258,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 282,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 4
+        },
+        "handle_repeated_operations": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 308
+        },
+        "isolated_actual_cache_helper": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 40
+        },
+        "lmm_kr_type3": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 2
+        },
+        "additional_vector_alignment_helpers": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 160
+        },
+        "intercept_only_prediction": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 24
+        },
+        "strict_single_row": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 10,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 2
+        },
+        "aligned_object_matrix": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 32
+        },
+        "default_names": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 24,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 24
+        },
+        "random_covariance_default": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 36
+        },
+        "residual_spill_vector": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 6
+        },
+        "residual_spill_matrix": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 12,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_EMPTY_ARRAY": 6,
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 12,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 18
+        },
+        "simple_note_spill": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 2
+        },
+        "formula_diagnostic_fragment": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 32
+        },
+        "step_lookup": {
+          "ORIGINAL_SOURCE_BODY_REACHED/EXCEPTION": 64,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 96
+        },
+        "psm_option_mutation": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 552
+        },
+        "real_model_at_profile": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 2,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 6
+        },
+        "equivalence_planning_success": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 4
+        },
+        "observed_design_lsmeans_profiles": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 6,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 4
+        },
+        "explicit_model_row_and_label_identity": {
+          "ORIGINAL_SOURCE_BODY_REACHED/HANDLE_CREATED": 68,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ARRAY": 258,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 4,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_ERROR_CELL": 10
+        },
+        "additional_native_value_kinds": {
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_SCALAR": 166,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_TEXT": 108,
+          "ORIGINAL_SOURCE_BODY_REACHED/RETURN_NULL": 14
+        }
+      }
+    }
+  },
+  "cross_configuration_different_rows": [
+    "ColumnSumsOfSquares.73e9d8fb56d74a2e791540b1",
+    "ColumnSumsOfSquares.ea8a905b069d53caec719d1a",
+    "ColumnSumsOfSquares.537c80972abb0dac91c12051",
+    "ColumnSumsOfSquares.62f8ab4613822f81257b13d1",
+    "ColumnSumsOfSquares.385210820049724906951a27",
+    "ColumnSumsOfSquares.7fe770317eb30cb405d78bcc",
+    "ColumnSumsOfSquares.d1d18014d4792f57d13db368",
+    "ColumnSumsOfSquares.57a7a2e79227e8bca2377635",
+    "ColumnSumsOfSquares.a3968c85860b6b7b3b7b4683",
+    "ColumnSumsOfSquares.ecd06d38c5678fb6cc6b4a73",
+    "ColumnSumsOfSquares.0d2c59b536732b988f4a4fa1",
+    "ColumnSumsOfSquares.b3fc5cc404e28c8c174c910a",
+    "ColumnSumsOfSquares.2cc5cb845125a7b6110330d3",
+    "ColumnSumsOfSquares.39504912a18e7aacaf3d3c50",
+    "ColumnSumsOfSquares.fd182411b1ca30c351d7dd33",
+    "ColumnSumsOfSquares.f43b3d874455c3d801bc26cb",
+    "ColumnSumsOfSquares.2c622288130bf58ee6a2fda7",
+    "ColumnSumsOfSquares.a857d2a279e671790eaffd5c",
+    "ColumnSumsOfSquares.67122752a90a4f7fef77f3e0",
+    "ColumnSumsOfSquares.3adf395b83600f1b3aa3da21",
+    "ColumnSumsOfSquares.000d9c056e3d5e523ee1ba09",
+    "ColumnSumsOfSquares.5762a9425a99905c156c7a54",
+    "ColumnSumsOfSquares.0fc4fb6a8c93ef2b15a104b6",
+    "ColumnSumsOfSquares.e44d5c3ab45018ca777334b5",
+    "ColumnSumsOfSquares.5cfbef5ab178a6ab1e8cfb56",
+    "ColumnSumsOfSquares.7e3877066d7413933db04eb8",
+    "ColumnSumsOfSquares.e1d560ee3a4af973095f97b6",
+    "ColumnSumsOfSquares.e732c9a6bc108f53a714ea44",
+    "ColumnSumsOfSquares.a9ad87e6f7a847f68d789008",
+    "ColumnSumsOfSquares.f6841e58ad7d805fc9e4e015",
+    "ColumnSumsOfSquares.834023a3b3bc0d6d986878f1",
+    "ColumnSumsOfSquares.96a971b1654c7994b11b3178",
+    "ComputeLinearPredictor.1478d206aa660d13e805d60b",
+    "ComputeLinearPredictor.815d153a917237270393a584",
+    "ComputeLinearPredictor.dcf6c09454c01114f539f476",
+    "ComputeLinearPredictor.080fdadc427b845f3ee015b5",
+    "ComputeLinearPredictor.beb52e740038ca48a854ad33",
+    "ComputeLinearPredictor.3b4b983326b6bbd67591f23c",
+    "ComputeLinearPredictor.3fa123a7b5915c724e019191",
+    "ComputeLinearPredictor.e73759ab3db1366942ae2f99",
+    "ComputeLinearPredictor.f378f9d453d7a6b0a74f807d",
+    "ComputeLinearPredictor.cbaca14a80585a93115d8c15",
+    "ComputeLinearPredictor.7e695ae215012b83d8d8d3f9",
+    "ComputeLinearPredictor.eadf57cbd206188e47f05354",
+    "ComputeLinearPredictor.273e208b216bccc42aeab2bf",
+    "ComputeLinearPredictor.1ab00356ef5c51f81d8ed80d",
+    "ComputeLinearPredictor.0122943f8cfe6fee8a54a675",
+    "ComputeLinearPredictor.9a2822c02bc2de2983a17a82",
+    "ComputeLinearPredictor.139e22bf58edd135f460d2ab",
+    "ComputeLinearPredictor.c8a2e4cc448edfd0c1a938e7",
+    "ComputeLinearPredictor.cc28267ba417d0d00074a3ee",
+    "ComputeLinearPredictor.9e1fd9b3a7cbd1e9c996d48d",
+    "ComputeLinearPredictor.cd4320e821fc19ab7d4ca0a8",
+    "ComputeLinearPredictor.4fa41e040587cd47e6771b28",
+    "ComputeLinearPredictor.d02281d910a8ea5f76b0d161",
+    "ComputeLinearPredictor.4012691724fb2ed9f17e1f27",
+    "ComputeLinearPredictor.654ad7f5ba35002ab72ac203",
+    "ComputeLinearPredictor.4bbb8626ddd6805596af20a6",
+    "ComputeLinearPredictor.4d46a27d25ebaa5f5a5e9803",
+    "ComputeLinearPredictor.1597e0471e7e3c2309dc7763",
+    "ComputeLinearPredictor.61f5d414a4cd13a21603eea5",
+    "ComputeLinearPredictor.0230eca1783a54a8dff534a4",
+    "ComputeLinearPredictor.7ff8d06195e85d51f02b27f7",
+    "ComputeLinearPredictor.a321bc55723e88af1aacdd0c",
+    "ComputeLinearPredictor.3b306b5fdfa6550a45b9563d",
+    "ComputeLinearPredictor.20172e711463f21f22e7c19b",
+    "ComputeLinearPredictor.9b71e6193460022fbd3e48ee",
+    "ComputeLinearPredictor.4667e486dbc02b65581cd900",
+    "ComputeLinearPredictor.5628d26ac1fe432509d650b1",
+    "ComputeLinearPredictor.cc672ff11f16f1cd0d52cdb6",
+    "ComputeLinearPredictor.38ca6da1641ad6d143ef314e",
+    "ComputeLinearPredictor.a08213d174936afecb1fd954",
+    "ComputeLinearPredictor.ac05c9ba0ae392c44fd72b61",
+    "ComputeLinearPredictor.a64bdb0235d41b8cb65e0b23",
+    "ComputeLinearPredictor.c3e80f7466676c851b04994c",
+    "ComputeLinearPredictor.6d03efe54ab3c55ff134990d",
+    "ComputeLinearPredictor.64c21dc3821df9b6697092a3",
+    "ComputeLinearPredictor.f6cecce6836b4dfb3cfa8e17",
+    "ComputeLinearPredictor.5da7732d31936fb273dfd41a",
+    "ComputeLinearPredictor.55d244321c658e1e6eafe5eb",
+    "ComputeLinearPredictor.282420526fe56cc61dc18275",
+    "ComputeLinearPredictor.e787be2741b9b0a95183b0c8",
+    "ComputeLinearPredictor.2c5d2592f9ede1534244909a",
+    "ComputeLinearPredictor.78ad20a6181651fba3710e91",
+    "ComputeLinearPredictor.d898dcdbc9d937f78268073b",
+    "ComputeLinearPredictor.eb816c35d662fb066c969cc0",
+    "ComputeLinearPredictor.a89c668c2fd9357a659edd3c",
+    "ComputeLinearPredictor.b38549ba768f417b7d70cf78",
+    "ComputeLinearPredictor.4cedc1808df0aecf1602a5d7",
+    "ComputeLinearPredictor.dae6eb7aae3f6d10c7518e95",
+    "ComputeLinearPredictor.16d0a17e4200c09671ef37fe",
+    "ComputeLinearPredictor.8005e751b40cb07eca0307f2",
+    "ComputeLinearPredictor.9bb4b81b3d187e8aca0c6b14",
+    "ComputeLinearPredictor.f758cf73562151c7920120e5",
+    "ComputeLinearPredictor.ba6c1e01ce3e3161d6ef4ee2",
+    "ComputeLinearPredictor.d4d61dcd006ceac4a2c0cc18",
+    "ComputeLinearPredictor.0d28e0f1efd304e4567177c5",
+    "ComputeLinearPredictor.4ae8275a417c757bddaf8ec5",
+    "ComputeLinearPredictor.26d09f9390c7707c1d736404",
+    "ComputeLinearPredictor.b4ff8914aa92de15495a75c9",
+    "ComputeLinearPredictor.3b9369e7a070480d0a30aca9",
+    "ComputeLinearPredictor.80dd2d7088ea9e92fc213f49",
+    "ComputeLinearPredictor.fa10bb6c6be0b963c949bf5e",
+    "ComputeLinearPredictor.c4ea7a0636b68df359436270",
+    "ComputeLinearPredictor.a002eb51651753c4eb7843e3",
+    "ComputeLinearPredictor.2dfbce1130998b61b190cfa1",
+    "ComputeLinearPredictor.1c56d3b932ea83fb65e2cdf0",
+    "ComputeLinearPredictor.b4aa4ae356b9bf489684ff85",
+    "ComputeLinearPredictor.80caba0804a09d20d5db68e8",
+    "ComputeLinearPredictor.dd7e4f3a9bbf0031dc989d1c",
+    "ComputeLinearPredictor.139a7ce0201c4df8fd48b863",
+    "ComputeLinearPredictor.e8484f76e2b793093d912ad8",
+    "ComputeLinearPredictor.200f362a50ba5eb70ff02c41",
+    "ComputeLinearPredictor.65378b3abbf072f1ce4807c7",
+    "ComputeLinearPredictor.814af0c6466860aea8c60b19",
+    "ComputeLinearPredictor.82afa9ef03cf5a41d23d0b80",
+    "ComputeLinearPredictor.3cc91e058a61debb91753ac7",
+    "ComputeLinearPredictor.48392ac3bca09feb624c0947",
+    "ComputeLinearPredictor.38ea15450424e10716f9b568",
+    "ComputeLinearPredictor.6be7759cd2347846703fb09e",
+    "ComputeLinearPredictor.6d5b511e11a9784c5818a4b6",
+    "ComputeLinearPredictor.47139f35e49625740fe7313d",
+    "ComputeLinearPredictor.28057dfda40fee2dc2ec54f4",
+    "ComputeLinearPredictor.e3c68e164a9046bae1f89cc9",
+    "ComputeLinearPredictor.de349d37c019547098084153",
+    "ComputeLinearPredictor.c62b782128d23fdf10080ade",
+    "ComputeLinearPredictor.2c672a0b8a152cb8e09a40ad",
+    "ComputeLinearPredictor.924871617e6ba10bc1d59d89",
+    "ComputeLinearPredictor.a4576e21e1432e9ff50338b0",
+    "ComputeLinearPredictor.9b216e1f298e801911967ff4",
+    "ComputeLinearPredictor.d7600478fb96472a62fa218e",
+    "ComputeLinearPredictor.3ab55f72cf47481e1d8a3d1e",
+    "ComputeLinearPredictor.e3497fe84c416554a01fd73a",
+    "ComputeLinearPredictor.609a032952759ebea9881706",
+    "ComputeLinearPredictor.d636c732b0e4514c14f4cf60",
+    "ComputeLinearPredictor.3c9d9f7d724cf1947a599b86",
+    "ComputeLinearPredictor.eae4df922b5ac15eda35242b",
+    "ComputeLinearPredictor.ab08f1d1b51ebf5188cec063",
+    "ComputeLinearPredictor.3528c99a37eae9eb02db2d04",
+    "ComputeLinearPredictor.928e7a2ffa555f9975e867c8",
+    "ComputeLinearPredictor.8f4684a6c58ade1c5abbb474",
+    "ComputeLinearPredictor.9dfc716e373fcf4041ae8230",
+    "ComputeLinearPredictor.86fbc24dd5e8865fc1d7242e",
+    "ComputeLinearPredictor.1ac122db86bb38e1f3204375",
+    "ComputeLinearPredictor.21e8676e266cca3517214ea6",
+    "ComputeLinearPredictor.5baaf883cacfda09817cabd5",
+    "ComputeLinearPredictor.8fd98955fa30d0541fa8c547",
+    "ComputeLinearPredictor.c172191df200d610237aaa7c",
+    "ComputeLinearPredictor.f2b9508504e632d54ffffed1",
+    "ComputeLinearPredictor.ff4f7cabe6ca96dff4ac13ae",
+    "ComputeLinearPredictor.49b5b1394b55ed262016f1e9",
+    "ComputeLinearPredictor.abc438b8d08c636e9ae5ee98",
+    "ComputeLinearPredictor.fd2dea56b8b5f1d234f70380",
+    "ComputeLinearPredictor.b61db014ef0561caccd8e0d4",
+    "ComputeLinearPredictor.fe846dd8764c20f77d2f0686",
+    "ComputeLinearPredictor.8a94d617e39110c2d8a8728b",
+    "ComputeLinearPredictor.19618838946cf10c38a19f05",
+    "ComputeLinearPredictor.de748c43529b9c6cf24b4956",
+    "ComputeLinearPredictor.a79af892a46389863bddda60",
+    "ComputeLinearPredictor.0f9a4e477dd0a07d79453099",
+    "ComputeLinearPredictor.cad73b939de45b25e98210d2",
+    "ComputeLinearPredictor.d1a374c246908ca4cad1a1e4",
+    "ComputeLinearPredictor.9dab89e0f4c9b1927e2af39c",
+    "ComputeLinearPredictor.5106f51b581b82fa62049fdb",
+    "ComputeLinearPredictor.ce54691f9cc9582fa5eea3a1",
+    "ComputeLinearPredictor.f45a1cc03ffbdbb457427c1f",
+    "ComputeLinearPredictor.2dcc61422f2d6a0aee749323",
+    "ComputeLinearPredictor.ed28abf168e91b32b74967aa",
+    "ComputeLinearPredictor.32b83cb0b64fc5b531ba4d5d",
+    "ComputeLinearPredictor.23e069aeaf64495d631c7dd8",
+    "ComputeLinearPredictor.58736d49f6a6f49359f91b77",
+    "ComputeLinearPredictor.cf0eae9edfb8ea6927f59161",
+    "ComputeLinearPredictor.99f15d9aca1515076d0cc48c",
+    "ComputeLinearPredictor.f7c032e32244d44ae0e32770",
+    "ComputeLinearPredictor.bcde2ae047278da579c7b6d6",
+    "ComputeLinearPredictor.3b436a4ea46298f732a85b62"
+  ],
+  "policy": "Each configuration has its own exact original reference. No cross-configuration normalization or default tolerance.",
+  "native": "NATIVE_EXCEL_NOT_RUN; unregistered native boundary test doubles only",
+  "scientific": "NOT_GOLDEN",
+  "production_authorized_by_this_reader": false
+}

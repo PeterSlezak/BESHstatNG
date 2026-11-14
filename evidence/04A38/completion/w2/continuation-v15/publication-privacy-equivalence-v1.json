@@ -1,0 +1,67 @@
+{
+  "status": "EXACT_PRIOR_DECISIONS_AND_FRESH_POLICY_REJECTIONS_PASS",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/publication_privacy_c15_v1.py",
+    "bytes": 1221,
+    "sha256": "9b2a7aa76fd2415c7f8d4ef01043ca60176303f4628d35df8ca1924af4d1fb05"
+  },
+  "base_policy": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/publication_policy.py",
+    "bytes": 3641,
+    "sha256": "66d2fd72c558857083121ea8f27f870f3763d4ce0ad3509b153b556f186c4039"
+  },
+  "prior_manifest": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/publication-manifest-v2.json",
+    "bytes": 4571563,
+    "sha256": "364c7297fa71cc9e30cfa6c0bce8d4d79719df7eb0ec2929e12d90a6901ff318"
+  },
+  "controls": [
+    {
+      "name": "Exact inherited/base policy equality",
+      "path": "evidence/04A38/completion/w2/continuation-v9/owner-review.md",
+      "status": "PASS"
+    },
+    {
+      "name": "Exact inherited/base policy equality",
+      "path": "BESHStat.Core/src/DM/NumericGuards.vb",
+      "status": "PASS"
+    },
+    {
+      "name": "Exact old bounded adverse-fixture decision",
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "status": "PASS"
+    },
+    {
+      "name": "changed bytes",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed path",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unattested home",
+      "status": "REJECTED"
+    },
+    {
+      "name": "Exact old bounded adverse-fixture decision",
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_publication_privacy_v1.py",
+      "status": "PASS"
+    },
+    {
+      "name": "changed bytes",
+      "status": "REJECTED"
+    },
+    {
+      "name": "changed path",
+      "status": "REJECTED"
+    },
+    {
+      "name": "unattested home",
+      "status": "REJECTED"
+    }
+  ],
+  "new_exceptions": 0,
+  "original_queries": 0,
+  "scope": "Only exact path/size/content/policy hashes reuse authenticated decisions. All changed/new content uses unchanged base policy. Neither historical Python privacy ERROR is relabelled or waived."
+}

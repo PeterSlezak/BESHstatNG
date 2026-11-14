@@ -1,0 +1,144 @@
+{
+  "status": "NECESSARY_NONSCIENTIFIC_LMM_ARRAY_PREPARATION_EXTRACTED",
+  "moves": [
+    {
+      "kind": "AUTHENTICATED_ADJACENT_EXTRACTION",
+      "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+      "host": "AddInterceptColumn",
+      "name": "AddInterceptColumn",
+      "source_identity": {
+        "symbol_id": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|f8f603adee393380@9947:605",
+        "signature_key": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|f8f603adee393380",
+        "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "name": "AddInterceptColumn",
+        "kind": "FunctionBlock",
+        "owner": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "signature": "Friend Function AddInterceptColumn(expandedX(,) As Double, nRows As Integer) As Double(,)",
+        "span_start": 9947,
+        "span_length": 605,
+        "start_line": 173,
+        "end_line": 190,
+        "body_sha256": "367cf28ca98c6910cea863eda55316f00b231aa62a78dfb921fa14fb2442490a",
+        "body_token_sha256": "416a122a92779d602fa1f492289d7442f9b51c9da7612dc8340e1d82fa0957f4",
+        "source_sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "expandedX.GetLength(1)",
+            "line": 174
+          },
+          {
+            "text": "out(i, 0)",
+            "line": 178
+          },
+          {
+            "text": "out(i, j + 1)",
+            "line": 184
+          },
+          {
+            "text": "expandedX(i, j)",
+            "line": 184
+          }
+        ]
+      },
+      "destination": "UdfLmmInputPreparation38",
+      "original_segment": "            Dim p As Integer = If(expandedX Is Nothing, 0, expandedX.GetLength(1))\n            Dim out(nRows - 1, p) As Double\n\n            For i As Integer = 0 To nRows - 1\n                out(i, 0) = 1.0\n            Next\n\n            If p > 0 Then\n                For i As Integer = 0 To nRows - 1\n                    For j As Integer = 0 To p - 1\n                        out(i, j + 1) = expandedX(i, j)\n                    Next\n                Next\n            End If\n\n            Return out",
+      "portable_segment": "Dim p As Integer = If(expandedX Is Nothing, 0, expandedX.GetLength(1))\nDim out(nRows - 1, p) As Double\n\nFor i As Integer = 0 To nRows - 1\n    out(i, 0) = 1.0\nNext\n\nIf p > 0 Then\n    For i As Integer = 0 To nRows - 1\n        For j As Integer = 0 To p - 1\n            out(i, j + 1) = expandedX(i, j)\n        Next\n    Next\nEnd If\n\nReturn out",
+      "portable_suffix": "",
+      "portable_signature": "Function AddInterceptColumn(expandedX As Double(,), nRows As Integer) As Double(,)",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfLmmInputPreparation38.AddInterceptColumn(expandedX, nRows)",
+      "aliases": []
+    },
+    {
+      "kind": "AUTHENTICATED_ADJACENT_EXTRACTION",
+      "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+      "host": "AddInterceptName",
+      "name": "AddInterceptName",
+      "source_identity": {
+        "symbol_id": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|79eec6a5774f6931@10562:430",
+        "signature_key": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb|BESHStatNG.regression.MixedModelFrontEndHelpers|FunctionBlock|79eec6a5774f6931",
+        "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "name": "AddInterceptName",
+        "kind": "FunctionBlock",
+        "owner": "BESHStatNG.regression.MixedModelFrontEndHelpers",
+        "signature": "Friend Function AddInterceptName(expandedNames() As String) As String()",
+        "span_start": 10562,
+        "span_length": 430,
+        "start_line": 192,
+        "end_line": 204,
+        "body_sha256": "a4878b497893a89e1bc37f2cc9b7faadcec68e8c4f56dceecfa0a1aadd5d52e1",
+        "body_token_sha256": "6b8749f85f95c7a69640439ee135a4f276f21d7968c8398cbc67b3d7cc2b6249",
+        "source_sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e",
+        "exported": false,
+        "parent_member": null,
+        "invocations": [
+          {
+            "text": "out(0)",
+            "line": 195
+          },
+          {
+            "text": "out(j + 1)",
+            "line": 199
+          },
+          {
+            "text": "expandedNames(j)",
+            "line": 199
+          }
+        ]
+      },
+      "destination": "UdfLmmInputPreparation38",
+      "original_segment": "            Dim p As Integer = If(expandedNames Is Nothing, 0, expandedNames.Length)\n            Dim out(p) As String\n            out(0) = \"Intercept\"\n\n            If p > 0 Then\n                For j As Integer = 0 To p - 1\n                    out(j + 1) = expandedNames(j)\n                Next\n            End If\n\n            Return out",
+      "portable_segment": "Dim p As Integer = If(expandedNames Is Nothing, 0, expandedNames.Length)\nDim out(p) As String\nout(0) = \"Intercept\"\n\nIf p > 0 Then\n    For j As Integer = 0 To p - 1\n        out(j + 1) = expandedNames(j)\n    Next\nEnd If\n\nReturn out",
+      "portable_suffix": "",
+      "portable_signature": "Function AddInterceptName(expandedNames As String()) As String()",
+      "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfLmmInputPreparation38.AddInterceptName(expandedNames)",
+      "aliases": []
+    }
+  ],
+  "before_common": {
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfLmmInputPreparation38.vb",
+    "bytes": 7912,
+    "sha256": "6e42468c3dddb50c54455010bdac44550a32f2c80c9e2813923779d04ac15426"
+  },
+  "common_preimage": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/source-provisional/before-adjacent-LMM-completion-v1/UdfLmmInputPreparation38.vb.txt",
+    "bytes": 7912,
+    "sha256": "6e42468c3dddb50c54455010bdac44550a32f2c80c9e2813923779d04ac15426"
+  },
+  "current_sources": [
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfLmmInputPreparation38.vb",
+      "bytes": 8981,
+      "sha256": "679ef815b5e959a2684421a319dd6aeaa3f5c6f875cd53cb23cebfa4b50c7dfb"
+    },
+    {
+      "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+      "bytes": 23278,
+      "sha256": "43bef236ac03879a14d52393c26798b595a4ecc9ad4d0866d5781b82038b59ec"
+    }
+  ],
+  "fallback_rebinding": {
+    "before": "Global.BESHStatNG.regression.MixedModelFrontEndHelpers.DefaultNames",
+    "after": "Global.BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.DefaultNames",
+    "exact_existing_native_source": {
+      "path": "evidence/04A38/completion/w2/continuation-v16/source-before/BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb.txt",
+      "bytes": 23894,
+      "sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e"
+    },
+    "existing_portable_source": {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfMetadataPreparation38.vb",
+      "bytes": 25433,
+      "sha256": "5629e3325038b2759866c6b951b0d01177c6d149e971b24d395f7d1ddfd3d873"
+    },
+    "domain": "Fallback reached only after ExpandedPredictorMatrix.GetLength(1)>0; existing Common positive-count allocation/loop/name/culture behavior is identical. Native AddInterceptIfRequested null/error logger and alias policy remain unchanged. Existing Common MMRM naming differences are not adopted."
+  },
+  "failed_build": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/build-combined-v2-Debug.json",
+    "bytes": 2681,
+    "sha256": "9fc0b453f072328aac8e9630600d7dde1c313341ef5b7a31de776a7ada1be7bc"
+  },
+  "Core_changes": 0,
+  "unit_test_runs": 0,
+  "original_queries": 0
+}

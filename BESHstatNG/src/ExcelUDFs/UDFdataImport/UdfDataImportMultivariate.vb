@@ -94,23 +94,11 @@ Partial Friend Module UdfDataImport
         Dim rows As Integer = usedRows - startRow
         If rows < 1 Then Return False
 
-        Dim inferred(cols - 1) As String
-        For j As Integer = 0 To cols - 1
-            inferred(j) = "Variable " & (j + 1).ToString(CultureInfo.InvariantCulture)
-            If assumeHeader AndAlso Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(0, j)) Then
-                inferred(j) = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(0, j))
-            End If
-        Next
-        resolvedNames = ResolveImportLabelNames(varNames, cols, "Variable ", inferred)
-
-        ReDim data(rows - 1, cols - 1)
-        For i As Integer = 0 To rows - 1
-            For j As Integer = 0 To cols - 1
-                data(i, j) = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(startRow + i, j))
-            Next
-        Next
-
-        Return True
+        Return Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.CompleteCategoricalMatrixPrepared(
+            arr, varNames, cols, assumeHeader, startRow, rows,
+            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell,
+            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText,
+            AddressOf ResolveImportLabelNames, data, resolvedNames)
     End Function
 
     ''' <summary>
@@ -136,23 +124,7 @@ Partial Friend Module UdfDataImport
         Dim arr As Object(,) = Get2D(arg)
         If arr Is Nothing Then Return False
 
-        Dim rows As Integer = arr.GetLength(0)
-        Dim cols As Integer = arr.GetLength(1)
-        Dim list As New List(Of String)()
-        If rows = 1 Then
-            For j As Integer = 0 To cols - 1
-                list.Add(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(0, j)))
-            Next
-        ElseIf cols = 1 Then
-            For i As Integer = 0 To rows - 1
-                list.Add(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(i, 0)))
-            Next
-        Else
-            Return False
-        End If
-
-        values = list.ToArray()
-        Return values.Length > 0
+        Return Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.TryGetStringVectorPrepared(arr, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText, values)
     End Function
 
     ''' <summary>
@@ -193,27 +165,7 @@ Partial Friend Module UdfDataImport
         Dim arr As Object(,) = Get2D(arg)
         If arr Is Nothing Then Return False
 
-        Dim rows As Integer = arr.GetLength(0)
-        Dim cols As Integer = arr.GetLength(1)
-        Dim vals As New List(Of Double)()
-        If rows = 1 Then
-            For j As Integer = 0 To cols - 1
-                Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(0, j))
-                If Not d.HasValue Then Return False
-                vals.Add(d.Value)
-            Next
-        ElseIf cols = 1 Then
-            For i As Integer = 0 To rows - 1
-                Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(i, 0))
-                If Not d.HasValue Then Return False
-                vals.Add(d.Value)
-            Next
-        Else
-            Return False
-        End If
-
-        values = vals.ToArray()
-        Return values.Length > 0
+        Return Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.TryGetDoubleVectorPrepared(arr, AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble, values)
     End Function
 
     Private Function ResolveImportLabelNames(arg As Object,

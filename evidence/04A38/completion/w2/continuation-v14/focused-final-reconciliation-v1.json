@@ -1,0 +1,525 @@
+{
+  "Common_first": {
+    "kind": "TEST",
+    "suite": "Common",
+    "command": {
+      "command": [
+        "dotnet",
+        "vstest",
+        "<ISOLATED_RUN>\\completion-w2-cont14\\packet-v1-focus-bc-v1\\Debug\\tests-Common\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<REPO_ROOT>\\test.runsettings",
+        "/TestCaseFilter:FullyQualifiedName~UdfContinuation14Tests",
+        "/Logger:trx;LogFileName=focused.trx",
+        "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont14\\packet-v1-focus-bc-v1\\Debug\\results-Common"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.0003152999997837,
+      "stdout_sha256": "07cd6c09e2682f3b1629491f722597c44abdc821bf12a78af86c5de918ea8168",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    "tests": {
+      "records": [
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"cemstrata\",CemStrata)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000106",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"sample_size_summary\",SampleSize)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000090",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"data-import\",ImportSummary)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000127",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "OldResettingContractAndNewPostConversionContractAreSeparate",
+          "test_name": "OldResettingContractAndNewPostConversionContractAreSeparate (\" \")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000073",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "TwoLabelsKeepPreferredTokenAndFirstSeenOrder",
+          "test_name": "TwoLabelsKeepPreferredTokenAndFirstSeenOrder (\"sk-SK\",\"no\",\"yes\",\"yes\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005276",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "AliasOutputSurvivesFalseAndCallbackException",
+          "test_name": "AliasOutputSurvivesFalseAndCallbackException (\"\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0060341",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmOptionStagesKeepIdentityPrecedenceAndNonmatchingNormalization",
+          "test_name": "PsmOptionStagesKeepIdentityPrecedenceAndNonmatchingNormalization (\"\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0074869",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmModelPreparationKeepsRowsNamesCellTypesAndReferenceIdentity",
+          "test_name": "PsmModelPreparationKeepsRowsNamesCellTypesAndReferenceIdentity",
+          "outcome": "Passed",
+          "duration": "00:00:00.0021735",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "AliasOutputSurvivesFalseAndCallbackException",
+          "test_name": "AliasOutputSurvivesFalseAndCallbackException (\"sk-SK\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003813",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"model\",ScoreModel)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000078",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"warnings\",Warnings)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000100",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmModelPreparationDoesNotMaskOriginalBoundsAndNullFailures",
+          "test_name": "PsmModelPreparationDoesNotMaskOriginalBoundsAndNullFailures",
+          "outcome": "Passed",
+          "duration": "00:00:00.0007479",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"weightdiagnostics\",WeightDiagnostics)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000092",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "TwoLabelsKeepPreferredTokenAndFirstSeenOrder",
+          "test_name": "TwoLabelsKeepPreferredTokenAndFirstSeenOrder (\"\",\"case\",\"control\",\"case\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0016328",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (null,Unknown)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000097",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmImportReportKeepsEmptyHeaderCellsAndBoundsErrors",
+          "test_name": "PsmImportReportKeepsEmptyHeaderCellsAndBoundsErrors",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006768",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmOptionStagesKeepIdentityPrecedenceAndNonmatchingNormalization",
+          "test_name": "PsmOptionStagesKeepIdentityPrecedenceAndNonmatchingNormalization (\"sk-SK\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001810",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"aipw\",DoublyRobust)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000089",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"effects\",Effect)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000113",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"matcheddata\",MatchedData)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000161",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"options\",Options)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005492",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "OldResettingContractAndNewPostConversionContractAreSeparate",
+          "test_name": "OldResettingContractAndNewPostConversionContractAreSeparate (\"\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001070",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"matched-pairs\",Matches)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000094",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"diagnostics\",Balance)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000096",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"subclassification\",Subclass)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000114",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"cemweights\",CemWeights)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000091",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "ExplicitTokenReturnsBeforeNullCallbacksAndBinaryEmptyStillSucceeds",
+          "test_name": "ExplicitTokenReturnsBeforeNullCallbacksAndBinaryEmptyStillSucceeds",
+          "outcome": "Passed",
+          "duration": "00:00:00.0011175",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\" LOVE_PLOT_DATA \",LovePlot)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000221",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"weights\",RowAudit)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000096",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "TwoLabelsKeepPreferredTokenAndFirstSeenOrder",
+          "test_name": "TwoLabelsKeepPreferredTokenAndFirstSeenOrder (\"\",\"treated\",\"control\",\"treated\")",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000251",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"nonsense\",Unknown)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000201",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"overlap\",OverlapSummary)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000200",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"overlaphistogram\",OverlapBins)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000193",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "PsmNamedTableAliasesPreserveTheirOriginalRoute",
+          "test_name": "PsmNamedTableAliasesPreserveTheirOriginalRoute (\"summary\",RunSummary)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0013294",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation14Tests",
+          "method": "OldResettingContractAndNewPostConversionContractAreSeparate",
+          "test_name": "OldResettingContractAndNewPostConversionContractAreSeparate (null)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0006494",
+          "message": ""
+        }
+      ],
+      "outcomes": {
+        "Passed": 35
+      },
+      "counters": {
+        "total": "35",
+        "executed": "35",
+        "passed": "35",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "sha256": "ad59d5888b80214ef708d97a489af44e4839fa91bab7d33ab6cb82e8d0f89002"
+    }
+  },
+  "Windows_corrective": {
+    "kind": "TEST",
+    "suite": "Legacy",
+    "command": {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont14\\packet-v1-focus-legacy-v2\\Debug\\tests-Legacy\\BESHStatNG.Test.dll",
+        "/Settings:<REPO_ROOT>\\test.runsettings",
+        "/TestCaseFilter:FullyQualifiedName~Continuation14",
+        "/Logger:trx;LogFileName=focused.trx",
+        "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont14\\packet-v1-focus-legacy-v2\\Debug\\results-Legacy",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 4.660774500000116,
+      "stdout_sha256": "dacafa870632f9590c52096b738650aac6db9f526195f7272f636ab2a8400d99",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    "tests": {
+      "records": [
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14NativeStatusConversionAndLowerBoundsKeepAlias",
+          "test_name": "Continuation14NativeStatusConversionAndLowerBoundsKeepAlias",
+          "outcome": "Passed",
+          "duration": "00:00:00.0032240",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+          "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.UdfDataImport,TryGetPsmData,BESHStatNG.ExcelCommon.UdfPsmDataPreparation38)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001480",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14PsmHandleAlphaCacheReferenceAndSpecificCleanup",
+          "test_name": "Continuation14PsmHandleAlphaCacheReferenceAndSpecificCleanup",
+          "outcome": "Passed",
+          "duration": "00:00:00.0024462",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14PsmNativeOptionsKeepCoercionAndDiagnosticPrecedence",
+          "test_name": "Continuation14PsmNativeOptionsKeepCoercionAndDiagnosticPrecedence ()",
+          "outcome": "Passed",
+          "duration": "00:00:00.0141406",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14PsmNativeOptionsKeepCoercionAndDiagnosticPrecedence",
+          "test_name": "Continuation14PsmNativeOptionsKeepCoercionAndDiagnosticPrecedence (sk-SK)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0005140",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14ActualNativeAliasIsRetainedOnFalse",
+          "test_name": "Continuation14ActualNativeAliasIsRetainedOnFalse (sk-SK,False)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0003497",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14ActualNativeAliasIsRetainedOnFalse",
+          "test_name": "Continuation14ActualNativeAliasIsRetainedOnFalse (,False)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0917846",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14NativeFailureKeepsConversionEffectsAndExactException",
+          "test_name": "Continuation14NativeFailureKeepsConversionEffectsAndExactException",
+          "outcome": "Passed",
+          "duration": "00:00:00.0014897",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14NativeBinaryAndExplicitErrorsKeepPolicy",
+          "test_name": "Continuation14NativeBinaryAndExplicitErrorsKeepPolicy ()",
+          "outcome": "Passed",
+          "duration": "00:00:00.0004613",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+          "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.UdfDataImport,GuessPositiveClass,BESHStatNG.ExcelCommon.UdfClassLabelPreparation38)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0023978",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14ActualNativeAliasIsRetainedOnFalse",
+          "test_name": "Continuation14ActualNativeAliasIsRetainedOnFalse (,True)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000815",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14ActualNativeAliasIsRetainedOnFalse",
+          "test_name": "Continuation14ActualNativeAliasIsRetainedOnFalse (sk-SK,True)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000749",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+          "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.WorksheetFunctions.PropensityScoreUDFs,BuildFitOptions,BESHStatNG.ExcelCommon.UdfPsmDataPreparation38)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000119",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14NativeBinaryAndExplicitErrorsKeepPolicy",
+          "test_name": "Continuation14NativeBinaryAndExplicitErrorsKeepPolicy (sk-SK)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000821",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14PsmUnknownTableDoesNotReadMissingHandleState",
+          "test_name": "Continuation14PsmUnknownTableDoesNotReadMissingHandleState",
+          "outcome": "Passed",
+          "duration": "00:00:00.0032360",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+          "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.WorksheetFunctions.PropensityScoreUDFs,ResolveNamedTable,BESHStatNG.ExcelCommon.UdfPsmDataPreparation38)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0000131",
+          "message": ""
+        },
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Continuation14ShippingConsumersReachActualPreparedApis",
+          "test_name": "Continuation14ShippingConsumersReachActualPreparedApis (BESHStatNG.WorksheetFunctions.PropensityScoreUDFs,DataImportSummaryTable,BESHStatNG.ExcelCommon.UdfPsmDataPreparation38)",
+          "outcome": "Passed",
+          "duration": "00:00:00.0001229",
+          "message": ""
+        }
+      ],
+      "outcomes": {
+        "Passed": 17
+      },
+      "counters": {
+        "total": "17",
+        "executed": "17",
+        "passed": "17",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "sha256": "ad42bf6e0a0b5b730bec72ecfe569ede63a823ec02187d7c038076805a2c4aae"
+    }
+  },
+  "new_PASS": 52,
+  "first_campaign": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/focused-bc-v1-packet-v1-Debug.json",
+    "bytes": 17339,
+    "sha256": "e6345924d30bd16526157aa29b9107e80de2f653129fb1de04ea54cc068df3c0"
+  },
+  "corrective_campaign": {
+    "path": "evidence/04A38/completion/w2/continuation-v14/focused-legacy-v2-packet-v1-Debug.json",
+    "bytes": 9867,
+    "sha256": "da34c68a2efd0d5090136e03ceba1cc6e80414c6a008821f0605f9d36e0f0536"
+  },
+  "qualification": "Common35 PASS on first attempt. Windows first test build failed BC30456, no tests executed; five qualified opcode names fixed only new test source. Windows corrective17 PASS. First/effective attempts explicitly separate; no full campaign repeated.",
+  "original_queries": 0
+}

@@ -47,19 +47,9 @@ Partial Friend Module UdfDataImport
 
         Dim treatmentKey As String = If(String.IsNullOrWhiteSpace(treatmentName), "Treatment", treatmentName.Trim())
         Dim outcomeKey As String = If(String.IsNullOrWhiteSpace(outcomeName), "Outcome", outcomeName.Trim())
-        Dim modelNames(p) As String
-        modelNames(0) = treatmentKey
-        For j As Integer = 0 To p - 1
-            modelNames(j + 1) = covariateNames(j)
-        Next
+        Dim modelNames() As String = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildModelNamesPrepared(treatmentKey, covariateNames, p)
 
-        Dim modelInput(n - 1, p) As Object
-        For i As Integer = 0 To n - 1
-            modelInput(i, 0) = treatmentCol(i, 0)
-            For j As Integer = 0 To p - 1
-                modelInput(i, j + 1) = covariateMatrix(i, j)
-            Next
-        Next
+        Dim modelInput(,) As Object = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildModelInputPrepared(treatmentCol, covariateMatrix, n, p)
 
         Dim scoreInput(,) As Object = Nothing
         Dim scoreNames() As String = Nothing

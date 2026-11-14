@@ -1,0 +1,24 @@
+Friend Function ExtractPairedNumericColumnsIgnoringNonNumeric(x As Object, y As Object, ByRef err As ExcelError?) As Double(,)
+        err = Nothing
+
+        If Not WindowsSpreadsheetTransport.PairedArgumentsAligned(x, y) Then
+            err = ExcelError.ExcelErrorValue
+            Return Nothing
+        End If
+
+        Dim ax As Object(,) = CoerceToObjectMatrix(x, err)
+        If err.HasValue OrElse ax Is Nothing Then Return Nothing
+
+        Dim ay As Object(,) = CoerceToObjectMatrix(y, err)
+        If err.HasValue OrElse ay Is Nothing Then Return Nothing
+
+        If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 OrElse ax.GetLength(0) <> ay.GetLength(0) Then
+            err = ExcelError.ExcelErrorValue
+            Return Nothing
+        End If
+
+        Dim pairs As List(Of Double()) = ExtractCompletePairedNumericRows(ax, ay)
+        If pairs.Count = 0 Then Return Nothing
+
+        Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.RowsToMatrix(pairs, 2)
+    End Function

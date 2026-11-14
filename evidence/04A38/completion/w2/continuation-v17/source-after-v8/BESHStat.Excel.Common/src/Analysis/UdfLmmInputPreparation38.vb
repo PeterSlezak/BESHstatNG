@@ -1,0 +1,199 @@
+Option Explicit On
+Option Strict On
+Option Infer On
+
+Imports System
+Imports System.Collections.Generic
+
+Namespace ExcelCommon
+    Public NotInheritable Class UdfLmmPreparedRows38
+        Public Property Y As Double()
+        Public Property X As Double(,)
+        Public Property Z As Double(,)
+        Public Property Subject As Object()
+        Public Property Visit As Double()
+        Public Property DroppedRows As Integer
+    End Class
+
+    Public NotInheritable Class UdfLmmInputPreparation38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function TryPrepareRows(yCol As Object(,), xRaw As Object(,), zRaw As Object(,), subjectCol As Object(,), visitCol As Object(,), zSupplied As Boolean, visitSupplied As Boolean, n As Integer, pX As Integer, pZ As Integer, readNumber As Func(Of Object, Double?), readText As Func(Of Object, String), ByRef prepared As UdfLmmPreparedRows38, ByRef errorMessage As String) As Boolean
+            prepared = Nothing
+            Dim yList As New List(Of Double)()
+            Dim xRows As New List(Of Double())()
+            Dim zRows As New List(Of Double())()
+            Dim subjectList As New List(Of Object)()
+            Dim visitList As New List(Of Double)()
+            Dim dropped As Integer = 0
+
+            For i As Integer = 0 To n - 1
+                Dim yi As Double? = readNumber(yCol(i, 0))
+                Dim subjectText As String = readText(subjectCol(i, 0))
+                Dim valid As Boolean = yi.HasValue AndAlso Not String.IsNullOrWhiteSpace(subjectText)
+
+                Dim xRow(pX - 1) As Double
+                If valid Then
+                    For j As Integer = 0 To pX - 1
+                        Dim xij As Double? = readNumber(xRaw(i, j))
+                        If Not xij.HasValue Then
+                            valid = False
+                            Exit For
+                        End If
+                        xRow(j) = xij.Value
+                    Next
+                End If
+
+                Dim zRow() As Double = Nothing
+                If valid AndAlso zSupplied Then
+                    ReDim zRow(pZ - 1)
+                    For j As Integer = 0 To pZ - 1
+                        Dim zij As Double? = readNumber(zRaw(i, j))
+                        If Not zij.HasValue Then
+                            valid = False
+                            Exit For
+                        End If
+                        zRow(j) = zij.Value
+                    Next
+                End If
+
+                Dim vi As Double = Double.NaN
+                If valid AndAlso visitSupplied Then
+                    Dim parsedVisit As Double? = readNumber(visitCol(i, 0))
+                    If Not parsedVisit.HasValue Then
+                        valid = False
+                    Else
+                        vi = parsedVisit.Value
+                    End If
+                End If
+
+                If valid Then
+                    yList.Add(yi.Value)
+                    xRows.Add(xRow)
+                    If zSupplied Then zRows.Add(zRow)
+                    subjectList.Add(subjectText)
+                    If visitSupplied Then visitList.Add(vi)
+                Else
+                    dropped += 1
+                End If
+            Next
+
+            If yList.Count = 0 Then
+                errorMessage = "no valid complete rows remain after removing rows with missing/invalid y, x, z, subject, or visit values."
+                Return False
+            End If
+
+            Dim xValues(yList.Count - 1, pX - 1) As Double
+            For i As Integer = 0 To yList.Count - 1
+                For j As Integer = 0 To pX - 1
+                    xValues(i, j) = xRows(i)(j)
+                Next
+            Next
+
+            Dim zValues(,) As Double = Nothing
+            If zSupplied Then
+                ReDim zValues(yList.Count - 1, pZ - 1)
+                For i As Integer = 0 To yList.Count - 1
+                    For j As Integer = 0 To pZ - 1
+                        zValues(i, j) = zRows(i)(j)
+                    Next
+                Next
+            End If
+
+            Dim finalVisit() As Double = Nothing
+            If visitSupplied Then finalVisit = visitList.ToArray()
+
+            prepared = New UdfLmmPreparedRows38 With {
+                .Y = yList.ToArray(),
+                .X = xValues,
+                .Z = zValues,
+                .Subject = subjectList.ToArray(),
+                .Visit = finalVisit,
+                .DroppedRows = dropped
+            }
+            Return True
+        End Function
+
+        Public Shared Function TryBuildExpandedDesign(raw As Double(,), rawNames As String(), formulaText As String, absoluteColumnLetters As String(), allowRelativeColumnLetters As Boolean, allowAbsoluteColumnLetters As Boolean, allowQuotedVariableNames As Boolean, role As String, fallbackPrefix As String, ByRef design As Double(,), ByRef designNames As String(), ByRef errorMessage As String) As Boolean
+            design = Nothing
+            designNames = New String() {}
+            errorMessage = Nothing
+
+            If raw Is Nothing OrElse raw.GetLength(0) <= 0 OrElse raw.GetLength(1) <= 0 Then
+                errorMessage = role & " requires a non-empty predictor matrix."
+                Return False
+            End If
+
+            Dim p As Integer = raw.GetLength(1)
+            Dim prefix As String = If(String.IsNullOrWhiteSpace(fallbackPrefix), "X", fallbackPrefix.Trim())
+            Dim names() As String = LmmUDFsMetadata38.NormalizeNameList(rawNames, p, prefix)
+
+            If String.IsNullOrWhiteSpace(formulaText) Then
+                design = raw
+                designNames = names
+                Return True
+            End If
+
+            Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing
+            Dim designErr As String = Nothing
+
+            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=raw,
+                                                                                            result:=designBuild,
+                                                                                            errorMessage:=designErr,
+                                                                                            predictorNames:=names,
+                                                                                            formulaText:=formulaText,
+                                                                                            absoluteColumnLetters:=absoluteColumnLetters,
+                                                                                            allowRelativeColumnLetters:=allowRelativeColumnLetters,
+                                                                                            allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,
+                                                                                            allowQuotedVariableNames:=allowQuotedVariableNames,
+                                                                                            omitCategoricalReference:=True) Then
+                errorMessage = role & " could not be parsed or expanded: " & If(designErr, String.Empty)
+                Return False
+            End If
+
+            If designBuild Is Nothing OrElse designBuild.ExpandedPredictorMatrix Is Nothing OrElse designBuild.ExpandedPredictorMatrix.GetLength(1) <= 0 Then
+                errorMessage = role & " expansion did not produce any design columns."
+                Return False
+            End If
+
+            design = designBuild.ExpandedPredictorMatrix
+            designNames = If(designBuild.ExpandedPredictorNames, New String() {})
+            If designNames.Length <> design.GetLength(1) Then designNames = Global.BESHStatNG.ExcelCommon.MixedModelUDFsMetadata38.DefaultNames(design.GetLength(1), prefix)
+            Return True
+        End Function
+
+        Public Shared Function AddInterceptColumn(expandedX As Double(,), nRows As Integer) As Double(,)
+            Dim p As Integer = If(expandedX Is Nothing, 0, expandedX.GetLength(1))
+            Dim out(nRows - 1, p) As Double
+
+            For i As Integer = 0 To nRows - 1
+                out(i, 0) = 1.0
+            Next
+
+            If p > 0 Then
+                For i As Integer = 0 To nRows - 1
+                    For j As Integer = 0 To p - 1
+                        out(i, j + 1) = expandedX(i, j)
+                    Next
+                Next
+            End If
+
+            Return out
+        End Function
+
+        Public Shared Function AddInterceptName(expandedNames As String()) As String()
+            Dim p As Integer = If(expandedNames Is Nothing, 0, expandedNames.Length)
+            Dim out(p) As String
+            out(0) = "Intercept"
+
+            If p > 0 Then
+                For j As Integer = 0 To p - 1
+                    out(j + 1) = expandedNames(j)
+                Next
+            End If
+
+            Return out
+        End Function
+    End Class
+End Namespace

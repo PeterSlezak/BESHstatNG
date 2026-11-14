@@ -1,0 +1,18 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/build_contracts_v1.py",
+    "bytes": 12923,
+    "sha256": "9aba8289e604c58643691916ebd766aa8fea3e905fe42ee6b86ae425a0df25ce"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/build_contracts_v2.py",
+    "bytes": 12937,
+    "sha256": "4736a82aca5d4d3621b8cd43997a43550276e8c7de3f177de34dac4676a918f6"
+  },
+  "exit_code": 1,
+  "observed_error": "ValueError: Ambiguous previously supported historical identity",
+  "cause": "Five previously supported retired GEE/MMRM bodies have no current declaration. They lie outside the C11 graph and retain their sealed v10 removal/composite authority; the new builder incorrectly required a one-current-body mapping for them.",
+  "correction": "Limit the new cohort mapping assertion to actual C11 candidates. Preserve all historical universe identities and prior proofs; do not create or infer current aliases for retired bodies.",
+  "production_changes": 0,
+  "original_queries": 0
+}

@@ -1,0 +1,97 @@
+{
+  "status": "NEW_AUTHORIZED_C6_SOURCE_PIN_FAIL_EXPLAINED_NOT_WAIVED",
+  "identity": "test_original_member_ids_and_body_pins_not_fabricated (test_04a27_transport_successor.Transport27SuccessorTests.test_original_member_ids_and_body_pins_not_fabricated)",
+  "outcome": "FAIL",
+  "occurrences": 1,
+  "first_location": "scripts/tests/test_04a27_transport_successor.py:60",
+  "original_historical_test": {
+    "path": "scripts/tests/test_04a27_transport_successor.py",
+    "bytes": 8216,
+    "sha256": "e268340655fb8be7889e13c0f22d1cb3acd662aba09264b33728dcd431e23830"
+  },
+  "historical_contract": {
+    "path": "scripts/verify-04a27-contract.py",
+    "bytes": 15468,
+    "sha256": "3f74ff905f28f7a5801a9adf7cd34e180726042ea73ba365c5df64b2670e047e"
+  },
+  "historical_record": {
+    "path": "docs/architecture/04A27/transport-restrictions-v1.json",
+    "bytes": 102641,
+    "sha256": "b86197c2d466da3caa94c530d665b04be785e5d85986b2be479a38527d3d4a86"
+  },
+  "entry_projection_equals_historical_anchors": true,
+  "changed_members": [
+    {
+      "member": "TryReadPairedNumericColumns",
+      "canonical_original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|e0115878bff3edd3@34247:1289",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|e0115878bff3edd3@31624:1210",
+      "entry": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "member": "TryReadPairedNumericColumns",
+        "before_sha256": "43ca9787f9cbb50c1fc923eb0aa07688d50444338469ab7d0ff02696fed0afaa",
+        "after_sha256": "a555dc33d7739ef4729fd8ae6adb68e64b00fa79e23cd6455bec6f0dfa795372",
+        "convention": "UTF-8 logical member text, LF, from declaration through End Function; original inventory IDs are separate"
+      },
+      "current": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "member": "TryReadPairedNumericColumns",
+        "before_sha256": "43ca9787f9cbb50c1fc923eb0aa07688d50444338469ab7d0ff02696fed0afaa",
+        "after_sha256": "d2c59e7073a401e386a87b76eec3b6de8f56dc4fb019b4cb44378cb20a297039",
+        "convention": "UTF-8 logical member text, LF, from declaration through End Function; original inventory IDs are separate"
+      },
+      "proof": "whole-body-contracts-v1.json; source-composition-proof-v1.json; actual Core RowsToMatrix consumer/CIL and all frozen outputs exact"
+    },
+    {
+      "member": "ExtractPairedNumericColumnsIgnoringNonNumeric",
+      "canonical_original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec6dd73cd7c33ba1@38242:1105",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec6dd73cd7c33ba1@35477:1009",
+      "entry": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "member": "ExtractPairedNumericColumnsIgnoringNonNumeric",
+        "before_sha256": "b952d25dae61e702ab3362f4e6962159b54f811dd1da27694cf4e4d954628ade",
+        "after_sha256": "a596b1dd8587defe459af7ca7198e600268e51880f39c55342c9d0c99176c300",
+        "convention": "UTF-8 logical member text, LF, from declaration through End Function; original inventory IDs are separate"
+      },
+      "current": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "member": "ExtractPairedNumericColumnsIgnoringNonNumeric",
+        "before_sha256": "b952d25dae61e702ab3362f4e6962159b54f811dd1da27694cf4e4d954628ade",
+        "after_sha256": "4f0d0d922d88c75040a9274e95d2b4160cc0c3371e491821da08c36103c790b1",
+        "convention": "UTF-8 logical member text, LF, from declaration through End Function; original inventory IDs are separate"
+      },
+      "proof": "whole-body-contracts-v1.json; source-composition-proof-v1.json; actual Core RowsToMatrix consumer/CIL and all frozen outputs exact"
+    }
+  ],
+  "transition": {
+    "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+    "before": {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "bytes": 41648,
+      "sha256": "ae4d3fe3320287e177f2a72f2ef53c0c90530b489a0153020d5646d8ff662c00"
+    },
+    "preimage": {
+      "path": "evidence/04A38/completion/w2/continuation-v6/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+      "bytes": 41648,
+      "sha256": "ae4d3fe3320287e177f2a72f2ef53c0c90530b489a0153020d5646d8ff662c00"
+    },
+    "after": {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "bytes": 41172,
+      "sha256": "0da6d51a7aee49b750d4208810834aeb17d0504f72aaef1186f610758bca9288"
+    },
+    "snapshot": {
+      "path": "evidence/04A38/completion/w2/continuation-v6/source-after/final-v1/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+      "bytes": 41172,
+      "sha256": "0da6d51a7aee49b750d4208810834aeb17d0504f72aaef1186f610758bca9288"
+    }
+  },
+  "raw_stderr_sha256": "27161af75788dfea0b9b4c933fd40991cb94d9f6b067a486b09669288898b9ce",
+  "exact_trace": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a27_transport_successor.py\", line 60, in test_original_member_ids_and_body_pins_not_fabricated\n    self.assertEqual(self.data[\"current_member_anchors\"], contract.current_members(self.baseline[\"main\"]))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [{'pa[2550 chars]6': 'a555dc33d7739ef4729fd8ae6adb68e64b00fa79e[995 chars]te'}] != [{'pa[2550 chars]6': 'd2c59e7073a401e386a87b76eec3b6de8f56dc4fb[995 chars]te'}]\n\nFirst differing element 6:\n{'pat[213 chars]6': 'a555dc33d7739ef4729fd8ae6adb68e64b00fa79e[143 chars]ate'}\n{'pat[213 chars]6': 'd2c59e7073a401e386a87b76eec3b6de8f56dc4fb[143 chars]ate'}\n\nDiff is 4137 characters long. Set self.maxDiff to None to see it.\n",
+  "cause": "Historical current-member hash anchors matched the C6 preimage. Two complete paired-import bodies now delegate matrix copying to existing Core RowsToMatrix under the authorized C6 transition. ExtractCompletePairedNumericRows already delegated and its body pin is unchanged. The historical equality assertion correctly fails and stays FAIL. Numerical/output compatibility is separately exact; no test or older ledger is rewritten.",
+  "count_effect": {
+    "passed": -1,
+    "failed": 1,
+    "errors": 0
+  },
+  "new_original_semantic_queries": 0
+}

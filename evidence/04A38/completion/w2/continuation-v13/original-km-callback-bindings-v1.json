@@ -1,0 +1,698 @@
+{
+  "status": "BOTH_CANONICAL_ORIGINAL_KM_CALLBACKS_EXACT_COMPILED_CURRENT_MATCH",
+  "rows": [
+    {
+      "configuration": "Debug",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@34810:50",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818",
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.WorksheetFunctions.PlotDataUDFs",
+        "signature": "Function(x)",
+        "span_start": 34810,
+        "span_length": 50,
+        "start_line": 610,
+        "end_line": 610,
+        "body_sha256": "96b4b9d24b9e032a1799a742669c385de96d42bde2a39f95c908be31773edc30",
+        "body_token_sha256": "5229a32b51833baaab3259eab85e89311578b6ab61307f31d96f9ee80b3ec1f4",
+        "source_sha256": "606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|0fcb4b292f4645d0@34344:3143",
+        "invocations": []
+      },
+      "original_parent": "BESHStatNG.WorksheetFunctions.PlotDataUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildKaplanMeierStepTable(System.Object[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "actual_original_ldftn": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-0(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "original_complete_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-0(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__",
+        "member_name": "_Lambda$__9-0",
+        "parameter_types": [
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "b0d3c785caf54bc5cd280429aa5651cc431aa2ea24d78083c4095385b8211246",
+        "type_initializer": true,
+        "nonliteral_static_fields": 3,
+        "locals": [
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              8
+            ]
+          },
+          {
+            "op": "pop",
+            "operand": null
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 1
+          },
+          {
+            "op": "initobj",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              9
+            ]
+          },
+          {
+            "op": "unbox.any",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              11
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@30358:50",
+      "actual_current_ldftn": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-0(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "current_complete_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-0(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__",
+        "member_name": "_Lambda$__9-0",
+        "parameter_types": [
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "6ab211918bdcdf3aae119a33256e76273990b764831e44f62376b56a7e66aa3f",
+        "type_initializer": true,
+        "nonliteral_static_fields": 3,
+        "locals": [
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              8
+            ]
+          },
+          {
+            "op": "pop",
+            "operand": null
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 1
+          },
+          {
+            "op": "initobj",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              9
+            ]
+          },
+          {
+            "op": "unbox.any",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              11
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "role": "countRecord",
+      "source_context": {
+        "path": "evidence/04A38/completion/w2/continuation-v13/callback-identity-context-v1.json",
+        "bytes": 262526,
+        "sha256": "91441d72690809641d5502e4250b8fe06d23bf7736deb14f74e83df2bb899877"
+      }
+    },
+    {
+      "configuration": "Debug",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@35801:50",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818",
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.WorksheetFunctions.PlotDataUDFs",
+        "signature": "Function(x)",
+        "span_start": 35801,
+        "span_length": 50,
+        "start_line": 633,
+        "end_line": 633,
+        "body_sha256": "96b4b9d24b9e032a1799a742669c385de96d42bde2a39f95c908be31773edc30",
+        "body_token_sha256": "5229a32b51833baaab3259eab85e89311578b6ab61307f31d96f9ee80b3ec1f4",
+        "source_sha256": "606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|0fcb4b292f4645d0@34344:3143",
+        "invocations": []
+      },
+      "original_parent": "BESHStatNG.WorksheetFunctions.PlotDataUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildKaplanMeierStepTable(System.Object[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "actual_original_ldftn": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "original_complete_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__",
+        "member_name": "_Lambda$__9-1",
+        "parameter_types": [
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "b0d3c785caf54bc5cd280429aa5651cc431aa2ea24d78083c4095385b8211246",
+        "type_initializer": true,
+        "nonliteral_static_fields": 3,
+        "locals": [
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              8
+            ]
+          },
+          {
+            "op": "pop",
+            "operand": null
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 1
+          },
+          {
+            "op": "initobj",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              9
+            ]
+          },
+          {
+            "op": "unbox.any",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              11
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@30426:50",
+      "actual_current_ldftn": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "current_complete_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__",
+        "member_name": "_Lambda$__9-1",
+        "parameter_types": [
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "6ab211918bdcdf3aae119a33256e76273990b764831e44f62376b56a7e66aa3f",
+        "type_initializer": true,
+        "nonliteral_static_fields": 3,
+        "locals": [
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              8
+            ]
+          },
+          {
+            "op": "pop",
+            "operand": null
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 1
+          },
+          {
+            "op": "initobj",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ldloc.1",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              9
+            ]
+          },
+          {
+            "op": "unbox.any",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "stloc.0",
+            "operand": null
+          },
+          {
+            "op": "br",
+            "operand": [
+              11
+            ]
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "role": "fillRecord",
+      "source_context": {
+        "path": "evidence/04A38/completion/w2/continuation-v13/callback-identity-context-v1.json",
+        "bytes": 262526,
+        "sha256": "91441d72690809641d5502e4250b8fe06d23bf7736deb14f74e83df2bb899877"
+      }
+    },
+    {
+      "configuration": "Release",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@34810:50",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818",
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.WorksheetFunctions.PlotDataUDFs",
+        "signature": "Function(x)",
+        "span_start": 34810,
+        "span_length": 50,
+        "start_line": 610,
+        "end_line": 610,
+        "body_sha256": "96b4b9d24b9e032a1799a742669c385de96d42bde2a39f95c908be31773edc30",
+        "body_token_sha256": "5229a32b51833baaab3259eab85e89311578b6ab61307f31d96f9ee80b3ec1f4",
+        "source_sha256": "606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|0fcb4b292f4645d0@34344:3143",
+        "invocations": []
+      },
+      "original_parent": "BESHStatNG.WorksheetFunctions.PlotDataUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildKaplanMeierStepTable(System.Object[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "actual_original_ldftn": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-0(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "original_complete_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-0(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__",
+        "member_name": "_Lambda$__9-0",
+        "parameter_types": [
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "49356a68167ce615761aa13a1db31642f456804a22cbfe9b3c0dfd1f18ccdf4c",
+        "type_initializer": true,
+        "nonliteral_static_fields": 3,
+        "locals": [
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              8
+            ]
+          },
+          {
+            "op": "pop",
+            "operand": null
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 0
+          },
+          {
+            "op": "initobj",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          },
+          {
+            "op": "unbox.any",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@30358:50",
+      "actual_current_ldftn": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-0(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "current_complete_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-0(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__",
+        "member_name": "_Lambda$__9-0",
+        "parameter_types": [
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "f0de6004c4ef86903249dfa67d406ad3ba4def0019c2fa6d24ab58259491a04a",
+        "type_initializer": true,
+        "nonliteral_static_fields": 3,
+        "locals": [
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              8
+            ]
+          },
+          {
+            "op": "pop",
+            "operand": null
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 0
+          },
+          {
+            "op": "initobj",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          },
+          {
+            "op": "unbox.any",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "role": "countRecord",
+      "source_context": {
+        "path": "evidence/04A38/completion/w2/continuation-v13/callback-identity-context-v1.json",
+        "bytes": 262526,
+        "sha256": "91441d72690809641d5502e4250b8fe06d23bf7736deb14f74e83df2bb899877"
+      }
+    },
+    {
+      "configuration": "Release",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@35801:50",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818",
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "name": "lambda",
+        "kind": "SingleLineFunctionLambdaExpression",
+        "owner": "BESHStatNG.WorksheetFunctions.PlotDataUDFs",
+        "signature": "Function(x)",
+        "span_start": 35801,
+        "span_length": 50,
+        "start_line": 633,
+        "end_line": 633,
+        "body_sha256": "96b4b9d24b9e032a1799a742669c385de96d42bde2a39f95c908be31773edc30",
+        "body_token_sha256": "5229a32b51833baaab3259eab85e89311578b6ab61307f31d96f9ee80b3ec1f4",
+        "source_sha256": "606016a12756248392211b640eaf9ce19f31f3e09d524cf7163e546d54616bcd",
+        "exported": false,
+        "parent_member": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|0fcb4b292f4645d0@34344:3143",
+        "invocations": []
+      },
+      "original_parent": "BESHStatNG.WorksheetFunctions.PlotDataUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.BuildKaplanMeierStepTable(System.Object[] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "actual_original_ldftn": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "original_complete_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__",
+        "member_name": "_Lambda$__9-1",
+        "parameter_types": [
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "49356a68167ce615761aa13a1db31642f456804a22cbfe9b3c0dfd1f18ccdf4c",
+        "type_initializer": true,
+        "nonliteral_static_fields": 3,
+        "locals": [
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              8
+            ]
+          },
+          {
+            "op": "pop",
+            "operand": null
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 0
+          },
+          {
+            "op": "initobj",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          },
+          {
+            "op": "unbox.any",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|SingleLineFunctionLambdaExpression|8cbe8cb0546eb818@30426:50",
+      "actual_current_ldftn": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "current_complete_method": {
+        "method": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__ @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null._Lambda$__9-1(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+        "declaring_type": "BESHStatNG.WorksheetFunctions.PlotDataUDFs+_Closure$__",
+        "member_name": "_Lambda$__9-1",
+        "parameter_types": [
+          "System.Object"
+        ],
+        "attributes": "PrivateScope, Assembly, SpecialName",
+        "implementation_flags": "Managed",
+        "raw_IL_sha256": "f0de6004c4ef86903249dfa67d406ad3ba4def0019c2fa6d24ab58259491a04a",
+        "type_initializer": true,
+        "nonliteral_static_fields": 3,
+        "locals": [
+          "BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+        ],
+        "init_locals": true,
+        "exceptions": [],
+        "instructions": [
+          {
+            "op": "ldarg.1",
+            "operand": null
+          },
+          {
+            "op": "dup",
+            "operand": null
+          },
+          {
+            "op": "brtrue",
+            "operand": [
+              8
+            ]
+          },
+          {
+            "op": "pop",
+            "operand": null
+          },
+          {
+            "op": "ldloca.s",
+            "operand": 0
+          },
+          {
+            "op": "initobj",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ldloc.0",
+            "operand": null
+          },
+          {
+            "op": "ret",
+            "operand": null
+          },
+          {
+            "op": "unbox.any",
+            "operand": "TYPE:BESHStatNG.survival.SurvivalTableRecord @ BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null"
+          },
+          {
+            "op": "ret",
+            "operand": null
+          }
+        ]
+      },
+      "role": "fillRecord",
+      "source_context": {
+        "path": "evidence/04A38/completion/w2/continuation-v13/callback-identity-context-v1.json",
+        "bytes": 262526,
+        "sha256": "91441d72690809641d5502e4250b8fe06d23bf7736deb14f74e83df2bb899877"
+      }
+    }
+  ],
+  "original_queries": 0
+}

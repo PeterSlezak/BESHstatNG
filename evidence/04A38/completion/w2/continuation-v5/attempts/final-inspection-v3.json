@@ -1,0 +1,10 @@
+{
+  "status": "FAILED_ATTEMPTS_RETAINED",
+  "commands": [
+    "w2c5-cells-v4-Inspect38-Release",
+    "w2c5-cells-v4-metadata-v6-current-Release"
+  ],
+  "cause": "Inspection was incorrectly launched before the independent Release build completed; libraries not yet all available",
+  "correction": "inspect_final.py requires both completed build receipts and uses fresh append-only outputs",
+  "production_defect": false
+}

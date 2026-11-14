@@ -1,0 +1,54 @@
+row)
+        Next
+
+        groupMatrices = New List(Of Double(,))()
+        groupNames = New List(Of String)(order)
+        For Each label As String In order
+            groupMatrices.Add(RowsToMatrix(buckets(label), dataCols))
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports a three-column nested-ANOVA block: group, subgroup, response. A leading header row is allowed.
+    ''' Rows with blank labels or nonnumeric responses are skipped.
+    ''' </summary>
+    Friend Function TryGetNestedThreeColumnData(input As Object,
+                                                ByRef data(,) As Object,
+                                                ByRef names() As String) As Boolean
+        data = Nothing
+        names = Nothing
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If cols <> 3 OrElse rows < 1 Then Return False
+
+        Dim hasHeader As Boolean = False
+        If rows >= 2 Then
+            Dim firstRespNumeric As Boolean = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(0, 2)).HasValue
+            Dim belowRespNumeric As Boolean = False
+            For r As Integer = 1 To rows - 1
+                If Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 2)).HasValue Then
+                    belowRespNumeric = True
+                    Exit For
+                End If
+            Next
+            hasHeader = (Not firstRespNumeric) AndAlso belowRespNumeric
+        End If
+        Dim startRow As Integer = If(hasHeader, 1, 0)
+
+        names = New String() {
+            If(hasHeader, Convert.ToString(arr(0, 0)).Trim(), "Group"),
+            If(hasHeader, Convert.ToString(arr(0, 1)).Trim(), "Subgroup"),
+            If(hasHeader, Convert.ToString(arr(0, 2)).Trim(), "Response")
+        }
+
+        Dim rowsOut As New List(Of Object())()
+        For r As Integer = startRow To rows - 1
+            Dim g As String = Convert.ToString(arr(r, 0)).Trim()
+            Dim sg As String = Convert.ToString(arr(r, 1)).Trim()
+            Dim y As Doub

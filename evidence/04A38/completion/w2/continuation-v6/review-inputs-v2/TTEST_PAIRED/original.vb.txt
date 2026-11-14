@@ -1,0 +1,29 @@
+om the same subjects.
+        ''' Rows are matched strictly by position.
+        ''' </para>
+        ''' <para>
+        ''' The test is carried out on the within-row differences <c>x - y</c>.
+        ''' It tests whether the mean difference equals zero while accounting for the pairing structure.
+        ''' Rows where either entry is non-numeric are discarded before the calculation.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.PAR.TTEST_PAIRED(A2:A21, B2:B21)
+        ''' =BESH.PAR.TTEST_PAIRED(A1:A21, B1:B21, "Before,After")
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.PAR.TTEST_PAIRED",
+            Category:="BESHStatNG - Parametric",
+            Description:="Paired t-test for two matched samples. Returns a labeled result table.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function TTEST_PAIRED(
+            <ExcelArgument(Name:="x", Description:="First paired sample as a single-column range. Values are paired by row; first cell may be a header.")> x As Object,
+            <ExcelArgument(Name:="y", Description:="Second paired sample as a single-column range. Values are paired by row; first cell may be a header.")> y As Object,
+            <ExcelArgument(Name:="varNames", Description:="Optional names as comma-separated text or 1-row/1-column range.")> Optional varNames As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.U

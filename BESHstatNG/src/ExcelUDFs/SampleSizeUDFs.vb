@@ -196,60 +196,11 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="margin", Description:="Optional positive NI or symmetric equivalence margin magnitude.")> Optional margin As Object = Nothing
         ) As Object
             Try
-                Dim diff As Double? = TryGetDouble(meanDifference)
-                Dim sd As Double? = TryGetDouble(commonSd)
-                Dim kappa As Double? = TryGetDouble(controlToExperimentalRatio)
-                Dim a As Double? = TryGetDouble(alpha)
-                Dim b As Double? = TryGetDouble(beta)
-
-                If Not diff.HasValue OrElse Not sd.HasValue OrElse Not kappa.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If sd.Value <= 0 OrElse kappa.Value <= 0 OrElse Not IsOpenUnitInterval(a.Value) OrElse Not IsOpenUnitInterval(b.Value) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim hypothesis As String = ResolveSampleSizeHypothesisType(hypothesisType)
-                If hypothesis Is Nothing Then Return ExcelError.ExcelErrorValue
-
-                Select Case hypothesis
-                    Case HypothesisSuperiority
-                        If diff.Value = 0 Then Return ExcelError.ExcelErrorNum
-                        Dim result As UnpairedTTestSampleSizeResult = SampleSizeCalculator.CalculateUnpairedTTest(diff.Value, sd.Value, kappa.Value, a.Value, b.Value)
-                        Return MakeTwoGroupTable("Required subjects", result.NumberOfControls, result.NumberOfExperimental)
-
-                    Case HypothesisNonInferiority
-                        Dim m As Double? = TryGetDouble(margin)
-                        If Not m.HasValue Then Return ExcelError.ExcelErrorValue
-                        If m.Value <= 0 Then Return ExcelError.ExcelErrorNum
-
-                        Dim result As UnpairedTTestSampleSizeResult =
-                            SampleSizeCalculator.CalculateNonInferiorityUnpairedTTest(diff.Value,
-                                                                                     -m.Value,
-                                                                                     sd.Value,
-                                                                                     kappa.Value,
-                                                                                     a.Value,
-                                                                                     b.Value)
-                        Return MakeTwoGroupTable("Required subjects", result.NumberOfControls, result.NumberOfExperimental)
-
-                    Case HypothesisEquivalence
-                        Dim m As Double? = TryGetDouble(margin)
-                        If Not m.HasValue Then Return ExcelError.ExcelErrorValue
-                        If m.Value <= 0 Then Return ExcelError.ExcelErrorNum
-
-                        Dim result As EquivalenceUnpairedTTestSampleSizeResult =
-                            SampleSizeCalculator.CalculateEquivalenceUnpairedTTest(diff.Value,
-                                                                                  -m.Value,
-                                                                                  m.Value,
-                                                                                  sd.Value,
-                                                                                  kappa.Value,
-                                                                                  a.Value,
-                                                                                  b.Value)
-                        Return MakeEquivalenceTwoGroupTable(result)
-
-                    Case Else
-                        Return ExcelError.ExcelErrorValue
-                End Select
+                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
+                Dim report As Global.BESHStatNG.ExcelCommon.UdfReportProjection38 =
+                    Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PrepareUnpaired(
+                        meanDifference, commonSd, controlToExperimentalRatio, alpha, beta, hypothesisType, margin, AddressOf TryGetDouble, AddressOf ResolveSampleSizeHypothesisKind38, AddressOf IsOpenUnitInterval, errorKind)
+                Return MaterializeSampleSizeResult38(report, errorKind)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SSIZE.SSIZE_TTEST_UNPAIRED", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -313,20 +264,11 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="beta", Description:="Type II error rate, 0 < beta < 1. Power = 1 - beta.")> beta As Object
         ) As Object
             Try
-                Dim prop As Double? = TryGetDouble(anticipatedProportion)
-                Dim h0 As Double? = TryGetDouble(nullProportion)
-                Dim a As Double? = TryGetDouble(alpha)
-                Dim b As Double? = TryGetDouble(beta)
-
-                If Not prop.HasValue OrElse Not h0.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If Not IsClosedUnitInterval(prop.Value) OrElse Not IsClosedUnitInterval(h0.Value) OrElse prop.Value = h0.Value OrElse Not IsOpenUnitInterval(a.Value) OrElse Not IsOpenUnitInterval(b.Value) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim result As SingleProportionSampleSizeResult = SampleSizeCalculator.CalculateSingleProportion(prop.Value, h0.Value, a.Value, b.Value)
-                Return MakeMetricValueTable("Required subjects", result.NumberOfSubjects)
+                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
+                Dim report As Global.BESHStatNG.ExcelCommon.UdfReportProjection38 =
+                    Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PrepareSingleProportion(
+                        anticipatedProportion, nullProportion, alpha, beta, AddressOf TryGetDouble, AddressOf IsOpenUnitInterval, AddressOf IsClosedUnitInterval, errorKind)
+                Return MaterializeSampleSizeResult38(report, errorKind)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SSIZE.SSIZE_PROP_SINGLE", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -408,58 +350,11 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="margin", Description:="Optional positive NI or symmetric equivalence margin magnitude.")> Optional margin As Object = Nothing
         ) As Object
             Try
-                Dim cProp As Double? = TryGetDouble(controlProportion)
-                Dim eProp As Double? = TryGetDouble(experimentalProportion)
-                Dim kappa As Double? = TryGetDouble(controlToExperimentalRatio)
-                Dim a As Double? = TryGetDouble(alpha)
-                Dim b As Double? = TryGetDouble(beta)
-
-                If Not cProp.HasValue OrElse Not eProp.HasValue OrElse Not kappa.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If Not IsClosedUnitInterval(cProp.Value) OrElse Not IsClosedUnitInterval(eProp.Value) OrElse kappa.Value <= 0 OrElse Not IsOpenUnitInterval(a.Value) OrElse Not IsOpenUnitInterval(b.Value) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim hypothesis As String = ResolveSampleSizeHypothesisType(hypothesisType)
-                If hypothesis Is Nothing Then Return ExcelError.ExcelErrorValue
-
-                Select Case hypothesis
-                    Case HypothesisSuperiority
-                        If cProp.Value = eProp.Value Then Return ExcelError.ExcelErrorNum
-                        Dim result As IndependentProportionsSampleSizeResult = SampleSizeCalculator.CalculateIndependentProportions(cProp.Value, eProp.Value, kappa.Value, a.Value, b.Value)
-                        Return MakeIndependentProportionsTable(result)
-
-                    Case HypothesisNonInferiority
-                        Dim m As Double? = TryGetDouble(margin)
-                        If Not m.HasValue Then Return ExcelError.ExcelErrorValue
-                        If m.Value <= 0 Then Return ExcelError.ExcelErrorNum
-                        Dim result As IndependentProportionsSampleSizeResult =
-                            SampleSizeCalculator.CalculateNonInferiorityIndependentProportions(cProp.Value,
-                                                                                              eProp.Value,
-                                                                                              -m.Value,
-                                                                                              kappa.Value,
-                                                                                              a.Value,
-                                                                                              b.Value)
-                        Return MakeIndependentProportionsTable(result)
-
-                    Case HypothesisEquivalence
-                        Dim m As Double? = TryGetDouble(margin)
-                        If Not m.HasValue Then Return ExcelError.ExcelErrorValue
-                        If m.Value <= 0 Then Return ExcelError.ExcelErrorNum
-                        Dim result As EquivalenceIndependentProportionsSampleSizeResult =
-                            SampleSizeCalculator.CalculateEquivalenceIndependentProportions(cProp.Value,
-                                                                                           eProp.Value,
-                                                                                           -m.Value,
-                                                                                           m.Value,
-                                                                                           kappa.Value,
-                                                                                           a.Value,
-                                                                                           b.Value)
-                        Return MakeEquivalenceIndependentProportionsTable(result)
-
-                    Case Else
-                        Return ExcelError.ExcelErrorValue
-                End Select
+                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
+                Dim report As Global.BESHStatNG.ExcelCommon.UdfReportProjection38 =
+                    Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PrepareIndependentProportions(
+                        controlProportion, experimentalProportion, controlToExperimentalRatio, alpha, beta, hypothesisType, margin, AddressOf TryGetDouble, AddressOf ResolveSampleSizeHypothesisKind38, AddressOf IsOpenUnitInterval, AddressOf IsClosedUnitInterval, errorKind)
+                Return MaterializeSampleSizeResult38(report, errorKind)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SSIZE.SSIZE_PROP_INDEP", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -542,34 +437,11 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="twoSided", Description:="Optional TRUE/FALSE flag. Defaults to TRUE for a two-sided design.")> Optional twoSided As Object = Nothing
         ) As Object
             Try
-                Dim hr As Double? = TryGetDouble(hazardRatio)
-                Dim pControl As Double? = TryGetDouble(controlEventProportion)
-                Dim pExperimental As Double? = TryGetDouble(experimentalEventProportion)
-                Dim kappa As Double? = TryGetDouble(controlToExperimentalRatio)
-                Dim a As Double? = TryGetDouble(alpha)
-                Dim b As Double? = TryGetDouble(beta)
-
-                If Not hr.HasValue OrElse Not pControl.HasValue OrElse Not pExperimental.HasValue OrElse Not kappa.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If hr.Value <= 0 OrElse hr.Value = 1.0 OrElse
-                   Not IsOpenUnitInterval(pControl.Value) OrElse
-                   Not IsOpenUnitInterval(pExperimental.Value) OrElse
-                   kappa.Value <= 0 OrElse
-                   Not IsOpenUnitInterval(a.Value) OrElse
-                   Not IsOpenUnitInterval(b.Value) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim isTwoSided As Boolean = GetOptionalBool(twoSided, True)
-                Dim result As LogRankSampleSizeResult = SampleSizeCalculator.CalculateLogRankSampleSize(hr.Value,
-                                                                                                        pControl.Value,
-                                                                                                        pExperimental.Value,
-                                                                                                        kappa.Value,
-                                                                                                        a.Value,
-                                                                                                        b.Value,
-                                                                                                        isTwoSided)
-                Return MakeLogRankPlanningTable(result)
+                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
+                Dim report As Global.BESHStatNG.ExcelCommon.UdfReportProjection38 =
+                    Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PrepareLogRank(
+                        hazardRatio, controlEventProportion, experimentalEventProportion, controlToExperimentalRatio, alpha, beta, twoSided, AddressOf TryGetDouble, AddressOf GetOptionalBool, AddressOf IsOpenUnitInterval, errorKind)
+                Return MaterializeSampleSizeResult38(report, errorKind)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SSIZE.LOGRANK", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -655,43 +527,11 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="twoSided", Description:="Optional TRUE/FALSE flag. Defaults to TRUE for a two-sided design.")> Optional twoSided As Object = Nothing
         ) As Object
             Try
-                Dim hr As Double? = TryGetDouble(hazardRatio)
-                Dim kappa As Double? = TryGetDouble(controlToExperimentalRatio)
-                Dim a As Double? = TryGetDouble(alpha)
-                Dim b As Double? = TryGetDouble(beta)
-
-                If Not hr.HasValue OrElse Not kappa.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If hr.Value <= 0 OrElse hr.Value = 1.0 OrElse kappa.Value <= 0 OrElse Not IsOpenUnitInterval(a.Value) OrElse Not IsOpenUnitInterval(b.Value) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim r2 As Double = 0.0
-                If Not IsMissingArg(rSquaredWithOtherCovariates) Then
-                    Dim parsedR2 As Double? = TryGetDouble(rSquaredWithOtherCovariates)
-                    If Not parsedR2.HasValue Then Return ExcelError.ExcelErrorValue
-                    If parsedR2.Value < 0 OrElse parsedR2.Value >= 1 Then Return ExcelError.ExcelErrorNum
-                    r2 = parsedR2.Value
-                End If
-
-                Dim overallP As Double = Double.NaN
-                If Not IsMissingArg(overallEventProportion) Then
-                    Dim parsedOverallP As Double? = TryGetDouble(overallEventProportion)
-                    If Not parsedOverallP.HasValue Then Return ExcelError.ExcelErrorValue
-                    If Not IsOpenUnitInterval(parsedOverallP.Value) Then Return ExcelError.ExcelErrorNum
-                    overallP = parsedOverallP.Value
-                End If
-
-                Dim isTwoSided As Boolean = GetOptionalBool(twoSided, True)
-                Dim result As CoxEventCountPlanningResult = SampleSizeCalculator.CalculateCoxEventCountBinaryCovariate(hr.Value,
-                                                                                                                       kappa.Value,
-                                                                                                                       a.Value,
-                                                                                                                       b.Value,
-                                                                                                                       r2,
-                                                                                                                       overallP,
-                                                                                                                       isTwoSided)
-                Return MakeCoxPlanningTable("Binary covariate", result)
+                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
+                Dim report As Global.BESHStatNG.ExcelCommon.UdfReportProjection38 =
+                    Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PrepareCoxBinary(
+                        hazardRatio, controlToExperimentalRatio, alpha, beta, rSquaredWithOtherCovariates, overallEventProportion, twoSided, AddressOf TryGetDouble, AddressOf IsMissingArg, AddressOf GetOptionalBool, AddressOf IsOpenUnitInterval, errorKind)
+                Return MaterializeSampleSizeResult38(report, errorKind)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SSIZE.COX_BINARY", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -774,43 +614,11 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="twoSided", Description:="Optional TRUE/FALSE flag. Defaults to TRUE for a two-sided design.")> Optional twoSided As Object = Nothing
         ) As Object
             Try
-                Dim hr As Double? = TryGetDouble(hazardRatioPerUnit)
-                Dim sdX As Double? = TryGetDouble(covariateSd)
-                Dim a As Double? = TryGetDouble(alpha)
-                Dim b As Double? = TryGetDouble(beta)
-
-                If Not hr.HasValue OrElse Not sdX.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If hr.Value <= 0 OrElse hr.Value = 1.0 OrElse sdX.Value <= 0 OrElse Not IsOpenUnitInterval(a.Value) OrElse Not IsOpenUnitInterval(b.Value) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim r2 As Double = 0.0
-                If Not IsMissingArg(rSquaredWithOtherCovariates) Then
-                    Dim parsedR2 As Double? = TryGetDouble(rSquaredWithOtherCovariates)
-                    If Not parsedR2.HasValue Then Return ExcelError.ExcelErrorValue
-                    If parsedR2.Value < 0 OrElse parsedR2.Value >= 1 Then Return ExcelError.ExcelErrorNum
-                    r2 = parsedR2.Value
-                End If
-
-                Dim overallP As Double = Double.NaN
-                If Not IsMissingArg(overallEventProportion) Then
-                    Dim parsedOverallP As Double? = TryGetDouble(overallEventProportion)
-                    If Not parsedOverallP.HasValue Then Return ExcelError.ExcelErrorValue
-                    If Not IsOpenUnitInterval(parsedOverallP.Value) Then Return ExcelError.ExcelErrorNum
-                    overallP = parsedOverallP.Value
-                End If
-
-                Dim isTwoSided As Boolean = GetOptionalBool(twoSided, True)
-                Dim result As CoxEventCountPlanningResult = SampleSizeCalculator.CalculateCoxEventCountContinuousCovariate(hr.Value,
-                                                                                                                           sdX.Value,
-                                                                                                                           a.Value,
-                                                                                                                           b.Value,
-                                                                                                                           r2,
-                                                                                                                           overallP,
-                                                                                                                           isTwoSided)
-                Return MakeCoxPlanningTable("Continuous covariate", result)
+                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
+                Dim report As Global.BESHStatNG.ExcelCommon.UdfReportProjection38 =
+                    Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PrepareCoxContinuous(
+                        hazardRatioPerUnit, covariateSd, alpha, beta, rSquaredWithOtherCovariates, overallEventProportion, twoSided, AddressOf TryGetDouble, AddressOf IsMissingArg, AddressOf GetOptionalBool, AddressOf IsOpenUnitInterval, errorKind)
+                Return MaterializeSampleSizeResult38(report, errorKind)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SSIZE.COX_CONTINUOUS", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -875,30 +683,11 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="beta", Description:="Type II error rate, 0 < beta < 1. Power = 1 - beta.")> beta As Object
         ) As Object
             Try
-                Dim rho0 As Double? = TryGetDouble(nullIcc)
-                Dim rho1 As Double? = TryGetDouble(alternativeIcc)
-                Dim m As Double? = TryGetDouble(observationsPerSubject)
-                Dim a As Double? = TryGetDouble(alpha)
-                Dim b As Double? = TryGetDouble(beta)
-
-                If Not rho0.HasValue OrElse Not rho1.HasValue OrElse Not m.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If rho0.Value < 0 OrElse rho0.Value >= 1 OrElse
-                   rho1.Value < 0 OrElse rho1.Value >= 1 OrElse
-                   rho1.Value <= rho0.Value OrElse
-                   m.Value < 2 OrElse m.Value <> Math.Truncate(m.Value) OrElse
-                   Not IsOpenUnitInterval(a.Value) OrElse
-                   Not IsOpenUnitInterval(b.Value) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim result As IccHypothesisTestSampleSizeResult = SampleSizeCalculator.CalculateIccHypothesisTestSampleSize(rho0.Value,
-                                                                                                                            rho1.Value,
-                                                                                                                            CInt(m.Value),
-                                                                                                                            a.Value,
-                                                                                                                            b.Value)
-                Return MakeIccPlanningTable(result)
+                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
+                Dim report As Global.BESHStatNG.ExcelCommon.UdfReportProjection38 =
+                    Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PrepareIcc(
+                        nullIcc, alternativeIcc, observationsPerSubject, alpha, beta, AddressOf TryGetDouble, AddressOf IsOpenUnitInterval, errorKind)
+                Return MaterializeSampleSizeResult38(report, errorKind)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SSIZE.ICC", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -962,233 +751,79 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="loaMultiplier", Description:="Optional LoA multiplier. Defaults to 1.96 and must be > 0 if supplied.")> Optional loaMultiplier As Object = Nothing
         ) As Object
             Try
-                Dim sd As Double? = TryGetDouble(sdDifference)
-                Dim halfWidth As Double? = TryGetDouble(desiredHalfWidth)
-                Dim a As Double? = TryGetDouble(alpha)
-
-                If Not sd.HasValue OrElse Not halfWidth.HasValue OrElse Not a.HasValue Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If sd.Value <= 0 OrElse halfWidth.Value <= 0 OrElse Not IsOpenUnitInterval(a.Value) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim z As Double = 1.96
-                If Not IsMissingArg(loaMultiplier) Then
-                    Dim parsedMultiplier As Double? = TryGetDouble(loaMultiplier)
-                    If Not parsedMultiplier.HasValue Then Return ExcelError.ExcelErrorValue
-                    If parsedMultiplier.Value <= 0 Then Return ExcelError.ExcelErrorNum
-                    z = parsedMultiplier.Value
-                End If
-
-                Dim result As BlandAltmanAgreementStudyPlanningResult = SampleSizeCalculator.CalculateBlandAltmanLoASampleSize(sd.Value,
-                                                                                                                                 halfWidth.Value,
-                                                                                                                                 a.Value,
-                                                                                                                                 z)
-                Return MakeBlandAltmanPlanningTable(result)
+                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
+                Dim report As Global.BESHStatNG.ExcelCommon.UdfReportProjection38 =
+                    Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PrepareBlandAltman(
+                        sdDifference, desiredHalfWidth, alpha, loaMultiplier, AddressOf TryGetDouble, AddressOf IsMissingArg, AddressOf IsOpenUnitInterval, errorKind)
+                Return MaterializeSampleSizeResult38(report, errorKind)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SSIZE.BLANDALTMAN", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
         Private Function MakeMetricValueTable(metric As String, value As Integer) As Object(,)
-            Dim out(1, 1) As Object
-            out(0, 0) = "Metric"
-            out(0, 1) = "Value"
-            out(1, 0) = metric
-            out(1, 1) = value
-            Return out
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeMetricValueTable(metric, value)), Object(,))
         End Function
 
         Private Function MakeTwoGroupTable(metric As String, nControls As Integer, nExperimental As Integer) As Object(,)
-            Dim out(2, 1) As Object
-            out(0, 0) = "Group"
-            out(0, 1) = metric
-            out(1, 0) = "Controls"
-            out(1, 1) = nControls
-            out(2, 0) = "Experimental"
-            out(2, 1) = nExperimental
-            Return out
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeTwoGroupTable(metric, nControls, nExperimental)), Object(,))
         End Function
 
         Private Function MakeEquivalenceTwoGroupTable(result As EquivalenceUnpairedTTestSampleSizeResult) As Object(,)
-            Dim out(3, 3) As Object
-            out(0, 0) = "Component"
-            out(0, 1) = "Controls"
-            out(0, 2) = "Experimental"
-            out(0, 3) = "Notes"
-
-            out(1, 0) = "Lower bound"
-            out(1, 1) = result.LowerBoundNumberOfControls
-            out(1, 2) = result.LowerBoundNumberOfExperimental
-            out(1, 3) = "TOST lower component"
-
-            out(2, 0) = "Upper bound"
-            out(2, 1) = result.UpperBoundNumberOfControls
-            out(2, 2) = result.UpperBoundNumberOfExperimental
-            out(2, 3) = "TOST upper component"
-
-            out(3, 0) = "Final"
-            out(3, 1) = result.NumberOfControls
-            out(3, 2) = result.NumberOfExperimental
-            out(3, 3) = "Driving bound: " & result.DrivingBound
-            Return out
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeEquivalenceTwoGroupTable(result)), Object(,))
         End Function
 
         Private Function MakeIndependentProportionsTable(result As IndependentProportionsSampleSizeResult) As Object(,)
-            Dim out(2, 2) As Object
-            out(0, 0) = "Method"
-            out(0, 1) = "Controls"
-            out(0, 2) = "Experimental"
-            out(1, 0) = "Uncorrected chi-square"
-            out(1, 1) = result.UncorrectedNumberOfControls
-            out(1, 2) = result.UncorrectedNumberOfExperimental
-            out(2, 0) = "Corrected chi-square / Fisher exact"
-            out(2, 1) = result.CorrectedNumberOfControls
-            out(2, 2) = result.CorrectedNumberOfExperimental
-            Return out
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeIndependentProportionsTable(result)), Object(,))
         End Function
 
         Private Function MakeEquivalenceIndependentProportionsTable(result As EquivalenceIndependentProportionsSampleSizeResult) As Object(,)
-            Dim out(6, 4) As Object
-            out(0, 0) = "Component"
-            out(0, 1) = "Method"
-            out(0, 2) = "Controls"
-            out(0, 3) = "Experimental"
-            out(0, 4) = "Notes"
-
-            out(1, 0) = "Lower bound"
-            out(1, 1) = "Uncorrected chi-square"
-            out(1, 2) = result.LowerBoundUncorrectedNumberOfControls
-            out(1, 3) = result.LowerBoundUncorrectedNumberOfExperimental
-            out(1, 4) = "TOST lower component"
-
-            out(2, 0) = "Lower bound"
-            out(2, 1) = "Corrected chi-square / Fisher exact"
-            out(2, 2) = result.LowerBoundCorrectedNumberOfControls
-            out(2, 3) = result.LowerBoundCorrectedNumberOfExperimental
-            out(2, 4) = "TOST lower component"
-
-            out(3, 0) = "Upper bound"
-            out(3, 1) = "Uncorrected chi-square"
-            out(3, 2) = result.UpperBoundUncorrectedNumberOfControls
-            out(3, 3) = result.UpperBoundUncorrectedNumberOfExperimental
-            out(3, 4) = "TOST upper component"
-
-            out(4, 0) = "Upper bound"
-            out(4, 1) = "Corrected chi-square / Fisher exact"
-            out(4, 2) = result.UpperBoundCorrectedNumberOfControls
-            out(4, 3) = result.UpperBoundCorrectedNumberOfExperimental
-            out(4, 4) = "TOST upper component"
-
-            out(5, 0) = "Final"
-            out(5, 1) = "Uncorrected chi-square"
-            out(5, 2) = result.UncorrectedNumberOfControls
-            out(5, 3) = result.UncorrectedNumberOfExperimental
-            out(5, 4) = "Driving bound: " & result.DrivingBound
-
-            out(6, 0) = "Final"
-            out(6, 1) = "Corrected chi-square / Fisher exact"
-            out(6, 2) = result.CorrectedNumberOfControls
-            out(6, 3) = result.CorrectedNumberOfExperimental
-            out(6, 4) = "Driving bound: " & result.DrivingBound
-            Return out
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeEquivalenceIndependentProportionsTable(result)), Object(,))
         End Function
 
         Private Function ResolveSampleSizeHypothesisType(value As Object) As String
-            Dim s As String = AsString(value)
-            If String.IsNullOrWhiteSpace(s) Then Return HypothesisSuperiority
-
-            Select Case s.Trim().ToLowerInvariant()
-                Case "superiority", "superior", "sup"
-                    Return HypothesisSuperiority
-                Case "noninferiority", "non-inferiority", "noninferior", "non-inferior", "ni"
-                    Return HypothesisNonInferiority
-                Case "equivalence", "equivalent", "equiv", "eq"
-                    Return HypothesisEquivalence
-                Case Else
-                    Return Nothing
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.SampleSizeUDFsOptions38.ResolveSampleSizeHypothesisType(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(value))
         End Function
 
         Private Function MakeLogRankPlanningTable(result As LogRankSampleSizeResult) As Object(,)
-            Dim out(7, 1) As Object
-            out(0, 0) = "Metric"
-            out(0, 1) = "Value"
-            out(1, 0) = "Required events"
-            out(1, 1) = result.RequiredEvents
-            out(2, 0) = "Controls"
-            out(2, 1) = result.NumberOfControls
-            out(3, 0) = "Experimental"
-            out(3, 1) = result.NumberOfExperimental
-            out(4, 0) = "Total subjects"
-            out(4, 1) = result.TotalNumberOfSubjects
-            out(5, 0) = "Control allocation proportion"
-            out(5, 1) = result.ControlAllocationProportion
-            out(6, 0) = "Experimental allocation proportion"
-            out(6, 1) = result.ExperimentalAllocationProportion
-            out(7, 0) = "Average event proportion"
-            out(7, 1) = result.AverageEventProportion
-            Return out
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeLogRankPlanningTable(result)), Object(,))
         End Function
 
         Private Function MakeCoxPlanningTable(modelLabel As String, result As CoxEventCountPlanningResult) As Object(,)
-            Dim out(7, 1) As Object
-            out(0, 0) = "Metric"
-            out(0, 1) = "Value"
-            out(1, 0) = "Model"
-            out(1, 1) = modelLabel
-            out(2, 0) = "Required events"
-            out(2, 1) = result.RequiredEvents
-            out(3, 0) = "Estimated subjects"
-            out(3, 1) = If(Double.IsNaN(result.OverallEventProportion) OrElse result.EstimatedNumberOfSubjects <= 0,
-                           "Not estimated (overall event proportion not supplied)",
-                           CType(result.EstimatedNumberOfSubjects, Object))
-            out(4, 0) = "Overall event proportion"
-            out(4, 1) = If(Double.IsNaN(result.OverallEventProportion), "Not supplied", CType(result.OverallEventProportion, Object))
-            out(5, 0) = "Log hazard ratio"
-            out(5, 1) = result.LogHazardRatio
-            out(6, 0) = "Effective variance"
-            out(6, 1) = result.EffectiveVariance
-            out(7, 0) = "R-squared with other covariates"
-            out(7, 1) = result.RSquaredWithOtherCovariates
-            Return out
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeCoxPlanningTable(modelLabel, result)), Object(,))
         End Function
 
         Private Function MakeIccPlanningTable(result As IccHypothesisTestSampleSizeResult) As Object(,)
-            Dim out(5, 1) As Object
-            out(0, 0) = "Metric"
-            out(0, 1) = "Value"
-            out(1, 0) = "Required subjects"
-            out(1, 1) = result.NumberOfSubjects
-            out(2, 0) = "Observations per subject"
-            out(2, 1) = result.NumberOfObservationsPerSubject
-            out(3, 0) = "Null ICC"
-            out(3, 1) = result.NullIcc
-            out(4, 0) = "Alternative ICC"
-            out(4, 1) = result.AlternativeIcc
-            out(5, 0) = "Achieved power"
-            out(5, 1) = result.AchievedPower
-            Return out
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeIccPlanningTable(result)), Object(,))
         End Function
 
         Private Function MakeBlandAltmanPlanningTable(result As BlandAltmanAgreementStudyPlanningResult) As Object(,)
-            Dim out(6, 1) As Object
-            out(0, 0) = "Metric"
-            out(0, 1) = "Value"
-            out(1, 0) = "Required pairs"
-            out(1, 1) = result.NumberOfPairs
-            out(2, 0) = "Expected SD of differences"
-            out(2, 1) = result.ExpectedSdOfDifferences
-            out(3, 0) = "Desired half-width"
-            out(3, 1) = result.DesiredHalfWidth
-            out(4, 0) = "Achieved half-width"
-            out(4, 1) = result.AchievedHalfWidth
-            out(5, 0) = "Alpha"
-            out(5, 1) = result.Alpha
-            out(6, 0) = "LoA multiplier"
-            out(6, 1) = result.LoAMultiplier
-            Return out
+            Return DirectCast(MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.SampleSizeUDFsReports38.MakeBlandAltmanPlanningTable(result)), Object(,))
+        End Function
+
+
+        Private Function ResolveSampleSizeHypothesisKind38(value As Object) As Global.BESHStatNG.ExcelCommon.UdfSampleSizeHypothesis38
+            Dim hypothesis As String = ResolveSampleSizeHypothesisType(value)
+            If hypothesis Is Nothing Then Return Global.BESHStatNG.ExcelCommon.UdfSampleSizeHypothesis38.Invalid
+            Select Case hypothesis
+                Case HypothesisSuperiority
+                    Return Global.BESHStatNG.ExcelCommon.UdfSampleSizeHypothesis38.Superiority
+                Case HypothesisNonInferiority
+                    Return Global.BESHStatNG.ExcelCommon.UdfSampleSizeHypothesis38.NonInferiority
+                Case HypothesisEquivalence
+                    Return Global.BESHStatNG.ExcelCommon.UdfSampleSizeHypothesis38.Equivalence
+                Case Else
+                    Return Global.BESHStatNG.ExcelCommon.UdfSampleSizeHypothesis38.Invalid
+            End Select
+        End Function
+
+        Private Function MaterializeSampleSizeResult38(report As Global.BESHStatNG.ExcelCommon.UdfReportProjection38,
+                                                       errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38) As Object
+            If report Is Nothing Then
+                If errorKind = Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38.Numeric Then Return ExcelError.ExcelErrorNum
+                Return ExcelError.ExcelErrorValue
+            End If
+            Return DirectCast(MaterializePortableReport38(report), Object(,))
         End Function
 
     End Module

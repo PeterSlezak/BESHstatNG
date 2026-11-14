@@ -1,0 +1,89 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Microsoft.VisualBasic.dll",
+        "/reference:<REPO_ROOT>\\packages\\ExcelDna.Integration.1.9.0\\lib\\net462\\ExcelDna.Integration.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2-cont5\\cells-v3\\cell-probe\\CellProbe.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\CellProbe.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.5586156999925151,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont5\\cells-v3\\cell-probe\\CellProbe.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\cell-probe-before-Debug.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.351625100011006,
+      "stdout_sha256": "8a91ef01e2de60fdca768538a0571da4e149a640e8b914b0df4c918afd61c03b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont5\\cells-v3\\cell-probe\\CellProbe.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont5\\cells-v3\\Debug\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\cell-probe-after-Debug.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.16589239999302663,
+      "stdout_sha256": "8a91ef01e2de60fdca768538a0571da4e149a640e8b914b0df4c918afd61c03b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont5\\cells-v3\\cell-probe\\CellProbe.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont4\\parametric-v4\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\cell-probe-before-Release.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.163271800003713,
+      "stdout_sha256": "8a91ef01e2de60fdca768538a0571da4e149a640e8b914b0df4c918afd61c03b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont5\\cells-v3\\cell-probe\\CellProbe.exe",
+        "<ISOLATED_RUN>\\completion-w2-cont5\\cells-v3\\Release\\lib",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5\\cell-probe-after-Release.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.18306759998085909,
+      "stdout_sha256": "8a91ef01e2de60fdca768538a0571da4e149a640e8b914b0df4c918afd61c03b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "comparisons": [
+    {
+      "configuration": "Debug",
+      "observations": 192,
+      "exact": true
+    },
+    {
+      "configuration": "Release",
+      "observations": 192,
+      "exact": true
+    }
+  ],
+  "original_calls": 0,
+  "scope": "Current C4 and current C5 libraries only, Invariant/sk-SK; conversion order/provider/calls/type/bits/Err/exceptions/array cells"
+}

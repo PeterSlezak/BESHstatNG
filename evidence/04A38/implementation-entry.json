@@ -1,0 +1,51 @@
+{
+  "status": "AUTHORIZED_04A38_IMPLEMENTATION_START",
+  "utc": "2026-11-08T13:58:39.797608+00:00",
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "first_valid_freeze": {
+    "path": "evidence/04A38/preedit/frozen-v2/receipt.json",
+    "bytes": 45957,
+    "sha256": "9f9a55337311bf37e010dcc078cb2ff8a8384122c1b105c4593732e90e13d165"
+  },
+  "additional_freeze": {
+    "path": "evidence/04A38/preedit/addendum-frozen-v1/receipt.json",
+    "bytes": 25099,
+    "sha256": "35c790471841ce33fd2857ca881ff84103b2856cf61139fe1312bf002eb30646"
+  },
+  "original_rows_per_configuration": 28966,
+  "tracked_changes_before_first_edit": [],
+  "index_empty": true,
+  "initial_scope": {
+    "new_core_file": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+    "typed_methods": 29,
+    "windows_files": [
+      "BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+      "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+      "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+      "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb"
+    ]
+  },
+  "ownership_plan": "Complete704-member source/CIL preparation plan exists;626 extraction/consumption reviews remain open until actual implementation and final verification.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED"
+  },
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "next_batch": "04A39_NOT_AUTHORIZED"
+}

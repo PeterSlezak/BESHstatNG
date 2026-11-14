@@ -1,0 +1,1854 @@
+{
+  "status": "EXACT_CURRENT_AND_PRIOR_MESSAGES_RETAINED_NOT_WAIVED",
+  "same_clean_messages": 189,
+  "changed_messages": [
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb')",
+      "occurrence": 0,
+      "outcome": "FAIL",
+      "old_message": "'0069e01a902ca636873231260417103f98ce16dc470b94bc9034e751d7026cd4' != '17537109025f4f0d55e7647d852e7284f2c2ef3d106f2630d5156dc1515399f9'\n- 0069e01a902ca636873231260417103f98ce16dc470b94bc9034e751d7026cd4\n+ 17537109025f4f0d55e7647d852e7284f2c2ef3d106f2630d5156dc1515399f9\n",
+      "new_message": "'0069e01a902ca636873231260417103f98ce16dc470b94bc9034e751d7026cd4' != '18f1b00afa7d4e8938028058a82106fe0d2500da4f5e3ae77abd053dd0150c11'\n- 0069e01a902ca636873231260417103f98ce16dc470b94bc9034e751d7026cd4\n+ 18f1b00afa7d4e8938028058a82106fe0d2500da4f5e3ae77abd053dd0150c11\n",
+      "old_message_sha256": "6ba1f0fa9921b6c4424c616d20938fbab0caa269a09ba808911cb491bd562bf4",
+      "new_message_sha256": "141b952964c1e5ebd3f414dc8a026965fc872a112eeff8495aa18f4ec8e1334b",
+      "old_traceback_sha256": "176e23da37859156b74332d8880bec60c0560b4069ed01765e367a16b9017997",
+      "new_traceback_sha256": "204cf6a10b7ccdd4d8c51cd1a5d8b679694fe336f965bcc225e83cc56a67dcde",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a28_output.py\", line 29, in test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_SOURCE_PIN_FAIL_AUTHORIZED_ACTUAL_SOURCE_HASH_DELTA_NOT_WAIVED",
+      "transition": {
+        "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+        "before": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 77923,
+          "sha256": "17537109025f4f0d55e7647d852e7284f2c2ef3d106f2630d5156dc1515399f9"
+        },
+        "preimage": {
+          "path": "evidence/04A38/completion/w2/continuation-v10/source-before/BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb.txt",
+          "bytes": 77923,
+          "sha256": "17537109025f4f0d55e7647d852e7284f2c2ef3d106f2630d5156dc1515399f9"
+        },
+        "after": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 68495,
+          "sha256": "18f1b00afa7d4e8938028058a82106fe0d2500da4f5e3ae77abd053dd0150c11"
+        },
+        "snapshot": {
+          "path": "evidence/04A38/completion/w2/continuation-v10/source-after/final-v1/BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb.txt",
+          "bytes": 68495,
+          "sha256": "18f1b00afa7d4e8938028058a82106fe0d2500da4f5e3ae77abd053dd0150c11"
+        }
+      }
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb')",
+      "occurrence": 0,
+      "outcome": "FAIL",
+      "old_message": "'0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa' != 'ead88a15ee8de7d18446d9ae7d09a5cb270fc16cf07fad171192b61ad74ddd3c'\n- 0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa\n+ ead88a15ee8de7d18446d9ae7d09a5cb270fc16cf07fad171192b61ad74ddd3c\n",
+      "new_message": "'0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa' != 'd35b3d2965dc004744f73378a08bb8ccc4dbb16875d451368c81e1a9a649a15b'\n- 0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa\n+ d35b3d2965dc004744f73378a08bb8ccc4dbb16875d451368c81e1a9a649a15b\n",
+      "old_message_sha256": "9920efb10c59e710fc86a9ce7ed955e451a22ce767eb2d20005e7b2db935be8f",
+      "new_message_sha256": "baf567eabd5fed6029a481579421166a6d59e11bfe3a3c88e53cdf80398b11f4",
+      "old_traceback_sha256": "0f2bf43e67dc8d77691a0cdd03a5b8e2133f9be69b3fb8e4b93344caad489a8d",
+      "new_traceback_sha256": "98dfa5427479c371f974be615a080ce2f76ed9872e097a1abb65a0842b7a3d56",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a28_output.py\", line 29, in test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_SOURCE_PIN_FAIL_AUTHORIZED_ACTUAL_SOURCE_HASH_DELTA_NOT_WAIVED",
+      "transition": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "before": {
+          "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "bytes": 221916,
+          "sha256": "ead88a15ee8de7d18446d9ae7d09a5cb270fc16cf07fad171192b61ad74ddd3c"
+        },
+        "preimage": {
+          "path": "evidence/04A38/completion/w2/continuation-v10/source-before/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb.txt",
+          "bytes": 221916,
+          "sha256": "ead88a15ee8de7d18446d9ae7d09a5cb270fc16cf07fad171192b61ad74ddd3c"
+        },
+        "after": {
+          "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "bytes": 216708,
+          "sha256": "d35b3d2965dc004744f73378a08bb8ccc4dbb16875d451368c81e1a9a649a15b"
+        },
+        "snapshot": {
+          "path": "evidence/04A38/completion/w2/continuation-v10/source-after/final-v1/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb.txt",
+          "bytes": 216708,
+          "sha256": "d35b3d2965dc004744f73378a08bb8ccc4dbb16875d451368c81e1a9a649a15b"
+        }
+      }
+    }
+  ],
+  "new_events": [],
+  "reclassified": [
+    {
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "old_event_key": [
+        "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "FAIL",
+        "",
+        0
+      ],
+      "new_event_key": [
+        "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "ERROR",
+        "",
+        0
+      ],
+      "old": {
+        "outcome": "FAIL",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 166, in test_complete_existing_publication_set_has_no_unresolved_private_values\n    self.assertEqual([], findings)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^\nAssertionError: Lists differ: [] != [{'path': 'evidence/04A38/completion/w1/ru[35115 chars]th'}]\n\nSecond list contains 232 additional elements.\nFirst extra element 0:\n{'path': 'evidence/04A38/completion/w1/run_census.py', 'origin': 'content', 'line': 22, 'category': 'appdata_or_drive_path'}\n\nDiff is 38623 characters long. Set self.maxDiff to None to see it.\n",
+        "traceback_sha256": "5cf4393dbc93e1bf3080903f80b82b91c639e9c5d434ecd3be325f0adf398312",
+        "message": "Lists differ: [] != [{'path': 'evidence/04A38/completion/w1/ru[35115 chars]th'}]\n\nSecond list contains 232 additional elements.\nFirst extra element 0:\n{'path': 'evidence/04A38/completion/w1/run_census.py', 'origin': 'content', 'line': 22, 'category': 'appdata_or_drive_path'}\n\nDiff is 38623 characters long. Set self.maxDiff to None to see it.",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 166, in test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "occurrence": 0,
+        "lane": 1,
+        "phase": "MAIN",
+        "raw_message_sha256": "954ae868db5444b28ef182354368b2ff5d121de97d43d7787acd46d03971aba3",
+        "classification": "INHERITED_C8_NONPASS_EVENT_IDENTITY_OUTCOME_OCCURRENCE_NOT_WAIVED",
+        "previous_first_failure_links": [
+          {
+            "source": {
+              "path": "evidence/04A38/completion/w2/continuation-v8/python-first-failures-v1.json",
+              "bytes": 247304380,
+              "sha256": "c9d6294b2fe7b11d883821b28911bae14200f0ed0915d79a6dc7d18377b7427a"
+            },
+            "event_key": [
+              "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+              "FAIL",
+              "",
+              0
+            ],
+            "message_sha256": "a73c600e8202aa28ed2f85d7950d8653c96ffc570bded84c90a3c6119307b7ff",
+            "traceback_sha256": "6d1046541d2a180840b688d9cb381d8446b0cad98a2fe84b0f67748458e04483"
+          }
+        ]
+      },
+      "new": {
+        "outcome": "ERROR",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values\n    findings, _ = p.scan(candidates)\n                  ~~~~~~^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v10\\parallel_scan_v1.py\", line 124, in scan\n    return sequential(candidates)\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    for path,digest in sorted(modules.items()):\n                                             ^^\n  File \"<REPO_ROOT>\\scripts\\verify-04a13-publication.py\", line 59, in scan\n    doc = json.loads(text, parse_constant=lambda value: (_ for _ in ()).throw(ValueError('Non-standard JSON constant')))\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\__init__.py\", line 365, in loads\n    return cls(**kw).decode(s)\n           ~~~~~~~~~~~~~~~~^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\decoder.py\", line 361, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ~~~~~~~~~~~~~~^^^^^^^^\njson.decoder.JSONDecodeError: Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)\n",
+        "traceback_sha256": "8fb6edc72b585591aecd7fd599858b6bb74c8bf4210520eb895a48cff5f829b0",
+        "message": "Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "occurrence": 0,
+        "lane": 1,
+        "phase": "MAIN",
+        "raw_message_sha256": "f819977cb14a8510372e728be57bf4d45a075d3d9eb1e413c5673661d8310705",
+        "classification": "NEW_C10_NONPASS_REQUIRES_EXPLICIT_INVESTIGATION",
+        "previous_first_failure_links": []
+      },
+      "classification": "ORIGINAL_UNCHANGED_SCANNER_JSON_ERROR_ON_PROTECTED_POST_V9_FAILED_ARTIFACT_NOT_WAIVED",
+      "input": {
+        "path": "evidence/04A38/completion/w2/continuation-v9/python-first-failures-v1.json",
+        "bytes": 4213129746,
+        "sha256": "3ed32a23d2a6ee59a64c80ce3977ca89b6dcc8572453222c957af1596ca302eb"
+      },
+      "source_modules": {
+        "BESHstatNG/tools/tests/test_audit_transitional_officejs.py": "6b1fc6a739849b7d4dbf95dfab005359448158e34867cc2edd396e6c55d80188",
+        "BESHstatNG/tools/tests/test_generate_analysis_metadata.py": "cc5c394bb939d09163da230021f538358f7e1d9ab5da16383e301106df57542b",
+        "BESHstatNG/tools/tests/test_help_metadata.py": "bed365e065f10119c453a522eb4e253749dde7dac2bee0e4c3d159a46a9cd037",
+        "BESHstatNG/tools/tests/test_validate_methods_catalog.py": "ca7ae2e704f1c2f22601549549769d7a448313f88ac201e0094ffab7ec61aba9",
+        "BESHStatNG_Help_MkDocs/tests/test_generate_udf_docs_v2.py": "de82659c317382b852587c02c36408b728232020227d3043cb944a25ba0ffe1d",
+        "BESHStatNG_Help_MkDocs/tests/test_help_resolver.py": "cba9da097ed52da147c7947f99290da236dfcc29a78a461a30a019d498bb4d48",
+        "BESHStatNG_Help_MkDocs/tests/test_mkdocs_htaccess.py": "8e50240ffff3803d7ce2aef6cccdc548a668872564fe1ade715937c3e53c4090",
+        "scripts/tests/test_04a02_audit_compatibility.py": "809d922dcb12641114ae85dc0e4edc0f99e4b51736b24008b736bc1bbc02bb1d",
+        "scripts/tests/test_04a02_checkpoint08.py": "9c78f6b0525466ccf59ee04afc3278cb97145ac8defcc7a531a24de4d1adabca",
+        "scripts/tests/test_04a02_checkpoint08_dossier.py": "7fe73c3fea509a7257027b21d2e70615bf37d953612b547f9c9458af355fc820",
+        "scripts/tests/test_04a02_checkpoint08_integration.py": "381b31be5bf1bc20ad4b26d399e69edb6ca583be6192c840349c18c68548deff",
+        "scripts/tests/test_04a02_checkpoint09.py": "d2f1e7a3cf394d8878737288548be4c2eff76379d0ad0f332517fe378a6722f8",
+        "scripts/tests/test_04a02_checkpoint11.py": "facbd4194129352cc7fc10b1f53338df18ea1a9cd54b4110db9c3a1d94517584",
+        "scripts/tests/test_04a02_checkpoint12.py": "0ee49feb21502346cdcdcf30bba200e4a606b8e912b3f52f486f65a185544d19",
+        "scripts/tests/test_04a02_checkpoint13.py": "353d5032bac8b0b70438ce6d6c4666abb9d60544f1f0ad9fdcd25c1959ef2cf4",
+        "scripts/tests/test_04a02_checkpoint14.py": "fc98e7322f4eb34930da12166cc5de46c7b3d64ce32312c3bac2a7bdaf5c1f6e",
+        "scripts/tests/test_04a02_isolation.py": "e1650127e2723dafe87c36693f64aedfbb671371aa2c7ad50b95659af94a3455",
+        "scripts/tests/test_04a02_oracle_operator.py": "7de46303207750b4a2241c986f408c325aaf87fa736ece1bfa4c7b2c5aa6f69a",
+        "scripts/tests/test_04a03_control_mitigation.py": "52ae9458cbc152cc82441c952e3602dac4b2995999a93217c5e8699863e7667f",
+        "scripts/tests/test_04a03_selection.py": "a52e05e2f41d7f59d9fcc83fc06a2dd66790357d4b8c9d1747feafa4d4decbb2",
+        "scripts/tests/test_04a04_alignment.py": "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff",
+        "scripts/tests/test_04a05_completion_successor.py": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952",
+        "scripts/tests/test_04a05_contingency.py": "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b",
+        "scripts/tests/test_04a06_assumptions_successor.py": "80fe3ddf7ff705f0b8f70ae56d6ad10f4accdc58b9d87228880dfe5334f2adc4",
+        "scripts/tests/test_04a07_workflow_successor.py": "c3e41f73432b26524fb47a484461cbc2a80548e554fff42d43b78ec01e77ed8d",
+        "scripts/tests/test_04a08_authoring_successor.py": "f2d6dde3dbc2e7f159d4ca28273894baad32878b92eddb0257e302b9136be2b7",
+        "scripts/tests/test_04a08_evidence_relocation.py": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+        "scripts/tests/test_04a09_regression_successor.py": "18bf09ea42a281d331807625a6526b5dd4f70a70cb317456468207505244e925",
+        "scripts/tests/test_04a10_regression_projection.py": "57c41c74d298919dc2d456c8a2d32544239234965344ed199f4a0f8c9bbc927c",
+        "scripts/tests/test_04a11_publication.py": "4be50a31f8aa0b48e5c96afdb957e2f2b9c71f6933a879413d2b2da7b896604e",
+        "scripts/tests/test_04a11_regression_families.py": "9c65062a77fca3f9b42b16aa8cd5ab9ce56a2d48b2c381f083e97c830e182ee3",
+        "scripts/tests/test_04a12_gee_workflow.py": "487ecbb6836632cf30547b60cf45aab9c07586cb3407431976cda5aa311b8a6b",
+        "scripts/tests/test_04a13_survival_workflow.py": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60",
+        "scripts/tests/test_04a14_mixed_workflow.py": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727",
+        "scripts/tests/test_04a15_fitting.py": "393ff03ddff0d05d15ab61835825c0b8dabd4013710bdb80e5ba99504c78385d",
+        "scripts/tests/test_04a16_post_estimation.py": "4c1384ee83aa78f6893221e6fcaf926880e400ea2c82b597e65e7923035a5984",
+        "scripts/tests/test_04a17_multivariate.py": "06afd4bd4829b90688f0924c13a4a1d5ea5fc22d85120fde21308895f2dd1db0",
+        "scripts/tests/test_04a18_projection.py": "53e1b4e323b682dedcb64df3fc1e90a04faeb3a146314f4bb1330c00c594716e",
+        "scripts/tests/test_04a19_clustering.py": "565f5a4071b7a3d319614f5d4000d66c696c2832433ff39062d46885dccf703e",
+        "scripts/tests/test_04a20_factor_discriminant.py": "1fc46c38c6695727ebf008e5a30999bd01f15737c14c5a5b56d04069f590e4bb",
+        "scripts/tests/test_04a21_spc.py": "46858710327c0e3e34d142afa61a3456a1d805d3ebc7d5481ac4c84680d38693",
+        "scripts/tests/test_04a22_spc.py": "7654f6e2b47b6a19bbb994a1d23470036d54fe0b7090969906289b7247c3e3bb",
+        "scripts/tests/test_04a23_multivariate_spc.py": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8",
+        "scripts/tests/test_04a24_multivariate_payload.py": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461",
+        "scripts/tests/test_04a25_psm.py": "2612dcaccd318505e0bdb81fffcee836118ba6df77c50730c21da8044b4bd975",
+        "scripts/tests/test_04a26_planning_agreement.py": "343e32e24ed9687b12fa3f7e6cddd2f0b28c55c797e920ae92a79f632e376db4",
+        "scripts/tests/test_04a27_geometry_completion.py": "54cec305dc4898b35d9e9b585c22dcc0667bdffb563ef04dfecfc933d3432625",
+        "scripts/tests/test_04a27_transport_successor.py": "e268340655fb8be7889e13c0f22d1cb3acd662aba09264b33728dcd431e23830",
+        "scripts/tests/test_04a28_output.py": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda",
+        "scripts/tests/test_python_discovery.py": "48fce316d41ea4c324b3eafca6558010f5b2e460b8a0fc44a96763c1747efa31",
+        "scripts/tests/test_test_suite_rationalization.py": "890b18ec4912f8daa5443edc49624198848c091e5d7d3b7c0fcd64c65cc7a917",
+        "BESHStat.Excel.Common.Tests/src/test_04a02_source_specs.py": "1aa02f1def2a987e417580128edcd9d9041411d63ec4255d7eb79b559ecba077",
+        "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py": "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7",
+        "BESHStat.Excel.Common.Tests/src/test_checkpoint07_contracts.py": "6ee3e0bdfeee7eff5d8ebde0bb723a23f3e088704c05358e066fa2474caff001",
+        "BESHStat.Excel.Common.Tests/src/test_investigation06.py": "58ca3361cc6d8d8c99aa00f876bd7eb79b2b4d78f568b2801cfd8191cf023d27"
+      },
+      "proof": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/parallel-scanner-equivalence-v1.json",
+        "bytes": 12002,
+        "sha256": "c46743117c444a3f04a8150fbcbb18f336ee0bc28f4398bf25b2d854d20ffde4"
+      }
+    },
+    {
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "old_event_key": [
+        "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "FAIL",
+        "",
+        0
+      ],
+      "new_event_key": [
+        "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "ERROR",
+        "",
+        0
+      ],
+      "old": {
+        "outcome": "FAIL",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 215, in test_entire_proposed_publication_set_privacy\n    self.assertEqual([], findings)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^\nAssertionError: Lists differ: [] != [{'path': 'evidence/04A38/completion/w1/ru[35115 chars]th'}]\n\nSecond list contains 232 additional elements.\nFirst extra element 0:\n{'path': 'evidence/04A38/completion/w1/run_census.py', 'origin': 'content', 'line': 22, 'category': 'appdata_or_drive_path'}\n\nDiff is 38623 characters long. Set self.maxDiff to None to see it.\n",
+        "traceback_sha256": "ec8224753f451167ae4050141478c5df8230f5b7e76ddf3c46f7252fdfb3e942",
+        "message": "Lists differ: [] != [{'path': 'evidence/04A38/completion/w1/ru[35115 chars]th'}]\n\nSecond list contains 232 additional elements.\nFirst extra element 0:\n{'path': 'evidence/04A38/completion/w1/run_census.py', 'origin': 'content', 'line': 22, 'category': 'appdata_or_drive_path'}\n\nDiff is 38623 characters long. Set self.maxDiff to None to see it.",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 215, in test_entire_proposed_publication_set_privacy",
+        "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "occurrence": 0,
+        "lane": 1,
+        "phase": "MAIN",
+        "raw_message_sha256": "954ae868db5444b28ef182354368b2ff5d121de97d43d7787acd46d03971aba3",
+        "classification": "INHERITED_C8_NONPASS_EVENT_IDENTITY_OUTCOME_OCCURRENCE_NOT_WAIVED",
+        "previous_first_failure_links": [
+          {
+            "source": {
+              "path": "evidence/04A38/completion/w2/continuation-v8/python-first-failures-v1.json",
+              "bytes": 247304380,
+              "sha256": "c9d6294b2fe7b11d883821b28911bae14200f0ed0915d79a6dc7d18377b7427a"
+            },
+            "event_key": [
+              "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+              "FAIL",
+              "",
+              0
+            ],
+            "message_sha256": "a73c600e8202aa28ed2f85d7950d8653c96ffc570bded84c90a3c6119307b7ff",
+            "traceback_sha256": "39f20f16f0f120c18eb6c179111d0759e9c623210f19b36cde709197a5c475e2"
+          }
+        ]
+      },
+      "new": {
+        "outcome": "ERROR",
+        "subtest": null,
+        "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy\n    findings, _ = pub.scan([p for p in pub.paths() if (ROOT / p).is_file()])\n                  ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v10\\parallel_scan_v1.py\", line 124, in scan\n    return sequential(candidates)\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    for path,digest in sorted(modules.items()):\n                                             ^^\n  File \"<REPO_ROOT>\\scripts\\verify-04a14-publication.py\", line 59, in scan\n    doc = json.loads(text, parse_constant=lambda value: (_ for _ in ()).throw(ValueError('Non-standard JSON constant')))\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\__init__.py\", line 365, in loads\n    return cls(**kw).decode(s)\n           ~~~~~~~~~~~~~~~~^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\decoder.py\", line 361, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ~~~~~~~~~~~~~~^^^^^^^^\njson.decoder.JSONDecodeError: Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)\n",
+        "traceback_sha256": "10a858367ff76d3d18f07c9ddfae01638c10eef29cfb5fc064a1cc3dc9816697",
+        "message": "Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)",
+        "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy",
+        "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "occurrence": 0,
+        "lane": 1,
+        "phase": "MAIN",
+        "raw_message_sha256": "f819977cb14a8510372e728be57bf4d45a075d3d9eb1e413c5673661d8310705",
+        "classification": "NEW_C10_NONPASS_REQUIRES_EXPLICIT_INVESTIGATION",
+        "previous_first_failure_links": []
+      },
+      "classification": "ORIGINAL_UNCHANGED_SCANNER_JSON_ERROR_ON_PROTECTED_POST_V9_FAILED_ARTIFACT_NOT_WAIVED",
+      "input": {
+        "path": "evidence/04A38/completion/w2/continuation-v9/python-first-failures-v1.json",
+        "bytes": 4213129746,
+        "sha256": "3ed32a23d2a6ee59a64c80ce3977ca89b6dcc8572453222c957af1596ca302eb"
+      },
+      "source_modules": {
+        "BESHstatNG/tools/tests/test_audit_transitional_officejs.py": "6b1fc6a739849b7d4dbf95dfab005359448158e34867cc2edd396e6c55d80188",
+        "BESHstatNG/tools/tests/test_generate_analysis_metadata.py": "cc5c394bb939d09163da230021f538358f7e1d9ab5da16383e301106df57542b",
+        "BESHstatNG/tools/tests/test_help_metadata.py": "bed365e065f10119c453a522eb4e253749dde7dac2bee0e4c3d159a46a9cd037",
+        "BESHstatNG/tools/tests/test_validate_methods_catalog.py": "ca7ae2e704f1c2f22601549549769d7a448313f88ac201e0094ffab7ec61aba9",
+        "BESHStatNG_Help_MkDocs/tests/test_generate_udf_docs_v2.py": "de82659c317382b852587c02c36408b728232020227d3043cb944a25ba0ffe1d",
+        "BESHStatNG_Help_MkDocs/tests/test_help_resolver.py": "cba9da097ed52da147c7947f99290da236dfcc29a78a461a30a019d498bb4d48",
+        "BESHStatNG_Help_MkDocs/tests/test_mkdocs_htaccess.py": "8e50240ffff3803d7ce2aef6cccdc548a668872564fe1ade715937c3e53c4090",
+        "scripts/tests/test_04a02_audit_compatibility.py": "809d922dcb12641114ae85dc0e4edc0f99e4b51736b24008b736bc1bbc02bb1d",
+        "scripts/tests/test_04a02_checkpoint08.py": "9c78f6b0525466ccf59ee04afc3278cb97145ac8defcc7a531a24de4d1adabca",
+        "scripts/tests/test_04a02_checkpoint08_dossier.py": "7fe73c3fea509a7257027b21d2e70615bf37d953612b547f9c9458af355fc820",
+        "scripts/tests/test_04a02_checkpoint08_integration.py": "381b31be5bf1bc20ad4b26d399e69edb6ca583be6192c840349c18c68548deff",
+        "scripts/tests/test_04a02_checkpoint09.py": "d2f1e7a3cf394d8878737288548be4c2eff76379d0ad0f332517fe378a6722f8",
+        "scripts/tests/test_04a02_checkpoint11.py": "facbd4194129352cc7fc10b1f53338df18ea1a9cd54b4110db9c3a1d94517584",
+        "scripts/tests/test_04a02_checkpoint12.py": "0ee49feb21502346cdcdcf30bba200e4a606b8e912b3f52f486f65a185544d19",
+        "scripts/tests/test_04a02_checkpoint13.py": "353d5032bac8b0b70438ce6d6c4666abb9d60544f1f0ad9fdcd25c1959ef2cf4",
+        "scripts/tests/test_04a02_checkpoint14.py": "fc98e7322f4eb34930da12166cc5de46c7b3d64ce32312c3bac2a7bdaf5c1f6e",
+        "scripts/tests/test_04a02_isolation.py": "e1650127e2723dafe87c36693f64aedfbb671371aa2c7ad50b95659af94a3455",
+        "scripts/tests/test_04a02_oracle_operator.py": "7de46303207750b4a2241c986f408c325aaf87fa736ece1bfa4c7b2c5aa6f69a",
+        "scripts/tests/test_04a03_control_mitigation.py": "52ae9458cbc152cc82441c952e3602dac4b2995999a93217c5e8699863e7667f",
+        "scripts/tests/test_04a03_selection.py": "a52e05e2f41d7f59d9fcc83fc06a2dd66790357d4b8c9d1747feafa4d4decbb2",
+        "scripts/tests/test_04a04_alignment.py": "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff",
+        "scripts/tests/test_04a05_completion_successor.py": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952",
+        "scripts/tests/test_04a05_contingency.py": "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b",
+        "scripts/tests/test_04a06_assumptions_successor.py": "80fe3ddf7ff705f0b8f70ae56d6ad10f4accdc58b9d87228880dfe5334f2adc4",
+        "scripts/tests/test_04a07_workflow_successor.py": "c3e41f73432b26524fb47a484461cbc2a80548e554fff42d43b78ec01e77ed8d",
+        "scripts/tests/test_04a08_authoring_successor.py": "f2d6dde3dbc2e7f159d4ca28273894baad32878b92eddb0257e302b9136be2b7",
+        "scripts/tests/test_04a08_evidence_relocation.py": "1a466a66663614a47e3af030ba02315e5b66d097339410459f7e24631389c1ca",
+        "scripts/tests/test_04a09_regression_successor.py": "18bf09ea42a281d331807625a6526b5dd4f70a70cb317456468207505244e925",
+        "scripts/tests/test_04a10_regression_projection.py": "57c41c74d298919dc2d456c8a2d32544239234965344ed199f4a0f8c9bbc927c",
+        "scripts/tests/test_04a11_publication.py": "4be50a31f8aa0b48e5c96afdb957e2f2b9c71f6933a879413d2b2da7b896604e",
+        "scripts/tests/test_04a11_regression_families.py": "9c65062a77fca3f9b42b16aa8cd5ab9ce56a2d48b2c381f083e97c830e182ee3",
+        "scripts/tests/test_04a12_gee_workflow.py": "487ecbb6836632cf30547b60cf45aab9c07586cb3407431976cda5aa311b8a6b",
+        "scripts/tests/test_04a13_survival_workflow.py": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60",
+        "scripts/tests/test_04a14_mixed_workflow.py": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727",
+        "scripts/tests/test_04a15_fitting.py": "393ff03ddff0d05d15ab61835825c0b8dabd4013710bdb80e5ba99504c78385d",
+        "scripts/tests/test_04a16_post_estimation.py": "4c1384ee83aa78f6893221e6fcaf926880e400ea2c82b597e65e7923035a5984",
+        "scripts/tests/test_04a17_multivariate.py": "06afd4bd4829b90688f0924c13a4a1d5ea5fc22d85120fde21308895f2dd1db0",
+        "scripts/tests/test_04a18_projection.py": "53e1b4e323b682dedcb64df3fc1e90a04faeb3a146314f4bb1330c00c594716e",
+        "scripts/tests/test_04a19_clustering.py": "565f5a4071b7a3d319614f5d4000d66c696c2832433ff39062d46885dccf703e",
+        "scripts/tests/test_04a20_factor_discriminant.py": "1fc46c38c6695727ebf008e5a30999bd01f15737c14c5a5b56d04069f590e4bb",
+        "scripts/tests/test_04a21_spc.py": "46858710327c0e3e34d142afa61a3456a1d805d3ebc7d5481ac4c84680d38693",
+        "scripts/tests/test_04a22_spc.py": "7654f6e2b47b6a19bbb994a1d23470036d54fe0b7090969906289b7247c3e3bb",
+        "scripts/tests/test_04a23_multivariate_spc.py": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8",
+        "scripts/tests/test_04a24_multivariate_payload.py": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461",
+        "scripts/tests/test_04a25_psm.py": "2612dcaccd318505e0bdb81fffcee836118ba6df77c50730c21da8044b4bd975",
+        "scripts/tests/test_04a26_planning_agreement.py": "343e32e24ed9687b12fa3f7e6cddd2f0b28c55c797e920ae92a79f632e376db4",
+        "scripts/tests/test_04a27_geometry_completion.py": "54cec305dc4898b35d9e9b585c22dcc0667bdffb563ef04dfecfc933d3432625",
+        "scripts/tests/test_04a27_transport_successor.py": "e268340655fb8be7889e13c0f22d1cb3acd662aba09264b33728dcd431e23830",
+        "scripts/tests/test_04a28_output.py": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda",
+        "scripts/tests/test_python_discovery.py": "48fce316d41ea4c324b3eafca6558010f5b2e460b8a0fc44a96763c1747efa31",
+        "scripts/tests/test_test_suite_rationalization.py": "890b18ec4912f8daa5443edc49624198848c091e5d7d3b7c0fcd64c65cc7a917",
+        "BESHStat.Excel.Common.Tests/src/test_04a02_source_specs.py": "1aa02f1def2a987e417580128edcd9d9041411d63ec4255d7eb79b559ecba077",
+        "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py": "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7",
+        "BESHStat.Excel.Common.Tests/src/test_checkpoint07_contracts.py": "6ee3e0bdfeee7eff5d8ebde0bb723a23f3e088704c05358e066fa2474caff001",
+        "BESHStat.Excel.Common.Tests/src/test_investigation06.py": "58ca3361cc6d8d8c99aa00f876bd7eb79b2b4d78f568b2801cfd8191cf023d27"
+      },
+      "proof": {
+        "path": "evidence/04A38/completion/w2/continuation-v10/parallel-scanner-equivalence-v1.json",
+        "bytes": 12002,
+        "sha256": "c46743117c444a3f04a8150fbcbb18f336ee0bc28f4398bf25b2d854d20ffde4"
+      }
+    }
+  ],
+  "all_actual_helper_privacy_findings": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/inspect_stage_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/probe_text_policy.py",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/probe_text_policy.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/probe_text_policy.py",
+      "origin": "content",
+      "line": 7,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 49977,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/run_text_domains.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_text_domains_v4.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "content",
+      "line": 24426,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "content",
+      "line": 53298,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "content",
+      "line": 53298,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "content",
+      "line": 44,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "content",
+      "line": 44,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "content",
+      "line": 44,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/serial-findings-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_publication_privacy_v1.py",
+      "origin": "content",
+      "line": 23,
+      "category": "secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/test_publication.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/compile_harness.py",
+      "origin": "content",
+      "line": 91,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/seal_inputs-attempt-v1.py.txt",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/compile_harness.py",
+      "origin": "content",
+      "line": 116,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 77041,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 35329,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 35329,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/toolchain.json",
+      "origin": "content",
+      "line": 18,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/toolchain.json",
+      "origin": "content",
+      "line": 18,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/run_text_domains_v2.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_text_domains_v5.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "content",
+      "line": 66194,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "content",
+      "line": 53178,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "content",
+      "line": 53178,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v4.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_final_v3.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_cell_probe.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 13,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 41,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 69,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 97,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_privacy_v2.py",
+      "origin": "content",
+      "line": 16,
+      "category": "secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 10,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 10,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 32944,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 32944,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 33027,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 33027,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 37728,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 37728,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 38939,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 41557,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "content",
+      "line": 42207,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/dependency-source-universe-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/replay_A_current.py",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/replay_preedit_current.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/source-before-inventory.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/compile_harness-attempt-v1.py.txt",
+      "origin": "content",
+      "line": 98,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/seal_inputs.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/capture_current_v2.py",
+      "origin": "content",
+      "line": 18,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/command-receipts-closeout-v2.json",
+      "origin": "content",
+      "line": 6662,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/command-receipts-closeout-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/test_publication.py",
+      "origin": "content",
+      "line": 52,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 12337,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 62777,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 62777,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v2.json",
+      "origin": "content",
+      "line": 370,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v2.json",
+      "origin": "content",
+      "line": 427,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v2.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_text_domains_v2.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 59650,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 72202,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 72202,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_text_domains_v5.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/run_text_domains_v6.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continue_profile_capture.py",
+      "origin": "content",
+      "line": 7,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/compile_harness.py",
+      "origin": "content",
+      "line": 88,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/execute_original.py",
+      "origin": "content",
+      "line": 21,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/seal_inputs.py",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/test_review_packet.py",
+      "origin": "content",
+      "line": 50,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w1/run_census_v2.py",
+      "origin": "content",
+      "line": 22,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/capture_current.py",
+      "origin": "content",
+      "line": 18,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/command-receipts.json",
+      "origin": "content",
+      "line": 6639,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/command-receipts.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/diagnose_text_policy.py",
+      "origin": "content",
+      "line": 5,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v10/prove_parallel_scan_base_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/run_text_domains_v2.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/toolchain.json",
+      "origin": "content",
+      "line": 33,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/toolchain.json",
+      "origin": "content",
+      "line": 33,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v3/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v1.json",
+      "origin": "content",
+      "line": 370,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v1.json",
+      "origin": "content",
+      "line": 427,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/final_live.py",
+      "origin": "content",
+      "line": 15,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 81273,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 31721,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "content",
+      "line": 31721,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/full-managed-Debug-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inversion-parametric-v4-commands.json",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inversion-parametric-v4-commands.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_runtime_metadata.py",
+      "origin": "content",
+      "line": 2,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_text_domains_v3.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_final_v2.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_cell_probe_v3.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/prove_privacy_regex_guard.py",
+      "origin": "content",
+      "line": 4,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "content",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "content",
+      "line": 11,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "content",
+      "line": 11,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "decoded_json",
+      "category": "known_private_identifier"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/entry-inspection.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/seal_inputs.py",
+      "origin": "content",
+      "line": 19,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/test_manifest.py",
+      "origin": "content",
+      "line": 31,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/seal_inputs.py",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/managed-test-identities-entry.csv",
+      "origin": "content",
+      "line": 2300,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/managed-test-identities-entry.csv",
+      "origin": "content",
+      "line": 3746,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/managed-test-identities-entry.csv",
+      "origin": "content",
+      "line": 3746,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/test_preedit_reader.py",
+      "origin": "content",
+      "line": 134,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w1/run_census.py",
+      "origin": "content",
+      "line": 22,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/toolchain-current.json",
+      "origin": "content",
+      "line": 18,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/toolchain-current.json",
+      "origin": "content",
+      "line": 18,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/toolchain-current.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v1/toolchain-current.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v2/run_final_domains.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v3.json",
+      "origin": "content",
+      "line": 390,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v3.json",
+      "origin": "content",
+      "line": 447,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/command-receipts-v3.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inversion-before-commands.json",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/inversion-before-commands.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_inversion_probe.py",
+      "origin": "content",
+      "line": 2,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/run_inversion_probe.py",
+      "origin": "content",
+      "line": 3,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/toolchain.json",
+      "origin": "content",
+      "line": 33,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/toolchain.json",
+      "origin": "content",
+      "line": 33,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v4/toolchain.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_final.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/inspect_final_v4.py",
+      "origin": "content",
+      "line": 9,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_cell_probe_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v5/run_text_domains_v6.py",
+      "origin": "content",
+      "line": 4,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/compatibility.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v6/inspect_stage.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 13,
+      "category": "profile_or_home"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 13,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 12,
+      "category": "email"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 12,
+      "category": "credential_url"
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v9/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/execute_current.py",
+      "origin": "content",
+      "line": 41,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/seal_inputs.py",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/compile_harness.py",
+      "origin": "content",
+      "line": 98,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/compile_harness.py",
+      "origin": "content",
+      "line": 126,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/seal_inputs.py",
+      "origin": "content",
+      "line": 8,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/compile_harness.py",
+      "origin": "content",
+      "line": 101,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/execute_current.py",
+      "origin": "content",
+      "line": 15,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/test_packet.py",
+      "origin": "content",
+      "line": 24,
+      "category": "appdata_or_drive_path"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/repair_observer.py",
+      "origin": "content",
+      "line": 13,
+      "category": "appdata_or_drive_path"
+    }
+  ],
+  "helper_findings": 248,
+  "raw_helpers": [
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/1/raw-result.json",
+      "bytes": 270398,
+      "sha256": "2bcfba59fc9c0a465ea813b1fad704360a367ff74f28f7df9cbcff0848a61e6e"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/2/raw-result.json",
+      "bytes": 277578,
+      "sha256": "e6648d11129205a37d4c9946ce5e71b1ff4800e7f8a6b9cdd73b229055ea9754"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/3/raw-result.json",
+      "bytes": 269955,
+      "sha256": "ad15f8c8ee929df972bcec62e0a8bea20c69e86644479ef5d5d2e1680ce4ca4c"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/4/raw-result.json",
+      "bytes": 276409,
+      "sha256": "b398abd177f18024af829c2a8aed4ebf62ad97c43126f4ef0b883d6f346bd5a4"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont10/python-v1/1/parallel-scan-1/5/raw-result.json",
+      "bytes": 271657,
+      "sha256": "3c4b8a3a963728ca3a83591a83f14330d46d95bf037c6833a90cd04929f10b72"
+    }
+  ],
+  "scope": "Pure helper findings are actual precomputed normal-file findings, not a claim that original whole scanners reached their final privacy assertion past the protected giant JSON failure. The original scanner parent retains original failures/errors and first tracebacks. No file filtering or new privacy exception."
+}

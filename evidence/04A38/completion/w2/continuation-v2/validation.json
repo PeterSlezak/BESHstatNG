@@ -1,0 +1,166 @@
+{
+  "status": "FRESH_PARTIAL_W2_VALIDATION_NOT_BATCH_READY",
+  "managed_Debug": {
+    "outcomes": {
+      "Passed": 20653,
+      "Failed": 14
+    },
+    "new_passes": 27,
+    "new_nonpasses": [],
+    "inherited_nonpasses": 14,
+    "suites": [
+      {
+        "suite": "Core",
+        "outcomes": {
+          "Passed": 1278
+        },
+        "exit_code": 0,
+        "trx_sha256": "8e965c4ceb9713b0e963533a6182321222e059155af6c1dcce80b8e137dd8ea4"
+      },
+      {
+        "suite": "Common",
+        "outcomes": {
+          "Passed": 9131,
+          "Failed": 5
+        },
+        "exit_code": 1,
+        "trx_sha256": "f0ff71b1252561cb9757775e53aae015eb13939ad3a874b80f1958c9b337c40a"
+      },
+      {
+        "suite": "Legacy",
+        "outcomes": {
+          "Passed": 9630,
+          "Failed": 9
+        },
+        "exit_code": 1,
+        "trx_sha256": "b0706a415082da7a823b70cdbaf6cf2e5df4378158572a8ff6f16cd603bf9218"
+      },
+      {
+        "suite": "ControlMitigation",
+        "outcomes": {
+          "Passed": 61
+        },
+        "exit_code": 0,
+        "trx_sha256": "e2a690545a3f1374d6bed9281d99045cd363b6c024be43cb694a4bd64e59cb87"
+      },
+      {
+        "suite": "OfficeAddin",
+        "outcomes": {
+          "Passed": 508
+        },
+        "exit_code": 0,
+        "trx_sha256": "64ef0cb1434d5641a8306a6cc0d0b6cfd3af86019d35c637b0913bf07c40c941"
+      },
+      {
+        "suite": "OfficeExecution",
+        "outcomes": {
+          "Passed": 45
+        },
+        "exit_code": 0,
+        "trx_sha256": "04f27cc07a96f03e94903bc0c67572c9917ed22280b8cb42fd9d93ae02cfb7b3"
+      }
+    ],
+    "old_identity_occurrence_outcome_delta": 0
+  },
+  "selected_Release": {
+    "outcomes": {
+      "Passed": 146
+    },
+    "distinct_identities": 146,
+    "full_suite": "NOT_RUN_OWNER_PREFERENCE"
+  },
+  "Node": [
+    {
+      "suite": "office-node",
+      "total": 468,
+      "passed": 468,
+      "failed": 0,
+      "exit_code": 0,
+      "identity_multiset_sha256": "fd95d6ddb84aebf2a1de3074f8540971469961a242dd053bc5caac694e848108",
+      "stdout_sha256": "b218d2de523f5f60def3d6d1056f59c5673c1ea5bc23d133f25e41b0b5b6ccf6"
+    },
+    {
+      "suite": "resolver",
+      "total": 71,
+      "passed": 71,
+      "failed": 0,
+      "exit_code": 0,
+      "identity_multiset_sha256": "edab891307e6a2af9b9231a7475788f0121b7d2e9d311ff3b414a28f5d32903f",
+      "stdout_sha256": "9defbbb88213f002a57c352445544e36c57807944bf1d26b59f586e1ed989e2d"
+    },
+    {
+      "suite": "wasm-node",
+      "total": 377,
+      "passed": 377,
+      "failed": 0,
+      "exit_code": 0,
+      "identity_multiset_sha256": "492bca15d36a96b7032f4fe85ca111f52a03c6aef26a083f3c99c493c54c4f59",
+      "stdout_sha256": "08b543ba2951fcf01c5cc8ce677a56dfa62dc0e92ed2c0e4fbf1d42afe1d9d31"
+    }
+  ],
+  "Python": {
+    "total": 956,
+    "passed": 765,
+    "failed": 180,
+    "errors": 11
+  },
+  "Python_occurrence_delta": {
+    "extra": [
+      {
+        "outcome": "ERROR",
+        "identity": "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)",
+        "subtest": "",
+        "occurrences": 1
+      },
+      {
+        "outcome": "FAIL",
+        "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+        "subtest": "(path='BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb')",
+        "occurrences": 1
+      }
+    ],
+    "lost": [
+      {
+        "outcome": "FAIL",
+        "identity": "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)",
+        "subtest": "",
+        "occurrences": 1
+      }
+    ]
+  },
+  "strict_profile_MkDocs": {
+    "strict": 1,
+    "profile": 1,
+    "docs": 0
+  },
+  "current_frozen_comparison_per_configuration": {
+    "preedit": 28966,
+    "late_A_to_G": 458,
+    "total": 29424,
+    "separate_provenance": true
+  },
+  "compiled_exports": {
+    "Debug": 268,
+    "Release": 268
+  },
+  "new_original_queries": 0,
+  "text_domain_policy": "NO_CHANGE;0 source-domain differences/1568736 checks/config;8 out-of-domain raw synthetic nonpasses retained",
+  "NOT_RUN": [
+    "Full managed Release:OWNER_PREFERENCE",
+    "W3 whole-batch READY verifier:W2_NOT_COMPLETE",
+    "Canonical portable/Legacy wrappers:implicit restore/shared outputs/XLL packaging",
+    "Native Excel/COM/UIA/RefEdit/in-workbook smoke",
+    "Independent R/scientific original control",
+    "Office/Mac/manual GUI smoke",
+    "Network/package restore/install/MSI/signing/deployment",
+    "Phase04A39"
+  ],
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "golden": "NOT_GOLDEN"
+  }
+}

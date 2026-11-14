@@ -1,0 +1,32 @@
+{
+  "status": "FINAL_REVIEW_DOCUMENTS_V2",
+  "records": [
+    {
+      "prior": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/owner-review.md",
+        "bytes": 12603,
+        "sha256": "d0911bb4731791ca0e6c544786d5d4f1ae1ad1dbad6ed1c3b453e9378eae3293"
+      },
+      "authoritative": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/owner-review-v2.md",
+        "bytes": 12576,
+        "sha256": "c8b32cf9358805d80a58899adf387e62c96fc7e43f959711a5b64a18374123ad"
+      }
+    },
+    {
+      "prior": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/NEXT_WAVE_HANDOVER.md",
+        "bytes": 8556,
+        "sha256": "ac2d7b454d68f3f9356b1013e8aded7cc57487236f31e1d3b9890b443c23e1b3"
+      },
+      "authoritative": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/NEXT_WAVE_HANDOVER-v2.md",
+        "bytes": 8413,
+        "sha256": "d88d7129f5c0c98bd2b5bb6be7289d691a08f62ff9a9bb5549e404819b74ff26"
+      }
+    }
+  ],
+  "reason": "An early default-codepage read of the new review-writing helper decoded UTF8 punctuation as CP1252. Production code and proofs unaffected. Prior generated documents retained; v2 corrects only those two punctuation sequences and final cross-links.",
+  "owner_documents_changed": 0,
+  "production_sources_changed": 0
+}

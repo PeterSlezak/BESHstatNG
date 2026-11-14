@@ -1,0 +1,24 @@
+{
+  "attempts": [
+    {
+      "name": "Receipt generator duplicate keyword",
+      "source": "prepublication_v1.py",
+      "corrected": "prepublication_v2.py",
+      "classification": "SYNTAX_ERROR_BEFORE_EXECUTION",
+      "raw": "Conversation tool receipt; rejected source retained. Corrected actual live check and raw streams are independently recorded."
+    },
+    {
+      "name": "Overbroad all-source AST diagnostic",
+      "classification": "EXPECTED_RETAINED_FAILED_SOURCE_NOT_FINAL_EXECUTABLE",
+      "source": "inspect_packet_v1.py",
+      "outcome": "Diagnostic stopped on the intentionally retained reserved-keyword first attempt; final executable readers and corrected packet diagnostic are independently versioned and pass."
+    }
+  ],
+  "authoritative_attempt_accounting": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/attempt-accounting-v1.json",
+    "bytes": 3059,
+    "sha256": "44a8e75383f2d6c7cf19a30b3121cd2002333ede33a04474be46debaddd77d7e"
+  },
+  "historical_assertions_changed": 0,
+  "production_changes_after_full_validation": 0
+}

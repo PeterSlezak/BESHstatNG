@@ -1,0 +1,37 @@
+{
+  "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/intercept-alias-before/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+    "bytes": 80941,
+    "sha256": "4d121749c338b2fd3e9f0739465710c183c3ac7c0295b2ea2d44be4e87d0314a"
+  },
+  "after": {
+    "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+    "bytes": 81071,
+    "sha256": "c59ef4429a6fdbeb56a2294f510acdb646ee925838d357848634c2a36e823220"
+  },
+  "replacement": {
+    "before": "            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.AddInterceptIfRequested(x, includeIntercept)",
+    "after": "            If x Is Nothing Then Throw New ArgumentNullException(NameOf(x))\r\r\n            If Not includeIntercept Then Return x\r\r\n            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.AddInterceptIfRequested(x, includeIntercept)"
+  },
+  "test_before": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/intercept-alias-test-before-v1.vb.txt",
+    "bytes": 147207,
+    "sha256": "a8ad5122382715f8e31f96762b0184ef7bbbc33f98a09987d2636ff461f76b0e"
+  },
+  "test_after": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 148377,
+    "sha256": "310f5b4f1b4e71e05be1bbae266f4afa2d662f55866a7e8a0fb691c202d98a9d"
+  },
+  "Core_modified": false,
+  "reason": "Original null guard precedes false/no-intercept alias return. Existing Core copy API remains unchanged and is reached only with includeIntercept=True.",
+  "previous_compatibility": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/compatibility-combined-v3.json",
+    "bytes": 41806,
+    "sha256": "6d86da67a1c33f771d5f561deb9eb581ae94d6f3cf6b4540344856761e1d64ab"
+  },
+  "previous_result_scope": "EXACT29424_AT_EARLIER_FREEZE3;NOT_FINAL_AFTER_ALIAS_CORRECTION",
+  "managed_campaigns_started": 0,
+  "original_queries": 0
+}

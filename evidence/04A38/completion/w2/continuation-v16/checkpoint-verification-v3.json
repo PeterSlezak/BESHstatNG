@@ -1,0 +1,79 @@
+{
+  "status": "ACTUAL_FINAL_V3_READER_AND_UNCHANGED_PREDECESSOR_CHAIN_PASS",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/verify_c16_checkpoint_v3.py",
+    "bytes": 5953,
+    "sha256": "e3d670a1ab204a747d80c45879f0452676a82c10f7ad4031d6f2e1e50e0c49a3"
+  },
+  "seal": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/review-seal-v3.json",
+    "bytes": 2383,
+    "sha256": "afcf6953b2ed858a3c9728a46b4663dcbcbdd3cef72c51672eff103f0fd4be7e"
+  },
+  "result": {
+    "status": "NOT_READY_04A38",
+    "W2": "IN_PROGRESS",
+    "W3": "NOT_STARTED",
+    "historical_supported": 607,
+    "historical_OPEN": 97,
+    "current_supported": 635,
+    "current_OPEN": 91,
+    "support_supported": 271,
+    "support_OPEN": 32,
+    "selected58_closed": 57,
+    "Debug": {
+      "PASS": 21039,
+      "FAIL": 14,
+      "new_PASS": 49
+    },
+    "Debug_frozen": 29424,
+    "exports": 268,
+    "Python": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "Python_subtests": {
+      "FAIL": 183,
+      "ERROR": 13
+    },
+    "Node_PASS": 916,
+    "strict_profile_MkDocs": {
+      "strict": 1,
+      "profile": 1,
+      "docs": 0
+    },
+    "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_full_selected_focused_unit_tests": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_ABI_CIL_signatures_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "predecessor": "UNCHANGED_FINAL_C15_READER_AND_PREDECESSOR_CHAIN_PASS_WITH_EXACT_AUTHORIZED_PREIMAGES",
+    "original_queries": 0,
+    "phase04A39": "BLOCKED",
+    "historical_new": 70,
+    "current_new": 69,
+    "support_new": 9,
+    "original_only_callbacks": 3,
+    "final_review": "final/owner-review.md",
+    "final_ledger": "canonical-identity-status-v2.json",
+    "final_queue": "remaining-work-queue-v2.json",
+    "qualification": "All old seals/readers and nonfinal publication versions are preserved. Two independently proved original-only callbacks correct the final separate identity dispositions; no production/test source or campaign changed."
+  },
+  "command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-final-checkpoint-reader-v3/command.json",
+    "bytes": 860,
+    "sha256": "8d59500432708a797b6093ec0e95b933e81d17922a38c897a6b3a0dca2ebdc13"
+  },
+  "stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-final-checkpoint-reader-v3/stdout.log",
+    "bytes": 3181,
+    "sha256": "0d5c5b828a5cf4a6ccf2225c02013c606219d1fc962e07fa0fea4487ac5713c0"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-final-checkpoint-reader-v3/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "prior_nonfinal_versions_preserved": true,
+  "original_queries": 0
+}

@@ -1,0 +1,25 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v3.py",
+    "bytes": 5742,
+    "sha256": "9408c683c381927c4b3fb6307a7be3e5b8f261007607795ec1104c3c3eb22d79"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/prove_parallel_scan_base_v4.py",
+    "bytes": 5742,
+    "sha256": "61c1a5b7af9058c7bb8a93c46f09df0f89555582080ea8b4da0ddfb5a80f77ca"
+  },
+  "failure": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/scanner-base-proof-v2-execution.json",
+    "bytes": 486,
+    "sha256": "00f7264605d4f777df043bc0bfef4d119727f358f87a0e1b441987f592fe5152"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c11-scanner-base-proof-v2/stderr.log",
+    "bytes": 722,
+    "sha256": "f7d4b1ad0531a8325f8e3ac33766df84c0c77cbc89d4a04a561895b0f3973039"
+  },
+  "cause": "The carried v10 v2 proof already used a v2 private directory, so the intended retry replacement did not change it. Exclusive creation correctly refused reuse.",
+  "correction": "Use a fresh v3 private proof directory. No deletion, fixture overwrite, scanner or assertion change.",
+  "original_queries": 0
+}

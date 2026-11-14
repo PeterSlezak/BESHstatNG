@@ -1,0 +1,11 @@
+Friend Function TryGetSingleThresholdFromArg(arg As Object, ByRef threshold As Double,
+                                                     Optional defaultValue As Double = 0.5R) As Boolean
+            threshold = defaultValue
+            Dim thresholds() As Double = Nothing
+            If Not ExcelArgNumeric.TryGetOptionalThresholdVector(arg, thresholds) Then Return False
+            If thresholds Is Nothing OrElse thresholds.Length = 0 Then Return True
+            If thresholds.Length <> 1 Then Return False
+
+            threshold = thresholds(0)
+            Return True
+        End Function

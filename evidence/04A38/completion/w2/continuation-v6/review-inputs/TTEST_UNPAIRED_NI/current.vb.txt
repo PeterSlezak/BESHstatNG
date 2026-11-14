@@ -1,0 +1,70 @@
+ntal As Object,
+            <ExcelArgument(Name:="margin", Description:="Positive non-inferiority margin magnitude M. The null limit is -M on the experimental-minus-control scale.")> margin As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional names as comma-separated text or a 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional variance assumption: welch (default) or equal/pooled/student.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional one-sided alpha. Default 0.025.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetIndependentNumericColumns(control, experimental, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
+                If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
+                If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim marginValue As Double
+                If Not TryGetFiniteDouble(margin, marginValue) Then Return ExcelError.ExcelErrorValue
+                If marginValue <= 0.0 Then Return ExcelError.ExcelErrorNum
+
+                Dim alphaValue As Double = 0.025
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim assumeEqual As Boolean = ParseEqualVarianceMode(method, False)
+                Dim names() As String = ParametricUDFs.ResolveNames(groupNames, detectedNames, 2, "Group")
+
+                Dim result As MeanNonInferiorityResult = EquivalenceNonInferiorityMethods.TestUnpairedMeansNonInferiority(
+                    data(0), data(1), marginValue, alphaValue, assumeEqual)
+
+                Dim body As Object(,) = {
+                    {"Control group", names(0)},
+                    {"Experimental group", names(1)},
+                    {"Variance model", If(result.AssumeEqualVariances, "Equal variances (pooled Student t)", "Unequal variances (Welch)")},
+                    {"Observations in control", result.NumberOfControls},
+                    {"Observations in experimental", result.NumberOfExperimental},
+                    {"Mean control", result.MeanControl},
+                    {"Mean experimental", result.MeanExperimental},
+                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
+                    {"Standard error of the difference", result.StandardError},
+                    {"Degrees of freedom", result.DegreesOfFreedom},
+                    {"Non-inferiority margin magnitude", result.NonInferiorityMargin},
+                    {"Null boundary on difference scale", result.NonInferiorityLimit},
+                    {"One-sided alpha", result.AlphaOneSided},
+                    {"Test statistic", result.TestStatistic},
+                    {"One-sided p-value", result.PValue},
+                    {"Lower one-sided confidence limit", result.LowerOneSidedConfidenceLimit},
+                    {SafeCiLabel(result.TwoSidedEquivalentConfidenceInterval), SafeCiText(result.TwoSidedEquivalentConfidenceInterval)},
+                    {"Point estimate within stated limits", result.CiAssessment.IsPointEstimateWithinMargins},
+                    {"Confidence interval within stated limits", result.CiAssessment.IsConfidenceIntervalWithinMargins},
+                    {"Lower-bound non-inferiority supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
+                    {"Upper-bound non-inferiority supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
+                    {"Conclusion", result.Conclusion}
+                }
+
+                Return BuildResultTable("Unpaired Means Non-Inferiority", body)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.TTEST_UNPAIRED_NI", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' TOST-style equivalence comparison for two independent means.
+        ''' </summary>
+        ''' <param name="control">Control or reference sample as a single-column Excel range.</param>
+        ''' <param name="experimental">Experimental or test sample as a single-column Excel range.</param>
+        ''' <param name="lowerMargin">
+        ''' Lower equivalence margin on the difference scale <c>mean(experimental) - mean(control)</c>.
+        ''' If <paramref name="upperMargin"/> is omitted, this argument is interpreted as a positive symmetric margin magnitude <c>M</c>
+        ''' and the function uses margins <c>-M</c> and <c>+M</c>.
+        ''' </param>
+        ''' <param name="upperMargin">
+        ''' Optional upp

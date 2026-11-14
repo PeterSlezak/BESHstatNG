@@ -1,0 +1,794 @@
+{
+  "status": "POST_GATE_SOURCE_COVERAGE_OBSERVATION_NOT_A_NEW_REFERENCE",
+  "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1a0bb79d9820bf54@87541:2014",
+  "signature": "Private Function TryGetDesignColumnValues(h As MmrmHandle, requestedName As String, ByRef resolvedName As String, ByRef values() As Double, ByRef errorMessage As String) As Boolean",
+  "source_snapshot": {
+    "path": "evidence/04A38/preedit/source/Regression/MixedModelUDFs.vb.txt",
+    "bytes": 92704,
+    "sha256": "596071f9fdb00fb94585e929a6899494293d2dc7ee0064faadf098b0d95dc13d"
+  },
+  "source_body": "\n        Private Function TryGetDesignColumnValues(h As MmrmHandle,\n                                                  requestedName As String,\n                                                  ByRef resolvedName As String,\n                                                  ByRef values() As Double,\n                                                  ByRef errorMessage As String) As Boolean\n            resolvedName = Nothing\n            values = Nothing\n            errorMessage = Nothing\n\n            If h Is Nothing OrElse h.FittedDesign Is Nothing Then\n                errorMessage = \"the fit does not contain the fixed-effect design rows required for this extractor.\"\n                Return False\n            End If\n\n            If h.FixedEffectNames Is Nothing OrElse h.FixedEffectNames.Length <> h.FittedDesign.GetLength(1) Then\n                errorMessage = \"the fit does not contain usable fixed-effect column names.\"\n                Return False\n            End If\n\n            Dim idx As Integer = FindDesignColumnIndex(h.FixedEffectNames, requestedName)\n            If idx < 0 Then\n                errorMessage = \"column \"\"\" & requestedName & \"\"\" was not found among fitted design columns: \" &\n                               String.Join(\", \", h.FixedEffectNames)\n                Return False\n            End If\n\n            If String.Equals(h.FixedEffectNames(idx), \"Intercept\", StringComparison.OrdinalIgnoreCase) OrElse\n               String.Equals(h.FixedEffectNames(idx), \"(Intercept)\", StringComparison.OrdinalIgnoreCase) Then\n                errorMessage = \"the intercept column cannot be used as a grouping factor.\"\n                Return False\n            End If\n\n            Dim n As Integer = h.FittedDesign.GetLength(0)\n            ReDim values(n - 1)\n\n            For i As Integer = 0 To n - 1\n                values(i) = h.FittedDesign(i, idx)\n            Next\n\n            resolvedName = h.FixedEffectNames(idx)\n            Return True\n        End Function",
+  "configurations": {
+    "Debug": {
+      "public_lsmeans_cases": 66,
+      "helper_entry_cases": 34,
+      "report_after_helper": 16,
+      "intercept_guard_outputs": 0
+    },
+    "Release": {
+      "public_lsmeans_cases": 66,
+      "helper_entry_cases": 34,
+      "report_after_helper": 16,
+      "intercept_guard_outputs": 0
+    }
+  },
+  "witnesses": [
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.57051347c2da164fb3e53127",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:31:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.cf23bd897616cebbd6e1f82c",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:69:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.0a574194d1b88d4c36bc55a5",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|ENUMExcelDna.Integration.ExcelError:15|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"ExcelErrorValue\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.c32bc6e591a39b6ba2a1fe5c",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|B1|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"True\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.0e29fe298db0d39b07d652cf",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|SMS4yNQ==|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"1.25\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b121381c5aea62870f971460",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|D7FF8000000000038|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"NaN\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.91f4ee0e5cd1db99baf99022",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|D7FF0000000000000|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"Infinity\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.a07f4974e46b450d683c8586",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|DFFF0000000000000|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"-Infinity\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.8ca6a9fe62366da1b98383c3",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|System.Object[0:3,0:2]{D3FFA4EB734A30CDC|D4001A4C2D3FA2E03|D400329E18C4C1988|D3FFF70976A1F2787|D4005773678F09F4F|D3FF2B1DD9A55673A}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[,]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b29bd953a61f498ac31915b6",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|System.Object[0:0,0:1]{}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[,]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.43159c2dd834b5afdf7cfbae",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|System.Object[][0:2]{System.Object[0:2]{D3FF0000000000000|D4000000000000000}|System.Object[0:1]{D4008000000000000}}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[][]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.00fde3cadc3a6a2abb9900ff",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|ENUMExcelDna.Integration.ExcelError:15|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"ExcelErrorValue\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.97cf4ead220fa58ddd873a2c",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|B1|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"True\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.38403d6cc177e6851d9e2512",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|SMS4yNQ==|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"1.25\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.5b5eb05b7d9b9e0e62ec7e6b",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|D7FF8000000000038|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"NaN\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.158293ae73c1c969a97239c8",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|D7FF0000000000000|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"∞\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.ef79bbac979792e96aa492cf",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|DFFF0000000000000|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"-∞\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b53ee770b38b93abf745be84",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|System.Object[0:3,0:2]{D3FFA4EB734A30CDC|D4001A4C2D3FA2E03|D400329E18C4C1988|D3FFF70976A1F2787|D4005773678F09F4F|D3FF2B1DD9A55673A}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[,]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.0309ee09eddaf7574e5f70e7",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|System.Object[0:0,0:1]{}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[,]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.1fbda4133773dbe979f18f57",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|System.Object[][0:2]{System.Object[0:2]{D3FF0000000000000|D4000000000000000}|System.Object[0:1]{D4008000000000000}}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[][]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b54019f8683725d08936b401",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:620:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.c768b06e024767ddb409b7a5",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:621:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.4830702484fce8416c3880ba",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:620:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.5ebb2d5e18243eded2f71600",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:621:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b9c5c442cff2e0047d805653",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:642:N:lowerhex:UPPERCASE|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.a6c5cb936f7a08c9897a46e3",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:642:N:lowerhex:UPPERCASE|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.0cc8a17d0e2d4d59f7ddd4de",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:674:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.3e6ab3c78bafa7166a867797",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:674:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.8ba5b7404da5813531ad76a5",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "original_input": "System.Object[0:3]{HMMRM:684:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.277bf43d43633f01baa87a45",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "original_input": "System.Object[0:3]{HMMRM:684:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.ec692d1b5e240767b3e95e97",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:757:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.322844350b1fffee3b433438",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:757:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.cc996272a178a4d120a70121",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:445:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|D3FB999999999999A}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Debug",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.e3db0b6b546d6f192d89bd78",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:445:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|D3FB999999999999A}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.57051347c2da164fb3e53127",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:31:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.cf23bd897616cebbd6e1f82c",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:69:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.0a574194d1b88d4c36bc55a5",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|ENUMExcelDna.Integration.ExcelError:15|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"ExcelErrorValue\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.c32bc6e591a39b6ba2a1fe5c",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|B1|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"True\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.0e29fe298db0d39b07d652cf",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|SMS4yNQ==|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"1.25\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b121381c5aea62870f971460",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|D7FF8000000000038|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"NaN\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.91f4ee0e5cd1db99baf99022",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|D7FF0000000000000|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"Infinity\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.a07f4974e46b450d683c8586",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|DFFF0000000000000|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"-Infinity\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.8ca6a9fe62366da1b98383c3",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|System.Object[0:3,0:2]{D3FFA4EB734A30CDC|D4001A4C2D3FA2E03|D400329E18C4C1988|D3FFF70976A1F2787|D4005773678F09F4F|D3FF2B1DD9A55673A}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[,]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b29bd953a61f498ac31915b6",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|System.Object[0:0,0:1]{}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[,]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.43159c2dd834b5afdf7cfbae",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:266:N:lowerhex|System.Object[][0:2]{System.Object[0:2]{D3FF0000000000000|D4000000000000000}|System.Object[0:1]{D4008000000000000}}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[][]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.00fde3cadc3a6a2abb9900ff",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|ENUMExcelDna.Integration.ExcelError:15|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"ExcelErrorValue\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.97cf4ead220fa58ddd873a2c",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|B1|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"True\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.38403d6cc177e6851d9e2512",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|SMS4yNQ==|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"1.25\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.5b5eb05b7d9b9e0e62ec7e6b",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|D7FF8000000000038|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"NaN\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.158293ae73c1c969a97239c8",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|D7FF0000000000000|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"∞\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.ef79bbac979792e96aa492cf",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|DFFF0000000000000|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"-∞\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b53ee770b38b93abf745be84",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|System.Object[0:3,0:2]{D3FFA4EB734A30CDC|D4001A4C2D3FA2E03|D400329E18C4C1988|D3FFF70976A1F2787|D4005773678F09F4F|D3FF2B1DD9A55673A}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[,]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.0309ee09eddaf7574e5f70e7",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|System.Object[0:0,0:1]{}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[,]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.1fbda4133773dbe979f18f57",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:512:N:lowerhex|System.Object[][0:2]{System.Object[0:2]{D3FF0000000000000|D4000000000000000}|System.Object[0:1]{D4008000000000000}}|N|N|N|N|N}",
+      "outcome": "RETURN_TEXT",
+      "decoded_return_text": "BESH.REGR.MMRM_CONTRASTS error: column \"System.Object[][]\" was not found among fitted design columns: Intercept, treatment_active, visit2, visit3, treatment_active:visit2, treatment_active:visit3"
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b54019f8683725d08936b401",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:620:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.c768b06e024767ddb409b7a5",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:621:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.4830702484fce8416c3880ba",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:620:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.5ebb2d5e18243eded2f71600",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:621:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.b9c5c442cff2e0047d805653",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:642:N:lowerhex:UPPERCASE|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.a6c5cb936f7a08c9897a46e3",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:642:N:lowerhex:UPPERCASE|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.0cc8a17d0e2d4d59f7ddd4de",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:674:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.3e6ab3c78bafa7166a867797",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:674:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.8ba5b7404da5813531ad76a5",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "original_input": "System.Object[0:3]{HMMRM:684:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_LSMEANS.277bf43d43633f01baa87a45",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_LSMEANS",
+      "original_input": "System.Object[0:3]{HMMRM:684:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.ec692d1b5e240767b3e95e97",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:757:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.322844350b1fffee3b433438",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:757:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|N}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.cc996272a178a4d120a70121",
+      "culture": "",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:445:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|D3FB999999999999A}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    },
+    {
+      "configuration": "Release",
+      "case_id": "BESH.REGR.MMRM_CONTRASTS.e3db0b6b546d6f192d89bd78",
+      "culture": "sk-SK",
+      "target": "BESH.REGR.MMRM_CONTRASTS",
+      "original_input": "System.Object[0:7]{HMMRM:445:N:lowerhex|SdHJlYXRtZW50X2FjdGl2ZQ==|N|N|N|N|D3FB999999999999A}",
+      "outcome": "RETURN_ARRAY",
+      "decoded_return_text": null
+    }
+  ],
+  "inputs": [
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+      "bytes": 11751614,
+      "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/capture-v10/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 18048262,
+      "sha256": "bd40803eb02dcbbd5fdd1446cfea0d12587f31afd56ea5ead420c216e2e8563c"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/original-Debug.tsv",
+      "bytes": 17065755,
+      "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+      "bytes": 3168046,
+      "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 5649627,
+      "sha256": "676f6c553f6b16e2cff324a734a887dd15f3ba4b513b86b47a0d428fb39bf359"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-original-v1.tsv",
+      "bytes": 6942877,
+      "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+      "bytes": 191201,
+      "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 81062,
+      "sha256": "a30ccab8b951c98e9a16b740c43f484ece7be83156569778c5ce8bdfda47c8e3"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-original-v1.tsv",
+      "bytes": 76370,
+      "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+      "bytes": 751343,
+      "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 2653004,
+      "sha256": "1fadd5d8635307eaa20dc46448bbbb270db388a385586d806f25cf3ef071d69c"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-original-v1.tsv",
+      "bytes": 6357582,
+      "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+      "bytes": 286237,
+      "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-trace-v1.tsv.reachability.jsonl",
+      "bytes": 128706,
+      "sha256": "88d255ba86b752377d2fdab64fef6ef6bc44862f8b89da1ccc31af8583b95e82"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-original-v1.tsv",
+      "bytes": 174484,
+      "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+      "bytes": 11751614,
+      "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/capture-v10/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 18048262,
+      "sha256": "bd40803eb02dcbbd5fdd1446cfea0d12587f31afd56ea5ead420c216e2e8563c"
+    },
+    {
+      "path": "evidence/04A38/preedit/frozen-v2/original-Release.tsv",
+      "bytes": 17067771,
+      "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+      "bytes": 3168046,
+      "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 5649627,
+      "sha256": "676f6c553f6b16e2cff324a734a887dd15f3ba4b513b86b47a0d428fb39bf359"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-original-v1.tsv",
+      "bytes": 6942877,
+      "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+      "bytes": 191201,
+      "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 81062,
+      "sha256": "a30ccab8b951c98e9a16b740c43f484ece7be83156569778c5ce8bdfda47c8e3"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-original-v1.tsv",
+      "bytes": 76370,
+      "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+      "bytes": 751343,
+      "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 2653004,
+      "sha256": "1fadd5d8635307eaa20dc46448bbbb270db388a385586d806f25cf3ef071d69c"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-original-v1.tsv",
+      "bytes": 6357582,
+      "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+      "bytes": 286237,
+      "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-trace-v1.tsv.reachability.jsonl",
+      "bytes": 128706,
+      "sha256": "88d255ba86b752377d2fdab64fef6ef6bc44862f8b89da1ccc31af8583b95e82"
+    },
+    {
+      "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-original-v1.tsv",
+      "bytes": 174484,
+      "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+    }
+  ],
+  "new_original_reference_executions": 0,
+  "new_case_packets": 0,
+  "new_production_changes": 0
+}

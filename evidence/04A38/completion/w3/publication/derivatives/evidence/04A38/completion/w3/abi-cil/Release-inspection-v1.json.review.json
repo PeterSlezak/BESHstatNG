@@ -1,0 +1,86 @@
+{
+  "configuration": "Release",
+  "commands": [
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont15\\signatures-v1\\MethodMetadata38.exe",
+        "<ISOLATED_RUN>\\w3v1\\Release\\lib",
+        "<ISOLATED_RUN>\\w3v1\\Release\\metadata\\current.json",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v16\\native-metadata-owners-v1.txt"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 7.748607399989851,
+      "stdout_sha256": "8011c68b9a8bd7967317a3f3098e4d3ae01ea3259fbd8e7d5ac2ecb8ac65cc90",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v2\\inspection\\Inspect38.exe",
+        "<ISOLATED_RUN>\\w3v1\\Release\\lib",
+        "<ISOLATED_RUN>\\w3v1\\Release\\metadata\\exports.json",
+        "<REPO_ROOT>\\evidence\\04A38\\entry-members.json"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.7246122000215109,
+      "stdout_sha256": "768d70d3cf223e448fec840b0c77f411d7200e0c4edb14c31b61c0a66f40baff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "tools": [
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/signatures-v1/MethodMetadata38.exe",
+      "bytes": 45056,
+      "sha256": "8f0ba155b0747c08204667812ed1855b0195818e42b4d368569c472827f07717"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/packet-v2/inspection/Inspect38.exe",
+      "bytes": 24576,
+      "sha256": "116e24667d914f3f472caa83eead91bfe96035ef9a7e52451987409be6f3da9a"
+    }
+  ],
+  "metadata": {
+    "path": ".test-rationalization-04A38.tmp/w3v1/Release/metadata/current.json",
+    "bytes": 72041403,
+    "sha256": "1ffd16037508d56e76b449fe005bbdc9588b94ce666b3538cdc24c4f2dd695f4"
+  },
+  "exports": {
+    "path": ".test-rationalization-04A38.tmp/w3v1/Release/metadata/exports.json",
+    "bytes": 2610832,
+    "sha256": "a447d29007ca8f7c3c1df21af1b8f888bd06dc1e38b681ee8157cfe1e788d2e9"
+  },
+  "exports_count": 268,
+  "sealed_original_export_baseline": {
+    "path": "evidence/04A38/preedit/compiled-Release.json",
+    "bytes": 3474830,
+    "sha256": "7806b9bcfebbbd12cf092f2c814dbf51ff28cb2fbe9ddc283ec515207aeb72f0"
+  },
+  "exact_exports": true,
+  "methods": 15010,
+  "types": 1819,
+  "method_schema": [
+    "method",
+    "signature",
+    "declaring_type",
+    "member_name",
+    "parameter_types",
+    "attributes",
+    "implementation_flags",
+    "raw_IL_sha256",
+    "type_initializer",
+    "nonliteral_static_fields",
+    "locals",
+    "init_locals",
+    "exceptions",
+    "instructions"
+  ],
+  "original_semantic_calls": 0,
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/production-test-freeze-v1.json",
+    "bytes": 424596,
+    "sha256": "43cd9af03ab09829c205b694f6650df1779766692159da791144b9f48f7c868e"
+  }
+}

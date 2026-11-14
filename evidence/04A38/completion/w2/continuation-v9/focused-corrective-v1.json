@@ -1,0 +1,77 @@
+{
+  "build": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+      "<REPO_ROOT>\\BESHStatNG.Test\\BESHStatNG.Tests.vbproj",
+      "/t:Build",
+      "/p:Configuration=Debug",
+      "/p:BuildProjectReferences=false",
+      "/p:ProduceReferenceAssembly=false",
+      "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont9\\focused-corrective-v1\\lib\\",
+      "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont9\\focused-corrective-v1\\obj\\",
+      "/p:PythonExe=<PYTHON>",
+      "/m:4",
+      "/v:minimal",
+      "/nr:false"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 2.29736120000598,
+    "stdout_sha256": "66f7e3f0b1d96cadac785e26ef01ab607a0963d35d111c7036f12e2ac51a25b1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "command": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "<ISOLATED_RUN>\\completion-w2-cont9\\focused-corrective-v1\\lib\\BESHStatNG.Test.dll",
+      "/Settings:<REPO_ROOT>\\test.runsettings",
+      "/TestCaseFilter:FullyQualifiedName~Continuation9BrierValidationPrecedesHeaderAndLowerBoundsStayNative",
+      "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+      "/Logger:trx;LogFileName=focused.trx",
+      "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont9\\focused-corrective-v1\\results"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 4.856882000021869,
+    "stdout_sha256": "b828f5970e190798f6ed6cc5c235efa20aacf73088070f15434413b64e386582",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "cases": {
+    "records": [
+      {
+        "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+        "method": "Continuation9BrierValidationPrecedesHeaderAndLowerBoundsStayNative",
+        "test_name": "Continuation9BrierValidationPrecedesHeaderAndLowerBoundsStayNative",
+        "outcome": "Passed",
+        "duration": "00:00:00.1458564",
+        "message": ""
+      }
+    ],
+    "outcomes": {
+      "Passed": 1
+    },
+    "counters": {
+      "total": "1",
+      "executed": "1",
+      "passed": "1",
+      "failed": "0",
+      "error": "0",
+      "timeout": "0",
+      "aborted": "0",
+      "inconclusive": "0",
+      "passedButRunAborted": "0",
+      "notRunnable": "0",
+      "notExecuted": "0",
+      "disconnected": "0",
+      "warning": "0",
+      "completed": "0",
+      "inProgress": "0",
+      "pending": "0"
+    },
+    "sha256": "10e7d61836229db9aa910705077597545eadd76f89e9cea987dd74c9e81cb73b"
+  },
+  "first_attempt": "focused-v3-packet-v1-Debug.json",
+  "source_unchanged": true
+}

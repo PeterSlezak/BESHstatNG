@@ -1,0 +1,20 @@
+{
+  "exit_code": 1,
+  "tests": 14,
+  "passed": 13,
+  "failed": 1,
+  "failed_identity": "test_p1.P1Tests.test_stale_preimage",
+  "test_source": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/test_p1.py",
+    "bytes": 5561,
+    "sha256": "e834a89704b77f0be2de02153e5863e3658a310c276a94e95f8e8a0b108317fe"
+  },
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/verify_p1_v4.py",
+    "bytes": 13988,
+    "sha256": "d39ad9d7e0fa55e82811eb49d269b85558c9185567c53143a496887ab812d0bb"
+  },
+  "observed": "Expected ValueError was not raised when only the pre-P1 Common profile preimage changed. Reader used the host preimages but did not read that particular portable preimage.",
+  "correction": "v5 checks every before-record digest, including portable preimages, before source operation comparisons. Same 14 adverse conditions retained.",
+  "product_changed": false
+}

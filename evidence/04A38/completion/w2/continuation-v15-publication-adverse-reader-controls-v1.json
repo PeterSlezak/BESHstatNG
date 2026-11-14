@@ -1,0 +1,76 @@
+{
+  "status": "ALL_FINAL_PUBLICATION_READER_ADVERSE_CONTROLS_REJECTED",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/verify_c15_publication_v3.py",
+    "bytes": 7092,
+    "sha256": "0ac51dff9530533ce413e93b15c162ed66480efdf8198f7a4af3ef14e4480836"
+  },
+  "index": {
+    "path": "evidence/04A38/completion/w2/continuation-v15-review-parts-index-v2.json",
+    "bytes": 3934068,
+    "sha256": "f6b7da0001967238c0c7327e4dbd1435953567aba21fa4dd13ead99475956327"
+  },
+  "controls": [
+    {
+      "name": "missing retained payload",
+      "status": "REJECTED_BY_ACTUAL_FINAL_READER",
+      "message": "Prior payload omitted or changed",
+      "index": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/publication-adverse-v1/1.json",
+        "bytes": 3367998,
+        "sha256": "f5f1afed7a003e64258baef5afee2cbf578fe135d58901db6198eb6c1b0aca7c"
+      }
+    },
+    {
+      "name": "changed retained archive",
+      "status": "REJECTED_BY_ACTUAL_FINAL_READER",
+      "message": "Original physical archives changed or supplement missing",
+      "index": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/publication-adverse-v1/2.json",
+        "bytes": 3368263,
+        "sha256": "ae2ff4e2e17537dc5559f29a732fcd17819e89c861c7190f2f2912abdfc3b6f9"
+      }
+    },
+    {
+      "name": "missing runtime dependency",
+      "status": "REJECTED_BY_ACTUAL_FINAL_READER",
+      "message": "Duplicate/missing logical path",
+      "index": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/publication-adverse-v1/3.json",
+        "bytes": 3367961,
+        "sha256": "de04206e9a44c534ebef07dfd054d830cbb43c7ada9f4e98004d7dfe5dfbd7c8"
+      }
+    },
+    {
+      "name": "changed retained member SHA",
+      "status": "REJECTED_BY_ACTUAL_FINAL_READER",
+      "message": "Prior payload omitted or changed",
+      "index": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/publication-adverse-v1/4.json",
+        "bytes": 3368263,
+        "sha256": "d77d8824757a513bf5d32dde9ff2dd96652cd3bdbe4fa22a425e6c5b8ca4e005"
+      }
+    },
+    {
+      "name": "changed manifest binding",
+      "status": "REJECTED_BY_ACTUAL_FINAL_READER",
+      "message": "External index/manifest authority differs",
+      "index": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/publication-adverse-v1/5.json",
+        "bytes": 3368263,
+        "sha256": "8e975d1d78c75da06763ed7c2aa91bee7373a57e4f2b8a8562682ca2c4da809d"
+      }
+    },
+    {
+      "name": "changed prior index authority",
+      "status": "REJECTED_BY_ACTUAL_FINAL_READER",
+      "message": "Prior index changed",
+      "index": {
+        "path": ".test-rationalization-04A38.tmp/completion-w2-cont15/publication-adverse-v1/6.json",
+        "bytes": 3368263,
+        "sha256": "5bb7531022da58ed15021adb8987860af3e0e3272de973abcec79f9fbffe1b72"
+      }
+    }
+  ],
+  "original_queries": 0
+}

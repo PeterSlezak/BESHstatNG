@@ -1,0 +1,8 @@
+
+                                               ByRef mat As Double(,),
+                                               ByRef names() As String) As Boolean
+        Return TryReadPairedNumericColumns(x, y, mat, names)
+    End Function
+
+    ''' <summary>
+    ''' Imports a complete numeric matrix and optional header row for repeated-measures and multivar

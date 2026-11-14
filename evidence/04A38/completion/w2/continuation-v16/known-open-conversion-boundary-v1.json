@@ -1,0 +1,30 @@
+{
+  "status": "FAIL_CLOSED_EXISTING_UNCLOSED_DEPENDENCY_AND_LMM_FIT_RETAINED_OPEN",
+  "blocked": {
+    "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@6597:322": {
+      "reason": "UNPROVED_ORIGINAL_FALLBACK_RECONVERSION: original NormalizeMixedModelOptionToken invokes AsString(arg), then unknown nonempty token invokes AsString(arg) a second time; current wrapper converts once before Common. Arbitrary Object conversion may be stateful or throw on second invocation. No archived original execution permitted; this helper and transitive parents must remain OPEN pending bounded decision.",
+      "direct": true,
+      "unresolved_current_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@6597:322"
+    },
+    "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|25db4fbfc139db6c@10149:19201": {
+      "reason": "Unresolved genuine outbound dependency; parent remains OPEN",
+      "direct": false,
+      "unresolved_current_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@6597:322",
+      "compiled_method": "BESHStatNG.UdfScalarUtilities @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.NormalizeMixedModelResidualCovarianceName(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+    }
+  },
+  "source_obligations": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@11023:1530",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@6597:322",
+      "name": "NormalizeMixedModelResidualCovarianceName",
+      "reason": "UNPROVED_ORIGINAL_FALLBACK_RECONVERSION: original NormalizeMixedModelOptionToken invokes AsString(arg), then unknown nonempty token invokes AsString(arg) a second time; current wrapper converts once before Common. Arbitrary Object conversion may be stateful or throw on second invocation. No archived original execution permitted; this helper and transitive parents must remain OPEN pending bounded decision."
+    }
+  ],
+  "observed_from": "Authenticated original source plus already captured original Debug CIL versus unchanged pre-v16 Common/native adapter source and current Debug CIL; no original engine run.",
+  "example_domain": "For an arbitrary Object with stateful Convert.ToString/ToString, an unknown nonempty covariance token can cause an additional conversion or exception on the original fallback. Current string adapter cannot establish that second conversion. Exact first conversion timing, known-token branches and all other selected source composites remain independently recorded.",
+  "current_implementation_changed_to_hide_gap": false,
+  "missing_new_oracle_requested": false,
+  "next_bounded_work": "Preserve or restore the original native conversion sequence on the fallback and validate it in a separately authorized source freeze/checkpoint; do not execute archived original code.",
+  "original_queries": 0
+}

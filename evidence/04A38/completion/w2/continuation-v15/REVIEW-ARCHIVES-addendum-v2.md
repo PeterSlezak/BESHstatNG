@@ -1,0 +1,5 @@
+# Final additive review publication correction
+
+Use external `continuation-v15-review-parts-index-v2.json` and actual `verify_c15_publication_v3.py`. Extract all eight independent complementary ZIPs into one fresh short destination. The original seven ZIPs and their 9,724 members remain unchanged. The eighth ZIP adds the missing unchanged runtime dependency, versioned final tooling, the v2 logical manifest and inventory, and explicit failed-attempt records. These are independent archives, not binary split volumes. No original source/reference was executed and no test campaign was repeated.
+
+Run the copied reader with the mandated Python interpreter, isolated imports from the copied continuation-v15 directory, and `--index <external-v2-index>`. Add `--parts --parts-dir <actual-archive-directory>` to verify the actual physical ZIP bytes. The final external handover binds the private/live receipts and uploaded-byte review limitation. Earlier owner review and publication receipts are immutable; this correction takes precedence only for publication/runtime readers and the distinction between current Unicode privacy errors and historical JSON errors.

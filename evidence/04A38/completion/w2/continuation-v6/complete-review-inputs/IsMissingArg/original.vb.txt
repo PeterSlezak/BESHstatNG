@@ -1,0 +1,5 @@
+ates
+
+        Friend Function IsMissingArg(v As Object) As Boolean
+            Return v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty
+  

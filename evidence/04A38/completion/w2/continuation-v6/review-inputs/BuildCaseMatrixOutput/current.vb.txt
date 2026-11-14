@@ -1,0 +1,8 @@
+  colNames() As String, mat(,) As Double, includeHeader As Boolean) As Object
+        Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.UdfOutputTablesReports38.BuildCaseMatrixOutput(idHeader, rowIds, colNames, mat, includeHeader))
+    End Function
+
+    ''' <summary>
+    ''' Converts a wrapped result table into a worksheet spill range.
+    ''' </summary>
+    ''' <para

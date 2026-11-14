@@ -1,0 +1,96 @@
+{
+  "status": "EXACT_INHERITED_UNORDERED_SPC_FIRST_FAILURE_EXPLAINED",
+  "identity": "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)",
+  "occurrences": 1,
+  "receipts": [
+    {
+      "label": "w2c4-validation-v1-python-scripts",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/tests",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 2200.030144999997,
+        "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+        "stderr_sha256": "e3bc4f64b3930a8351e6f56404f15c453a8c5df23584d8f3a7f7c608065238b3",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "raw_stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c4-validation-v1-python-scripts/stderr.log",
+        "bytes": 394838,
+        "sha256": "e3bc4f64b3930a8351e6f56404f15c453a8c5df23584d8f3a7f7c608065238b3"
+      },
+      "exact_trace": "FAIL: test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a22_spc.py\", line 68, in test_all_retained_native_methods_and_appearance_remain_exact\n    self.assertEqual(a[name],b[name],name)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '    [117 chars]         Select Case panelType\\n              [351 chars]tion' != '    [117 chars]     Return ExcelCommon.Chart34.SpcChartPrepar[884 chars]tion'\nDiff is 1481 characters long. Set self.maxDiff to None to see it. : PanelSupportsSpecificationLimits\n"
+    },
+    {
+      "label": "w2c5-validation-v2-python-scripts",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/tests",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 2457.2011222,
+        "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+        "stderr_sha256": "c4d026f2c890f36e8da5f3052f3cc56d5dd3b12ad8a9c67da7e77ba0933cc575",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "raw_stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c5-validation-v2-python-scripts/stderr.log",
+        "bytes": 394835,
+        "sha256": "c4d026f2c890f36e8da5f3052f3cc56d5dd3b12ad8a9c67da7e77ba0933cc575"
+      },
+      "exact_trace": "ERROR: test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a22_spc.py\", line 68, in test_all_retained_native_methods_and_appearance_remain_exact\n    self.assertEqual(a[name],b[name],name)\n                             ~^^^^^^\nKeyError: 'IncludeNullableInBounds'\n"
+    }
+  ],
+  "source": {
+    "path": "scripts/tests/test_04a22_spc.py",
+    "bytes": 9384,
+    "sha256": "7654f6e2b47b6a19bbb994a1d23470036d54fe0b7090969906289b7247c3e3bb"
+  },
+  "renderer": {
+    "path": "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+    "bytes": 46520,
+    "sha256": "3ac632184189907462563af328c6fcc3e05736629742e80ae073b9bce53fa1f3"
+  },
+  "source_and_renderer_match_accepted_HEAD": true,
+  "first_failure": "Both traces stop at scripts/tests/test_04a22_spc.py:68. Iteration over set(a)-changed is unordered and varies between Python processes; one member is changed, another absent after earlier authorized SPC extraction.",
+  "cause": "AssertionError for PanelSupportsSpecificationLimits versus KeyError for IncludeNullableInBounds. Same identity and occurrence; no new production source or test change in v5. Preserve ERROR as ERROR.",
+  "baseline": {
+    "passed": 765,
+    "failed": 181,
+    "errors": 10
+  },
+  "v5": {
+    "passed": 765,
+    "failed": 180,
+    "errors": 11
+  },
+  "separate_C5_UTF16_attempt": {
+    "path": "evidence/04A38/completion/w2/continuation-v5/python-encoding-correction-final.json",
+    "bytes": 345815,
+    "sha256": "9596ea556d595325fd71f75659c0eb3bd6fbb044bdbb7fa6015eadbb1167d144"
+  },
+  "test_modifications": 0,
+  "relabeling": 0,
+  "original_queries": 0
+}

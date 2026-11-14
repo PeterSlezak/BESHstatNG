@@ -1,0 +1,5 @@
+es the existing UDF semantics: numeric values are collected column-wise and non-numeric cells are ignored.
+    ''' </summary>
+    Friend Function TryGetGroupedNumericColumns(input As Object,
+                                                ByRef groups()() As Double,
+                                

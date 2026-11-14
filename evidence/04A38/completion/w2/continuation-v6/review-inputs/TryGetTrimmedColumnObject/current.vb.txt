@@ -1,0 +1,37 @@
+Friend Function TryGetTrimmedColumnObject(v As Object, ByRef col(,) As Object, ByRef inferredName As String,
+                                              Optional headerMode As String = "numeric") As Boolean
+
+        col = Nothing
+        inferredName = Nothing
+
+        Dim arr As Object(,) = Get2D(v)
+        If arr Is Nothing Then Return False
+        If arr.GetLength(1) <> 1 Then Return False
+
+        Dim lastRow As Integer = FindLastNonBlankRow(arr)
+        If lastRow < 0 Then Return False
+
+        Dim startRow As Integer = 0
+        Select Case headerMode.ToLowerInvariant()
+            Case "binary"
+                If HasBinaryColumnHeader(arr, lastRow) Then startRow = 1
+            Case "text"
+                If HasTextColumnHeaderForWholeColumnReference(v, arr, lastRow) Then startRow = 1
+            Case Else
+                If HasNumericColumnHeader(arr, lastRow) Then startRow = 1
+        End Select
+
+        If startRow = 1 AndAlso Not IsBlankCell(arr(0, 0)) Then
+            inferredName = Convert.ToString(arr(0, 0)).Trim()
+        End If
+
+        Dim rows As Integer = lastRow - startRow + 1
+        If rows < 1 Then Return False
+
+        ReDim col(rows - 1, 0)
+        For i As Integer = 0 To rows - 1
+            col(i, 0) = arr(startRow + i, 0)
+        Next
+
+        Return True
+    End Function

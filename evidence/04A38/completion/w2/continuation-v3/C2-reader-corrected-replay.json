@@ -1,0 +1,152 @@
+{
+  "scope": "EXACT_C2_3124_PAYLOAD_SOURCE_PROJECTION;NOT_CURRENT_SOURCE",
+  "results": [
+    {
+      "label": "slice",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c3-C2-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v2",
+          "-p",
+          "test_independent_slice.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c3-C2-exact-view",
+        "exit_code": 0,
+        "seconds": 8.784956400020747,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "f5c921dbc51c56f50ce0ffa8a6d06608271e245493a05bbb21c96064cddf0969",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c3-C2-reader-slice-selected-v2",
+        "total": 20,
+        "passed": 20,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "f5c921dbc51c56f50ce0ffa8a6d06608271e245493a05bbb21c96064cddf0969",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_ByRef_initialization_removed (test_independent_slice.IndependentSliceControls.test_ByRef_initialization_removed)",
+          "test_changed_export_default (test_independent_slice.IndependentSliceControls.test_changed_export_default)",
+          "test_changed_original_result (test_independent_slice.IndependentSliceControls.test_changed_original_result)",
+          "test_changed_spill_copy (test_independent_slice.IndependentSliceControls.test_changed_spill_copy)",
+          "test_choice_order_changed (test_independent_slice.IndependentSliceControls.test_choice_order_changed)",
+          "test_deleted_case_count (test_independent_slice.IndependentSliceControls.test_deleted_case_count)",
+          "test_erased_synthetic_failures (test_independent_slice.IndependentSliceControls.test_erased_synthetic_failures)",
+          "test_extra_original_authority (test_independent_slice.IndependentSliceControls.test_extra_original_authority)",
+          "test_forged_cil_edge (test_independent_slice.IndependentSliceControls.test_forged_cil_edge)",
+          "test_forged_current_equality (test_independent_slice.IndependentSliceControls.test_forged_current_equality)",
+          "test_ignorable_comparison_choice (test_independent_slice.IndependentSliceControls.test_ignorable_comparison_choice)",
+          "test_missing_metadata_lambda_site (test_independent_slice.IndependentSliceControls.test_missing_metadata_lambda_site)",
+          "test_missing_preimage (test_independent_slice.IndependentSliceControls.test_missing_preimage)",
+          "test_missing_probe_observation (test_independent_slice.IndependentSliceControls.test_missing_probe_observation)",
+          "test_missing_root_module (test_independent_slice.IndependentSliceControls.test_missing_root_module)",
+          "test_null_comparison_choice (test_independent_slice.IndependentSliceControls.test_null_comparison_choice)",
+          "test_positive_bounded_reader (test_independent_slice.IndependentSliceControls.test_positive_bounded_reader)",
+          "test_swapped_culture (test_independent_slice.IndependentSliceControls.test_swapped_culture)",
+          "test_text_policy_flag_change (test_independent_slice.IndependentSliceControls.test_text_policy_flag_change)",
+          "test_wrong_distribution_error_shape (test_independent_slice.IndependentSliceControls.test_wrong_distribution_error_shape)"
+        ],
+        "nonpasses": []
+      }
+    },
+    {
+      "label": "ownership",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c3-C2-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v2",
+          "-p",
+          "test_ownership.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c3-C2-exact-view",
+        "exit_code": 0,
+        "seconds": 39.58149599999888,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "acde87006eda0eb418df776af1ffe17384ec740901bc5af3f7a4dae8f32cbc69",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c3-C2-reader-ownership-selected-v2",
+        "total": 9,
+        "passed": 9,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "acde87006eda0eb418df776af1ffe17384ec740901bc5af3f7a4dae8f32cbc69",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_container_closure_from_header (test_ownership.OwnershipControls.test_container_closure_from_header)",
+          "test_duplicate_support_identity (test_ownership.OwnershipControls.test_duplicate_support_identity)",
+          "test_forged_ready (test_ownership.OwnershipControls.test_forged_ready)",
+          "test_missing_current_identity (test_ownership.OwnershipControls.test_missing_current_identity)",
+          "test_missing_historical_identity (test_ownership.OwnershipControls.test_missing_historical_identity)",
+          "test_missing_support_identity (test_ownership.OwnershipControls.test_missing_support_identity)",
+          "test_true_partial_state (test_ownership.OwnershipControls.test_true_partial_state)",
+          "test_unsupported_host_only (test_ownership.OwnershipControls.test_unsupported_host_only)",
+          "test_wrong_inline_parent (test_ownership.OwnershipControls.test_wrong_inline_parent)"
+        ],
+        "nonpasses": []
+      }
+    },
+    {
+      "label": "cache",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "<ISOLATED_RUN>\\c3-C2-exact-view\\evidence\\04A38\\completion\\w2\\continuation-v2",
+          "-p",
+          "test_host_cache.py",
+          "-v"
+        ],
+        "cwd": "<ISOLATED_RUN>\\c3-C2-exact-view",
+        "exit_code": 0,
+        "seconds": 9.915225300006568,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "60f48765f86263b214c51541e83d91326c6024d2cffdbfc447587d0df9dc8504",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "label": "w2c3-C2-reader-cache-selected-v2",
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "errors": 0,
+        "stderr_sha256": "60f48765f86263b214c51541e83d91326c6024d2cffdbfc447587d0df9dc8504",
+        "console_decoding": "utf-8-sig",
+        "exit_code": 0,
+        "identities": [
+          "test_actual_scope (test_host_cache.CacheControls.test_actual_scope)",
+          "test_changed_ByRef_handle_write (test_host_cache.CacheControls.test_changed_ByRef_handle_write)",
+          "test_changed_cache_comparer (test_host_cache.CacheControls.test_changed_cache_comparer)",
+          "test_changed_constant_literal (test_host_cache.CacheControls.test_changed_constant_literal)",
+          "test_forged_static_context (test_host_cache.CacheControls.test_forged_static_context)",
+          "test_missing_cctor (test_host_cache.CacheControls.test_missing_cctor)",
+          "test_missing_exception_context (test_host_cache.CacheControls.test_missing_exception_context)",
+          "test_wrong_original_scope (test_host_cache.CacheControls.test_wrong_original_scope)"
+        ],
+        "nonpasses": []
+      }
+    }
+  ],
+  "previous_attempt": "recheck_predecessors.py selected three nonexistent patterns; exit5 and zero tests retained, never counted as PASS",
+  "original_queries": 0
+}

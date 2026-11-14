@@ -1,0 +1,9 @@
+{
+  "classification": "NEW_TEST_INPUT_ERROR; PRODUCTION_UNCHANGED",
+  "case": "UdfPreparation38Tests.StrictVectorSkipsOneHeaderTrimsOnlyTrailingBlanksAndRejectsInteriorGaps",
+  "invalid_fixture": "Both cells2/3 marked blank: original trailing trim correctly leaves one valid observation; this is not an interior gap.",
+  "corrected_fixture": "Cell3 is valid4.0 and cell2 alone is blank, so the gap is interior.",
+  "old_tests_changed": false,
+  "frozen_oracles_changed": false,
+  "required_action": "Retain failed validation-v1 receipts; rebuild and rerun focused and full managed lanes."
+}

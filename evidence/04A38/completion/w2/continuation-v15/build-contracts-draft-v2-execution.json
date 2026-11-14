@@ -1,0 +1,25 @@
+{
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/build_contracts_v2.py",
+    "bytes": 16607,
+    "sha256": "1aea392ef104f54e06698791fec40a245e41530c14ca0bd6e6787b851ca5da7d"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v15\\build_contracts_v2.py",
+      "--draft"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 57.99877969999943,
+    "stdout_sha256": "596b3c8a0f64d039cd313db2da8195ea7c5ac7b956715ffbcc78de5db47cdf3e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

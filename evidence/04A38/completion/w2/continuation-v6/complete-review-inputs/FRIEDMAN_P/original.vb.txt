@@ -1,0 +1,35 @@
+ption></item>
+        ''' </list>
+        ''' If omitted or empty, <c>"T1"</c> is used.
+        ''' </param>
+        ''' <returns>
+        ''' The requested p-value in the range [0, 1].
+        ''' Returns <c>#VALUE!</c> if <paramref name="data"/> is not a 2+ column range.
+        ''' Returns <c>#NUM!</c> if there are fewer than 2 complete blocks after filtering.
+        ''' </returns>
+        ''' <remarks>
+        ''' The null hypothesis is that all <c>k</c> conditions have the same distribution (no systematic rank differences).
+        ''' A small p-value indicates evidence that at least one condition tends to be higher/lower than another.
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.NP.FRIEDMAN_P(A2:C21,"T1")
+        ''' =BESH.NP.FRIEDMAN_P(A2:C21,"F")
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.NP.FRIEDMAN_P",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Friedman test p-value for repeated-measures/blocked designs (chi-square or F-approximation).",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/nonparametric/"
+        )>
+        Public Function FRIEDMAN_P(
+            <ExcelArgument(Name:="data", Description:="Multi-column range: columns=treatments, rows=blocks/subjects (complete rows only).")> data As Object,
+            <ExcelArgument(Name:="pType", Description:="P-value type: ""T1""/""CHI"" (chi-square) or ""T2""/""F"" (F-approx). Default ""T1"".")> Optional pType As Object = Nothing
+        ) As Object
+
+            Try
+                Dim mat As Double(,) = Nothing
+                Dim k As Integer = 0, b As Integer = 0
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixCompleteCases(data, mat, b, k) Then Return ExcelError.ExcelErrorValue
+                If b < 2 OrElse k < 2 The

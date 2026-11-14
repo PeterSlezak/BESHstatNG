@@ -1,0 +1,36 @@
+{
+  "authority": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/compatibility_Debug_v3.py",
+    "bytes": 5554,
+    "sha256": "776463f26238009b3644cf50630f8ef70bf10a1ad32713ad0904cd8bbd2a4de4"
+  },
+  "driver": {
+    "path": "evidence/04A38/completion/w3/compatibility/recorder-driver-Debug-v1.py",
+    "bytes": 5526,
+    "sha256": "360711ee72c08f1e3b0e0287e235cfb5e0f34b1798e017ee617ad9052ef38c25"
+  },
+  "exact_substitutions": [
+    {
+      "before": "assert config=='Debug'",
+      "after": "assert config in ['Debug','Release']"
+    },
+    {
+      "before": "for config in ['Debug']:",
+      "after": "for config in ['Debug']:"
+    },
+    {
+      "before": "for c in ['Debug']",
+      "after": "for c in ['Debug']"
+    },
+    {
+      "before": "run=PRIVATE/stage/config",
+      "after": "run=PRIVATE/config"
+    },
+    {
+      "before": "print('Current Debug preedit28966 + separate late458 EXACT; Release deferred',stage)",
+      "after": "print('W3 current-only frozen29424 EXACT',stage)"
+    }
+  ],
+  "assertions_changed": 0,
+  "scope": "Scheduling and additive paths only; existing exact byte comparison, recorder source, native-safe current harness, original inputs and outputs remain unchanged."
+}

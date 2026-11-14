@@ -1,0 +1,22 @@
+<c>True</c> if a valid alpha in the open interval <c>(0, 1)</c> could be obtained;
+    ''' otherwise <c>False</c>.
+    ''' </returns>
+    Friend Function TryParseAlpha(arg As Object, ByRef alpha As Double) As Boolean
+        alpha = 0.05
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return True
+
+        Try
+            If TypeOf arg Is String Then
+                Dim s As String = Convert.ToString(arg).Trim()
+                If Not Double.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, alpha) AndAlso
+                   Not Double.TryParse(s, alpha) Then
+                    Return False
+                End If
+            Else
+                alpha = Convert.ToDouble(arg)
+            End If
+        Catch
+            Return False
+        End Try
+
+        If Double.IsN

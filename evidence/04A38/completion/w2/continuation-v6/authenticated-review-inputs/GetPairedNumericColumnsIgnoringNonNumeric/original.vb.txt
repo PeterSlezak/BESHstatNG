@@ -1,0 +1,5 @@
+Friend Function GetPairedNumericColumnsIgnoringNonNumeric(x As Object,
+                                                              y As Object,
+                                                              ByRef err As ExcelError?) As Double(,)
+        Return ExtractPairedNumericColumnsIgnoringNonNumeric(x, y, err)
+    End Function

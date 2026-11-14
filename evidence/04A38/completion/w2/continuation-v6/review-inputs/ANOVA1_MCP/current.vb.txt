@@ -1,0 +1,40 @@
+P(
+            <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional: tukey/tukey-kramer (default), games-howell, lsd/fisher, bonferroni, or all.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim which As String = NormalizeText(method)
+                Dim stackAll As Boolean = False
+                Dim tables = Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayMcpTables(data, names, which, alphaValue, stackAll)
+                If tables Is Nothing Then Return ExcelError.ExcelErrorValue
+                If Not stackAll Then Return PrepareResultTableForUdf(tables(1))
+                Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))
+                For i As Integer = 2 To tables.Count - 1
+                    stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))
+                Next
+                Return PrepareResultTableForUdf(stacked)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.ANOVA1_MCP", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' One-way repeated-measures ANOVA post-hoc multiple comparisons.
+        ''' </summary>
+        ''' <param name="data">
+        ''' Numeric matrix where rows are subjects/blocks and columns are repeated-measure conditions.
+        ''' Rows containing any missing or non-numeric value are excluded so that the remaining matrix is comp

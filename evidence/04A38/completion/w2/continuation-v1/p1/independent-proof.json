@@ -1,0 +1,106 @@
+{
+  "status": "BOUNDED_P1_SOURCE_OPERATIONS_AND_COMPILED_CONSUMERS_PASS_NOT_BATCH_READY",
+  "proofs": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|SubBlock|d19702596689e5af@102110:1153",
+      "name": "ApplyGeeLsmEstimateAtProfile",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "portable_target": "UdfModelProfilePreparation38.ApplyGeeAtProfile",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Exact statements/branches/setter order; native trivial TValue ctor; copy only absent index; no overwritten explicit setting"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|ad2f0c911043150e@103273:429",
+      "name": "GeeComponentHasProfileColumn",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "portable_target": "UdfModelProfilePreparation38.GeeComponentHasProfileColumn",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Exact null/iteration/index equality operations; called by production portable apply; native helper relocated"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|SubBlock|5b7132747dfaa833@80190:1184",
+      "name": "ApplyMmrmLsmEstimateAtProfile",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "portable_target": "UdfModelProfilePreparation38.ApplyMmrmAtProfile",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Exact statements/branches/setter order; native trivial TValue ctor; copy only absent index; no overwritten explicit setting"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1bb0472e585528d5@81388:438",
+      "name": "ComponentHasProfileColumn",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "portable_target": "UdfModelProfilePreparation38.MmrmComponentHasProfileColumn",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Exact null/iteration/index equality operations; called by production portable apply; native helper relocated"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|bf285e1e5738931d@20041:2827",
+      "name": "TryGetGroupedCompleteMatrix",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "portable_target": "UdfNumericImportPreparation38.TryGetGroupedCompleteMatrix",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Get2D remains native; exact callback and reset order; stable source row traversal; group finite gate; nested nullable gate with Option Compare Text adapter"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|071563e12190ade8@23096:2284",
+      "name": "TryGetNestedThreeColumnData",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "portable_target": "UdfNumericImportPreparation38.TryGetNestedThreeColumnData",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Get2D remains native; exact callback and reset order; stable source row traversal; group finite gate; nested nullable gate with Option Compare Text adapter"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|fb11373f826af3f4@30761:862",
+      "name": "LooksLikeHeaderRow",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "portable_target": "UdfRangePreparation38.LooksLikeHeaderRow",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Full original predicate and short circuit/order match, existing host nullable reader and original cases"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|c840480158b0fe1d@556:382",
+      "name": "Get2D",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "portable_target": null,
+      "disposition": "HOST_ONLY_WITH_BOUNDARY_PROOF",
+      "proof": "Unchanged source; ExcelMissing/Empty/reference coercion callback and catch boundary; accepted WindowsSpreadsheetTransport (pinned entry dependency); managed rectangular routes exercised; native callback NOT_RUN"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|18863eeb54437e93@30847:1088",
+      "name": "BuildCalibrationPointsTable",
+      "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+      "portable_target": "PlotDataUDFsReports38.BuildCalibrationPointsTable",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Original row/cell/header/order/exception operations; Core bins reused; original numeric missing interval conversion at host; ROC native threshold reader and pvalue adapter preserved"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|d7b4ee1f8bdc581f@31945:1713",
+      "name": "BuildRocPointsTable",
+      "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+      "portable_target": "PlotDataUDFsReports38.BuildRocPointsTable",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Original row/cell/header/order/exception operations; Core bins reused; original numeric missing interval conversion at host; ROC native threshold reader and pvalue adapter preserved"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|276420a8e22802fd@33668:666",
+      "name": "BuildRocStatsTable",
+      "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+      "portable_target": "PlotDataUDFsReports38.BuildRocStatsTable",
+      "disposition": "SOURCE_OPERATIONS_PORTABLE_CONSUMED",
+      "proof": "Original row/cell/header/order/exception operations; Core bins reused; original numeric missing interval conversion at host; ROC native threshold reader and pvalue adapter preserved"
+    }
+  ],
+  "proof_supported_historical_additions": 11,
+  "configurations": [
+    "Debug",
+    "Release"
+  ],
+  "focused_tests_per_configuration": 79,
+  "compatibility_per_configuration": {
+    "genuine_preedit": 28966,
+    "late_A_to_G": 458
+  },
+  "new_original_queries": 0,
+  "W2": "IN_PROGRESS",
+  "W3": "NOT_STARTED"
+}

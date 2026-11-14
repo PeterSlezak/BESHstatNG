@@ -1,0 +1,218 @@
+{
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "source_snapshot": {
+    "path": "evidence/04A38/preedit/source/Regression/GeeUDFs.vb.txt",
+    "bytes": 114843,
+    "sha256": "35a3a35ddf4dfdb074a082dfe92495969dd1a8532f86af6650d6bde33bcf7649"
+  },
+  "source_map": [
+    {
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "atProfile = Nothing",
+      "event": "parser.entry",
+      "value_expression": "True",
+      "line_in_transformed_sequence": 1591,
+      "archived_source_line": 1591
+    },
+    {
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "Dim requestedName As String = ExcelArgReaders.CellToTrimmedText(arr(r, nameCol))",
+      "event": "parser.name_value",
+      "value_expression": "True",
+      "line_in_transformed_sequence": 1629,
+      "archived_source_line": 1629
+    },
+    {
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()",
+      "event": "parser.wide",
+      "value_expression": "True",
+      "line_in_transformed_sequence": 1650,
+      "archived_source_line": 1649
+    },
+    {
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "errorMessage = \"wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.\"",
+      "event": "guard.wide_multiple_rows",
+      "value_expression": "True",
+      "line_in_transformed_sequence": 1683,
+      "archived_source_line": 1683
+    },
+    {
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "atProfile = parsed",
+      "event": "profile.formed",
+      "value_expression": "True",
+      "line_in_transformed_sequence": 1732,
+      "archived_source_line": 1727
+    },
+    {
+      "member": "AddGeeLsmEstimateAtValue",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "If atProfile Is Nothing Then",
+      "event": "helper.entry",
+      "value_expression": "requestedName",
+      "line_in_transformed_sequence": 1742,
+      "archived_source_line": 1737
+    },
+    {
+      "member": "AddGeeLsmEstimateAtValue",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "errorMessage = \"at specifies time more than once.\"",
+      "event": "guard.duplicate_time",
+      "value_expression": "requestedName",
+      "line_in_transformed_sequence": 1750,
+      "archived_source_line": 1745
+    },
+    {
+      "member": "AddGeeLsmEstimateAtValue",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "atProfile.TimeSpecified = True",
+      "event": "selection.time",
+      "value_expression": "requestedName",
+      "line_in_transformed_sequence": 1755,
+      "archived_source_line": 1748
+    },
+    {
+      "member": "AddGeeLsmEstimateAtValue",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "atProfile.TimeValue = value",
+      "event": "selection.time_value",
+      "value_expression": "value",
+      "line_in_transformed_sequence": 1758,
+      "archived_source_line": 1749
+    },
+    {
+      "member": "AddGeeLsmEstimateAtValue",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "errorMessage = \"at specifies design column \"\"\" & parameterNames(idx) & \"\"\" more than once.\"",
+      "event": "guard.duplicate_design",
+      "value_expression": "parameterNames(idx)",
+      "line_in_transformed_sequence": 1772,
+      "archived_source_line": 1762
+    },
+    {
+      "member": "AddGeeLsmEstimateAtValue",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "atProfile.ProfileValues.Add(New GeeLsmEstimateProfileValue With {",
+      "event": "selection.design",
+      "value_expression": "parameterNames(idx)",
+      "line_in_transformed_sequence": 1780,
+      "archived_source_line": 1767
+    },
+    {
+      "member": "GEE_LSMESTIMATE",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "Dim atProfile As GeeLsmEstimateAtProfile = Nothing",
+      "event": "spec.accepted",
+      "value_expression": "String.Join(\"|\", parameterNames)",
+      "line_in_transformed_sequence": 1313,
+      "archived_source_line": 1313
+    },
+    {
+      "member": "GEE_LSMESTIMATE",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "Dim labels As New List(Of String)()",
+      "event": "profile.applied",
+      "value_expression": "True",
+      "line_in_transformed_sequence": 1321,
+      "archived_source_line": 1320
+    },
+    {
+      "member": "GEE_LSMESTIMATE",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "Return \"BESH.REGR.GEE_LSMESTIMATE error: no observed design rows matched profile for label '\" & component.Label & \"'.\"",
+      "event": "later.no_matching_rows",
+      "value_expression": "True",
+      "line_in_transformed_sequence": 1330,
+      "archived_source_line": 1330
+    },
+    {
+      "member": "GEE_LSMESTIMATE",
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "source_anchor": "Return PreparePValueTableForUdf(out, 5)",
+      "event": "report.returned",
+      "value_expression": "True",
+      "line_in_transformed_sequence": 1398,
+      "archived_source_line": 1394
+    }
+  ],
+  "case_kinds": {
+    "wide-time": {
+      "required": [
+        "parser.wide=True",
+        "selection.time=time",
+        "selection.time_value=D3FF0000000000000",
+        "profile.formed=True",
+        "profile.applied=True"
+      ],
+      "classification": "POSITIVE_PROFILE_SELECTION"
+    },
+    "name-value-time": {
+      "required": [
+        "parser.name_value=True",
+        "helper.entry=time",
+        "selection.time=time",
+        "selection.time_value=D3FF0000000000000",
+        "profile.formed=True",
+        "profile.applied=True"
+      ],
+      "classification": "POSITIVE_PROFILE_SELECTION"
+    },
+    "name-value-visit": {
+      "required": [
+        "parser.name_value=True",
+        "helper.entry=visit",
+        "selection.time=visit",
+        "selection.time_value=D3FF0000000000000",
+        "profile.formed=True",
+        "profile.applied=True"
+      ],
+      "classification": "POSITIVE_PROFILE_SELECTION"
+    },
+    "duplicate-time-visit": {
+      "required": [
+        "parser.name_value=True",
+        "helper.entry=time",
+        "selection.time=time",
+        "helper.entry=visit",
+        "guard.duplicate_time=visit"
+      ],
+      "classification": "INTENDED_GUARD"
+    },
+    "duplicate-design": {
+      "required": [
+        "parser.name_value=True",
+        "helper.entry=X1",
+        "selection.design=X1",
+        "helper.entry=x1",
+        "guard.duplicate_design=X1"
+      ],
+      "classification": "INTENDED_GUARD"
+    },
+    "wide-multiple-rows": {
+      "required": [
+        "parser.wide=True",
+        "guard.wide_multiple_rows=True"
+      ],
+      "classification": "INTENDED_GUARD"
+    }
+  },
+  "parameter_names": [
+    "Intercept",
+    "X1",
+    "X2"
+  ],
+  "positive_definition": "Parser and helper reached; selected time/visit; formed and applied profile. A later statistical error is recorded separately from a returned report.",
+  "guard_definition": "The specific intended source guard must execute; no profile formed/applied afterwards.",
+  "forbidden_early_errors": [
+    "at header minimum-row error",
+    "invalid handle",
+    "missing fitted design column X1"
+  ]
+}

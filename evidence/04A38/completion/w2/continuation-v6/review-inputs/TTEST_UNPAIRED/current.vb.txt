@@ -1,0 +1,50 @@
+Argument(Name:="y", Description:="Second independent group as a single-column range. Non-numeric cells ignored; first cell may be a header.")> y As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="output", Description:="Optional: both (default), equal/pooled/student, or unequal/welch.")> Optional outputType As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional two-sided significance level for the confidence interval. Default 0.05.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetIndependentNumericColumns(x, y, data, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
+                If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
+                If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(groupNames, detectedNames, 2, "Group")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim mdl As New parametric.UnpairedTtest(data, names)
+                mdl.compute(alphaValue)
+                Dim tables = mdl.wrapResults()
+
+                Dim which As String = NormalizeText(outputType)
+                Select Case which
+                    Case "", "BOTH", "ALL"
+                        Return StackWithBlankRow(PrepareResultTableForUdf(tables(0)), PrepareResultTableForUdf(tables(1)))
+                    Case "EQUAL", "POOLED", "STUDENT", "ASSUME-EQUAL", "ASSUMEEQUAL"
+                        Return PrepareResultTableForUdf(tables(0))
+                    Case "UNEQUAL", "WELCH", "ASSUME-UNEQUAL", "ASSUMEUNEQUAL"
+                        Return PrepareResultTableForUdf(tables(1))
+                    Case Else
+                        Return ExcelError.ExcelErrorValue
+                End Select
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.TTEST_UNPAIRED", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Paired t-test for comparing the mean of within-row differences between two matched measurements.
+        ''' </summary>
+        ''' <param name="x">
+        ''' First measurement as a single-column Excel range.
+        ''' Values are paired by row with the second input. If the first cell is a non-numeric label and numeric values follow,
+        ''' it is treated as a header and may be used as the default name of the first measurement.
+        ''' </param>
+        ''' <param name="y">
+        ''' Second measurement as a

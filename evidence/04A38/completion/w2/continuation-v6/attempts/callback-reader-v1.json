@@ -1,0 +1,12 @@
+{
+  "status": "ADVERSE_READER_ATTEMPT_RETAINED",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/build_callback_proofs.py",
+    "bytes": 2283,
+    "sha256": "a5798ad2f8ef388863c36acfb3aa902ba52b9fd3506ea8c69517cf0302e4d09e"
+  },
+  "failure": "Strict ldftn/source-lambda count rejected TryGetNestedThreeColumnData because ldftn also represents an ordinary named AddressOf callback.",
+  "correction": "Separate actual compiler-generated _Lambda$__ targets from named AddressOf method targets, then retain exact source-order/count binding. Both named and anonymous edges remain in complete compiled dependency records.",
+  "closures_from_failed_attempt": 0,
+  "original_queries": 0
+}

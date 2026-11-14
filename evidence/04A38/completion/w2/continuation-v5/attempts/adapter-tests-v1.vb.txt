@@ -1,0 +1,780 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+Imports System.Collections.Concurrent
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Reflection
+Imports System.Reflection.Emit
+Imports System.Globalization
+Imports BESHStatNG.ExcelCommon
+Imports BESHStatNG.WorksheetFunctions
+Imports ExcelDna.Integration
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+
+<TestClass>
+Public Class UdfPreparation38AdapterTests
+    Private Shared ReadOnly Opcodes As Dictionary(Of Short, OpCode) = GetType(OpCodes).GetFields(BindingFlags.Public Or BindingFlags.Static).
+        Where(Function(field) field.FieldType Is GetType(OpCode)).Select(Function(field) DirectCast(field.GetValue(Nothing), OpCode)).ToDictionary(Function(code) code.Value)
+
+    <DataTestMethod>
+    <DataRow("BESHStatNG.WorksheetFunctions.ExcelArgNumeric", "GetOptionalBool", "BESHStatNG.ExcelCommon.UdfScalarChoice38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.ExcelArgNumeric", "TryGetBinary01", "BESHStatNG.ExcelCommon.UdfScalarChoice38")>
+    <DataRow("BESHStatNG.UdfDataImport", "HasNumericColumnHeader", "BESHStatNG.ExcelCommon.UdfRangePreparation38")>
+    <DataRow("BESHStatNG.UdfDataImport", "TryExtractNumericGroupsFromMatrix", "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38")>
+    <DataRow("BESHStatNG.UdfLinearAlgebra", "TryInvertMatrix", "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.AssumptionsUDFs", "BuildTwoValueTable", "BESHStatNG.ExcelCommon.UdfSpillPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.PropensityScoreUDFs", "ApplyOption", "BESHStatNG.ExcelCommon.UdfPsmPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.GEEUDFs", "AverageGeeFittedDesignRowForLsmProfile", "BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.MixedModelUDFs", "AverageFittedDesignRowForLsmProfile", "BESHStatNG.WorksheetCompatibility.UdfProfilePreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.RegressionFormulaUDFs", "BuildValidationFailureMessage", "BESHStatNG.ExcelCommon.RegressionFormulaUDFsMetadata38")>
+    <DataRow("BESHStatNG.UdfOutputTables", "PrepareWrappedResultTableForUdf", "BESHStatNG.ExcelCommon.UdfSpillLayout38")>
+    <DataRow("BESHStatNG.UdfDataImport", "TryGetGroupedCompleteMatrix", "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38")>
+    <DataRow("BESHStatNG.UdfDataImport", "TryGetNestedThreeColumnData", "BESHStatNG.ExcelCommon.UdfNumericImportPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.GEEUDFs", "ApplyGeeLsmEstimateAtProfile", "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.MixedModelUDFs", "ApplyMmrmLsmEstimateAtProfile", "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.PlotDataUDFs", "BuildCalibrationPointsTable", "BESHStatNG.ExcelCommon.PlotDataUDFsReports38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.PlotDataUDFs", "BuildRocPointsTable", "BESHStatNG.ExcelCommon.PlotDataUDFsReports38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.PlotDataUDFs", "BuildRocStatsTable", "BESHStatNG.ExcelCommon.PlotDataUDFsReports38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.AssumptionsUDFs", "TryParseLeveneCenter", "BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.AssumptionsUDFs", "TryParseSymmetryMethod", "BESHStatNG.ExcelCommon.AssumptionsUDFsOptions38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.DistributionUDFs", "PRTRNG", "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.DistributionUDFs", "PRTRNG_TAIL", "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.DistributionUDFs", "F_PDF", "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.ParametricUDFs", "StackWithBlankRow", "BESHStatNG.ExcelCommon.UdfSpillPreparation38")>
+    <DataRow("BESHStatNG.WorksheetFunctions.ParametricUDFs", "ResolveNames", "BESHStatNG.ExcelCommon.UdfNamePreparation38")>
+    <DataRow("BESHStatNG.UdfDataImport", "GetVariableNames", "BESHStatNG.ExcelCommon.UdfNamePreparation38")>
+    Public Sub CompiledShippingAdapterCallsItsPortablePreparation(owner As String, member As String, portableOwner As String)
+        Dim assembly As Assembly = GetType(UdfLinearAlgebra).Assembly
+        Dim type As Type = assembly.GetType(owner, True)
+        Dim method As MethodInfo = type.GetMethod(member, BindingFlags.Public Or BindingFlags.NonPublic Or BindingFlags.Static)
+        Assert.IsNotNull(method)
+        Assert.IsTrue(Calls(method).Any(Function(target) target.DeclaringType.FullName = portableOwner), owner & "." & member)
+    End Sub
+
+    Private Shared Iterator Function Calls(method As MethodBase) As IEnumerable(Of MethodBase)
+        Dim bytes As Byte() = method.GetMethodBody().GetILAsByteArray()
+        Dim i As Integer = 0
+        While i < bytes.Length
+            Dim key As Short = CShort(bytes(i))
+            i += 1
+            If key = &HFE Then
+                key = CShort(-512 Or CInt(bytes(i)))
+                i += 1
+            End If
+            Dim code As OpCode = Opcodes(key)
+            Dim size As Integer
+            Select Case code.OperandType
+                Case OperandType.InlineNone : size = 0
+                Case OperandType.ShortInlineBrTarget, OperandType.ShortInlineI, OperandType.ShortInlineVar : size = 1
+                Case OperandType.InlineVar : size = 2
+                Case OperandType.InlineI8, OperandType.InlineR : size = 8
+                Case OperandType.InlineSwitch : size = 4 + 4 * BitConverter.ToInt32(bytes, i)
+                Case Else : size = 4
+            End Select
+            If code.OperandType = OperandType.InlineMethod Then
+                Yield method.Module.ResolveMethod(BitConverter.ToInt32(bytes, i), method.DeclaringType.GetGenericArguments(), If(method.IsGenericMethod, method.GetGenericArguments(), Nothing))
+            End If
+            i += size
+        End While
+    End Function
+
+    <TestMethod>
+    Public Sub ShippingSentinelAdapterPreservesNumericAndBooleanDistinctions()
+        Assert.IsTrue(ExcelArgNumeric.GetOptionalBool(ExcelMissing.Value, True))
+        Assert.IsFalse(ExcelArgNumeric.GetOptionalBool(ExcelEmpty.Value, False))
+        Assert.IsFalse(ExcelArgNumeric.TryGetDouble(True).HasValue)
+        Assert.IsFalse(ExcelArgNumeric.TryGetDouble("1").HasValue)
+        Dim result As Integer
+        Assert.IsTrue(ExcelArgNumeric.TryGetBinary01(0.75, result))
+        Assert.AreEqual(0, result)
+        Assert.IsTrue(ExcelArgNumeric.TryGetBinary01(True, result))
+        Assert.AreEqual(1, result)
+    End Sub
+
+    Private Delegate Function LeveneParser(argument As Object, ByRef useMedian As Boolean, ByRef title As String) As Boolean
+    Private Delegate Function SymmetryParser(argument As Object, ByRef method As String, ByRef title As String) As Boolean
+
+    Private NotInheritable Class ParserState
+        Public UseMedian As Boolean = True
+        Public Title As String = "before title"
+        Public Method As String = "before method"
+    End Class
+
+    Private NotInheritable Class ConversionProbe
+        Private ReadOnly _read As Func(Of String)
+        Public Sub New(read As Func(Of String))
+            _read = read
+        End Sub
+        Public Overrides Function ToString() As String
+            Return _read()
+        End Function
+    End Class
+
+    Private Shared Function ShippingParser(Of T As Class)(name As String) As T
+        Dim owner = GetType(UdfLinearAlgebra).Assembly.GetType("BESHStatNG.WorksheetFunctions.AssumptionsUDFs", True)
+        Dim method = owner.GetMethod(name, BindingFlags.NonPublic Or BindingFlags.Static)
+        Return DirectCast(DirectCast([Delegate].CreateDelegate(GetType(T), method), Object), T)
+    End Function
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingLeveneOrdinaryAliasesAndSentinelsKeepOriginalOutputs(cultureName As String)
+        Dim prior = CultureInfo.CurrentCulture, priorUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim parse = ShippingParser(Of LeveneParser)("TryParseLeveneCenter")
+            For Each value As Object In New Object() {Nothing, " ", "MEAN", "LEVENE", "CLASSICAL", "mean", ExcelMissing.Value, ExcelEmpty.Value}
+                Dim state As New ParserState
+                Assert.IsTrue(parse(value, state.UseMedian, state.Title), Convert.ToString(value))
+                Assert.IsFalse(state.UseMedian)
+                Assert.AreEqual("Levene Test", state.Title)
+            Next
+            For Each value As String In {"MEDIAN", "BF", "Brown-Forsythe", "BROWNFORSYTHE"}
+                Dim state As New ParserState
+                Assert.IsTrue(parse(value, state.UseMedian, state.Title), value)
+                Assert.IsTrue(state.UseMedian)
+                Assert.AreEqual("Brown-Forsythe Test", state.Title)
+            Next
+            For Each value As Object In New Object() {"unknown", ExcelError.ExcelErrorNA}
+                Dim state As New ParserState
+                Assert.IsFalse(parse(value, state.UseMedian, state.Title))
+                Assert.IsFalse(state.UseMedian)
+                Assert.AreEqual("Levene Test", state.Title)
+            Next
+        Finally
+            CultureInfo.CurrentCulture = prior : CultureInfo.CurrentUICulture = priorUi
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingLeveneResetsBeforeThrowingConversionAndKeepsItsMutations(cultureName As String)
+        CheckLeveneConversion(cultureName, True, False)
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingLeveneInvalidConversionKeepsCallbackByRefMutations(cultureName As String)
+        CheckLeveneConversion(cultureName, False, False)
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingLeveneAcceptedConversionOverwritesCallbackValuesInOriginalOrder(cultureName As String)
+        CheckLeveneConversion(cultureName, False, True)
+    End Sub
+
+    Private Shared Sub CheckLeveneConversion(cultureName As String, throws As Boolean, accepted As Boolean)
+        Dim prior = CultureInfo.CurrentCulture, priorUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim parse = ShippingParser(Of LeveneParser)("TryParseLeveneCenter")
+            Dim state As New ParserState
+            Dim seenMedian As Boolean = True, seenTitle As String = Nothing, calls As Integer = 0
+            Dim input As New ConversionProbe(Function()
+                                                 calls += 1
+                                                 seenMedian = state.UseMedian : seenTitle = state.Title
+                                                 state.UseMedian = True : state.Title = "callback title"
+                                                 If throws Then Throw New InvalidOperationException("conversion stopped")
+                                                 Return If(accepted, "MEDIAN", "unknown")
+                                             End Function)
+            If throws Then
+                Dim ex = Assert.ThrowsException(Of InvalidOperationException)(Sub() parse(input, state.UseMedian, state.Title))
+                Assert.AreEqual("conversion stopped", ex.Message)
+            Else
+                Assert.AreEqual(accepted, parse(input, state.UseMedian, state.Title))
+            End If
+            Assert.AreEqual(1, calls)
+            Assert.IsFalse(seenMedian, "useMedian must be reset before ToString")
+            Assert.AreEqual("Levene Test", seenTitle, "title must be reset before ToString")
+            Assert.IsTrue(state.UseMedian)
+            Assert.AreEqual(If(accepted, "Brown-Forsythe Test", "callback title"), state.Title)
+        Finally
+            CultureInfo.CurrentCulture = prior : CultureInfo.CurrentUICulture = priorUi
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingSymmetryAliasesAndInvalidInputKeepOriginalByRefRules(cultureName As String)
+        Dim prior = CultureInfo.CurrentCulture, priorUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim parse = ShippingParser(Of SymmetryParser)("TryParseSymmetryMethod")
+            For Each value As Object In New Object() {Nothing, " ", "MGG", "MIAO", ExcelMissing.Value}
+                Dim state As New ParserState
+                Assert.IsTrue(parse(value, state.Method, state.Title))
+                Assert.AreEqual("Miao-Gel-Gastwirth", state.Method)
+                Assert.AreEqual("Miao-Gel-Gastwirth Symmetry Test", state.Title)
+            Next
+            For Each value As String In {"CM", "CABILIO", "MASARO"}
+                Dim state As New ParserState
+                Assert.IsTrue(parse(value, state.Method, state.Title))
+                Assert.AreEqual("Cabilio-Masaro", state.Method)
+                Assert.AreEqual("Cabilio-Masaro Symmetry Test", state.Title)
+            Next
+            For Each value As Object In New Object() {"unknown", "MIAO-GEL-GASTWIRTH", "CABILIO-MASARO", ExcelError.ExcelErrorNA}
+                Dim state As New ParserState
+                Assert.IsFalse(parse(value, state.Method, state.Title))
+                Assert.AreEqual("before method", state.Method) : Assert.AreEqual("before title", state.Title)
+            Next
+        Finally
+            CultureInfo.CurrentCulture = prior : CultureInfo.CurrentUICulture = priorUi
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingSymmetryThrowingConversionDoesNotInitializeOutputs(cultureName As String)
+        CheckSymmetryConversion(cultureName, True)
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingSymmetryInvalidConversionKeepsItsMutatedOutputs(cultureName As String)
+        CheckSymmetryConversion(cultureName, False)
+    End Sub
+
+    Private Shared Sub CheckSymmetryConversion(cultureName As String, throws As Boolean)
+        Dim prior = CultureInfo.CurrentCulture, priorUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim parse = ShippingParser(Of SymmetryParser)("TryParseSymmetryMethod")
+            Dim state As New ParserState
+            Dim seenMethod As String = Nothing, seenTitle As String = Nothing, calls As Integer = 0
+            Dim input As New ConversionProbe(Function()
+                                                 calls += 1 : seenMethod = state.Method : seenTitle = state.Title
+                                                 state.Method = "callback method" : state.Title = "callback title"
+                                                 If throws Then Throw New InvalidOperationException("conversion stopped")
+                                                 Return "unknown"
+                                             End Function)
+            If throws Then
+                Dim ex = Assert.ThrowsException(Of InvalidOperationException)(Sub() parse(input, state.Method, state.Title))
+                Assert.AreEqual("conversion stopped", ex.Message)
+            Else
+                Assert.IsFalse(parse(input, state.Method, state.Title))
+            End If
+            Assert.AreEqual(1, calls)
+            Assert.AreEqual("before method", seenMethod) : Assert.AreEqual("before title", seenTitle)
+            Assert.AreEqual("callback method", state.Method) : Assert.AreEqual("callback title", state.Title)
+        Finally
+            CultureInfo.CurrentCulture = prior : CultureInfo.CurrentUICulture = priorUi
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingGroupedAndNestedImportsUseNativePoliciesWithPortablePreparation(cultureName As String)
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim owner = GetType(UdfLinearAlgebra).Assembly.GetType("BESHStatNG.UdfDataImport", True)
+            Dim grouped = owner.GetMethod("TryGetGroupedCompleteMatrix", BindingFlags.NonPublic Or BindingFlags.Static)
+            Dim args As Object() = {New Object(,) {{"X"}, {1.0R}, {Double.NaN}, {2.0R}}, New Object(,) {{"G"}, {" a "}, {"bad"}, {"A"}}, Nothing, Nothing}
+            Assert.IsTrue(DirectCast(grouped.Invoke(Nothing, args), Boolean))
+            Dim matrices = DirectCast(args(2), List(Of Double(,)))
+            CollectionAssert.AreEqual(New String() {"a"}, DirectCast(args(3), List(Of String)).ToArray())
+            Assert.AreEqual(2, matrices(0).GetLength(0))
+            Dim nested = owner.GetMethod("TryGetNestedThreeColumnData", BindingFlags.NonPublic Or BindingFlags.Static)
+            args = {New Object(,) {{"G", "S", "Y"}, {"A", "a", 2.0R}, {"B", "b", ExcelError.ExcelErrorNA}, {"C", "c", Double.NaN}}, Nothing, Nothing}
+            Assert.IsTrue(DirectCast(nested.Invoke(Nothing, args), Boolean))
+            Dim data = DirectCast(args(1), Object(,))
+            Assert.AreEqual(1, data.GetLength(0))
+            Assert.AreEqual(2.0R, DirectCast(data(0, 2), Double))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingCalibrationReportKeepsRawNonfiniteAndLegacyNumericErrorCoercion(cultureName As String)
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim owner = GetType(UdfLinearAlgebra).Assembly.GetType("BESHStatNG.WorksheetFunctions.PlotDataUDFs", True)
+            Dim method = owner.GetMethod("BuildCalibrationPointsTable", BindingFlags.NonPublic Or BindingFlags.Static)
+            Dim rows As New List(Of regression.CalibrationBinSummary) From {New regression.CalibrationBinSummary With {.BinIndex = 1, .N = 2.0R, .LowerCI = Double.NaN, .UpperCI = Double.PositiveInfinity}}
+            Dim cells = DirectCast(method.Invoke(Nothing, New Object() {rows}), Object(,))
+            Assert.IsTrue(Double.IsNaN(DirectCast(cells(1, 4), Double)))
+            Assert.IsTrue(Double.IsPositiveInfinity(DirectCast(cells(1, 5), Double)))
+            Assert.AreEqual(CDbl(ExcelError.ExcelErrorNA), DirectCast(cells(1, 6), Double))
+            Assert.IsTrue(Double.IsPositiveInfinity(DirectCast(cells(1, 7), Double)))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub ShippingReportMaterializerRetainsNativeSourceCellsAndErrorCategory()
+        Dim native As ExcelError = ExcelError.ExcelErrorNA
+        Dim projection As New UdfReportProjection38(New ResultTableOutputModel(New Object(,) {{New UdfSourceCellReference38(0), UdfReportProjection38.SafeNumber(Double.NaN)}}))
+        Dim result As Object(,) = DirectCast(UdfOutputTables.MaterializePortableReport38(projection, {native}), Object(,))
+        Assert.AreEqual(native, DirectCast(result(0, 0), ExcelError))
+        Assert.AreEqual(ExcelError.ExcelErrorNum, DirectCast(result(0, 1), ExcelError))
+        Assert.AreEqual(1, result.GetLength(0))
+        Assert.AreEqual(2, result.GetLength(1))
+    End Sub
+
+    <TestMethod>
+    Public Sub ExistingCacheHelperRetainsDictionaryComparerAndMissingLookupBehavior()
+        Dim cache As New ConcurrentDictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+        cache.TryAdd("pca:sample", "model")
+        Dim result As String = "previous"
+        Assert.IsTrue(UdfCacheHelpers.TryGetCachedHandle(" PCA:SAMPLE ", cache, result))
+        Assert.AreEqual("model", result)
+        Assert.IsFalse(UdfCacheHelpers.TryGetCachedHandle(ExcelMissing.Value, cache, result))
+        Assert.IsNull(result)
+        Assert.AreEqual(1, cache.Count)
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingMmrmDescriptionDelegatesToPortablePolicyWithNativeDto(cultureName As String)
+        Dim original = CultureInfo.CurrentCulture
+        Dim originalUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim assembly = GetType(UdfLinearAlgebra).Assembly
+            Dim owner = assembly.GetType("BESHStatNG.WorksheetFunctions.MixedModelUDFs", True)
+            Dim method = owner.GetMethod("FormatMmrmAtProfileDescription", BindingFlags.NonPublic Or BindingFlags.Static)
+            Dim nativeType = assembly.GetType("BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile", True)
+            Dim profile = Activator.CreateInstance(nativeType)
+            nativeType.GetProperty("VisitSpecified").SetValue(profile, True)
+            nativeType.GetProperty("VisitValue").SetValue(profile, 1.23456789R)
+            Assert.AreEqual("visit=1.23457", method.Invoke(Nothing, New Object() {profile}))
+            Assert.IsTrue(Calls(method).Any(Function(target) target.DeclaringType.FullName = "BESHStatNG.ExcelCommon.UdfModelProfilePreparation38" AndAlso target.Name = "FormatMmrmAtProfileDescription"))
+        Finally
+            CultureInfo.CurrentCulture = original
+            CultureInfo.CurrentUICulture = originalUi
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub RegistrationMetadataHasExactly268DistinctWindowsExports()
+        Dim names As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+        For Each type As Type In GetType(UdfLinearAlgebra).Assembly.GetTypes()
+            For Each method As MethodInfo In type.GetMethods(BindingFlags.Public Or BindingFlags.Static Or BindingFlags.DeclaredOnly)
+                Dim attribute As ExcelFunctionAttribute = method.GetCustomAttribute(Of ExcelFunctionAttribute)()
+                If attribute Is Nothing Then Continue For
+                Assert.IsTrue(names.Add(attribute.Name), attribute.Name)
+                Assert.IsTrue(attribute.Name.StartsWith("BESH.", StringComparison.Ordinal))
+            Next
+        Next
+        Assert.AreEqual(268, names.Count)
+    End Sub
+
+    Private Delegate Function BlankProjector(table As Object) As Object(,)
+    Private Delegate Function StackProjector(a As Object(,), b As Object(,)) As Object(,)
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingDistributionRoutePreservesBoxedErrorsAndZeroPolicy(cultureName As String)
+        Dim prior = CultureInfo.CurrentCulture, priorUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            For Each result As Object In {DistributionUDFs.PRTRNG(Double.NaN, 20, 5), DistributionUDFs.PRTRNG(1, 0.25, 5), DistributionUDFs.PRTRNG_TAIL(-1, 20, 5), DistributionUDFs.F_PDF(0, 1, 10), DistributionUDFs.F_PDF(0, 2, Double.NaN)}
+                Assert.IsInstanceOfType(result, GetType(ExcelError))
+                Assert.AreEqual(ExcelError.ExcelErrorNum, DirectCast(result, ExcelError))
+            Next
+            Assert.AreEqual(1.0, DirectCast(DistributionUDFs.F_PDF(-0.0, 2, Double.PositiveInfinity), Double))
+            Assert.AreEqual(0.0, DirectCast(DistributionUDFs.F_PDF(0, Double.PositiveInfinity, 10), Double))
+            Dim cdf = DirectCast(DistributionUDFs.PRTRNG(3.5, 20, 5), Double)
+            Assert.AreEqual(1.0 - cdf, DirectCast(DistributionUDFs.PRTRNG_TAIL(3.5, 20, 5), Double))
+            Dim density = BESHStatNG.distributions.Distributions.F_PDF(1.25, 5, 10)
+            Assert.AreEqual(BitConverter.DoubleToInt64Bits(density), BitConverter.DoubleToInt64Bits(DirectCast(DistributionUDFs.F_PDF(1.25, 5, 10), Double)))
+        Finally
+            CultureInfo.CurrentCulture = prior : CultureInfo.CurrentUICulture = priorUi
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub ShippingSpillRoutesRetainCellIdentityBoundsAndExcelErrors()
+        Dim host = GetType(DistributionUDFs).Assembly
+        Dim method = host.GetType("BESHStatNG.UdfOutputTables", True).GetMethod("PrepareResultTableForUdf", BindingFlags.NonPublic Or BindingFlags.Static, Nothing, {GetType(Object)}, Nothing)
+        Assert.IsTrue(Calls(method).Any(Function(target) target.DeclaringType Is GetType(UdfSpillPreparation38)))
+        Dim project = DirectCast([Delegate].CreateDelegate(GetType(BlankProjector), method), BlankProjector)
+        Dim stackMethod = GetType(ParametricUDFs).GetMethod("StackWithBlankRow", BindingFlags.NonPublic Or BindingFlags.Static)
+        Dim stack = DirectCast([Delegate].CreateDelegate(GetType(StackProjector), stackMethod), StackProjector)
+        Dim errorCell As Object = ExcelError.ExcelErrorNA, marker As New Object()
+        Dim a As Object(,) = {{Nothing, errorCell, marker}}, b As Object(,) = {{DBNull.Value}}
+        Dim combined = stack(a, b), prepared = project(combined)
+        Assert.AreSame(a, stack(a, Nothing))
+        Assert.AreSame(errorCell, prepared(0, 1)) : Assert.AreSame(marker, prepared(0, 2))
+        Assert.AreEqual(String.Empty, prepared(0, 0)) : Assert.AreEqual(String.Empty, prepared(1, 2))
+        Assert.AreEqual(String.Empty, prepared(2, 0))
+        Assert.IsNull(combined(1, 2)) : Assert.AreSame(DBNull.Value, combined(2, 0))
+        Dim shifted = DirectCast(Array.CreateInstance(GetType(Object), {1, 1}, {1, 1}), Object(,))
+        Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() project(shifted))
+        Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() stack(shifted, b))
+    End Sub
+
+    Private Delegate Function NamesParser(argument As Object, expectedCount As Integer) As String()
+    Private Delegate Function NameResolver(explicitNames As Object, detected As String(), expectedCount As Integer, prefix As String) As String()
+    Private Shared Function ShippingNameParser38() As NamesParser
+        Dim method = GetType(ParametricUDFs).Assembly.GetType("BESHStatNG.UdfDataImport").GetMethod("GetVariableNames", BindingFlags.NonPublic Or BindingFlags.Static)
+        Return DirectCast([Delegate].CreateDelegate(GetType(NamesParser), method), NamesParser)
+    End Function
+    Private Shared Function ShippingNameResolver38() As NameResolver
+        Dim method = GetType(ParametricUDFs).GetMethod("ResolveNames", BindingFlags.NonPublic Or BindingFlags.Static)
+        Return DirectCast([Delegate].CreateDelegate(GetType(NameResolver), method), NameResolver)
+    End Function
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingNamesKeepScalarCommaMissingAndEmptyPrecedence(cultureName As String)
+        Dim prior = CultureInfo.CurrentCulture, priorUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim parse = ShippingNameParser38(), resolve = ShippingNameResolver38()
+            CollectionAssert.AreEqual(New String() {"a", "b"}, parse(" a,, b ", 2))
+            CollectionAssert.AreEqual(New String() {"a", "X2"}, parse("a, ", 2))
+            CollectionAssert.AreEqual(New String() {"X1"}, parse("a,b", 1))
+            CollectionAssert.AreEqual(New String() {"X1", "X2", "X3"}, parse("a,b", 3))
+            CollectionAssert.AreEqual(New String() {"X1"}, parse(String.Empty, 1))
+            For Each missing As Object In New Object() {Nothing, ExcelEmpty.Value, ExcelMissing.Value}
+                CollectionAssert.AreEqual(New String() {"X1", "X2"}, parse(missing, 2))
+                CollectionAssert.AreEqual(New String() {"detected"}, resolve(missing, {"detected"}, 1, "Group"))
+            Next
+            CollectionAssert.AreEqual(New String() {"X1"}, resolve(String.Empty, {"detected"}, 1, "Group"))
+            Dim detected As String() = {Nothing, " padded "}
+            Dim result = resolve(Nothing, detected, 2, "Group")
+            CollectionAssert.AreEqual(New String() {"Group 1", " padded "}, result)
+            Assert.AreNotSame(detected, result) : Assert.IsNull(detected(0))
+            CollectionAssert.AreEqual(New String() {" 1", " 2"}, resolve(Nothing, {"wrong count"}, 2, Nothing))
+        Finally
+            CultureInfo.CurrentCulture = prior : CultureInfo.CurrentUICulture = priorUi
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK")>
+    Public Sub ShippingNamesKeepRangeBlankErrorAndConversionPolicy(cultureName As String)
+        Dim prior = CultureInfo.CurrentCulture, priorUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(cultureName)
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
+            Dim parse = ShippingNameParser38()
+            Dim row As Object(,) = {{Nothing, "  ", DBNull.Value, ExcelError.ExcelErrorNA, " padded "}}
+            CollectionAssert.AreEqual(New String() {"X1", "X2", "X3", Convert.ToString(CObj(ExcelError.ExcelErrorNA)).Trim(), "padded"}, parse(row, 5))
+            Assert.IsNull(row(0, 0)) : Assert.AreEqual(" padded ", row(0, 4))
+            CollectionAssert.AreEqual(New String() {"first", "X2"}, parse(New Object(,) {{" first "}, {ExcelEmpty.Value}}, 2))
+            CollectionAssert.AreEqual(New String() {"X1"}, parse(New Object(,) {{1, 2}, {3, 4}}, 1))
+            Dim shifted = DirectCast(Array.CreateInstance(GetType(Object), {1, 2}, {1, 1}), Object(,))
+            shifted(1, 1) = " left " : shifted(1, 2) = "right"
+            CollectionAssert.AreEqual(New String() {"left", "right"}, parse(shifted, 2))
+            Assert.AreEqual(1, shifted.GetLowerBound(0)) : Assert.AreEqual(" left ", shifted(1, 1))
+            Dim shiftedNegative = DirectCast(Array.CreateInstance(GetType(Object), {1, 2}, {-1, -1}), Object(,))
+            shiftedNegative(-1, -1) = "n1" : shiftedNegative(-1, 0) = "n2"
+            CollectionAssert.AreEqual(New String() {"n1", "n2"}, parse(shiftedNegative, 2))
+            Dim stamp As New DateTime(2020, 1, 2, 3, 4, 5)
+            CollectionAssert.AreEqual(New String() {If(cultureName = "sk-SK", "1,25", "1.25"), Convert.ToString(CObj(stamp)).Trim()}, parse(New Object(,) {{1.25, stamp}}, 2))
+        Finally
+            CultureInfo.CurrentCulture = prior : CultureInfo.CurrentUICulture = priorUi
+        End Try
+    End Sub
+
+    <TestMethod>
+    Public Sub ShippingNamesConvertLazilyInSourceOrderEvenBeforeMismatch()
+        Dim parse = ShippingNameParser38(), events As New List(Of String)()
+        Dim input As Object(,) = {{Nothing, "before", Nothing}}
+        input(0, 0) = New ConversionProbe(Function()
+                                            events.Add("first") : input(0, 1) = "changed"
+                                            Return " first "
+                                        End Function)
+        input(0, 2) = New ConversionProbe(Function()
+                                            events.Add("third") : Return "third"
+                                        End Function)
+        CollectionAssert.AreEqual(New String() {"first", "before", "third"}, parse(input, 3))
+        Assert.AreEqual("changed", input(0, 1), "Conversion mutates original outer array, while acquired snapshot is detached")
+        CollectionAssert.AreEqual(New String() {"first", "third"}, events.ToArray())
+        input(0, 2) = New ConversionProbe(Function()
+                                            Throw New InvalidOperationException("third conversion stopped")
+                                            Return "unreachable"
+                                        End Function)
+        Dim ex = Assert.ThrowsException(Of InvalidOperationException)(Sub() parse(input, 2))
+        Assert.AreEqual("third conversion stopped", ex.Message)
+        input(0, 0) = New ConversionProbe(Function() CType(Nothing, String))
+        Assert.ThrowsException(Of NullReferenceException)(Sub() parse(input, 3))
+    End Sub
+
+    <TestMethod>
+    Public Sub ShippingNameCountGuardsPreserveExplicitVersusMissingBehavior()
+        Dim parse = ShippingNameParser38(), resolve = ShippingNameResolver38()
+        Dim unreadable As New ConversionProbe(Function() ThrowUnexpectedNameRead38())
+        For Each count As Integer In {0, -1, Integer.MinValue}
+            Assert.AreEqual(0, parse(unreadable, count).Length)
+            Assert.AreEqual(0, resolve(unreadable, Nothing, count, "Group").Length)
+        Next
+        Assert.AreEqual(0, resolve(Nothing, Nothing, 0, "Group").Length)
+        Assert.ThrowsException(Of OverflowException)(Sub() resolve(Nothing, Nothing, -1, "Group"))
+        Assert.ThrowsException(Of OverflowException)(Sub() resolve(Nothing, Nothing, Integer.MinValue, "Group"))
+    End Sub
+
+    Private Shared Function ThrowUnexpectedNameRead38() As String
+        Throw New InvalidOperationException("must not read for nonpositive expected count")
+    End Function
+
+    <TestMethod>
+    Public Sub InversionHostCatchRetainsFrameworkErrAndByRefContract()
+        Dim regular As Double(,) = {{4.0, 1.0}, {1.0, 3.0}}
+        For Each a As Double(,) In New List(Of Double(,)) From {Nothing, New Double(-1, -1) {}, New Double(1, 2) {}, regular}
+            Microsoft.VisualBasic.Err.Clear()
+            Microsoft.VisualBasic.Err.Number = 5
+            Microsoft.VisualBasic.Err.Description = "current-seed"
+            Dim inverse As Double(,) = {{42.0}}
+            Dim ok As Boolean = UdfLinearAlgebra.TryInvertMatrix(a, inverse)
+            Assert.AreEqual(5, Microsoft.VisualBasic.Err.Number)
+            Assert.AreEqual("current-seed", Microsoft.VisualBasic.Err.Description)
+            If a Is regular Then
+                Assert.IsTrue(ok)
+                Assert.AreEqual(3.0 / 11.0, inverse(0, 0), 0.0000000001)
+                Assert.AreNotSame(a, inverse)
+            Else
+                Assert.IsFalse(ok)
+                Assert.IsNull(inverse)
+            End If
+        Next
+        For Each a As Double(,) In New List(Of Double(,)) From {New Double(,) {{1.0, 2.0}, {2.0, 4.0}}, New Double(,) {{1.0, 0.0}, {0.0, 0.00000000000000000001}}, DirectCast(Array.CreateInstance(GetType(Double), {2, 2}, {1, 1}), Double(,))}
+            Microsoft.VisualBasic.Err.Clear()
+            Microsoft.VisualBasic.Err.Number = 5
+            Dim inverse As Double(,) = {{42.0}}
+            Assert.IsFalse(UdfLinearAlgebra.TryInvertMatrix(a, inverse))
+            Assert.IsNull(inverse)
+            Assert.AreEqual(0, Microsoft.VisualBasic.Err.Number)
+            Assert.AreEqual(String.Empty, Microsoft.VisualBasic.Err.Description)
+            Assert.IsNull(Microsoft.VisualBasic.Err.GetException())
+        Next
+        Dim aliasInput As Double(,) = DirectCast(regular.Clone(), Double(,))
+        Assert.IsTrue(UdfLinearAlgebra.TryInvertMatrix(aliasInput, aliasInput))
+        Assert.AreEqual(3.0 / 11.0, aliasInput(0, 0), 0.0000000001)
+        Assert.AreEqual(4.0, regular(0, 0))
+        Try
+            Throw New InvalidOperationException("current-only outer catch")
+        Catch
+            Dim inverse As Double(,) = Nothing
+            Assert.IsNotNull(Microsoft.VisualBasic.Err.GetException())
+            Assert.IsTrue(UdfLinearAlgebra.TryInvertMatrix(regular, inverse))
+            Assert.IsNotNull(Microsoft.VisualBasic.Err.GetException())
+            Assert.IsFalse(UdfLinearAlgebra.TryInvertMatrix(New Double(,) {{0.0}}, inverse))
+            Assert.IsNull(Microsoft.VisualBasic.Err.GetException())
+        End Try
+        Microsoft.VisualBasic.Err.Clear()
+    End Sub
+
+    Private Delegate Function EqualVarianceParser38(arg As Object, defaultEqual As Boolean) As Boolean
+    Private NotInheritable Class VarianceText38
+        Public ReadOnly Effect As Func(Of String)
+        Public Sub New(effect As Func(Of String))
+            Me.Effect = effect
+        End Sub
+        Public Overrides Function ToString() As String
+            Return Effect()
+        End Function
+    End Class
+
+    <DataTestMethod> <DataRow("")> <DataRow("sk-SK")>
+    Public Sub VarianceAliasesAndExceptionalConversionUseShippingBoundary(cultureName As String)
+        Dim old = CultureInfo.CurrentCulture
+        Dim oldUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = If(cultureName = "", CultureInfo.InvariantCulture, New CultureInfo(cultureName))
+            CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture
+            Dim method = GetType(ParametricUDFs).GetMethod("ParseEqualVarianceMode", BindingFlags.NonPublic Or BindingFlags.Static)
+            Dim parse = DirectCast([Delegate].CreateDelegate(GetType(EqualVarianceParser38), method), EqualVarianceParser38)
+            For Each blank As Object In New Object() {Nothing, ExcelMissing.Value, ExcelEmpty.Value, DBNull.Value, "", "  "}
+                Assert.IsTrue(parse(blank, True))
+                Assert.IsFalse(parse(blank, False))
+            Next
+            For Each text As String In {"welch", "UNEQUAL", "assume unequal", "assume-unequal"}
+                Assert.IsFalse(parse(text, True))
+            Next
+            For Each text As String In {"EQUAL", "pooled", "Student", "assume equal", "assume-equal"}
+                Assert.IsTrue(parse(text, False))
+            Next
+            For Each value As Object In New Object() {"assume_equal", "bad", ExcelError.ExcelErrorNA}
+                Assert.ThrowsException(Of ArgumentException)(Sub() parse(value, True))
+            Next
+            Dim calls As Integer = 0
+            Assert.IsTrue(parse(New VarianceText38(Function()
+                                                     calls += 1
+                                                     Return " pooled "
+                                                 End Function), False))
+            Assert.AreEqual(1, calls)
+            Assert.ThrowsException(Of InvalidOperationException)(Sub() parse(New VarianceText38(Function() ThrowVarianceConversion38()), True))
+            Assert.ThrowsException(Of NullReferenceException)(Sub() parse(New VarianceText38(Function() Nothing), True))
+            For Each value As String In {ChrW(0), ChrW(&HAD)}
+                Dim expected = ParametricUDFsOptions38.ParseEqualVarianceMode(value, False)
+                Assert.AreEqual(expected, parse(value, False))
+            Next
+        Finally
+            CultureInfo.CurrentCulture = old
+            CultureInfo.CurrentUICulture = oldUi
+        End Try
+    End Sub
+
+    Private Shared Function ThrowVarianceConversion38() As String
+        Throw New InvalidOperationException("current conversion")
+    End Function
+
+    <DataTestMethod> <DataRow("")> <DataRow("sk-SK")>
+    Public Sub AnovaShippingReportsPreserveGroupedLayoutAndFaultOrdering(cultureName As String)
+        Dim old = CultureInfo.CurrentCulture
+        Dim oldUi = CultureInfo.CurrentUICulture
+        Try
+            CultureInfo.CurrentCulture = If(cultureName = "", CultureInfo.InvariantCulture, New CultureInfo(cultureName))
+            CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture
+            Dim input As Object(,) = {{"A", "B", "C"}, {1.0, 3.0, 5.0}, {2.0, 4.0, 8.0}, {4.0, 6.0, 9.0}, {5.0, 7.0, 12.0}}
+            Dim groups As Double()() = Nothing
+            Dim names As String() = Nothing
+            Assert.IsTrue(Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(input, groups, names))
+            CollectionAssert.AreEqual(New String() {"A", "B", "C"}, names)
+            Dim mdl As New Global.BESHStatNG.parametric.OneWayANOVA(groups, names)
+            mdl.compute()
+            AssertReport38(UdfOutputTables.PrepareResultTableForUdf(mdl.wrapResults()(0)), DirectCast(ParametricUDFs.ANOVA1(input), Object(,)))
+            Dim welch = DirectCast(ParametricUDFs.ANOVA1_WELCH(input), Object(,))
+            Assert.AreEqual(2, welch.GetLength(0))
+            Assert.AreEqual(5, welch.GetLength(1))
+            Assert.AreEqual("Welch ANOVA", welch(1, 0))
+            Assert.AreEqual(2, welch(1, 1))
+            Assert.AreEqual(GetType(Integer), welch(1, 1).GetType())
+            Assert.AreEqual(GetType(Double), welch(1, 2).GetType())
+            Assert.AreEqual(GetType(String), welch(1, 4).GetType())
+            For Each selector As String In {"", "tukey", "tukey-kramer", "TK", "gh", "games-howell", "games", "lsd", "fisher", "fisher-lsd", "bonf", "bonferroni", "all", "both"}
+                Dim result = ParametricUDFs.ANOVA1_MCP(input, Nothing, selector, Nothing)
+                Assert.IsInstanceOfType(result, GetType(Object(,)))
+                Assert.IsTrue(DirectCast(result, Object(,)).GetLength(0) > 1)
+            Next
+            Assert.AreEqual(ExcelError.ExcelErrorValue, ParametricUDFs.ANOVA1_MCP(input, Nothing, "invalid"))
+            Dim conversion As Integer = 0
+            Dim throwing As New VarianceText38(Function()
+                                                 conversion += 1
+                                                 Return ThrowVarianceConversion38()
+                                             End Function)
+            Assert.AreEqual(ExcelError.ExcelErrorNum, ParametricUDFs.ANOVA1_MCP(input, Nothing, throwing, 2.0))
+            Assert.AreEqual(0, conversion)
+            Assert.AreEqual(ExcelError.ExcelErrorNum, ParametricUDFs.ANOVA1(New Object(,) {{1.0}, {2.0}}))
+            Assert.AreEqual(ExcelError.ExcelErrorValue, ParametricUDFs.ANOVA1(Nothing))
+            Dim sparse As Object(,) = {{"A", "none", "C"}, {1.0, Nothing, 3.0}, {2.0, ExcelError.ExcelErrorNA, 6.0}, {4.0, "ignored", 8.0}}
+            Assert.IsTrue(Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(sparse, groups, names))
+            Assert.AreEqual(2, groups.Length)
+            CollectionAssert.AreEqual(New Double() {1, 2, 4}, groups(0))
+            CollectionAssert.AreEqual(New Double() {3, 6, 8}, groups(1))
+            Dim bounded = DirectCast(Array.CreateInstance(GetType(Object), {5, 3}, {2, 4}), Object(,))
+            For r As Integer = 0 To 4
+                For c As Integer = 0 To 2
+                    bounded(r + 2, c + 4) = input(r, c)
+                Next
+            Next
+            AssertReport38(DirectCast(ParametricUDFs.ANOVA1(input), Object(,)), DirectCast(ParametricUDFs.ANOVA1(bounded), Object(,)))
+        Finally
+            CultureInfo.CurrentCulture = old
+            CultureInfo.CurrentUICulture = oldUi
+        End Try
+    End Sub
+
+    Private Shared Sub AssertReport38(expected As Object(,), actual As Object(,))
+        Assert.AreEqual(expected.GetLength(0), actual.GetLength(0))
+        Assert.AreEqual(expected.GetLength(1), actual.GetLength(1))
+        For r As Integer = 0 To expected.GetLength(0) - 1
+            For c As Integer = 0 To expected.GetLength(1) - 1
+                Assert.AreEqual(expected(r, c), actual(r, c))
+                If expected(r, c) IsNot Nothing Then Assert.AreEqual(expected(r, c).GetType(), actual(r, c).GetType())
+            Next
+        Next
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub NativeCellConversion38KeepsSentinelsAndRealCatch(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            For Each value As Object In {Nothing, ExcelEmpty.Value, ExcelMissing.Value}
+                Assert.AreEqual("", ExcelArgReaders.CellToTrimmedText(value))
+                Assert.IsFalse(ExcelArgNumeric.TryGetDouble(value).HasValue)
+            Next
+            For Each value As Object In {ExcelError.ExcelErrorNA, True, "1.5", "", DBNull.Value, New Object(,) {{1.0R}}}
+                Assert.IsFalse(ExcelArgNumeric.TryGetDouble(value).HasValue)
+            Next
+            Assert.AreEqual("ExcelErrorNA", ExcelArgReaders.CellToTrimmedText(ExcelError.ExcelErrorNA))
+            Assert.AreEqual("1.5", ExcelArgReaders.CellToTrimmedText(1.5R))
+            Assert.AreEqual(1.5R, ExcelArgNumeric.TryGetDouble(1.5D).Value)
+            Assert.ThrowsException(Of OverflowException)(Sub() ExcelArgReaders.CellToTrimmedText(Long.MaxValue))
+            Microsoft.VisualBasic.Err().Raise(5)
+        Catch ex As Exception
+            Assert.AreEqual(5, Microsoft.VisualBasic.Err().Number)
+            Assert.IsFalse(ExcelArgNumeric.TryGetDouble(DBNull.Value).HasValue)
+            Assert.AreEqual(0, Microsoft.VisualBasic.Err().Number)
+        Finally
+            Microsoft.VisualBasic.Err().Clear()
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub GroupedImport38RetainsBoundsNamesAndCallerArrays(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Dim source As Object(,) = {{" A ", "empty", " C "}, {1.0R, Nothing, 3.0R}, {2.0R, ExcelError.ExcelErrorNA, "4"}}
+            Dim groups()() As Double = Nothing
+            Dim names() As String = Nothing
+            Assert.IsTrue(UdfDataImport.TryGetGroupedNumericColumns(source, groups, names))
+            CollectionAssert.AreEqual(New String() {"A", "C"}, names)
+            CollectionAssert.AreEqual(New Double() {1.0R, 2.0R}, groups(0))
+            CollectionAssert.AreEqual(New Double() {3.0R}, groups(1))
+            Assert.AreEqual(" A ", source(0, 0))
+            Assert.AreEqual("4", source(2, 2))
+            groups(0)(0) = 99
+            names(0) = "changed"
+            Assert.AreEqual(1.0R, source(1, 0))
+            Assert.AreEqual(" A ", source(0, 0))
+            Dim bounded As Object(,) = DirectCast(Array.CreateInstance(GetType(Object), {3, 3}, {1, -1}), Object(,))
+            For row As Integer = 0 To 2
+                For column As Integer = 0 To 2
+                    bounded(row + 1, column - 1) = source(row, column)
+                Next
+            Next
+            Assert.IsTrue(UdfDataImport.TryGetGroupedNumericColumns(bounded, groups, names))
+            Assert.AreEqual(1.0R, groups(0)(0))
+            Assert.AreEqual(1, bounded.GetLowerBound(0))
+            Assert.AreEqual(-1, bounded.GetLowerBound(1))
+            Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() UdfDataImport.TryExtractNumericGroupsFromMatrix(bounded, 1, True, "", groups, names))
+            Assert.IsNull(groups)
+            Assert.IsNull(names)
+            Assert.IsFalse(UdfDataImport.TryGetGroupedNumericColumns(1.0R, groups, names))
+            Assert.IsNull(groups)
+            Assert.IsNull(names)
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("")>
+    <DataRow("sk-SK")>
+    Public Sub NativeAlpha38RetainsDefaultParsePrecedenceAndByRef(culture As String)
+        Dim old As CultureInfo = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Dim alpha As Double = 99
+            Assert.IsTrue(UdfDataImport.TryParseAlpha(ExcelMissing.Value, alpha))
+            Assert.AreEqual(0.05R, alpha)
+            Assert.IsTrue(UdfDataImport.TryParseAlpha(" 0.1 ", alpha))
+            Assert.AreEqual(0.1R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha("0,1", alpha))
+            Assert.AreEqual(1.0R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha("bad", alpha))
+            Assert.AreEqual(0.0R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha(DBNull.Value, alpha))
+            Assert.AreEqual(0.05R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha(True, alpha))
+            Assert.AreEqual(1.0R, alpha)
+            Assert.IsFalse(UdfDataImport.TryParseAlpha(Double.NaN, alpha))
+            Assert.IsTrue(Double.IsNaN(alpha))
+        Finally
+            CultureInfo.CurrentCulture = old
+        End Try
+    End Sub
+
+End Class

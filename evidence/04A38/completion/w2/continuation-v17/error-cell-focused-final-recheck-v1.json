@@ -1,0 +1,168 @@
+{
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/production-test-freeze-v7.json",
+    "bytes": 97798,
+    "sha256": "dcc6f2205828f4e6190606e442d3f45b41bcb0de361e1351bde71881883add12"
+  },
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\w2c17-error-cell-correction-v1\\Debug\\portable\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\w2c17-error-cell-correction-v1\\Debug\\obj\\Common\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 4.116909300006228,
+      "stdout_sha256": "422eaa436f61a1ff1acf266d6dec51c8872606c5494a66f8d3ee6950e422a8d8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<ISOLATED_RUN>\\builds\\w2c17-error-cell-correction-v1\\Debug\\legacy\\",
+        "/p:IntermediateOutputPath=<ISOLATED_RUN>\\builds\\w2c17-error-cell-correction-v1\\Debug\\obj\\Legacy\\",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.4882886999985203,
+      "stdout_sha256": "8f542fae15a1635e923740de21859b7a6723da3e29a509e22caa4714d67bbd8b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "results": [
+    {
+      "records": [
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation17Tests",
+          "method": "Median17ErrorCellsRetainDistinctOriginalBoxingInPortablePreparation",
+          "test_name": "Median17ErrorCellsRetainDistinctOriginalBoxingInPortablePreparation",
+          "outcome": "Passed",
+          "duration": "00:00:00.0190009",
+          "message": ""
+        }
+      ],
+      "outcomes": {
+        "Passed": 1
+      },
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "1",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "sha256": "294ea618a917c68c12e69e6a45441f70cae09436d4767542a0b9c528b024543d",
+      "configuration": "Debug",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\executions\\w2c17-error-cell-correction-v1-Common\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w2c17-error-cell-correction-v1-Common\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-error-cell-correction-v1-Common\\results",
+          "/Logger:trx;LogFileName=Common.trx",
+          "/TestCaseFilter:FullyQualifiedName~Median17ErrorCells"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.9944484999869019,
+        "stdout_sha256": "cded78852c0217ec8c083a4629b2682862b991888d2dbcc2cfc19e021f369351",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "records": [
+        {
+          "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+          "method": "Median17ErrorCellsRetainDistinctOriginalBoxesThroughWindowsAdapter",
+          "test_name": "Median17ErrorCellsRetainDistinctOriginalBoxesThroughWindowsAdapter",
+          "outcome": "Passed",
+          "duration": "00:00:00.1728091",
+          "message": ""
+        }
+      ],
+      "outcomes": {
+        "Passed": 1
+      },
+      "counters": {
+        "total": "1",
+        "executed": "1",
+        "passed": "1",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "sha256": "aa65c496dc260fc21bde078241c2100e83829b87990cc316d973f93ffc2954a5",
+      "configuration": "Debug",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\executions\\w2c17-error-cell-correction-v1-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+          "/Settings:<ISOLATED_RUN>\\executions\\w2c17-error-cell-correction-v1-Legacy\\serial.runsettings",
+          "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17-error-cell-correction-v1-Legacy\\results",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+          "/Logger:trx;LogFileName=Legacy.trx",
+          "/TestCaseFilter:FullyQualifiedName~Median17ErrorCells"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 3.9186319000000367,
+        "stdout_sha256": "b2a7ddd20d928bbf892af8b747a8fd88bf3b4894231c96883e3fdaaef65b405d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    }
+  ],
+  "scope": "TWO_NEW_ERROR_BOX_ALIAS_IDENTITIES_ONLY;NO_SECOND_FULL_MANAGED_OR_PYTHON_CAMPAIGN",
+  "counterexample": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/error-cell-current-only-counterexample-v1.json",
+    "bytes": 8043,
+    "sha256": "fb9f27a20522b2d9af5762ad452f872861ba82d43d5c41668858eb66c79296ef"
+  },
+  "original_queries": 0,
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+}

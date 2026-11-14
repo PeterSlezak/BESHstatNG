@@ -1,0 +1,19 @@
+{
+  "shipping_fixture_failures": [
+    "p1-v2-Debug:2 invalid nested-NaN expectations",
+    "p1-v3-Debug and Release:2 invalid calibration #NUM assumptions each"
+  ],
+  "actual_regression": {
+    "stage": "p1-v4",
+    "configuration_results": {
+      "Debug": 72,
+      "Release": 72
+    },
+    "corpus": "Approval A calibration",
+    "required": "Double42.0 D4045000000000000 from original Enum/Double If coercion",
+    "observed": "ExcelErrorNA typed enum",
+    "resolution": "p1-v5 host CDbl(ExcelErrorNA) passes numeric policy; all29424/config frozen comparisons exact"
+  },
+  "reader_attempts": "All old reader sources, raw receipts and setup/adverse errors retained",
+  "investigative_runtime_policy": "Separate8 differences/config, no production change/extra original case; reachability/compatibility review OPEN"
+}

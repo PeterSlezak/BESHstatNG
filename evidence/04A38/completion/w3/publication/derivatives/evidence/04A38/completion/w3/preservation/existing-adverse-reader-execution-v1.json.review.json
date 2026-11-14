@@ -1,0 +1,25 @@
+{
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/reader_controls_v3.py",
+    "bytes": 3627,
+    "sha256": "31ba942a8745b3ee4c5837687b5c85871f1b5654cda77ad6d231a506c76b54d0"
+  },
+  "result": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy,json;from pathlib import Path;sys.path.insert(0,sys.argv[1]);import common;out=Path(sys.argv[3]);common.save=lambda name,value:out.open(\"x\",encoding=\"utf-8\").write(json.dumps(value,indent=2));sys.argv=[sys.argv[2]];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\reader_controls_v3.py",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\preservation\\existing-adverse-controls-v1.json"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 4.314731299993582,
+    "stdout_sha256": "e8b326631bae013b711c4bcd5dd0608b4c6427a51974d81ee717eea46cfe5cdc",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

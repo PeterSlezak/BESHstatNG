@@ -1,0 +1,339 @@
+{
+  "configuration": "Release",
+  "results": [
+    {
+      "authority": "B",
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Release/plain-v2/results.tsv",
+        "bytes": 68076,
+        "sha256": "871d9a0c606015a705ded209429c8e425734148218fdc513997d60564543a24a"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/profile-current-results-v2/Release/B/results.tsv",
+        "bytes": 68076,
+        "sha256": "871d9a0c606015a705ded209429c8e425734148218fdc513997d60564543a24a"
+      },
+      "exact": true,
+      "commands": [],
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38-v2.cs",
+        "bytes": 13269,
+        "sha256": "9d867afcc90dadb34a989962f5298ce18aa343622f9d89f2304d5f9ab46ef2ea"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/inputs-Release.jsonl",
+        "bytes": 114174,
+        "sha256": "09dde00b3dc1940f103be612ccbc1a20d754d3dcf5e129514577e06cbe3b31c5"
+      }
+    },
+    {
+      "authority": "C",
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Release/plain/results.tsv",
+        "bytes": 33646,
+        "sha256": "6fcb91c225671fc99144334f23f58d7e96267c9989f9666e41270e4c5a8f949d"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/profile-current-results-v2/Release/C/results.tsv",
+        "bytes": 33646,
+        "sha256": "6fcb91c225671fc99144334f23f58d7e96267c9989f9666e41270e4c5a8f949d"
+      },
+      "exact": true,
+      "commands": [
+        {
+          "command": [
+            "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+            "/nologo",
+            "/target:exe",
+            "/reference:System.Core.dll",
+            "/reference:System.Web.Extensions.dll",
+            "/reference:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\BESHStat.Core.dll",
+            "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+            "/out:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\C-current.exe",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\MmrmCapture38.cs"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.3561980999947991,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\C-current.exe",
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Release.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\C\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\C\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.5592322000011336,
+          "stdout_sha256": "e090c51ad9c4007dc8a884037fe63e51e1b2d03ee68cefbb09e1709069159b5c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      ],
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/MmrmCapture38.cs",
+        "bytes": 13458,
+        "sha256": "28b099782a665e8ac695efed6247f674dba8765dc297a02dfa4f7edc06f7c367"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/inputs-Release.jsonl",
+        "bytes": 46518,
+        "sha256": "f5a8775e2da9c105b460372af029404542656b154a31c6645c9c2433eca8e772"
+      }
+    },
+    {
+      "authority": "D",
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/plain/results.tsv",
+        "bytes": 64486,
+        "sha256": "c41219aedcbb91614ae2f2c801edc19d08b6f89a0d05615889ac13d449323f05"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/profile-current-results-v2/Release/D/results.tsv",
+        "bytes": 64486,
+        "sha256": "c41219aedcbb91614ae2f2c801edc19d08b6f89a0d05615889ac13d449323f05"
+      },
+      "exact": true,
+      "commands": [
+        {
+          "command": [
+            "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+            "/nologo",
+            "/target:exe",
+            "/reference:System.Core.dll",
+            "/reference:System.Web.Extensions.dll",
+            "/reference:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\BESHStat.Core.dll",
+            "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+            "/out:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\D-current.exe",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\MmrmCapture38.cs"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.34864480000396725,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\D-current.exe",
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\inputs-Release.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\D\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\D\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.547699399990961,
+          "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      ],
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/MmrmCapture38.cs",
+        "bytes": 13458,
+        "sha256": "3c3b4d16e63909c014b7d4feb0c8c4b91aab1b873400b58b3d0f1910e2db56d1"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/inputs-Release.jsonl",
+        "bytes": 91816,
+        "sha256": "a238f0e045ee1b5aaa9f3450390028aa7fda18f0adb1e5782158f298300c8b06"
+      }
+    },
+    {
+      "authority": "E",
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Release/plain/results.tsv",
+        "bytes": 31484,
+        "sha256": "086ecf6cc806ad18fad68e19052eef7e523e35598b299939b861c730db871b8d"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/profile-current-results-v2/Release/E/results.tsv",
+        "bytes": 31484,
+        "sha256": "086ecf6cc806ad18fad68e19052eef7e523e35598b299939b861c730db871b8d"
+      },
+      "exact": true,
+      "commands": [
+        {
+          "command": [
+            "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+            "/nologo",
+            "/target:exe",
+            "/reference:System.Core.dll",
+            "/reference:System.Web.Extensions.dll",
+            "/reference:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\BESHStat.Core.dll",
+            "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+            "/out:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\E-current.exe",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\MmrmCapture38.cs"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.36240269998961594,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\E-current.exe",
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\inputs-Release.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\E\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\E\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.5448164999979781,
+          "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      ],
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/MmrmCapture38.cs",
+        "bytes": 17000,
+        "sha256": "77880f48c568bf2e9093ecf36344f7755746eef9ca11aa752cbceabae1dfdd8a"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/inputs-Release.jsonl",
+        "bytes": 70010,
+        "sha256": "b243aedfe81b2d005a68b122320954617af42931594584686e394085326e6ade"
+      }
+    },
+    {
+      "authority": "F",
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Release/plain/results.tsv",
+        "bytes": 31314,
+        "sha256": "8cf9ccf6448e7cf0b7a4aa60aff6e57a14b83e6e25ced602397543984fc7cdf1"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/profile-current-results-v2/Release/F/results.tsv",
+        "bytes": 31314,
+        "sha256": "8cf9ccf6448e7cf0b7a4aa60aff6e57a14b83e6e25ced602397543984fc7cdf1"
+      },
+      "exact": true,
+      "commands": [
+        {
+          "command": [
+            "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+            "/nologo",
+            "/target:exe",
+            "/reference:System.Core.dll",
+            "/reference:System.Web.Extensions.dll",
+            "/reference:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\BESHStat.Core.dll",
+            "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+            "/out:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\F-current.exe",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\MmrmCapture38.cs"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.37742859999707434,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\F-current.exe",
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\inputs-Release.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\F\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\F\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.5557809000019915,
+          "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      ],
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/MmrmCapture38.cs",
+        "bytes": 16748,
+        "sha256": "26120094bdf4ef49a0f3e48aaca005f91ce9d7d0647d866ec1279e0877bb8ef3"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/inputs-Release.jsonl",
+        "bytes": 58068,
+        "sha256": "5ef9f802d41e9eba48b5e13237e0f411aad646c81e6305344b9de6cf31d65b94"
+      }
+    },
+    {
+      "authority": "G",
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Release/plain/results.tsv",
+        "bytes": 43444,
+        "sha256": "f8ecca980945fdd2757caa8f0394693c0418a14f30bc5dd93f0d2d6a7b43e71e"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/profile-current-results-v2/Release/G/results.tsv",
+        "bytes": 43444,
+        "sha256": "f8ecca980945fdd2757caa8f0394693c0418a14f30bc5dd93f0d2d6a7b43e71e"
+      },
+      "exact": true,
+      "commands": [
+        {
+          "command": [
+            "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+            "/nologo",
+            "/target:exe",
+            "/reference:System.Core.dll",
+            "/reference:System.Web.Extensions.dll",
+            "/reference:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\BESHStat.Core.dll",
+            "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+            "/out:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\G-current.exe",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide\\MmrmCapture38-v2.cs"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.3694346999982372,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\G-current.exe",
+            "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide\\inputs-Release.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\G\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\G\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.6451051000040025,
+          "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      ],
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/MmrmCapture38-v2.cs",
+        "bytes": 17060,
+        "sha256": "2c71456350841a375852c8f3f4ae427672a493216ee1ff2e4783e71b368c52fd"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/inputs-Release.jsonl",
+        "bytes": 65078,
+        "sha256": "2a29f17df4bc3af0d3918c36d4900225ffd152b31ea14562aa24cac37d11e05e"
+      }
+    }
+  ],
+  "all_exact": true,
+  "new_original_queries": 0,
+  "native": "NOT_RUN",
+  "earlier_attempts": "Initial invalid B recorder selected then corrected; reference-path lookup used plain rather than protected plain-v2. No oracle changed and completed B current execution reused."
+}

@@ -1,0 +1,6 @@
+Friend Function ClampProb(p As Double) As Object
+        If Double.IsNaN(p) OrElse Double.IsInfinity(p) Then Return ExcelError.ExcelErrorNum
+        If p < 0.0 Then p = 0.0
+        If p > 1.0 Then p = 1.0
+        Return p
+    End Function

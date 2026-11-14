@@ -1,0 +1,554 @@
+{
+  "status": "FOUR_CHANGED_MESSAGES_EXPLICITLY_RETAINED_NOT_WAIVED",
+  "same_clean_messages": 188,
+  "changed_messages": [
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb')",
+      "occurrence": 0,
+      "outcome": "FAIL",
+      "old_message": "'0eb34bfc8e169dd64c02a212cf050012e1f99a0f80cd6abdc51047c8e838dd5c' != '14707e09a16f7798919e2ef7c94411f755b9163f0e37689715737fd691149f80'\n- 0eb34bfc8e169dd64c02a212cf050012e1f99a0f80cd6abdc51047c8e838dd5c\n+ 14707e09a16f7798919e2ef7c94411f755b9163f0e37689715737fd691149f80\n",
+      "new_message": "'0eb34bfc8e169dd64c02a212cf050012e1f99a0f80cd6abdc51047c8e838dd5c' != 'ac0f65493602e1e09647659d9e83c0df1a583410f317994ad31be6cb52c5de82'\n- 0eb34bfc8e169dd64c02a212cf050012e1f99a0f80cd6abdc51047c8e838dd5c\n+ ac0f65493602e1e09647659d9e83c0df1a583410f317994ad31be6cb52c5de82\n",
+      "old_clean_message_sha256": "447212f33a8c539fd2da48a5fe1608a4e20520112e1b5889ed4a4bd4ff3b37c8",
+      "new_clean_message_sha256": "4c9e22229254589e0b6da308a960e0b94b0c190d77bcd4fae6a5a7da15367684",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a28_output.py\", line 29, in test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "old_traceback_sha256": "1dae2c930ccf2b16b34a0cf0bc8e6e7f0acea0a2c34cfea363855003da1479a9",
+      "new_traceback_sha256": "f9121d81c0068ab40ddee07f0f760f47449c6b5c2624682f2c88908dd8844b15",
+      "classification": "RETAINED_ASSERTION_NEW_AUTHORIZED_SOURCE_PIN_ACTUAL_HASH_NOT_WAIVED",
+      "transition": {
+        "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+        "before": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 67232,
+          "sha256": "14707e09a16f7798919e2ef7c94411f755b9163f0e37689715737fd691149f80"
+        },
+        "preimage": {
+          "path": "evidence/04A38/completion/w2/continuation-v8/source-before/BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb.txt",
+          "bytes": 67232,
+          "sha256": "14707e09a16f7798919e2ef7c94411f755b9163f0e37689715737fd691149f80"
+        },
+        "after": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53994,
+          "sha256": "ac0f65493602e1e09647659d9e83c0df1a583410f317994ad31be6cb52c5de82"
+        },
+        "snapshot": {
+          "path": "evidence/04A38/completion/w2/continuation-v8/source-after/final-v1/BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb.txt",
+          "bytes": 53994,
+          "sha256": "ac0f65493602e1e09647659d9e83c0df1a583410f317994ad31be6cb52c5de82"
+        }
+      },
+      "explanation": "Same immutable line29 subtest and original expected pin; actual source moved from authenticated C7 before bytes to the recorded C8 after bytes. Both failures remain FAIL."
+    },
+    {
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "subtest": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (path='BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb')",
+      "occurrence": 0,
+      "outcome": "FAIL",
+      "old_message": "'e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185' != 'fc1c6b3f04543eb4a8f049d899ff36ac20a4b4e9cbeb7acc71a008021268b843'\n- e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185\n+ fc1c6b3f04543eb4a8f049d899ff36ac20a4b4e9cbeb7acc71a008021268b843\n",
+      "new_message": "'e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185' != '8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753'\n- e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185\n+ 8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753\n",
+      "old_clean_message_sha256": "d45e1c7190dfffb1c6034e8e2dde27550f03ac7bc2de731eb74f14f3394d6111",
+      "new_clean_message_sha256": "a3a22143cf10835473d6de3d4e176c37eccbe9d7faf988c5907b53a7d7e51f18",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a28_output.py\", line 29, in test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "old_traceback_sha256": "9877e6bbcd7785f0b8163123f3a5c2e14e2036257878f775b813de19f69d4e04",
+      "new_traceback_sha256": "14675e1c9b9c3e99ec066f990b9f3a487c385ce1a0bf1badded6b3106c26f8cd",
+      "classification": "RETAINED_ASSERTION_NEW_AUTHORIZED_SOURCE_PIN_ACTUAL_HASH_NOT_WAIVED",
+      "transition": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "before": {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+          "bytes": 41085,
+          "sha256": "fc1c6b3f04543eb4a8f049d899ff36ac20a4b4e9cbeb7acc71a008021268b843"
+        },
+        "preimage": {
+          "path": "evidence/04A38/completion/w2/continuation-v8/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+          "bytes": 41085,
+          "sha256": "fc1c6b3f04543eb4a8f049d899ff36ac20a4b4e9cbeb7acc71a008021268b843"
+        },
+        "after": {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+          "bytes": 39624,
+          "sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753"
+        },
+        "snapshot": {
+          "path": "evidence/04A38/completion/w2/continuation-v8/source-after/final-v1/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+          "bytes": 39624,
+          "sha256": "8b2e1e04b4f17b54aaa0a54ac55e0425cf2bb30fa78140628fca81a0f247f753"
+        }
+      },
+      "explanation": "Same immutable line29 subtest and original expected pin; actual source moved from authenticated C7 before bytes to the recorded C8 after bytes. Both failures remain FAIL."
+    },
+    {
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "subtest": null,
+      "occurrence": 0,
+      "outcome": "FAIL",
+      "old_message": "Lists differ: [] != [{'path': 'evidence/04A38/completion/w1/ru[25887 chars]th'}]\n\nSecond list contains 172 additional elements.\nFirst extra element 0:\n{'path': 'evidence/04A38/completion/w1/run_census.py', 'origin': 'content', 'line': 22, 'category': 'appdata_or_drive_path'}\n\nDiff is 28495 characters long. Set self.maxDiff to None to see it.",
+      "new_message": "Lists differ: [] != [{'path': 'evidence/04A38/completion/w1/ru[30948 chars]th'}]\n\nSecond list contains 206 additional elements.\nFirst extra element 0:\n{'path': 'evidence/04A38/completion/w1/run_census.py', 'origin': 'content', 'line': 22, 'category': 'appdata_or_drive_path'}\n\nDiff is 34066 characters long. Set self.maxDiff to None to see it.",
+      "old_clean_message_sha256": "97091adbbbabfa53009e2fcb559c961ca4c43b76c42942a6eccafa082f9f561e",
+      "new_clean_message_sha256": "a73c600e8202aa28ed2f85d7950d8653c96ffc570bded84c90a3c6119307b7ff",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 166, in test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "old_traceback_sha256": "c64dada3f1c921aedae9793876d7ebd84672d91d053b28b0b912bd90f90cc785",
+      "new_traceback_sha256": "6d1046541d2a180840b688d9cb381d8446b0cad98a2fe84b0f67748458e04483",
+      "classification": "RETAINED_PRIVACY_ASSERTION_NEW_FROZEN_CANDIDATE_FINDING_COUNT_NOT_WAIVED",
+      "explanation": "Original assertions still FAIL. All206 actual tuples retained in five helper reports;26 are new C8 synthetic-control or public SDK-path source findings,8 are serialized relative traceback path separators in the C7 correction receipt generated after its historical scan. Prior172 full tuples are not reconstructed from truncated unittest messages."
+    },
+    {
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "subtest": null,
+      "occurrence": 0,
+      "outcome": "FAIL",
+      "old_message": "Lists differ: [] != [{'path': 'evidence/04A38/completion/w1/ru[25887 chars]th'}]\n\nSecond list contains 172 additional elements.\nFirst extra element 0:\n{'path': 'evidence/04A38/completion/w1/run_census.py', 'origin': 'content', 'line': 22, 'category': 'appdata_or_drive_path'}\n\nDiff is 28495 characters long. Set self.maxDiff to None to see it.",
+      "new_message": "Lists differ: [] != [{'path': 'evidence/04A38/completion/w1/ru[30948 chars]th'}]\n\nSecond list contains 206 additional elements.\nFirst extra element 0:\n{'path': 'evidence/04A38/completion/w1/run_census.py', 'origin': 'content', 'line': 22, 'category': 'appdata_or_drive_path'}\n\nDiff is 34066 characters long. Set self.maxDiff to None to see it.",
+      "old_clean_message_sha256": "97091adbbbabfa53009e2fcb559c961ca4c43b76c42942a6eccafa082f9f561e",
+      "new_clean_message_sha256": "a73c600e8202aa28ed2f85d7950d8653c96ffc570bded84c90a3c6119307b7ff",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 215, in test_entire_proposed_publication_set_privacy",
+      "old_traceback_sha256": "d2cf090ed54f9ca8ce4433b782da760f28568a9d2e8de8f09093a7656b11249f",
+      "new_traceback_sha256": "39f20f16f0f120c18eb6c179111d0759e9c623210f19b36cde709197a5c475e2",
+      "classification": "RETAINED_PRIVACY_ASSERTION_NEW_FROZEN_CANDIDATE_FINDING_COUNT_NOT_WAIVED",
+      "explanation": "Original assertions still FAIL. All206 actual tuples retained in five helper reports;26 are new C8 synthetic-control or public SDK-path source findings,8 are serialized relative traceback path separators in the C7 correction receipt generated after its historical scan. Prior172 full tuples are not reconstructed from truncated unittest messages."
+    }
+  ],
+  "identity_outcome_occurrence_delta": 0,
+  "actual_privacy_findings": 206,
+  "historical_privacy_count": 172,
+  "classified_current_additional_findings": [
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 13,
+      "category": "unc_share",
+      "classification": "JSON_ESCAPED_RELATIVE_TRACEBACK_SEPARATORS_IN_RETAINED_C7_POSTSCAN_RECEIPT",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+        "bytes": 13404,
+        "sha256": "4e688669d4cd286385e35035089517254eb70e8f2bd8d212cacfcc691cb27c09"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 41,
+      "category": "unc_share",
+      "classification": "JSON_ESCAPED_RELATIVE_TRACEBACK_SEPARATORS_IN_RETAINED_C7_POSTSCAN_RECEIPT",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+        "bytes": 13404,
+        "sha256": "4e688669d4cd286385e35035089517254eb70e8f2bd8d212cacfcc691cb27c09"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 69,
+      "category": "unc_share",
+      "classification": "JSON_ESCAPED_RELATIVE_TRACEBACK_SEPARATORS_IN_RETAINED_C7_POSTSCAN_RECEIPT",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+        "bytes": 13404,
+        "sha256": "4e688669d4cd286385e35035089517254eb70e8f2bd8d212cacfcc691cb27c09"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "content",
+      "line": 97,
+      "category": "unc_share",
+      "classification": "JSON_ESCAPED_RELATIVE_TRACEBACK_SEPARATORS_IN_RETAINED_C7_POSTSCAN_RECEIPT",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+        "bytes": 13404,
+        "sha256": "4e688669d4cd286385e35035089517254eb70e8f2bd8d212cacfcc691cb27c09"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share",
+      "classification": "JSON_ESCAPED_RELATIVE_TRACEBACK_SEPARATORS_IN_RETAINED_C7_POSTSCAN_RECEIPT",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+        "bytes": 13404,
+        "sha256": "4e688669d4cd286385e35035089517254eb70e8f2bd8d212cacfcc691cb27c09"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share",
+      "classification": "JSON_ESCAPED_RELATIVE_TRACEBACK_SEPARATORS_IN_RETAINED_C7_POSTSCAN_RECEIPT",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+        "bytes": 13404,
+        "sha256": "4e688669d4cd286385e35035089517254eb70e8f2bd8d212cacfcc691cb27c09"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share",
+      "classification": "JSON_ESCAPED_RELATIVE_TRACEBACK_SEPARATORS_IN_RETAINED_C7_POSTSCAN_RECEIPT",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+        "bytes": 13404,
+        "sha256": "4e688669d4cd286385e35035089517254eb70e8f2bd8d212cacfcc691cb27c09"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+      "origin": "decoded_json",
+      "line": 1,
+      "category": "unc_share",
+      "classification": "JSON_ESCAPED_RELATIVE_TRACEBACK_SEPARATORS_IN_RETAINED_C7_POSTSCAN_RECEIPT",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v7/python-environment-corrections-v1.json",
+        "bytes": 13404,
+        "sha256": "4e688669d4cd286385e35035089517254eb70e8f2bd8d212cacfcc691cb27c09"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/compatibility_v1.py",
+      "origin": "content",
+      "line": 16,
+      "category": "appdata_or_drive_path",
+      "classification": "PUBLIC_FIXED_REFERENCE_ASSEMBLY_PATH",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/compatibility_v1.py",
+        "bytes": 5359,
+        "sha256": "e092b0f613519ddad743a78502d005ac7807536b2c229b5df00c75a5b881f5cc"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 13,
+      "category": "profile_or_home",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+        "bytes": 2984,
+        "sha256": "170397d7e4d18f03f4de34f4a92799bdb362b6dadeaf65e326cbb0e5b539401a"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 13,
+      "category": "appdata_or_drive_path",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+        "bytes": 2984,
+        "sha256": "170397d7e4d18f03f4de34f4a92799bdb362b6dadeaf65e326cbb0e5b539401a"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 12,
+      "category": "email",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+        "bytes": 2984,
+        "sha256": "170397d7e4d18f03f4de34f4a92799bdb362b6dadeaf65e326cbb0e5b539401a"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 12,
+      "category": "credential_url",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+        "bytes": 2984,
+        "sha256": "170397d7e4d18f03f4de34f4a92799bdb362b6dadeaf65e326cbb0e5b539401a"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "profile_or_home",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 10,
+      "category": "profile_or_home",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 10,
+      "category": "appdata_or_drive_path",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "credential_url",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prepare_privacy_v2.py",
+      "origin": "content",
+      "line": 16,
+      "category": "secret",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prepare_privacy_v2.py",
+        "bytes": 3194,
+        "sha256": "731bf697c55b0709f821e69d35d286a267d40f3d71d2be0bfe9ecbf865b096b9"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/inspect_stage_v1.py",
+      "origin": "content",
+      "line": 6,
+      "category": "appdata_or_drive_path",
+      "classification": "PUBLIC_FIXED_REFERENCE_ASSEMBLY_PATH",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/inspect_stage_v1.py",
+        "bytes": 2936,
+        "sha256": "c12cb2250c6f70eef8f4acd310182781d0fdfd162fe6138d402d88879f8b812b"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "domain_sid",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+        "bytes": 5732,
+        "sha256": "5b3e59b47392046fbf9061c2c9b5cd15b4b239be921736800597b7072d2505a0"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "email",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+        "bytes": 5732,
+        "sha256": "5b3e59b47392046fbf9061c2c9b5cd15b4b239be921736800597b7072d2505a0"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+        "bytes": 5732,
+        "sha256": "5b3e59b47392046fbf9061c2c9b5cd15b4b239be921736800597b7072d2505a0"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "connection_secret",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+        "bytes": 5732,
+        "sha256": "5b3e59b47392046fbf9061c2c9b5cd15b4b239be921736800597b7072d2505a0"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+        "bytes": 5732,
+        "sha256": "5b3e59b47392046fbf9061c2c9b5cd15b4b239be921736800597b7072d2505a0"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+      "origin": "content",
+      "line": 6,
+      "category": "internal_hostname",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v2.py",
+        "bytes": 5732,
+        "sha256": "5b3e59b47392046fbf9061c2c9b5cd15b4b239be921736800597b7072d2505a0"
+      }
+    },
+    {
+      "path": "evidence/04A38/completion/w2/continuation-v8/prove_publication_privacy_v1.py",
+      "origin": "content",
+      "line": 23,
+      "category": "secret",
+      "classification": "EXACT_SYNTHETIC_ADVERSE_CONTROL_SOURCE",
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_publication_privacy_v1.py",
+        "bytes": 3438,
+        "sha256": "8e805faacdb75c0f2431a50ce6d0b78970fb6ebf483a2249ed29855a0c23eeac"
+      }
+    }
+  ],
+  "helper_raw": [
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont8/python-v1/1/parallel-scan-1/1/raw-result.json",
+      "bytes": 238765,
+      "sha256": "3af0bfd42b9f531886f69982bc5feb7e21e4e55b3156400c21de6a356142e4cd"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont8/python-v1/1/parallel-scan-1/2/raw-result.json",
+      "bytes": 239149,
+      "sha256": "a3973e628d6de19f37b30af924b06cf4a10885993740ed01c87981f50884d9d4"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont8/python-v1/1/parallel-scan-1/3/raw-result.json",
+      "bytes": 237705,
+      "sha256": "7e475b0e0adb016fd2267612a7acd4c72a4a7af5a547cee49a91aca0670ee68b"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont8/python-v1/1/parallel-scan-1/4/raw-result.json",
+      "bytes": 236755,
+      "sha256": "0f1b4a3ee9404c843ec98cfba6ccaf47f29e6a5af7a74e20b85e9550988624ce"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/completion-w2-cont8/python-v1/1/parallel-scan-1/5/raw-result.json",
+      "bytes": 239422,
+      "sha256": "e43c5b2550f927769ddbc97009bae151ebb6a67f1b198007e503b7a556bda31b"
+    }
+  ],
+  "limitation": "The old unittest privacy assertion printed a truncated list. No missing original tuple list is fabricated. Current exact tuples and source hashes are retained; immutable C7 publication/protection authority supports the unchanged historical inputs. This does not waive either historical privacy assertion or assert global absence of secrets.",
+  "postscan_bookkeeping": true
+}

@@ -1,0 +1,55 @@
+{
+  "role": "original",
+  "configuration": "Release",
+  "mode": "plain",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/input-seal.json",
+    "bytes": 6262,
+    "sha256": "ea476dcd4b1e60c4ddb19cc47a25e01f32a440cbe6ffb2f57928e6b086db8954"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 49664,
+    "sha256": "17e213816f5ac5ccc761427ad8be74a73f830f2b0e81532a756155f61e61526b"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Release/plain/execution.json",
+      "bytes": 1019,
+      "sha256": "08ae7da22b39f6d4980905d3ec14d60c3466180357ed43680b33b288f1489b64"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Release/plain/results.tsv",
+      "bytes": 31314,
+      "sha256": "8cf9ccf6448e7cf0b7a4aa60aff6e57a14b83e6e25ced602397543984fc7cdf1"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Release/plain/results.tsv.cultures.json",
+      "bytes": 497,
+      "sha256": "d2eeb8a1283a3b8474f4941a338e38801332d8a3de748f54fe29b22384c1ac8b"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Release/plain/results.tsv.sessions.json",
+      "bytes": 14879,
+      "sha256": "bfd7ef5c048aea7c1901f7c20700c074d8bab61b312515c1356c50e8c7705d3d"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v6\\original-Release-plain-v2\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v6\\original-Release-plain-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\inputs-Release.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\original-results\\Release\\plain\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\original-results\\Release\\plain\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.4407951999892248,
+    "stdout_sha256": "336d4d7a8f378777eb9ecf6a52ea864055fd08dbbc3063f5d215b337762305a4",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

@@ -1,0 +1,25 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6",
+      "-p",
+      "test_checkpoint_v1.py",
+      "-v"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 250.46557030000258,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "6d7b062e6703567a0311cebcc8e8ab023109a167dc08047593ca6b0160414d5a",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "passed": true,
+  "scope": "Actual source/CIL/ownership/fragment/support/export/consumer/boxed-copy/Err/generic-overload/original-reference mutations; all changes in memory, protected files untouched",
+  "original_queries": 0
+}

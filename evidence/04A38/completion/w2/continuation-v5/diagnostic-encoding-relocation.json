@@ -1,0 +1,23 @@
+{
+  "status": "BYTE_EXACT_NEW_C5_DIAGNOSTIC_RELOCATED_WITH_UTF8_EQUIVALENT",
+  "former": {
+    "path": "evidence/04A38/completion/w2/continuation-v5/preservation.json",
+    "bytes": 96794,
+    "sha256": "a55d8b5ece5436ae9754f11aa7a6b5caba1199bcc307c84ad55c3e37fe0e501b"
+  },
+  "retained_local": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont5/retained-encoding-attempt/preservation-utf16-original.json",
+    "bytes": 96794,
+    "sha256": "a55d8b5ece5436ae9754f11aa7a6b5caba1199bcc307c84ad55c3e37fe0e501b"
+  },
+  "public_utf8_equivalent": {
+    "path": "evidence/04A38/completion/w2/continuation-v5/preservation-encoding-normalized.json",
+    "bytes": 54343,
+    "sha256": "d73e6dff417039cb85fa645bc95f16e6dba939b68a36d580eeec9983333917e7"
+  },
+  "decoded_JSON_values_equal": true,
+  "reason": "PowerShell5 native redirection produced UTF16. Generic inherited UTF8-only privacy readers may report setup ERROR or cached-path missing after this correction; preserve those receipts and rerun the affected identity without changing its assertion.",
+  "preflight": "publication-preflight.json records the former byte pin and was explicitly preliminary, not final publication authority",
+  "protected_prior_versions": "No C4/earlier evidence, source preimage, corpus, owner document or tracked path moved or changed",
+  "original_queries": 0
+}

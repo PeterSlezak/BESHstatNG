@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "result": {
+    "status": "FRESH_RETAINED_METHOD_FIELD_STATIC_GENERIC_CONTEXT_PASS_NOT_READY",
+    "configurations": [
+      {
+        "configuration": "Debug",
+        "existing_current_methods_exact": 1628,
+        "existing_types_exact": 162,
+        "changed_methods": [
+          "BESHStatNG.UdfLinearAlgebra::TryInvertMatrix",
+          "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38::TryInvertMatrix",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_MCP",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_WELCH"
+        ],
+        "prior_whole_CIL_proofs_exact": 39
+      },
+      {
+        "configuration": "Release",
+        "existing_current_methods_exact": 1628,
+        "existing_types_exact": 162,
+        "changed_methods": [
+          "BESHStatNG.UdfLinearAlgebra::TryInvertMatrix",
+          "BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38::TryInvertMatrix",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_MCP",
+          "BESHStatNG.WorksheetFunctions.ParametricUDFs::ANOVA1_WELCH"
+        ],
+        "prior_whole_CIL_proofs_exact": 39
+      }
+    ],
+    "raw_IL_metadata_tokens": "Raw hashes retained; only token-bearing raw hash excluded from semantic equality. All resolved instructions/operands/branches/locals/EH/params/fields/initializers remain mandatory.",
+    "original_queries": 0
+  },
+  "seconds": 0.7816178999783006
+}

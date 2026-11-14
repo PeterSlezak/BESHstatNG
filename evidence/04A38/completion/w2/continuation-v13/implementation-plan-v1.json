@@ -1,0 +1,108 @@
+{
+  "status": "AUTHENTICATED_BEFORE_C13_PRODUCTION_EDITS",
+  "source_paths": [
+    "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+    "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+    "BESHStat.Excel.Common/src/Analysis/UdfPlotDataPreparation38.vb",
+    "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "BESHStat.Excel.Common.Tests/src/UdfContinuation13Tests.vb"
+  ],
+  "source_before": [
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 208220,
+        "sha256": "6cce0e3544665792b3e91bdb1fa29128775fb1fb799ef7148d069da99899e672"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v13/source-before/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb.txt",
+        "bytes": 208220,
+        "sha256": "6cce0e3544665792b3e91bdb1fa29128775fb1fb799ef7148d069da99899e672"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "bytes": 36318,
+        "sha256": "dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v13/source-before/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb.txt",
+        "bytes": 36318,
+        "sha256": "dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+        "bytes": 7660,
+        "sha256": "3a4362f50f2189db44d24788084385d50fc5d008aaff00b1233785eacad7e42f"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v13/source-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb.txt",
+        "bytes": 7660,
+        "sha256": "3a4362f50f2189db44d24788084385d50fc5d008aaff00b1233785eacad7e42f"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 45155,
+        "sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v13/source-before/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb.txt",
+        "bytes": 45155,
+        "sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+      }
+    },
+    {
+      "live": {
+        "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+        "bytes": 107595,
+        "sha256": "6ce5ccac089fa7bc30c92c8e025dbf113a8395d3cc5f222a3ff175af67ec4e3a"
+      },
+      "preimage": {
+        "path": "evidence/04A38/completion/w2/continuation-v13/source-before/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+        "bytes": 107595,
+        "sha256": "6ce5ccac089fa7bc30c92c8e025dbf113a8395d3cc5f222a3ff175af67ec4e3a"
+      }
+    }
+  ],
+  "new_sources": [
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfPlotDataPreparation38.vb",
+      "entry_state": "ABSENT"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfContinuation13Tests.vb",
+      "entry_state": "ABSENT"
+    }
+  ],
+  "queue": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/entry-queue-receipt-v1.json",
+    "bytes": 27269901,
+    "sha256": "aa9a0728767cdca0e9d6870a5b4d31a4dcc552646d7ba5ef0802939a5356d3a6"
+  },
+  "entry": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/v12-independent-entry-reconciliation-v1.json",
+    "bytes": 1919,
+    "sha256": "6f284eefacc1c26a4b28eae4dead9f8d2950184397a1242c1296948f83772cb0"
+  },
+  "changes": [
+    "Move DA wrapped-table scan and ordinal group lookup into existing Common report owners; retain FIT/model/cache, host coercion, invalid-group/source throws, materialization and exception logging.",
+    "Move histogram parts, complete KM step layout and nonempty homogeneous table stacking into existing Common PlotData reports. Keep actual Windows histogram/overlay engine delegates; preserve both native KM cast lambdas as separate count/fill policy arguments with full source/CIL slot proof.",
+    "Move already-acquired ROC row classification and survival-record preparation into a typed Common preparation class with explicit native numeric/status/text/normalization delegates. Keep acquisition, header alignment, positive-label resolution, ByRef reset/partial outputs and exception policies native.",
+    "Add focused Common and actual shipping adapter tests; retain every previous assertion and source preimage. Full Debug once only after freeze; Release full/selected unit suites NOT_RUN_OWNER_PREFERENCE."
+  ],
+  "potential_module_support": [
+    "MultivariateAnalysisUDFs",
+    "PlotDataUDFs"
+  ],
+  "module_support_rule": "Only close if all original/current child bodies, support declarations, callbacks, fields and complete compiled initializers/owner contexts actually reconcile. Otherwise OPEN.",
+  "repeated_callback_rule": "No generic ordinal fallback. Exact old parent source, actual original/current ldftn argument positions and explicit count/fill composition must prove each canonical KM callback separately.",
+  "restrictions": "No statistical formula/Core engine, framework/export/project ABI, scientific/native/manual work, original execution or reference capture.",
+  "original_queries": 0
+}

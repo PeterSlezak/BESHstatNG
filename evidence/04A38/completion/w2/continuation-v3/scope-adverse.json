@@ -1,0 +1,42 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v3",
+      "-p",
+      "test_scope.py",
+      "-v"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 4.3309360000130255,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "fd5a89564a01560a68aedf0d437a5cec4df429af0b75db8fd89dea1c3e8da396",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "tests": {
+    "label": "w2c3-scope-adverse",
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "fd5a89564a01560a68aedf0d437a5cec4df429af0b75db8fd89dea1c3e8da396",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_false_parent_closure (test_scope.ScopeControls.test_false_parent_closure)",
+      "test_host_fields (test_scope.ScopeControls.test_host_fields)",
+      "test_host_method_body (test_scope.ScopeControls.test_host_method_body)",
+      "test_missing_original_branch (test_scope.ScopeControls.test_missing_original_branch)",
+      "test_missing_static_initializer (test_scope.ScopeControls.test_missing_static_initializer)",
+      "test_positive (test_scope.ScopeControls.test_positive)",
+      "test_wrong_count (test_scope.ScopeControls.test_wrong_count)"
+    ],
+    "nonpasses": []
+  }
+}

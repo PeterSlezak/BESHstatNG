@@ -1,0 +1,34 @@
+{
+  "suite": "OfficeAddin",
+  "part": "all",
+  "name": "w3R-OfficeAddin",
+  "outcomes": {
+    "Passed": 508
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-OfficeAddin/cases.json",
+    "bytes": 172747,
+    "sha256": "2b9847ea4da0a874d01b923bfe8c54bd0ab7aeb48c4a1693cf4690570021bd1e"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-OfficeAddin/results/OfficeAddin.trx",
+    "bytes": 731114,
+    "sha256": "63a08f1e9aa5bf984f9f77c8f59badf68820c39a15efa29f03b2a7d45ce5c49f"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w3R-OfficeAddin\\sandbox\\tests\\bin\\Release\\net10.0\\OfficeAddin.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w3R-OfficeAddin\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-OfficeAddin\\results",
+      "/Logger:trx;LogFileName=OfficeAddin.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 34.634519899991574,
+    "stdout_sha256": "8840d7c91f645c25a19382e291cd57ed6be8fcc62dc9b25e231c064552ece521",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

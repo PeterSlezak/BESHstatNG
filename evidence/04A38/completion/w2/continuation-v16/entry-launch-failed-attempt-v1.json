@@ -1,0 +1,11 @@
+{
+  "status": "PRESERVED_LAUNCH_SETUP_FAILURE_BEFORE_AUTHENTICATION",
+  "tool_chunk": "b71250",
+  "exit_code": 1,
+  "error": "ModuleNotFoundError: No module named 'common'",
+  "operation": "Isolated Python direct script launch omits the script directory from sys.path",
+  "correction": "Use explicit isolated bootstrap with the selected evidence directory, preserving all gate assertions and existing bytes",
+  "historical_reader_executed": false,
+  "implementation_edits": 0,
+  "original_queries": 0
+}

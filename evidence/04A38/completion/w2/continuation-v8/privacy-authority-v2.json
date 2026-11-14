@@ -1,0 +1,51 @@
+{
+  "policy": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/publication_policy.py",
+    "bytes": 3641,
+    "sha256": "66d2fd72c558857083121ea8f27f870f3763d4ce0ad3509b153b556f186c4039"
+  },
+  "C7_publication_receipt": {
+    "path": "evidence/04A38/completion/w2/continuation-v7-publication-receipt-v1.json",
+    "bytes": 2807466,
+    "sha256": "19d0e9d97343a18e7deae2c0f839ab2bbab05a727b66cac69bb59567ed7f39ce"
+  },
+  "synthetic_control_sources": [
+    {
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_parallel_scan_v1.py",
+        "bytes": 5278,
+        "sha256": "a97fec0864dd3c6f7e7824cecf4bbe17b139640c377da753cfdbdfafc2cc1524"
+      },
+      "categories": [
+        "home",
+        "credential_uri"
+      ],
+      "role": "Immutable synthetic positive privacy-control source; whole-file and exact normalized literal bounds, never arbitrary home/URI data"
+    },
+    {
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prepare_parallel_scan_v2.py",
+        "bytes": 2984,
+        "sha256": "170397d7e4d18f03f4de34f4a92799bdb362b6dadeaf65e326cbb0e5b539401a"
+      },
+      "categories": [
+        "home",
+        "credential_uri"
+      ],
+      "role": "Immutable synthetic positive privacy-control source; whole-file and exact normalized literal bounds, never arbitrary home/URI data"
+    },
+    {
+      "source": {
+        "path": "evidence/04A38/completion/w2/continuation-v8/prove_publication_privacy_v1.py",
+        "bytes": 3438,
+        "sha256": "8e805faacdb75c0f2431a50ce6d0b78970fb6ebf483a2249ed29855a0c23eeac"
+      },
+      "categories": [
+        "private_key"
+      ],
+      "role": "Immutable synthetic positive privacy-control source; whole-file and exact normalized literal bounds, never arbitrary home/URI data"
+    }
+  ],
+  "law": "Deterministic unchanged policy(path,bytes) decisions from the complete authenticated C7 physical ZIP replay only on identical path/length/SHA256. Every changed/new byte uses the original policy. Three exact new synthetic control source files have independently bounded positive literals; no extra path/content/category waiver.",
+  "original_queries": 0
+}

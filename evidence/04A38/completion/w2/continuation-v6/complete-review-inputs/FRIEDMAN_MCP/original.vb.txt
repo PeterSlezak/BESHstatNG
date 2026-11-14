@@ -1,0 +1,42 @@
+ted string or as a one-row/one-column range.
+        ''' </param>
+        ''' <param name="method">
+        ''' Post-hoc method to return:
+        ''' <list type="bullet">
+        ''' <item><description><c>"dunn"</c> / <c>"spss"</c> (default)</description></item>
+        ''' <item><description><c>"conover"</c></description></item>
+        ''' <item><description><c>"all"</c> — stack both MCP tables</description></item>
+        ''' </list>
+        ''' </param>
+        ''' <param name="alpha">
+        ''' Reserved for API consistency with other MCP UDFs.
+        ''' The current Friedman MCP implementation reports adjusted p-values only and does not compute confidence intervals.
+        ''' </param>
+        ''' <returns>
+        ''' A labeled multiple-comparison table as a dynamic array.
+        ''' Returns <c>#VALUE!</c> for invalid input or unknown method.
+        ''' Returns <c>#NUM!</c> for invalid alpha or too few complete rows/conditions.
+        ''' </returns>
+        <ExcelFunction(
+            Name:="BESH.NP.FRIEDMAN_MCP",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Friedman post-hoc multiple comparisons: Dunn (default) or Conover.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/")>
+        Public Function FRIEDMAN_MCP(
+            <ExcelArgument(Name:="data", Description:="Numeric matrix; rows=blocks/subjects, columns=conditions. First row may contain headers.")> data As Object,
+            <ExcelArgument(Name:="conditionNames", Description:="Optional condition names as comma-separated text or 1-row/1-column range.")> Optional conditionNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional: dunn/spss (default), conover, or all.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha parameter reserved for API consistency; currently no CI is reported.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(conditionNames, detectedNames, mat.GetLength(1), "Condition")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.Ex

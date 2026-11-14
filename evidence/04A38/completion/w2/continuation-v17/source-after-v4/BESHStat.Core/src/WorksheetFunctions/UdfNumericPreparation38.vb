@@ -1,0 +1,559 @@
+Option Explicit On
+Option Strict On
+Option Infer On
+
+Imports System
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Globalization
+
+Namespace WorksheetCompatibility
+    ''' <summary>Original UDF numeric preparation, independent of Excel registration, cells and session caches.</summary>
+    Public NotInheritable Class UdfNumericPreparation38
+        Private Sub New()
+        End Sub
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb / ComputeWeightedEventRate
+        Public Shared Function ComputeWeightedEventRate(y() As Double, weights() As Double) As Double
+            If y Is Nothing OrElse y.Length = 0 Then Return Double.NaN
+            Dim sumY As Double = 0.0
+
+            If weights Is Nothing Then
+                For i = 0 To y.Length - 1
+                    sumY += If(y(i) >= 0.5, 1.0, 0.0)
+                Next
+                Return sumY / y.Length
+            End If
+
+            Dim sumW As Double = 0.0
+            sumY = 0.0
+            For i = 0 To y.Length - 1
+                sumW += weights(i)
+                sumY += weights(i) * If(y(i) >= 0.5, 1.0, 0.0)
+            Next
+
+            If sumW <= 0.0 Then Return Double.NaN
+            Return sumY / sumW
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb / Is2x2
+        Public Shared Function Is2x2(table(,) As Integer) As Boolean
+            If table Is Nothing Then Return False
+            Return table.GetLength(0) = 2 AndAlso table.GetLength(1) = 2
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb / TableTotal
+        Public Shared Function TableTotal(table(,) As Integer) As Integer
+            Dim total As Integer = 0
+            For i As Integer = 0 To table.GetLength(0) - 1
+                For j As Integer = 0 To table.GetLength(1) - 1
+                    total += table(i, j)
+                Next
+            Next
+            Return total
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb / EffectiveDf
+        Public Shared Function EffectiveDf(table(,) As Integer) As Integer
+            Dim rows As Integer = table.GetLength(0)
+            Dim cols As Integer = table.GetLength(1)
+            Dim activeRows As Integer = rows
+            Dim activeCols As Integer = cols
+
+            For i As Integer = 0 To rows - 1
+                Dim s As Integer = 0
+                For j As Integer = 0 To cols - 1
+                    s += table(i, j)
+                Next
+                If s = 0 Then activeRows -= 1
+            Next
+
+            For j As Integer = 0 To cols - 1
+                Dim s As Integer = 0
+                For i As Integer = 0 To rows - 1
+                    s += table(i, j)
+                Next
+                If s = 0 Then activeCols -= 1
+            Next
+
+            Return Math.Max(0, activeRows * activeCols - activeRows - activeCols + 1)
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb / TransposeIntMatrix
+        Public Shared Function TransposeIntMatrix(table(,) As Integer) As Integer(,)
+            Dim rows As Integer = table.GetLength(0)
+            Dim cols As Integer = table.GetLength(1)
+            Dim out(cols - 1, rows - 1) As Integer
+
+            For i As Integer = 0 To rows - 1
+                For j As Integer = 0 To cols - 1
+                    out(j, i) = table(i, j)
+                Next
+            Next
+
+            Return out
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb / PercentOfTotal
+        Public Shared Function PercentOfTotal(values() As Double, total As Double) As Double()
+            If values Is Nothing Then Return Nothing
+            Dim out(values.Length - 1) As Double
+            If total = 0.0R OrElse Double.IsNaN(total) OrElse Double.IsInfinity(total) Then Return out
+            For i As Integer = 0 To values.Length - 1
+                out(i) = 100.0R * values(i) / total
+            Next
+            Return out
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb / Cumulative
+        Public Shared Function Cumulative(values() As Double) As Double()
+            If values Is Nothing Then Return Nothing
+            Dim out(values.Length - 1) As Double
+            Dim running As Double = 0.0R
+            For i As Integer = 0 To values.Length - 1
+                running += values(i)
+                out(i) = running
+            Next
+            Return out
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb / ColumnSumsOfSquares
+        Public Shared Function ColumnSumsOfSquares(pattern(,) As Double, strctre(,) As Double) As Double()
+            If pattern Is Nothing OrElse strctre Is Nothing Then Return Nothing
+            Dim p As Integer = pattern.GetLength(0)
+            Dim k As Integer = pattern.GetLength(1)
+            Dim out(k - 1) As Double
+            For j As Integer = 0 To k - 1
+                Dim sum As Double = 0.0R
+                For i As Integer = 0 To p - 1
+                    sum += pattern(i, j) * strctre(i, j)
+                Next
+                out(j) = sum
+            Next
+            Return out
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb / LookupStepValue
+        Public Shared Function LookupStepValue(arr As Double(,), t As Double, col As Integer) As Double
+            Dim last As Double = If(col = 1, 1.0, 0.0)
+            For i As Integer = 0 To arr.GetLength(0) - 1
+                If arr(i, 0) > t Then Exit For
+                last = arr(i, col)
+            Next
+            Return last
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb / BuildGeeFittedDesignWithIntercept
+        Public Shared Function BuildGeeFittedDesignWithIntercept(fitData(,) As Double) As Double(,)
+            If fitData Is Nothing Then Return Nothing
+            Dim nRows As Integer = fitData.GetLength(0)
+            Dim nCols As Integer = fitData.GetLength(1)
+            If nRows < 1 OrElse nCols < 1 Then Return Nothing
+
+            Dim out(nRows - 1, nCols - 1) As Double
+            For i As Integer = 0 To nRows - 1
+                out(i, 0) = 1.0R
+                For j As Integer = 1 To nCols - 1
+                    out(i, j) = fitData(i, j)
+                Next
+            Next
+            Return out
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb / CloneDoubleArray
+        Public Shared Function CloneDoubleArray(values() As Double) As Double()
+            If values Is Nothing Then Return Nothing
+            Return DirectCast(values.Clone(), Double())
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb / NearlyEqual
+        Public Shared Function NearlyEqual(a As Double, b As Double) As Boolean
+            Dim tol As Double = 0.00000001R * Math.Max(1.0R, Math.Max(Math.Abs(a), Math.Abs(b)))
+            Return Math.Abs(a - b) <= tol
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb / ComputeBinaryEventRate
+        Public Shared Function ComputeBinaryEventRate(y() As Double, Optional weights() As Double = Nothing) As Double
+            If y Is Nothing OrElse y.Length = 0 Then Return Double.NaN
+
+            If weights Is Nothing OrElse weights.Length <> y.Length Then
+                Dim sumY As Double = 0.0
+                For i As Integer = 0 To y.Length - 1
+                    sumY += y(i)
+                Next
+                Return sumY / y.Length
+            End If
+
+            Dim sumW As Double = 0.0
+            Dim sumWY As Double = 0.0
+            For i As Integer = 0 To y.Length - 1
+                Dim wi As Double = weights(i)
+                If wi <= 0.0 Then Continue For
+                sumW += wi
+                sumWY += wi * y(i)
+            Next
+
+            If sumW <= 0.0 Then Return Double.NaN
+            Return sumWY / sumW
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb / MatrixColumnCount
+        Public Shared Function MatrixColumnCount(mat(,) As Double) As Integer
+            If mat Is Nothing Then Return 0
+            Return mat.GetLength(1)
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb / AddInterceptIfRequested
+        Public Shared Function AddInterceptIfRequested(x(,) As Double, includeIntercept As Boolean) As Double(,)
+            If x Is Nothing Then Throw New ArgumentNullException(NameOf(x))
+            If Not includeIntercept Then Return DirectCast(x.Clone(), Double(,))
+
+            Dim n As Integer = x.GetLength(0)
+            Dim p As Integer = x.GetLength(1)
+            Dim out(n - 1, p) As Double
+            For i As Integer = 0 To n - 1
+                out(i, 0) = 1.0
+                For j As Integer = 0 To p - 1
+                    out(i, j + 1) = x(i, j)
+                Next
+            Next
+            Return out
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb / GetCategoriesInModelOrder
+        Public Shared Function GetCategoriesInModelOrder(fitData(,) As Double,
+                                                   reference As regression.ReferenceCategory) As Integer()
+            If fitData Is Nothing Then Return Nothing
+
+            Dim n As Integer = fitData.GetLength(0)
+            Dim setCat As New SortedSet(Of Integer)()
+            For i As Integer = 0 To n - 1
+                setCat.Add(CInt(Math.Round(fitData(i, 0))))
+            Next
+
+            Dim cats As Integer() = setCat.ToArray()
+            If cats.Length < 2 Then Return cats
+
+            If reference = regression.ReferenceCategory.First Then
+                Dim out(cats.Length - 1) As Integer
+                Array.Copy(cats, 1, out, 0, cats.Length - 1)
+                out(out.Length - 1) = cats(0)
+                Return out
+            End If
+
+            Return cats
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb / ComputeMultinomialEtas
+        Public Shared Function ComputeMultinomialEtas(expandedX(,) As Double,
+                                                row As Integer,
+                                                b() As Double,
+                                                equationParameterCount As Integer,
+                                                interceptIncluded As Boolean,
+                                                offsetVals As IList(Of Double),
+                                                categoryCount As Integer) As Double()
+
+            Dim nonBase As Integer = categoryCount - 1
+            Dim eta(nonBase - 1) As Double
+
+            For cat As Integer = 0 To nonBase - 1
+                Dim baseIdx As Integer = cat * equationParameterCount
+                Dim s As Double = 0.0R
+                Dim coeffOffset As Integer = 0
+
+                If interceptIncluded Then
+                    s += b(baseIdx)
+                    coeffOffset = 1
+                End If
+
+                For j As Integer = 0 To equationParameterCount - coeffOffset - 1
+                    Dim xv As Double = expandedX(row, j)
+                    If Double.IsNaN(xv) OrElse Double.IsInfinity(xv) Then
+                        Throw New ArgumentException("New predictor matrix contains invalid numeric values.")
+                    End If
+                    s += xv * b(baseIdx + coeffOffset + j)
+                Next
+
+                If offsetVals IsNot Nothing Then
+                    Dim ov As Double = offsetVals(row)
+                    If Double.IsNaN(ov) OrElse Double.IsInfinity(ov) Then
+                        Throw New ArgumentException("New offset vector contains invalid numeric values.")
+                    End If
+                    s += ov
+                End If
+
+                eta(cat) = s
+            Next
+
+            Return eta
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb / ComputeMultinomialProbabilities
+        Public Shared Function ComputeMultinomialProbabilities(eta() As Double) As Double()
+            Dim lse As Double = regression.CategoricalLogitUtils.LogSumExpBaselineZero(eta)
+            Dim probs(eta.Length) As Double
+            probs(eta.Length) = Math.Exp(-lse)
+
+            For i As Integer = 0 To eta.Length - 1
+                probs(i) = Math.Exp(eta(i) - lse)
+            Next
+
+            Return probs
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb / ComputeOrdinalProbabilities
+        Public Shared Function ComputeOrdinalProbabilities(b() As Double,
+                                                     p As Integer,
+                                                     k As Integer,
+                                                     eta As Double) As Double()
+            Dim probs(k - 1) As Double
+            Dim prev As Double = 0.0R
+
+            For thr As Integer = 0 To k - 2
+                Dim alpha As Double = b(p + thr)
+                Dim Fk As Double = regression.Logit.LogisticStable(alpha - eta)
+                Dim pk As Double = If(thr = 0, Fk, Fk - prev)
+                probs(thr) = Math.Max(0.0R, pk)
+                prev = Fk
+            Next
+
+            probs(k - 1) = Math.Max(0.0R, 1.0R - prev)
+
+            Dim s As Double = 0.0R
+            For i As Integer = 0 To k - 1
+                s += probs(i)
+            Next
+
+            If s > 0.0R Then
+                For i As Integer = 0 To k - 1
+                    probs(i) /= s
+                Next
+            End If
+
+            Return probs
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb / ComputeLinearPredictor
+        Public Shared Function ComputeLinearPredictor(expandedX(,) As Double,
+                                                rowIndex As Integer,
+                                                beta() As Double,
+                                                includeIntercept As Boolean,
+                                                offsetVals() As Double) As Double
+            Dim eta As Double = 0.0R
+            Dim startBeta As Integer = 0
+
+            If includeIntercept AndAlso beta IsNot Nothing AndAlso beta.Length > 0 Then
+                eta = beta(0)
+                startBeta = 1
+            End If
+
+            If expandedX IsNot Nothing Then
+                Dim p As Integer = expandedX.GetLength(1)
+                For j As Integer = 0 To p - 1
+                    eta += expandedX(rowIndex, j) * beta(startBeta + j)
+                Next
+            End If
+
+            If offsetVals IsNot Nothing AndAlso rowIndex >= 0 AndAlso rowIndex < offsetVals.Length Then
+                eta += offsetVals(rowIndex)
+            End If
+
+            Return eta
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb / ResponseColumnsMatch
+        Public Shared Function ResponseColumnsMatch(countData(,) As Double, zeroData(,) As Double) As Boolean
+            If countData Is Nothing OrElse zeroData Is Nothing Then Return False
+            If countData.GetLength(0) <> zeroData.GetLength(0) Then Return False
+
+            For i As Integer = 0 To countData.GetLength(0) - 1
+                Dim yc As Double = countData(i, 0)
+                Dim yz As Double = zeroData(i, 0)
+                If Double.IsNaN(yc) OrElse Double.IsInfinity(yc) OrElse Double.IsNaN(yz) OrElse Double.IsInfinity(yz) Then Return False
+                If Math.Abs(yc - yz) > 0.0000001R Then Return False
+            Next
+
+            Return True
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb / CountZeros
+        Public Shared Function CountZeros(values() As Integer) As Integer
+            If values Is Nothing Then Return 0
+            Dim n As Integer = 0
+            For Each v As Integer In values
+                If v = 0 Then n += 1
+            Next
+            Return n
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb / HasOnlyFinite
+        Public Shared Function HasOnlyFinite(values() As Double, Optional requirePositive As Boolean = False) As Boolean
+            If values Is Nothing Then Return True
+
+            For Each v As Double In values
+                If Double.IsNaN(v) OrElse Double.IsInfinity(v) Then Return False
+                If requirePositive AndAlso v <= 0.0R Then Return False
+            Next
+
+            Return True
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb / TryGetNonnegativeIntegerResponse
+        Public Shared Function TryGetNonnegativeIntegerResponse(data(,) As Double, ByRef response() As Integer) As Boolean
+            response = Nothing
+            If data Is Nothing Then Return False
+
+            Dim n As Integer = data.GetLength(0)
+            If n < 1 Then Return False
+
+            ReDim response(n - 1)
+            For i As Integer = 0 To n - 1
+                Dim yi As Double = data(i, 0)
+                If Double.IsNaN(yi) OrElse Double.IsInfinity(yi) Then Return False
+
+                Dim yr As Double = Math.Round(yi)
+                If yi < 0.0R OrElse Math.Abs(yi - yr) > 0.0000001R Then Return False
+
+                response(i) = CInt(yr)
+            Next
+
+            Return True
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb / RowsToMatrix
+        Public Shared Function RowsToMatrix(rows As List(Of Double()), cols As Integer) As Double(,)
+            Dim out(rows.Count - 1, cols - 1) As Double
+            For r As Integer = 0 To rows.Count - 1
+                For c As Integer = 0 To cols - 1
+                    out(r, c) = rows(r)(c)
+                Next
+            Next
+            Return out
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb / IsValidProbability
+        Public Shared Function IsValidProbability(value As Double) As Boolean
+            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value) AndAlso value >= 0.0R AndAlso value <= 1.0R
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb / ClampProbabilityValue
+        Public Shared Function ClampProbabilityValue(value As Double) As Double
+            If value < 0.0R Then Return 0.0R
+            If value > 1.0R Then Return 1.0R
+            Return value
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb / CountDistinctOutcomeCategories
+        Public Shared Function CountDistinctOutcomeCategories(fitData(,) As Double) As Integer
+            If fitData Is Nothing Then Return 0
+
+            Dim n As Integer = fitData.GetLength(0)
+            Dim cats As New HashSet(Of Integer)()
+            For i As Integer = 0 To n - 1
+                cats.Add(CInt(Math.Round(fitData(i, 0))))
+            Next
+
+            Return cats.Count
+        End Function
+
+        ' Original source: BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb / TryInvertMatrix
+        Public Shared Function TryInvertMatrix(a As Double(,), ByRef inv As Double(,)) As Boolean
+            inv = Nothing
+            Dim nRows As Integer = 0
+            Dim nCols As Integer = 0
+            If Not TryGetSquareMatrixDimensions(a, nRows, nCols) Then Return False
+            Try
+                Return TryInvertPreparedSquareMatrix(a, nRows, nCols, inv)
+            Catch
+                inv = Nothing
+                Return False
+            End Try
+        End Function
+
+        ' Shape acquisition runs before the caller's exception boundary.
+        Public Shared Function TryGetSquareMatrixDimensions(a As Double(,), ByRef nRows As Integer, ByRef nCols As Integer) As Boolean
+            If a Is Nothing Then Return False
+            If a.Rank <> 2 Then Return False
+
+            nRows = a.GetLength(0)
+            nCols = a.GetLength(1)
+            If nRows <> nCols OrElse nRows = 0 Then Return False
+
+            Return True
+        End Function
+
+        ' Caller supplies the validated dimensions and owns the catch/runtime state.
+        ' No new inverse algorithm or numerical policy; exceptions propagate intact.
+        Public Shared Function TryInvertPreparedSquareMatrix(a As Double(,), nRows As Integer, nCols As Integer, ByRef inv As Double(,)) As Boolean
+            Dim iErr As Integer = 0
+            inv = Global.BESHStatNG.Matrix.MatrixDecompositionCore.InvertMatrix(a, "SVD", iErr, False)
+
+            If iErr <> 0 OrElse inv Is Nothing Then
+                inv = Nothing
+                Return False
+            End If
+
+            If inv.GetLength(0) <> nRows OrElse inv.GetLength(1) <> nCols Then
+                inv = Nothing
+                Return False
+            End If
+
+            Return True
+        End Function
+
+        ' Original DistributionUDFs preparation; Nothing means the host must return #NUM!.
+        Public Shared Function PrepareStudentizedRangeCdf(q As Double, v As Double, r As Double) As Double?
+            If Double.IsNaN(q) OrElse Double.IsNaN(v) OrElse Double.IsNaN(r) Then Return Nothing
+            If q < 0 OrElse v <= 0 OrElse r < 2 Then Return Nothing
+            Dim fault As Integer = 0
+            Dim probability As Double = distributions.Distributions.PRTRNG(q, v, r, fault)
+            If fault <> 0 OrElse Double.IsNaN(probability) OrElse Double.IsInfinity(probability) Then Return Nothing
+            Return probability
+        End Function
+
+        Public Shared Function PrepareStudentizedRangeTail(q As Double, v As Double, r As Double) As Double?
+            Dim cdf As Double? = PrepareStudentizedRangeCdf(q, v, r)
+            If Not cdf.HasValue Then Return Nothing
+            Dim tail As Double = 1.0 - cdf.Value
+            If tail < 0 Then tail = 0.0
+            If tail > 1 Then tail = 1.0
+            Return tail
+        End Function
+
+        Public Shared Function PrepareFDistributionDensity(x As Double, df1 As Double, df2 As Double) As Double?
+            If Double.IsNaN(x) OrElse Double.IsNaN(df1) OrElse Double.IsNaN(df2) Then Return Nothing
+            If x < 0 OrElse df1 <= 0 OrElse df2 <= 0 Then Return Nothing
+            If x = 0 Then
+                If df1 > 2 Then Return 0.0
+                If df1 = 2 Then Return 1.0
+                Return Nothing
+            End If
+            Dim density As Double = distributions.Distributions.F_PDF(x, df1, df2)
+            If Double.IsNaN(density) OrElse Double.IsInfinity(density) Then Return Nothing
+            Return density
+        End Function
+        ' Original BOX_M preparation; the existing Core covariance engine is unchanged.
+        Public Shared Function TryBuildBoxCovariances(groupMats As List(Of Double(,)),
+                                                      ByRef covCube As Double(,,), ByRef sampleSizes As Integer()) As Boolean
+            Dim g As Integer = groupMats.Count
+            Dim p As Integer = groupMats(0).GetLength(1)
+            ReDim covCube(g - 1, p - 1, p - 1)
+            ReDim sampleSizes(g - 1)
+
+            For i As Integer = 0 To g - 1
+                Dim mat = groupMats(i)
+                Dim n As Integer = mat.GetLength(0)
+                If n < 2 Then Return False
+                sampleSizes(i) = n
+                Dim cov = Global.BESHStatNG.Matrix.MatrixStatisticsCore.SampleCovariance(mat)
+                For r As Integer = 0 To p - 1
+                    For c As Integer = 0 To p - 1
+                        covCube(i, r, c) = cov(r, c)
+                    Next
+                Next
+            Next
+            Return True
+        End Function
+
+    End Class
+End Namespace

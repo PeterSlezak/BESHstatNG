@@ -1,0 +1,28 @@
+{
+  "status": "EXACT_FROZEN_INPUTS_UNCHANGED",
+  "checked": 8048,
+  "inventory": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/python-scan-input-freeze-v1.json",
+    "bytes": 1767981,
+    "sha256": "5c21ccd26267c2c73a7c86122758fe5129366b218b89061e9bfadeb4dff7719b"
+  },
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\python_workers_v2.py",
+      "execute"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 1050.3608889000025,
+    "stdout_sha256": "3ee876271a18128bed1c28a39256e7543f6c323389a96ca113449c938b21a608",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "scope": "All frozen public inputs rehashed. No test or implementation edit during the full campaign. Post-run bookkeeping receives separate final publication verification."
+}

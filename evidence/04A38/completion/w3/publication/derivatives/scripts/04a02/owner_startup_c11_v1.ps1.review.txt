@@ -1,0 +1,39 @@
+# C11 one-shot owner startup only. Run from the repository; never retry its name.
+# No elevation, impersonation, ACL edit, install, statistical case or Excel.
+$ErrorActionPreference='Stop'
+$identity=[Security.Principal.WindowsIdentity]::GetCurrent()
+if ($identity.User.Value -ne '<PRIVATE_SID>') { throw 'Normal owner SID required; sandbox refused' }
+$principal=New-Object Security.Principal.WindowsPrincipal($identity)
+if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Non-elevated owner token required' }
+if ((Get-Location).Path -ne '<REPO_ROOT>') { throw 'Run from the exact repository root' }
+if (Test-Path -LiteralPath '<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c11-startup-20261101-v1') { throw 'C11 startup attempt exists; preserve it and stop' }
+$expected=@{
+    '<REPO_ROOT>\docs\architecture\04A02\oracle-proposals\manifest-v5-c11-v1.json'='a25243a3baa84d6950a473641c7a2fca53d729608a70361b6b14a2e97d4ced29'
+    '<REPO_ROOT>\docs\architecture\04A02\04A02-C11-owner-acl-review-v1.json'='8fe99ff0c6ae04f0b19b953f3066003a0ef1ad121362b6372f98e56d59405eb7'
+    '<REPO_ROOT>\docs\architecture\04A02\04A02-C11-operator-qualification-tests-v1.json'='50f7acf9228a45091970f684768cb5af80741055e1276c658c670275693446e2'
+    '<REPO_ROOT>\scripts\04a02\oracle_operator_v5.py'='9fe7b00eeab346e5c3964497cf91d98101f4cbc220cacafa5bdc64163ceebe1b'
+}
+foreach ($path in $expected.Keys) { if ((Get-FileHash -Algorithm SHA256 -LiteralPath $path).Hash.ToLowerInvariant() -ne $expected[$path]) { throw ('Pinned handoff source drift: '+$path) } }
+$tests=Get-Content -Raw -LiteralPath '<REPO_ROOT>\docs\architecture\04A02\04A02-C11-operator-qualification-tests-v1.json' | ConvertFrom-Json
+if ($tests.status -ne 'PASS' -or $tests.failed -ne 0 -or $tests.tests -ne 50 -or $tests.operator_sha256 -ne '9fe7b00eeab346e5c3964497cf91d98101f4cbc220cacafa5bdc64163ceebe1b') { throw 'C11 qualification tests do not match this operator' }
+if ((Get-FileHash -Algorithm SHA256 -LiteralPath '<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c10-startup-20261101-v1\raw-stdout.bin').Hash.ToLowerInvariant() -ne '1296920a22a1f3778aaa54478a605989004f82865d18454e9fc1f8b5b2f46b5f') { throw 'Preserved C10 stdout changed' }
+if (Test-Path -LiteralPath '<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c10-startup-20261101-v1\startup-receipt.json') { throw 'Unexpected receipt on rejected old C10 attempt; stop for evidence review' }
+$startupArguments=@(
+    '-B',
+    '<REPO_ROOT>\scripts\04a02\oracle_operator_v5.py',
+    '--manifest',
+    '<REPO_ROOT>\docs\architecture\04A02\oracle-proposals\manifest-v5-c11-v1.json',
+    '--manifest-sha256',
+    'a25243a3baa84d6950a473641c7a2fca53d729608a70361b6b14a2e97d4ced29',
+    '--root',
+    '<PRIVATE_HOME>\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a',
+    '--name',
+    'c11-startup-20261101-v1',
+    '--startup-only',
+    '--acl-review',
+    '<REPO_ROOT>\docs\architecture\04A02\04A02-C11-owner-acl-review-v1.json',
+    '--acl-review-sha256',
+    '8fe99ff0c6ae04f0b19b953f3066003a0ef1ad121362b6372f98e56d59405eb7'
+)
+& '<PYTHON>' @startupArguments
+if ($LASTEXITCODE -ne 0) { throw "C11 startup refused/failed ($LASTEXITCODE); preserve all output and stop. Never reuse the attempt." }

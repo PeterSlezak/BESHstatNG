@@ -1,0 +1,38 @@
+{
+  "status": "PENDING_EXACT_NONPASS_INVESTIGATION",
+  "delta": {
+    "extra": [
+      {
+        "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "outcome": "ERROR",
+        "subtest": "",
+        "occurrence": 0,
+        "count": 1
+      },
+      {
+        "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "outcome": "ERROR",
+        "subtest": "",
+        "occurrence": 0,
+        "count": 1
+      }
+    ],
+    "lost": [
+      {
+        "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "outcome": "FAIL",
+        "subtest": "",
+        "occurrence": 0,
+        "count": 1
+      },
+      {
+        "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+        "outcome": "FAIL",
+        "subtest": "",
+        "occurrence": 0,
+        "count": 1
+      }
+    ]
+  },
+  "scope": "Aggregation is not test acceptance. Any new/lost event or changed message requires the separate source/trace investigation before sealing; no assertion or historical failure is waived."
+}

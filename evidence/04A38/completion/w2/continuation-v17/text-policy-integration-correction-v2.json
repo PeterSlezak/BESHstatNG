@@ -1,0 +1,30 @@
+{
+  "failed_source": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/text-policy-integration-failed-v1.vb.txt",
+    "bytes": 25926,
+    "sha256": "b8c7833083d5e8e14cf13d50e66c5ac264aae3b120f6973392c09dfa0474ed27"
+  },
+  "after": {
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+    "bytes": 26662,
+    "sha256": "3dc33834563708f309ac727494397a179b5b20cbb39eeb84573500efdcb83b22"
+  },
+  "changes": [
+    {
+      "method": "GetReferenceCategory",
+      "before": "        Public Shared Function GetReferenceCategory(s As String) As Global.BESHStatNG.regression.ReferenceCategory\nIf String.IsNullOrWhiteSpace(s) Then Return Global.BESHStatNG.regression.ReferenceCategory.Last\n\n            Dim key As String = s.Trim().ToLowerInvariant()\n            Case \"first\", \"smallest\", \"min\"\n                Return Global.BESHStatNG.regression.ReferenceCategory.First\n            Case Else\n                Return Global.BESHStatNG.regression.ReferenceCategory.Last\n\n",
+      "after": "        Public Shared Function GetReferenceCategory(s As String) As Global.BESHStatNG.regression.ReferenceCategory\nIf String.IsNullOrWhiteSpace(s) Then Return Global.BESHStatNG.regression.ReferenceCategory.Last\n\n            Dim key As String = s.Trim().ToLowerInvariant()\n            If LegacyUdfText38.EqualText(key, \"first\") OrElse LegacyUdfText38.EqualText(key, \"smallest\") OrElse LegacyUdfText38.EqualText(key, \"min\") Then\n                Return Global.BESHStatNG.regression.ReferenceCategory.First\n            End If\n                Return Global.BESHStatNG.regression.ReferenceCategory.Last\n\n"
+    },
+    {
+      "method": "ParseSurvivalWeightText",
+      "before": "        Public Shared Function ParseSurvivalWeightText(s As String) As String\n            Dim key As String = s.Trim().ToLowerInvariant()\n            Case \"logrank\", \"lr\"\n                Return \"logrank\"\n            Case \"gehan-breslow\", \"gehan\", \"breslow\", \"wilcoxon\"\n                Return \"gehan-breslow\"\n            Case \"tarone-ware\", \"tarone\", \"ware\"\n                Return \"tarone-ware\"\n            Case \"peto\", \"peto-peto\"\n                Return \"peto\"\n            Case \"modified peto\", \"modifiedpeto\", \"anderson\", \"modpeto\"\n                Return \"modified peto\"\n            Case Else\n                Return Nothing\n\n",
+      "after": "        Public Shared Function ParseSurvivalWeightText(s As String) As String\n            Dim key As String = s.Trim().ToLowerInvariant()\n            If LegacyUdfText38.EqualText(key, \"logrank\") OrElse LegacyUdfText38.EqualText(key, \"lr\") Then\n                Return \"logrank\"\n            End If\n            If LegacyUdfText38.EqualText(key, \"gehan-breslow\") OrElse LegacyUdfText38.EqualText(key, \"gehan\") OrElse LegacyUdfText38.EqualText(key, \"breslow\") OrElse LegacyUdfText38.EqualText(key, \"wilcoxon\") Then\n                Return \"gehan-breslow\"\n            End If\n            If LegacyUdfText38.EqualText(key, \"tarone-ware\") OrElse LegacyUdfText38.EqualText(key, \"tarone\") OrElse LegacyUdfText38.EqualText(key, \"ware\") Then\n                Return \"tarone-ware\"\n            End If\n            If LegacyUdfText38.EqualText(key, \"peto\") OrElse LegacyUdfText38.EqualText(key, \"peto-peto\") Then\n                Return \"peto\"\n            End If\n            If LegacyUdfText38.EqualText(key, \"modified peto\") OrElse LegacyUdfText38.EqualText(key, \"modifiedpeto\") OrElse LegacyUdfText38.EqualText(key, \"anderson\") OrElse LegacyUdfText38.EqualText(key, \"modpeto\") Then\n                Return \"modified peto\"\n            End If\n                Return Nothing\n\n"
+    }
+  ],
+  "failed_build": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/build-development-v4-Debug.json",
+    "bytes": 2703,
+    "sha256": "33b087edf7956d3db5da741a3f1e13df6de7f771227956aa2ed757c8fa4f4b60"
+  },
+  "tests_executed": false
+}

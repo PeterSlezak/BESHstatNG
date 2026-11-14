@@ -1,0 +1,9 @@
+GetOptionalThresholdVector(arg As Object, ByRef thresholds() As Double) As Boolean
+            Return Global.BESHStatNG.UdfDataImport.TryGetOptionalProbabilityThresholds(arg, thresholds)
+        End Function
+
+        Friend Function TryGetSingleThresholdFromArg(arg As Object, ByRef threshold As Double,
+                                                     Optional defaultValue As Double = 0.5R) As Boolean
+            threshold = defaultValue
+            Dim thresholds() As Double = Nothing
+            If Not ExcelArgNumeric.TryGetOptionalThresholdVector(arg, thresholds) Then Return Fal

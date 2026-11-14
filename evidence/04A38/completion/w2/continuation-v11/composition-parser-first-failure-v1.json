@@ -1,0 +1,17 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_composition_v1.py",
+    "bytes": 6698,
+    "sha256": "aced6bcae420662134cf71bdd9d5c8ee8d647c5a5a3ef120778349d49488d1a1"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v11/verify_composition_v2.py",
+    "bytes": 6883,
+    "sha256": "257befafaa80e12ee7837ad2772139d877c6ea9a51ac66b516aad5a89d2e075b"
+  },
+  "observed_exit_code": 1,
+  "observed_error": "ValueError: Original full helper does not reconstruct BuildClusterPreprocessingTable",
+  "cause": "The new proof parser matched the first array-parameter closing parenthesis followed by As instead of the full multiline method parameter list.",
+  "correction": "Parse balanced method-parameter parentheses before taking the body; retain the exact full-body/branch comparison. No source or test assertion changed.",
+  "original_queries": 0
+}

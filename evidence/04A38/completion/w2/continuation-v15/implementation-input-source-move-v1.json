@@ -1,0 +1,28 @@
+{
+  "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+  "portable_path": "BESHStat.Excel.Common/src/Analysis/UdfModelImportPreparation38.vb",
+  "original_segment": "            Dim parts As String() = s.Split({\",\"c, \";\"c, \" \"c, ChrW(9)}, StringSplitOptions.RemoveEmptyEntries)\n            If parts.Length < 1 Then Return False\n\n            ReDim values(parts.Length - 1)\n            For i As Integer = 0 To parts.Length - 1\n                Dim parsed As Double\n                If Not Double.TryParse(parts(i), Global.System.Globalization.NumberStyles.Float Or Global.System.Globalization.NumberStyles.AllowThousands, Global.System.Globalization.CultureInfo.InvariantCulture, parsed) AndAlso\n                   Not Double.TryParse(parts(i), Global.System.Globalization.NumberStyles.Float Or Global.System.Globalization.NumberStyles.AllowThousands, Global.System.Globalization.CultureInfo.CurrentCulture, parsed) Then\n                    values = Nothing\n                    Return False\n                End If\n                If Double.IsNaN(parsed) OrElse Double.IsInfinity(parsed) Then\n                    values = Nothing\n                    Return False\n                End If\n                values(i) = parsed\n            Next\n            Return True",
+  "portable_segment": "Dim parts As String() = s.Split({\",\"c, \";\"c, \" \"c, Convert.ToChar(9)}, StringSplitOptions.RemoveEmptyEntries)\nIf parts.Length < 1 Then Return False\n\nReDim values(parts.Length - 1)\nFor i As Integer = 0 To parts.Length - 1\n    Dim parsed As Double\n    If Not Double.TryParse(parts(i), Global.System.Globalization.NumberStyles.Float Or Global.System.Globalization.NumberStyles.AllowThousands, Global.System.Globalization.CultureInfo.InvariantCulture, parsed) AndAlso\n       Not Double.TryParse(parts(i), Global.System.Globalization.NumberStyles.Float Or Global.System.Globalization.NumberStyles.AllowThousands, Global.System.Globalization.CultureInfo.CurrentCulture, parsed) Then\n        values = Nothing\n        Return False\n    End If\n    If Double.IsNaN(parsed) OrElse Double.IsInfinity(parsed) Then\n        values = Nothing\n        Return False\n    End If\n    values(i) = parsed\nNext\nReturn True",
+  "native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfModelImportPreparation38.TryGetLooseNumericTextPrepared(s, values)",
+  "portable_signature": "Public Shared Function TryGetLooseNumericTextPrepared(s As String, ByRef values As Double()) As Boolean",
+  "aliases": [
+    {
+      "before": "ChrW(9)",
+      "after": "Convert.ToChar(9)"
+    }
+  ],
+  "after": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "bytes": 27439,
+      "sha256": "af5b488d05d5886c4dd1cdfafa5bf56115e1f690c2de806daca456ce168220b6"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfModelImportPreparation38.vb",
+      "bytes": 8185,
+      "sha256": "1b178c7b6a1182e490357222471761d92c9c1361f793488b895413a42ee86ff5"
+    }
+  ],
+  "original_queries": 0,
+  "byref": "Native values reset/missing checks precede typed dispatch. The exact original text branch retains its allocation, per-token conversion, finite rejection and false-path resets; no extra reset is introduced in the new Common API."
+}

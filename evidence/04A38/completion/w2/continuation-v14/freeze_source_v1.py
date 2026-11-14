@@ -1,0 +1,6 @@
+from common import *
+a=json.loads((HERE/'focused-bc-v1-packet-v1-Debug.json').read_bytes());b=json.loads((HERE/'focused-legacy-v2-packet-v1-Debug.json').read_bytes());common=next(r for r in a['results'] if r['kind']=='TEST' and r['suite']=='Common');legacy=next(r for r in b['results'] if r['kind']=='TEST')
+assert common['tests']['outcomes']==dict(Passed=35) and legacy['tests']['outcomes']==dict(Passed=17)
+save('focused-final-reconciliation-v1.json',dict(Common_first=common,Windows_corrective=legacy,new_PASS=52,first_campaign=pin(HERE/'focused-bc-v1-packet-v1-Debug.json'),corrective_campaign=pin(HERE/'focused-legacy-v2-packet-v1-Debug.json'),
+ qualification='Common35 PASS on first attempt. Windows first test build failed BC30456, no tests executed; five qualified opcode names fixed only new test source. Windows corrective17 PASS. First/effective attempts explicitly separate; no full campaign repeated.',original_queries=0))
+save('production-test-freeze-v1.json',dict(status='C14_FINAL_PRODUCTION_TEST_INPUTS_FROZEN',sources=[pin(ROOT/p) for p in json.loads((HERE/'implementation-plan-v1.json').read_bytes())['source_paths']],focused=pin(HERE/'focused-final-reconciliation-v1.json'),new_managed_tests=dict(Common=35,Windows=17,total=52),Release_full='NOT_RUN_OWNER_PREFERENCE',Release_selected='NOT_RUN_OWNER_PREFERENCE',original_queries=0))

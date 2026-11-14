@@ -1,0 +1,46 @@
+{
+  "status": "EXACT_INTENTIONAL_SYNTHETIC_ADVERSE_INPUT_TRANSITION",
+  "proof": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/parallel-scanner-equivalence-v1.json",
+    "bytes": 17872,
+    "sha256": "2f2d2fa09d449241ec971e04b7cae97909348d9429b396411af92a0bc51c8982"
+  },
+  "generator": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/prove_parallel_scan_v1.py",
+    "bytes": 5735,
+    "sha256": "ec2b1f7f32a9b3e94c2c33a4c159ea072f39ad7275e33286aa1a087518c28367"
+  },
+  "before": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/0.txt",
+    "bytes": 17,
+    "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+  },
+  "after": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/fixtures/0.txt",
+    "bytes": 29,
+    "sha256": "862340991bdbc503da2f9433b77067c206f05c4c8d4c26db79c111ad09c310a2"
+  },
+  "recovered_before": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/retained-before-adverse-0-v1.txt",
+    "bytes": 17,
+    "sha256": "630b101c31ede722739b64407966997ecffc113af9715559e2240390c30fabd6"
+  },
+  "recovery_provenance": "SYNTHETIC_PRIVATE_ADVERSE_INPUT_PRE_STATE_RECOVERED_FROM_PINNED_GENERATOR_AND_OBSERVED_PRE_CONTROL_SHA_NOT_A_CAPTURED_SOURCE_PREIMAGE",
+  "after_observation": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont9/parallel-scan-proof-v1/invalidated-execution/1/raw-result.json",
+    "bytes": 1687,
+    "sha256": "84e7f0a317c896fdc48091ecea7b846d40802eeae16c6326230768a7e47de2dd"
+  },
+  "first_private_preservation_attempt": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c9-retained-private-check-v3/command.json",
+    "bytes": 597,
+    "sha256": "1a43f6f85a4b5abada84c6d2bae90c8c020673ddca077d5ff95868a9120a6060"
+  },
+  "first_stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c9-retained-private-check-v3/stderr.log",
+    "bytes": 838,
+    "sha256": "3ffdc98cce30eb28b2c2b0c578066673521867af91c593ee88db72afc7a013f6"
+  },
+  "scope": "Exactly one new scratch fixture intentionally overwritten by authenticated cache invalidation control before its fresh fallback scan. Preserve actual current bytes, original observed hash, recovered synthetic constant and both raw scan phases. No historical protected file, source body, oracle or test assertion change.",
+  "original_queries": 0
+}

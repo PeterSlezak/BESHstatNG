@@ -1,0 +1,44 @@
+{
+  "status": "ORIGINAL_SOURCE_EXECUTED_NOT_YET_SEALED",
+  "configuration": "Release",
+  "mode": "plain",
+  "recorder": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v1/LateCapture38.cs",
+    "bytes": 11155,
+    "sha256": "e1764c0c009151473e0c515573ac44e83483c2429c3cab756eed13da630dd3fc"
+  },
+  "executable": {
+    "name": "LateCapture38-plain-v2.exe",
+    "bytes": 32256,
+    "sha256": "ae8a8d858e92d3588734c938498b4ab914c3577842a9fd5a6d6dd5ad31323ad2"
+  },
+  "results": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v1/original-results/Release/plain-v2/results.tsv",
+    "bytes": 689840,
+    "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+  },
+  "execution": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v1/original-results/Release/plain-v2/execution.json",
+    "bytes": 1243,
+    "sha256": "464e4bdb1acd63d3a2c61087c04dc53d9268fe39d456ae375748b717db49ed17"
+  },
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\late38-v1\\original-Release-plain\\LateCapture38-plain-v2.exe",
+      "<ISOLATED_RUN>\\late38-v1\\original-Release-plain",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v1\\inputs-Release.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v1\\original-results\\Release\\plain-v2\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v1\\original-results\\Release\\plain-v2\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.4679937999462709,
+    "stdout_sha256": "f30588d27c94bd76e43e8c89e9b59b56c51049e69f156029c5eefaad7b7974d8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_implementation_executed": false,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "chronology": "CAPTURED_AFTER_INITIAL_04A38_IMPLEMENTATION_FROM_PINNED_ENTRY"
+}

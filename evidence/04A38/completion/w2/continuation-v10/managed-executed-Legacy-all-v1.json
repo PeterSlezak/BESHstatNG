@@ -1,0 +1,31 @@
+{
+  "suite": "Legacy",
+  "part": "all",
+  "selection": null,
+  "outcomes": {
+    "Passed": 9677,
+    "Failed": 9
+  },
+  "trx_sha256": "ae9cb78dff88d6cab3b9482cbd06f5a1a2c3e84909a14f251ab1469960ef31de",
+  "command": {
+    "command": [
+      "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+      "<ISOLATED_RUN>\\executions\\w2c10-checkpoint-v1-Debug-serial-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w2c10-checkpoint-v1-Debug-serial-Legacy\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c10-checkpoint-v1-Debug-serial-Legacy\\results",
+      "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+      "/Logger:trx;LogFileName=Legacy.trx"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 193.6931035000016,
+    "stdout_sha256": "8c927e29814778531448aee36acc796e854fd42385a185d03430f294b16f2020",
+    "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "raw_cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w2c10-checkpoint-v1-Debug-serial-Legacy/cases.json",
+    "bytes": 2986745,
+    "sha256": "afc0aa29727cb88d2a1a3280b6e96aa582ef85090446bb5506a9a517ad9768ea"
+  }
+}

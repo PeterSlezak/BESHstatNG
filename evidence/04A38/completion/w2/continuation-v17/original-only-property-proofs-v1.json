@@ -1,0 +1,1558 @@
+{
+  "rows": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateComponent|PropertyStatement|6e7d1a584df210b4@2990:75",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateComponent|PropertyStatement|6e7d1a584df210b4@2924:75",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateComponent|PropertyStatement|6e7d1a584df210b4",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "name": "ProfileValues",
+        "kind": "PropertyStatement",
+        "owner": "BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateComponent",
+        "signature": "Public Property ProfileValues As New List(Of MmrmLsmEstimateProfileValue)()",
+        "span_start": 2924,
+        "span_length": 75,
+        "start_line": 67,
+        "end_line": 67,
+        "body_sha256": "6e7d1a584df210b46969cdc39530bccf1f3b06fea4864f41a5ba2c05ff5a5436",
+        "body_token_sha256": "bc53b1a13ba41e7c854a33ba1a912d1db038ff5c75b60402d0982a8f359d62f4",
+        "source_sha256": "5fb706214e71863e561c5e09d571c0eb7e2a2ed070c8a4184776829d935d9d69",
+        "exported": false,
+        "parent_member": null,
+        "invocations": []
+      },
+      "current_ids": [],
+      "portable_record": {
+        "symbol_id": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb|BESHStatNG.ExcelCommon.UdfMmrmComponent38|PropertyStatement|b459e8d7ad890a4d@1539:54",
+        "signature_key": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb|BESHStatNG.ExcelCommon.UdfMmrmComponent38|PropertyStatement|b459e8d7ad890a4d",
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "name": "ProfileValues",
+        "kind": "PropertyStatement",
+        "owner": "BESHStatNG.ExcelCommon.UdfMmrmComponent38",
+        "signature": "Public Property ProfileValues As New List(Of TValue)()",
+        "span_start": 1539,
+        "span_length": 54,
+        "start_line": 42,
+        "end_line": 42,
+        "body_sha256": "b459e8d7ad890a4d34043af75d06f41d885e311b8f1b6b2c9c4f0fc9865c31dc",
+        "body_token_sha256": "04971c1e94814e9b09877f4355f39053970ae4b2c343dad11c60111aef42f915",
+        "source_sha256": "15edacac64ea56c1e7ac0f0adfc684f215f4821f1ef348fb7c14edce8eca98bd",
+        "exported": false,
+        "parent_member": null,
+        "invocations": []
+      },
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "bytes": 42208,
+        "sha256": "15edacac64ea56c1e7ac0f0adfc684f215f4821f1ef348fb7c14edce8eca98bd"
+      },
+      "whole_declaration": "Public Property ProfileValues As New List(Of TValue)()",
+      "original_methods": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ProfileValues()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent",
+          "member_name": "get_ProfileValues",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "7a65526054cd12a264899bb91fd95379238d87bb2a550bf85dbb8d924101f41a",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent._ProfileValues:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent",
+          "member_name": "set_ProfileValues",
+          "parameter_types": [
+            "System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "8bada9d304653df07ad647ae9d2774207cf161280aa5d17620a3a984d82d4dbc",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent._ProfileValues:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "d91215634b2a8ce2a2f7aacea79285c7fad9b6535bb57fd1ae25ddfa71e6b7e8",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_methods": [
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ProfileValues()",
+          "signature": {
+            "return_type": "System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": [
+              "System.Runtime.CompilerServices.CompilerGeneratedAttribute"
+            ]
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": "get_ProfileValues",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "b28f3ccb75c53d075772eba3ee4ab2a0cfcc14280e530f01b8cbbc9dd655c8cf",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]._ProfileValues:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [
+              {
+                "name": "AutoPropertyValue",
+                "type": "System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "byref": false,
+                "is_out": false,
+                "optional": false,
+                "has_default": false,
+                "default_type": null,
+                "default_value": null,
+                "attributes": []
+              }
+            ],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": [
+              "System.Runtime.CompilerServices.CompilerGeneratedAttribute"
+            ]
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": "set_ProfileValues",
+          "parameter_types": [
+            "System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "89c49df28726c2943bda61f5199f054917721a4a4e2a3c0210a375443b0b3fab",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]._ProfileValues:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "234a143f3aae3ee3d404d13e4aad99bf66b8a9fb37757db3ddb125a8b54d359b",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "1accba7bf0f2a157a00b0c7a2868f39e676261485da73d304852dc623f30c27d",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_native_type": {
+        "type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateComponent",
+        "assembly": "BESHStatNG",
+        "root_owner": "BESHStatNG.WorksheetFunctions.MixedModelUDFs",
+        "base_type": "BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly",
+        "interfaces": [],
+        "fields": []
+      },
+      "constructed_base": "BESHStatNG.ExcelCommon.UdfMmrmComponent38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+      "mode": "EXACT_GENERIC_PROPERTY_INITIALIZER_DEFAULT_AND_CONSTRUCTED_NATIVE_INHERITED_ACCESSORS",
+      "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile|PropertyStatement|41a9f5d5a987f943@3147:49",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile|PropertyStatement|41a9f5d5a987f943@3077:49",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile|PropertyStatement|41a9f5d5a987f943",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "name": "VisitSpecified",
+        "kind": "PropertyStatement",
+        "owner": "BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile",
+        "signature": "Public Property VisitSpecified As Boolean = False",
+        "span_start": 3077,
+        "span_length": 49,
+        "start_line": 71,
+        "end_line": 71,
+        "body_sha256": "41a9f5d5a987f9435a7056e4047007e6bccb1261c8f61c39ed3948a2365f5675",
+        "body_token_sha256": "41a9f5d5a987f9435a7056e4047007e6bccb1261c8f61c39ed3948a2365f5675",
+        "source_sha256": "5fb706214e71863e561c5e09d571c0eb7e2a2ed070c8a4184776829d935d9d69",
+        "exported": false,
+        "parent_member": null,
+        "invocations": []
+      },
+      "current_ids": [],
+      "portable_record": {
+        "symbol_id": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb|BESHStatNG.ExcelCommon.UdfMmrmAtProfile38|PropertyStatement|41a9f5d5a987f943@713:49",
+        "signature_key": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb|BESHStatNG.ExcelCommon.UdfMmrmAtProfile38|PropertyStatement|41a9f5d5a987f943",
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "name": "VisitSpecified",
+        "kind": "PropertyStatement",
+        "owner": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38",
+        "signature": "Public Property VisitSpecified As Boolean = False",
+        "span_start": 713,
+        "span_length": 49,
+        "start_line": 23,
+        "end_line": 23,
+        "body_sha256": "41a9f5d5a987f9435a7056e4047007e6bccb1261c8f61c39ed3948a2365f5675",
+        "body_token_sha256": "41a9f5d5a987f9435a7056e4047007e6bccb1261c8f61c39ed3948a2365f5675",
+        "source_sha256": "15edacac64ea56c1e7ac0f0adfc684f215f4821f1ef348fb7c14edce8eca98bd",
+        "exported": false,
+        "parent_member": null,
+        "invocations": []
+      },
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "bytes": 42208,
+        "sha256": "15edacac64ea56c1e7ac0f0adfc684f215f4821f1ef348fb7c14edce8eca98bd"
+      },
+      "whole_declaration": "Public Property VisitSpecified As Boolean = False",
+      "original_methods": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_VisitSpecified()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": "get_VisitSpecified",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "960379be4c0889de34faecdc587059cc7f1ed4bbca340623fe212df80460c9d9",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile._VisitSpecified:System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitSpecified(System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": "set_VisitSpecified",
+          "parameter_types": [
+            "System.Boolean"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "6f79c4da205c51c326488f512f3e33134c3b0eda2d4849f02b6500847ef01320",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile._VisitSpecified:System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0b4e663a981f4d05ba563fae223d250f8a65079ae2be465fa68b2591793c5fb2",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.i4.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitSpecified(System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "FFF8000000000000"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_methods": [
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_VisitSpecified()",
+          "signature": {
+            "return_type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": [
+              "System.Runtime.CompilerServices.CompilerGeneratedAttribute"
+            ]
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": "get_VisitSpecified",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "ec3b8ff48c5a0dcd9fe29b513aeeb309af7fc8aabdf392a5fa9eeb19e1572caa",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]._VisitSpecified:System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitSpecified(System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [
+              {
+                "name": "AutoPropertyValue",
+                "type": "System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "byref": false,
+                "is_out": false,
+                "optional": false,
+                "has_default": false,
+                "default_type": null,
+                "default_value": null,
+                "attributes": []
+              }
+            ],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": [
+              "System.Runtime.CompilerServices.CompilerGeneratedAttribute"
+            ]
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": "set_VisitSpecified",
+          "parameter_types": [
+            "System.Boolean"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "d9c46b6735fd1a406aca39991e31ff1e049058a561e82796946a6600170f81f5",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]._VisitSpecified:System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "01dba22b30ef820324448e2700b42e6ca8a8db45987a6916cf003af5c1b541c7",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.i4.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitSpecified(System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "FFF8000000000000"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "4ba921a55c9d2204ccf8485855bd9699f4c46a30679f783cfb1fe6ec31849a85",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_native_type": {
+        "type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+        "assembly": "BESHStatNG",
+        "root_owner": "BESHStatNG.WorksheetFunctions.MixedModelUDFs",
+        "base_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly",
+        "interfaces": [],
+        "fields": []
+      },
+      "constructed_base": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+      "mode": "EXACT_GENERIC_PROPERTY_INITIALIZER_DEFAULT_AND_CONSTRUCTED_NATIVE_INHERITED_ACCESSORS",
+      "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile|PropertyStatement|3aa58f916dacd6fb@3210:49",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile|PropertyStatement|3aa58f916dacd6fb@3139:49",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile|PropertyStatement|3aa58f916dacd6fb",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "name": "VisitValue",
+        "kind": "PropertyStatement",
+        "owner": "BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile",
+        "signature": "Public Property VisitValue As Double = Double.NaN",
+        "span_start": 3139,
+        "span_length": 49,
+        "start_line": 72,
+        "end_line": 72,
+        "body_sha256": "3aa58f916dacd6fbb80abc1b841c88607971d5c56364a98a9615512fbcf2114b",
+        "body_token_sha256": "8fae21b0aa9ad87b7cad313a9ea1193d16c52a010b864f6f492592a5b8db5409",
+        "source_sha256": "5fb706214e71863e561c5e09d571c0eb7e2a2ed070c8a4184776829d935d9d69",
+        "exported": false,
+        "parent_member": null,
+        "invocations": []
+      },
+      "current_ids": [],
+      "portable_record": {
+        "symbol_id": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb|BESHStatNG.ExcelCommon.UdfMmrmAtProfile38|PropertyStatement|3aa58f916dacd6fb@771:49",
+        "signature_key": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb|BESHStatNG.ExcelCommon.UdfMmrmAtProfile38|PropertyStatement|3aa58f916dacd6fb",
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "name": "VisitValue",
+        "kind": "PropertyStatement",
+        "owner": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38",
+        "signature": "Public Property VisitValue As Double = Double.NaN",
+        "span_start": 771,
+        "span_length": 49,
+        "start_line": 24,
+        "end_line": 24,
+        "body_sha256": "3aa58f916dacd6fbb80abc1b841c88607971d5c56364a98a9615512fbcf2114b",
+        "body_token_sha256": "8fae21b0aa9ad87b7cad313a9ea1193d16c52a010b864f6f492592a5b8db5409",
+        "source_sha256": "15edacac64ea56c1e7ac0f0adfc684f215f4821f1ef348fb7c14edce8eca98bd",
+        "exported": false,
+        "parent_member": null,
+        "invocations": []
+      },
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "bytes": 42208,
+        "sha256": "15edacac64ea56c1e7ac0f0adfc684f215f4821f1ef348fb7c14edce8eca98bd"
+      },
+      "whole_declaration": "Public Property VisitValue As Double = Double.NaN",
+      "original_methods": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_VisitValue()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": "get_VisitValue",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "e96c305a9ef3d117c33e832ed8e373ae8a2e02acbeaa5cb62c0538b91f918c2b",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile._VisitValue:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": "set_VisitValue",
+          "parameter_types": [
+            "System.Double"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "aa7d5f434443e12fa112f0ed4ab194d1d747693c7a9779b425a04af2ffafda60",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile._VisitValue:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0b4e663a981f4d05ba563fae223d250f8a65079ae2be465fa68b2591793c5fb2",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.i4.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitSpecified(System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "FFF8000000000000"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_methods": [
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_VisitValue()",
+          "signature": {
+            "return_type": "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": [
+              "System.Runtime.CompilerServices.CompilerGeneratedAttribute"
+            ]
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": "get_VisitValue",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "6b460a31fef237a4644aac5403c03a783189bcade571f22a18b2b69fcbfa905c",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]._VisitValue:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [
+              {
+                "name": "AutoPropertyValue",
+                "type": "System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "byref": false,
+                "is_out": false,
+                "optional": false,
+                "has_default": false,
+                "default_type": null,
+                "default_value": null,
+                "attributes": []
+              }
+            ],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": [
+              "System.Runtime.CompilerServices.CompilerGeneratedAttribute"
+            ]
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": "set_VisitValue",
+          "parameter_types": [
+            "System.Double"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0d10cb7866bbd84e53e7c36292e7de8195a4e44a27a2c75d9bb25fe3c757e292",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]._VisitValue:System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "01dba22b30ef820324448e2700b42e6ca8a8db45987a6916cf003af5c1b541c7",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.i4.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitSpecified(System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "FFF8000000000000"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "4ba921a55c9d2204ccf8485855bd9699f4c46a30679f783cfb1fe6ec31849a85",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_native_type": {
+        "type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+        "assembly": "BESHStatNG",
+        "root_owner": "BESHStatNG.WorksheetFunctions.MixedModelUDFs",
+        "base_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly",
+        "interfaces": [],
+        "fields": []
+      },
+      "constructed_base": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+      "mode": "EXACT_GENERIC_PROPERTY_INITIALIZER_DEFAULT_AND_CONSTRUCTED_NATIVE_INHERITED_ACCESSORS",
+      "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile|PropertyStatement|6e7d1a584df210b4@3273:75",
+      "original_record": {
+        "symbol_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile|PropertyStatement|6e7d1a584df210b4@3201:75",
+        "signature_key": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile|PropertyStatement|6e7d1a584df210b4",
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "name": "ProfileValues",
+        "kind": "PropertyStatement",
+        "owner": "BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile",
+        "signature": "Public Property ProfileValues As New List(Of MmrmLsmEstimateProfileValue)()",
+        "span_start": 3201,
+        "span_length": 75,
+        "start_line": 73,
+        "end_line": 73,
+        "body_sha256": "6e7d1a584df210b46969cdc39530bccf1f3b06fea4864f41a5ba2c05ff5a5436",
+        "body_token_sha256": "bc53b1a13ba41e7c854a33ba1a912d1db038ff5c75b60402d0982a8f359d62f4",
+        "source_sha256": "5fb706214e71863e561c5e09d571c0eb7e2a2ed070c8a4184776829d935d9d69",
+        "exported": false,
+        "parent_member": null,
+        "invocations": []
+      },
+      "current_ids": [],
+      "portable_record": {
+        "symbol_id": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb|BESHStatNG.ExcelCommon.UdfMmrmAtProfile38|PropertyStatement|b459e8d7ad890a4d@829:54",
+        "signature_key": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb|BESHStatNG.ExcelCommon.UdfMmrmAtProfile38|PropertyStatement|b459e8d7ad890a4d",
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "name": "ProfileValues",
+        "kind": "PropertyStatement",
+        "owner": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38",
+        "signature": "Public Property ProfileValues As New List(Of TValue)()",
+        "span_start": 829,
+        "span_length": 54,
+        "start_line": 25,
+        "end_line": 25,
+        "body_sha256": "b459e8d7ad890a4d34043af75d06f41d885e311b8f1b6b2c9c4f0fc9865c31dc",
+        "body_token_sha256": "04971c1e94814e9b09877f4355f39053970ae4b2c343dad11c60111aef42f915",
+        "source_sha256": "15edacac64ea56c1e7ac0f0adfc684f215f4821f1ef348fb7c14edce8eca98bd",
+        "exported": false,
+        "parent_member": null,
+        "invocations": []
+      },
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfModelProfilePreparation38.vb",
+        "bytes": 42208,
+        "sha256": "15edacac64ea56c1e7ac0f0adfc684f215f4821f1ef348fb7c14edce8eca98bd"
+      },
+      "whole_declaration": "Public Property ProfileValues As New List(Of TValue)()",
+      "original_methods": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ProfileValues()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": "get_ProfileValues",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0ac1c67f658ccd86060301800841ff2151b488311930b54749ae43966a81a4fa",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile._ProfileValues:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": "set_ProfileValues",
+          "parameter_types": [
+            "System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "1a976cfd7c24a2facd396c6b1cfa0a758f33c24647af85e932b553dfd0c8b83e",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile._ProfileValues:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "0b4e663a981f4d05ba563fae223d250f8a65079ae2be465fa68b2591793c5fb2",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.i4.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitSpecified(System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "FFF8000000000000"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_methods": [
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ProfileValues()",
+          "signature": {
+            "return_type": "System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": [
+              "System.Runtime.CompilerServices.CompilerGeneratedAttribute"
+            ]
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": "get_ProfileValues",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "2b843018da45f96340b5a4726839b406b58402d74a4ef7b38baaca2467c32535",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]._ProfileValues:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "br",
+              "operand": [
+                3
+              ]
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [
+              {
+                "name": "AutoPropertyValue",
+                "type": "System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "byref": false,
+                "is_out": false,
+                "optional": false,
+                "has_default": false,
+                "default_type": null,
+                "default_value": null,
+                "attributes": []
+              }
+            ],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": [
+              "System.Runtime.CompilerServices.CompilerGeneratedAttribute"
+            ]
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": "set_ProfileValues",
+          "parameter_types": [
+            "System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]"
+          ],
+          "attributes": "PrivateScope, Public, SpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "ab27d9873632cc3a9c1645748a3be63a46d6b2a46398c356edf548892061c91e",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldarg.1",
+              "operand": null
+            },
+            {
+              "op": "stfld",
+              "operand": "FIELD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]._ProfileValues:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "01dba22b30ef820324448e2700b42e6ca8a8db45987a6916cf003af5c1b541c7",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.i4.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitSpecified(System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "ldc.r8",
+              "operand": "FFF8000000000000"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_VisitValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor()"
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.set_ProfileValues(System.Collections.Generic.List`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        },
+        {
+          "method": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+          "member_name": ".ctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Public, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "4ba921a55c9d2204ccf8485855bd9699f4c46a30679f783cfb1fe6ec31849a85",
+          "type_initializer": false,
+          "nonliteral_static_fields": 0,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "ldarg.0",
+              "operand": null
+            },
+            {
+              "op": "call",
+              "operand": "METHOD:BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "current_native_type": {
+        "type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateAtProfile",
+        "assembly": "BESHStatNG",
+        "root_owner": "BESHStatNG.WorksheetFunctions.MixedModelUDFs",
+        "base_type": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+        "attributes": "AutoLayout, AnsiClass, Class, NestedAssembly",
+        "interfaces": [],
+        "fields": []
+      },
+      "constructed_base": "BESHStatNG.ExcelCommon.UdfMmrmAtProfile38`1[[BESHStatNG.WorksheetFunctions.MixedModelUDFs+MmrmLsmEstimateProfileValue, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]]",
+      "mode": "EXACT_GENERIC_PROPERTY_INITIALIZER_DEFAULT_AND_CONSTRUCTED_NATIVE_INHERITED_ACCESSORS",
+      "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+    }
+  ],
+  "original_queries": 0,
+  "Release": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION"
+}

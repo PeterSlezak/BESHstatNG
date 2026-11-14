@@ -1,0 +1,11 @@
+{
+  "exit_code": 1,
+  "error": "Protected byte mismatch BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v1/verify_preservation.py",
+    "bytes": 6130,
+    "sha256": "20d4a664e92b5f507e3b84a18d60fec57e7fb59b9425defa7823baf8d44b3e15"
+  },
+  "diagnosis": "Prior ledger includes historical lineage identity for current production paths. New authorized PlotData extraction requires checking the exact preserved historical source version plus recorded live successor. v1 incorrectly disallowed the source-transition graph for all lineage paths. v2 retains immutable lineage ledger bytes and uses the same strict transition resolution for source-only pins; captures and owner documents still require direct byte identity.",
+  "product_changed": false
+}

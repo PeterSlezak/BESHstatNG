@@ -1,0 +1,12 @@
+Private Function FormatPValueForUdf(value As Object) As Object
+        If Not IsNumericValue(value) Then Return value
+
+        Dim pvalue As Double
+        Try
+            pvalue = Convert.ToDouble(value, CultureInfo.InvariantCulture)
+        Catch ex As Exception
+            Return value
+        End Try
+
+        Return PValuePresentation.FormatForDisplay(pvalue, AppGlobals.PValuePresentation)
+    End Function

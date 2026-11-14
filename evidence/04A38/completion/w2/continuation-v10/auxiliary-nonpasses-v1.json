@@ -1,0 +1,89 @@
+{
+  "records": [
+    {
+      "identity": "w2-checkpoint-strict",
+      "occurrence": 0,
+      "outcome": "FAIL_EXIT_1",
+      "first_message": "System.Exception: Stale or ambiguous review decision: BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe",
+      "message_sha256": "37a32d7a030062e2b2e074f02a3b535360fa93a3a1e2990a823b0378b55fc122",
+      "classification": "EXACT_RETAINED_C9_AUXILIARY_NONPASS_NOT_WAIVED",
+      "command": {
+        "command": [
+          "dotnet",
+          "<REPO_ROOT>\\scripts\\windows-migration-audit\\bin\\Debug\\net10.0\\WindowsMigrationAudit.dll",
+          "--check",
+          "--strict"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 14.440608100005193,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-strict/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-strict/stderr.log",
+        "bytes": 529,
+        "sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+      },
+      "first_traceback": "at Audit.Classify() in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 242"
+    },
+    {
+      "identity": "w2-checkpoint-profile",
+      "occurrence": 0,
+      "outcome": "FAIL_EXIT_1",
+      "first_message": "{\"status\": \"INTEGRITY_FAILURE\", \"error\": \"\"}",
+      "message_sha256": "2a1a6938f8f7b85b9bb57124a54ecb2d7dd89f569928eacda6c0b162f3a4cd90",
+      "classification": "EXACT_RETAINED_C9_AUXILIARY_NONPASS_NOT_WAIVED",
+      "command": {
+        "command": [
+          "<PYTHON>",
+          "-B",
+          "scripts/windows-migration-audit/owner_closeout.py",
+          "--profile",
+          "inventory-complete-with-approved-deferrals"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 1,
+        "seconds": 53.539136900013546,
+        "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+        "stderr_sha256": "d7960c5e42c5520c56816b522218b8f40bbaae889347a4a00dbc4f97e006e64f",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-profile/stdout.log",
+        "bytes": 46,
+        "sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4"
+      },
+      "stderr": {
+        "path": ".test-rationalization-04A38.tmp/commands/w2c10-checkpoint-v1-profile/stderr.log",
+        "bytes": 4193,
+        "sha256": "d7960c5e42c5520c56816b522218b8f40bbaae889347a4a00dbc4f97e006e64f"
+      },
+      "first_traceback": ""
+    }
+  ],
+  "strict_profile_MkDocs": {
+    "strict": 1,
+    "profile": 1,
+    "docs": 0
+  },
+  "wrapper_NOT_RUN": {
+    "script": {
+      "path": "scripts/verify-beshstatng.ps1",
+      "bytes": 5448,
+      "sha256": "e54e1fb0e7f3699f5d9aee361d255801531a546d8169edbab704ac0d8dd017fd"
+    },
+    "reason": "The historical wrapper implicitly restores, shares build outputs and writes TestResults/Codex. Owner v10 isolated/no-restore policy supersedes that scheduling; actual controlled six-suite/offline/Node/Python/docs checks are separately recorded."
+  },
+  "manual_NOT_RUN": [
+    "Excel/COM/UIA/RefEdit/Office/Mac",
+    "WASM browser manual smoke"
+  ],
+  "original_queries": 0
+}

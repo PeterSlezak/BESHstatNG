@@ -1,0 +1,237 @@
+{
+  "rows": [
+    {
+      "configuration": "Debug",
+      "current_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "root_owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_coxCache",
+            "type": "System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "original_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "root_owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_coxCache",
+            "type": "System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "current_initializers": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.CoxUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "member_name": ".cctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "4901d56ba77f6dc9ece2301aed8f3e5dbae4d3b360fd6c7c8a06f2e21a5cd543",
+          "type_initializer": true,
+          "nonliteral_static_fields": 1,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "call",
+              "operand": "METHOD:System.StringComparer @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_OrdinalIgnoreCase()"
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Collections.Generic.IEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stsfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.CoxUDFs._coxCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "original_initializers": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.CoxUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "member_name": ".cctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "6936bd2a02fb54e8d5e81492e0dae460f9b288db337ee53d6d42a169a8480cab",
+          "type_initializer": true,
+          "nonliteral_static_fields": 1,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "call",
+              "operand": "METHOD:System.StringComparer @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_OrdinalIgnoreCase()"
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Collections.Generic.IEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stsfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.CoxUDFs._coxCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "current_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "root_owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_coxCache",
+            "type": "System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "original_type": {
+        "assembly": "BESHStatNG",
+        "type": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "root_owner": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+        "base_type": "System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+        "attributes": "AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit",
+        "interfaces": [],
+        "fields": [
+          {
+            "name": "_coxCache",
+            "type": "System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "attributes": "Private, Static, InitOnly",
+            "is_static": true,
+            "is_readonly": true,
+            "is_literal": false,
+            "literal": null
+          }
+        ]
+      },
+      "current_initializers": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.CoxUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+          "signature": {
+            "return_type": "System.Void @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "parameters": [],
+            "generic_definition": false,
+            "generic_arguments": null,
+            "attributes": []
+          },
+          "declaring_type": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "member_name": ".cctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "5fc7537a6e870f886a5592e166eec9c8b4619ba87fe1206058c42c6c1bd5ae0e",
+          "type_initializer": true,
+          "nonliteral_static_fields": 1,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "call",
+              "operand": "METHOD:System.StringComparer @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_OrdinalIgnoreCase()"
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Collections.Generic.IEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stsfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.CoxUDFs._coxCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ],
+      "original_initializers": [
+        {
+          "method": "BESHStatNG.WorksheetFunctions.CoxUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..cctor()",
+          "declaring_type": "BESHStatNG.WorksheetFunctions.CoxUDFs",
+          "member_name": ".cctor",
+          "parameter_types": [],
+          "attributes": "PrivateScope, Private, Static, SpecialName, RTSpecialName",
+          "implementation_flags": "Managed",
+          "raw_IL_sha256": "905a9abe25ee7c1e6055153b8cdf8db4e958b39e9ca471b53fd1ed7048cc6c61",
+          "type_initializer": true,
+          "nonliteral_static_fields": 1,
+          "locals": [],
+          "init_locals": false,
+          "exceptions": [],
+          "instructions": [
+            {
+              "op": "call",
+              "operand": "METHOD:System.StringComparer @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089.get_OrdinalIgnoreCase()"
+            },
+            {
+              "op": "newobj",
+              "operand": "METHOD:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089..ctor(System.Collections.Generic.IEqualityComparer`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+            },
+            {
+              "op": "stsfld",
+              "operand": "FIELD:BESHStatNG.WorksheetFunctions.CoxUDFs._coxCache:System.Collections.Concurrent.ConcurrentDictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[BESHStatNG.WorksheetFunctions.CoxUDFs+CoxModelHandle, BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            },
+            {
+              "op": "ret",
+              "operand": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "original_queries": 0
+}

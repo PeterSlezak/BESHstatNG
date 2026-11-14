@@ -1,0 +1,15 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v5/attempts/common-tests-before-byref-fixture-fix.vb.txt",
+    "bytes": 29069,
+    "sha256": "41e1e99c5ee941cd4bb3902716346857800e10d31d30361abff7ade94e0f01fa"
+  },
+  "after": {
+    "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+    "bytes": 29084,
+    "sha256": "f180490d1cd7977f82b507bc5baffa18597ce3b1db45eabebb7cf9d1ccaf9971"
+  },
+  "reason": "A typed rectangular array passed ByRef Object requires explicit widening to suppress an Option Strict copy-back conversion in this new direct portable test. Native consumers already use local Object. No production change.",
+  "receipt": "focused-cells-v4-Debug.json",
+  "production_change": false
+}

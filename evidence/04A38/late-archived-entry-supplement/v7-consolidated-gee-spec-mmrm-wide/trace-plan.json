@@ -1,0 +1,313 @@
+{
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "source_map": [
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "GEE_LSMESTIMATE",
+      "archived_source_line": 1309,
+      "source_anchor": "If Not TryGetGeeLsmEstimateSpec(spec, parameterNames, components, errorMessage) Then",
+      "event": "G1.public.spec_rejected",
+      "value_expression": "True",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "GEE_LSMESTIMATE",
+      "archived_source_line": 1309,
+      "source_anchor": "If Not TryGetGeeLsmEstimateSpec(spec, parameterNames, components, errorMessage) Then",
+      "event": "G1.public.components_count",
+      "value_expression": "components.Count",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "GEE_LSMESTIMATE",
+      "archived_source_line": 1309,
+      "source_anchor": "If Not TryGetGeeLsmEstimateSpec(spec, parameterNames, components, errorMessage) Then",
+      "event": "G1.public.error",
+      "value_expression": "errorMessage",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "archived_source_line": 1464,
+      "source_anchor": "components = New List(Of GeeLsmEstimateComponent)()",
+      "event": "G1.spec.entry",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "archived_source_line": 1494,
+      "source_anchor": "Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()",
+      "event": "G1.header.weight_col",
+      "value_expression": "weightCol",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "archived_source_line": 1494,
+      "source_anchor": "Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()",
+      "event": "G1.header.label_col",
+      "value_expression": "labelCol",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "archived_source_line": 1499,
+      "source_anchor": "Dim idx As Integer = GeeFindDesignColumnIndex(parameterNames, header(c))",
+      "event": "G1.lookup.index",
+      "value_expression": "idx",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "archived_source_line": 1506,
+      "source_anchor": "If String.Equals(parameterNames(idx), \"Intercept\", StringComparison.OrdinalIgnoreCase) OrElse",
+      "event": "G1.lookup.name",
+      "value_expression": "parameterNames(idx)",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "archived_source_line": 1507,
+      "source_anchor": "String.Equals(parameterNames(idx), \"(Intercept)\", StringComparison.OrdinalIgnoreCase) Then",
+      "event": "G1.guard.intercept",
+      "value_expression": "True",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "archived_source_line": 1508,
+      "source_anchor": "errorMessage = \"the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.\"",
+      "event": "G1.guard.error",
+      "value_expression": "errorMessage",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "archived_source_line": 1508,
+      "source_anchor": "errorMessage = \"the intercept column should not be used as a profile column; it is supplied automatically by the fitted design.\"",
+      "event": "G1.guard.components_count",
+      "value_expression": "components.Count",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 968,
+      "source_anchor": "Dim atProfile As MmrmLsmEstimateAtProfile = Nothing",
+      "event": "G2.spec.accepted",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 969,
+      "source_anchor": "If Not Global.BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateAtSpec(at, h, atProfile, errorMessage) Then",
+      "event": "G2.public.at_rejected",
+      "value_expression": "True",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 969,
+      "source_anchor": "If Not Global.BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateAtSpec(at, h, atProfile, errorMessage) Then",
+      "event": "G2.public.atProfile_Nothing",
+      "value_expression": "atProfile Is Nothing",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "archived_source_line": 969,
+      "source_anchor": "If Not Global.BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateAtSpec(at, h, atProfile, errorMessage) Then",
+      "event": "G2.public.error",
+      "value_expression": "errorMessage",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 487,
+      "source_anchor": "atProfile = Nothing",
+      "event": "G2.parser.entry",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 511,
+      "source_anchor": "If attemptedHeaderlessAt Then Return False",
+      "event": "G2.headerless.attempted",
+      "value_expression": "attemptedHeaderlessAt",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 559,
+      "source_anchor": "Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()",
+      "event": "G2.branch.wide",
+      "value_expression": "True",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 560,
+      "source_anchor": "Dim visitCol As Integer = MmrmFindHeaderIndex(header, \"visit\", \"time\")",
+      "event": "G2.header.visit_col",
+      "value_expression": "visitCol",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 592,
+      "source_anchor": "If dataRow >= 0 Then",
+      "event": "G2.wide.row",
+      "value_expression": "r",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 592,
+      "source_anchor": "If dataRow >= 0 Then",
+      "event": "G2.wide.prior_data_row",
+      "value_expression": "dataRow",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 592,
+      "source_anchor": "If dataRow >= 0 Then",
+      "event": "G2.guard.multirow",
+      "value_expression": "True",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 597,
+      "source_anchor": "dataRow = r",
+      "event": "G2.first_row.accepted",
+      "value_expression": "dataRow",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 593,
+      "source_anchor": "errorMessage = \"wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.\"",
+      "event": "G2.guard.error",
+      "value_expression": "errorMessage",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "archived_source_line": 593,
+      "source_anchor": "errorMessage = \"wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.\"",
+      "event": "G2.guard.atProfile_Nothing",
+      "value_expression": "atProfile Is Nothing",
+      "after_anchor": true
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmHeaderlessNameValueAtSpec",
+      "archived_source_line": 651,
+      "source_anchor": "If arr Is Nothing OrElse h Is Nothing OrElse atProfile Is Nothing Then Return False",
+      "event": "G2.headerless.bad_precondition",
+      "value_expression": "arr Is Nothing OrElse h Is Nothing OrElse atProfile Is Nothing",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmHeaderlessNameValueAtSpec",
+      "archived_source_line": 652,
+      "source_anchor": "If arr.GetLength(1) <> 2 Then Return False",
+      "event": "G2.headerless.columns",
+      "value_expression": "arr.GetLength(1)",
+      "after_anchor": false
+    },
+    {
+      "source_path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmHeaderlessNameValueAtSpec",
+      "archived_source_line": 652,
+      "source_anchor": "If arr.GetLength(1) <> 2 Then Return False",
+      "event": "G2.headerless.column_guard_true",
+      "value_expression": "arr.GetLength(1) <> 2",
+      "after_anchor": false
+    }
+  ],
+  "kinds": {
+    "GEE_SPEC_INTERCEPT_ROLE": {
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "original_lines": [
+        1506,
+        1507,
+        1508,
+        1509
+      ],
+      "prospective": [
+        "real fitted names",
+        "spec helper entry",
+        "label/weight header recognition",
+        "successful Intercept lookup",
+        "intercept role true arm",
+        "error assignment and False propagated"
+      ],
+      "note": "Source rejects during profile-header examination before numeric weight-row parsing; do not claim row-weight parsing occurred"
+    },
+    "MMRM_WIDE_MULTIROW_REJECTION": {
+      "public_entry": "BESH.REGR.MMRM_LSMESTIMATE",
+      "argument_order": [
+        "handle",
+        "spec",
+        "alpha",
+        "at"
+      ],
+      "original_lines": [
+        652,
+        592,
+        593,
+        594
+      ],
+      "prospective": [
+        "successful spec",
+        "at helper entry",
+        "headerless nonnull preconditions",
+        "column1 differsfrom2 and probe declines",
+        "wide visit header",
+        "first data row accepted",
+        "second data row true guard",
+        "ByRef error/profile propagation"
+      ]
+    }
+  },
+  "expected_public_result": "UNKNOWN_NOT_CAPTURED",
+  "expected_private_state": "UNKNOWN_NOT_CAPTURED",
+  "handle_normalization": "Only real fitted GUID -> HANDLE:<GEE|MMRM>:SESSION1; raw GUID sidecars retained; no other normalization"
+}

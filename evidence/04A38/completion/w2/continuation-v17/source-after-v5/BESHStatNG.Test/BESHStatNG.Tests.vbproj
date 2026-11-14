@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props" Condition="Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{09DD465E-6695-415F-9BD6-76304437FE22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>BESHStatNG.Test</RootNamespace>
+    <AssemblyName>BESHStatNG.Test</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>BESHStatNG.Test.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>BESHStatNG.Test.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ExcelDna.Integration">
+      <HintPath>..\packages\ExcelDna.Integration.1.9.0\lib\net462\ExcelDna.Integration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\MSTest.TestFramework.2.2.10\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\MSTest.TestFramework.2.2.10\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+    <Import Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\MigrationRefEditBoundary09Tests.vb" />
+    <Compile Include="src\UnivariateSelectionAdapterTests.vb" />
+    <Compile Include="src\PairedBlockAdapterTests.vb" />
+    <Compile Include="src\ContingencyAdapterTests.vb" />
+    <Compile Include="src\AssumptionReport06AdapterTests.vb" />
+    <Compile Include="src\AnovaWorkflow07AdapterTests.vb" />
+    <Compile Include="src\LegacyAnovaWorkflow07.vb" />
+    <Compile Include="src\LegacyRegressionEffects08.vb" />
+    <Compile Include="src\LegacyRegressionRemoval08.vb" />
+    <Compile Include="src\RegressionEffects08Tests.vb" />
+    <Compile Include="src\Regression09AdapterTests.vb" />
+    <Compile Include="src\Regression10AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Gee12Baselines.vb">
+      <Link>src\Gee12Baselines.vb</Link>
+    </Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Gee12PolicyTests.vb">
+      <Link>src\Gee12PolicyTests.vb</Link>
+    </Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Gee12SemanticTests.vb">
+      <Link>src\Gee12SemanticTests.vb</Link>
+    </Compile>
+    <Compile Include="src\Gee12AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Survival13Baselines.vb"><Link>src\Survival13Baselines.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Survival13WorkflowTests.vb"><Link>src\Survival13WorkflowTests.vb</Link></Compile>
+    <Compile Include="src\Survival13AdapterTests.vb" />
+    <Compile Include="src\Mixed14AdapterTests.vb" />
+    <Compile Include="src\Mixed15AdapterTests.vb" />
+    <Compile Include="src\Mixed16AdapterTests.vb" />
+    <Compile Include="src\Multivariate17AdapterTests.vb" />
+    <Compile Include="src\Multivariate18AdapterTests.vb" />
+    <Compile Include="src\Multivariate19AdapterTests.vb" />
+    <Compile Include="src\Spc24AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc24Tests.vb"><Link>src\Spc24Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc24Fixture.vb"><Link>src\Spc24Fixture.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc24LegacyProjection.vb"><Link>src\Spc24LegacyProjection.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc24ExpectedRejections.vb"><Link>src\Spc24ExpectedRejections.vb</Link></Compile>
+    <Compile Include="src\Spc23AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc23Tests.vb"><Link>src\Spc23Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc23Fixture.vb"><Link>src\Spc23Fixture.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc23Data.vb"><Link>src\Spc23Data.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc23LegacyPreparation.vb"><Link>src\Spc23LegacyPreparation.vb</Link></Compile>
+    <Compile Include="src\Spc22AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc22Tests.vb"><Link>src\Spc22Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc22LegacyRenderer.vb"><Link>src\Spc22LegacyRenderer.vb</Link></Compile>
+    <Compile Include="src\Spc21AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc21Tests.vb"><Link>src\Spc21Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc21Fixture.vb"><Link>src\Spc21Fixture.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Spc21LegacyPreparation.vb"><Link>src\Spc21LegacyPreparation.vb</Link></Compile>
+    <Compile Include="src\Multivariate20AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Multivariate20Tests.vb"><Link>src\Multivariate20Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Multivariate19Tests.vb"><Link>src\Multivariate19Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\LegacyMultivariate18Layout.vb"><Link>src\LegacyMultivariate18Layout.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Multivariate18Tests.vb"><Link>src\Multivariate18Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\LegacyMultivariate17Selection.vb"><Link>src\LegacyMultivariate17Selection.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Multivariate17Tests.vb"><Link>src\Multivariate17Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\LegacyMixed16Selection.vb"><Link>src\LegacyMixed16Selection.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Mixed16PostEstimationTests.vb"><Link>src\Mixed16PostEstimationTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Mixed15FittingTests.vb"><Link>src\Mixed15FittingTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Mixed15FitParityTests.vb"><Link>src\Mixed15FitParityTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Mixed14Baselines.vb"><Link>src\Mixed14Baselines.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Mixed14ReportTests.vb"><Link>src\Mixed14ReportTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Mixed14WorkflowTests.vb"><Link>src\Mixed14WorkflowTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\LegacyMixed14Options.vb"><Link>src\LegacyMixed14Options.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Survival13ReferenceTests.vb"><Link>src\Survival13ReferenceTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Gee12FailureAndProvenanceTests.vb">
+      <Link>src\Gee12FailureAndProvenanceTests.vb</Link>
+    </Compile>
+    <Compile Include="src\Regression11AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Regression11PolicyTests.vb">
+      <Link>Regression11\Regression11PolicyTests.vb</Link>
+    </Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Regression11DefectTests.vb">
+      <Link>Regression11\Regression11DefectTests.vb</Link>
+    </Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Regression11Baselines.vb">
+      <Link>Regression11\Regression11Baselines.vb</Link>
+    </Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Regression10PolicyTests.vb">
+      <Link>Regression10\Regression10PolicyTests.vb</Link>
+    </Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Regression10Baselines.vb">
+      <Link>Regression10\Regression10Baselines.vb</Link>
+    </Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Regression09Baselines.vb">
+      <Link>Regression09\Regression09Baselines.vb</Link>
+    </Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Regression09PolicyTests.vb">
+      <Link>Regression09\Regression09PolicyTests.vb</Link>
+    </Compile>
+    <Compile Include="src\LegacyAssumption06Characterization.vb" />
+    <Compile Include="src\Completion05AdapterTests.vb" />
+    <Compile Include="src\Transport27AdapterTests.vb" />
+    <Compile Include="src\Transport27LeaseTests.vb" />
+    <Compile Include="src\PhysicalImporter27Tests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\StatTests\Completion05References.vb">
+      <Link>TestSupport\Completion05References.vb</Link>
+    </Compile>
+    <Content Include="..\BESHStat.Core.Tests\TestData\04A05Completion\*.csv">
+      <Link>TestData\04A05Completion\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="src\Charts\BulletChartFacadeTests.vb" />
+    <Compile Include="src\Charts\CategoricalHistogramFacadeTests.vb" />
+    <Compile Include="src\Charts\ChartAxisScalingFacadeTests.vb" />
+    <Compile Include="src\Charts\ConvexHullPlotFacadeTests.vb" />
+    <Compile Include="src\Charts\DumbbellPlotFacadeTests.vb" />
+    <Compile Include="src\Charts\HistogramBinningFacadeTests.vb" />
+    <Compile Include="src\Charts\KiteChartFacadeTests.vb" />
+    <Compile Include="src\Charts\LadderPlotFacadeTests.vb" />
+    <Compile Include="src\Charts\PolarPlotFacadeTests.vb" />
+    <Compile Include="src\Charts\SankeyPlotFacadeTests.vb" />
+    <Compile Include="src\Charts\ViolinPlotFacadeTests.vb" />
+    <Compile Include="src\CoreUtilityForwarderTests.vb" />
+    <Compile Include="src\CumulativeDistributionPlotTests.vb" />
+    <Compile Include="src\DataManagement\DataObjPreparationTests.vb" />
+    <Compile Include="src\DataManagement\AcquisitionAdapterTests.vb" />
+    <Compile Include="src\DataManagement\SharedOutputPlanTests.vb" />
+    <Compile Include="src\DataManagement\CompositeOutputPlanTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\TestSupport\AcquisitionFixture.vb">
+      <Link>TestSupport\AcquisitionFixture.vb</Link>
+    </Compile>
+    <Compile Include="src\HelpMetadataTests.vb" />
+    <Compile Include="src\MatrixTests.vb" />
+    <Compile Include="src\MixedModels\KenwardRogerDerivativeTests.vb" />
+    <Compile Include="src\MixedModels\KenwardRogerInferenceTests.vb" />
+    <Compile Include="src\MixedModels\KenwardRogerPerformanceAndInternalTests.vb" />
+    <Compile Include="src\MixedModels\KenwardRogerReferenceTests.vb" />
+    <Compile Include="src\MixedModels\LMMBackendReferenceTests.vb" />
+    <Compile Include="src\MixedModels\MixedModelAnalyticGradientTests.vb" />
+    <Compile Include="src\MixedModels\MixedModelCoreTests.vb" />
+    <Compile Include="src\MixedModels\MixedModelOutputAndUdfTests.vb" />
+    <Compile Include="src\MixedModels\MMRMFitReferenceTests.vb" />
+    <Compile Include="src\MixedModels\MMRMMissingDataTests.vb" />
+    <Compile Include="src\MixedModels\MMRMPostEstimationTests.vb" />
+    <Compile Include="src\MixedModels\MMRMReferenceGridTests.vb" />
+    <Compile Include="src\Multivariate\CaTests.vb" />
+    <Compile Include="src\ClassificationReportingTests.vb" />
+    <Compile Include="src\Multivariate\ClusterAnalysisTests.vb" />
+    <Compile Include="src\Multivariate\DiscriminantAnalysisTests.vb" />
+    <Compile Include="src\DistributionsTests.vb" />
+    <Compile Include="src\EquivalenceNoninferiorityTests.vb" />
+    <Compile Include="src\Multivariate\FactorAnalysisTests.vb" />
+    <Compile Include="src\PsmCapabilityContractTests.vb" />
+    <Compile Include="src\Psm25AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Psm25Tests.vb"><Link>Common\Psm25Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Psm25Fixture.vb"><Link>Common\Psm25Fixture.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Psm25Legacy.vb"><Link>Common\Psm25Legacy.vb</Link></Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="src\Regression\MultinomialLogitModelTests.vb" />
+    <Compile Include="src\Regression\OrdinalLogitModelTests.vb" />
+    <Compile Include="src\ParametricTests.vb" />
+    <Compile Include="src\PreferenceAdapterTests.vb" />
+    <Compile Include="src\DiagnosticAdapterTests.vb" />
+    <Compile Include="src\ExecutionAdapterTests.vb" />
+    <Compile Include="src\DocumentLifecycleAdapterTests.vb" />
+    <Compile Include="src\Multivariate\PcaTests.vb" />
+    <Compile Include="src\RocTests.vb" />
+    <Compile Include="src\StatFuncTests.vb" />
+    <Compile Include="src\StatisticalProcessControl\SpcCapabilityTests.vb" />
+    <Compile Include="src\StatisticalProcessControl\SpcModelsStatisticsEngineTests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\StatisticalProcessControl\SpcMultivariateTests.vb"><Link>src\StatisticalProcessControl\SpcMultivariateTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\StatisticalProcessControl\SpcResultTablesAndDispatchTests.vb"><Link>src\StatisticalProcessControl\SpcResultTablesAndDispatchTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\StatisticalProcessControl\SpcRuleEvaluatorTests.vb"><Link>src\StatisticalProcessControl\SpcRuleEvaluatorTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\StatisticalProcessControl\SpcShewhartChartTests.vb"><Link>src\StatisticalProcessControl\SpcShewhartChartTests.vb</Link></Compile>
+    <Compile Include="src\StatisticalProcessControl\SpcTestFixtures.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\StatisticalProcessControl\SpcTimeWeightedChartTests.vb"><Link>src\StatisticalProcessControl\SpcTimeWeightedChartTests.vb</Link></Compile>
+    <Compile Include="src\UDFs\UdfBatch2Tests.vb" />
+    <Compile Include="src\UDFs\UdfBatch3Tests.vb" />
+    <Compile Include="src\UDFs\UdfImportFacadeTests.vb" />
+    <Compile Include="src\UDFs\UdfPreparation38AdapterTests.vb" />
+    <Compile Include="src\UDFs\UdfTests.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="..\BESHStat.Excel.Common.Tests\TestData\Acquisition\canonical-two-ranges.json">
+      <Link>TestData\Acquisition\canonical-two-ranges.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="test.runsettings" />
+    <None Include="..\BESHStat.Excel.Common.Tests\TestData\Stage304\*.json">
+      <Link>TestData\Stage304\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\cluster_dataset_basic.csv" />
+    <None Include="TestData\cluster_dataset_missing.csv" />
+    <None Include="TestData\coxph_dataset_strata_ties.csv" />
+    <None Include="TestData\gee_binomial_logit_full.csv" />
+    <None Include="TestData\gee_binomial_logit_missing_time.csv" />
+    <None Include="TestData\gee_expected_outputs.csv" />
+    <None Include="TestData\gee_expected_residuals.csv" />
+    <None Include="TestData\gee_gaussian_identity_full.csv" />
+    <None Include="TestData\gee_poisson_log_offset_full.csv" />
+    <None Include="TestData\glm_binomial_full.csv" />
+    <None Include="TestData\glm_expected_outputs.csv" />
+    <None Include="TestData\glm_expected_residuals.csv" />
+    <None Include="TestData\glm_gamma_full.csv" />
+    <None Include="TestData\glm_gaussian_full.csv" />
+    <None Include="TestData\glm_nb2_expected_outputs.csv" />
+    <None Include="TestData\glm_nb2_expected_residuals_full.csv" />
+    <None Include="TestData\glm_nb2_full.csv" />
+    <None Include="TestData\glm_nb2_interceptonly.csv" />
+    <None Include="TestData\glm_poisson_full.csv" />
+    <None Include="TestData\kr_mmrm_multicovariate_missing_internal_reference.csv" />
+    <None Include="TestData\mixedmodel_lmm_random_intercept_data.csv" />
+    <None Include="TestData\mixedmodel_lmm_random_intercept_reference.csv" />
+    <None Include="TestData\mixedmodel_lmm_sleepstudy_random_slope_data.csv" />
+    <None Include="TestData\mixedmodel_lmm_sleepstudy_random_slope_unbalanced_data.csv" />
+    <None Include="TestData\mixedmodel_longitudinal_multicovariate_missing.csv" />
+    <None Include="TestData\mixedmodel_mmrm_identity_data.csv" />
+    <None Include="TestData\mixedmodel_mmrm_identity_reference.csv" />
+    <None Include="TestData\mlogit_dataset_grouped_basic.csv" />
+    <None Include="TestData\mmrm_orthodont_potthoffroy_long.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_filip_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_filip_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_longley_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_longley_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_metadata.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_noint1_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_noint1_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_noint2_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_noint2_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_norris_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_norris_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_pontius_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_pontius_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler1_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler1_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler2_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler2_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler3_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler3_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler4_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler4_reference.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler5_data.csv" />
+    <None Include="TestData\NIST_LLS\nist_lls_wampler5_reference.csv" />
+    <None Include="TestData\ordinal_logit_dataset_basic.csv" />
+    <None Include="TestData\ordinal_logit_dataset_intercept_only.csv" />
+    <None Include="TestData\ordinal_logit_dataset_near_separation.csv" />
+    <None Include="TestData\PCA_collinear_5x2.csv" />
+    <None Include="TestData\PCA_constant_column_5x3.csv" />
+    <None Include="TestData\lm_dataset_basic.csv" />
+    <None Include="TestData\lm_dataset_intercept_only.csv" />
+    <None Include="TestData\lm_dataset_singular.csv" />
+    <None Include="TestData\PCA_near_collinear_20x3.csv" />
+    <None Include="TestData\PCA_r_reference_10x3.csv" />
+    <None Include="TestData\survival_dataset.csv" />
+    <None Include="TestData\survival_dataset_2group.csv" />
+    <None Include="TestData\survival_dataset_2group_allcensored.csv" />
+    <None Include="TestData\survival_weightedlogrank_reference.csv" />
+    <None Include="TestData\UdfImportCases.xlsx" />
+    <None Include="TestData\zip_dataset_basic_count.csv" />
+    <None Include="TestData\zip_dataset_basic_zero.csv" />
+    <None Include="TestData\zip_expected_outputs.csv" />
+    <None Include="TestData\zip_expected_predictions.csv" />
+    <None Include="TestData\zip_expected_residuals_full.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BESHStat.Core\BESHStat.Core.vbproj">
+      <Project>{63e332f3-a455-8f27-72a4-8b7afa1e040c}</Project>
+      <Name>BESHStat.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BESHStat.Excel.Common\BESHStat.Excel.Common.vbproj">
+      <Name>BESHStat.Excel.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BESHStatNG\BESHStatNG.vbproj">
+      <Project>{A4A3C057-C520-462B-AD91-F481B2D797DE}</Project>
+      <Name>BESHStatNG</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props'))" />
+    <Error Condition="!Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets'))" />
+  </Target>
+  <ItemGroup>
+    <Compile Include="src\Charts\Graphics34AdapterTests.vb" />
+    <Compile Include="src\Charts\LegacyCompletionShapes34.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyCompletionExtras34.vb"><Link>Graphics34\LegacyCompletionExtras34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyCompletionPolicies34.vb"><Link>Graphics34\LegacyCompletionPolicies34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\CompletionPolicyCases34.vb"><Link>Graphics34\CompletionPolicyCases34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacySpcBasis34.vb"><Link>Graphics34\LegacySpcBasis34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics34CompletionBoundsTests.vb"><Link>Graphics34\Graphics34CompletionBoundsTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics34CompletionLegendTests.vb"><Link>Graphics34\Graphics34CompletionLegendTests.vb</Link></Compile>
+    <Compile Include="src\Charts\LegacyCompletionPreparation34.vb" />
+    <Compile Include="src\Charts\CompletionPreparationCases34.vb" />
+    <Compile Include="src\Charts\LegacyCompletionSeries34.vb" />
+    <Compile Include="src\Charts\CompletionSeriesCases34.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics34CompletionSeriesTests.vb"><Link>Graphics34\Graphics34CompletionSeriesTests.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics34CompletionPreparationTests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Completion34Cases.vb"><Link>Graphics34\Completion34Cases.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics34CompletionGeometryTests.vb"><Link>Graphics34\Graphics34CompletionGeometryTests.vb</Link></Compile>
+    <Compile Include="src\Charts\LegacyLayouts34.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics34Tests.vb"><Link>Graphics34\Graphics34Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacySpecialty34.vb"><Link>Graphics34\LegacySpecialty34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyReference34.vb"><Link>Graphics34\LegacyReference34.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics34LoveTests.vb"><Link>Graphics34\Graphics34LoveTests.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics32AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics32Tests.vb"><Link>Graphics32\Graphics32Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics32ViolinTests.vb"><Link>Graphics32\Graphics32ViolinTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyGraphics32.vb"><Link>Graphics32\LegacyGraphics32.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics31AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics31RocTests.vb"><Link>Graphics31\Graphics31RocTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics31NormalPlotTests.vb"><Link>Graphics31\Graphics31NormalPlotTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics31Evidence.vb"><Link>Graphics31\Graphics31Evidence.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics31SourceIdentityTests.vb"><Link>Graphics31\Graphics31SourceIdentityTests.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics30AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics30Tests.vb"><Link>Graphics30\Graphics30Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyGraphics30.vb"><Link>Graphics30\LegacyGraphics30.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyBoxBounds30.vb"><Link>Graphics30\LegacyBoxBounds30.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\OrderedPlotGroups30Tests.vb"><Link>Graphics30\OrderedPlotGroups30Tests.vb</Link></Compile>
+  </ItemGroup>
+  <Import Project="packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets" Condition="Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" />
+  <ItemGroup>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Planning26Tests.vb"><Link>Common\Planning26Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Planning26LegacyText.vb"><Link>Common\Planning26LegacyText.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Planning26LegacyCore.vb"><Link>Common\Planning26LegacyCore.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Agreement26Tests.vb"><Link>Common\Agreement26Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Agreement26Legacy.vb"><Link>Common\Agreement26Legacy.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Agreement26Reference.vb"><Link>Common\Agreement26Reference.vb</Link></Compile>
+    <Compile Include="src\Agreement26AdapterTests.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Output28PresentationTests.vb"><Link>Common\Output28PresentationTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Output28SafetyAndAxisTests.vb"><Link>Common\Output28SafetyAndAxisTests.vb</Link></Compile>
+    <Compile Include="src\DataManagement\Output28AdapterTests.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyXyz33.vb"><Link>Graphics33\LegacyXyz33.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyScatter33.vb"><Link>Graphics33\LegacyScatter33.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyWire33.vb"><Link>Graphics33\LegacyWire33.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics33Tests.vb"><Link>Graphics33\Graphics33Tests.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics33AdapterTests.vb" />
+  </ItemGroup>
+  <ItemGroup><Compile Include="src\Charts\LegacyCompletionNativeState34.vb" /></ItemGroup>
+  <ItemGroup><Compile Include="src\Charts\Graphics34CompletionNativeStateTests.vb" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Legacy35.vb"><Link>Charts35\Legacy35.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\LegacyLoveProjection35.vb"><Link>Charts35\LegacyLoveProjection35.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Cases35.vb"><Link>Charts35\Cases35.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics35Tests.vb"><Link>Charts35\Graphics35Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics35GeometryTests.vb"><Link>Charts35\Graphics35GeometryTests.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics35AdapterTests.vb"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Legacy36.vb"><Link>Graphics36\Legacy36.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Cases36.vb"><Link>Graphics36\Cases36.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics36GeometryTests.vb"><Link>Graphics36\Graphics36GeometryTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\LegacyPresentation36.vb"><Link>Graphics36\LegacyPresentation36.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics36PresentationTests.vb"><Link>Graphics36\Graphics36PresentationTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\LegacyPresentation36V2.vb"><Link>Graphics36\LegacyPresentation36V2.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics36AdapterTests.vb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics37Original.vb"><Link>Graphics37\Graphics37Original.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics37Cases.vb"><Link>Graphics37\Graphics37Cases.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics37OriginalSeries.vb"><Link>Graphics37\Graphics37OriginalSeries.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics37GeometryTests.vb"><Link>Graphics37\Graphics37GeometryTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics37CurrentPrefixes.vb"><Link>Graphics37\Graphics37CurrentPrefixes.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Graphics37PresentationTests.vb"><Link>Graphics37\Graphics37PresentationTests.vb</Link></Compile>
+    <Compile Include="src\Charts\Graphics37AdapterTests.vb"><Link>Graphics37\Graphics37AdapterTests.vb</Link></Compile>
+  </ItemGroup>
+</Project>

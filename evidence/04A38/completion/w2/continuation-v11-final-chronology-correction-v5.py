@@ -1,0 +1,7 @@
+"""Pin all additive correction sources and state the two preparation failures precisely."""
+from pathlib import Path
+base=Path(__file__).resolve().parent
+s=(base/'continuation-v11-finalize-live-v4.py').read_text()
+s=s.replace('The failed first supplement preparer confused optional owner docs with required context; its source and exact failure reproduction remain.', 'The first supplement preparer failed by counting optional owner reads as required; its exact failure was independently reproduced. The second failed because one required master plan is also an owner document. Both sources and raw execution receipts remain, and the third preparer distinguishes the15 optional README documents from the three required entry documents. The required protected master plan is included byte-exact, superseding the sealed general statement that all16 owner documents were omitted from the initial five parts.')
+s=s.replace("postseal_tool=pin(Path(__file__)),", "postseal_tool=pin(Path(__file__)),additive_tools=[pin(W2/name) for name in ['continuation-v11-prepare-private-successor-v2.py','continuation-v11-private-successor-source-crosswalk-v2.json','continuation-v11-adapt-final-authorities-v4.py','continuation-v11-final-chronology-correction-v5.py','continuation-v11-finalize-live-v3.py','continuation-v11-finalize-live-v4.py','continuation-v11-retained-private-reader-v1.py','continuation-v11-retained-private-reader-v2.py']],")
+with (base/'continuation-v11-finalize-live-v5.py').open('x',encoding='utf-8',newline='\n') as stream:stream.write(s)

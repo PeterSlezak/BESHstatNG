@@ -1,0 +1,17 @@
+{
+  "status": "FAILED_FIXTURE_RETAINED",
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v5/attempts/adapter-tests-v2.vb.txt",
+    "bytes": 48564,
+    "sha256": "7916563121039df090e744e11bf14e52dcd24e81d735c1d135175786963895b1"
+  },
+  "after": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 48854,
+    "sha256": "74570a0f7bd53a980dd852ca672e8246bf5f3e2e209206ffeddbf77dadf2852c"
+  },
+  "reason": "Header detection requires numeric values below every selected column, including a filtered empty column. Corrected inferred-name expectation and separately exercise explicit hasHeader=True.",
+  "receipt": "focused-cells-v2-Debug.json",
+  "production_change": false,
+  "original_queries": 0
+}

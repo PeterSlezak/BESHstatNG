@@ -1,0 +1,53 @@
+{
+  "configuration": "Release",
+  "unique_cases": 432,
+  "original": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v1/original-results/Release/plain-v2/results.tsv",
+    "bytes": 689840,
+    "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+  },
+  "current": {
+    "path": "evidence/04A38/completion/w2/profile-current-results-v2/Release/A/results.tsv",
+    "bytes": 689840,
+    "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+  },
+  "exact": true,
+  "commands": [
+    {
+      "command": [
+        "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\BESHStat.Core.dll",
+        "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+        "/out:<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\A-current.exe",
+        "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v1\\LateCapture38.cs"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.3555323999898974,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2\\A-current.exe",
+        "<ISOLATED_RUN>\\completion-w2\\profiles-v3\\Release\\udf-v2",
+        "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v1\\inputs-Release.jsonl",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\A\\results.tsv",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\profile-current-results-v2\\Release\\A\\execution.json",
+        "current"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.48227230001066346,
+      "stdout_sha256": "759b5ca0d006abf5a30e73d40ef8ee24d3b9d437a473de7c8e1450c951d64039",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "new_original_queries": 0
+}

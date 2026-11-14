@@ -1,0 +1,44 @@
+Option Explicit On
+Option Strict On
+Imports System
+Imports BESHStatNG.ExcelCommon
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+
+<TestClass>
+Public Class UdfContinuation17Tests
+    <DataTestMethod>
+    <DataRow("ID", "Identity")>
+    <DataRow("exchangeable", "CS")>
+    <DataRow("DIAG", "Diagonal")>
+    <DataRow("CSH", "Heterogeneous CS")>
+    <DataRow("auto-regressive", "AR(1)")>
+    <DataRow("ARH", "Heterogeneous AR(1)")>
+    <DataRow("TOEP", "Toeplitz (TOEP)")>
+    <DataRow("TOEPH", "Heterogeneous Toeplitz (TOEPH)")>
+    <DataRow("UN", "UN")>
+    Public Sub CovarianceClassifier17UsesTheSingleCanonicalAliasMap(raw As String, expected As String)
+        Dim canonical As String = "stale"
+        Assert.IsTrue(UdfScalarUtilitiesOptions38.TryClassifyMixedModelResidualCovarianceName(raw, "fallback", canonical))
+        Assert.AreEqual(expected, canonical)
+        Assert.AreEqual(expected, UdfScalarUtilitiesOptions38.NormalizeMixedModelResidualCovarianceName(raw, "fallback"))
+    End Sub
+
+    <TestMethod>
+    Public Sub CovarianceClassifier17UnknownResetsOnlyItsNewOutParameterAndOldStringApiReturnsOriginalReference()
+        Dim raw As New String(New Char() {"u"c, "?"c})
+        Dim canonical As String = "stale"
+        Assert.IsFalse(UdfScalarUtilitiesOptions38.TryClassifyMixedModelResidualCovarianceName(raw, "fallback", canonical))
+        Assert.IsNull(canonical)
+        Assert.AreSame(raw, UdfScalarUtilitiesOptions38.NormalizeMixedModelResidualCovarianceName(raw, "fallback"))
+    End Sub
+
+    <TestMethod>
+    Public Sub CovarianceClassifier17BlankAndByRefAliasDefaultsRetainValues()
+        Dim canonical As String = "stale"
+        Assert.IsTrue(UdfScalarUtilitiesOptions38.TryClassifyMixedModelResidualCovarianceName(Nothing, Nothing, canonical))
+        Assert.IsNull(canonical)
+        Dim aliased As String = "UN"
+        Assert.IsTrue(UdfScalarUtilitiesOptions38.TryClassifyMixedModelResidualCovarianceName(aliased, aliased, aliased))
+        Assert.AreEqual("UN", aliased)
+    End Sub
+End Class

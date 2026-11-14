@@ -1,0 +1,11 @@
+{
+  "status": "FAILED_INVALID_FIXTURE;NOMINAL_REJECTIONS_NOT_ACCEPTED_AS_PROOF",
+  "exit_code": 1,
+  "total": 18,
+  "nominal_pass": 17,
+  "error": 1,
+  "exception": "Intact fixture lacked unchanged AgreementMethodUDFs.vb because previous manifest did not publish every unchanged live UDF file",
+  "preserved_test_sha256": "108b0919a781b4eb3c4406e72441435f6cae78a85dde630c41ad4b6b94838b97",
+  "raw_receipt": "mmrm38-v6-w1-adverse",
+  "correction": "Include all41 current source files; assert intact fixture passes before any mutation. No verifier, case expectation, original bytes or adversarial assertion relaxed."
+}

@@ -1,0 +1,68 @@
+{
+  "result": {
+    "status": "VERIFIED_PARTIAL_C4_NOT_READY",
+    "hashed_payloads": 3777,
+    "null_self_entries": 1,
+    "privacy_findings": [
+      {
+        "path": "BESHStat.Excel.Common.Tests/src/CompositeOutputTests.vb",
+        "kind": "credential_uri",
+        "view": "raw",
+        "whole_file_sha256": "78ef6a5e623e69cd0196fa1da48eb36f223b4de7ed509c2eff358c17d7d24f4d",
+        "occurrences": 1,
+        "fragment_sha256_counts": {
+          "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273": 1
+        },
+        "classification": "EXACT_INHERITED_SYNTHETIC_ADVERSE_FIXTURE;NOT_MACHINE_OR_REAL_CREDENTIAL"
+      },
+      {
+        "path": "evidence/04A38/completion/w2/continuation-v1/test_publication.py",
+        "kind": "home",
+        "view": "raw",
+        "whole_file_sha256": "77db10fd2989f6f8b688f603e89ed280d1582fe397f82aa31f8ba0b460f174f1",
+        "occurrences": 1,
+        "fragment_sha256_counts": {
+          "72583f66d242718f0660aa45b4199099a0988fa5435b1b9cffd26b953df197b0": 1
+        },
+        "classification": "EXACT_INHERITED_SYNTHETIC_ADVERSE_FIXTURE;NOT_MACHINE_OR_REAL_CREDENTIAL"
+      },
+      {
+        "path": "evidence/04A38/managed-test-identities-entry.csv",
+        "kind": "credential_uri",
+        "view": "raw",
+        "whole_file_sha256": "7bec5946a791584dcc548bcfc5adb9550c9ecb7d3f92d004414e6b4e31b9d2d3",
+        "occurrences": 1,
+        "fragment_sha256_counts": {
+          "fbddae166ead16d1dd67736b19403ab1ac0095e344f663573848af911a7ce273": 1
+        },
+        "classification": "EXACT_INHERITED_SYNTHETIC_ADVERSE_FIXTURE;NOT_MACHINE_OR_REAL_CREDENTIAL"
+      }
+    ],
+    "physical_zip": "VERIFY_SEPARATELY",
+    "limitations": "Included bytes only; no live index/omitted owner docs/private binaries/ignored history or native/scientific proof"
+  },
+  "projection": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "bytes": 9441,
+      "sha256": "a2bd3a079a20a69cda7ed451d4d253a3779f814c9d1607ff8c72084506f0311b"
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "bytes": 19844,
+      "sha256": "035ec643366e8a57ec7cc5dc48c3d355b41f842581cba3b18c5d8fa19b12edd0"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/UdfPreparation38Tests.vb",
+      "bytes": 24305,
+      "sha256": "a92d84f6743d19090a43b3cf7f5f4a9c2860c8a4cc2b63ad74d47bb4db4d010b"
+    },
+    {
+      "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+      "bytes": 43623,
+      "sha256": "f3a0c18baaa8993f90f99e6235b822d08825d4bafd13b9f040cc45367fd1f270"
+    }
+  ],
+  "semantic_checks": "Separate verify_slice/ownership/retained/fragment/preservation entry receipts passed before edits",
+  "prior_failed_attempt": "verify_publication-entry.json: long scan reached live semantic checks after C5 edits; retained timing failure"
+}

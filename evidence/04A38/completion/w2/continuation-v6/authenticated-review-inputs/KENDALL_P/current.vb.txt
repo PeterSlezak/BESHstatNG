@@ -1,0 +1,27 @@
+<ExcelFunction(
+            Name:="BESH.NP.KENDALL_P",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="P-value for Kendall rank correlation test (τb) for two paired samples.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
+        )>
+        Public Function KENDALL_P(
+            <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
+            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha passed through for API consistency; p-value output is unchanged.")> Optional alpha As Object = Nothing) As Object
+
+            Dim err? As ExcelError = Nothing
+            Dim pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
+            If err.HasValue Then Return err.Value
+            If pairs Is Nothing OrElse pairs.GetLength(0) < 4 Then Return ExcelError.ExcelErrorNum
+
+            Dim alphaValue As Double = 0.05
+            If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+            Dim x() As Double = Nothing
+            Dim y() As Double = Nothing
+            Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.SplitCorrelationColumns(pairs, x, y)
+
+            Dim test = New KendallsTau(x, y, "X", "Y")
+            test.compute(Nothing, alphaValue)
+            Return test.pvalue
+        End Function

@@ -1,0 +1,24 @@
+{
+  "status": "EXACT_ORIGINAL_SCAN_COMPOSITION_PASS",
+  "samples": 5,
+  "positive_findings": 18,
+  "source_pins": [
+    {
+      "path": "scripts/verify-04a13-publication.py",
+      "bytes": 9176,
+      "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+    },
+    {
+      "path": "scripts/verify-04a14-publication.py",
+      "bytes": 9320,
+      "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+    }
+  ],
+  "scan_ast_sha256": "11c38010824cd1a0791eb7dbbd5a3c054f9054b2d6e737a63678d243287e47e9",
+  "git_ast_sha256": "f2fb665d9c9068ad1fcc37696630822ec2bd7703f27ab788ae6d1a6fd2289a96",
+  "law": "Original scan initializes deterministic environment/ROOT tokens and patterns, then only appends per-file findings and unions reviewed set. Ordered concatenation preserves findings including duplicates; union/sort preserves reviewed output. Cache uses exact AST/ROOT/COMPUTERNAME/path/bytes and deepcopy; missing files bypass cache. Git HEAD fixed by task and final Git receipts. Fixture duplicates and positive findings preserved.",
+  "scanner_assertions_changed": 0,
+  "filtered_files": 0,
+  "positive_results_waived": 0,
+  "original_queries": 0
+}

@@ -1,0 +1,49 @@
+{
+  "results": [
+    {
+      "command": [
+        "<PYTHON>",
+        "-I",
+        "-B",
+        "-c",
+        "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\run_auxiliary_v1.py",
+        "node"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 16.508119799997075,
+      "stdout_sha256": "1e9d5c6aca3567ea708c482c9eca1510a99f0198f170d1078442d57fa023d1fa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-I",
+        "-B",
+        "-c",
+        "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17\\run_auxiliary_v1.py",
+        "serial"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 64.25509419999435,
+      "stdout_sha256": "be7ad7d9cd5e160fc4279f1dde6b077b9df735f569c1ee0704771a979ad6d131",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "Node_campaigns": 1,
+  "strict_campaigns": 1,
+  "profile_campaigns": 1,
+  "MkDocs_campaigns": 1,
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17/production-test-freeze-v5.json",
+    "bytes": 97798,
+    "sha256": "0e6118900efe7ad0e058ab318b228e755a926c760ebf14d3d18362ba3de1fcb9"
+  }
+}

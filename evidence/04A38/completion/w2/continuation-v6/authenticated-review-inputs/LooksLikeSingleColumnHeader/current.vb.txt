@@ -1,0 +1,5 @@
+Friend Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean
+        If arr Is Nothing Then Return False
+        If arr.GetLength(1) <> 1 Then Return False
+        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeSingleColumnHeader(arr.GetLength(0), Function(row, column) TryGetDouble(arr(row, column)).HasValue)
+    End Function

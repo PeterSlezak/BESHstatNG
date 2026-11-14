@@ -1,0 +1,20 @@
+Friend Function TryReadIndependentNumericColumns(x As Object, y As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
+        groups = Nothing
+        names = Nothing
+
+        Dim ax As Object(,) = Get2D(x)
+        Dim ay As Object(,) = Get2D(y)
+        If ax Is Nothing OrElse ay Is Nothing Then Return False
+        If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return False
+
+        Dim hasHeaderX As Boolean = LooksLikeSingleColumnHeader(ax)
+        Dim hasHeaderY As Boolean = LooksLikeSingleColumnHeader(ay)
+
+        Dim startRowX As Integer = If(hasHeaderX, 1, 0)
+        Dim startRowY As Integer = If(hasHeaderY, 1, 0)
+
+        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryReadIndependentNumericColumnsPrepared(
+            ax.GetLength(0), ay.GetLength(0), startRowX, startRowY, hasHeaderX, hasHeaderY,
+            Function(row) TryGetDouble(ax(row, 0)), Function(row) TryGetDouble(ay(row, 0)),
+            Function() Convert.ToString(ax(0, 0)).Trim(), Function() Convert.ToString(ay(0, 0)).Trim(), groups, names)
+    End Function

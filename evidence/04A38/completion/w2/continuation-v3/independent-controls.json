@@ -1,0 +1,103 @@
+{
+  "readers": [
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v3\\verify_ownership.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 2.6462487999815494,
+      "stdout_sha256": "be1e4e7edc88729f6d302ff62be7f05a9d8e22f99814c86f9deb7f9d2fbd45c2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v3\\verify_text_domains.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.17489480000222102,
+      "stdout_sha256": "b10c28e6472c0d62217e8b6e02c3b2db6a70078a4b59aae618d90108ce7d5f07",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v3\\verify_preservation.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 6.580187399988063,
+      "stdout_sha256": "8bde04726e0d0e3ab2104c5767ccb59445ec9d88789af5b045eccc9ba45c2938",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "adverse": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v3",
+      "-p",
+      "test_readers.py",
+      "-v"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 26.833731000020634,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "9aa91b2c498a0105b2e7cbc9230cdf0684cb301dc6430e8b314321d9cc87e8e2",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "tests": {
+    "label": "w2c3-independent-adverse",
+    "total": 26,
+    "passed": 26,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "9aa91b2c498a0105b2e7cbc9230cdf0684cb301dc6430e8b314321d9cc87e8e2",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_broken_inline_parent (test_readers.IndependentControls.test_broken_inline_parent)",
+      "test_changed_CI_enum (test_readers.IndependentControls.test_changed_CI_enum)",
+      "test_changed_CI_getter (test_readers.IndependentControls.test_changed_CI_getter)",
+      "test_changed_original_output (test_readers.IndependentControls.test_changed_original_output)",
+      "test_conversion_before_acquisition (test_readers.IndependentControls.test_conversion_before_acquisition)",
+      "test_dropped_current_callback (test_readers.IndependentControls.test_dropped_current_callback)",
+      "test_dropped_historical_member (test_readers.IndependentControls.test_dropped_historical_member)",
+      "test_dropped_support (test_readers.IndependentControls.test_dropped_support)",
+      "test_duplicate_coordinate_helpers (test_readers.IndependentControls.test_duplicate_coordinate_helpers)",
+      "test_forged_ready (test_readers.IndependentControls.test_forged_ready)",
+      "test_ignored_synthetic_nonpass (test_readers.IndependentControls.test_ignored_synthetic_nonpass)",
+      "test_invented_native_edge (test_readers.IndependentControls.test_invented_native_edge)",
+      "test_missing_generic_default_context (test_readers.IndependentControls.test_missing_generic_default_context)",
+      "test_missing_original_case (test_readers.IndependentControls.test_missing_original_case)",
+      "test_module_header_auto_closure (test_readers.IndependentControls.test_module_header_auto_closure)",
+      "test_names_original_query_forgery (test_readers.IndependentControls.test_names_original_query_forgery)",
+      "test_new_negative_count_guard (test_readers.IndependentControls.test_new_negative_count_guard)",
+      "test_null_text_RHS (test_readers.IndependentControls.test_null_text_RHS)",
+      "test_pvalue_coordinate_property_loss (test_readers.IndependentControls.test_pvalue_coordinate_property_loss)",
+      "test_swapped_text_locale (test_readers.IndependentControls.test_swapped_text_locale)",
+      "test_unreviewed_host_only (test_readers.IndependentControls.test_unreviewed_host_only)",
+      "test_valid_names (test_readers.IndependentControls.test_valid_names)",
+      "test_valid_whole_ownership (test_readers.IndependentControls.test_valid_whole_ownership)",
+      "test_wrong_comma_grammar (test_readers.IndependentControls.test_wrong_comma_grammar)",
+      "test_wrong_explicit_identity (test_readers.IndependentControls.test_wrong_explicit_identity)",
+      "test_wrong_original_transport (test_readers.IndependentControls.test_wrong_original_transport)"
+    ],
+    "nonpasses": []
+  },
+  "original_queries": 0
+}

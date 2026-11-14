@@ -1,0 +1,45 @@
+{
+  "status": "SOURCE_AND_COMPLETE_PREPARED_CIL_COMPOSITION_PASS",
+  "source_checks": [
+    "TTEST_UNPAIRED_NI entire literal/report initializer",
+    "TTEST_UNPAIRED_EQUIV entire literal/report initializer",
+    "KW_STAT name allocation/format/order",
+    "FRIEDMAN_STAT name allocation/format/order",
+    "Original pair-column allocation/row ordering",
+    "Independent complete numeric/name/ByRef phase",
+    "Probability full shape/scan/sort/adjacent-input tolerance phase",
+    "ExtractCompleteNumericMatrixCompleteCases existing public API reset/body inlining",
+    "TryReadCompleteNumericMatrixWithHeaders existing public API reset/body inlining"
+  ],
+  "prepared_CIL": [
+    {
+      "configuration": "Debug",
+      "method": "TryReadCompleteNumericMatrixWithHeaders",
+      "removed_reset_instructions": 6,
+      "other_operations": "EXACT",
+      "EH": "EXACT_REBASED"
+    },
+    {
+      "configuration": "Debug",
+      "method": "ExtractCompleteNumericMatrixCompleteCases",
+      "removed_reset_instructions": 9,
+      "other_operations": "EXACT",
+      "EH": "EXACT_REBASED"
+    },
+    {
+      "configuration": "Release",
+      "method": "TryReadCompleteNumericMatrixWithHeaders",
+      "removed_reset_instructions": 6,
+      "other_operations": "EXACT",
+      "EH": "EXACT_REBASED"
+    },
+    {
+      "configuration": "Release",
+      "method": "ExtractCompleteNumericMatrixCompleteCases",
+      "removed_reset_instructions": 9,
+      "other_operations": "EXACT",
+      "EH": "EXACT_REBASED"
+    }
+  ],
+  "original_queries": 0
+}

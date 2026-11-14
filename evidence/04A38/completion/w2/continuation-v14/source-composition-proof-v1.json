@@ -1,0 +1,382 @@
+{
+  "status": "COMPLETE_SOURCE_RECONSTRUCTION_WITH_ACTUAL_CIL_AND_CURRENT_EDGE_TESTS_REQUIRED",
+  "rows": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|3f491d6b02116d15@38683:1197",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|3f491d6b02116d15@38683:1186",
+      "name": "BuildFitOptions",
+      "mode": "EXACT_WHOLE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX",
+      "apis": [
+        "CreateFitOptionsPrepared",
+        "CompleteFitOptionsPrepared"
+      ],
+      "movements": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "parent": "BuildFitOptions",
+          "api": "CreateFitOptionsPrepared",
+          "original_segment": "            Dim fitOptions As New PsmComprehensiveFitOptions()\n            fitOptions.StandardOptions = New PsmOptions()\n",
+          "actual_native_call": "            Dim fitOptions As PsmComprehensiveFitOptions = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.CreateFitOptionsPrepared()\n",
+          "portable_segment": "            Dim fitOptions As New PsmComprehensiveFitOptions()\n            fitOptions.StandardOptions = New PsmOptions()\n            Return fitOptions\n",
+          "bindings": {},
+          "portable_signature": "CreateFitOptionsPrepared() As PsmComprehensiveFitOptions"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "parent": "BuildFitOptions",
+          "api": "CompleteFitOptionsPrepared",
+          "original_segment": "            NormalizeFitOptions(fitOptions)\n            PsmMethodCapabilities.ValidateFitOptions(fitOptions)\n            Return fitOptions\n",
+          "actual_native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.CompleteFitOptionsPrepared(fitOptions)\n",
+          "portable_segment": "            UdfPsmPreparation38.NormalizeFitOptions(fitOptions)\n            PsmMethodCapabilities.ValidateFitOptions(fitOptions)\n            Return fitOptions\n",
+          "bindings": {
+            "NormalizeFitOptions": "UdfPsmPreparation38.NormalizeFitOptions"
+          },
+          "portable_signature": "CompleteFitOptionsPrepared(fitOptions As PsmComprehensiveFitOptions) As PsmComprehensiveFitOptions"
+        }
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|a2bb4382b9645aeb@47569:2926",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|a2bb4382b9645aeb@40725:3669",
+      "name": "ResolveNamedTable",
+      "mode": "EXACT_WHOLE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX",
+      "apis": [
+        "ResolveTableKindPrepared"
+      ],
+      "movements": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "parent": "ResolveNamedTable",
+          "api": "ResolveTableKindPrepared",
+          "original_whole_prefix": "        Private Function ResolveNamedTable(h As PsmUdfHandle, requested As String) As Object(,)\n            Dim name As String = NormalizeOptionKey(requested)\n            Select Case name\n                Case \"summary\", \"runsummary\"\n                    Return PsmComprehensiveTables.RunSummaryTable(h.Result)\n                Case \"options\"\n                    Return PsmFrontEndTables.OptionsTable(h.FitOptions)\n                Case \"import\", \"dataimport\"\n                    Return DataImportSummaryTable(h)\n                Case \"sample\", \"samplesize\", \"samplesizesummary\"\n                    Return PsmFrontEndTables.SampleSizeTable(h.Result.Result)\n                Case \"scoremodel\", \"model\"\n                    Return PsmBackendTables.ScoreModelTable(h.Result.Result)\n                Case \"scores\", \"audit\", \"rowaudit\", \"weights\"\n                    Return PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds)\n                Case \"matches\", \"matchedpairs\"\n                    Return PsmBackendTables.MatchesTable(h.Result.Result, h.Data.Input)\n                Case \"matcheddata\", \"matcheddataset\"\n                    Return PsmFrontEndTables.MatchedDatasetTable(h.Data.Input, h.Result.Result, h.Data.RowIds)\n                Case \"balance\", \"diagnostics\"\n                    Return PsmBackendTables.BalanceTable(h.Result.Result)\n                Case \"effect\", \"effects\"\n                    Return PsmBackendTables.EffectTable(h.Result.Result)\n                Case \"dr\", \"aipw\", \"doublyrobust\"\n                    Return PsmAdvancedTables.DoublyRobustEffectTable(h.Result.DoublyRobustResult)\n                Case \"weightdiagnostics\"\n                    Return PsmAdvancedTables.WeightDiagnosticsTable(h.Result.WeightDiagnostics)\n                Case \"overlap\", \"overlapsummary\"\n                    Return PsmAdvancedTables.OverlapSummaryTable(h.Result.OverlapDiagnostics)\n                Case \"overlapbins\", \"overlaphistogram\"\n                    Return PsmAdvancedTables.OverlapBinsTable(h.Result.OverlapDiagnostics)\n                Case \"loveplot\", \"loveplotdata\"\n                    Return PsmAdvancedTables.LovePlotTable(h.Result.LovePlotRows)\n                Case \"subclasses\", \"subclassification\"\n                    Return PsmFrontEndTables.SubclassTable(h.Result.Result)\n                Case \"cemstrata\"\n                    Return PsmAdvancedMatchingTables.CoarsenedExactStrataTable(h.Result.CoarsenedExactResult)\n                Case \"cemweights\"\n                    Return PsmAdvancedMatchingTables.CoarsenedExactWeightsTable(h.Data.Input, h.Result.CoarsenedExactResult)\n                Case \"warnings\"\n                    Return PsmComprehensiveTables.WarningsTable(h.Result)\n                Case Else\n                    Return PsmResult.EmptyTable(\"Unknown PSM table: \" & If(requested, String.Empty))\n            End Select\n",
+          "current_whole_prefix": "        Private Function ResolveNamedTable(h As PsmUdfHandle, requested As String) As Object(,)\n            Dim name As Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38 = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.ResolveTableKindPrepared(requested)\n            Select Case name\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RunSummary\n                    Return PsmComprehensiveTables.RunSummaryTable(h.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Options\n                    Return PsmFrontEndTables.OptionsTable(h.FitOptions)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ImportSummary\n                    Return DataImportSummaryTable(h)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.SampleSize\n                    Return PsmFrontEndTables.SampleSizeTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ScoreModel\n                    Return PsmBackendTables.ScoreModelTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RowAudit\n                    Return PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Matches\n                    Return PsmBackendTables.MatchesTable(h.Result.Result, h.Data.Input)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.MatchedData\n                    Return PsmFrontEndTables.MatchedDatasetTable(h.Data.Input, h.Result.Result, h.Data.RowIds)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Balance\n                    Return PsmBackendTables.BalanceTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Effect\n                    Return PsmBackendTables.EffectTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.DoublyRobust\n                    Return PsmAdvancedTables.DoublyRobustEffectTable(h.Result.DoublyRobustResult)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.WeightDiagnostics\n                    Return PsmAdvancedTables.WeightDiagnosticsTable(h.Result.WeightDiagnostics)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapSummary\n                    Return PsmAdvancedTables.OverlapSummaryTable(h.Result.OverlapDiagnostics)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapBins\n                    Return PsmAdvancedTables.OverlapBinsTable(h.Result.OverlapDiagnostics)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.LovePlot\n                    Return PsmAdvancedTables.LovePlotTable(h.Result.LovePlotRows)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Subclass\n                    Return PsmFrontEndTables.SubclassTable(h.Result.Result)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemStrata\n                    Return PsmAdvancedMatchingTables.CoarsenedExactStrataTable(h.Result.CoarsenedExactResult)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemWeights\n                    Return PsmAdvancedMatchingTables.CoarsenedExactWeightsTable(h.Data.Input, h.Result.CoarsenedExactResult)\n                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Warnings\n                    Return PsmComprehensiveTables.WarningsTable(h.Result)\n                Case Else\n                    Return PsmResult.EmptyTable(\"Unknown PSM table: \" & If(requested, String.Empty))\n            End Select\n",
+          "portable_segment": "            Dim name As String = PropensityScoreUDFsOptions38.NormalizeOptionKey(requested)\n            Select Case LegacyUdfText38.CaseToken(name, New String() {\"summary\", \"runsummary\", \"options\", \"import\", \"dataimport\", \"sample\", \"samplesize\", \"samplesizesummary\", \"scoremodel\", \"model\", \"scores\", \"audit\", \"rowaudit\", \"weights\", \"matches\", \"matchedpairs\", \"matcheddata\", \"matcheddataset\", \"balance\", \"diagnostics\", \"effect\", \"effects\", \"dr\", \"aipw\", \"doublyrobust\", \"weightdiagnostics\", \"overlap\", \"overlapsummary\", \"overlapbins\", \"overlaphistogram\", \"loveplot\", \"loveplotdata\", \"subclasses\", \"subclassification\", \"cemstrata\", \"cemweights\", \"warnings\"})\n                Case \"summary\", \"runsummary\"\n                    Return PsmUdfTableKind38.RunSummary\n                Case \"options\"\n                    Return PsmUdfTableKind38.Options\n                Case \"import\", \"dataimport\"\n                    Return PsmUdfTableKind38.ImportSummary\n                Case \"sample\", \"samplesize\", \"samplesizesummary\"\n                    Return PsmUdfTableKind38.SampleSize\n                Case \"scoremodel\", \"model\"\n                    Return PsmUdfTableKind38.ScoreModel\n                Case \"scores\", \"audit\", \"rowaudit\", \"weights\"\n                    Return PsmUdfTableKind38.RowAudit\n                Case \"matches\", \"matchedpairs\"\n                    Return PsmUdfTableKind38.Matches\n                Case \"matcheddata\", \"matcheddataset\"\n                    Return PsmUdfTableKind38.MatchedData\n                Case \"balance\", \"diagnostics\"\n                    Return PsmUdfTableKind38.Balance\n                Case \"effect\", \"effects\"\n                    Return PsmUdfTableKind38.Effect\n                Case \"dr\", \"aipw\", \"doublyrobust\"\n                    Return PsmUdfTableKind38.DoublyRobust\n                Case \"weightdiagnostics\"\n                    Return PsmUdfTableKind38.WeightDiagnostics\n                Case \"overlap\", \"overlapsummary\"\n                    Return PsmUdfTableKind38.OverlapSummary\n                Case \"overlapbins\", \"overlaphistogram\"\n                    Return PsmUdfTableKind38.OverlapBins\n                Case \"loveplot\", \"loveplotdata\"\n                    Return PsmUdfTableKind38.LovePlot\n                Case \"subclasses\", \"subclassification\"\n                    Return PsmUdfTableKind38.Subclass\n                Case \"cemstrata\"\n                    Return PsmUdfTableKind38.CemStrata\n                Case \"cemweights\"\n                    Return PsmUdfTableKind38.CemWeights\n                Case \"warnings\"\n                    Return PsmUdfTableKind38.Warnings\n                Case Else\n                    Return PsmUdfTableKind38.Unknown\n            End Select\n",
+          "case_bindings": [
+            {
+              "original_case": "\"summary\", \"runsummary\"",
+              "portable_case": "RunSummary"
+            },
+            {
+              "original_case": "\"options\"",
+              "portable_case": "Options"
+            },
+            {
+              "original_case": "\"import\", \"dataimport\"",
+              "portable_case": "ImportSummary"
+            },
+            {
+              "original_case": "\"sample\", \"samplesize\", \"samplesizesummary\"",
+              "portable_case": "SampleSize"
+            },
+            {
+              "original_case": "\"scoremodel\", \"model\"",
+              "portable_case": "ScoreModel"
+            },
+            {
+              "original_case": "\"scores\", \"audit\", \"rowaudit\", \"weights\"",
+              "portable_case": "RowAudit"
+            },
+            {
+              "original_case": "\"matches\", \"matchedpairs\"",
+              "portable_case": "Matches"
+            },
+            {
+              "original_case": "\"matcheddata\", \"matcheddataset\"",
+              "portable_case": "MatchedData"
+            },
+            {
+              "original_case": "\"balance\", \"diagnostics\"",
+              "portable_case": "Balance"
+            },
+            {
+              "original_case": "\"effect\", \"effects\"",
+              "portable_case": "Effect"
+            },
+            {
+              "original_case": "\"dr\", \"aipw\", \"doublyrobust\"",
+              "portable_case": "DoublyRobust"
+            },
+            {
+              "original_case": "\"weightdiagnostics\"",
+              "portable_case": "WeightDiagnostics"
+            },
+            {
+              "original_case": "\"overlap\", \"overlapsummary\"",
+              "portable_case": "OverlapSummary"
+            },
+            {
+              "original_case": "\"overlapbins\", \"overlaphistogram\"",
+              "portable_case": "OverlapBins"
+            },
+            {
+              "original_case": "\"loveplot\", \"loveplotdata\"",
+              "portable_case": "LovePlot"
+            },
+            {
+              "original_case": "\"subclasses\", \"subclassification\"",
+              "portable_case": "Subclass"
+            },
+            {
+              "original_case": "\"cemstrata\"",
+              "portable_case": "CemStrata"
+            },
+            {
+              "original_case": "\"cemweights\"",
+              "portable_case": "CemWeights"
+            },
+            {
+              "original_case": "\"warnings\"",
+              "portable_case": "Warnings"
+            }
+          ],
+          "bindings": {
+            "NormalizeOptionKey": "PropensityScoreUDFsOptions38.NormalizeOptionKey"
+          },
+          "portable_signature": "ResolveTableKindPrepared(requested As String) As PsmUdfTableKind38"
+        }
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|0198aa4b3fc209b6@50507:1420",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|0198aa4b3fc209b6@44406:1222",
+      "name": "DataImportSummaryTable",
+      "mode": "EXACT_WHOLE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX",
+      "apis": [
+        "BuildImportSummaryPrepared"
+      ],
+      "movements": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "parent": "DataImportSummaryTable",
+          "api": "BuildImportSummaryPrepared",
+          "original_segment": "            Dim table(rows.Count, 1) As Object\n            table(0, 0) = \"Item\"\n            table(0, 1) = \"Value\"\n            For i As Integer = 0 To rows.Count - 1\n                table(i + 1, 0) = rows(i)(0)\n                table(i + 1, 1) = rows(i)(1)\n            Next\n            Return table\n",
+          "actual_native_call": "            Return Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildImportSummaryPrepared(rows)\n",
+          "portable_segment": "            Dim table(rows.Count, 1) As Object\n            table(0, 0) = \"Item\"\n            table(0, 1) = \"Value\"\n            For i As Integer = 0 To rows.Count - 1\n                table(i + 1, 0) = rows(i)(0)\n                table(i + 1, 1) = rows(i)(1)\n            Next\n            Return table\n",
+          "bindings": {},
+          "portable_signature": "BuildImportSummaryPrepared(rows As IList(Of Object())) As Object(,)"
+        }
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb|BESHStatNG.UdfDataImport|FunctionBlock|807ac8f13aa40917@632:5952",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb|BESHStatNG.UdfDataImport|FunctionBlock|807ac8f13aa40917@632:5805",
+      "name": "TryGetPsmData",
+      "mode": "EXACT_WHOLE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX",
+      "apis": [
+        "BuildModelNamesPrepared",
+        "BuildModelInputPrepared"
+      ],
+      "movements": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+          "parent": "TryGetPsmData",
+          "api": "BuildModelNamesPrepared",
+          "original_segment": "        Dim modelNames(p) As String\n        modelNames(0) = treatmentKey\n        For j As Integer = 0 To p - 1\n            modelNames(j + 1) = covariateNames(j)\n        Next\n",
+          "actual_native_call": "        Dim modelNames() As String = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildModelNamesPrepared(treatmentKey, covariateNames, p)\n",
+          "portable_segment": "            Dim modelNames(p) As String\n            modelNames(0) = treatmentKey\n            For j As Integer = 0 To p - 1\n                modelNames(j + 1) = covariateNames(j)\n            Next\n            Return modelNames\n",
+          "bindings": {},
+          "portable_signature": "BuildModelNamesPrepared(treatmentKey As String, covariateNames() As String, p As Integer) As String()"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+          "parent": "TryGetPsmData",
+          "api": "BuildModelInputPrepared",
+          "original_segment": "        Dim modelInput(n - 1, p) As Object\n        For i As Integer = 0 To n - 1\n            modelInput(i, 0) = treatmentCol(i, 0)\n            For j As Integer = 0 To p - 1\n                modelInput(i, j + 1) = covariateMatrix(i, j)\n            Next\n        Next\n",
+          "actual_native_call": "        Dim modelInput(,) As Object = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildModelInputPrepared(treatmentCol, covariateMatrix, n, p)\n",
+          "portable_segment": "            Dim modelInput(n - 1, p) As Object\n            For i As Integer = 0 To n - 1\n                modelInput(i, 0) = treatmentCol(i, 0)\n                For j As Integer = 0 To p - 1\n                    modelInput(i, j + 1) = covariateMatrix(i, j)\n                Next\n            Next\n            Return modelInput\n",
+          "bindings": {},
+          "portable_signature": "BuildModelInputPrepared(treatmentCol(,) As Object, covariateMatrix(,) As Object, n As Integer, p As Integer) As Object(,)"
+        }
+      ]
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|eebf3a7ea1cd9878@12848:2474",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|eebf3a7ea1cd9878@10990:2474",
+      "name": "ROC_POINTS",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|8b3d082e82a70cd2@17066:2383",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|8b3d082e82a70cd2@15208:2383",
+      "name": "ROC_STATS",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|aef59c2e00938b4e@11274:5235",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|aef59c2e00938b4e@11274:5235",
+      "name": "PS_FIT",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|4bf78642c7f8d435@17851:918",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|4bf78642c7f8d435@17851:918",
+      "name": "PS_SUMMARY",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|10fcfdbbf4a84769@19965:1153",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|10fcfdbbf4a84769@19965:1153",
+      "name": "PS_SCORES",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|a7a539470a75a65c@22605:1126",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|a7a539470a75a65c@22605:1126",
+      "name": "PSM_MATCHES",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|8a243b2fc69fd693@25063:1157",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|8a243b2fc69fd693@25063:1157",
+      "name": "PS_WEIGHTS",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|dec5336f087dfd1e@27557:1099",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|dec5336f087dfd1e@27557:1099",
+      "name": "PS_BALANCE",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|6b30c11ec79337d7@29889:1101",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|6b30c11ec79337d7@29889:1101",
+      "name": "PS_EFFECT",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|ce4731997b4341b0@32207:1145",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|ce4731997b4341b0@32207:1145",
+      "name": "PS_LOVEPLOT_DATA",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|8f97597c7bf11b57@34922:1381",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|8f97597c7bf11b57@34922:1381",
+      "name": "PS_TABLE",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SubBlock|38ce4e9fef3d8a4a@39892:1065",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SubBlock|38ce4e9fef3d8a4a@39881:185",
+      "name": "NormalizeFitOptions",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SubBlock|ecf499688e2ec662@40969:740",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SubBlock|ecf499688e2ec662@40078:211",
+      "name": "ApplyOptionText",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SubBlock|66c51bd9d385759b@41721:5411",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SubBlock|66c51bd9d385759b@40301:213",
+      "name": "ApplyOption",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SubBlock|528895e7de53e619@47144:413",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|SubBlock|528895e7de53e619@40526:187",
+      "name": "EnsureCoarseningSpec",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d521fef63ad9e043@51939:1065",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d521fef63ad9e043@45640:245",
+      "name": "ParseRunMethod",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|ddeb09debb5d238b@53016:211",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|ddeb09debb5d238b@45897:218",
+      "name": "ParseEstimand",
+      "mode": "EXPLICIT_GENERIC_PARSE_TRY_DEFAULT_AND_STRONGLY_TYPED_ENUM_CAST_COMPOSITE"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|6bbfbb3cd115c227@53239:556",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|6bbfbb3cd115c227@46127:239",
+      "name": "ParseScoreMethod",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|675a03c3687b0bda@53807:872",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|675a03c3687b0bda@46378:239",
+      "name": "ParseDistance",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|2485a76036aa8e22@54691:1012",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|2485a76036aa8e22@46629:243",
+      "name": "ParseCaliperScale",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|a4c067785b072089@55715:882",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|a4c067785b072089@46884:231",
+      "name": "ParseOrder",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d05992834cd8c5aa@56609:900",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d05992834cd8c5aa@47127:243",
+      "name": "ParseSupport",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|e49a77ed490dd329@57521:357",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|e49a77ed490dd329@47382:357",
+      "name": "ParseEnumValue",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|3838b7ccbc018d3d@57890:509",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|3838b7ccbc018d3d@47751:217",
+      "name": "ParseBoolean",
+      "mode": "EXACT_FULL_LEGACY_GRAMMAR_WITH_NATIVE_CALLER_AND_EXPLICIT_TEXT_COMPARE_POLICY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|3ce4b0754121ccbb@487:656",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|3ce4b0754121ccbb@487:281",
+      "name": "GetFormulaAddressingMode",
+      "mode": "EXACT_HOST_TEXT_CONVERSION_DEFAULT_AND_TYPED_FORMULA_ADDRESSING_GRAMMAR"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|f4324622fcb50148@1283:1004",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb|BESHStatNG.UdfDataImport|FunctionBlock|f4324622fcb50148@908:1004",
+      "name": "TryGetAbsoluteColumnLetters",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5b63d0ff64a1d271@521:3241",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5b63d0ff64a1d271@750:2372",
+      "name": "TryGetRocInput",
+      "mode": "EXACT_C13_PREPARED_ROC_INPUT_COMPOSITE_WITH_REPAIRED_POSITIVE_LABEL_DEPENDENCY"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f@6803:2097",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5863e70a6f9b4c6f@5192:760",
+      "name": "GuessPositiveClass",
+      "mode": "COMPLETE_ORIGINAL_SELECTION_GRAMMAR_WITH_PROVEN_LOCAL_RESULT_COMMIT_AND_NATIVE_PRECONVERSION_RESET"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb|BESHStatNG.UdfDataImport|FunctionBlock|0fcd9c48f359e16e@6592:1738",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb|BESHStatNG.UdfDataImport|FunctionBlock|0fcd9c48f359e16e@6445:1738",
+      "name": "TryGetTrimmedObjectMatrixAligned",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb|BESHStatNG.UdfDataImport|FunctionBlock|4da475c11f6a2ddc@8338:325",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb|BESHStatNG.UdfDataImport|FunctionBlock|4da475c11f6a2ddc@8191:325",
+      "name": "GetFirstSourceRow",
+      "mode": "EXACT_ORIGINAL_CURRENT_WHOLE_PARENT"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle|PropertyStatement|1f81b0a18f0e68fe@2870:39",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs.PsmUdfHandle|PropertyStatement|1f81b0a18f0e68fe@2870:39",
+      "name": "Alpha",
+      "mode": "EXACT_PROPERTY_DECLARATION_GETTER_SETTER_DEFAULT_CONSTRUCTOR_AND_ALL_WRITERS"
+    }
+  ],
+  "new_current_supported": 35,
+  "original_queries": 0,
+  "qualification": "Static source parity is independent of ordinary frozen compatibility. Original False/converted remains a source prediction; actual current-only diagnostics and complete compiled boundaries are separate evidence. No original oracle or native dynamic-arm execution inferred."
+}

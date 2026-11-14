@@ -1,0 +1,118 @@
+"""Read sealed descriptors/results/traces; never execute a reference or statistic.
+
+This source-directed coverage audit distinguishes an entered helper from its
+essential branches. It creates NO expected result and cannot repair a freeze.
+"""
+import base64,csv,json,re
+from collections import Counter
+from pathlib import Path
+from check_checkpoint import ROOT,HERE,pin,save
+
+CORPORA={
+ 'original-v1':('frozen-v2',24732),
+ 'public-options-v1':('attempts/public-options-v1',2508),
+ 'public-primitives-v1':('attempts/public-primitives-v1',226),
+ 'model-inputs-v2':('attempts/model-inputs-v2',882),
+ 'math-edges-v1':('attempts/math-edges-v1',618),
+}
+TARGETS={'calibration':'BESH.PLOT.CALIB_POINTS','grouped':'BESH.ASM.BOX_M','nested':'BESH.PAR.ANOVA2_NESTED'}
+MEMBERS={'calibration':'BuildCalibrationPointsTable','grouped':'TryGetGroupedCompleteMatrix','nested':'TryGetNestedThreeColumnData'}
+
+def children(encoded):
+ """Split only a recorded outer array, retaining every scalar token unchanged."""
+ match=re.fullmatch(r'([^\[{}]+)\[([0-9:,\-]+)\]\{(.*)\}',encoded,re.S)
+ if not match:return None
+ bounds=[tuple(map(int,pair.split(':'))) for pair in match[2].split(',')]
+ result=[];depth=0;begin=0;body=match[3]
+ for index,char in enumerate(body):
+  if char=='{':depth+=1
+  elif char=='}':depth-=1
+  elif char=='|' and depth==0:result.append(body[begin:index]);begin=index+1
+ if body:result.append(body[begin:])
+ assert depth==0
+ cardinality=1
+ for _,length in bounds:cardinality*=length
+ assert cardinality==len(result)
+ return dict(element_type=match[1],bounds=bounds,values=result)
+
+def nonfinite(token):
+ return bool(re.fullmatch('D[0-9A-F]{16}',token) and int(token[1:],16)&0x7ff0000000000000==0x7ff0000000000000)
+
+def inspect():
+ h=ROOT/'evidence/04A38';source=json.loads((h/'entry-members.json').read_bytes())
+ ids={kind:next(m['symbol_id'] for m in source['members'] if m['name']==name) for kind,name in MEMBERS.items()}
+ cases={};outputs={};traces={};inputs=[]
+ for corpus,(folder,count) in CORPORA.items():
+  base=h/'preedit'/folder;descriptors=[json.loads(line) for line in (base/'cases.jsonl').read_text(encoding='utf-8').splitlines()]
+  assert len(descriptors)==count and len({c['case_id'] for c in descriptors})==count
+  cases[corpus]={c['case_id']:c for c in descriptors};inputs.append(pin((base/'cases.jsonl').relative_to(ROOT).as_posix()))
+  for config in ['Debug','Release']:
+   output=base/(('original-'+config+'.tsv') if corpus=='original-v1' else ('capture-'+config+'-original-v1.tsv'))
+   trace=(h/'preedit/attempts/capture-v10'/('capture-'+config+'-trace-v1.tsv.reachability.jsonl') if corpus=='original-v1' else base/('capture-'+config+'-trace-v1.tsv.reachability.jsonl'))
+   with output.open(encoding='utf-8',newline='') as stream:records=list(csv.DictReader(stream,delimiter='\t'))
+   assert len(records)==count and set(cases[corpus])=={r['case_id'] for r in records}
+   outputs[corpus,config]={r['case_id']:r for r in records}
+   traces[corpus,config]={r['case_id']:set(r['reached']) for r in map(json.loads,trace.read_text(encoding='utf-8').splitlines())}
+   assert len(traces[corpus,config])==count
+   inputs.extend([pin(output.relative_to(ROOT).as_posix()),pin(trace.relative_to(ROOT).as_posix())])
+ report={};witnesses=[]
+ for config in ['Debug','Release']:
+  for culture in ['', 'sk-SK']:
+   for family,target in TARGETS.items():
+    counts=Counter();found=[]
+    for corpus,descriptors in cases.items():
+     for key,case in descriptors.items():
+      if case.get('culture')!=culture:continue
+      trace=traces[corpus,config][key]
+      # Include indirect/private invocation witnesses, not only public names.
+      if case.get('target')!=target and ids[family] not in trace:continue
+      record=outputs[corpus,config][key];entered=ids[family] in trace
+      counts['cases']+=1;counts['member_entered' if entered else 'member_not_entered']+=1;counts['outcome_'+record['outcome']]+=1
+      args=children(record['byref_arguments']);assert args
+      if case.get('target')!=target:
+       # This would require a separately reviewed binding/parameter mapping.
+       raise AssertionError('Previously unknown indirect helper case: '+key)
+      if family=='calibration':
+       assert len(args['values'])==5
+       bins,method,weights=args['values'][2:5]
+       counts['bins_token_'+bins]+=1;counts['method_token_'+method]+=1;counts['weights_token_'+('N' if weights=='N' else 'PRESENT')]+=1
+       result=children(record['result'])
+       if result and entered:
+        assert len(result['bounds'])==2 and result['bounds'][1][1]==8
+        rows=result['bounds'][0][1]
+        counts['prepared_data_rows']+=rows-1
+        counts['nonfinite_CI_rows']+=sum(nonfinite(result['values'][r*8+4]) or nonfinite(result['values'][r*8+5]) for r in range(1,rows))
+      else:
+       matrix=children(args['values'][0])
+       if matrix and len(matrix['bounds'])==2 and matrix['bounds'][0][1]>0:
+        columns=matrix['bounds'][1][1]
+        if family=='nested' and columns==3:
+         counts['first_response_token_'+('NUMBER' if matrix['values'][2].startswith('D') else 'OTHER')]+=1
+        elif family=='grouped':
+         counts['first_data_row_contains_nonnumeric_token']+=int(any(not v.startswith('D') for v in matrix['values'][:columns]))
+      found.append(key)
+      witnesses.append(dict(configuration=config,culture=culture,family=family,case_id=key,corpus=corpus,member_entered=entered,outcome=record['outcome'],arguments_descriptor=case.get('arguments',{})))
+    report[config+'/'+(culture or 'Invariant')+'/'+family]=dict(counts)
+ # Exact omissions are verified from recorded call arguments, not assumptions
+ # about generator names or whole-method entry counts.
+ for key,counts in report.items():
+  if key.endswith('/calibration'):
+   assert counts['cases']==29 and counts['bins_token_N']==29 and counts['method_token_N']==29 and counts['weights_token_N']==29
+   assert counts.get('nonfinite_CI_rows',0)==0
+  elif key.endswith('/nested'):assert counts.get('first_response_token_OTHER',0)==0
+  elif key.endswith('/grouped'):assert counts.get('first_data_row_contains_nonnumeric_token',0)==0
+ return dict(status='NOT_READY_04A38',reason='ESSENTIAL_FROZEN_BRANCH_COVERAGE_MISSING',reference_rows_per_configuration=28966,counts=report,
+  missing=[
+   dict(id='CALIB-EQUALWIDTH',member=MEMBERS['calibration'],shipping_path=TARGETS['calibration'],earliest_missing_phase='ParseCalibrationMethod supplied equalwidth/alias -> Core BuildEqualWidthCalibrationBins -> report assembly',frozen_cases=0,cultures=['Invariant','sk-SK']),
+   dict(id='CALIB-WEIGHTED-ZERO-BIN-CI',member=MEMBERS['calibration'],shipping_path=TARGETS['calibration'],earliest_missing_phase='Optional supplied weights -> SummarizeCalibrationBin sumW=0 -> WilsonInterval nonfinite endpoints -> ErrorMinus/ErrorPlus conditional arms',frozen_cases=0,cultures=['Invariant','sk-SK']),
+   dict(id='CALIB-NONDEFAULT-BINS',member=MEMBERS['calibration'],shipping_path=TARGETS['calibration'],earliest_missing_phase='Optional supplied bins; min/invalid/ordinary count and resulting row shape',frozen_cases=0,cultures=['Invariant','sk-SK']),
+   dict(id='GROUPED-HEADER-ALIGNMENT',member=MEMBERS['grouped'],shipping_path=TARGETS['grouped'],earliest_missing_phase='LooksLikeHeaderRow=True -> startData=1 -> independent group header alignment -> buckets',frozen_cases=0,cultures=['Invariant','sk-SK']),
+   dict(id='NESTED-RESPONSE-HEADER',member=MEMBERS['nested'],shipping_path=TARGETS['nested'],earliest_missing_phase='firstRespNumeric=False with numeric response below -> hasHeader=True -> authored captions and filtered rows',frozen_cases=0,cultures=['Invariant','sk-SK'])],
+  members=ids,inputs=inputs,witnesses=witnesses,
+  qualification='This is a post-checkpoint read-only coverage audit, not an original/current oracle or execution. Missing expected bytes are UNKNOWN. Existing managed quantile/weighted assertions supplement coverage but do not contain the missing equalwidth or nonfinite-CI exact outputs.',
+  stop='No production edit, new reference execution, capture replacement or late exception is authorized. A separate owner decision is required before a missing-reference remedy.',
+  remaining_scope='Other unfinished members/profiles are not certified; these verified gaps alone block acceptance.',native='NOT_RUN',scientific='NOT_GOLDEN')
+
+if __name__=='__main__':
+ result=inspect();save('frozen-branch-coverage.json',result)
+ print(json.dumps(dict(status=result['status'],counts=result['counts'],missing=[r['id'] for r in result['missing']])))

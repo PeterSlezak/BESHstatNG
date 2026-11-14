@@ -1,0 +1,709 @@
+{
+  "rows": [
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "IsMissingArg",
+      "source": "        Friend Function IsMissingArg(v As Object) As Boolean\n            Return v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "IsBlankCell",
+      "source": "        Friend Function IsBlankCell(cell As Object) As Boolean\n            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then Return True\n            If TypeOf cell Is String Then Return String.IsNullOrWhiteSpace(CStr(cell))\n            Return False\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "AsString",
+      "source": "        Public Function AsString(v As Object) As String\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return Nothing\n            Return Convert.ToString(v).Trim()\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "CellToTrimmedText",
+      "source": "        Friend Function CellToTrimmedText(v As Object) As String\n            If ExcelArgPredicates.IsMissingArg(v) Then Return \"\"\n\n            If TypeOf v Is String Then\n                Return CStr(v).Trim()\n            End If\n\n            If TypeOf v Is Double OrElse\n               TypeOf v Is Single OrElse\n               TypeOf v Is Decimal OrElse\n               TypeOf v Is Integer OrElse\n               TypeOf v Is Long OrElse\n               TypeOf v Is Short Then\n\n                Dim d As Double = Convert.ToDouble(v, CultureInfo.InvariantCulture)\n                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return \"\"\n\n                If Math.Abs(d - Math.Round(d)) < 0.000000000001R Then\n                    Return CLng(Math.Round(d)).ToString(CultureInfo.InvariantCulture)\n                End If\n\n                Return d.ToString(CultureInfo.InvariantCulture)\n            End If\n\n            Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)\n            If s Is Nothing Then Return \"\"\n            Return s.Trim()\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "TryGetDouble",
+      "source": "        Public Function TryGetDouble(v As Object) As Double?\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then\n                Return Nothing\n            End If\n            If TypeOf v Is ExcelError OrElse TypeOf v Is Boolean OrElse TypeOf v Is String Then\n                Return Nothing\n            End If\n            Try\n                Dim d As Double = Convert.ToDouble(v)\n                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return Nothing\n                Return d\n            Catch\n                Return Nothing\n            End Try\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "TryGetFiniteDouble",
+      "source": "        Public Function TryGetFiniteDouble(arg As Object, ByRef value As Double) As Boolean\n            Dim parsed As Double? = ExcelArgNumeric.TryGetDouble(arg)\n            If Not parsed.HasValue Then\n                value = Double.NaN\n                Return False\n            End If\n            value = parsed.Value\n            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "GetOptionalBool",
+      "source": "        Public Function GetOptionalBool(v As Object, defaultValue As Boolean) As Boolean\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            If TypeOf v Is Boolean Then Return CBool(v)\n            Dim s As String = Convert.ToString(v).Trim()\n            If String.IsNullOrEmpty(s) Then Return defaultValue\n            Select Case s.ToLowerInvariant()\n                Case \"true\", \"t\", \"yes\", \"y\", \"1\"\n                    Return True\n                Case \"false\", \"f\", \"no\", \"n\", \"0\"\n                    Return False\n                Case Else\n                    Return defaultValue\n            End Select\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "GetOptionalInt",
+      "source": "        Public Function GetOptionalInt(v As Object, defaultValue As Integer) As Integer\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If d.HasValue Then\n                Return CInt(Math.Truncate(d.Value))\n            End If\n            Return defaultValue\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "GetOptionalDouble",
+      "source": "        Public Function GetOptionalDouble(v As Object, defaultValue As Double) As Double\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If d.HasValue Then Return d.Value\n            Return defaultValue\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "TryGetBinary01",
+      "source": "        Friend Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean\n            value = -1\n\n            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then\n                Return False\n            End If\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(cell)\n            If d.HasValue Then\n                Dim iv As Integer = CInt(Math.Truncate(d.Value))\n                If iv = 0 OrElse iv = 1 Then\n                    value = iv\n                    Return True\n                End If\n                Return False\n            End If\n\n            If TypeOf cell Is Boolean Then\n                value = If(CBool(cell), 1, 0)\n                Return True\n            End If\n\n            Return False\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "TryGetWholeNumber",
+      "source": "        Friend Function TryGetWholeNumber(v As Object, ByRef value As Integer) As Boolean\n            value = 0\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If Not d.HasValue Then Return False\n            If Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then Return False\n\n            Dim rounded As Double = Math.Round(d.Value)\n            If Math.Abs(d.Value - rounded) > 0.0000001R Then Return False\n            If rounded < Integer.MinValue OrElse rounded > Integer.MaxValue Then Return False\n\n            value = CInt(rounded)\n            Return True\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "TryGetFiniteDoubleFlexible",
+      "source": "        Friend Function TryGetFiniteDoubleFlexible(v As Object, ByRef x As Double) As Boolean\n            x = 0.0R\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If d.HasValue Then\n                x = d.Value\n                Return True\n            End If\n\n            If ExcelArgPredicates.IsMissingArg(v) OrElse TypeOf v Is ExcelError OrElse TypeOf v Is Boolean Then Return False\n\n            Dim s As String = ExcelArgReaders.CellToTrimmedText(v)\n            If String.IsNullOrWhiteSpace(s) Then Return False\n\n            If Double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, x) Then\n                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)\n            End If\n\n            If Double.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, x) Then\n                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)\n            End If\n\n            Return False\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "TryGetStatus01Flexible",
+      "source": "        Friend Function TryGetStatus01Flexible(v As Object, ByRef value As Integer) As Boolean\n            value = 0\n\n            If ExcelArgNumeric.TryGetBinary01(v, value) Then Return True\n\n            Dim x As Double\n            If Not ExcelArgNumeric.TryGetFiniteDoubleFlexible(v, x) Then Return False\n\n            If x = 0.0R Then\n                value = 0\n                Return True\n            End If\n\n            If x = 1.0R Then\n                value = 1\n                Return True\n            End If\n\n            Return False\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "original",
+      "name": "TryGetOptionalPositiveInteger",
+      "source": "        Friend Function TryGetOptionalPositiveInteger(arg As Object,\n                                                      ByRef value As Integer,\n                                                      Optional defaultValue As Integer = 10,\n                                                      Optional minValue As Integer = 1) As Boolean\n            value = defaultValue\n            If ExcelArgPredicates.IsMissingArg(arg) Then Return True\n\n            Dim d As Double\n            If Not ExcelArgNumeric.TryGetFiniteDouble(arg, d) Then Return False\n\n            Dim rounded As Double = Math.Round(d)\n            If Math.Abs(d - rounded) > 0.0000001R Then Return False\n            If rounded < minValue Then Return False\n            If rounded > Integer.MaxValue Then Return False\n\n            value = CInt(rounded)\n            Return True\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "IsMissingArg",
+      "source": "        Friend Function IsMissingArg(v As Object) As Boolean\n            Return v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "IsBlankCell",
+      "source": "        Friend Function IsBlankCell(cell As Object) As Boolean\n            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then Return True\n            If TypeOf cell Is String Then Return String.IsNullOrWhiteSpace(CStr(cell))\n            Return False\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "AsString",
+      "source": "        Public Function AsString(v As Object) As String\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return Nothing\n            Return Convert.ToString(v).Trim()\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "CellToTrimmedText",
+      "source": "        Friend Function CellToTrimmedText(v As Object) As String\n            If ExcelArgPredicates.IsMissingArg(v) Then Return \"\"\n            If TypeOf v Is ExcelError Then\n                Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)\n                If s Is Nothing Then Return \"\"\n                Return s.Trim()\n            End If\n            Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.CellToTrimmedText(v)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "TryGetDouble",
+      "source": "        Public Function TryGetDouble(v As Object) As Double?\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then\n                Return Nothing\n            End If\n            If TypeOf v Is ExcelError OrElse TypeOf v Is Boolean OrElse TypeOf v Is String Then\n                Return Nothing\n            End If\n            Try\n                Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.ConvertFiniteNumber(v)\n            Catch\n                Return Nothing\n            End Try\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "TryGetFiniteDouble",
+      "source": "        Public Function TryGetFiniteDouble(arg As Object, ByRef value As Double) As Boolean\n            Dim parsed As Double? = ExcelArgNumeric.TryGetDouble(arg)\n            If Not parsed.HasValue Then\n                value = Double.NaN\n                Return False\n            End If\n            value = parsed.Value\n            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "GetOptionalBool",
+      "source": "        Public Function GetOptionalBool(v As Object, defaultValue As Boolean) As Boolean\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            If TypeOf v Is Boolean Then Return CBool(v)\n            Dim s As String = Convert.ToString(v).Trim()\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalBoolean(s, defaultValue)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "GetOptionalInt",
+      "source": "        Public Function GetOptionalInt(v As Object, defaultValue As Integer) As Integer\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalInteger(d, defaultValue)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "GetOptionalDouble",
+      "source": "        Public Function GetOptionalDouble(v As Object, defaultValue As Double) As Double\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalDouble(d, defaultValue)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "TryGetBinary01",
+      "source": "        Friend Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean\n            value = -1\n\n            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then\n                Return False\n            End If\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(cell)\n            Dim logicalValue As Boolean? = Nothing\n            If TypeOf cell Is Boolean Then logicalValue = CBool(cell)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryBinary(d, logicalValue, value)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "TryGetWholeNumber",
+      "source": "        Friend Function TryGetWholeNumber(v As Object, ByRef value As Integer) As Boolean\n            value = 0\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryWholeNumber(d, value)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "TryGetFiniteDoubleFlexible",
+      "source": "        Friend Function TryGetFiniteDoubleFlexible(v As Object, ByRef x As Double) As Boolean\n            x = 0.0R\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If d.HasValue Then\n                x = d.Value\n                Return True\n            End If\n\n            If ExcelArgPredicates.IsMissingArg(v) OrElse TypeOf v Is ExcelError OrElse TypeOf v Is Boolean Then Return False\n\n            Dim s As String = ExcelArgReaders.CellToTrimmedText(v)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryFiniteText(s, x)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "TryGetStatus01Flexible",
+      "source": "        Friend Function TryGetStatus01Flexible(v As Object, ByRef value As Integer) As Boolean\n            value = 0\n\n            If ExcelArgNumeric.TryGetBinary01(v, value) Then Return True\n\n            Dim x As Double\n            If Not ExcelArgNumeric.TryGetFiniteDoubleFlexible(v, x) Then Return False\n\n            If x = 0.0R Then\n                value = 0\n                Return True\n            End If\n\n            If x = 1.0R Then\n                value = 1\n                Return True\n            End If\n\n            Return False\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "role": "current",
+      "name": "TryGetOptionalPositiveInteger",
+      "source": "        Friend Function TryGetOptionalPositiveInteger(arg As Object,\n                                                      ByRef value As Integer,\n                                                      Optional defaultValue As Integer = 10,\n                                                      Optional minValue As Integer = 1) As Boolean\n            value = defaultValue\n            If ExcelArgPredicates.IsMissingArg(arg) Then Return True\n\n            Dim d As Double\n            If Not ExcelArgNumeric.TryGetFiniteDouble(arg, d) Then Return False\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryPositiveInteger(d, False, value, defaultValue, minValue)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8749,
+        "sha256": "d0eb454834cfcc3eec1718272f2492e6e5be6b565ff68705197a50aedc6bd29b"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "role": "original",
+      "name": "ANOVA1",
+      "source": "        Public Function ANOVA1(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Dim mdl As New parametric.OneWayANOVA(data, names)\n                mdl.compute()\n                Dim tables = mdl.wrapResults()\n                Return PrepareResultTableForUdf(tables(0))\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+        "bytes": 62170,
+        "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "role": "original",
+      "name": "ANOVA1_WELCH",
+      "source": "        Public Function ANOVA1_WELCH(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Dim mdl As New parametric.OneWayANOVA(data, names)\n                mdl.compute()\n                Dim w = mdl.WelshANOVA()\n\n                Dim body(0, 3) As Object\n                body(0, 0) = data.Length - 1\n                body(0, 1) = w.DF1\n                body(0, 2) = w.TestStatistics1\n                body(0, 3) = w.Pvalue\n\n                Dim t As New ResultTable\n                t.SetBody(body)\n                t.AddPvalueToFormat(4)\n                t.AddHeaderLeftRow({\"Welch ANOVA\"})\n                t.AddHeaderTopRow({\"Source\", \"df numerator\", \"df denominator\", \"F\", \"P-value\"})\n                Return PrepareResultTableForUdf(t)\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_WELCH\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+        "bytes": 62170,
+        "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "role": "original",
+      "name": "ANOVA1_MCP",
+      "source": "        Public Function ANOVA1_MCP(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing,\n            <ExcelArgument(Name:=\"method\", Description:=\"Optional: tukey/tukey-kramer (default), games-howell, lsd/fisher, bonferroni, or all.\")> Optional method As Object = Nothing,\n            <ExcelArgument(Name:=\"alpha\", Description:=\"Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).\")> Optional alpha As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n\n                Dim alphaValue As Double = 0.05\n                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum\n\n                Dim which As String = NormalizeText(method)\n                Dim mdl As New parametric.OneWayANOVA(data, names)\n                mdl.compute()\n\n                Select Case which\n                    Case \"\", \"TUKEY\", \"TUKEYKRAMER\", \"TUKEY-KRAMER\", \"TK\"\n                        mdl.TukeyKramer(alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"GAMESHOWELL\", \"GAMES-HOWELL\", \"GH\", \"GAMES\"\n                        mdl.GamesHowell(alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"LSD\", \"FISHER\", \"FISHERLSD\", \"FISHER-LSD\"\n                        mdl.FisherLSD(False, alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"BONF\", \"BONFERRONI\"\n                        mdl.FisherLSD(True, alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"ALL\", \"BOTH\"\n                        mdl.FisherLSD(False, alphaValue)\n                        mdl.FisherLSD(True, alphaValue)\n                        mdl.TukeyKramer(alphaValue)\n                        mdl.GamesHowell(alphaValue)\n\n                        Dim tables = mdl.wrapResults()\n                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))\n                        For i As Integer = 2 To tables.Count - 1\n                            stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))\n                        Next\n                        Return PrepareResultTableForUdf(stacked)\n\n                    Case Else\n                        Return ExcelError.ExcelErrorValue\n                End Select\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_MCP\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+        "bytes": 62170,
+        "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "role": "original",
+      "name": "ResolveNames",
+      "source": "        Friend Function ResolveNames(explicitNames As Object, detectedNames() As String, expectedCount As Integer, prefix As String) As String()\n            If Not IsMissingArg(explicitNames) Then\n                Dim names = Global.BESHStatNG.UdfDataImport.GetVariableNames(explicitNames, expectedCount)\n                For i As Integer = 0 To names.Length - 1\n                    If String.IsNullOrWhiteSpace(names(i)) Then names(i) = prefix & \" \" & (i + 1).ToString()\n                Next\n                Return names\n            End If\n\n            If detectedNames IsNot Nothing AndAlso detectedNames.Length = expectedCount Then\n                Dim names(expectedCount - 1) As String\n                For i As Integer = 0 To expectedCount - 1\n                    names(i) = detectedNames(i)\n                    If String.IsNullOrWhiteSpace(names(i)) Then names(i) = prefix & \" \" & (i + 1).ToString()\n                Next\n                Return names\n            End If\n\n            Dim fallback(expectedCount - 1) As String\n            For i As Integer = 0 To expectedCount - 1\n                fallback(i) = prefix & \" \" & (i + 1).ToString()\n            Next\n            Return fallback\n        End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+        "bytes": 62170,
+        "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "role": "current",
+      "name": "ANOVA1",
+      "source": "        Public Function ANOVA1(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayAnovaTable(data, names))\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "bytes": 58609,
+        "sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "role": "current",
+      "name": "ANOVA1_WELCH",
+      "source": "        Public Function ANOVA1_WELCH(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildWelchAnovaTable(data, names))\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_WELCH\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "bytes": 58609,
+        "sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "role": "current",
+      "name": "ANOVA1_MCP",
+      "source": "        Public Function ANOVA1_MCP(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing,\n            <ExcelArgument(Name:=\"method\", Description:=\"Optional: tukey/tukey-kramer (default), games-howell, lsd/fisher, bonferroni, or all.\")> Optional method As Object = Nothing,\n            <ExcelArgument(Name:=\"alpha\", Description:=\"Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).\")> Optional alpha As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n\n                Dim alphaValue As Double = 0.05\n                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum\n\n                Dim which As String = NormalizeText(method)\n                Dim stackAll As Boolean = False\n                Dim tables = Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayMcpTables(data, names, which, alphaValue, stackAll)\n                If tables Is Nothing Then Return ExcelError.ExcelErrorValue\n                If Not stackAll Then Return PrepareResultTableForUdf(tables(1))\n                Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))\n                For i As Integer = 2 To tables.Count - 1\n                    stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))\n                Next\n                Return PrepareResultTableForUdf(stacked)\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_MCP\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "bytes": 58609,
+        "sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "role": "current",
+      "name": "ResolveNames",
+      "source": "        Friend Function ResolveNames(explicitNames As Object, detectedNames() As String, expectedCount As Integer, prefix As String) As String()\n            If Not IsMissingArg(explicitNames) Then\n                Dim names = Global.BESHStatNG.UdfDataImport.GetVariableNames(explicitNames, expectedCount)\n                Return Global.BESHStatNG.ExcelCommon.UdfNamePreparation38.FillExplicitNames(names, prefix)\n            End If\n            Return Global.BESHStatNG.ExcelCommon.UdfNamePreparation38.ResolveDetectedNames(detectedNames, expectedCount, prefix)\n        End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "bytes": 58609,
+        "sha256": "4a836db75cfceb1503a347578f32caad2300746e6eb9e5575c11e973ab77378c"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "role": "original",
+      "name": "TryGetGroupedNumericColumns",
+      "source": "    Friend Function TryGetGroupedNumericColumns(input As Object,\n                                                ByRef groups()() As Double,\n                                                ByRef names() As String) As Boolean\n        Return TryReadGroupedNumericColumns(input, groups, names)\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImport.vb.txt",
+        "bytes": 34785,
+        "sha256": "2bbcde54be67979ca6ec0bc3230d6b1ebd7d95379ef51518ca13bfb22059ef4e"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "role": "original",
+      "name": "TryGetGroupedCompleteMatrix",
+      "source": "    Friend Function TryGetGroupedCompleteMatrix(data As Object,\n                                                groups As Object,\n                                                ByRef groupMatrices As List(Of Double(,)),\n                                                ByRef groupNames As List(Of String)) As Boolean\n        groupMatrices = Nothing\n        groupNames = Nothing\n\n        Dim dataArr As Object(,) = Get2D(data)\n        Dim groupArr As Object(,) = Get2D(groups)\n        If dataArr Is Nothing OrElse groupArr Is Nothing Then Return False\n        If groupArr.GetLength(1) <> 1 Then Return False\n\n        Dim dataRows As Integer = dataArr.GetLength(0)\n        Dim dataCols As Integer = dataArr.GetLength(1)\n        If dataRows < 1 OrElse dataCols < 1 Then Return False\n\n        Dim dataColIndexes(dataCols - 1) As Integer\n        For c As Integer = 0 To dataCols - 1\n            dataColIndexes(c) = c\n        Next\n\n        Dim dataHasHeader As Boolean = LooksLikeHeaderRow(dataArr, dataColIndexes)\n        Dim startData As Integer = If(dataHasHeader, 1, 0)\n\n        Dim usableRows As Integer = dataRows - startData\n        Dim groupRows As Integer = groupArr.GetLength(0)\n\n        Dim startGroup As Integer\n        If groupRows = usableRows Then\n            startGroup = 0\n        ElseIf groupRows = usableRows + 1 Then\n            startGroup = 1\n        Else\n            Return False\n        End If\n\n        Dim buckets As New Dictionary(Of String, List(Of Double()))(StringComparer.OrdinalIgnoreCase)\n        Dim order As New List(Of String)()\n\n        For i As Integer = 0 To usableRows - 1\n            Dim label As String = Convert.ToString(groupArr(startGroup + i, 0)).Trim()\n            If String.IsNullOrWhiteSpace(label) Then Continue For\n\n            Dim row(dataCols - 1) As Double\n            Dim ok As Boolean = True\n            For c As Integer = 0 To dataCols - 1\n                Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(dataArr(startData + i, c))\n                If Not d.HasValue OrElse Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then\n                    ok = False\n                    Exit For\n                End If\n                row(c) = d.Value\n            Next\n            If Not ok Then Continue For\n\n            If Not buckets.ContainsKey(label) Then\n                buckets(label) = New List(Of Double())()\n                order.Add(label)\n            End If\n            buckets(label).Add(row)\n        Next\n\n        groupMatrices = New List(Of Double(,))()\n        groupNames = New List(Of String)(order)\n        For Each label As String In order\n            groupMatrices.Add(RowsToMatrix(buckets(label), dataCols))\n        Next\n\n        Return True\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImport.vb.txt",
+        "bytes": 34785,
+        "sha256": "2bbcde54be67979ca6ec0bc3230d6b1ebd7d95379ef51518ca13bfb22059ef4e"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "role": "original",
+      "name": "TryGetNestedThreeColumnData",
+      "source": "    Friend Function TryGetNestedThreeColumnData(input As Object,\n                                                ByRef data(,) As Object,\n                                                ByRef names() As String) As Boolean\n        data = Nothing\n        names = Nothing\n\n        Dim arr As Object(,) = Get2D(input)\n        If arr Is Nothing Then Return False\n\n        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        If cols <> 3 OrElse rows < 1 Then Return False\n\n        Dim hasHeader As Boolean = False\n        If rows >= 2 Then\n            Dim firstRespNumeric As Boolean = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(0, 2)).HasValue\n            Dim belowRespNumeric As Boolean = False\n            For r As Integer = 1 To rows - 1\n                If Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 2)).HasValue Then\n                    belowRespNumeric = True\n                    Exit For\n                End If\n            Next\n            hasHeader = (Not firstRespNumeric) AndAlso belowRespNumeric\n        End If\n        Dim startRow As Integer = If(hasHeader, 1, 0)\n\n        names = New String() {\n            If(hasHeader, Convert.ToString(arr(0, 0)).Trim(), \"Group\"),\n            If(hasHeader, Convert.ToString(arr(0, 1)).Trim(), \"Subgroup\"),\n            If(hasHeader, Convert.ToString(arr(0, 2)).Trim(), \"Response\")\n        }\n\n        Dim rowsOut As New List(Of Object())()\n        For r As Integer = startRow To rows - 1\n            Dim g As String = Convert.ToString(arr(r, 0)).Trim()\n            Dim sg As String = Convert.ToString(arr(r, 1)).Trim()\n            Dim y As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 2))\n            If g <> \"\" AndAlso sg <> \"\" AndAlso y.HasValue Then\n                rowsOut.Add(New Object() {g, sg, y.Value})\n            End If\n        Next\n\n        If rowsOut.Count < 1 Then Return False\n        data = New Object(rowsOut.Count - 1, 2) {}\n        For r As Integer = 0 To rowsOut.Count - 1\n            data(r, 0) = rowsOut(r)(0)\n            data(r, 1) = rowsOut(r)(1)\n            data(r, 2) = rowsOut(r)(2)\n        Next\n        Return True\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImport.vb.txt",
+        "bytes": 34785,
+        "sha256": "2bbcde54be67979ca6ec0bc3230d6b1ebd7d95379ef51518ca13bfb22059ef4e"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "role": "current",
+      "name": "TryGetGroupedNumericColumns",
+      "source": "    Friend Function TryGetGroupedNumericColumns(input As Object,\n                                                ByRef groups()() As Double,\n                                                ByRef names() As String) As Boolean\n        Return TryReadGroupedNumericColumns(input, groups, names)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "bytes": 28566,
+        "sha256": "dff7ef34e4d6996a9e2430665dee716206fb6ad0c0b2d8f3c1697337f98fa81a"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "role": "current",
+      "name": "TryGetGroupedCompleteMatrix",
+      "source": "    Friend Function TryGetGroupedCompleteMatrix(data As Object,\n                                                groups As Object,\n                                                ByRef groupMatrices As List(Of Double(,)),\n                                                ByRef groupNames As List(Of String)) As Boolean\n        groupMatrices = Nothing\n        groupNames = Nothing\n\n        Dim dataArr As Object(,) = Get2D(data)\n        Dim groupArr As Object(,) = Get2D(groups)\n        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryGetGroupedCompleteMatrix(\n            dataArr, groupArr, AddressOf LooksLikeHeaderRow, Function(cell) Convert.ToString(cell).Trim(),\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble, groupMatrices, groupNames)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "bytes": 28566,
+        "sha256": "dff7ef34e4d6996a9e2430665dee716206fb6ad0c0b2d8f3c1697337f98fa81a"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "role": "current",
+      "name": "TryGetNestedThreeColumnData",
+      "source": "    Friend Function TryGetNestedThreeColumnData(input As Object,\n                                                ByRef data(,) As Object,\n                                                ByRef names() As String) As Boolean\n        data = Nothing\n        names = Nothing\n\n        Dim arr As Object(,) = Get2D(input)\n        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryGetNestedThreeColumnData(\n            arr, Function(cell) Convert.ToString(cell).Trim(),\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble, data, names)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "bytes": 28566,
+        "sha256": "dff7ef34e4d6996a9e2430665dee716206fb6ad0c0b2d8f3c1697337f98fa81a"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+      "role": "original",
+      "name": "TryParseAlpha",
+      "source": "    Friend Function TryParseAlpha(arg As Object, ByRef alpha As Double) As Boolean\n        alpha = 0.05\n        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return True\n\n        Try\n            If TypeOf arg Is String Then\n                Dim s As String = Convert.ToString(arg).Trim()\n                If Not Double.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, alpha) AndAlso\n                   Not Double.TryParse(s, alpha) Then\n                    Return False\n                End If\n            Else\n                alpha = Convert.ToDouble(arg)\n            End If\n        Catch\n            Return False\n        End Try\n\n        If Double.IsNaN(alpha) OrElse Double.IsInfinity(alpha) Then Return False\n        If alpha <= 0.0 OrElse alpha >= 1.0 Then Return False\n\n        Return True\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportOptions.vb.txt",
+        "bytes": 6783,
+        "sha256": "5b4047d7bb54394ddb27493c586a4cb279e4e6957ff6b4109f4a3c10364b193a"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+      "role": "current",
+      "name": "TryParseAlpha",
+      "source": "    Friend Function TryParseAlpha(arg As Object, ByRef alpha As Double) As Boolean\n        alpha = 0.05\n        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return True\n\n        Try\n            If TypeOf arg Is String Then\n                Dim s As String = Convert.ToString(arg).Trim()\n                Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryAlphaText(s, alpha)\n            Else\n                alpha = Convert.ToDouble(arg)\n            End If\n        Catch\n            Return False\n        End Try\n\n        Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.IsOpenProbability(alpha)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+        "bytes": 6023,
+        "sha256": "ca3e08673c99a431eb4bcb22f3554ad1c141c7ab4a3e4ed9668eb49a00756d23"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "original",
+      "name": "Get2D",
+      "source": "    Friend Function Get2D(v As Object) As Object(,)\n        If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return Nothing\n\n        Try\n            Return WindowsSpreadsheetTransport.ReadUdfMatrix(v,\n                Function(reference) XlCall.Excel(XlCall.xlCoerce, reference))\n        Catch\n            Return Nothing\n        End Try\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "original",
+      "name": "TryExtractNumericGroupsFromMatrix",
+      "source": "    Friend Function TryExtractNumericGroupsFromMatrix(mat As Object(,),\n                                                  startRow As Integer,\n                                                  hasHeader As Boolean,\n                                                  defaultPrefix As String,\n                                                  ByRef groups()() As Double, ByRef names() As String) As Boolean\n        groups = Nothing\n        names = Nothing\n\n        If mat Is Nothing Then Return False\n\n        Dim rows As Integer = mat.GetLength(0)\n        Dim cols As Integer = mat.GetLength(1)\n        If rows < 1 OrElse cols < 1 Then Return False\n\n        Dim groupList As New List(Of Double())()\n        Dim nameList As New List(Of String)()\n\n        For c As Integer = 0 To cols - 1\n            Dim values As New List(Of Double)(Math.Max(0, rows - startRow))\n            For r As Integer = startRow To rows - 1\n                Dim d As Double? = TryGetDouble(mat(r, c))\n                If d.HasValue Then values.Add(d.Value)\n            Next\n\n            If values.Count > 0 Then\n                groupList.Add(values.ToArray())\n                If hasHeader Then\n                    nameList.Add(CellToTrimmedText(mat(0, c)))\n                Else\n                    nameList.Add(defaultPrefix & (groupList.Count).ToString(CultureInfo.InvariantCulture))\n                End If\n            End If\n        Next\n\n        groups = groupList.ToArray()\n        names = nameList.ToArray()\n        Return True\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "original",
+      "name": "LooksLikeHeaderRow",
+      "source": "    Friend Function LooksLikeHeaderRow(arr As Object(,), numericCols As Integer()) As Boolean\n        Dim rows As Integer = arr.GetLength(0)\n        If rows < 2 Then Return False\n\n        Dim anyNonNumeric As Boolean = False\n        For Each c In numericCols\n            If Not TryGetDouble(arr(0, c)).HasValue Then\n                anyNonNumeric = True\n                Exit For\n            End If\n        Next\n        If Not anyNonNumeric Then Return False\n\n        For Each c In numericCols\n            Dim foundNumericBelow As Boolean = False\n            For r As Integer = 1 To rows - 1\n                If TryGetDouble(arr(r, c)).HasValue Then\n                    foundNumericBelow = True\n                    Exit For\n                End If\n            Next\n            If Not foundNumericBelow Then Return False\n        Next\n\n        Return True\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "original",
+      "name": "LooksLikeSingleColumnHeader",
+      "source": "    Friend Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean\n        If arr Is Nothing Then Return False\n        If arr.GetLength(1) <> 1 Then Return False\n\n        Dim rows As Integer = arr.GetLength(0)\n        If rows < 2 Then Return False\n        If TryGetDouble(arr(0, 0)).HasValue Then Return False\n\n        For r As Integer = 1 To rows - 1\n            If TryGetDouble(arr(r, 0)).HasValue Then Return True\n        Next\n\n        Return False\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "original",
+      "name": "TryReadGroupedNumericColumns",
+      "source": "    Friend Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean\n        groups = Nothing\n        names = Nothing\n        Dim arr As Object(,) = Get2D(input)\n        If arr Is Nothing Then Return False\n\n        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        If cols < 1 OrElse rows < 1 Then Return False\n\n        Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, Enumerable.Range(0, cols).ToArray())\n        Dim startRow As Integer = If(hasHeader, 1, 0)\n\n        Return TryExtractNumericGroupsFromMatrix(arr, startRow:=startRow, hasHeader:=hasHeader,\n                                             defaultPrefix:=\"Group \", groups:=groups, names:=names)\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "current",
+      "name": "Get2D",
+      "source": "    Friend Function Get2D(v As Object) As Object(,)\n        If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return Nothing\n\n        Try\n            Return WindowsSpreadsheetTransport.ReadUdfMatrix(v,\n                Function(reference) XlCall.Excel(XlCall.xlCoerce, reference))\n        Catch\n            Return Nothing\n        End Try\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 41648,
+        "sha256": "ae4d3fe3320287e177f2a72f2ef53c0c90530b489a0153020d5646d8ff662c00"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "current",
+      "name": "TryExtractNumericGroupsFromMatrix",
+      "source": "    Friend Function TryExtractNumericGroupsFromMatrix(mat As Object(,),\n                                                  startRow As Integer,\n                                                  hasHeader As Boolean,\n                                                  defaultPrefix As String,\n                                                  ByRef groups()() As Double, ByRef names() As String) As Boolean\n        groups = Nothing\n        names = Nothing\n        If mat Is Nothing Then Return False\n        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix(\n            mat.GetLength(0), mat.GetLength(1), startRow, hasHeader, defaultPrefix,\n            Function(row, column) TryGetDouble(mat(row, column)), Function(row, column) CellToTrimmedText(mat(row, column)), groups, names)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 41648,
+        "sha256": "ae4d3fe3320287e177f2a72f2ef53c0c90530b489a0153020d5646d8ff662c00"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "current",
+      "name": "LooksLikeHeaderRow",
+      "source": "    Friend Function LooksLikeHeaderRow(arr As Object(,), numericCols As Integer()) As Boolean\n        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeHeaderRow(arr.GetLength(0), numericCols, Function(row, column) TryGetDouble(arr(row, column)).HasValue)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 41648,
+        "sha256": "ae4d3fe3320287e177f2a72f2ef53c0c90530b489a0153020d5646d8ff662c00"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "current",
+      "name": "LooksLikeSingleColumnHeader",
+      "source": "    Friend Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean\n        If arr Is Nothing Then Return False\n        If arr.GetLength(1) <> 1 Then Return False\n        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeSingleColumnHeader(arr.GetLength(0), Function(row, column) TryGetDouble(arr(row, column)).HasValue)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 41648,
+        "sha256": "ae4d3fe3320287e177f2a72f2ef53c0c90530b489a0153020d5646d8ff662c00"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "role": "current",
+      "name": "TryReadGroupedNumericColumns",
+      "source": "    Friend Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean\n        groups = Nothing\n        names = Nothing\n        Dim arr As Object(,) = Get2D(input)\n        If arr Is Nothing Then Return False\n\n        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        If cols < 1 OrElse rows < 1 Then Return False\n\n        Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, Enumerable.Range(0, cols).ToArray())\n        Dim startRow As Integer = If(hasHeader, 1, 0)\n\n        Return TryExtractNumericGroupsFromMatrix(arr, startRow:=startRow, hasHeader:=hasHeader,\n                                             defaultPrefix:=\"Group \", groups:=groups, names:=names)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "bytes": 41648,
+        "sha256": "ae4d3fe3320287e177f2a72f2ef53c0c90530b489a0153020d5646d8ff662c00"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb",
+      "role": "original",
+      "name": "LoggedUdfError",
+      "source": "    Friend Function LoggedUdfError(functionName As String,\n                                   ex As Exception,\n                                   fallback As Object,\n                                   Optional uiPrefix As String = Nothing) As Object\n        Dim logMessage As String = functionName & \" failed\"\n        If Not String.IsNullOrWhiteSpace(uiPrefix) Then logMessage &= \". \" & uiPrefix.Trim()\n\n        CoreServices.Logger.Error(ex, logMessage)\n\n        If String.IsNullOrWhiteSpace(uiPrefix) Then Return fallback\n\n        Return uiPrefix & ex.Message\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UDFhelpers.vb.txt",
+        "bytes": 2429,
+        "sha256": "1599b453f8f35b21c8a01781104c33e99ce93bc62e8f21b83cebb94d35fe7112"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb",
+      "role": "current",
+      "name": "LoggedUdfError",
+      "source": "    Friend Function LoggedUdfError(functionName As String,\n                                   ex As Exception,\n                                   fallback As Object,\n                                   Optional uiPrefix As String = Nothing) As Object\n        Dim logMessage As String = functionName & \" failed\"\n        If Not String.IsNullOrWhiteSpace(uiPrefix) Then logMessage &= \". \" & uiPrefix.Trim()\n\n        CoreServices.Logger.Error(ex, logMessage)\n\n        If String.IsNullOrWhiteSpace(uiPrefix) Then Return fallback\n\n        Return uiPrefix & ex.Message\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb",
+        "bytes": 2429,
+        "sha256": "1599b453f8f35b21c8a01781104c33e99ce93bc62e8f21b83cebb94d35fe7112"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "role": "original",
+      "name": "PrepareResultTableForUdf",
+      "source": "    Friend Function PrepareResultTableForUdf(table As Object) As Object(,)\n        Dim arr As Object(,) = TryCast(table, Object(,))\n        If arr Is Nothing Then Return Nothing\n\n        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        Dim out(rows - 1, cols - 1) As Object\n\n        For r As Integer = 0 To rows - 1\n            For c As Integer = 0 To cols - 1\n                Dim v As Object = arr(r, c)\n\n                If v Is Nothing Then\n                    out(r, c) = String.Empty ' ExcelEmpty.Value\n                ElseIf TypeOf v Is DBNull Then\n                    out(r, c) = String.Empty ' ExcelEmpty.Value\n                Else\n                    out(r, c) = v\n                End If\n            Next\n        Next\n\n        Return out\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "role": "original",
+      "name": "PrepareResultTableForUdf",
+      "source": "    Friend Function PrepareResultTableForUdf(table As ResultTable) As Object(,)\n        If table Is Nothing Then Return Nothing\n\n        Dim model As ResultTableOutputModel = table.ToOutputModel()\n        Dim out As Object(,) = PrepareResultTableForUdf(model.Values)\n        If out Is Nothing Then Return Nothing\n\n        Dim firstBodyRow As Integer = model.TitleRows + model.HeaderTopRows\n        Dim lastBodyRow As Integer = out.GetLength(0) - model.FooterRows - 1\n\n        For Each bodyColumn As Integer In model.PvalueColumns\n            Dim columnIndex As Integer = model.HeaderLeftColumns + bodyColumn - 1\n            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For\n\n            For rowIndex As Integer = Math.Max(0, firstBodyRow) To Math.Min(lastBodyRow, out.GetLength(0) - 1)\n                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))\n            Next\n        Next\n\n        For Each address As ResultTableCellAddress In model.PvalueCells\n            Dim rowIndex As Integer = firstBodyRow + address.BodyRow - 1\n            Dim columnIndex As Integer = model.HeaderLeftColumns + address.BodyColumn - 1\n            If rowIndex < firstBodyRow OrElse rowIndex > lastBodyRow Then Continue For\n            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For\n            out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))\n        Next\n\n        Return out\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "role": "original",
+      "name": "FormatPValueForUdf",
+      "source": "    Private Function FormatPValueForUdf(value As Object) As Object\n        If Not IsNumericValue(value) Then Return value\n\n        Dim pvalue As Double\n        Try\n            pvalue = Convert.ToDouble(value, CultureInfo.InvariantCulture)\n        Catch ex As Exception\n            Return value\n        End Try\n\n        Return PValuePresentation.FormatForDisplay(pvalue, AppGlobals.PValuePresentation)\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "role": "original",
+      "name": "IsNumericValue",
+      "source": "    Private Function IsNumericValue(value As Object) As Boolean\n        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is Boolean Then Return False\n\n        Select Case Type.GetTypeCode(value.GetType())\n            Case TypeCode.Byte, TypeCode.SByte, TypeCode.Int16, TypeCode.UInt16,\n                 TypeCode.Int32, TypeCode.UInt32, TypeCode.Int64, TypeCode.UInt64,\n                 TypeCode.Single, TypeCode.Double, TypeCode.Decimal\n                Return True\n            Case Else\n                Return False\n        End Select\n    End Function",
+      "source_pin": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "role": "current",
+      "name": "PrepareResultTableForUdf",
+      "source": "    Friend Function PrepareResultTableForUdf(table As Object) As Object(,)\n        Return Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.NormalizeBlanks(table)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "bytes": 19571,
+        "sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "role": "current",
+      "name": "PrepareResultTableForUdf",
+      "source": "    Friend Function PrepareResultTableForUdf(table As ResultTable) As Object(,)\n        If table Is Nothing Then Return Nothing\n\n        Dim model As ResultTableOutputModel = table.ToOutputModel()\n        Dim out As Object(,) = PrepareResultTableForUdf(model.Values)\n        If out Is Nothing Then Return Nothing\n\n        For Each address In Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.PvalueCells(model, out.GetLength(0), out.GetLength(1))\n            out(address.RowOrdinal, address.ColumnOrdinal) = FormatPValueForUdf(out(address.RowOrdinal, address.ColumnOrdinal))\n        Next\n\n        Return out\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "bytes": 19571,
+        "sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "role": "current",
+      "name": "FormatPValueForUdf",
+      "source": "    Private Function FormatPValueForUdf(value As Object) As Object\n        If Not IsNumericValue(value) Then Return value\n\n        Dim pvalue As Double\n        Try\n            pvalue = Convert.ToDouble(value, CultureInfo.InvariantCulture)\n        Catch ex As Exception\n            Return value\n        End Try\n\n        Return PValuePresentation.FormatForDisplay(pvalue, AppGlobals.PValuePresentation)\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "bytes": 19571,
+        "sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "role": "current",
+      "name": "IsNumericValue",
+      "source": "    Private Function IsNumericValue(value As Object) As Boolean\n        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is Boolean Then Return False\n\n        Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.IsNumericTypeCode(Type.GetTypeCode(value.GetType()))\n    End Function",
+      "source_pin": {
+        "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "bytes": 19571,
+        "sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+      }
+    }
+  ],
+  "originals": "Existing immutable snapshots only; no original execution"
+}

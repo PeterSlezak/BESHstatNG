@@ -1,0 +1,55 @@
+{
+  "role": "original",
+  "configuration": "Debug",
+  "mode": "plain",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/input-seal.json",
+    "bytes": 6262,
+    "sha256": "ea476dcd4b1e60c4ddb19cc47a25e01f32a440cbe6ffb2f57928e6b086db8954"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 49664,
+    "sha256": "765e04e01d622a0a64dbb8fade2aa3b9131cc767ac1b2089515488185804b9fd"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Debug/plain/execution.json",
+      "bytes": 1017,
+      "sha256": "f650d4f221a2457cf1f5a79509f6cd9cef271696848b9abb9893d8ed9a46f3b9"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Debug/plain/results.tsv",
+      "bytes": 31314,
+      "sha256": "16f4d287c22ade963412832192f1ae2355ad87f1d1bcefa8ea54b946ce0a8722"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Debug/plain/results.tsv.cultures.json",
+      "bytes": 497,
+      "sha256": "d2eeb8a1283a3b8474f4941a338e38801332d8a3de748f54fe29b22384c1ac8b"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Debug/plain/results.tsv.sessions.json",
+      "bytes": 14879,
+      "sha256": "b869bc968f61fa2fef1fcfa1b42d511c195c456d3cd0699c75d5818fd4327a0c"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v6\\original-Debug-plain-v2\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v6\\original-Debug-plain-v2",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\inputs-Debug.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\original-results\\Debug\\plain\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\original-results\\Debug\\plain\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.46844339999370277,
+    "stdout_sha256": "336d4d7a8f378777eb9ecf6a52ea864055fd08dbbc3063f5d215b337762305a4",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

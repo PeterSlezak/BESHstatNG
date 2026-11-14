@@ -1,0 +1,75 @@
+{
+  "parts": [
+    {
+      "suite": "Core",
+      "part": "all",
+      "name": "w2c17pc1-replacement-v1-Debug-serial-Core",
+      "selection": null,
+      "state": "COMPLETED"
+    },
+    {
+      "suite": "Common",
+      "part": "main",
+      "name": "w2c17pc1-replacement-v1-Debug-serial-Common-main",
+      "selection": "FullyQualifiedName!~MigrationSemantic04A02Tests",
+      "state": "COMPLETED"
+    },
+    {
+      "suite": "Common",
+      "part": "semantic",
+      "name": "w2c17pc1-CS",
+      "selection": "FullyQualifiedName~MigrationSemantic04A02Tests",
+      "state": "NOT_STARTED"
+    },
+    {
+      "suite": "Legacy",
+      "part": "all",
+      "name": "w2c17pc1-Legacy",
+      "selection": null,
+      "state": "NOT_STARTED"
+    },
+    {
+      "suite": "ControlMitigation",
+      "part": "all",
+      "name": "w2c17pc1-Mitigation",
+      "selection": null,
+      "state": "NOT_STARTED"
+    },
+    {
+      "suite": "OfficeAddin",
+      "part": "all",
+      "name": "w2c17pc1-OfficeAddin",
+      "selection": null,
+      "state": "NOT_STARTED"
+    },
+    {
+      "suite": "OfficeExecution",
+      "part": "all",
+      "name": "w2c17pc1-OfficeExecution",
+      "selection": null,
+      "state": "NOT_STARTED"
+    }
+  ],
+  "build_label": "w2c17pc1-replacement-v1",
+  "failed_prelaunch_name": "w2c17pc1-replacement-v1-Debug-serial-Common-semantic",
+  "failed_prelaunch_executed_tests": 0,
+  "completed_parts_repeated": 0,
+  "reason": "WinError3 during copytree at >260-character satellite DLL path; shorter execution names for five not-started parts only. Existing partial copy and raw failed wrapper remain preserved.",
+  "failed_raw": [
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-replacement-managed-suites/command.json",
+      "bytes": 909,
+      "sha256": "f8ffbb7b46bdf3902563095994777de2e863e87dd1c9e01022b3d5fe6144f3c4"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-replacement-managed-suites/stdout.log",
+      "bytes": 109,
+      "sha256": "90c153ad38102bcad62ea37b5144965514f4c0602cc35946516bac7a2aa800e0"
+    },
+    {
+      "path": ".test-rationalization-04A38.tmp/commands/w2c17pc1-replacement-managed-suites/stderr.log",
+      "bytes": 2784,
+      "sha256": "e367c21be131ab584d9ed993b9516429f7a1a1d32d81882ae4dcf5226c2e6e26"
+    }
+  ]
+}

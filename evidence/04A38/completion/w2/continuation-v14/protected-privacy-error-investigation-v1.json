@@ -1,0 +1,93 @@
+{
+  "current_errors": [
+    {
+      "outcome": "ERROR",
+      "subtest": null,
+      "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values\n    findings, _ = p.scan(candidates)\n                  ~~~~~~^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v14\\parallel_scan_v1.py\", line 124, in scan\n    return sequential(candidates)\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    for path,digest in sorted(modules.items()):\n                                             ^^\n  File \"<REPO_ROOT>\\scripts\\verify-04a13-publication.py\", line 59, in scan\n    doc = json.loads(text, parse_constant=lambda value: (_ for _ in ()).throw(ValueError('Non-standard JSON constant')))\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\__init__.py\", line 365, in loads\n    return cls(**kw).decode(s)\n           ~~~~~~~~~~~~~~~~^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\decoder.py\", line 361, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ~~~~~~~~~~~~~~^^^^^^^^\njson.decoder.JSONDecodeError: Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)\n",
+      "traceback_sha256": "d0d6e7311672c98d648d6edbb3ab39f3818aa815fcf226083daa86f18ba5b604",
+      "message": "Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a13_survival_workflow.py\", line 165, in test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "occurrence": 0,
+      "lane": 1,
+      "phase": "MAIN",
+      "raw_message_sha256": "f819977cb14a8510372e728be57bf4d45a075d3d9eb1e413c5673661d8310705",
+      "classification": "INHERITED_C13_NONPASS_EVENT_IDENTITY_OUTCOME_OCCURRENCE_NOT_WAIVED",
+      "previous_first_failure_links": [
+        {
+          "source": {
+            "path": "evidence/04A38/completion/w2/continuation-v13/python-first-failures-v2.json",
+            "bytes": 1178715,
+            "sha256": "4851a538eed77e2915db76e8b1b8aae74e675f73cd24ef52125bde8bcfe74ec6"
+          },
+          "event_key": [
+            "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+            "ERROR",
+            "",
+            0
+          ],
+          "message_sha256": "f819977cb14a8510372e728be57bf4d45a075d3d9eb1e413c5673661d8310705",
+          "traceback_sha256": "6fb29c9361721092baeb1528b1fce78d59da975ac84b108ffb217790ea7d4d2c"
+        }
+      ]
+    },
+    {
+      "outcome": "ERROR",
+      "subtest": null,
+      "traceback": "Traceback (most recent call last):\n  File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy\n    findings, _ = pub.scan([p for p in pub.paths() if (ROOT / p).is_file()])\n                  ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v14\\parallel_scan_v1.py\", line 124, in scan\n    return sequential(candidates)\n  File \"C7 unchanged C6 scanner hook\", line 51, in scan\n    for path,digest in sorted(modules.items()):\n                                             ^^\n  File \"<REPO_ROOT>\\scripts\\verify-04a14-publication.py\", line 59, in scan\n    doc = json.loads(text, parse_constant=lambda value: (_ for _ in ()).throw(ValueError('Non-standard JSON constant')))\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\__init__.py\", line 365, in loads\n    return cls(**kw).decode(s)\n           ~~~~~~~~~~~~~~~~^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<PRIVATE_HOME>\\Desktop\\WPy64-31470\\python\\Lib\\json\\decoder.py\", line 361, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ~~~~~~~~~~~~~~^^^^^^^^\njson.decoder.JSONDecodeError: Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)\n",
+      "traceback_sha256": "cae45ff4c63cbe2f4b5eef053387155d3bf265cfd80ffdd44827273a8f8a7bab",
+      "message": "Expecting ',' delimiter: line 61685373 column 65 (char 4213129662)",
+      "first_traceback": "File \"<REPO_ROOT>\\scripts\\tests\\test_04a14_mixed_workflow.py\", line 214, in test_entire_proposed_publication_set_privacy",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "occurrence": 0,
+      "lane": 1,
+      "phase": "MAIN",
+      "raw_message_sha256": "f819977cb14a8510372e728be57bf4d45a075d3d9eb1e413c5673661d8310705",
+      "classification": "INHERITED_C13_NONPASS_EVENT_IDENTITY_OUTCOME_OCCURRENCE_NOT_WAIVED",
+      "previous_first_failure_links": [
+        {
+          "source": {
+            "path": "evidence/04A38/completion/w2/continuation-v13/python-first-failures-v2.json",
+            "bytes": 1178715,
+            "sha256": "4851a538eed77e2915db76e8b1b8aae74e675f73cd24ef52125bde8bcfe74ec6"
+          },
+          "event_key": [
+            "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+            "ERROR",
+            "",
+            0
+          ],
+          "message_sha256": "f819977cb14a8510372e728be57bf4d45a075d3d9eb1e413c5673661d8310705",
+          "traceback_sha256": "f92756f3cc9580e4655ecc906a239b75b08f4e90efc049a7b6c0a8070493d09b"
+        }
+      ]
+    }
+  ],
+  "artifact": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/python-first-failures-v1.json",
+    "bytes": 4213129746,
+    "sha256": "3ed32a23d2a6ee59a64c80ce3977ca89b6dcc8572453222c957af1596ca302eb"
+  },
+  "prior_v13": {
+    "path": "evidence/04A38/completion/w2/continuation-v13/python-first-failures-v2.json",
+    "bytes": 1178715,
+    "sha256": "4851a538eed77e2915db76e8b1b8aae74e675f73cd24ef52125bde8bcfe74ec6"
+  },
+  "prior_v12": {
+    "path": "evidence/04A38/completion/w2/continuation-v12/python-first-failures-v2.json",
+    "bytes": 1177931,
+    "sha256": "b6ad64e6f633db270c27059c3a853fa55e8fa8012d0880c6978abca732ceb2d9"
+  },
+  "prior_v10": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/python-first-failures-v2.json",
+    "bytes": 1173772,
+    "sha256": "0e1b92867f1044bacdb77557246d231328d2f99f09afed44927558ecd1526838"
+  },
+  "prior_v9": {
+    "path": "evidence/04A38/completion/w2/continuation-v9/python-first-failures-v2.json",
+    "bytes": 1173678,
+    "sha256": "9618d3b763f552b8eb87355f73cb0611b2710033077de33b7b67df591ad6f56c"
+  },
+  "remedy": "No protected artifact/assertion/reference change. The original scanners still parse the malformed immutable JSON and error. Earlier FAIL histories and all subsequent ERROR histories remain. Any authority/assertion remedy requires a separate specific owner decision.",
+  "original_queries": 0
+}

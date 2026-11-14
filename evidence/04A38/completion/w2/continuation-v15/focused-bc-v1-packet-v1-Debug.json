@@ -1,0 +1,536 @@
+{
+  "results": [
+    {
+      "kind": "BUILD",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "msbuild",
+          "<REPO_ROOT>\\BESHStat.Excel.Common.Tests\\BESHStat.Excel.Common.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v1-focus-bc-v1\\Debug\\tests-Common\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v1-focus-bc-v1\\Debug\\obj\\tests-Common\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 4.953986599997734,
+        "stdout_sha256": "83edf9dd482cd02e159dbd7ad706266be71eccf70e6af88b94b1db2eead147aa",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Common",
+      "command": {
+        "command": [
+          "dotnet",
+          "vstest",
+          "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v1-focus-bc-v1\\Debug\\tests-Common\\BESHStat.Excel.Common.Tests.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~UdfContinuation15Tests",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont15\\packet-v1-focus-bc-v1\\Debug\\results-Common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.023494399996707,
+        "stdout_sha256": "7ba6ad81b7343b7a48315a9292c5ee03408d1e944f8e4529686987fac49627c9",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeeTestsPrefixLeavesNativeTimeRowAndPadsNarrowValues",
+            "test_name": "GeeTestsPrefixLeavesNativeTimeRowAndPadsNarrowValues (True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001883",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeeTestsPrefixKeepsColumnFailureAndByRefProgress",
+            "test_name": "GeeTestsPrefixKeepsColumnFailureAndByRefProgress",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003414",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeeTestsPrefixLeavesNativeTimeRowAndPadsNarrowValues",
+            "test_name": "GeeTestsPrefixLeavesNativeTimeRowAndPadsNarrowValues (False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004689",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"plot\",4)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002512",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxRecordsPreserveInputOrderIdentityTiesAndCensorValues",
+            "test_name": "CoxRecordsPreserveInputOrderIdentityTiesAndCensorValues (True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002910",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeeSummaryUsesInvariantConfidenceLabelAndKeepsZeroSeNumbers",
+            "test_name": "GeeSummaryUsesInvariantConfidenceLabelAndKeepsZeroSeNumbers (\"sk-SK\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003067",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"other\",4)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000106",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxSummaryRetainsDisplaySideEffectsBeforeMissingNameFailure",
+            "test_name": "CoxSummaryRetainsDisplaySideEffectsBeforeMissingNameFailure",
+            "outcome": "Passed",
+            "duration": "00:00:00.0014509",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"survival\",3)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000165",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxPreparedInputDoesNotNormalizeNonzeroArrayBounds",
+            "test_name": "CoxPreparedInputDoesNotNormalizeNonzeroArrayBounds",
+            "outcome": "Passed",
+            "duration": "00:00:00.0015323",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxResidualScalarUsesExistingLabelAndRetainsRaggedFailure",
+            "test_name": "CoxResidualScalarUsesExistingLabelAndRetainsRaggedFailure",
+            "outcome": "Passed",
+            "duration": "00:00:00.0004522",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeeProfileDefaultsAndListAliasingAreDistinctPerOwnerAndInstance",
+            "test_name": "GeeProfileDefaultsAndListAliasingAreDistinctPerOwnerAndInstance",
+            "outcome": "Passed",
+            "duration": "00:00:00.0013425",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxTestsKeepHeaderDependentConvergedRowAndNativeFaultIdentity",
+            "test_name": "CoxTestsKeepHeaderDependentConvergedRowAndNativeFaultIdentity (True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002163",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxTestsKeepHeaderDependentConvergedRowAndNativeFaultIdentity",
+            "test_name": "CoxTestsKeepHeaderDependentConvergedRowAndNativeFaultIdentity (False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0009873",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxRecordEmptyInputDoesNotDereferencePayload",
+            "test_name": "CoxRecordEmptyInputDoesNotDereferencePayload",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000990",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeePredictionEmptyShapeAndRowOffsetArePreserved",
+            "test_name": "GeePredictionEmptyShapeAndRowOffsetArePreserved (True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002690",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"hazard\",4)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001318",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeeMaterializationRetainsNullFaultAndRaggedPadding",
+            "test_name": "GeeMaterializationRetainsNullFaultAndRaggedPadding",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006858",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxSummaryPreservesRobustSelectionAndDisplayCallbackOrder",
+            "test_name": "CoxSummaryPreservesRobustSelectionAndDisplayCallbackOrder (False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0050309",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxSummaryPreservesRobustSelectionAndDisplayCallbackOrder",
+            "test_name": "CoxSummaryPreservesRobustSelectionAndDisplayCallbackOrder (True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003208",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxSummaryDoesNotCatchOrReplaceDisplayPolicyException",
+            "test_name": "CoxSummaryDoesNotCatchOrReplaceDisplayPolicyException",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005751",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselinePreservesRepeatedKeyConversionAndPartialByRefRow",
+            "test_name": "CoxBaselinePreservesRepeatedKeyConversionAndPartialByRefRow",
+            "outcome": "Passed",
+            "duration": "00:00:00.0006353",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"table\",4)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0011779",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeePredictionEmptyShapeAndRowOffsetArePreserved",
+            "test_name": "GeePredictionEmptyShapeAndRowOffsetArePreserved (False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003223",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeeResidualColumnOrderAndRaggedPartialListRemainVisible",
+            "test_name": "GeeResidualColumnOrderAndRaggedPartialListRemainVisible",
+            "outcome": "Passed",
+            "duration": "00:00:00.0008727",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxResidualPreparationKeepsSuppliedRowOrderAndNativeSpecialNumbers",
+            "test_name": "CoxResidualPreparationKeepsSuppliedRowOrderAndNativeSpecialNumbers",
+            "outcome": "Passed",
+            "duration": "00:00:00.0008808",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "GeeSummaryUsesInvariantConfidenceLabelAndKeepsZeroSeNumbers",
+            "test_name": "GeeSummaryUsesInvariantConfidenceLabelAndKeepsZeroSeNumbers (\"\")",
+            "outcome": "Passed",
+            "duration": "00:00:00.0014166",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxRecordsPreserveInputOrderIdentityTiesAndCensorValues",
+            "test_name": "CoxRecordsPreserveInputOrderIdentityTiesAndCensorValues (False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0074309",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStat.Excel.Common.Tests.UdfContinuation15Tests",
+            "method": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells",
+            "test_name": "CoxBaselineKeepsAliasShapeAndOriginalBlankCells (\"cumhaz\",3)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000098",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 29
+        },
+        "counters": {
+          "total": "29",
+          "executed": "29",
+          "passed": "29",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "e3cafbb771c23ea307472721f31560125a2a74ca16f6c09c0b5fea3db3a4044b"
+      }
+    },
+    {
+      "kind": "BUILD",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "<REPO_ROOT>\\BESHStatNG.Test\\BESHStatNG.Tests.vbproj",
+          "/t:Build",
+          "/p:Configuration=Debug",
+          "/p:BuildProjectReferences=false",
+          "/p:ProduceReferenceAssembly=false",
+          "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v1-focus-bc-v1\\Debug\\tests-Legacy\\",
+          "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont15\\packet-v1-focus-bc-v1\\Debug\\obj\\tests-Legacy\\",
+          "/p:PythonExe=<PYTHON>",
+          "/m:4",
+          "/v:minimal",
+          "/nr:false"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 2.235153100002208,
+        "stdout_sha256": "ed6b8ecfa4a0a2d9179205ec18487ca64a812d31480261753ea05d1f4820491c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      }
+    },
+    {
+      "kind": "TEST",
+      "suite": "Legacy",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont15\\packet-v1-focus-bc-v1\\Debug\\tests-Legacy\\BESHStatNG.Test.dll",
+          "/Settings:<REPO_ROOT>\\test.runsettings",
+          "/TestCaseFilter:FullyQualifiedName~Continuation15",
+          "/Logger:trx;LogFileName=focused.trx",
+          "/ResultsDirectory:<ISOLATED_RUN>\\completion-w2-cont15\\packet-v1-focus-bc-v1\\Debug\\results-Legacy",
+          "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 4.980747400004475,
+        "stdout_sha256": "c32a6d3a5d39228f5ed63e6be53ffe90a20dbe67893349e1ab92af6efbcd3e8f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "tests": {
+        "records": [
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.CoxUDFs,COX_FIT,BESHStatNG.ExcelCommon.UdfCoxInputPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0013403",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15GeeSummaryTestsKeepNativeCacheAndInvariantLabels",
+            "test_name": "Continuation15GeeSummaryTestsKeepNativeCacheAndInvariantLabels ()",
+            "outcome": "Passed",
+            "duration": "00:00:00.0084881",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ExactCoxLambdaKeepsItsCompiledIdentityFunction",
+            "test_name": "Continuation15ExactCoxLambdaKeepsItsCompiledIdentityFunction",
+            "outcome": "Passed",
+            "duration": "00:00:00.0028085",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.GEEUDFs,GEE_PRED,BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000460",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.CoxUDFs,COX_SUMMARY,BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001979",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.CoxUDFs,COX_RESID,BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001537",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.GEEUDFs,GEE_RESID,BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001013",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15FourExactMovedGeePropertiesUseActualInheritedAccessors",
+            "test_name": "Continuation15FourExactMovedGeePropertiesUseActualInheritedAccessors (GeeLsmEstimateAtProfile,TimeSpecified,UdfGeeAtProfile38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0005872",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15CoxSummaryTestsHandleAlphaAndDropBoundaries",
+            "test_name": "Continuation15CoxSummaryTestsHandleAlphaAndDropBoundaries (True)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001714",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.CoxUDFs,COX_TESTS,BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001854",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15CoxSummaryTestsHandleAlphaAndDropBoundaries",
+            "test_name": "Continuation15CoxSummaryTestsHandleAlphaAndDropBoundaries (False)",
+            "outcome": "Passed",
+            "duration": "00:00:00.1191180",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.GEEUDFs,GEE_TESTS,BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000349",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15FourExactMovedGeePropertiesUseActualInheritedAccessors",
+            "test_name": "Continuation15FourExactMovedGeePropertiesUseActualInheritedAccessors (GeeLsmEstimateAtProfile,ProfileValues,UdfGeeAtProfile38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0001035",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15GeeSummaryTestsKeepNativeCacheAndInvariantLabels",
+            "test_name": "Continuation15GeeSummaryTestsKeepNativeCacheAndInvariantLabels (sk-SK)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0002213",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15FourExactMovedGeePropertiesUseActualInheritedAccessors",
+            "test_name": "Continuation15FourExactMovedGeePropertiesUseActualInheritedAccessors (GeeLsmEstimateAtProfile,TimeValue,UdfGeeAtProfile38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000711",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.GEEUDFs,MaterializeRows,BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000246",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.CoxUDFs,COX_BASELINE,BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0003265",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15FourExactMovedGeePropertiesUseActualInheritedAccessors",
+            "test_name": "Continuation15FourExactMovedGeePropertiesUseActualInheritedAccessors (GeeLsmEstimateComponent,ProfileValues,UdfGeeComponent38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0021220",
+            "message": ""
+          },
+          {
+            "class_name": "BESHStatNG.Test.UdfPreparation38AdapterTests",
+            "method": "Continuation15ActualShippingConsumersReachCommonPreparation",
+            "test_name": "Continuation15ActualShippingConsumersReachCommonPreparation (BESHStatNG.WorksheetFunctions.GEEUDFs,GEE_SUMMARY,BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38)",
+            "outcome": "Passed",
+            "duration": "00:00:00.0000655",
+            "message": ""
+          }
+        ],
+        "outcomes": {
+          "Passed": 19
+        },
+        "counters": {
+          "total": "19",
+          "executed": "19",
+          "passed": "19",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "sha256": "124762ff697269ea7b267350b8fbda2dee3ac380eeed386ee1b9eb65b407d642"
+      }
+    }
+  ],
+  "original_queries": 0
+}

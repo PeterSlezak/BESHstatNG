@@ -1,0 +1,16 @@
+Friend Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
+        groups = Nothing
+        names = Nothing
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If cols < 1 OrElse rows < 1 Then Return False
+
+        Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, Enumerable.Range(0, cols).ToArray())
+        Dim startRow As Integer = If(hasHeader, 1, 0)
+
+        Return TryExtractNumericGroupsFromMatrix(arr, startRow:=startRow, hasHeader:=hasHeader,
+                                             defaultPrefix:="Group ", groups:=groups, names:=names)
+    End Function

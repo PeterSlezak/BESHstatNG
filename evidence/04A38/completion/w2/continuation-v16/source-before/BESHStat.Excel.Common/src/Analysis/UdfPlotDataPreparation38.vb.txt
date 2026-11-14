@@ -1,0 +1,81 @@
+Option Explicit On
+Option Strict On
+
+Imports System
+Imports System.Collections.Generic
+Imports BESHStatNG
+
+Namespace ExcelCommon
+    Public Delegate Function UdfPlotFiniteDoubleReader38(cell As Object, ByRef value As Double) As Boolean
+    Public Delegate Function UdfPlotStatusReader38(cell As Object, ByRef value As Integer) As Boolean
+
+    Public NotInheritable Class UdfPlotDataPreparation38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function CompleteRocInputPrepared(markerCol As Object(,), statusCol As Object(,), positiveLabel As String, isLowerDirection As Boolean, finiteDouble As UdfPlotFiniteDoubleReader38, status01 As UdfPlotStatusReader38, toText As Func(Of Object, String), normalize As Func(Of String, String), ByRef rocInput()() As Double) As Boolean
+            Dim pos As New List(Of Double)()
+            Dim neg As New List(Of Double)()
+            Dim normalizedPositive As String = normalize(positiveLabel)
+
+            For i As Integer = 0 To markerCol.GetLength(0) - 1
+                Dim x As Double
+                If Not finiteDouble(markerCol(i, 0), x) Then Continue For
+
+                Dim label As String = toText(statusCol(i, 0))
+                If String.IsNullOrWhiteSpace(label) Then Continue For
+
+                Dim isPositive As Boolean = False
+                Dim iv As Integer
+                If normalizedPositive = "1" AndAlso status01(statusCol(i, 0), iv) Then
+                    isPositive = (iv = 1)
+                Else
+                    isPositive = String.Equals(normalize(label), normalizedPositive, StringComparison.OrdinalIgnoreCase)
+                End If
+
+                If isLowerDirection Then x = -x
+                If isPositive Then
+                    pos.Add(x)
+                Else
+                    neg.Add(x)
+                End If
+            Next
+
+            If pos.Count < 1 OrElse neg.Count < 1 Then Return False
+            rocInput = New Double()() {pos.ToArray(), neg.ToArray()}
+            Return True
+        End Function
+
+        Public Shared Function CompleteSurvivalRecordsPrepared(timeCol As Object(,), statusCol As Object(,), groupCol As Object(,), hasGroup As Boolean, finiteDouble As UdfPlotFiniteDoubleReader38, status01 As UdfPlotStatusReader38, toText As Func(Of Object, String), ByRef records As List(Of survival.SurvivalRecord)) As Boolean
+            Dim tList As New List(Of Double)()
+            Dim sList As New List(Of Integer)()
+            Dim gList As New List(Of String)()
+            Dim stratList As New List(Of String)()
+
+            For i As Integer = 0 To timeCol.GetLength(0) - 1
+                Dim t As Double
+                Dim s As Integer
+                If Not finiteDouble(timeCol(i, 0), t) Then Continue For
+                If t < 0.0R Then Return False
+                If Not status01(statusCol(i, 0), s) Then Continue For
+
+                Dim g As String = "ALL"
+                If hasGroup Then
+                    g = toText(groupCol(i, 0))
+                    If String.IsNullOrWhiteSpace(g) Then Continue For
+                End If
+
+                tList.Add(t)
+                sList.Add(s)
+                gList.Add(g)
+                stratList.Add("ALL")
+            Next
+
+            If tList.Count < 1 Then Return False
+
+            Dim err As String = Nothing
+            records = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)
+            Return records IsNot Nothing AndAlso records.Count > 0
+        End Function
+    End Class
+End Namespace

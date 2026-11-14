@@ -1,0 +1,41 @@
+{
+  "status": "APPEND_ONLY_PUBLICATION_VERSION_CORRECTION_NO_ARCHIVAL_GATE_FAILURE",
+  "failed_command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-publication-export-v1/command.json",
+    "bytes": 870,
+    "sha256": "e807a202d754763b9ed90e6d5402fbafa550879e89849a019d32264cac354c94"
+  },
+  "stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-publication-export-v1/stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c16-publication-export-v1/stderr.log",
+    "bytes": 1877,
+    "sha256": "b09685a33d1bb857831f7ddafff525feb81631a432312d20ad25c352acf43dfb"
+  },
+  "reason": "New publisher compression-size planner referenced a not-yet-created v16 index instead of the authenticated final v15 index. Failure occurred before writing any ZIP. Version4 uses the exact prior v15 compression table and publishes a new manifest/inventory/parts version2; original version1 manifest, empty stopped folder and raw failure remain preserved.",
+  "prior_authority": {
+    "path": "evidence/04A38/completion/w2/continuation-v15-review-parts-index-v2.json",
+    "bytes": 3934068,
+    "sha256": "f6b7da0001967238c0c7327e4dbd1435953567aba21fa4dd13ead99475956327"
+  },
+  "stopped_manifest": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/publication-manifest-v1.json",
+    "bytes": 5123618,
+    "sha256": "3c3852c4e6a84052ceb2d3e83e532ec81d655fc584ee33dc100ac0b64f5c11cc"
+  },
+  "corrected_tool": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/publish_parts_v16_v4.py",
+    "bytes": 12577,
+    "sha256": "c0fc1ac68a519885e86551a3ae6a04d20454126b545897cc2b13aad891b74395"
+  },
+  "canonical_checkpoint_seal": {
+    "path": "evidence/04A38/completion/w2/continuation-v16/review-seal-v2.json",
+    "bytes": 2042,
+    "sha256": "22ee98f0953123a6823555f1698be213d686a73cd2ad1e537444899313b23b7f"
+  },
+  "source_and_test_changes": false,
+  "original_queries": 0
+}

@@ -1,0 +1,46 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-I",
+      "-B",
+      "-c",
+      "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\private_preservation_v2.py",
+      "verify",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\retained-private-preservation-v2.json",
+      "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\final-actual-private-preservation-v1.json"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 113.63613880000776,
+    "stdout_sha256": "0f9ac4248793d1e19dbcec667c76eda5c8fa08a82a4a41bc415cb3f28b6a9a04",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "reader": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/private_preservation_v2.py",
+    "bytes": 4705,
+    "sha256": "83e9d28c3c53fe1d916d6a6549d6379f3f3aef20f98759fb471f1692e309985d"
+  },
+  "actual": {
+    "status": "ACTUAL_ALL_PINNED_BYTES_FILESYSTEM_IDS_AND_PHYSICAL_ZIP_SHA_PASS",
+    "manifest": {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/retained-private-preservation-v2.json",
+      "bytes": 16433557,
+      "sha256": "a7b8dbe140016dfd4b5f9fec74477f06dcdce35c1b17542b8387dcff9103a54c"
+    },
+    "private_pins": 31896,
+    "physical_archives": 151,
+    "historical_TestResults": "NOT_ENUMERATED",
+    "giant": "STREAM_HASH_ONLY_NOT_PARSED_OR_PACKAGED",
+    "workers": 4,
+    "original_queries": 0
+  },
+  "raw": {
+    "path": ".test-rationalization-04A38.tmp/completion-w2-cont17-postcorrection-v1/final-actual-private-preservation-v1.json",
+    "bytes": 519,
+    "sha256": "d847d46e19b3e593f5c2f44c2ed891ca8a6693c1eaffa03aa94ca07ce991815f"
+  }
+}

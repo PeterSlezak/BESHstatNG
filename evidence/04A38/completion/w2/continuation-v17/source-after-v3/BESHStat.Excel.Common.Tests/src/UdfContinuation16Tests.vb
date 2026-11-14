@@ -1,0 +1,368 @@
+Option Explicit On
+Option Strict On
+Option Infer On
+
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
+Imports BESHStatNG
+Imports BESHStatNG.ExcelCommon
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
+
+<TestClass>
+Public Class UdfContinuation16Tests
+    <DataTestMethod, DataRow(""), DataRow("sk-SK"), DataRow("tr-TR")>
+    Public Sub GlmAndGeeHeadersKeepInvariantAlphaAndNumericPayload(culture As String)
+        Dim prior = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Dim table = UdfRegressionFamilyReportPreparation38.BuildGlmCoefficientTable(
+                New Double() {0, 2}, New Double() {1, 0}, New String() {"Intercept", "Dose"}, True, 0.055R, True)
+            Assert.AreEqual(3, table.GetLength(0))
+            Assert.AreEqual(8, table.GetLength(1))
+            Assert.AreEqual("94.5% CI Lower", table(0, 6))
+            Assert.AreEqual("Intercept", table(1, 1))
+            Assert.AreEqual("Slope", table(2, 1))
+            Assert.AreEqual(1.0R, DirectCast(table(1, 5), Double), 0.0R)
+            Assert.IsTrue(Double.IsNaN(DirectCast(table(2, 4), Double)))
+            Assert.IsTrue(Double.IsNaN(DirectCast(table(2, 5), Double)))
+            Assert.AreEqual(-DirectCast(table(1, 6), Double), DirectCast(table(1, 7), Double), 0.0R)
+            Dim gee = UdfRegressionFamilyReportPreparation38.CreateGeeLsmEstimateTable(2, 0.055R)
+            Assert.AreEqual(3, gee.GetLength(0))
+            Assert.AreEqual(9, gee.GetLength(1))
+            Assert.AreEqual("94.5% CI Lower", gee(0, 5))
+            Assert.AreEqual("Covariance", gee(0, 8))
+        Finally
+            CultureInfo.CurrentCulture = prior
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(False), DataRow(True)>
+    Public Sub GlmHeaderChoiceKeepsZeroCoefficientAndNoInterceptShapes(header As Boolean)
+        Dim empty = UdfRegressionFamilyReportPreparation38.BuildGlmCoefficientTable(
+            Array.Empty(Of Double)(), Array.Empty(Of Double)(), Nothing, header, 0.05R, False)
+        Assert.AreEqual(If(header, 1, 0), empty.GetLength(0))
+        Assert.AreEqual(8, empty.GetLength(1))
+        Dim table = UdfRegressionFamilyReportPreparation38.BuildGlmCoefficientTable(
+            New Double() {0}, New Double() {1}, New String() {"dose"}, header, 0.05R, False)
+        Assert.AreEqual("Slope", table(If(header, 1, 0), 1))
+        Assert.AreEqual("dose", table(If(header, 1, 0), 0))
+    End Sub
+
+    <TestMethod>
+    Public Sub GeeRowProjectionKeepsCallbackOrderAndOriginalExceptionIdentity()
+        Dim table = UdfRegressionFamilyReportPreparation38.CreateGeeLsmEstimateTable(1, 0.05R)
+        Dim calls As New List(Of Double)
+        Dim expected As New InvalidOperationException("native display policy")
+        Dim observed = Assert.ThrowsException(Of InvalidOperationException)(
+            Sub() UdfRegressionFamilyReportPreparation38.AppendGeeLsmEstimateRow(table, 0, "L1", 1, 2, 3, 4, 5, 6, "Response", "robust",
+                Function(value)
+                    calls.Add(value)
+                    If calls.Count = 3 Then Throw expected
+                    Return CType(value, Object)
+                End Function))
+        Assert.AreSame(expected, observed)
+        CollectionAssert.AreEqual(New Double() {1, 2, 3}, calls.ToArray())
+        Assert.AreEqual("L1", table(1, 0))
+        Assert.AreEqual(1.0R, table(1, 1))
+        Assert.AreEqual(2.0R, table(1, 2))
+        Assert.IsNull(table(1, 3))
+        Assert.IsNull(table(1, 7))
+    End Sub
+
+    <TestMethod>
+    Public Sub GeeSuccessfulProjectionKeepsFaultObjectsAndColumnOrder()
+        Dim fault As New Object
+        Dim table = UdfRegressionFamilyReportPreparation38.CreateGeeLsmEstimateTable(1, 0.05R)
+        UdfRegressionFamilyReportPreparation38.AppendGeeLsmEstimateRow(table, 0, "A", Double.NaN, 2, 3, 4, 5, 6, "Link", "naive",
+            Function(value) If(Double.IsNaN(value), fault, CType(value, Object)))
+        Assert.AreSame(fault, table(1, 1))
+        Assert.AreEqual(4.0R, table(1, 4))
+        Assert.AreEqual(6.0R, table(1, 6))
+        Assert.AreEqual("Link", table(1, 7))
+        Assert.AreEqual("naive", table(1, 8))
+    End Sub
+
+    <DataTestMethod, DataRow(False), DataRow(True)>
+    Public Sub DiagnosticPrefixKeepsExtraRowsBlankAndCursorByRef(header As Boolean)
+        Dim r As Integer = 99
+        Dim marker As New Object
+        Dim table = UdfRegressionFamilyReportPreparation38.BuildRegressionTestsPrefix(
+            New String() {"one", "two"}, New Object(,) {{marker, 1, 0.5R}, {2, 3, 0.25R}}, header, 3, r)
+        Assert.AreEqual(5 + If(header, 1, 0), table.GetLength(0))
+        Assert.AreEqual(4, table.GetLength(1))
+        Assert.AreEqual(2 + If(header, 1, 0), r)
+        Assert.AreSame(marker, table(If(header, 1, 0), 1))
+        Assert.IsNull(table(r, 0))
+    End Sub
+
+    <DataTestMethod, DataRow(False), DataRow(True)>
+    Public Sub DiagnosticCursorKeepsPartialFailureState(header As Boolean)
+        Dim r As Integer = 99
+        Assert.ThrowsException(Of IndexOutOfRangeException)(
+            Sub() UdfRegressionFamilyReportPreparation38.BuildRegressionTestsPrefix(
+                New String() {"bad"}, New Object(,) {{1}}, header, 0, r))
+        Assert.AreEqual(If(header, 1, 0), r)
+    End Sub
+
+    <TestMethod>
+    Public Sub ParameterNamesKeepWhitespaceFallbackTruncationAndCallerAlias()
+        Dim names As String() = {"Intercept", Nothing, Nothing}
+        Dim result = UdfRegressionFamilyReportPreparation38.CompleteRegressionParameterNames(names, 1, New String() {" A ", "", "unused"})
+        Assert.AreSame(names, result)
+        CollectionAssert.AreEqual(New String() {"Intercept", " A ", "Param3"}, result)
+        Dim empty As String() = {}
+        Assert.AreSame(empty, UdfRegressionFamilyReportPreparation38.CompleteRegressionParameterNames(empty, 0, Nothing))
+    End Sub
+
+    <DataTestMethod, DataRow(False), DataRow(True)>
+    Public Sub AllResidualsKeepSevenVectorOrderingAndMissingNumbers(header As Boolean)
+        Dim table = UdfRegressionFamilyReportPreparation38.BuildAllGlmResidualTable(
+            New Double() {1, Double.NaN}, New Double() {2, 12}, New Double() {3, 13}, New Double() {4, 14},
+            New Double() {5, 15}, New Double() {6, 16}, New Double() {7, 17}, header)
+        Dim r = If(header, 1, 0)
+        Assert.AreEqual(2 + r, table.GetLength(0))
+        Assert.AreEqual(7, table.GetLength(1))
+        For column As Integer = 0 To 6
+            Assert.AreEqual(CDbl(column + 1), table(r, column))
+        Next
+        Assert.IsTrue(Double.IsNaN(DirectCast(table(r + 1, 0), Double)))
+        Assert.AreEqual(17.0R, table(r + 1, 6))
+        If header Then Assert.AreEqual("CookDistance", table(0, 6))
+    End Sub
+
+    <TestMethod>
+    Public Sub ResidualVectorsKeepLengthFailureAndZeroRowShape()
+        Assert.ThrowsException(Of IndexOutOfRangeException)(
+            Sub() UdfRegressionFamilyReportPreparation38.BuildAllGlmResidualTable(
+                New Double() {1, 2}, New Double() {3}, New Double() {4, 5}, New Double() {6, 7},
+                New Double() {8, 9}, New Double() {10, 11}, New Double() {12, 13}, False))
+        Dim empty = Array.Empty(Of Double)()
+        Dim table = UdfRegressionFamilyReportPreparation38.BuildAllGlmResidualTable(empty, empty, empty, empty, empty, empty, empty, False)
+        Assert.AreEqual(0, table.GetLength(0))
+        Assert.AreEqual(7, table.GetLength(1))
+    End Sub
+
+    <DataTestMethod, DataRow(""), DataRow("sk-SK"), DataRow("tr-TR")>
+    Public Sub LmHeadersKeepOriginalCurrentCultureAndParameterLabels(culture As String)
+        Dim previous = CultureInfo.CurrentCulture
+        Try
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
+            Dim model As New regression.LinearModel With {.results = New LMresult With {.bIntercept = True, .varNames = New String() {"Dose"}}}
+            Dim table = UdfRegressionFamilyReportPreparation38.BuildLmCoefficientTable(model, New Double() {0, 1}, New Double() {1, 0}, 8, 2, True, 1, 0.055R)
+            Assert.AreEqual(4, table.GetLength(0))
+            Assert.AreEqual(8, table.GetLength(1))
+            Assert.AreEqual(If(culture = "", "94.5% CI LCL", "94,5% CI LCL"), table(0, 6))
+            Assert.AreEqual("Intercept", table(1, 0))
+            Assert.AreEqual("Dose", table(2, 0))
+            Assert.AreEqual(1.0R, table(1, 5))
+            Assert.IsTrue(Double.IsNaN(DirectCast(table(2, 5), Double)))
+            Assert.IsNull(table(3, 0))
+        Finally
+            CultureInfo.CurrentCulture = previous
+        End Try
+    End Sub
+
+    <DataTestMethod, DataRow(False), DataRow(True)>
+    Public Sub LmDiagnosticAndResidualSelectionKeepReportIndices(header As Boolean)
+        Dim table = UdfRegressionFamilyReportPreparation38.BuildLmTestsTable(New String() {"R2"}, New Object(,) {{0.8R, 2, 0.01R}}, 1, header, 1)
+        Assert.AreEqual(2 + If(header, 1, 0), table.GetLength(0))
+        Assert.AreEqual(0.8R, table(If(header, 1, 0), 1))
+        Dim selected = UdfRegressionFamilyReportPreparation38.BuildLmResidualColumn(New Object(,) {{"A", "B"}, {11, 12}, {21, 22}}, header, 1, "Residual")
+        Assert.AreEqual(2 + If(header, 1, 0), selected.GetLength(0))
+        Assert.AreEqual(12, selected(If(header, 1, 0), 0))
+        Assert.AreEqual(22, selected(1 + If(header, 1, 0), 0))
+    End Sub
+
+    <TestMethod>
+    Public Sub FootnotesAndRowDroppingKeepAliasesAndShallowPayloadCopies()
+        Dim marker As New Object
+        Dim table As Object(,) = {{marker, 2}, {3, 4}}
+        Assert.AreSame(table, UdfRegressionFamilyReportPreparation38.DropTopRows(table, -1))
+        Assert.AreSame(table, UdfRegressionFamilyReportPreparation38.AppendFootnotes(table, Nothing))
+        Assert.AreSame(table, UdfRegressionFamilyReportPreparation38.AppendFootnotes(table, Array.Empty(Of String)()))
+        Dim appended = UdfRegressionFamilyReportPreparation38.AppendFootnotes(table, New String() {"note"})
+        Assert.AreNotSame(table, appended)
+        Assert.AreSame(marker, appended(0, 0))
+        Assert.AreEqual("note", appended(2, 0))
+        Assert.IsNull(appended(2, 1))
+        Dim empty = UdfRegressionFamilyReportPreparation38.DropTopRows(table, 2)
+        Assert.AreEqual(1, empty.GetLength(0))
+        Assert.AreEqual(2, empty.GetLength(1))
+        Assert.IsNull(empty(0, 0))
+        Assert.IsNull(UdfRegressionFamilyReportPreparation38.DropTopRows(Nothing, 2))
+    End Sub
+
+    <TestMethod>
+    Public Sub InPlaceFootnotesKeepWritesBeforeBoundsFailure()
+        Dim table(1, 0) As Object
+        Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() UdfRegressionFamilyReportPreparation38.AppendFootnotesInPlace(table, 1, New String() {"first", "second"}))
+        Assert.AreEqual("first", table(1, 0))
+        Assert.IsNull(table(0, 0))
+        Dim nonzero = DirectCast(Array.CreateInstance(GetType(Object), New Integer() {1, 1}, New Integer() {1, 1}), Object(,))
+        Assert.ThrowsException(Of IndexOutOfRangeException)(Sub() UdfRegressionFamilyReportPreparation38.AppendFootnotes(nonzero, New String() {"n"}))
+    End Sub
+
+    <DataTestMethod, DataRow(False), DataRow(True)>
+    Public Sub PredictionHeadersKeepCursorAndShape(header As Boolean)
+        Dim r As Integer = 99
+        Dim table = UdfRegressionFamilyReportPreparation38.CreateLmPredictionTable(2, header, r)
+        Assert.AreEqual(2 + If(header, 1, 0), table.GetLength(0))
+        Assert.AreEqual(1, table.GetLength(1))
+        Assert.AreEqual(If(header, 1, 0), r)
+        If header Then Assert.AreEqual("PredictedY", table(0, 0))
+    End Sub
+
+    Private Shared Function NumberPolicy(value As Object) As Double?
+        If Not TypeOf value Is Double Then Return Nothing
+        Dim number As Double = DirectCast(value, Double)
+        Return If(Double.IsNaN(number) OrElse Double.IsInfinity(number), CType(Nothing, Double?), number)
+    End Function
+
+    Private Shared Function TextPolicy(value As Object) As String
+        Return If(value, String.Empty).ToString().Trim()
+    End Function
+
+    <DataTestMethod, DataRow(False, False), DataRow(True, False), DataRow(False, True), DataRow(True, True)>
+    Public Sub LmmRowsPreserveInputOrderCompleteCaseMaskAndOptionalVectors(z As Boolean, visit As Boolean)
+        Dim result As UdfLmmPreparedRows38 = Nothing
+        Dim errorMessage As String = "prior"
+        Assert.IsTrue(UdfLmmInputPreparation38.TryPrepareRows(
+            New Object(,) {{1.0R}, {2.0R}, {3.0R}}, New Object(,) {{10.0R}, {Nothing}, {30.0R}},
+            If(z, New Object(,) {{11.0R}, {22.0R}, {33.0R}}, Nothing), New Object(,) {{" b "}, {"a"}, {"b"}},
+            If(visit, New Object(,) {{3.0R}, {2.0R}, {1.0R}}, Nothing), z, visit, 3, 1, If(z, 1, 0), AddressOf NumberPolicy, AddressOf TextPolicy, result, errorMessage))
+        CollectionAssert.AreEqual(New Double() {1, 3}, result.Y)
+        CollectionAssert.AreEqual(New Object() {"b", "b"}, result.Subject)
+        Assert.AreEqual(10.0R, result.X(0, 0))
+        Assert.AreEqual(30.0R, result.X(1, 0))
+        Assert.AreEqual(1, result.DroppedRows)
+        Assert.AreEqual("prior", errorMessage)
+        If z Then
+            Assert.AreEqual(33.0R, result.Z(1, 0))
+        Else
+            Assert.IsNull(result.Z)
+        End If
+        If visit Then
+            CollectionAssert.AreEqual(New Double() {3, 1}, result.Visit)
+        Else
+            Assert.IsNull(result.Visit)
+        End If
+    End Sub
+
+    <TestMethod>
+    Public Sub LmmRowsKeepConversionOrderAndDoNotPublishPartialPayloadOnThrow()
+        Dim calls As New List(Of String)
+        Dim expected As New FormatException("native numeric reader")
+        Dim prepared As New UdfLmmPreparedRows38 With {.Y = New Double() {99}}
+        Dim errorMessage As String = "before"
+        Dim observed = Assert.ThrowsException(Of FormatException)(
+            Sub() UdfLmmInputPreparation38.TryPrepareRows(New Object(,) {{1.0R}}, New Object(,) {{2.0R}}, New Object(,) {{3.0R}}, New Object(,) {{"s"}}, New Object(,) {{4.0R}}, True, True, 1, 1, 1,
+                Function(value)
+                    calls.Add("n" & DirectCast(value, Double).ToString(CultureInfo.InvariantCulture))
+                    If DirectCast(value, Double) = 3.0R Then Throw expected
+                    Return NumberPolicy(value)
+                End Function,
+                Function(value)
+                    calls.Add("subject")
+                    Return TextPolicy(value)
+                End Function, prepared, errorMessage))
+        Assert.AreSame(expected, observed)
+        CollectionAssert.AreEqual(New String() {"n1", "subject", "n2", "n3"}, calls.ToArray())
+        Assert.IsNull(prepared)
+        Assert.AreEqual("before", errorMessage)
+    End Sub
+
+    <TestMethod>
+    Public Sub LmmRowsRejectEmptyCompleteCasesWithoutInventingOutputRows()
+        Dim result As New UdfLmmPreparedRows38
+        Dim message As String = Nothing
+        Assert.IsFalse(UdfLmmInputPreparation38.TryPrepareRows(New Object(,) {{Double.NaN}}, New Object(,) {{1.0R}}, Nothing, New Object(,) {{"subject"}}, Nothing, False, False, 1, 1, 0, AddressOf NumberPolicy, AddressOf TextPolicy, result, message))
+        Assert.IsNull(result)
+        Assert.AreEqual("no valid complete rows remain after removing rows with missing/invalid y, x, z, subject, or visit values.", message)
+    End Sub
+
+    <TestMethod>
+    Public Sub LmmRowsKeepNonzeroLowerBoundFailureAndByRefReset()
+        Dim y = DirectCast(Array.CreateInstance(GetType(Object), New Integer() {1, 1}, New Integer() {1, 1}), Object(,))
+        Dim result As New UdfLmmPreparedRows38
+        Dim message As String = "before"
+        Assert.ThrowsException(Of IndexOutOfRangeException)(
+            Sub() UdfLmmInputPreparation38.TryPrepareRows(y, New Object(,) {{1.0R}}, Nothing, New Object(,) {{"s"}}, Nothing, False, False, 1, 1, 0, AddressOf NumberPolicy, AddressOf TextPolicy, result, message))
+        Assert.IsNull(result)
+        Assert.AreEqual("before", message)
+    End Sub
+
+    <TestMethod>
+    Public Sub LmmDesignKeepsNoFormulaAliasNamesAndFailureResets()
+        Dim raw As Double(,) = {{1, 2}, {3, 4}}
+        Dim design As Double(,) = Nothing
+        Dim names As String() = Nothing
+        Dim message As String = "before"
+        Assert.IsTrue(UdfLmmInputPreparation38.TryBuildExpandedDesign(raw, New String() {" X1 ", " "}, Nothing, Nothing, True, False, True, "fixedFormula", " Z ", design, names, message))
+        Assert.AreSame(raw, design)
+        CollectionAssert.AreEqual(New String() {"Z1", "Z2"}, names)
+        Assert.IsNull(message)
+        Assert.IsFalse(UdfLmmInputPreparation38.TryBuildExpandedDesign(Nothing, Nothing, "A", Nothing, True, False, True, "fixedFormula", "X", design, names, message))
+        Assert.IsNull(design)
+        Assert.AreEqual(0, names.Length)
+        Assert.AreEqual("fixedFormula requires a non-empty predictor matrix.", message)
+    End Sub
+
+    <DataTestMethod, DataRow(False), DataRow(True)>
+    Public Sub LmmFittedResidualTablesKeepFilteredRowOrdinalsAndUnequalLengths(header As Boolean)
+        Dim fitted = UdfLmmReportPreparation38.BuildFittedTable(New Double() {2, 3}, header)
+        Dim r = If(header, 1, 0)
+        Assert.AreEqual(2 + r, fitted.GetLength(0))
+        Assert.AreEqual(1, fitted(r, 0))
+        Assert.AreEqual(3.0R, fitted(r + 1, 1))
+        Dim residual = UdfLmmReportPreparation38.BuildResidualTable(New Double() {2, Double.NaN}, New Double() {0.5R}, 2, header)
+        Assert.AreEqual(3, residual.GetLength(1))
+        Assert.AreEqual(0.5R, residual(r, 2))
+        Assert.IsTrue(Double.IsNaN(DirectCast(residual(r + 1, 1), Double)))
+        Assert.AreEqual(String.Empty, residual(r + 1, 2))
+    End Sub
+
+    <TestMethod>
+    Public Sub LmmHandleNamesAreCopiedAndEmptyNamesPreservePriorAliases()
+        Dim result As New regression.MixedModelResult
+        Dim fixed As String() = {"F"}, random As String() = {"R"}
+        UdfLmmReportPreparation38.ApplyHandleNames(result, fixed, random)
+        Assert.AreNotSame(fixed, result.FixedEffectNames)
+        Assert.AreNotSame(random, result.RandomCovarianceLabels)
+        fixed(0) = "changed"
+        random(0) = "changed"
+        Assert.AreEqual("F", result.FixedEffectNames(0))
+        Assert.AreEqual("R", result.RandomCovarianceLabels(0))
+        Dim savedFixed = result.FixedEffectNames, savedRandom = result.RandomCovarianceLabels
+        UdfLmmReportPreparation38.ApplyHandleNames(result, Array.Empty(Of String)(), Nothing)
+        Assert.AreSame(savedFixed, result.FixedEffectNames)
+        Assert.AreSame(savedRandom, result.RandomCovarianceLabels)
+        Assert.AreEqual(0, UdfLmmReportPreparation38.ObservationCount(Nothing))
+        Assert.AreEqual(0, UdfLmmReportPreparation38.ObservationCount(Array.Empty(Of Double)()))
+        Assert.AreEqual(3, UdfLmmReportPreparation38.ObservationCount(New Double() {1, 2, 3}))
+    End Sub
+
+    <TestMethod>
+    Public Sub LmmInterceptPreparationKeepsNativeArrayAndBlankNameContracts()
+        Dim onlyIntercept = UdfLmmInputPreparation38.AddInterceptColumn(Nothing, 3)
+        Assert.AreEqual(3, onlyIntercept.GetLength(0))
+        Assert.AreEqual(1, onlyIntercept.GetLength(1))
+        Assert.AreEqual(1.0R, onlyIntercept(2, 0))
+        Dim raw As Double(,) = {{10}, {20}}
+        Dim design = UdfLmmInputPreparation38.AddInterceptColumn(raw, 2)
+        Assert.AreNotSame(raw, design)
+        Assert.AreEqual(1.0R, design(0, 0))
+        Assert.AreEqual(20.0R, design(1, 1))
+        raw(1, 0) = 99
+        Assert.AreEqual(20.0R, design(1, 1))
+        Dim names As String() = {Nothing, "", " A "}
+        Dim expanded = UdfLmmInputPreparation38.AddInterceptName(names)
+        CollectionAssert.AreEqual(New String() {"Intercept", Nothing, "", " A "}, expanded)
+        Assert.AreNotSame(names, expanded)
+        CollectionAssert.AreEqual(New String() {"Intercept"}, UdfLmmInputPreparation38.AddInterceptName(Nothing))
+        Dim empty = UdfLmmInputPreparation38.AddInterceptColumn(Nothing, 0)
+        Assert.AreEqual(0, empty.GetLength(0))
+        Assert.AreEqual(1, empty.GetLength(1))
+    End Sub
+
+End Class

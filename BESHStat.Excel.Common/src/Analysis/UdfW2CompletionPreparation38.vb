@@ -1,0 +1,533 @@
+Option Explicit On
+Option Strict On
+Option Infer On
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
+Imports System.Linq
+Namespace ExcelCommon
+    Public Delegate Function UdfReadFiniteDouble38(value As Object, ByRef parsed As Double) As Boolean
+    Public Delegate Function UdfReadStatusInteger38(value As Object, ByRef parsed As Integer) As Boolean
+    Public NotInheritable Class UdfW2CompletionPreparation38
+        Private Sub New()
+        End Sub
+
+        Public Shared Function ResolveMmrmFormulaColumns(formulaText As String, formulaAddressingMode As String, pAll As Integer, allDisplayNames() As String, allAbsoluteLetters() As String, hasAbsoluteLetters As Boolean, ByRef columnIndices() As Integer, ByRef selectedNames() As String, ByRef selectedAbsoluteLetters() As String, ByRef errorMessage As String) As Boolean
+        Dim normalizedFormula As String = If(formulaText, String.Empty).Trim()
+        If LegacyUdfText38.EqualText(normalizedFormula, String.Empty) Then
+            ReDim columnIndices(pAll - 1)
+            For j As Integer = 0 To pAll - 1
+                columnIndices(j) = j
+            Next
+            selectedNames = CType(allDisplayNames.Clone(), String())
+            If hasAbsoluteLetters Then selectedAbsoluteLetters = CType(allAbsoluteLetters.Clone(), String())
+            Return True
+        End If
+
+        Dim mode As String = If(formulaAddressingMode, String.Empty).Trim().ToLowerInvariant()
+        Dim allowAbsolute As Boolean = String.Equals(mode, "absolute", StringComparison.OrdinalIgnoreCase)
+        Dim allowRelative As Boolean = String.Equals(mode, "relative", StringComparison.OrdinalIgnoreCase)
+        Dim allowQuoted As Boolean = True
+
+        If allowAbsolute AndAlso Not hasAbsoluteLetters Then
+            errorMessage = "formulaAddressing='absolute' requires x to be passed as a direct worksheet range so absolute worksheet column letters can be determined."
+            Return False
+        End If
+
+        Dim catalog As RegressionVariableCatalog = RegressionVariableCatalog.Build(varNames:=allDisplayNames,
+                                                                                   absoluteColumnLetters:=If(allowAbsolute, allAbsoluteLetters, Nothing),
+                                                                                   allowRelativeColumnLetters:=allowRelative,
+                                                                                   allowAbsoluteColumnLetters:=allowAbsolute,
+                                                                                   allowQuotedVariableNames:=allowQuoted)
+
+        Dim spec As RegressionFormulaDesignSpec = Nothing
+        Dim parseErr As String = Nothing
+        If Not RegressionFormulaParser.TryParseFormulaToDesignSpec(formulaText:=normalizedFormula,
+                                                                   variableCatalog:=catalog,
+                                                                   designSpec:=spec,
+                                                                   errorMessage:=parseErr) Then
+            errorMessage = "formula could not be parsed or expanded: " & If(parseErr, String.Empty)
+            Return False
+        End If
+
+        If spec Is Nothing OrElse spec.RequiredRawVarKeys Is Nothing OrElse spec.RequiredRawVarKeys.Count = 0 Then
+            errorMessage = "formula did not reference any predictor columns."
+            Return False
+        End If
+
+        If allowRelative Then
+            ReDim columnIndices(pAll - 1)
+            For j As Integer = 0 To pAll - 1
+                columnIndices(j) = j
+            Next
+            selectedNames = CType(allDisplayNames.Clone(), String())
+            If hasAbsoluteLetters Then selectedAbsoluteLetters = CType(allAbsoluteLetters.Clone(), String())
+            Return True
+        End If
+
+        Dim entries As New List(Of RegressionVariableCatalogEntry)()
+        For Each requiredKey As String In spec.RequiredRawVarKeys
+            Dim entry As RegressionVariableCatalogEntry = catalog.Variables.FirstOrDefault(Function(v) String.Equals(v.BaseKey, requiredKey, StringComparison.Ordinal))
+            If entry Is Nothing Then
+                errorMessage = "formula referenced an unknown predictor column."
+                Return False
+            End If
+            If Not entries.Any(Function(v) String.Equals(v.BaseKey, entry.BaseKey, StringComparison.Ordinal)) Then
+                entries.Add(entry)
+            End If
+        Next
+
+        entries = entries.OrderBy(Function(v) v.RelativeColumnIndex).ToList()
+        ReDim columnIndices(entries.Count - 1)
+        ReDim selectedNames(entries.Count - 1)
+        If hasAbsoluteLetters Then ReDim selectedAbsoluteLetters(entries.Count - 1)
+
+        For j As Integer = 0 To entries.Count - 1
+            Dim originalIndex As Integer = entries(j).RelativeColumnIndex - 1
+            If originalIndex < 0 OrElse originalIndex >= pAll Then
+                errorMessage = "formula referenced a predictor column outside the supplied x range."
+                Return False
+            End If
+            columnIndices(j) = originalIndex
+            selectedNames(j) = entries(j).DisplayName
+            If hasAbsoluteLetters Then selectedAbsoluteLetters(j) = entries(j).AbsoluteColumnLetter
+        Next
+
+        Return True
+        End Function
+
+        Public Shared Function AlignMmrmRows(yCol(,) As Object, xRaw(,) As Object, subjectCol(,) As Object, visitCol(,) As Object, xColumnIndices() As Integer, visitSupplied As Boolean, n As Integer, readNumber As Func(Of Object, Double?), readText As Func(Of Object, String), ByRef yValues() As Double, ByRef xValues(,) As Double, ByRef subjectValues() As Object, ByRef visitValues() As Double, ByRef droppedRows As Integer, ByRef errorMessage As String) As Boolean
+        Dim p As Integer = xColumnIndices.Length
+        Dim yList As New List(Of Double)()
+        Dim xRows As New List(Of Double())()
+        Dim subjectList As New List(Of Object)()
+        Dim visitList As New List(Of Double)()
+
+        For i As Integer = 0 To n - 1
+            Dim yi As Double? = readNumber(yCol(i, 0))
+            Dim subjectText As String = readText(subjectCol(i, 0))
+            Dim valid As Boolean = yi.HasValue AndAlso Not String.IsNullOrWhiteSpace(subjectText)
+            Dim row(p - 1) As Double
+
+            If valid Then
+                For j As Integer = 0 To p - 1
+                    Dim xij As Double? = readNumber(xRaw(i, xColumnIndices(j)))
+                    If Not xij.HasValue Then
+                        valid = False
+                        Exit For
+                    End If
+                    row(j) = xij.Value
+                Next
+            End If
+
+            Dim vi As Double = Double.NaN
+            If valid AndAlso visitSupplied Then
+                Dim parsedVisit As Double? = readNumber(visitCol(i, 0))
+                If Not parsedVisit.HasValue Then
+                    valid = False
+                Else
+                    vi = parsedVisit.Value
+                End If
+            End If
+
+            If valid Then
+                yList.Add(yi.Value)
+                xRows.Add(row)
+                subjectList.Add(subjectText)
+                If visitSupplied Then visitList.Add(vi)
+            Else
+                droppedRows += 1
+            End If
+        Next
+
+        If yList.Count = 0 Then
+            errorMessage = "no valid complete rows remain after removing rows with missing/invalid y, x, subject, or visit values."
+            Return False
+        End If
+
+        yValues = yList.ToArray()
+        subjectValues = subjectList.ToArray()
+        ReDim xValues(yList.Count - 1, p - 1)
+        For i As Integer = 0 To yList.Count - 1
+            For j As Integer = 0 To p - 1
+                xValues(i, j) = xRows(i)(j)
+            Next
+        Next
+
+        If visitSupplied Then visitValues = visitList.ToArray()
+        Return True
+        End Function
+
+        Public Shared Function GetReferenceCategory(s As String) As Global.BESHStatNG.regression.ReferenceCategory
+If String.IsNullOrWhiteSpace(s) Then Return Global.BESHStatNG.regression.ReferenceCategory.Last
+
+            Dim key As String = s.Trim().ToLowerInvariant()
+            If LegacyUdfText38.EqualText(key, "first") OrElse LegacyUdfText38.EqualText(key, "smallest") OrElse LegacyUdfText38.EqualText(key, "min") Then
+                Return Global.BESHStatNG.regression.ReferenceCategory.First
+            End If
+                Return Global.BESHStatNG.regression.ReferenceCategory.Last
+
+        End Function
+        Public Shared Function ResponseColumnsMatchObjects(countData(,) As Object, zeroData(,) As Object, readNumber As Func(Of Object, Double?)) As Boolean
+            If countData Is Nothing OrElse zeroData Is Nothing Then Return False
+        If countData.GetLength(0) <> zeroData.GetLength(0) Then Return False
+            
+        For i As Integer = 0 To countData.GetLength(0) - 1
+            Dim yc As Double? = readNumber(countData(i, 0))
+            Dim yz As Double? = readNumber(zeroData(i, 0))
+            If Not yc.HasValue OrElse Not yz.HasValue Then Return False
+            If Math.Abs(yc.Value - yz.Value) > 0.0000001R Then Return False
+        Next
+            
+        Return True
+        End Function
+
+        Public Shared Function TryExtractNonnegativeIntegerResponseObjects(data(,) As Object, ByRef response() As Integer, readNumber As Func(Of Object, Double?)) As Boolean
+            response = Nothing
+        If data Is Nothing Then Return False
+        Dim n As Integer = data.GetLength(0)
+        If n < 1 Then Return False
+            
+        ReDim response(n - 1)
+        For i As Integer = 0 To n - 1
+            Dim yi As Double? = readNumber(data(i, 0))
+            If Not yi.HasValue Then Return False
+            Dim yr As Double = Math.Round(yi.Value)
+            If yi.Value < 0.0R OrElse Math.Abs(yi.Value - yr) > 0.0000001R Then Return False
+            response(i) = CInt(yr)
+        Next
+            
+        Return True
+        End Function
+
+        Public Shared Function PrepareKaplanMeierRecords(tArr(,) As Object, sArr(,) As Object, gArr(,) As Object, hasGroup As Boolean, ByRef records As List(Of survival.SurvivalRecord), readFinite As UdfReadFiniteDouble38, readStatus As UdfReadStatusInteger38, readText As Func(Of Object, String)) As Boolean
+        Dim map As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
+        Dim nextId As Integer = 0
+        Dim out As New List(Of survival.SurvivalRecord)()
+
+        For i As Integer = 0 To tArr.GetLength(0) - 1
+            Dim tVal As Double
+            Dim sVal As Integer
+
+            If Not readFinite(tArr(i, 0), tVal) Then Continue For
+            If tVal < 0.0R Then Continue For
+            If Not readStatus(sArr(i, 0), sVal) Then Continue For
+
+            Dim gKey As String = "All"
+            If hasGroup Then
+                gKey = readText(gArr(i, 0))
+                If String.IsNullOrWhiteSpace(gKey) Then Continue For
+                gKey = gKey.Trim()
+            End If
+
+            Dim gid As Integer
+            If Not map.TryGetValue(gKey, gid) Then
+                gid = nextId
+                map(gKey) = gid
+                nextId += 1
+            End If
+
+            out.Add(New survival.SurvivalRecord With {
+                    .Time = tVal,
+                    .Censorship = sVal,
+                    .Group = gid,
+                    .strGroup = gKey,
+                    .Stratum = "",
+                    .strStratum = ""
+                })
+        Next
+
+        records = out
+        Return records.Count > 0
+        End Function
+
+        Public Shared Function ComputeSurvivalMedianCi(Of TUnavailable As Structure)(nRows As Integer, timeArr(,) As Object, statusArr(,) As Object, groupArr(,) As Object, hasGroup As Boolean, alpha As Double, ByRef outTable(,) As Object, unavailable As TUnavailable, readFinite As UdfReadFiniteDouble38, readStatus As UdfReadStatusInteger38, readText As Func(Of Object, String)) As Boolean
+        Dim tList As New List(Of Double)()
+        Dim sList As New List(Of Integer)()
+        Dim gList As New List(Of String)()
+
+        For i As Integer = 0 To nRows - 1
+            Dim t As Double
+            Dim s As Integer
+
+            If Not readFinite(timeArr(i, 0), t) Then Continue For
+            If Not readStatus(statusArr(i, 0), s) Then Continue For
+            If t < 0.0R Then Return False
+
+            Dim g As String = "ALL"
+            If hasGroup Then
+                g = readText(groupArr(i, 0))
+                If String.IsNullOrWhiteSpace(g) Then Continue For
+                g = g.Trim()
+            End If
+
+            tList.Add(t)
+            sList.Add(s)
+            gList.Add(g)
+        Next
+
+        If tList.Count < 3 Then Return False
+
+        Dim err As String = Nothing
+        Dim stratAll() As String = Enumerable.Repeat("ALL", tList.Count).ToArray()
+        Dim recs = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratAll, err)
+        If recs Is Nothing Then Return False
+
+        Dim lr As New survival.Survival_KM_LR(recs)
+        Dim mci As Object(,) = lr.BrookmeyerCrowleyMedianSurvivalCI(alpha)
+        If mci Is Nothing OrElse mci.GetLength(0) < 1 Then Return False
+
+        Dim groupIds = gList.Distinct().ToList()
+        Dim k As Integer = mci.GetLength(0)
+        Dim out As Object(,) = New Object(k - 1, 3) {}
+
+        For j As Integer = 0 To k - 1
+            Dim med As Double = DirectCast(mci(j, 0), Double)
+            Dim ll As Double = DirectCast(mci(j, 1), Double)
+            Dim ul As Double = DirectCast(mci(j, 2), Double)
+
+            out(j, 0) = groupIds(j)
+            out(j, 1) = If(Double.IsNaN(med) OrElse Double.IsInfinity(med), CType(unavailable, Object), CType(med, Object))
+            out(j, 2) = If(Double.IsNaN(ll) OrElse Double.IsInfinity(ll), CType(unavailable, Object), CType(ll, Object))
+            out(j, 3) = If(Double.IsNaN(ul) OrElse Double.IsInfinity(ul), CType(unavailable, Object), CType(ul, Object))
+        Next
+
+        outTable = out
+        Return True
+        End Function
+
+        Public Shared Function ComputeSurvivalLogRank(nRows As Integer, timeArr(,) As Object, statusArr(,) As Object, groupArr(,) As Object, strataArr(,) As Object, hasStrata As Boolean, weightMethod As String, ByRef result As TestResult, ByRef errText As String, readFinite As UdfReadFiniteDouble38, readStatus As UdfReadStatusInteger38, readText As Func(Of Object, String)) As Boolean
+        Dim tList As New List(Of Double)()
+        Dim sList As New List(Of Integer)()
+        Dim gList As New List(Of String)()
+        Dim stratList As New List(Of String)()
+
+        For i As Integer = 0 To nRows - 1
+            Dim t As Double
+            Dim s As Integer
+            Dim st As String = "ALL"
+
+            If Not readFinite(timeArr(i, 0), t) Then Continue For
+            If Not readStatus(statusArr(i, 0), s) Then Continue For
+
+            Dim g As String = readText(groupArr(i, 0))
+            If String.IsNullOrWhiteSpace(g) Then Continue For
+
+            If hasStrata Then
+                st = readText(strataArr(i, 0))
+                If String.IsNullOrWhiteSpace(st) Then st = "ALL"
+            End If
+
+            If t < 0.0R Then Return False
+
+            tList.Add(t)
+            sList.Add(s)
+            gList.Add(g.Trim())
+            stratList.Add(st.Trim())
+        Next
+
+        If tList.Count < 3 Then Return False
+        If gList.Distinct().Count() < 2 Then Return False
+
+        Dim err As String = Nothing
+        Dim recs = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)
+        If recs Is Nothing Then
+            errText = err
+            Return False
+        End If
+
+        Dim lr As New survival.Survival_KM_LR(recs)
+        result = lr.WeightedLogRankTest(weightMethod)
+        Return result IsNot Nothing
+        End Function
+
+        Public Shared Function ParseSurvivalWeightText(s As String) As String
+            Dim key As String = s.Trim().ToLowerInvariant()
+            If LegacyUdfText38.EqualText(key, "logrank") OrElse LegacyUdfText38.EqualText(key, "lr") Then
+                Return "logrank"
+            End If
+            If LegacyUdfText38.EqualText(key, "gehan-breslow") OrElse LegacyUdfText38.EqualText(key, "gehan") OrElse LegacyUdfText38.EqualText(key, "breslow") OrElse LegacyUdfText38.EqualText(key, "wilcoxon") Then
+                Return "gehan-breslow"
+            End If
+            If LegacyUdfText38.EqualText(key, "tarone-ware") OrElse LegacyUdfText38.EqualText(key, "tarone") OrElse LegacyUdfText38.EqualText(key, "ware") Then
+                Return "tarone-ware"
+            End If
+            If LegacyUdfText38.EqualText(key, "peto") OrElse LegacyUdfText38.EqualText(key, "peto-peto") Then
+                Return "peto"
+            End If
+            If LegacyUdfText38.EqualText(key, "modified peto") OrElse LegacyUdfText38.EqualText(key, "modifiedpeto") OrElse LegacyUdfText38.EqualText(key, "anderson") OrElse LegacyUdfText38.EqualText(key, "modpeto") Then
+                Return "modified peto"
+            End If
+                Return Nothing
+
+        End Function
+        Public Shared Function CreateMmrmFitRequest(data As Global.BESHStatNG.regression.MixedModelBlockData, rStruct As Global.BESHStatNG.regression.MixedModelRStruct, fit As Global.BESHStatNG.regression.MixedModelFitMethod, fitNames() As String, fixedInference As Global.BESHStatNG.regression.MixedModelFixedInferenceMethod, visitValues() As Double, traceValue As Boolean, optimizerMode As Global.BESHStatNG.regression.MixedModelCovarianceOptimizerMode, gradientMode As Global.BESHStatNG.regression.MixedModelCovarianceGradientMode, ByRef control As Global.BESHStatNG.regression.MixedModelControl) As Global.BESHStatNG.regression.MixedModelFitRequest
+                Dim req As Global.BESHStatNG.regression.MixedModelFitRequest = Global.BESHStatNG.regression.MixedModelFitRequest.CreateMMRM(data, rStruct, fit)
+                req.FixedEffectNames = fitNames
+                req.FixedInferenceMethod = fixedInference
+                req.ResponseVarName = "y"
+                req.SubjectVarName = "subject"
+                req.VisitVarName = If(visitValues Is Nothing, String.Empty, "visit")
+                req.RequestLabel = "MMRM UDF"
+
+                control = req.Control
+                control.Trace = traceValue
+                control.CovarianceOptimizerMode = optimizerMode
+                control.CovarianceGradientMode = gradientMode
+            Return req
+        End Function
+
+        Public Shared Function PrepareZipCountDesign(rawX(,) As Double, rawPredictorKeys() As String, designSpec As RegressionFormulaDesignSpec, omitCategoricalReference As Boolean, expectedNames() As String, importedRows As Integer, ByRef expandedX(,) As Double, ByRef nRows As Integer, importedHasOffset As Boolean, importedOffset() As Double, ByRef offsetVals() As Double) As Boolean
+            Dim expandedNames() As String = Nothing
+            Dim designErr As String = Nothing
+            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=rawX,
+                                                                                                fullRawPredictorKeys:=rawPredictorKeys,
+                                                                                                designSpec:=designSpec,
+                                                                                                expandedX:=expandedX,
+                                                                                                expandedPredictorNames:=expandedNames,
+                                                                                                errorMessage:=designErr,
+                                                                                                omitCategoricalReference:=omitCategoricalReference) Then
+                Return False
+            End If
+
+            If expandedNames Is Nothing Then expandedNames = New String() {}
+            If expandedNames.Length <> expectedNames.Length Then Return False
+
+            nRows = importedRows
+            offsetVals = If(importedHasOffset, importedOffset, Nothing)
+            Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.HasOnlyFinite(offsetVals)
+        End Function
+
+        Public Shared Function PrepareZipZeroDesign(rawX(,) As Double, rawPredictorKeys() As String, designSpec As RegressionFormulaDesignSpec, omitCategoricalReference As Boolean, expectedNames() As String, importedRows As Integer, ByRef expandedX(,) As Double, ByRef nRows As Integer) As Boolean
+            Dim expandedNames() As String = Nothing
+            Dim designErr As String = Nothing
+            If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=rawX,
+                                                                                                fullRawPredictorKeys:=rawPredictorKeys,
+                                                                                                designSpec:=designSpec,
+                                                                                                expandedX:=expandedX,
+                                                                                                expandedPredictorNames:=expandedNames,
+                                                                                                errorMessage:=designErr,
+                                                                                                omitCategoricalReference:=omitCategoricalReference) Then
+                Return False
+            End If
+
+            If expandedNames Is Nothing Then expandedNames = New String() {}
+            If expandedNames.Length <> expectedNames.Length Then Return False
+
+            nRows = importedRows
+            Return True
+        End Function
+        Public Shared Function ValidateWorksheetFormula(xMat(,) As Double, rawVarNames() As String, formulaText As String, addressingMode As String, absoluteColumnLetters() As String, allowRelativeColumnLetters As Boolean, allowAbsoluteColumnLetters As Boolean, allowQuotedVariableNames As Boolean) As Object
+                Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing
+                Dim designErr As String = Nothing
+                If RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=xMat,
+                                                                                           result:=designBuild,
+                                                                                           errorMessage:=designErr,
+                                                                                           predictorNames:=rawVarNames,
+                                                                                           formulaText:=formulaText,
+                                                                                           absoluteColumnLetters:=absoluteColumnLetters,
+                                                                                           allowRelativeColumnLetters:=allowRelativeColumnLetters,
+                                                                                           allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,
+                                                                                           allowQuotedVariableNames:=allowQuotedVariableNames,
+                                                                                           omitCategoricalReference:=True) Then
+                    Return True
+                End If
+
+                Return RegressionFormulaUDFsMetadata38.BuildValidationFailureMessage(formulaText:=formulaText,
+                                                     addressingMode:=addressingMode,
+                                                     rawVarNames:=rawVarNames,
+                                                     absoluteColumnLetters:=absoluteColumnLetters,
+                                                     parserOrBuilderMessage:=designErr)
+        End Function
+
+        Public Shared Sub ApplyMmrmInference(req As Global.BESHStatNG.regression.MixedModelFitRequest, fixedInference As Global.BESHStatNG.regression.MixedModelFixedInferenceMethod)
+                Select Case fixedInference
+                    Case Global.BESHStatNG.regression.MixedModelFixedInferenceMethod.KenwardRoger
+                        req.EnableFullKenwardRogerForMmrm()
+                    Case Global.BESHStatNG.regression.MixedModelFixedInferenceMethod.Satterthwaite
+                        req.UseSatterthwaite = True
+                        req.UseKenwardRoger = False
+                    Case Else
+                        req.UseSatterthwaite = False
+                        req.UseKenwardRoger = False
+                End Select
+        End Sub
+
+        Public Shared Function MapMmrmNamesByLetter(suppliedNames() As String, suppliedLetters() As String, selectedAbsoluteLetters() As String, inferred() As String, selectedCount As Integer) As String()
+                    Dim byLetter As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+                    For i As Integer = 0 To Math.Min(suppliedNames.Length, suppliedLetters.Length) - 1
+                        Dim letter As String = If(suppliedLetters(i), String.Empty).Trim()
+                        If LegacyUdfText38.EqualText(letter, String.Empty) Then Continue For
+                        If Not byLetter.ContainsKey(letter) Then byLetter(letter) = If(suppliedNames(i), String.Empty).Trim()
+                    Next
+
+                    Dim mapped(selectedCount - 1) As String
+                    Dim anyMapped As Boolean = False
+                    For j As Integer = 0 To selectedCount - 1
+                        Dim selectedLetter As String = If(selectedAbsoluteLetters(j), String.Empty).Trim()
+                        Dim mappedName As String = Nothing
+                        If Not LegacyUdfText38.EqualText(selectedLetter, String.Empty) AndAlso byLetter.TryGetValue(selectedLetter, mappedName) Then
+                            mapped(j) = mappedName
+                            anyMapped = True
+                        Else
+                            mapped(j) = inferred(j)
+                        End If
+                    Next
+
+                    If anyMapped Then Return MixedModelUDFsMetadata38.NormalizeMmrmNameList(mapped, selectedCount, "X")
+            Return inferred
+        End Function
+        Public Shared Function ReadIntegerOutcomes(data As Global.BESHStatNG.DataObj, values As List(Of Integer), convertDouble As Func(Of Object, Double)) As Boolean
+For i As Integer = 0 To data.nRows - 1
+            Dim d As Double = convertDouble(data.FinalData(i, 0))
+            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return False
+
+            Dim rounded As Double = Math.Round(d)
+            If Math.Abs(d - rounded) > 0.0000001R Then Return False
+
+            values.Add(CInt(rounded))
+        Next
+
+        Return values.Count > 0
+        End Function
+
+        Public Shared Sub BuildZipRawMatrices(yCol(,) As Object, xCountMat(,) As Object, xZeroMat(,) As Object, offsetCol(,) As Object, rowCount As Integer, hasOffset As Boolean, yName As String, offsetName As String, countPredictorNames() As String, zeroPredictorNames() As String, ByRef rawCount(,) As Object, ByRef countNames() As String, ByRef rawZero(,) As Object, ByRef zeroNames() As String)
+        Dim countCols As Integer = xCountMat.GetLength(1)
+        Dim zeroCols As Integer = xZeroMat.GetLength(1)
+
+        ReDim rawCount(rowCount - 1, countCols + If(hasOffset, 1, 0))
+        ReDim countNames(countCols + If(hasOffset, 1, 0))
+        countNames(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
+
+        For i As Integer = 0 To rowCount - 1
+            rawCount(i, 0) = yCol(i, 0)
+        Next
+        For j As Integer = 0 To countCols - 1
+            countNames(j + 1) = countPredictorNames(j)
+            For i As Integer = 0 To rowCount - 1
+                rawCount(i, j + 1) = xCountMat(i, j)
+            Next
+        Next
+        If hasOffset Then
+            countNames(countCols + 1) = If(String.IsNullOrWhiteSpace(offsetName), "Offset", offsetName)
+            For i As Integer = 0 To rowCount - 1
+                rawCount(i, countCols + 1) = offsetCol(i, 0)
+            Next
+        End If
+
+        ReDim rawZero(rowCount - 1, zeroCols)
+        ReDim zeroNames(zeroCols)
+        zeroNames(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
+
+        For i As Integer = 0 To rowCount - 1
+            rawZero(i, 0) = yCol(i, 0)
+        Next
+        For j As Integer = 0 To zeroCols - 1
+            zeroNames(j + 1) = zeroPredictorNames(j)
+            For i As Integer = 0 To rowCount - 1
+                rawZero(i, j + 1) = xZeroMat(i, j)
+            Next
+        Next
+        End Sub
+    End Class
+End Namespace

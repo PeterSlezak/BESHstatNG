@@ -1,0 +1,49 @@
+{
+  "changes": [
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/response-alias-before/BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 29048,
+        "sha256": "86b4176d1a8b97a6c058d45bd95fd4da4370df642e4244076232d63e23bb167c"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfW2CompletionPreparation38.vb",
+        "bytes": 29051,
+        "sha256": "976ac628753c82341daffb4fc0e5b8cdd50376565fd2c88640b8f4923c083c4d"
+      },
+      "replacements": [
+        {
+          "before": "ReadIntegerOutcomes(matrix(,) As Object, rowCount As Integer, values As List(Of Integer),",
+          "after": "ReadIntegerOutcomes(data As Global.BESHStatNG.DataObj, values As List(Of Integer),"
+        },
+        {
+          "before": "For i As Integer = 0 To rowCount - 1\n            Dim d As Double = convertDouble(matrix(i, 0))",
+          "after": "For i As Integer = 0 To data.nRows - 1\n            Dim d As Double = convertDouble(data.FinalData(i, 0))"
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "before": {
+        "path": "evidence/04A38/completion/w2/continuation-v17/response-alias-before/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "bytes": 25375,
+        "sha256": "3089d4d2a08693facc9b81e90863d3efe91734a52749efe7f1d14c6ab9865732"
+      },
+      "after": {
+        "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "bytes": 25353,
+        "sha256": "ce44246e9c600da8f78f5a67c3357ce7a0d3d9f23db9d9a2c09470c6362bd8a9"
+      },
+      "replacements": [
+        {
+          "before": "ReadIntegerOutcomes(data.FinalData, data.nRows, values,",
+          "after": "ReadIntegerOutcomes(data, values,"
+        }
+      ]
+    }
+  ],
+  "reason": "DataObj is an existing portable Core type. Read its current FinalData at every original iteration. Native fixed VB Object conversion remains the exact Conversions.ToDouble callback. No matrix capture, clone or invented Windows lambda.",
+  "original_queries": 0,
+  "campaigns_started": 0
+}

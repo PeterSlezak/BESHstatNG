@@ -1,0 +1,29 @@
+to one-way ANOVA.
+        ''' It tests whether multiple independent groups come from the same distribution,
+        ''' by ranking all observations together and comparing the sums of ranks between groups.
+        ''' </para>
+        ''' <para>
+        ''' When there are tied values, a tie correction can be applied to the H statistic.
+        ''' The tie-corrected version (H<sub>cor</sub>) is usually preferred in real data.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.NP.KW_STAT(A2:C20, "Hcor")         ' 3 groups stored in columns A..C
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.NP.KW_STAT",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Kruskal-Wallis test statistic H (or tie-corrected Hcor) for 2+ independent groups.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
+        )>
+        Public Function KW_STAT(
+            <ExcelArgument(Name:="groups", Description:="Multi-column range: one column per group (independent samples).")> groups As Object,
+            <ExcelArgument(Name:="type", Description:="""H"" for uncorrected H; ""Hcor"" for tie-corrected H (default).")> Optional statType As Object = Nothing
+        ) As Object
+
+            Dim err? As ExcelError = Nothing
+            Dim data = Global.BESHStatNG.UdfDataImport.GetNumericGroupsFromColumnsIgnoringNonNumeric(groups, err)
+            If err.HasValue Then Return err.Value
+          

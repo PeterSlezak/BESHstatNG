@@ -1,0 +1,291 @@
+{
+  "Debug": {
+    "outcomes": {
+      "Passed": 21080,
+      "Failed": 14
+    },
+    "identities": 21094,
+    "inherited": 21094,
+    "new": 0,
+    "missing": 0,
+    "changed_outcomes": 0,
+    "nonpass_message_changes": 0,
+    "suites": [
+      {
+        "suite": "Core",
+        "part": "all",
+        "outcomes": {
+          "Passed": 1280
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-replacement-v1-Debug-serial-Core/cases.json",
+          "bytes": 389028,
+          "sha256": "bfd095d2bec126a02aa4912f2845fa2b368c023d1a2de4a7b84e21280b31b618"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-replacement-v1-Debug-serial-Core/results/Core.trx",
+          "bytes": 1929218,
+          "sha256": "efc8df60c42846f464a943d5719f288147e3ff23e0cbf01702537d4d541086d3"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17pc1-replacement-v1-Debug-serial-Core\\sandbox\\BESHStat.Core.Tests\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-replacement-v1-Debug-serial-Core\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-replacement-v1-Debug-serial-Core\\results",
+            "/Logger:trx;LogFileName=Core.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 6.014972999997553,
+          "stdout_sha256": "44e3a8e0c83b0e2fb449b985bffb418b3d9c0b37788c196238c5cfdfc6e5aac8",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "Common",
+        "part": "main",
+        "outcomes": {
+          "Passed": 9394,
+          "Failed": 5
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-replacement-v1-Debug-serial-Common-main/cases.json",
+          "bytes": 3025954,
+          "sha256": "823f313e95b0a8968d0db69a368ba1fc32eb83e7525fa485ca9df58f0c01af63"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-replacement-v1-Debug-serial-Common-main/results/Common.trx",
+          "bytes": 333276941,
+          "sha256": "4abcac04cf0699ce14d460ed078c26597b028856d0ceb9fc718e3c366c1be13b"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17pc1-replacement-v1-Debug-serial-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-replacement-v1-Debug-serial-Common-main\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-replacement-v1-Debug-serial-Common-main\\results",
+            "/Logger:trx;LogFileName=Common.trx",
+            "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 1,
+          "seconds": 103.85504560000845,
+          "stdout_sha256": "79ebe9aecdf31c0758e39f2f20d01ce77b3d5f067338abe7acf7e043dff09732",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "Common",
+        "part": "semantic",
+        "outcomes": {
+          "Passed": 15
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-CS/cases.json",
+          "bytes": 6338,
+          "sha256": "8a61ccb9c3e4c58d601cbb05dd1bd05eca74ea35d5bfd81ab205c2275568f19b"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-CS/results/Common.trx",
+          "bytes": 23425,
+          "sha256": "b3175eed9b034f92806da07f0c8c43870a80ee4eb5bc0ee1637f36c4b2d4f1bc"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17pc1-CS\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-CS\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-CS\\results",
+            "/Logger:trx;LogFileName=Common.trx",
+            "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 2.1556044000026304,
+          "stdout_sha256": "5eedbbad113802feb3d970e87850106b80449687e57cc347aceabd0086070955",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "Legacy",
+        "part": "all",
+        "outcomes": {
+          "Passed": 9777,
+          "Failed": 9
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-Legacy/cases.json",
+          "bytes": 3022282,
+          "sha256": "4399bb799a132ddbdcf693916e19c39b4faf1afea1629f6f4d070edbd637936a"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-Legacy/results/Legacy.trx",
+          "bytes": 332398157,
+          "sha256": "f87821fa16633bc1da2d0b2556b8405f558113a7f22a82f039ee7f7a1eb72376"
+        },
+        "command": {
+          "command": [
+            "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+            "<ISOLATED_RUN>\\executions\\w2c17pc1-Legacy\\sandbox\\BESHStatNG.Test\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-Legacy\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-Legacy\\results",
+            "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+            "/Logger:trx;LogFileName=Legacy.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 1,
+          "seconds": 156.50257070000225,
+          "stdout_sha256": "6d594848a8703c2ee7fe7b59879ee7f4bb630cf10b91ea9ce290f81da2c5c44f",
+          "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "ControlMitigation",
+        "part": "all",
+        "outcomes": {
+          "Passed": 61
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-Mitigation/cases.json",
+          "bytes": 23231,
+          "sha256": "c4f333bb4a001a8e17318064b22213b71b2a18ece9adbb5224ed2bbf895953b4"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-Mitigation/results/ControlMitigation.trx",
+          "bytes": 90770,
+          "sha256": "5b447de45aeb44d33a07ab07e727ed539e1c987249bbddad361316337fde8fa3"
+        },
+        "command": {
+          "command": [
+            "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+            "<ISOLATED_RUN>\\executions\\w2c17pc1-Mitigation\\sandbox\\ControlMitigation\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-Mitigation\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-Mitigation\\results",
+            "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+            "/Logger:trx;LogFileName=ControlMitigation.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 8.466912899995805,
+          "stdout_sha256": "41a173ca68693cb8c36556fd89752bdd34a6dc3d185fff426fdf27095add2371",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "OfficeAddin",
+        "part": "all",
+        "outcomes": {
+          "Passed": 508
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-OfficeAddin/cases.json",
+          "bytes": 172757,
+          "sha256": "12605c6d3b4a7a66550f943d99c2757a726db61b6886e47c253299c41524b03b"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-OfficeAddin/results/OfficeAddin.trx",
+          "bytes": 734351,
+          "sha256": "cf092e8a9a7918918479deef0103f03dee93f9e5fe8a2b329c98b0bac894c7d5"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeAddin\\sandbox\\tests\\bin\\Debug\\net10.0\\OfficeAddin.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeAddin\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeAddin\\results",
+            "/Logger:trx;LogFileName=OfficeAddin.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 35.12149419999332,
+          "stdout_sha256": "2cca08abafaab7d95a8908e06acbb835dcd074d016c0aa5204779db04576b186",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      },
+      {
+        "suite": "OfficeExecution",
+        "part": "all",
+        "outcomes": {
+          "Passed": 45
+        },
+        "raw_cases": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-OfficeExecution/cases.json",
+          "bytes": 15556,
+          "sha256": "3dff25329f43ff30fe79a1eb63823f516637d07f7010e989a6b1c0ea56d8d4f2"
+        },
+        "TRX": {
+          "path": ".test-rationalization-04A38.tmp/executions/w2c17pc1-OfficeExecution/results/OfficeExecution.trx",
+          "bytes": 65804,
+          "sha256": "be840885768253b3adce592327d90b8dad5e643d28d30f3b088078d58854c507"
+        },
+        "command": {
+          "command": [
+            "dotnet",
+            "vstest",
+            "<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeExecution\\sandbox\\Execution\\bin\\Debug\\net10.0\\Execution.Tests.dll",
+            "/Settings:<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeExecution\\serial.runsettings",
+            "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w2c17pc1-OfficeExecution\\results",
+            "/Logger:trx;LogFileName=OfficeExecution.trx"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 1.7868979000049876,
+          "stdout_sha256": "7ff1fbec0bceb5c458b08e7b98e778b71e3a7a1b55f8c69462513e9531002c21",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        }
+      }
+    ]
+  },
+  "Python": {
+    "methods": {
+      "PASS": 830,
+      "ERROR": 13,
+      "FAIL": 113
+    },
+    "nonpass_events": {
+      "ERROR": 13,
+      "FAIL": 185
+    },
+    "executed": 956,
+    "delta": {
+      "extra": [],
+      "lost": [],
+      "parent_outcome_changes": []
+    },
+    "changed_messages": 1
+  },
+  "strict_profile_MkDocs": {
+    "strict": 1,
+    "profile": 1,
+    "docs": 0
+  },
+  "Node": {
+    "status": "NOT_RERUN_NOT_INCLUDED_IN_TWO_REPLACEMENT_AUTHORIZATIONS",
+    "retained": {
+      "path": "evidence/04A38/completion/w2/continuation-v17/node-identities-v1.json",
+      "bytes": 69931,
+      "sha256": "06ab6c238298ae754face96df93a220f96639106f626dc0773ae6dc9650cbcd8"
+    },
+    "retained_PASS": 916
+  },
+  "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_full_selected_focused_unit_tests": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_ABI_CIL_signatures_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+  "Debug_frozen_cases": 29424,
+  "original_queries": 0,
+  "native": "NOT_RUN",
+  "science": "NOT_GOLDEN"
+}

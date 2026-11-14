@@ -1,0 +1,69 @@
+s Object
+            Try
+                Dim mat(,) As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(conditionNames, detectedNames, mat.GetLength(1), "Condition")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim which As String = NormalizeText(method)
+                Dim test = New Friedman(mat, names)
+                test.compute()
+                test.MCP(alphaValue)
+
+                Dim tables = test.wrapResults()
+
+                Select Case which
+                    Case "", "DUNN", "SPSS"
+                        Return PrepareResultTableForUdf(tables(3))
+
+                    Case "CONOVER", "CON"
+                        Return PrepareResultTableForUdf(tables(2))
+
+                    Case "ALL", "BOTH"
+                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(2))
+                        stacked = ParametricUDFs.StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(3)))
+                        Return PrepareResultTableForUdf(stacked)
+
+                    Case Else
+                        Return ExcelError.ExcelErrorValue
+                End Select
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+        End Function
+
+        ' -------------------------------------------------------------------------------------------------------------
+        ' Helpers
+        ' -------------------------------------------------------------------------------------------------------------
+
+        ''' <summary>
+        ''' Parses the Kruskal-Wallis output selection (H vs Hcor).
+        ''' Returns 0 for H, 1 for Hcor.
+        ''' </summary>
+        Private Function ParseKwType(arg As Object, defaultTieCorrected As Boolean, ByRef err As ExcelError?) As Integer
+            err = Nothing
+
+            If arg Is Nothing OrElse TypeOf arg Is ExcelMissing OrElse TypeOf arg Is ExcelEmpty Then
+                Return If(defaultTieCorrected, 1, 0)
+            End If
+
+            If TypeOf arg Is ExcelError Then
+                err = DirectCast(arg, ExcelError)
+                Return 0
+            End If
+
+            Dim s As String = Nothing
+            Try
+                s = Convert.ToString(arg)
+            Catch
+                s = Nothing
+            End Try
+
+            Di

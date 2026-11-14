@@ -1,0 +1,151 @@
+{
+  "status": "ORIGINAL_HEADERED_BRANCH_OBSERVED",
+  "configurations": {
+    "Debug": {
+      "unique_cases": 2,
+      "plain": 2,
+      "repeat": 2,
+      "trace": 2,
+      "headered_profile_cases": 2,
+      "returned_reports": 2,
+      "repeat_exact": true,
+      "trace_output_exact": true,
+      "cases": [
+        {
+          "case_id": "AUTHORIZED-MMRM-HEADERED/Invariant/treatment-visit",
+          "outcome": "RETURN_ARRAY",
+          "result_shape": "System.Object[0:5,0:8]",
+          "events": [
+            "spec.accepted=Intercept|treatment_active|visit2|visit3|treatment_active:visit2|treatment_active:visit3",
+            "parser.entry=True",
+            "headerless.attempted=False",
+            "header.name_col=0",
+            "header.value_col=1",
+            "branch.headered_name_value=True",
+            "headered.row=1",
+            "helper.entry=treatment_active",
+            "helper.value=D3FF0000000000000",
+            "selection.design=treatment_active",
+            "headered.row=2",
+            "helper.entry=visit",
+            "helper.value=D3FF0000000000000",
+            "selection.visit=visit",
+            "selection.visit_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "row_selection.enter=True",
+            "row_selection.matched=9",
+            "contrast.report_enter=True",
+            "report.returned=True"
+          ],
+          "exception": "None"
+        },
+        {
+          "case_id": "AUTHORIZED-MMRM-HEADERED/sk-SK/treatment-visit",
+          "outcome": "RETURN_ARRAY",
+          "result_shape": "System.Object[0:5,0:8]",
+          "events": [
+            "spec.accepted=Intercept|treatment_active|visit2|visit3|treatment_active:visit2|treatment_active:visit3",
+            "parser.entry=True",
+            "headerless.attempted=False",
+            "header.name_col=0",
+            "header.value_col=1",
+            "branch.headered_name_value=True",
+            "headered.row=1",
+            "helper.entry=treatment_active",
+            "helper.value=D3FF0000000000000",
+            "selection.design=treatment_active",
+            "headered.row=2",
+            "helper.entry=visit",
+            "helper.value=D3FF0000000000000",
+            "selection.visit=visit",
+            "selection.visit_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "row_selection.enter=True",
+            "row_selection.matched=9",
+            "contrast.report_enter=True",
+            "report.returned=True"
+          ],
+          "exception": "None"
+        }
+      ]
+    },
+    "Release": {
+      "unique_cases": 2,
+      "plain": 2,
+      "repeat": 2,
+      "trace": 2,
+      "headered_profile_cases": 2,
+      "returned_reports": 2,
+      "repeat_exact": true,
+      "trace_output_exact": true,
+      "cases": [
+        {
+          "case_id": "AUTHORIZED-MMRM-HEADERED/Invariant/treatment-visit",
+          "outcome": "RETURN_ARRAY",
+          "result_shape": "System.Object[0:5,0:8]",
+          "events": [
+            "spec.accepted=Intercept|treatment_active|visit2|visit3|treatment_active:visit2|treatment_active:visit3",
+            "parser.entry=True",
+            "headerless.attempted=False",
+            "header.name_col=0",
+            "header.value_col=1",
+            "branch.headered_name_value=True",
+            "headered.row=1",
+            "helper.entry=treatment_active",
+            "helper.value=D3FF0000000000000",
+            "selection.design=treatment_active",
+            "headered.row=2",
+            "helper.entry=visit",
+            "helper.value=D3FF0000000000000",
+            "selection.visit=visit",
+            "selection.visit_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "row_selection.enter=True",
+            "row_selection.matched=9",
+            "contrast.report_enter=True",
+            "report.returned=True"
+          ],
+          "exception": "None"
+        },
+        {
+          "case_id": "AUTHORIZED-MMRM-HEADERED/sk-SK/treatment-visit",
+          "outcome": "RETURN_ARRAY",
+          "result_shape": "System.Object[0:5,0:8]",
+          "events": [
+            "spec.accepted=Intercept|treatment_active|visit2|visit3|treatment_active:visit2|treatment_active:visit3",
+            "parser.entry=True",
+            "headerless.attempted=False",
+            "header.name_col=0",
+            "header.value_col=1",
+            "branch.headered_name_value=True",
+            "headered.row=1",
+            "helper.entry=treatment_active",
+            "helper.value=D3FF0000000000000",
+            "selection.design=treatment_active",
+            "headered.row=2",
+            "helper.entry=visit",
+            "helper.value=D3FF0000000000000",
+            "selection.visit=visit",
+            "selection.visit_value=D3FF0000000000000",
+            "profile.formed=True",
+            "profile.applied=True",
+            "row_selection.enter=True",
+            "row_selection.matched=9",
+            "contrast.report_enter=True",
+            "report.returned=True"
+          ],
+          "exception": "None"
+        }
+      ]
+    }
+  },
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+  "source_plan": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/trace-plan.json",
+    "bytes": 8680,
+    "sha256": "f8d7cd0593972f4a425738634d2cd7b82ef6005e93f21ad0d7c1cb39004e8ba8"
+  }
+}

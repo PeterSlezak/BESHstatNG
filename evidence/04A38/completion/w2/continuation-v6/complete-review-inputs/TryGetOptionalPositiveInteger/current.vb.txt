@@ -1,0 +1,11 @@
+Friend Function TryGetOptionalPositiveInteger(arg As Object,
+                                                      ByRef value As Integer,
+                                                      Optional defaultValue As Integer = 10,
+                                                      Optional minValue As Integer = 1) As Boolean
+            value = defaultValue
+            If ExcelArgPredicates.IsMissingArg(arg) Then Return True
+
+            Dim d As Double
+            If Not ExcelArgNumeric.TryGetFiniteDouble(arg, d) Then Return False
+            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryPositiveIntegerPrepared(d, value, minValue)
+        End Function

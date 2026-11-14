@@ -1,0 +1,54 @@
+{
+  "build": {
+    "command": [
+      "dotnet",
+      "msbuild",
+      "<ISOLATED_RUN>\\completion-w2-cont6\\domain-tool-v3b\\CallDomains-v3.csproj",
+      "/t:Build",
+      "/p:Configuration=Release",
+      "/p:ProjectAssetsFile=<ISOLATED_RUN>\\mmrm38-v6\\w1-census-tool-v2\\obj\\project.assets.json",
+      "/p:OutputPath=<ISOLATED_RUN>\\completion-w2-cont6\\domain-tool-v3b\\bin\\",
+      "/p:IntermediateOutputPath=<ISOLATED_RUN>\\completion-w2-cont6\\domain-tool-v3b\\obj\\",
+      "/nr:false",
+      "/v:minimal"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 3.01483269999153,
+    "stdout_sha256": "b5c853b8ba307e77fec156530965a3182bcb1f01de37b6d3ba4dc9c02356318a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "<ISOLATED_RUN>\\completion-w2-cont6\\domain-tool-v3b\\bin\\CallDomains-v3.dll",
+      "<REPO_ROOT>",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\text-call-sites-v2.json"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.8514166999957524,
+    "stdout_sha256": "97c5129128a30f2bc89bbac179d638a01c1842463b32e52a8e3881f09371589d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "binary": {
+    "name": "CallDomains-v3.dll",
+    "bytes": 27648,
+    "sha256": "d134cec4b5a76dcbf56bef22ac4fbe2294cbfa2899ebde1871ee220082396310"
+  },
+  "source": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/CallDomains-v3.cs",
+    "bytes": 5774,
+    "sha256": "eadcfc2c938b23eb55a2cc340a55117b3da552d7fe48421dc62efdfd9bece8d7"
+  },
+  "cached_assets": {
+    "path": ".test-rationalization-04A38.tmp/mmrm38-v6/w1-census-tool-v2/obj/project.assets.json",
+    "bytes": 21353,
+    "sha256": "553fe218b3bf311ad271b438940dc79e1f976bd7abf9e554ea1419411dbc686a"
+  },
+  "assets_unchanged": true,
+  "restore_install": "NOT_RUN",
+  "original_queries": 0
+}

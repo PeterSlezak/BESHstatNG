@@ -1,0 +1,689 @@
+{
+  "status": "PROPOSED_NOT_AUTHORIZED_NOT_EXECUTED",
+  "cases_per_configuration": 12,
+  "cases": [
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/Invariant/wide-time",
+      "culture": "Invariant",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          2,
+          1
+        ],
+        "values": [
+          [
+            "time"
+          ],
+          [
+            1.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String"
+          ],
+          [
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "wide parser -> time setting",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/Invariant/name-value-time",
+      "culture": "Invariant",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          2,
+          2
+        ],
+        "values": [
+          [
+            "Name",
+            "Value"
+          ],
+          [
+            "time",
+            1.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String",
+            "System.String"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "name/value parser -> time setting",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/Invariant/name-value-visit",
+      "culture": "Invariant",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          2,
+          2
+        ],
+        "values": [
+          [
+            "Name",
+            "Value"
+          ],
+          [
+            "visit",
+            1.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String",
+            "System.String"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "name/value parser -> visit alias",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/Invariant/duplicate-time-visit",
+      "culture": "Invariant",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          3,
+          2
+        ],
+        "values": [
+          [
+            "Name",
+            "Value"
+          ],
+          [
+            "time",
+            1.0
+          ],
+          [
+            "visit",
+            2.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String",
+            "System.String"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "second time/visit setting rejection",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/Invariant/duplicate-design",
+      "culture": "Invariant",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          3,
+          2
+        ],
+        "values": [
+          [
+            "Name",
+            "Value"
+          ],
+          [
+            "X1",
+            1.0
+          ],
+          [
+            "x1",
+            2.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String",
+            "System.String"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "second fitted-column setting rejection",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/Invariant/wide-multiple-rows",
+      "culture": "Invariant",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          3,
+          1
+        ],
+        "values": [
+          [
+            "time"
+          ],
+          [
+            1.0
+          ],
+          [
+            2.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String"
+          ],
+          [
+            "System.Double"
+          ],
+          [
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "multiple nonblank wide rows rejection",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/sk-SK/wide-time",
+      "culture": "sk-SK",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          2,
+          1
+        ],
+        "values": [
+          [
+            "time"
+          ],
+          [
+            1.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String"
+          ],
+          [
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "wide parser -> time setting",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/sk-SK/name-value-time",
+      "culture": "sk-SK",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          2,
+          2
+        ],
+        "values": [
+          [
+            "Name",
+            "Value"
+          ],
+          [
+            "time",
+            1.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String",
+            "System.String"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "name/value parser -> time setting",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/sk-SK/name-value-visit",
+      "culture": "sk-SK",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          2,
+          2
+        ],
+        "values": [
+          [
+            "Name",
+            "Value"
+          ],
+          [
+            "visit",
+            1.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String",
+            "System.String"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "name/value parser -> visit alias",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/sk-SK/duplicate-time-visit",
+      "culture": "sk-SK",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          3,
+          2
+        ],
+        "values": [
+          [
+            "Name",
+            "Value"
+          ],
+          [
+            "time",
+            1.0
+          ],
+          [
+            "visit",
+            2.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String",
+            "System.String"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "second time/visit setting rejection",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/sk-SK/duplicate-design",
+      "culture": "sk-SK",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          3,
+          2
+        ],
+        "values": [
+          [
+            "Name",
+            "Value"
+          ],
+          [
+            "X1",
+            1.0
+          ],
+          [
+            "x1",
+            2.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String",
+            "System.String"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ],
+          [
+            "System.String",
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "second fitted-column setting rejection",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    },
+    {
+      "case_id": "PROPOSED-GEE-PROFILE/sk-SK/wide-multiple-rows",
+      "culture": "sk-SK",
+      "configurations": [
+        "Debug",
+        "Release"
+      ],
+      "public_entry": "BESH.REGR.GEE_LSMESTIMATE",
+      "at": {
+        "element_type": "System.Object",
+        "rank": 2,
+        "lower_bounds": [
+          0,
+          0
+        ],
+        "lengths": [
+          3,
+          1
+        ],
+        "values": [
+          [
+            "time"
+          ],
+          [
+            1.0
+          ],
+          [
+            2.0
+          ]
+        ],
+        "cell_types": [
+          [
+            "System.String"
+          ],
+          [
+            "System.Double"
+          ],
+          [
+            "System.Double"
+          ]
+        ]
+      },
+      "argument_order": [
+        "handle",
+        "spec",
+        "covarianceType",
+        "alpha",
+        "at",
+        "scale"
+      ],
+      "other_arguments": "Reuse original successful real_model_at_profile GEE fit/spec/defaults from pinned Capture38.cs; materialize all fit inputs and record exact IEEE bits before any authorized capture",
+      "target_branch_hypothesis_only": "multiple nonblank wide rows rejection",
+      "expected_result": "UNKNOWN_NOT_CAPTURED",
+      "execution": "NOT_AUTHORIZED_NOT_EXECUTED"
+    }
+  ],
+  "earliest_missing": "PROPOSED-GEE-PROFILE/Invariant/name-value-time",
+  "required_new_authority": "User section4.6: a newly uncovered essential original behavior outside approved432 requires a new owner decision",
+  "scope": "A separate bounded late archived-entry GEE-profile supplement only, using the same authenticated main; source capture sealed before current comparison; no scientific/native changes",
+  "original_factory": {
+    "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+    "bytes": 30438,
+    "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+  },
+  "discovery": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v1/remaining-profile-coverage.json",
+    "bytes": 14064,
+    "sha256": "34b56e55881354aa7af8b1c37cd0290e9b208687fa201dd8d087af9196079eb0"
+  },
+  "qualifications": [
+    "No current or original implementation was executed for these proposed cases",
+    "The432-case authorization does not authorize these12 cases",
+    "A later authorization would not make these genuine pre-edit captures",
+    "This is the first newly proven gap, not a certification that no additional ownership/coverage gaps exist"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "status": "INVALID_NATIVE_BINDING_ATTEMPT",
+  "phase": "Metadata-only GetRawConstantValue before UDF compilation",
+  "error": "System.InvalidOperationException: Operation is not valid due to the current state of the object.",
+  "native_excel": "NOT_RUN",
+  "product_edits": false,
+  "correction": "The unexecuted native boundary needs no numeric value. Use an explicit test-only getter which counts and blocks any attempt; original source/compiled shipping binding remain immutable native-only contracts."
+}

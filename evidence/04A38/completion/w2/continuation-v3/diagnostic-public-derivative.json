@@ -1,0 +1,40 @@
+{
+  "raw_local": {
+    "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-v1.json",
+    "bytes": 7347717,
+    "sha256": "0fcc8f25d696fbce4f1c8c9a5522f707d28620bbfb6507607f0b8405fe1ee605"
+  },
+  "public": {
+    "path": "evidence/04A38/completion/w2/continuation-v3/full-managed-Debug-public-v1.json",
+    "bytes": 7347738,
+    "sha256": "69f1aeb3b890bd80837ff5d04116b71cc5fa2dc45e0609cfe029bfce36661c4b"
+  },
+  "changes": [
+    {
+      "pointer": [
+        "results",
+        1,
+        "records",
+        90,
+        "test_name"
+      ],
+      "original_label_sha256": "56b0b654dc663e63f7941d15e51f0701180aa05ad400405af733b6ab812aa73a",
+      "public_label_sha256": "a88b31d6c226cc6fd9debe57750a93ce8b5889aabef6d4337e66330f8bb1b4d5",
+      "public_label": "FieldPathsAreClosedVocabularyAndBoundedIndexes (\"<SYNTHETIC_PATH:1ed0403ec945eb069c62>\")"
+    },
+    {
+      "pointer": [
+        "results",
+        1,
+        "records",
+        6395,
+        "test_name"
+      ],
+      "original_label_sha256": "bf8e62e4bacba5ac40ccdfdff36fb18945f30ac94b53e6d9d642702346b07997",
+      "public_label_sha256": "366b706ab0b046f4062601041876a891631d07b0a52e6a5323570a690e003461",
+      "public_label": "UnsafeLinkTargetsRejected (\"<SYNTHETIC_URI:9d1e17b7aec858924620>\")"
+    }
+  ],
+  "scope": "Only test_name diagnostic display labels through previously accepted safe_label; raw identity/occurrence/outcome and all source/input/result/trace bytes unchanged",
+  "excluded_raw_retained_locally": true
+}

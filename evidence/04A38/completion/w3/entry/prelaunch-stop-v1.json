@@ -1,0 +1,16 @@
+{
+  "status": "REPORT_READER_PRELAUNCH_ERROR_PRESERVED",
+  "script": "evidence/04A38/completion/w3/entry/authenticate-entry-v1.py",
+  "command": ["C:/Users/peter/Desktop/WPy64-31470/python/python.exe", "-I", "-B", "evidence/04A38/completion/w3/entry/authenticate-entry-v1.py"],
+  "exit_code": 1,
+  "exception": "KeyError: 'postseal_private_pins'",
+  "location": "main, additions = add['postseal_private_pins'] + receipt['last_completed_raw_pins'] + [receipt['postseal_supplement']]",
+  "cause": "W3 reader used the predecessor additive schema key. Accepted post-correction addendum uses pins.",
+  "correction": "authenticate-entry-v2.py reads pins and merges addendum filesystem identities; all v1 receipts and reader retained. No assertion weakened.",
+  "builds_started": 0,
+  "managed_identities_started": 0,
+  "python_parents_started": 0,
+  "original_queries": 0,
+  "other_prelaunch_errors": ["Initial unscoped Git invocation refused dubious ownership; established command-scoped safe.directory handling then used.", "Read-only Python -c diagnostic lost quoting under Windows PowerShell native argument passing and exited SyntaxError before executing. Source hash check completed using PowerShell and then standalone entry scripts."],
+  "raw_output_scope": "Errors recorded from tool return; separate raw shell stdout/stderr files were not captured for these initial diagnostics. No claim of complete raw transcripts."
+}

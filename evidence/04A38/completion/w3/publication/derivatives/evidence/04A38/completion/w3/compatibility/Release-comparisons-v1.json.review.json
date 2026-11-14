@@ -1,0 +1,727 @@
+{
+  "status": "FRESH_CURRENT_ONLY_EXACT_COMPARISONS_READ_BACK",
+  "configuration": "Release",
+  "results": [
+    {
+      "configuration": "Release",
+      "corpus": "preedit-main",
+      "cases": 24732,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/frozen-v2/original-Release.tsv",
+        "bytes": 17067771,
+        "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/preedit-main/results.tsv",
+        "bytes": 17067771,
+        "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+        "bytes": 11751614,
+        "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+        "bytes": 30438,
+        "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\preedit-main-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\frozen-v2\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\preedit-main\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\preedit-main\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 128.43058110002312,
+        "stdout_sha256": "3f2e1d45cfed909d59e146f4379d3a6cc121a69efab67a267e594529445d4667",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "PRE_EDIT_FROZEN",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "outcome",
+        "phase",
+        "result",
+        "byref_arguments",
+        "error",
+        "caught_error_events"
+      ],
+      "physical_rows": 24732,
+      "ordered_row_sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/preedit-main/comparison.json",
+        "bytes": 2009,
+        "sha256": "c612f054ca6ae94e78b8ac614a66255488021c93f50ba9eb34dd03abc9bdf5cd"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "public-options-v1",
+      "cases": 2508,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-original-v1.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/public-options-v1/results.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+        "bytes": 3168046,
+        "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+        "bytes": 30438,
+        "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\public-options-v1-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\public-options-v1\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\public-options-v1\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\public-options-v1\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 28.657282800006215,
+        "stdout_sha256": "1da4095d6e2c25cd45e1179fc8eaaeb5ec63bb4bb1189b94d01c9b95f369c6ce",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "PRE_EDIT_FROZEN",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "outcome",
+        "phase",
+        "result",
+        "byref_arguments",
+        "error",
+        "caught_error_events"
+      ],
+      "physical_rows": 2508,
+      "ordered_row_sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/public-options-v1/comparison.json",
+        "bytes": 2093,
+        "sha256": "742824f600f1ae7ffc5f6624f5892e9bc2c9a2d4f3e0032deb96bfa05025e594"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "public-primitives-v1",
+      "cases": 226,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-original-v1.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/public-primitives-v1/results.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+        "bytes": 191201,
+        "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+        "bytes": 30438,
+        "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\public-primitives-v1-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\public-primitives-v1\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\public-primitives-v1\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\public-primitives-v1\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.145729299983941,
+        "stdout_sha256": "896e1e79e9f245b4bbe9f4221e40db46a9905c34782831a61125751349caea09",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "PRE_EDIT_FROZEN",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "outcome",
+        "phase",
+        "result",
+        "byref_arguments",
+        "error",
+        "caught_error_events"
+      ],
+      "physical_rows": 226,
+      "ordered_row_sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/public-primitives-v1/comparison.json",
+        "bytes": 2110,
+        "sha256": "ea886ed77846930b367cbcfc919b034409c373d110ed17532160092b034c337a"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "model-inputs-v2",
+      "cases": 882,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-original-v1.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/model-inputs-v2/results.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+        "bytes": 751343,
+        "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/Capture38.cs",
+        "bytes": 33456,
+        "sha256": "7bc7045db30657b30d011bf8b683b1804ddf7e67b86b23704d61ed1be5ebfec4"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\model-inputs-v2-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\model-inputs-v2\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\model-inputs-v2\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\model-inputs-v2\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 12.920316799980355,
+        "stdout_sha256": "475288995a7028c01dc1724b5adc66d0d2873d947333c41b1be35cc803cabfc5",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "PRE_EDIT_FROZEN",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "outcome",
+        "phase",
+        "result",
+        "byref_arguments",
+        "error",
+        "caught_error_events"
+      ],
+      "physical_rows": 882,
+      "ordered_row_sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/model-inputs-v2/comparison.json",
+        "bytes": 2090,
+        "sha256": "f3bc4e2dc9e634c7059573a16cf376972d5059b049c2a87da95837e369a1982d"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "math-edges-v1",
+      "cases": 618,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-original-v1.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/math-edges-v1/results.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+        "bytes": 286237,
+        "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/Capture38.cs",
+        "bytes": 30706,
+        "sha256": "bda04dd1d82990f543ff6eaed407cc488b5f7450eeb019354e97fabe97afe9b4"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\math-edges-v1-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\math-edges-v1\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\math-edges-v1\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\math-edges-v1\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.9097344000183512,
+        "stdout_sha256": "352f0ae32a801aaa9fa561aec99b44cf13bf87cc86965786ec5d6ff53ac0b17f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "PRE_EDIT_FROZEN",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "outcome",
+        "phase",
+        "result",
+        "byref_arguments",
+        "error",
+        "caught_error_events"
+      ],
+      "physical_rows": 618,
+      "ordered_row_sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/math-edges-v1/comparison.json",
+        "bytes": 2070,
+        "sha256": "d58cfd2c4ebb67368d0ff9a5d8daa997c9bc903a4c7eb223809400a2dd347d6a"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "A",
+      "cases": 432,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v1/original-results/Release/plain-v2/results.tsv",
+        "bytes": 689840,
+        "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/A/results.tsv",
+        "bytes": 689840,
+        "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v1/inputs-Release.jsonl",
+        "bytes": 987452,
+        "sha256": "d46f8a4997a0adf8b60c78384751ee525ff06628726d926c350ba42b5f15fef6"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v1/LateCapture38.cs",
+        "bytes": 11155,
+        "sha256": "e1764c0c009151473e0c515573ac44e83483c2429c3cab756eed13da630dd3fc"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\A-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v1\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\A\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\A\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.8114840999769513,
+        "stdout_sha256": "759b5ca0d006abf5a30e73d40ef8ee24d3b9d437a473de7c8e1450c951d64039",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "operations"
+      ],
+      "physical_rows": 432,
+      "ordered_row_sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/A/comparison.json",
+        "bytes": 2074,
+        "sha256": "6a2a7b70dea64c72d60907aeec05435b46191c57107d1c0e32b985648083844a"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "B",
+      "cases": 12,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Release/plain-v2/results.tsv",
+        "bytes": 68076,
+        "sha256": "871d9a0c606015a705ded209429c8e425734148218fdc513997d60564543a24a"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/B/results.tsv",
+        "bytes": 68076,
+        "sha256": "871d9a0c606015a705ded209429c8e425734148218fdc513997d60564543a24a"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/inputs-Release.jsonl",
+        "bytes": 114174,
+        "sha256": "09dde00b3dc1940f103be612ccbc1a20d754d3dcf5e129514577e06cbe3b31c5"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38-v2.cs",
+        "bytes": 13269,
+        "sha256": "9d867afcc90dadb34a989962f5298ce18aa343622f9d89f2304d5f9ab46ef2ea"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\B-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\B\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\B\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.7683454000216443,
+        "stdout_sha256": "f4ce8127bd26ed607c967770322517c91265de6cd566d8a22b6c652825f45b0a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "operations"
+      ],
+      "physical_rows": 12,
+      "ordered_row_sha256": "871d9a0c606015a705ded209429c8e425734148218fdc513997d60564543a24a",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/B/comparison.json",
+        "bytes": 2121,
+        "sha256": "0ac0e50f7248548d05e902581788e449e9e58df62fbdddd01b009c6e4c639a34"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "C",
+      "cases": 2,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Release/plain/results.tsv",
+        "bytes": 33646,
+        "sha256": "6fcb91c225671fc99144334f23f58d7e96267c9989f9666e41270e4c5a8f949d"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/C/results.tsv",
+        "bytes": 33646,
+        "sha256": "6fcb91c225671fc99144334f23f58d7e96267c9989f9666e41270e4c5a8f949d"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/inputs-Release.jsonl",
+        "bytes": 46518,
+        "sha256": "f5a8775e2da9c105b460372af029404542656b154a31c6645c9c2433eca8e772"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/MmrmCapture38.cs",
+        "bytes": 13458,
+        "sha256": "28b099782a665e8ac695efed6247f674dba8765dc297a02dfa4f7edc06f7c367"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\C-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\C\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\C\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.8361966000229586,
+        "stdout_sha256": "e090c51ad9c4007dc8a884037fe63e51e1b2d03ee68cefbb09e1709069159b5c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "operations"
+      ],
+      "physical_rows": 2,
+      "ordered_row_sha256": "6fcb91c225671fc99144334f23f58d7e96267c9989f9666e41270e4c5a8f949d",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/C/comparison.json",
+        "bytes": 2154,
+        "sha256": "711461c09888b32afbd77ad3a02bce964887bb7dbccc1505bcacb1d0d846a028"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "D",
+      "cases": 4,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/plain/results.tsv",
+        "bytes": 64486,
+        "sha256": "c41219aedcbb91614ae2f2c801edc19d08b6f89a0d05615889ac13d449323f05"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/D/results.tsv",
+        "bytes": 64486,
+        "sha256": "c41219aedcbb91614ae2f2c801edc19d08b6f89a0d05615889ac13d449323f05"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/inputs-Release.jsonl",
+        "bytes": 91816,
+        "sha256": "a238f0e045ee1b5aaa9f3450390028aa7fda18f0adb1e5782158f298300c8b06"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/MmrmCapture38.cs",
+        "bytes": 13458,
+        "sha256": "3c3b4d16e63909c014b7d4feb0c8c4b91aab1b873400b58b3d0f1910e2db56d1"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\D-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\D\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\D\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.9195779000001494,
+        "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "operations"
+      ],
+      "physical_rows": 4,
+      "ordered_row_sha256": "c41219aedcbb91614ae2f2c801edc19d08b6f89a0d05615889ac13d449323f05",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/D/comparison.json",
+        "bytes": 2154,
+        "sha256": "a361df742880142896e3f662441c39d8d20b0dc8a05f88b2eec9686d004b4be5"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "E",
+      "cases": 2,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Release/plain/results.tsv",
+        "bytes": 31484,
+        "sha256": "086ecf6cc806ad18fad68e19052eef7e523e35598b299939b861c730db871b8d"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/E/results.tsv",
+        "bytes": 31484,
+        "sha256": "086ecf6cc806ad18fad68e19052eef7e523e35598b299939b861c730db871b8d"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/inputs-Release.jsonl",
+        "bytes": 70010,
+        "sha256": "b243aedfe81b2d005a68b122320954617af42931594584686e394085326e6ade"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/MmrmCapture38.cs",
+        "bytes": 17000,
+        "sha256": "77880f48c568bf2e9093ecf36344f7755746eef9ca11aa752cbceabae1dfdd8a"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\E-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\E\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\E\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.8187569000001531,
+        "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "operations"
+      ],
+      "physical_rows": 2,
+      "ordered_row_sha256": "086ecf6cc806ad18fad68e19052eef7e523e35598b299939b861c730db871b8d",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/E/comparison.json",
+        "bytes": 2158,
+        "sha256": "349653c9a69ffaf7a0f0e415a32df9a07e74578dfcbb440bfcd0ef61ab46b0a2"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "F",
+      "cases": 2,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Release/plain/results.tsv",
+        "bytes": 31314,
+        "sha256": "8cf9ccf6448e7cf0b7a4aa60aff6e57a14b83e6e25ced602397543984fc7cdf1"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/F/results.tsv",
+        "bytes": 31314,
+        "sha256": "8cf9ccf6448e7cf0b7a4aa60aff6e57a14b83e6e25ced602397543984fc7cdf1"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/inputs-Release.jsonl",
+        "bytes": 58068,
+        "sha256": "5ef9f802d41e9eba48b5e13237e0f411aad646c81e6305344b9de6cf31d65b94"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/MmrmCapture38.cs",
+        "bytes": 16748,
+        "sha256": "26120094bdf4ef49a0f3e48aaca005f91ce9d7d0647d866ec1279e0877bb8ef3"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\F-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\F\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\F\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.8866273000021465,
+        "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "operations"
+      ],
+      "physical_rows": 2,
+      "ordered_row_sha256": "8cf9ccf6448e7cf0b7a4aa60aff6e57a14b83e6e25ced602397543984fc7cdf1",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/F/comparison.json",
+        "bytes": 2150,
+        "sha256": "e85822ba5c229fcfea1912a7ec10d5e23afa8192c41e4d6e71fbc7ab02f27757"
+      }
+    },
+    {
+      "configuration": "Release",
+      "corpus": "G",
+      "cases": 4,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Release/plain/results.tsv",
+        "bytes": 43444,
+        "sha256": "f8ecca980945fdd2757caa8f0394693c0418a14f30bc5dd93f0d2d6a7b43e71e"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/G/results.tsv",
+        "bytes": 43444,
+        "sha256": "f8ecca980945fdd2757caa8f0394693c0418a14f30bc5dd93f0d2d6a7b43e71e"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/inputs-Release.jsonl",
+        "bytes": 65078,
+        "sha256": "2a29f17df4bc3af0d3918c36d4900225ffd152b31ea14562aa24cac37d11e05e"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/MmrmCapture38-v2.cs",
+        "bytes": 17060,
+        "sha256": "2c71456350841a375852c8f3f4ae427672a493216ee1ff2e4783e71b368c52fd"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf\\G-current.exe",
+          "<ISOLATED_RUN>\\w3v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\G\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w3\\compatibility\\captures\\w3-Release-v1\\Release\\G\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.2326979000063147,
+        "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0,
+      "provenance": "LATE_ARCHIVED_ENTRY_SUPPLEMENT",
+      "header": [
+        "case_id",
+        "input_sha256",
+        "operations"
+      ],
+      "physical_rows": 4,
+      "ordered_row_sha256": "f8ecca980945fdd2757caa8f0394693c0418a14f30bc5dd93f0d2d6a7b43e71e",
+      "exact_comparison": "WHOLE_ORDERED_BYTES;INCLUDES_TYPED_RESULT_AND_ERROR_ARRAY_ENCODING",
+      "comparison_receipt": {
+        "path": "evidence/04A38/completion/w3/compatibility/captures/w3-Release-v1/Release/G/comparison.json",
+        "bytes": 2200,
+        "sha256": "9c81a900aa80b6e437fb842c4a6e6c65c3e208db30a3d37a85c06d988811b8de"
+      }
+    }
+  ],
+  "cases": 29424,
+  "PRE_EDIT_FROZEN": 28966,
+  "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458,
+  "all_exact": true,
+  "original_queries": 0,
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/production-test-freeze-v1.json",
+    "bytes": 424596,
+    "sha256": "43cd9af03ab09829c205b694f6650df1779766692159da791144b9f48f7c868e"
+  },
+  "stopped_report": {
+    "path": "evidence/04A38/completion/w3/execution/release-compatibility-v1/receipt.json",
+    "bytes": 669,
+    "sha256": "7696beb767751fc372c5a1f7fdd2115f3f843ba55166cb28c02b3de2fd46084f"
+  },
+  "report_defect": "All12 comparisons completed and saved before final aggregate attempted to pin a W3-local freeze path. This additive reader binds the actual accepted W2 freeze. No completed identity repeated.",
+  "original_Release_hash_authority": "Actual pre-existing configuration-specific original bytes protected by historical reference/preservation readers; no hash inferred from Debug"
+}

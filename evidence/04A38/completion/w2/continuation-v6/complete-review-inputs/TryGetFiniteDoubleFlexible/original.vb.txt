@@ -1,0 +1,25 @@
+nded < Integer.MinValue OrElse rounded > Integer.MaxValue Then Return False
+
+            value = CInt(rounded)
+            Return True
+        End Function
+
+        Friend Function TryGetFiniteDoubleFlexible(v As Object, ByRef x As Double) As Boolean
+            x = 0.0R
+
+            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)
+            If d.HasValue Then
+                x = d.Value
+                Return True
+            End If
+
+            If ExcelArgPredicates.IsMissingArg(v) OrElse TypeOf v Is ExcelError OrElse TypeOf v Is Boolean Then Return False
+
+            Dim s As String = ExcelArgReaders.CellToTrimmedText(v)
+            If String.IsNullOrWhiteSpace(s) Then Return False
+
+            If Double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, x) Then
+                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
+            End If
+
+            If Double.TryParse(s, Number

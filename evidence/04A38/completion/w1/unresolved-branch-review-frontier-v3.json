@@ -1,0 +1,1460 @@
+{
+  "status": "READ_ONLY_CANDIDATES_NOT_APPROVED_OR_MATERIALIZED",
+  "candidates": [
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|SingleLineIfStatement@181147:98",
+      "member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|2935743f410b8ccd@178833:2717",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "member": "DA_COVARIANCE",
+      "line": 2907,
+      "condition": "If gs Is Nothing Then Throw New ArgumentException(\"groupLabel was not found in the fitted model.\")",
+      "arm_literals": [
+        "groupLabel was not found in the fitted model."
+      ],
+      "entered_counts": {
+        "Debug": 50,
+        "Release": 50
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|IfStatement@192165:60",
+      "member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|18f6f8b4387d88c1@191058:1736",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "member": "DA_CONFUSION",
+      "line": 3070,
+      "condition": "If result Is Nothing OrElse result.Confusion Is Nothing Then",
+      "arm_literals": [
+        "Message",
+        "The requested classification table is not available. Validation output exists only when validationMode was requested during DA_FIT."
+      ],
+      "entered_counts": {
+        "Debug": 50,
+        "Release": 50
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|IfStatement@194998:25",
+      "member_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|35eb02e6f759280a@193741:1884",
+      "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+      "member": "DA_CASEWISE",
+      "line": 3109,
+      "condition": "If result Is Nothing Then",
+      "arm_literals": [
+        "Message",
+        "The requested casewise table is not available. Validation output exists only when validationMode was requested during DA_FIT."
+      ],
+      "entered_counts": {
+        "Debug": 54,
+        "Release": 54
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|IfStatement@26306:80",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb|BESHStatNG.WorksheetFunctions.CoxUDFs|FunctionBlock|ad75f19ae60b35a7@25443:6607",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "member": "COX_TESTS",
+      "line": 456,
+      "condition": "If h.Result.Coefficients Is Nothing OrElse h.Result.Coefficients.Length < p Then",
+      "arm_literals": [
+        "Invalid coefficient vector length."
+      ],
+      "entered_counts": {
+        "Debug": 50,
+        "Release": 50
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@78810:83",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|250a00c96963749f@76028:7950",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "GEE_LSMESTIMATE",
+      "line": 1303,
+      "condition": "If h.FittedDesign Is Nothing OrElse h.FittedDesign.GetLength(1) <> beta.Length Then",
+      "arm_literals": [
+        "BESH.REGR.GEE_LSMESTIMATE error: the fit does not contain usable fitted design rows and names."
+      ],
+      "entered_counts": {
+        "Debug": 100,
+        "Release": 100
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@87540:32",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|516dfc417d9f5be8@86749:6071",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "line": 1475,
+      "condition": "If rows < 2 OrElse cols < 2 Then",
+      "arm_literals": [
+        "spec must contain a header row and at least one data row."
+      ],
+      "entered_counts": {
+        "Debug": 56,
+        "Release": 56
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@88753:15",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|516dfc417d9f5be8@86749:6071",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "line": 1500,
+      "condition": "If idx < 0 Then",
+      "arm_literals": [
+        "profile column header \"",
+        "\" was not found among fitted design columns: ",
+        ", ",
+        ". Use header 'time' for the fitted time/order column."
+      ],
+      "entered_counts": {
+        "Debug": 56,
+        "Release": 56
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@89096:203",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|516dfc417d9f5be8@86749:6071",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "line": 1506,
+      "condition": "If String.Equals(parameterNames(idx), \"Intercept\", StringComparison.OrdinalIgnoreCase) OrElse\n                   String.Equals(parameterNames(idx), \"(Intercept)\", StringComparison.OrdinalIgnoreCase) Then",
+      "arm_literals": [
+        "the intercept column should not be used as a profile column; it is supplied automatically by the fitted design."
+      ],
+      "entered_counts": {
+        "Debug": 56,
+        "Release": 56
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@89618:52",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|516dfc417d9f5be8@86749:6071",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "line": 1515,
+      "condition": "If profileColumns.Count = 0 AndAlso timeCol < 0 Then",
+      "arm_literals": [
+        "spec must include at least one profile column: time and/or a fitted design column name."
+      ],
+      "entered_counts": {
+        "Debug": 56,
+        "Release": 56
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@90324:68",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|516dfc417d9f5be8@86749:6071",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "line": 1532,
+      "condition": "If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, weightCol), w) Then",
+      "arm_literals": [
+        "spec row ",
+        " has a missing or nonnumeric weight."
+      ],
+      "entered_counts": {
+        "Debug": 56,
+        "Release": 56
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@92619:28",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|516dfc417d9f5be8@86749:6071",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateSpec",
+      "line": 1579,
+      "condition": "If components.Count = 0 Then",
+      "arm_literals": [
+        "spec does not contain any nonblank data rows."
+      ],
+      "entered_counts": {
+        "Debug": 56,
+        "Release": 56
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@93383:22",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1597,
+      "condition": "If arr Is Nothing Then",
+      "arm_literals": [
+        "at must be blank or a worksheet range with a header row."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@94317:70",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1618,
+      "condition": "If nameCol >= 0 AndAlso valueCol >= 0 AndAlso nameCol <> valueCol Then",
+      "arm_literals": [
+        "at row ",
+        " has a missing name/variable value.",
+        " has a missing or nonnumeric value for \"",
+        "\"."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@94936:48",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1630,
+      "condition": "If String.IsNullOrWhiteSpace(requestedName) Then",
+      "arm_literals": [
+        "at row ",
+        " has a missing name/variable value."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@95248:71",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1636,
+      "condition": "If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, valueCol), value) Then",
+      "arm_literals": [
+        "at row ",
+        " has a missing or nonnumeric value for \"",
+        "\"."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|ElseStatement@95970:4",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1648,
+      "condition": "Else",
+      "arm_literals": [
+        "time",
+        "visit",
+        "at column header \"",
+        "\" was not found among fitted design columns: ",
+        ", ",
+        ". Use header 'time' for the fitted time/order column.",
+        "at must contain either name/value headers or at least one time/design-column header.",
+        "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row.",
+        "at does not contain any nonblank data row.",
+        "at time value must be numeric and finite.",
+        "at time column",
+        "at value for column \"",
+        "\" must be numeric and finite.",
+        "at column \"",
+        "\""
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@96442:15",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1657,
+      "condition": "If idx < 0 Then",
+      "arm_literals": [
+        "at column header \"",
+        "\" was not found among fitted design columns: ",
+        ", ",
+        ". Use header 'time' for the fitted time/order column."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@96904:52",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1666,
+      "condition": "If timeCol < 0 AndAlso profileColumns.Count = 0 Then",
+      "arm_literals": [
+        "at must contain either name/value headers or at least one time/design-column header."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@97627:20",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1682,
+      "condition": "If dataRow >= 0 Then",
+      "arm_literals": [
+        "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@97940:19",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1689,
+      "condition": "If dataRow < 0 Then",
+      "arm_literals": [
+        "at does not contain any nonblank data row."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@98113:86",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1694,
+      "condition": "If timeCol >= 0 AndAlso Not ExcelArgPredicates.IsBlankCell(arr(dataRow, timeCol)) Then",
+      "arm_literals": [
+        "at time value must be numeric and finite.",
+        "time",
+        "at time column"
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@98264:80",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1696,
+      "condition": "If Not ExcelArgNumeric.TryGetFiniteDouble(arr(dataRow, timeCol), timeValue) Then",
+      "arm_literals": [
+        "at time value must be numeric and finite."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@98962:84",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1710,
+      "condition": "If Not ExcelArgNumeric.TryGetFiniteDouble(arr(dataRow, pair.Key), profileValue) Then",
+      "arm_literals": [
+        "at value for column \"",
+        "\" must be numeric and finite."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@99578:71",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4cb2826f2274ba50@92830:7047",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "TryGetGeeLsmEstimateAtSpec",
+      "line": 1722,
+      "condition": "If Not parsed.TimeSpecified AndAlso parsed.ProfileValues.Count = 0 Then",
+      "arm_literals": [
+        "at does not specify any nonblank time or fitted design-column values."
+      ],
+      "entered_counts": {
+        "Debug": 28,
+        "Release": 28
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@100369:28",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4a1806f9c5baa4a2@99887:2213",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "AddGeeLsmEstimateAtValue",
+      "line": 1737,
+      "condition": "If atProfile Is Nothing Then",
+      "arm_literals": [
+        "internal error: AT profile was not initialized."
+      ],
+      "entered_counts": {
+        "Debug": 2,
+        "Release": 2
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|IfStatement@101252:15",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb|BESHStatNG.WorksheetFunctions.GEEUDFs|FunctionBlock|4a1806f9c5baa4a2@99887:2213",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+      "member": "AddGeeLsmEstimateAtValue",
+      "line": 1754,
+      "condition": "If idx < 0 Then",
+      "arm_literals": [
+        " names \"",
+        "\", which was not found among fitted design columns: ",
+        ", ",
+        "."
+      ],
+      "entered_counts": {
+        "Debug": 2,
+        "Release": 2
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@15232:130",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|25db4fbfc139db6c@10103:19201",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "LMM_FIT",
+      "line": 183,
+      "condition": "If fixedInference = regression.MixedModelFixedInferenceMethod.KenwardRoger AndAlso fit <> regression.MixedModelFitMethod.REML Then",
+      "arm_literals": [
+        "BESH.REGR.LMM_FIT error: Kenward-Roger inference requires REML. Set fitMethod to \"REML\" or choose another inference method."
+      ],
+      "entered_counts": {
+        "Debug": 251,
+        "Release": 251
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@17621:90",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|25db4fbfc139db6c@10103:19201",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "LMM_FIT",
+      "line": 224,
+      "condition": "If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(fixedFormulaText) Then",
+      "arm_literals": [
+        "BESH.REGR.LMM_FIT error: formulaAddressing='absolute' requires x to be passed as a direct worksheet range so absolute worksheet column letters can be determined for the fixedFormula terms."
+      ],
+      "entered_counts": {
+        "Debug": 251,
+        "Release": 251
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@17811:105",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|25db4fbfc139db6c@10103:19201",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "LMM_FIT",
+      "line": 226,
+      "condition": "If xAbsoluteColumnLetters Is Nothing OrElse xAbsoluteColumnLetters.Length <> imported.X.GetLength(1) Then",
+      "arm_literals": [
+        "BESH.REGR.LMM_FIT error: formulaAddressing='absolute' requires x to be passed as a direct worksheet range so absolute worksheet column letters can be determined for the fixedFormula terms."
+      ],
+      "entered_counts": {
+        "Debug": 251,
+        "Release": 251
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@18271:91",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|25db4fbfc139db6c@10103:19201",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "LMM_FIT",
+      "line": 232,
+      "condition": "If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(randomFormulaText) Then",
+      "arm_literals": [
+        "BESH.REGR.LMM_FIT error: formulaAddressing='absolute' requires z to be passed as a direct worksheet range so absolute worksheet column letters can be determined for the randomFormula terms."
+      ],
+      "entered_counts": {
+        "Debug": 251,
+        "Release": 251
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@18462:111",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|25db4fbfc139db6c@10103:19201",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "LMM_FIT",
+      "line": 234,
+      "condition": "If zAbsoluteColumnLetters Is Nothing OrElse zAbsoluteColumnLetters.Length <> MatrixColumnCount(imported.Z) Then",
+      "arm_literals": [
+        "BESH.REGR.LMM_FIT error: formulaAddressing='absolute' requires z to be passed as a direct worksheet range so absolute worksheet column letters can be determined for the randomFormula terms."
+      ],
+      "entered_counts": {
+        "Debug": 251,
+        "Release": 251
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|ElseIfStatement@21380:60",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|25db4fbfc139db6c@10103:19201",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "LMM_FIT",
+      "line": 273,
+      "condition": "ElseIf Not String.IsNullOrWhiteSpace(randomFormulaText) Then",
+      "arm_literals": [
+        "BESH.REGR.LMM_FIT error: randomFormula was supplied, but z was not supplied. Provide z or leave randomFormula blank for a random-intercept-only model."
+      ],
+      "entered_counts": {
+        "Debug": 251,
+        "Release": 251
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@54018:17",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|69c312053e9d59e1@53080:7639",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "TryGetLmmAlignedInputs",
+      "line": 852,
+      "condition": "If zSupplied Then",
+      "arm_literals": [
+        "z must be a numeric matrix when supplied."
+      ],
+      "entered_counts": {
+        "Debug": 223,
+        "Release": 223
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@54052:101",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|69c312053e9d59e1@53080:7639",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "TryGetLmmAlignedInputs",
+      "line": 853,
+      "condition": "If Not Global.BESHStatNG.UdfDataImport.TryGetTrimmedNumericMatrixObject(z, zRaw, inferredZNames) Then",
+      "arm_literals": [
+        "z must be a numeric matrix when supplied."
+      ],
+      "entered_counts": {
+        "Debug": 223,
+        "Release": 223
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@54455:21",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|69c312053e9d59e1@53080:7639",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "TryGetLmmAlignedInputs",
+      "line": 861,
+      "condition": "If visitSupplied Then",
+      "arm_literals": [
+        "numeric",
+        "visit must be a numeric single-column range when supplied."
+      ],
+      "entered_counts": {
+        "Debug": 223,
+        "Release": 223
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@54543:108",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|69c312053e9d59e1@53080:7639",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "TryGetLmmAlignedInputs",
+      "line": 863,
+      "condition": "If Not Global.BESHStatNG.UdfDataImport.TryGetTrimmedColumnObject(visit, visitCol, visitName, \"numeric\") Then",
+      "arm_literals": [
+        "visit must be a numeric single-column range when supplied."
+      ],
+      "entered_counts": {
+        "Debug": 223,
+        "Release": 223
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@55408:15",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|69c312053e9d59e1@53080:7639",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "TryGetLmmAlignedInputs",
+      "line": 879,
+      "condition": "If pX <= 0 Then",
+      "arm_literals": [
+        "x must contain at least one fixed-effect predictor column."
+      ],
+      "entered_counts": {
+        "Debug": 223,
+        "Release": 223
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@58230:23",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|69c312053e9d59e1@53080:7639",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "TryGetLmmAlignedInputs",
+      "line": 947,
+      "condition": "If yList.Count = 0 Then",
+      "arm_literals": [
+        "no valid complete rows remain after removing rows with missing/invalid y, x, z, subject, or visit values."
+      ],
+      "entered_counts": {
+        "Debug": 223,
+        "Release": 223
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@60822:80",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|bf3c00f844104327@60731:3932",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "TryBuildLmmExpandedDesign",
+      "line": 1003,
+      "condition": "If raw Is Nothing OrElse raw.GetLength(0) <= 0 OrElse raw.GetLength(1) <= 0 Then",
+      "arm_literals": [
+        " requires a non-empty predictor matrix."
+      ],
+      "entered_counts": {
+        "Debug": 137,
+        "Release": 137
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|IfStatement@63000:145",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb|BESHStatNG.WorksheetFunctions.LmmUDFs|FunctionBlock|bf3c00f844104327@60731:3932",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+      "member": "TryBuildLmmExpandedDesign",
+      "line": 1035,
+      "condition": "If designBuild Is Nothing OrElse designBuild.ExpandedPredictorMatrix Is Nothing OrElse designBuild.ExpandedPredictorMatrix.GetLength(1) <= 0 Then",
+      "arm_literals": [
+        " expansion did not produce any design columns."
+      ],
+      "entered_counts": {
+        "Debug": 137,
+        "Release": 137
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@18299:85",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|38c26a9449e9867c@10890:14589",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_FIT",
+      "line": 254,
+      "condition": "If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then",
+      "arm_literals": [
+        "BESH.REGR.MMRM_FIT error: formulaAddressing='absolute' requires x to be passed as a direct worksheet range so absolute worksheet column letters can be determined for the formula terms."
+      ],
+      "entered_counts": {
+        "Debug": 245,
+        "Release": 245
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@18474:100",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|38c26a9449e9867c@10890:14589",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_FIT",
+      "line": 256,
+      "condition": "If absoluteColumnLetters Is Nothing OrElse absoluteColumnLetters.Length <> xValues.GetLength(1) Then",
+      "arm_literals": [
+        "BESH.REGR.MMRM_FIT error: formulaAddressing='absolute' requires x to be passed as a direct worksheet range so absolute worksheet column letters can be determined for the formula terms."
+      ],
+      "entered_counts": {
+        "Debug": 245,
+        "Release": 245
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@20463:84",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|38c26a9449e9867c@10890:14589",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_FIT",
+      "line": 277,
+      "condition": "If designBuild Is Nothing OrElse designBuild.ExpandedPredictorMatrix Is Nothing Then",
+      "arm_literals": [
+        "BESH.REGR.MMRM_FIT error: formula expansion did not produce a fixed-effect design matrix."
+      ],
+      "entered_counts": {
+        "Debug": 245,
+        "Release": 245
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@40585:97",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|56942c7c98292a8b@39781:4836",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMEANS",
+      "line": 614,
+      "condition": "If h.FittedDesign Is Nothing OrElse h.VisitValues Is Nothing OrElse h.VisitValues.Length = 0 Then",
+      "arm_literals": [
+        "BESH.REGR.MMRM_LSMEANS error: the fit does not contain visit/time values required for LS-means."
+      ],
+      "entered_counts": {
+        "Debug": 66,
+        "Release": 66
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@48494:97",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|174cf69eda926aff@47112:4995",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_CONTRASTS",
+      "line": 737,
+      "condition": "If h.FittedDesign Is Nothing OrElse h.VisitValues Is Nothing OrElse h.VisitValues.Length = 0 Then",
+      "arm_literals": [
+        "BESH.REGR.MMRM_CONTRASTS error: the fit does not contain visit/time values required for contrasts."
+      ],
+      "entered_counts": {
+        "Debug": 84,
+        "Release": 84
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@62181:153",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|4aa825e62468322b@61488:5283",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "MMRM_LSMESTIMATE",
+      "line": 956,
+      "condition": "If h.FittedDesign Is Nothing OrElse h.FixedEffectNames Is Nothing OrElse\n                   h.FixedEffectNames.Length <> h.FittedDesign.GetLength(1) Then",
+      "arm_literals": [
+        "BESH.REGR.MMRM_LSMESTIMATE error: the fit does not contain usable fixed-effect design rows and names."
+      ],
+      "entered_counts": {
+        "Debug": 88,
+        "Release": 88
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@83103:85",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|e8eabf0f978b1297@83928:2886",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryBuildMmrmAtProfileRowMask",
+      "line": 1381,
+      "condition": "If h Is Nothing OrElse h.FittedDesign Is Nothing OrElse h.VisitValues Is Nothing Then",
+      "arm_literals": [
+        "the fit does not contain the design rows and visit values required for LS-means profiles."
+      ],
+      "entered_counts": {
+        "Debug": 4,
+        "Release": 4
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@83373:108",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|e8eabf0f978b1297@83928:2886",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryBuildMmrmAtProfileRowMask",
+      "line": 1386,
+      "condition": "If atProfile Is Nothing OrElse (Not atProfile.VisitSpecified AndAlso atProfile.ProfileValues.Count = 0) Then",
+      "arm_literals": [
+        "the supplied profile range does not contain any visit or fitted design-column settings."
+      ],
+      "entered_counts": {
+        "Debug": 4,
+        "Release": 4
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@83723:33",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|e8eabf0f978b1297@83928:2886",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryBuildMmrmAtProfileRowMask",
+      "line": 1392,
+      "condition": "If h.VisitValues.Length <> n Then",
+      "arm_literals": [
+        "the fit does not contain usable visit values for the saved design rows."
+      ],
+      "entered_counts": {
+        "Debug": 4,
+        "Release": 4
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@86584:53",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1a0bb79d9820bf54@87541:2014",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "line": 1460,
+      "condition": "If h Is Nothing OrElse h.FittedDesign Is Nothing Then",
+      "arm_literals": [
+        "the fit does not contain the fixed-effect design rows required for this extractor."
+      ],
+      "entered_counts": {
+        "Debug": 34,
+        "Release": 34
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@86815:101",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1a0bb79d9820bf54@87541:2014",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "line": 1465,
+      "condition": "If h.FixedEffectNames Is Nothing OrElse h.FixedEffectNames.Length <> h.FittedDesign.GetLength(1) Then",
+      "arm_literals": [
+        "the fit does not contain usable fixed-effect column names."
+      ],
+      "entered_counts": {
+        "Debug": 34,
+        "Release": 34
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|IfStatement@87418:207",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|1a0bb79d9820bf54@87541:2014",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+      "member": "TryGetDesignColumnValues",
+      "line": 1477,
+      "condition": "If String.Equals(h.FixedEffectNames(idx), \"Intercept\", StringComparison.OrdinalIgnoreCase) OrElse\n               String.Equals(h.FixedEffectNames(idx), \"(Intercept)\", StringComparison.OrdinalIgnoreCase) Then",
+      "arm_literals": [
+        "the intercept column cannot be used as a grouping factor."
+      ],
+      "entered_counts": {
+        "Debug": 34,
+        "Release": 34
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|IfStatement@47414:53",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs|FunctionBlock|7c7675f79a0802e5@47103:1886",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "member": "ComputeMultinomialEtas",
+      "line": 834,
+      "condition": "If Double.IsNaN(xv) OrElse Double.IsInfinity(xv) Then",
+      "arm_literals": [
+        "New predictor matrix contains invalid numeric values."
+      ],
+      "entered_counts": {
+        "Debug": 22,
+        "Release": 22
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|IfStatement@47701:32",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs|FunctionBlock|7c7675f79a0802e5@47103:1886",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "member": "ComputeMultinomialEtas",
+      "line": 840,
+      "condition": "If offsetVals IsNot Nothing Then",
+      "arm_literals": [
+        "New offset vector contains invalid numeric values."
+      ],
+      "entered_counts": {
+        "Debug": 22,
+        "Release": 22
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|IfStatement@47809:53",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb|BESHStatNG.WorksheetFunctions.MultinomialLogitUDFs|FunctionBlock|7c7675f79a0802e5@47103:1886",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+      "member": "ComputeMultinomialEtas",
+      "line": 842,
+      "condition": "If Double.IsNaN(ov) OrElse Double.IsInfinity(ov) Then",
+      "arm_literals": [
+        "New offset vector contains invalid numeric values."
+      ],
+      "entered_counts": {
+        "Debug": 22,
+        "Release": 22
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb|IfStatement@7210:20",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb|BESHStatNG.WorksheetFunctions.RegressionFormulaUDFs|FunctionBlock|21f9ce0a78004459@5550:5714",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+      "member": "FORMULA_VALIDATE",
+      "line": 111,
+      "condition": "If colCount < 1 Then",
+      "arm_literals": [
+        "Validation failed: the raw predictor matrix x must contain at least one predictor column."
+      ],
+      "entered_counts": {
+        "Debug": 66,
+        "Release": 66
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb|IfStatement@35337:31",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb|BESHStatNG.WorksheetFunctions.ZIPUDFs|FunctionBlock|11534bb5cc0d9058@33306:3513",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "member": "ZIP_TESTS",
+      "line": 529,
+      "condition": "If zeroModel IsNot Nothing Then",
+      "arm_literals": [
+        "Warnings",
+        "Complete separation in the logistic zero component. Maximum-likelihood estimates may not exist.",
+        "",
+        "Quasi-separation detected in the logistic zero component. Inference may be unstable."
+      ],
+      "entered_counts": {
+        "Debug": 50,
+        "Release": 50
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb|IfStatement@35389:29",
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb|BESHStatNG.WorksheetFunctions.ZIPUDFs|FunctionBlock|11534bb5cc0d9058@33306:3513",
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+      "member": "ZIP_TESTS",
+      "line": 530,
+      "condition": "If zeroModel.bSeparation Then",
+      "arm_literals": [
+        "Warnings",
+        "Complete separation in the logistic zero component. Maximum-likelihood estimates may not exist.",
+        ""
+      ],
+      "entered_counts": {
+        "Debug": 50,
+        "Release": 50
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@5644:21",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|9f2415f6419c3d6b@2666:6199",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmAlignedInputs",
+      "line": 128,
+      "condition": "If visitSupplied Then",
+      "arm_literals": [
+        "numeric",
+        "visit must be a numeric single-column range when supplied."
+      ],
+      "entered_counts": {
+        "Debug": 215,
+        "Release": 215
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@5724:76",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|9f2415f6419c3d6b@2666:6199",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmAlignedInputs",
+      "line": 130,
+      "condition": "If Not TryGetTrimmedColumnObject(visit, visitCol, visitName, \"numeric\") Then",
+      "arm_literals": [
+        "visit must be a numeric single-column range when supplied."
+      ],
+      "entered_counts": {
+        "Debug": 215,
+        "Release": 215
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@8077:23",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|9f2415f6419c3d6b@2666:6199",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmAlignedInputs",
+      "line": 185,
+      "condition": "If yList.Count = 0 Then",
+      "arm_literals": [
+        "no valid complete rows remain after removing rows with missing/invalid y, x, subject, or visit values."
+      ],
+      "entered_counts": {
+        "Debug": 215,
+        "Release": 215
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@9695:23",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|bdcd8fa3861504a8@8873:6355",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryResolveMmrmFormulaRequiredXColumns",
+      "line": 218,
+      "condition": "If xRaw Is Nothing Then",
+      "arm_literals": [
+        "x must be a non-empty matrix."
+      ],
+      "entered_counts": {
+        "Debug": 161,
+        "Release": 161
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@9875:16",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|bdcd8fa3861504a8@8873:6355",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryResolveMmrmFormulaRequiredXColumns",
+      "line": 224,
+      "condition": "If pAll < 1 Then",
+      "arm_literals": [
+        "x must contain at least one predictor column."
+      ],
+      "entered_counts": {
+        "Debug": 161,
+        "Release": 161
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@11275:52",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|bdcd8fa3861504a8@8873:6355",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryResolveMmrmFormulaRequiredXColumns",
+      "line": 252,
+      "condition": "If allowAbsolute AndAlso Not hasAbsoluteLetters Then",
+      "arm_literals": [
+        "formulaAddressing='absolute' requires x to be passed as a direct worksheet range so absolute worksheet column letters can be determined."
+      ],
+      "entered_counts": {
+        "Debug": 161,
+        "Release": 161
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@12795:106",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|bdcd8fa3861504a8@8873:6355",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryResolveMmrmFormulaRequiredXColumns",
+      "line": 273,
+      "condition": "If spec Is Nothing OrElse spec.RequiredRawVarKeys Is Nothing OrElse spec.RequiredRawVarKeys.Count = 0 Then",
+      "arm_literals": [
+        "formula did not reference any predictor columns."
+      ],
+      "entered_counts": {
+        "Debug": 161,
+        "Release": 161
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@17661:32",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|f7d339c5889118d3@17164:5909",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateSpec",
+      "line": 373,
+      "condition": "If rows < 2 OrElse cols < 2 Then",
+      "arm_literals": [
+        "spec must contain a header row and at least one data row."
+      ],
+      "entered_counts": {
+        "Debug": 46,
+        "Release": 46
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@18841:15",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|f7d339c5889118d3@17164:5909",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateSpec",
+      "line": 398,
+      "condition": "If idx < 0 Then",
+      "arm_literals": [
+        "profile column header \"",
+        "\" was not found among fitted design columns: ",
+        ", ",
+        ". Use header 'visit' for the visit/time column."
+      ],
+      "entered_counts": {
+        "Debug": 46,
+        "Release": 46
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@19250:53",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|f7d339c5889118d3@17164:5909",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateSpec",
+      "line": 407,
+      "condition": "If profileColumns.Count = 0 AndAlso visitCol < 0 Then",
+      "arm_literals": [
+        "spec must include at least one profile column: visit and/or a fitted design column name."
+      ],
+      "entered_counts": {
+        "Debug": 46,
+        "Release": 46
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@19939:105",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|f7d339c5889118d3@17164:5909",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateSpec",
+      "line": 425,
+      "condition": "If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(arr(r, weightCol), w) Then",
+      "arm_literals": [
+        "spec row ",
+        " has a missing or nonnumeric weight."
+      ],
+      "entered_counts": {
+        "Debug": 46,
+        "Release": 46
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@22415:28",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|f7d339c5889118d3@17164:5909",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateSpec",
+      "line": 472,
+      "condition": "If components.Count = 0 Then",
+      "arm_literals": [
+        "spec does not contain any nonblank data rows."
+      ],
+      "entered_counts": {
+        "Debug": 46,
+        "Release": 46
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@23327:22",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 493,
+      "condition": "If arr Is Nothing Then",
+      "arm_literals": [
+        "at must be blank or a worksheet range with a header row."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@23579:32",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 500,
+      "condition": "If rows < 1 OrElse cols < 1 Then",
+      "arm_literals": [
+        "at must contain at least one nonblank name/value setting, or be omitted."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@24166:16",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 513,
+      "condition": "If rows < 2 Then",
+      "arm_literals": [
+        "at must contain a header row and at least one data row, or use two-column headerless name/value form."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@24888:70",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 528,
+      "condition": "If nameCol >= 0 AndAlso valueCol >= 0 AndAlso nameCol <> valueCol Then",
+      "arm_literals": [
+        "at row ",
+        " has a missing name/variable value.",
+        " has a missing or nonnumeric value for \"",
+        "\"."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@25537:48",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 540,
+      "condition": "If String.IsNullOrWhiteSpace(requestedName) Then",
+      "arm_literals": [
+        "at row ",
+        " has a missing name/variable value."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@25829:108",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 546,
+      "condition": "If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(arr(r, valueCol), value) Then",
+      "arm_literals": [
+        "at row ",
+        " has a missing or nonnumeric value for \"",
+        "\"."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@27418:53",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 576,
+      "condition": "If visitCol < 0 AndAlso profileColumns.Count = 0 Then",
+      "arm_literals": [
+        "at must contain either name/value headers or at least one visit/design-column header."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@28124:20",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 592,
+      "condition": "If dataRow >= 0 Then",
+      "arm_literals": [
+        "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@28414:19",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 600,
+      "condition": "If dataRow < 0 Then",
+      "arm_literals": [
+        "at does not contain any nonblank data row."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@28571:125",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 605,
+      "condition": "If visitCol >= 0 AndAlso Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(dataRow, visitCol)) Then",
+      "arm_literals": [
+        "at visit value must be numeric and finite.",
+        "visit",
+        "at visit column"
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@28754:119",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 607,
+      "condition": "If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(arr(dataRow, visitCol), visitValue) Then",
+      "arm_literals": [
+        "at visit value must be numeric and finite."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@29476:121",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 621,
+      "condition": "If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(arr(dataRow, pair.Key), profileValue) Then",
+      "arm_literals": [
+        "at value for column \"",
+        "\" must be numeric and finite."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@30131:72",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|55f4b220590f1994@23189:7859",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmLsmEstimateAtSpec",
+      "line": 634,
+      "condition": "If Not parsed.VisitSpecified AndAlso parsed.ProfileValues.Count = 0 Then",
+      "arm_literals": [
+        "at does not specify any nonblank visit or fitted design-column values."
+      ],
+      "entered_counts": {
+        "Debug": 26,
+        "Release": 26
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@32984:48",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|f1d67bc308d0aaf9@31056:3660",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmHeaderlessNameValueAtSpec",
+      "line": 690,
+      "condition": "If String.IsNullOrWhiteSpace(requestedName) Then",
+      "arm_literals": [
+        "at row ",
+        " has a missing name/variable value."
+      ],
+      "entered_counts": {
+        "Debug": 12,
+        "Release": 12
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@33256:101",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|f1d67bc308d0aaf9@31056:3660",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "TryGetMmrmHeaderlessNameValueAtSpec",
+      "line": 696,
+      "condition": "If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(arr(r, 1), value) Then",
+      "arm_literals": [
+        "at row ",
+        " has a missing or nonnumeric value for \"",
+        "\"."
+      ],
+      "entered_counts": {
+        "Debug": 12,
+        "Release": 12
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@34571:28",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|c30e515a66567d6e@34724:2343",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "AddMmrmLsmEstimateAtValue",
+      "line": 718,
+      "condition": "If atProfile Is Nothing Then",
+      "arm_literals": [
+        "internal error: AT profile was not initialized."
+      ],
+      "entered_counts": {
+        "Debug": 10,
+        "Release": 10
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    },
+    {
+      "fragment_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|IfStatement@35414:15",
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb|BESHStatNG.UdfDataImport|FunctionBlock|c30e515a66567d6e@34724:2343",
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+      "member": "AddMmrmLsmEstimateAtValue",
+      "line": 737,
+      "condition": "If idx < 0 Then",
+      "arm_literals": [
+        " names \"",
+        "\", which was not found among fitted design columns: ",
+        ", ",
+        "."
+      ],
+      "entered_counts": {
+        "Debug": 10,
+        "Release": 10
+      },
+      "status": "CANDIDATE_REQUIRES_ADEQUACY_REVIEW_NOT_AUTOMATIC_REFERENCE_REQUEST"
+    }
+  ],
+  "new_reference_executions": 0,
+  "new_input_packets": 0
+}

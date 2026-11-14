@@ -1,0 +1,26 @@
+{
+  "status": "PRE_EDIT_EXECUTION_ATTEMPT_NOT_SEALED",
+  "rows": 22964,
+  "cases": {
+    "path": "evidence/04A38/preedit/attempts/capture-v7/cases.jsonl",
+    "bytes": 10957262,
+    "sha256": "62cea5420696770fb910e6b77db97d46c1c080b261ad13aad66ca40d94ab0b3d"
+  },
+  "generator": {
+    "path": "evidence/04A38/capture_cases_v7.py",
+    "bytes": 2117,
+    "sha256": "58901047fc494b5a695bdf2ad08cbdbc559d357a1b79a7d89389edf56e63fe57"
+  },
+  "recorder": {
+    "path": "evidence/04A38/helpers/Capture38.cs",
+    "bytes": 28522,
+    "sha256": "9c04abc1f135ec12b05dcb23d11699e708cd5e08777af8c31fb27b47482dc782"
+  },
+  "correction": "Handle variants for optional PS.CLEANUP construct a real handle instead of dereferencing its default null argument. Two invalid v6 BUILD_INPUT rows retained unchanged.",
+  "original_library": "Uninstrumented entry v6; exact original source and entry dependencies.",
+  "coverage_library": "Isolated trace-v1; reversible call-entry insertions only. Require exact outputs equal uninstrumented entry.",
+  "chronology": "BEFORE_ANY_PRODUCT_EDIT",
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "readiness": "Independent complete reachability and ownership gate remains closed."
+}

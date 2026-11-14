@@ -158,15 +158,7 @@ Namespace WorksheetFunctions
                     fit = mdl.GroupedBlockPassingBablok()
                 End If
 
-                Dim t As New ResultTable
-                t.AddTitle("Passing–Bablok Coefficients")
-                t.AddHeaderLeftRow({"Slope", "Intercept"})
-                t.AddHeaderTopRow({"Estimate", fit.SlopeCI.CIlabel, "Lower", "Upper"})
-                t.SetBody(New Object(,) {
-                    {fit.SlopeCI.Estimate, fit.SlopeCI.strConfidenceInterval(CIformat.LL_to_UL), fit.SlopeCI.LowerLimit, fit.SlopeCI.UpperLimit},
-                    {fit.InterceptCI.Estimate, fit.InterceptCI.strConfidenceInterval(CIformat.LL_to_UL), fit.InterceptCI.LowerLimit, fit.InterceptCI.UpperLimit}
-                })
-                Return PrepareResultTableForUdf(t)
+                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.BuildRegressionCoefficients(fit.SlopeCI, fit.InterceptCI, "Passing–Bablok Coefficients"))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.PASSINGBABLOK_COEF", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -343,15 +335,7 @@ Namespace WorksheetFunctions
                 Dim mdl As New Agreement.WeightedDemingRegression(data.X, data.Y, "Reference", "Test", opts)
                 mdl.Fit(Nothing, seed)
 
-                Dim t As New ResultTable
-                t.AddTitle("Deming Regression Coefficients")
-                t.AddHeaderLeftRow({"Slope", "Intercept"})
-                t.AddHeaderTopRow({"Estimate", mdl.SlopeCI.CIlabel, "Lower", "Upper"})
-                t.SetBody(New Object(,) {
-                    {mdl.SlopeCI.Estimate, mdl.SlopeCI.strConfidenceInterval(CIformat.LL_to_UL), mdl.SlopeCI.LowerLimit, mdl.SlopeCI.UpperLimit},
-                    {mdl.InterceptCI.Estimate, mdl.InterceptCI.strConfidenceInterval(CIformat.LL_to_UL), mdl.InterceptCI.LowerLimit, mdl.InterceptCI.UpperLimit}
-                })
-                Return PrepareResultTableForUdf(t)
+                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.BuildRegressionCoefficients(mdl.SlopeCI, mdl.InterceptCI, "Deming Regression Coefficients"))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.DEMING_COEF", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -530,18 +514,7 @@ Namespace WorksheetFunctions
                 Dim mdl As New Agreement.BlandAltmanAgreement(input.X, input.Y, "Reference", "Test", opts)
                 Dim res = mdl.Fit(ParseOptionalSeed(randomSeed))
 
-                Dim t As New ResultTable
-                t.AddTitle("Bland–Altman Statistics")
-                t.AddHeaderLeftRow({"Bias", "Lower LoA", "Upper LoA", "SD(diff)", "Repeatability coefficient"})
-                t.AddHeaderTopRow({"Estimate", res.BiasCI.CIlabel, "Lower", "Upper"})
-                t.SetBody(New Object(,) {
-                    {res.BiasCI.Estimate, res.BiasCI.strConfidenceInterval(CIformat.LL_to_UL), res.BiasCI.LowerLimit, res.BiasCI.UpperLimit},
-                    {res.LowerLoACI.Estimate, res.LowerLoACI.strConfidenceInterval(CIformat.LL_to_UL), res.LowerLoACI.LowerLimit, res.LowerLoACI.UpperLimit},
-                    {res.UpperLoACI.Estimate, res.UpperLoACI.strConfidenceInterval(CIformat.LL_to_UL), res.UpperLoACI.LowerLimit, res.UpperLoACI.UpperLimit},
-                    {res.SdDifference, "", "", ""},
-                    {res.RepeatabilityCoefficient, "", "", ""}
-                })
-                Return PrepareResultTableForUdf(t)
+                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.BuildBlandAltmanStatistics(res))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.BLANDALTMAN_STATS", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -1395,14 +1368,7 @@ Namespace WorksheetFunctions
                 End If
 
                 If rc Is Nothing Then Return ExcelError.ExcelErrorNum
-                Dim t As New ResultTable
-                t.SetBody(New Object(,) {
-                        {"Repeatability coefficient", rc.Estimate},
-                        {rc.CIlabel, rc.strConfidenceInterval(CIformat.LL_to_UL)},
-                        {"SEM (standard error of measurement)", rc.StdErr}
-                    })
-                t.AddHeaderTopRow({title, ""})
-                Return PrepareResultTableForUdf(t)
+                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.BuildRepeatability(rc, title))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.ICC_RC", ex, ExcelError.ExcelErrorValue)
             End Try

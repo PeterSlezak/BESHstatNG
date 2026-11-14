@@ -1,0 +1,11 @@
+{
+  "status": "VERSIONED_EXACT_NESTED_GENERIC_SOURCE_BINDER_EXTENSION",
+  "failed_command": ".test-rationalization-04A38.tmp/commands/w2c16-entry_queue_v1/command.json",
+  "failed_stderr": ".test-rationalization-04A38.tmp/commands/w2c16-entry_queue_v1/stderr.log",
+  "cause": "Inherited binder does not recognize List(Of private native nested type) when the constructed runtime List is absent from the internal declared-type inventory.",
+  "specific_member": "GEEUDFs.TryGetGeeLsmEstimateSpec",
+  "correction": "Exact source-owner nested type must exist in the authenticated current metadata. Preserve full parameter count, type, array rank, ByRef and unique overload checks. No source/reference/old reader edit and no declaration omitted.",
+  "entry_integrity": "All historical seals/source/Git/private/archive authentication remains PASS; this was a new v16 receipt construction limitation.",
+  "implementation_edits": 0,
+  "original_queries": 0
+}

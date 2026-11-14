@@ -1,0 +1,1155 @@
+{
+  "contracts": [
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgReaders|FunctionBlock|6678220415fd1fa4@1306:1089",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "CellToTrimmedText",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgReaders",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Friend Function CellToTrimmedText(v As Object) As String\n            If ExcelArgPredicates.IsMissingArg(v) Then Return \"\"\n\n            If TypeOf v Is String Then\n                Return CStr(v).Trim()\n            End If\n\n            If TypeOf v Is Double OrElse\n               TypeOf v Is Single OrElse\n               TypeOf v Is Decimal OrElse\n               TypeOf v Is Integer OrElse\n               TypeOf v Is Long OrElse\n               TypeOf v Is Short Then\n\n                Dim d As Double = Convert.ToDouble(v, CultureInfo.InvariantCulture)\n                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return \"\"\n\n                If Math.Abs(d - Math.Round(d)) < 0.000000000001R Then\n                    Return CLng(Math.Round(d)).ToString(CultureInfo.InvariantCulture)\n                End If\n\n                Return d.ToString(CultureInfo.InvariantCulture)\n            End If\n\n            Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)\n            If s Is Nothing Then Return \"\"\n            Return s.Trim()\n        End Function",
+      "current_whole_body": "        Friend Function CellToTrimmedText(v As Object) As String\n            If ExcelArgPredicates.IsMissingArg(v) Then Return \"\"\n            If TypeOf v Is ExcelError Then\n                Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)\n                If s Is Nothing Then Return \"\"\n                Return s.Trim()\n            End If\n            Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.CellToTrimmedText(v)\n        End Function",
+      "original_body_sha256": "5a007400079e52bd264933ac5d83738122204b7f54604795b5aa5383174df531",
+      "current_body_sha256": "0c205f183bf9964a5df6b6214a7fb70da4973155cae7965aed852b4868b118f1",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgPredicates|FunctionBlock|33c9c76896826ed5@387:169"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfCellConversion38.vb",
+          "name": "CellToTrimmedText",
+          "whole_body": "        Public Shared Function CellToTrimmedText(ByRef v As Object) As String\n            If TypeOf v Is String Then\n                Return DirectCast(v, String).Trim()\n            End If\n\n            If TypeOf v Is Double OrElse\n               TypeOf v Is Single OrElse\n               TypeOf v Is Decimal OrElse\n               TypeOf v Is Integer OrElse\n               TypeOf v Is Long OrElse\n               TypeOf v Is Short Then\n\n                Dim d As Double = Convert.ToDouble(v, CultureInfo.InvariantCulture)\n                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return \"\"\n\n                If Math.Abs(d - Math.Round(d)) < 0.000000000001R Then\n                    Return CLng(Math.Round(d)).ToString(CultureInfo.InvariantCulture)\n                End If\n\n                Return d.ToString(CultureInfo.InvariantCulture)\n            End If\n\n            Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)\n            If s Is Nothing Then Return \"\"\n            Return s.Trim()\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfCellConversion38.vb",
+            "bytes": 2200,
+            "sha256": "445acf2cce51106d4b97c3fb400a365a72ac6af47f417931a3e642f31431f198"
+          }
+        }
+      ],
+      "review": "Missing guard stays native. ExcelError takes the original invariant fallback entirely in Windows. Other values execute the complete original string/type-specific numeric/fallback body in Common: six signed/float/Decimal types only, invariant Convert.ToDouble before finite/round checks, strict 1e-12 threshold, checked CLng overflow uncaught. Unsigned/Boolean/DBNull/custom values use invariant Convert.ToString then null/Trim. The portable ByRef argument aliases only the host local Object and is never assigned, preserving the original single CLR boxed-value copy before conversion. DirectCast on the TypeOf String branch replaces the VB conversion helper on its proven domain. No array indexing/copy/mutation. Current-only probe verifies provider/call/Err/exception/input observations.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "TryGetDouble",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Public Function TryGetDouble(v As Object) As Double?\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then\n                Return Nothing\n            End If\n            If TypeOf v Is ExcelError OrElse TypeOf v Is Boolean OrElse TypeOf v Is String Then\n                Return Nothing\n            End If\n            Try\n                Dim d As Double = Convert.ToDouble(v)\n                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return Nothing\n                Return d\n            Catch\n                Return Nothing\n            End Try\n        End Function",
+      "current_whole_body": "        Public Function TryGetDouble(v As Object) As Double?\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then\n                Return Nothing\n            End If\n            If TypeOf v Is ExcelError OrElse TypeOf v Is Boolean OrElse TypeOf v Is String Then\n                Return Nothing\n            End If\n            Try\n                Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.ConvertFiniteNumber(v)\n            Catch\n                Return Nothing\n            End Try\n        End Function",
+      "original_body_sha256": "4d882173697efce2454a6bc1e856578daf394e6f3abc4f6ab93ac548c60a4f11",
+      "current_body_sha256": "cdcafe4d5707cec41e7f99610d153d0497ce400e8b1f8e90034c93ff964a2f31",
+      "dependency_ids": [],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfCellConversion38.vb",
+          "name": "ConvertFiniteNumber",
+          "whole_body": "        Public Shared Function ConvertFiniteNumber(ByRef v As Object) As Double?\n            Dim d As Double = Convert.ToDouble(v)\n            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return Nothing\n            Return d\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfCellConversion38.vb",
+            "bytes": 2200,
+            "sha256": "445acf2cce51106d4b97c3fb400a365a72ac6af47f417931a3e642f31431f198"
+          }
+        }
+      ],
+      "review": "Original ordered missing/sentinel/error/Boolean/String rejection remains native before conversion. Convert.ToDouble(v) uses current culture and executes exactly once before finite rejection. Only those operations moved into an uncaught Common method inside the same native Try. Actual Framework SetProjectError/ClearProjectError remain in the native EH region. Invalid casts return nullable Nothing; no input or ByRef state exists; seeded Err clears only on caught paths.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|d6e4425d65e3156a@3219:418",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "TryGetFiniteDouble",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Public Function TryGetFiniteDouble(arg As Object, ByRef value As Double) As Boolean\n            Dim parsed As Double? = ExcelArgNumeric.TryGetDouble(arg)\n            If Not parsed.HasValue Then\n                value = Double.NaN\n                Return False\n            End If\n            value = parsed.Value\n            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n        End Function",
+      "current_whole_body": "        Public Function TryGetFiniteDouble(arg As Object, ByRef value As Double) As Boolean\n            Dim parsed As Double? = ExcelArgNumeric.TryGetDouble(arg)\n            If Not parsed.HasValue Then\n                value = Double.NaN\n                Return False\n            End If\n            value = parsed.Value\n            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)\n        End Function",
+      "original_body_sha256": "b4245e9cb5632745118137fe175651fb82f25931352b85b212e9d9ebb41ce05e",
+      "current_body_sha256": "b4245e9cb5632745118137fe175651fb82f25931352b85b212e9d9ebb41ce05e",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [],
+      "review": "Whole original/current body and CIL identical. Call parser once; failure writes NaN before False, success writes parsed value before redundant finite check. No catch or exception suppression; parser dependency now supported.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|65a0d0c17baf9064@3649:705",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "GetOptionalBool",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Public Function GetOptionalBool(v As Object, defaultValue As Boolean) As Boolean\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            If TypeOf v Is Boolean Then Return CBool(v)\n            Dim s As String = Convert.ToString(v).Trim()\n            If String.IsNullOrEmpty(s) Then Return defaultValue\n            Select Case s.ToLowerInvariant()\n                Case \"true\", \"t\", \"yes\", \"y\", \"1\"\n                    Return True\n                Case \"false\", \"f\", \"no\", \"n\", \"0\"\n                    Return False\n                Case Else\n                    Return defaultValue\n            End Select\n        End Function",
+      "current_whole_body": "        Public Function GetOptionalBool(v As Object, defaultValue As Boolean) As Boolean\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            If TypeOf v Is Boolean Then Return CBool(v)\n            Dim s As String = Convert.ToString(v).Trim()\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalBoolean(s, defaultValue)\n        End Function",
+      "original_body_sha256": "971fc3c9198a5e3451b9169fbb91ed3a062b4c2e517ba44b8ce88b1a576720b6",
+      "current_body_sha256": "f2a7e8a032024d462213fd4ab20daf37615372d4cf2025630c21b2b25af3cd2e",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+          "name": "OptionalBoolean",
+          "whole_body": "        Public Shared Function OptionalBoolean(text As String, defaultValue As Boolean) As Boolean\n            If String.IsNullOrEmpty(text) Then Return defaultValue\n            Select Case LegacyUdfText38.CaseToken(text.ToLowerInvariant(), {\"true\", \"t\", \"yes\", \"y\", \"1\", \"false\", \"f\", \"no\", \"n\", \"0\"})\n                Case \"true\", \"t\", \"yes\", \"y\", \"1\" : Return True\n                Case \"false\", \"f\", \"no\", \"n\", \"0\" : Return False\n                Case Else : Return defaultValue\n            End Select\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+            "bytes": 5771,
+            "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+          }
+        }
+      ],
+      "review": "Missing/sentinel and Boolean return precede current-culture Convert.ToString.Trim; blank/default and all aliases retain original fixed-RHS text domain. Invalid conversion remains uncaught. Entire Common alias/default body reviewed; v4 EqualText/CaseToken domain proof is unchanged.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|2292dd9f3bbfe7d0@4366:419",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "GetOptionalInt",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Public Function GetOptionalInt(v As Object, defaultValue As Integer) As Integer\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If d.HasValue Then\n                Return CInt(Math.Truncate(d.Value))\n            End If\n            Return defaultValue\n        End Function",
+      "current_whole_body": "        Public Function GetOptionalInt(v As Object, defaultValue As Integer) As Integer\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalInteger(d, defaultValue)\n        End Function",
+      "original_body_sha256": "4d6a5a6afe405e52ab6e6fe2d9ef83089b45f178f1dfd816506316005e8cc70a",
+      "current_body_sha256": "1f8c17dac2dfcaf80f6c16a39251eeef8bfa716d0ff51efbc3d96e187e0cd1d6",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+          "name": "OptionalInteger",
+          "whole_body": "        Public Shared Function OptionalInteger(value As Double?, defaultValue As Integer) As Integer\n            If value.HasValue Then Return CInt(Math.Truncate(value.Value))\n            Return defaultValue\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+            "bytes": 5771,
+            "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+          }
+        }
+      ],
+      "review": "Missing returns caller default; parser runs before nullable selection; Math.Truncate then checked CInt is unchanged, including overflow and lack of local catch.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|e4fb102ad3508c65@4797:362",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "GetOptionalDouble",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Public Function GetOptionalDouble(v As Object, defaultValue As Double) As Double\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If d.HasValue Then Return d.Value\n            Return defaultValue\n        End Function",
+      "current_whole_body": "        Public Function GetOptionalDouble(v As Object, defaultValue As Double) As Double\n            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.OptionalDouble(d, defaultValue)\n        End Function",
+      "original_body_sha256": "f8e1c3c5d60f397e1f53bf33cb6e28b4476300983b3d95719d27f7dd38e57a5f",
+      "current_body_sha256": "8bcf143da63b55a919827027b5e6e8a7b68ba6f415ad0f4f4ae6dfa8fceedc75",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+          "name": "OptionalDouble",
+          "whole_body": "        Public Shared Function OptionalDouble(value As Double?, defaultValue As Double) As Double\n            If value.HasValue Then Return value.Value\n            Return defaultValue\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+            "bytes": 5771,
+            "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+          }
+        }
+      ],
+      "review": "Missing returns supplied default; parser once then HasValue chooses value/default. No new finite or normalization policy.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|807f56660248891f@5171:806",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "TryGetBinary01",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Friend Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean\n            value = -1\n\n            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then\n                Return False\n            End If\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(cell)\n            If d.HasValue Then\n                Dim iv As Integer = CInt(Math.Truncate(d.Value))\n                If iv = 0 OrElse iv = 1 Then\n                    value = iv\n                    Return True\n                End If\n                Return False\n            End If\n\n            If TypeOf cell Is Boolean Then\n                value = If(CBool(cell), 1, 0)\n                Return True\n            End If\n\n            Return False\n        End Function",
+      "current_whole_body": "        Friend Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean\n            value = -1\n\n            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then\n                Return False\n            End If\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(cell)\n            Dim logicalValue As Boolean? = Nothing\n            If TypeOf cell Is Boolean Then logicalValue = CBool(cell)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryBinary(d, logicalValue, value)\n        End Function",
+      "original_body_sha256": "9b5721edc6ae87a09e135b8a09ce379dec09e1e58857d61606c6aac489e38c09",
+      "current_body_sha256": "8d993791e0e16a73301c6b9788227ffceb34fb6fbc8c215d9c054fb39e404b90",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+          "name": "TryBinary",
+          "whole_body": "        Public Shared Function TryBinary(value As Double?, logicalValue As Boolean?, ByRef result As Integer) As Boolean\n            result = -1\n            If value.HasValue Then\n                Dim integerValue As Integer = CInt(Math.Truncate(value.Value))\n                If integerValue = 0 OrElse integerValue = 1 Then\n                    result = integerValue\n                    Return True\n                End If\n                Return False\n            End If\n            If logicalValue.HasValue Then\n                result = If(logicalValue.Value, 1, 0)\n                Return True\n            End If\n            Return False\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+            "bytes": 5771,
+            "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+          }
+        }
+      ],
+      "review": "Write -1 before missing guard; numeric parser rejects Boolean without conversion, so eager type-test/CBool before portable dispatch has no callback/throw on a numeric success. Truncate then checked CInt, compare 0/1 and update only on success; Boolean maps to 1/0; numeric overflow remains uncaught.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|70c411a69807bc60@5989:622",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "TryGetWholeNumber",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Friend Function TryGetWholeNumber(v As Object, ByRef value As Integer) As Boolean\n            value = 0\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If Not d.HasValue Then Return False\n            If Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then Return False\n\n            Dim rounded As Double = Math.Round(d.Value)\n            If Math.Abs(d.Value - rounded) > 0.0000001R Then Return False\n            If rounded < Integer.MinValue OrElse rounded > Integer.MaxValue Then Return False\n\n            value = CInt(rounded)\n            Return True\n        End Function",
+      "current_whole_body": "        Friend Function TryGetWholeNumber(v As Object, ByRef value As Integer) As Boolean\n            value = 0\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryWholeNumber(d, value)\n        End Function",
+      "original_body_sha256": "2ef60fe7049d9bf15bb9a1b590c3ec3bd3cbe4cdd3d3376bbd3783c1122afc73",
+      "current_body_sha256": "e6342d78cddae7fa1afb26f294649b4f99998fc4d9b1c54c9614c3370849aecc",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+          "name": "TryWholeNumber",
+          "whole_body": "        Public Shared Function TryWholeNumber(value As Double?, ByRef result As Integer) As Boolean\n            result = 0\n            If Not value.HasValue Then Return False\n            If Double.IsNaN(value.Value) OrElse Double.IsInfinity(value.Value) Then Return False\n            Dim rounded As Double = Math.Round(value.Value)\n            If Math.Abs(value.Value - rounded) > 0.0000001R Then Return False\n            If rounded < Integer.MinValue OrElse rounded > Integer.MaxValue Then Return False\n            result = CInt(rounded)\n            Return True\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+            "bytes": 5771,
+            "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+          }
+        }
+      ],
+      "review": "Write zero before parsing and again at Common entry, with no intervening externally visible operation. Reject missing/nonfinite, midpoint-to-even rounding, 1e-7 tolerance, Int32 range and final checked CInt preserve all original branches and ByRef values.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|7ac2e7f60737c752@6623:972",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "TryGetFiniteDoubleFlexible",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Friend Function TryGetFiniteDoubleFlexible(v As Object, ByRef x As Double) As Boolean\n            x = 0.0R\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If d.HasValue Then\n                x = d.Value\n                Return True\n            End If\n\n            If ExcelArgPredicates.IsMissingArg(v) OrElse TypeOf v Is ExcelError OrElse TypeOf v Is Boolean Then Return False\n\n            Dim s As String = ExcelArgReaders.CellToTrimmedText(v)\n            If String.IsNullOrWhiteSpace(s) Then Return False\n\n            If Double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, x) Then\n                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)\n            End If\n\n            If Double.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, x) Then\n                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)\n            End If\n\n            Return False\n        End Function",
+      "current_whole_body": "        Friend Function TryGetFiniteDoubleFlexible(v As Object, ByRef x As Double) As Boolean\n            x = 0.0R\n\n            Dim d As Double? = ExcelArgNumeric.TryGetDouble(v)\n            If d.HasValue Then\n                x = d.Value\n                Return True\n            End If\n\n            If ExcelArgPredicates.IsMissingArg(v) OrElse TypeOf v Is ExcelError OrElse TypeOf v Is Boolean Then Return False\n\n            Dim s As String = ExcelArgReaders.CellToTrimmedText(v)\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryFiniteText(s, x)\n        End Function",
+      "original_body_sha256": "4cf5b565f06eaebbf746b02ac9e9606b7635ac516b092af1b4c92a9e0269e848",
+      "current_body_sha256": "89c0516ed750af22e46dfbef167dbfc823f2f95f2953aeabaf152e11be63cd0e",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625",
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgPredicates|FunctionBlock|33c9c76896826ed5@387:169",
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgReaders|FunctionBlock|6678220415fd1fa4@1306:1089"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+          "name": "TryFiniteText",
+          "whole_body": "        Public Shared Function TryFiniteText(text As String, ByRef result As Double) As Boolean\n            If String.IsNullOrWhiteSpace(text) Then Return False\n            If Double.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, result) Then\n                Return Not Double.IsNaN(result) AndAlso Not Double.IsInfinity(result)\n            End If\n            If Double.TryParse(text, NumberStyles.Any, CultureInfo.CurrentCulture, result) Then\n                Return Not Double.IsNaN(result) AndAlso Not Double.IsInfinity(result)\n            End If\n            Return False\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+            "bytes": 5771,
+            "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+          }
+        }
+      ],
+      "review": "Set x=0, numeric-first success updates x; reject missing/error/Boolean before CellToTrimmedText. Blank text retains x; invariant NumberStyles.Any precedes current culture, each successful parse rejects nonfinite; failed parse ByRef zeroing is preserved.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|a9e8f50f839109cb@9049:869",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "TryGetOptionalPositiveInteger",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Friend Function TryGetOptionalPositiveInteger(arg As Object,\n                                                      ByRef value As Integer,\n                                                      Optional defaultValue As Integer = 10,\n                                                      Optional minValue As Integer = 1) As Boolean\n            value = defaultValue\n            If ExcelArgPredicates.IsMissingArg(arg) Then Return True\n\n            Dim d As Double\n            If Not ExcelArgNumeric.TryGetFiniteDouble(arg, d) Then Return False\n\n            Dim rounded As Double = Math.Round(d)\n            If Math.Abs(d - rounded) > 0.0000001R Then Return False\n            If rounded < minValue Then Return False\n            If rounded > Integer.MaxValue Then Return False\n\n            value = CInt(rounded)\n            Return True\n        End Function",
+      "current_whole_body": "        Friend Function TryGetOptionalPositiveInteger(arg As Object,\n                                                      ByRef value As Integer,\n                                                      Optional defaultValue As Integer = 10,\n                                                      Optional minValue As Integer = 1) As Boolean\n            value = defaultValue\n            If ExcelArgPredicates.IsMissingArg(arg) Then Return True\n\n            Dim d As Double\n            If Not ExcelArgNumeric.TryGetFiniteDouble(arg, d) Then Return False\n            Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryPositiveInteger(d, False, value, defaultValue, minValue)\n        End Function",
+      "original_body_sha256": "14626cf5d4a784d04c6f0c72e397e02eaf8f83c9a162de4aedea18b5d951d627",
+      "current_body_sha256": "337b8023a0a4204402d6be78c789c0873da4b93a4779052b3137bd67bb36577b",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgPredicates|FunctionBlock|33c9c76896826ed5@387:169",
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|d6e4425d65e3156a@3219:418"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+          "name": "TryPositiveInteger",
+          "whole_body": "        Public Shared Function TryPositiveInteger(value As Double?, missing As Boolean, ByRef result As Integer,\n                                                   defaultValue As Integer, minimum As Integer) As Boolean\n            result = defaultValue\n            If missing Then Return True\n            If Not value.HasValue Then Return False\n            Dim number As Double = value.Value\n            If Double.IsNaN(number) OrElse Double.IsInfinity(number) Then Return False\n            Dim rounded As Double = Math.Round(number)\n            If Math.Abs(number - rounded) > 0.0000001R Then Return False\n            If rounded < minimum OrElse rounded > Integer.MaxValue Then Return False\n            result = CInt(rounded)\n            Return True\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+            "bytes": 5771,
+            "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+          }
+        }
+      ],
+      "review": "Assign supplied default before missing check; finite-double conversion before rounding validation. Common repeats default assignment without an intervening callback, receives a present finite nullable and missing=False, so added nullable/finite guards cannot alter the original path. 1e-7 tolerance, minimum then Int32 maximum and final checked assignment remain in order.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|eea28f701d2b4ae8@7607:569",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+      "name": "TryGetStatus01Flexible",
+      "owner": "BESHStatNG.WorksheetFunctions.ExcelArgNumeric",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ExcelArgModules.vb.txt",
+        "bytes": 10845,
+        "sha256": "140b5b1770f59c30840386f9202a48165613e5679a4fb3bb04fa8e83af8f92df"
+      },
+      "original_whole_body": "        Friend Function TryGetStatus01Flexible(v As Object, ByRef value As Integer) As Boolean\n            value = 0\n\n            If ExcelArgNumeric.TryGetBinary01(v, value) Then Return True\n\n            Dim x As Double\n            If Not ExcelArgNumeric.TryGetFiniteDoubleFlexible(v, x) Then Return False\n\n            If x = 0.0R Then\n                value = 0\n                Return True\n            End If\n\n            If x = 1.0R Then\n                value = 1\n                Return True\n            End If\n\n            Return False\n        End Function",
+      "current_whole_body": "        Friend Function TryGetStatus01Flexible(v As Object, ByRef value As Integer) As Boolean\n            value = 0\n\n            If ExcelArgNumeric.TryGetBinary01(v, value) Then Return True\n\n            Dim x As Double\n            If Not ExcelArgNumeric.TryGetFiniteDoubleFlexible(v, x) Then Return False\n\n            If x = 0.0R Then\n                value = 0\n                Return True\n            End If\n\n            If x = 1.0R Then\n                value = 1\n                Return True\n            End If\n\n            Return False\n        End Function",
+      "original_body_sha256": "8ad57485794b611a47ba339dde1ee1463a23568fc7a4a83716bcf3f304452ae0",
+      "current_body_sha256": "8ad57485794b611a47ba339dde1ee1463a23568fc7a4a83716bcf3f304452ae0",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|807f56660248891f@5171:806",
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|7ac2e7f60737c752@6623:972"
+      ],
+      "portable_bodies": [],
+      "review": "Whole original/current source and resolved CIL identical. Initial zero may become -1 in binary helper even on failure; flexible helper does not overwrite integer output until exact x=0/1. Short-circuit success and failed ByRef side effects retained; no truncation-policy correction.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|80e5c4a24af94395@4357:1515",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "name": "TryExtractNumericGroupsFromMatrix",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      },
+      "original_whole_body": "    Friend Function TryExtractNumericGroupsFromMatrix(mat As Object(,),\n                                                  startRow As Integer,\n                                                  hasHeader As Boolean,\n                                                  defaultPrefix As String,\n                                                  ByRef groups()() As Double, ByRef names() As String) As Boolean\n        groups = Nothing\n        names = Nothing\n\n        If mat Is Nothing Then Return False\n\n        Dim rows As Integer = mat.GetLength(0)\n        Dim cols As Integer = mat.GetLength(1)\n        If rows < 1 OrElse cols < 1 Then Return False\n\n        Dim groupList As New List(Of Double())()\n        Dim nameList As New List(Of String)()\n\n        For c As Integer = 0 To cols - 1\n            Dim values As New List(Of Double)(Math.Max(0, rows - startRow))\n            For r As Integer = startRow To rows - 1\n                Dim d As Double? = TryGetDouble(mat(r, c))\n                If d.HasValue Then values.Add(d.Value)\n            Next\n\n            If values.Count > 0 Then\n                groupList.Add(values.ToArray())\n                If hasHeader Then\n                    nameList.Add(CellToTrimmedText(mat(0, c)))\n                Else\n                    nameList.Add(defaultPrefix & (groupList.Count).ToString(CultureInfo.InvariantCulture))\n                End If\n            End If\n        Next\n\n        groups = groupList.ToArray()\n        names = nameList.ToArray()\n        Return True\n    End Function",
+      "current_whole_body": "    Friend Function TryExtractNumericGroupsFromMatrix(mat As Object(,),\n                                                  startRow As Integer,\n                                                  hasHeader As Boolean,\n                                                  defaultPrefix As String,\n                                                  ByRef groups()() As Double, ByRef names() As String) As Boolean\n        groups = Nothing\n        names = Nothing\n        If mat Is Nothing Then Return False\n        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryExtractNumericGroupsFromMatrix(\n            mat.GetLength(0), mat.GetLength(1), startRow, hasHeader, defaultPrefix,\n            Function(row, column) TryGetDouble(mat(row, column)), Function(row, column) CellToTrimmedText(mat(row, column)), groups, names)\n    End Function",
+      "original_body_sha256": "ac02cdf1f4dc7c63fa7ee0480e6dcc30f7878bf686c797c56fa77c956f4c20b2",
+      "current_body_sha256": "59ef6eeca53161bf7b50aa830f17c8813b806286a3bbdadb00357fef321f9aca",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625",
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgReaders|FunctionBlock|6678220415fd1fa4@1306:1089"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+          "name": "TryExtractNumericGroupsFromMatrix",
+          "whole_body": "        Public Shared Function TryExtractNumericGroupsFromMatrix(rows As Integer, cols As Integer, startRow As Integer, hasHeader As Boolean, defaultPrefix As String, numeric As Func(Of Integer, Integer, Double?), text As Func(Of Integer, Integer, String), ByRef groups()() As Double, ByRef names() As String) As Boolean\n        groups = Nothing\n        names = Nothing\n\n        If rows < 1 OrElse cols < 1 Then Return False\n\n        Dim groupList As New List(Of Double())()\n        Dim nameList As New List(Of String)()\n\n        For c As Integer = 0 To cols - 1\n            Dim values As New List(Of Double)(Math.Max(0, rows - startRow))\n            For r As Integer = startRow To rows - 1\n                Dim d As Double? = numeric(r, c)\n                If d.HasValue Then values.Add(d.Value)\n            Next\n\n            If values.Count > 0 Then\n                groupList.Add(values.ToArray())\n                If hasHeader Then\n                    nameList.Add(text(0, c))\n                Else\n                    nameList.Add(defaultPrefix & (groupList.Count).ToString(CultureInfo.InvariantCulture))\n                End If\n            End If\n        Next\n\n        groups = groupList.ToArray()\n        names = nameList.ToArray()\n        Return True\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+            "bytes": 10455,
+            "sha256": "fb18d7b6ab2f444a963c94fd0eb5fbfef87251aff49d7ce6d475264db0ffdb2a"
+          }
+        }
+      ],
+      "review": "Native resets both ByRefs and checks Nothing before dimensions; Common repeats resets, then original dimensions/column-major scan, per-column capacity, numeric callbacks, omission of empty columns and lazy text header only for retained groups. Default numbering uses retained group count and invariant culture. Groups assigned before names only after full scan. Direct nonzero lower bounds retain original index errors; callers through Get2D get detached zero-based values. No alias to input or detected-name arrays.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|af00a236600162d5@31629:474",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "name": "LooksLikeSingleColumnHeader",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      },
+      "original_whole_body": "    Friend Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean\n        If arr Is Nothing Then Return False\n        If arr.GetLength(1) <> 1 Then Return False\n\n        Dim rows As Integer = arr.GetLength(0)\n        If rows < 2 Then Return False\n        If TryGetDouble(arr(0, 0)).HasValue Then Return False\n\n        For r As Integer = 1 To rows - 1\n            If TryGetDouble(arr(r, 0)).HasValue Then Return True\n        Next\n\n        Return False\n    End Function",
+      "current_whole_body": "    Friend Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean\n        If arr Is Nothing Then Return False\n        If arr.GetLength(1) <> 1 Then Return False\n        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.LooksLikeSingleColumnHeader(arr.GetLength(0), Function(row, column) TryGetDouble(arr(row, column)).HasValue)\n    End Function",
+      "original_body_sha256": "1522d8381de9203f3a972ef7193320d27d30cc16aba29e3ad4a755a843d8da0d",
+      "current_body_sha256": "e9796825014f02b28ebe09afa891d45ef8f6448084a11bd484595263655a4665",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+          "name": "LooksLikeSingleColumnHeader",
+          "whole_body": "        Public Shared Function LooksLikeSingleColumnHeader(rows As Integer, numeric As Func(Of Integer, Integer, Boolean)) As Boolean\n\n        If rows < 2 Then Return False\n        If numeric(0, 0) Then Return False\n\n        For r As Integer = 1 To rows - 1\n            If numeric(r, 0) Then Return True\n        Next\n\n        Return False\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+            "bytes": 3912,
+            "sha256": "d92986a427d2925aea257dad77edf532aff28ea372d9a35bc7a8f3b66ee0fc7a"
+          }
+        }
+      ],
+      "review": "Null and one-column guards stay native. Exact original row-count/first-numeric/first-below-numeric loop moved with callback HasValue at identical cells and short-circuit points. No conversion of header text or allocation of data arrays.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|823ac86f8fd161f0@32109:776",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "name": "TryReadGroupedNumericColumns",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      },
+      "original_whole_body": "    Friend Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean\n        groups = Nothing\n        names = Nothing\n        Dim arr As Object(,) = Get2D(input)\n        If arr Is Nothing Then Return False\n\n        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        If cols < 1 OrElse rows < 1 Then Return False\n\n        Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, Enumerable.Range(0, cols).ToArray())\n        Dim startRow As Integer = If(hasHeader, 1, 0)\n\n        Return TryExtractNumericGroupsFromMatrix(arr, startRow:=startRow, hasHeader:=hasHeader,\n                                             defaultPrefix:=\"Group \", groups:=groups, names:=names)\n    End Function",
+      "current_whole_body": "    Friend Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean\n        groups = Nothing\n        names = Nothing\n        Dim arr As Object(,) = Get2D(input)\n        If arr Is Nothing Then Return False\n\n        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        If cols < 1 OrElse rows < 1 Then Return False\n\n        Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, Enumerable.Range(0, cols).ToArray())\n        Dim startRow As Integer = If(hasHeader, 1, 0)\n\n        Return TryExtractNumericGroupsFromMatrix(arr, startRow:=startRow, hasHeader:=hasHeader,\n                                             defaultPrefix:=\"Group \", groups:=groups, names:=names)\n    End Function",
+      "original_body_sha256": "dd9829d878008beed492daa01de191526a91903482295e48a86ba97062f10291",
+      "current_body_sha256": "dd9829d878008beed492daa01de191526a91903482295e48a86ba97062f10291",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|c840480158b0fe1d@556:382",
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|fb11373f826af3f4@30761:862",
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|80e5c4a24af94395@4357:1515"
+      ],
+      "portable_bodies": [],
+      "review": "Whole original/current source and CIL identical: reset outputs before acquisition, validate dimensions, create ordered Enumerable.Range columns, header detection requires numeric below every column, then derive startRow and Group prefix. Original host acquisition handles scalar rejection, reference order, lower-bound normalization and copied values. Every child contract now supported; no row identity fabricated for opaque arrays.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "name": "TryGetGroupedNumericColumns",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImport.vb.txt",
+        "bytes": 34785,
+        "sha256": "2bbcde54be67979ca6ec0bc3230d6b1ebd7d95379ef51518ca13bfb22059ef4e"
+      },
+      "original_whole_body": "    Friend Function TryGetGroupedNumericColumns(input As Object,\n                                                ByRef groups()() As Double,\n                                                ByRef names() As String) As Boolean\n        Return TryReadGroupedNumericColumns(input, groups, names)\n    End Function",
+      "current_whole_body": "    Friend Function TryGetGroupedNumericColumns(input As Object,\n                                                ByRef groups()() As Double,\n                                                ByRef names() As String) As Boolean\n        Return TryReadGroupedNumericColumns(input, groups, names)\n    End Function",
+      "original_body_sha256": "da12c35d18e1b1ef6af4526ba0edfaf11203e2657b038ff0ce611982d4ecd37c",
+      "current_body_sha256": "da12c35d18e1b1ef6af4526ba0edfaf11203e2657b038ff0ce611982d4ecd37c",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|823ac86f8fd161f0@32109:776"
+      ],
+      "portable_bodies": [],
+      "review": "Entire original/current facade is one compiled forwarding call with identical ByRefs and Boolean return. Full grouped reader, header, acquisition and extraction dependencies are now supported; no edge-only parent claim.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|bf285e1e5738931d@20041:2827",
+      "new_support": false,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "name": "TryGetGroupedCompleteMatrix",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImport.vb.txt",
+        "bytes": 34785,
+        "sha256": "2bbcde54be67979ca6ec0bc3230d6b1ebd7d95379ef51518ca13bfb22059ef4e"
+      },
+      "original_whole_body": "    Friend Function TryGetGroupedCompleteMatrix(data As Object,\n                                                groups As Object,\n                                                ByRef groupMatrices As List(Of Double(,)),\n                                                ByRef groupNames As List(Of String)) As Boolean\n        groupMatrices = Nothing\n        groupNames = Nothing\n\n        Dim dataArr As Object(,) = Get2D(data)\n        Dim groupArr As Object(,) = Get2D(groups)\n        If dataArr Is Nothing OrElse groupArr Is Nothing Then Return False\n        If groupArr.GetLength(1) <> 1 Then Return False\n\n        Dim dataRows As Integer = dataArr.GetLength(0)\n        Dim dataCols As Integer = dataArr.GetLength(1)\n        If dataRows < 1 OrElse dataCols < 1 Then Return False\n\n        Dim dataColIndexes(dataCols - 1) As Integer\n        For c As Integer = 0 To dataCols - 1\n            dataColIndexes(c) = c\n        Next\n\n        Dim dataHasHeader As Boolean = LooksLikeHeaderRow(dataArr, dataColIndexes)\n        Dim startData As Integer = If(dataHasHeader, 1, 0)\n\n        Dim usableRows As Integer = dataRows - startData\n        Dim groupRows As Integer = groupArr.GetLength(0)\n\n        Dim startGroup As Integer\n        If groupRows = usableRows Then\n            startGroup = 0\n        ElseIf groupRows = usableRows + 1 Then\n            startGroup = 1\n        Else\n            Return False\n        End If\n\n        Dim buckets As New Dictionary(Of String, List(Of Double()))(StringComparer.OrdinalIgnoreCase)\n        Dim order As New List(Of String)()\n\n        For i As Integer = 0 To usableRows - 1\n            Dim label As String = Convert.ToString(groupArr(startGroup + i, 0)).Trim()\n            If String.IsNullOrWhiteSpace(label) Then Continue For\n\n            Dim row(dataCols - 1) As Double\n            Dim ok As Boolean = True\n            For c As Integer = 0 To dataCols - 1\n                Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(dataArr(startData + i, c))\n                If Not d.HasValue OrElse Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then\n                    ok = False\n                    Exit For\n                End If\n                row(c) = d.Value\n            Next\n            If Not ok Then Continue For\n\n            If Not buckets.ContainsKey(label) Then\n                buckets(label) = New List(Of Double())()\n                order.Add(label)\n            End If\n            buckets(label).Add(row)\n        Next\n\n        groupMatrices = New List(Of Double(,))()\n        groupNames = New List(Of String)(order)\n        For Each label As String In order\n            groupMatrices.Add(RowsToMatrix(buckets(label), dataCols))\n        Next\n\n        Return True\n    End Function",
+      "current_whole_body": "    Friend Function TryGetGroupedCompleteMatrix(data As Object,\n                                                groups As Object,\n                                                ByRef groupMatrices As List(Of Double(,)),\n                                                ByRef groupNames As List(Of String)) As Boolean\n        groupMatrices = Nothing\n        groupNames = Nothing\n\n        Dim dataArr As Object(,) = Get2D(data)\n        Dim groupArr As Object(,) = Get2D(groups)\n        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryGetGroupedCompleteMatrix(\n            dataArr, groupArr, AddressOf LooksLikeHeaderRow, Function(cell) Convert.ToString(cell).Trim(),\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble, groupMatrices, groupNames)\n    End Function",
+      "original_body_sha256": "a581202cbf6c48a72f766398ed6856e9735f522c486eb4f30ef480f50cad08a8",
+      "current_body_sha256": "d6dace032beaa950035a930b3f2a64e5d2547dcd11f6638d6e86bf53a9ad8cde",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|c840480158b0fe1d@556:382",
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625",
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|fb11373f826af3f4@30761:862",
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|6f3b40d3f7657b52@25388:343"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+          "name": "TryGetGroupedCompleteMatrix",
+          "whole_body": "        Public Shared Function TryGetGroupedCompleteMatrix(dataArr As Object(,), groupArr As Object(,),\n            header As Func(Of Object(,), Integer(), Boolean), labelText As Func(Of Object, String), numeric As Func(Of Object, Double?),\n            ByRef groupMatrices As List(Of Double(,)), ByRef groupNames As List(Of String)) As Boolean\n            groupMatrices = Nothing\n            groupNames = Nothing\n            If dataArr Is Nothing OrElse groupArr Is Nothing Then Return False\n            If groupArr.GetLength(1) <> 1 Then Return False\n\n            Dim dataRows As Integer = dataArr.GetLength(0)\n            Dim dataCols As Integer = dataArr.GetLength(1)\n            If dataRows < 1 OrElse dataCols < 1 Then Return False\n\n            Dim dataColIndexes(dataCols - 1) As Integer\n            For c As Integer = 0 To dataCols - 1\n                dataColIndexes(c) = c\n            Next\n\n            Dim dataHasHeader As Boolean = header(dataArr, dataColIndexes)\n            Dim startData As Integer = If(dataHasHeader, 1, 0)\n\n            Dim usableRows As Integer = dataRows - startData\n            Dim groupRows As Integer = groupArr.GetLength(0)\n\n            Dim startGroup As Integer\n            If groupRows = usableRows Then\n                startGroup = 0\n            ElseIf groupRows = usableRows + 1 Then\n                startGroup = 1\n            Else\n                Return False\n            End If\n\n            Dim buckets As New Dictionary(Of String, List(Of Double()))(StringComparer.OrdinalIgnoreCase)\n            Dim order As New List(Of String)()\n\n            For i As Integer = 0 To usableRows - 1\n                Dim label As String = labelText(groupArr(startGroup + i, 0))\n                If String.IsNullOrWhiteSpace(label) Then Continue For\n\n                Dim row(dataCols - 1) As Double\n                Dim ok As Boolean = True\n                For c As Integer = 0 To dataCols - 1\n                    Dim d As Double? = numeric(dataArr(startData + i, c))\n                    If Not d.HasValue OrElse Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then\n                        ok = False\n                        Exit For\n                    End If\n                    row(c) = d.Value\n                Next\n                If Not ok Then Continue For\n\n                If Not buckets.ContainsKey(label) Then\n                    buckets(label) = New List(Of Double())()\n                    order.Add(label)\n                End If\n                buckets(label).Add(row)\n            Next\n\n            groupMatrices = New List(Of Double(,))()\n            groupNames = New List(Of String)(order)\n            For Each label As String In order\n                groupMatrices.Add(Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.RowsToMatrix(buckets(label), dataCols))\n            Next\n\n            Return True\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+            "bytes": 10455,
+            "sha256": "fb18d7b6ab2f444a963c94fd0eb5fbfef87251aff49d7ce6d475264db0ffdb2a"
+          }
+        }
+      ],
+      "review": "Reset outputs before acquiring data then groups in original order. Exact original dimension, header, group-row offset validation; case-insensitive buckets with first-seen order; labels use current-culture native Convert.ToString.Trim, blanks skipped before numeric row conversion; first invalid numeric ends row; allocate fresh row/matrix/name lists; partial output assignments only at original positions. Common receives original typed arrays from native Get2D and native primitive callbacks; callback bodies have no catch or model/cache state. Full Common body, callback CIL and accepted Core matrix dependency are retained; text-domain evidence is unchanged.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|071563e12190ade8@23096:2284",
+      "new_support": false,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+      "name": "TryGetNestedThreeColumnData",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImport.vb.txt",
+        "bytes": 34785,
+        "sha256": "2bbcde54be67979ca6ec0bc3230d6b1ebd7d95379ef51518ca13bfb22059ef4e"
+      },
+      "original_whole_body": "    Friend Function TryGetNestedThreeColumnData(input As Object,\n                                                ByRef data(,) As Object,\n                                                ByRef names() As String) As Boolean\n        data = Nothing\n        names = Nothing\n\n        Dim arr As Object(,) = Get2D(input)\n        If arr Is Nothing Then Return False\n\n        Dim rows As Integer = arr.GetLength(0)\n        Dim cols As Integer = arr.GetLength(1)\n        If cols <> 3 OrElse rows < 1 Then Return False\n\n        Dim hasHeader As Boolean = False\n        If rows >= 2 Then\n            Dim firstRespNumeric As Boolean = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(0, 2)).HasValue\n            Dim belowRespNumeric As Boolean = False\n            For r As Integer = 1 To rows - 1\n                If Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 2)).HasValue Then\n                    belowRespNumeric = True\n                    Exit For\n                End If\n            Next\n            hasHeader = (Not firstRespNumeric) AndAlso belowRespNumeric\n        End If\n        Dim startRow As Integer = If(hasHeader, 1, 0)\n\n        names = New String() {\n            If(hasHeader, Convert.ToString(arr(0, 0)).Trim(), \"Group\"),\n            If(hasHeader, Convert.ToString(arr(0, 1)).Trim(), \"Subgroup\"),\n            If(hasHeader, Convert.ToString(arr(0, 2)).Trim(), \"Response\")\n        }\n\n        Dim rowsOut As New List(Of Object())()\n        For r As Integer = startRow To rows - 1\n            Dim g As String = Convert.ToString(arr(r, 0)).Trim()\n            Dim sg As String = Convert.ToString(arr(r, 1)).Trim()\n            Dim y As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(r, 2))\n            If g <> \"\" AndAlso sg <> \"\" AndAlso y.HasValue Then\n                rowsOut.Add(New Object() {g, sg, y.Value})\n            End If\n        Next\n\n        If rowsOut.Count < 1 Then Return False\n        data = New Object(rowsOut.Count - 1, 2) {}\n        For r As Integer = 0 To rowsOut.Count - 1\n            data(r, 0) = rowsOut(r)(0)\n            data(r, 1) = rowsOut(r)(1)\n            data(r, 2) = rowsOut(r)(2)\n        Next\n        Return True\n    End Function",
+      "current_whole_body": "    Friend Function TryGetNestedThreeColumnData(input As Object,\n                                                ByRef data(,) As Object,\n                                                ByRef names() As String) As Boolean\n        data = Nothing\n        names = Nothing\n\n        Dim arr As Object(,) = Get2D(input)\n        Return Global.BESHStatNG.ExcelCommon.UdfNumericImportPreparation38.TryGetNestedThreeColumnData(\n            arr, Function(cell) Convert.ToString(cell).Trim(),\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble, data, names)\n    End Function",
+      "original_body_sha256": "dc9d3cf0d547d44cf76ee1fe88e24bd596c83b6624e7fc858fc4bfb01346695e",
+      "current_body_sha256": "78532160d717d41642d4a611474877fb0c2ece6fe13b55d26a199bdee47c78ad",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|c840480158b0fe1d@556:382",
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+          "name": "TryGetNestedThreeColumnData",
+          "whole_body": "        Public Shared Function TryGetNestedThreeColumnData(arr As Object(,), labelText As Func(Of Object, String),\n            numeric As Func(Of Object, Double?), ByRef data As Object(,), ByRef names As String()) As Boolean\n            data = Nothing\n            names = Nothing\n            If arr Is Nothing Then Return False\n\n            Dim rows As Integer = arr.GetLength(0)\n            Dim cols As Integer = arr.GetLength(1)\n            If cols <> 3 OrElse rows < 1 Then Return False\n\n            Dim hasHeader As Boolean = False\n            If rows >= 2 Then\n                Dim firstRespNumeric As Boolean = numeric(arr(0, 2)).HasValue\n                Dim belowRespNumeric As Boolean = False\n                For r As Integer = 1 To rows - 1\n                    If numeric(arr(r, 2)).HasValue Then\n                        belowRespNumeric = True\n                        Exit For\n                    End If\n                Next\n                hasHeader = (Not firstRespNumeric) AndAlso belowRespNumeric\n            End If\n            Dim startRow As Integer = If(hasHeader, 1, 0)\n\n            names = New String() {\n                If(hasHeader, labelText(arr(0, 0)), \"Group\"),\n                If(hasHeader, labelText(arr(0, 1)), \"Subgroup\"),\n                If(hasHeader, labelText(arr(0, 2)), \"Response\")\n            }\n\n            Dim rowsOut As New List(Of Object())()\n            For r As Integer = startRow To rows - 1\n                Dim g As String = labelText(arr(r, 0))\n                Dim sg As String = labelText(arr(r, 1))\n                Dim y As Double? = numeric(arr(r, 2))\n                If Not LegacyUdfText38.EqualText(g, \"\") AndAlso Not LegacyUdfText38.EqualText(sg, \"\") AndAlso y.HasValue Then\n                    rowsOut.Add(New Object() {g, sg, y.Value})\n                End If\n            Next\n\n            If rowsOut.Count < 1 Then Return False\n            data = New Object(rowsOut.Count - 1, 2) {}\n            For r As Integer = 0 To rowsOut.Count - 1\n                data(r, 0) = rowsOut(r)(0)\n                data(r, 1) = rowsOut(r)(1)\n                data(r, 2) = rowsOut(r)(2)\n            Next\n            Return True\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfNumericImportPreparation38.vb",
+            "bytes": 10455,
+            "sha256": "fb18d7b6ab2f444a963c94fd0eb5fbfef87251aff49d7ce6d475264db0ffdb2a"
+          }
+        }
+      ],
+      "review": "Reset data/names before host acquisition. Exact three-column/nonempty guards, first response header probe plus first valid below, lazy default/header names, row-order label conversions before numeric, legacy text comparisons to empty, skip invalid rows, names may be assigned on False, data assigned only after nonempty row list; fresh rectangular result. Common receives original typed arrays from native Get2D and native primitive callbacks; callback bodies have no catch or model/cache state. Full Common body, callback CIL and accepted Core matrix dependency are retained; text-domain evidence is unchanged.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|0b8c41739ffaa923@5864:902",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+      "name": "TryParseAlpha",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportOptions.vb.txt",
+        "bytes": 6783,
+        "sha256": "5b4047d7bb54394ddb27493c586a4cb279e4e6957ff6b4109f4a3c10364b193a"
+      },
+      "original_whole_body": "    Friend Function TryParseAlpha(arg As Object, ByRef alpha As Double) As Boolean\n        alpha = 0.05\n        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return True\n\n        Try\n            If TypeOf arg Is String Then\n                Dim s As String = Convert.ToString(arg).Trim()\n                If Not Double.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, alpha) AndAlso\n                   Not Double.TryParse(s, alpha) Then\n                    Return False\n                End If\n            Else\n                alpha = Convert.ToDouble(arg)\n            End If\n        Catch\n            Return False\n        End Try\n\n        If Double.IsNaN(alpha) OrElse Double.IsInfinity(alpha) Then Return False\n        If alpha <= 0.0 OrElse alpha >= 1.0 Then Return False\n\n        Return True\n    End Function",
+      "current_whole_body": "    Friend Function TryParseAlpha(arg As Object, ByRef alpha As Double) As Boolean\n        alpha = 0.05\n        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return True\n\n        Try\n            If TypeOf arg Is String Then\n                Dim s As String = Convert.ToString(arg).Trim()\n                Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.TryAlphaText(s, alpha)\n            Else\n                alpha = Convert.ToDouble(arg)\n            End If\n        Catch\n            Return False\n        End Try\n\n        Return Global.BESHStatNG.ExcelCommon.UdfScalarChoice38.IsOpenProbability(alpha)\n    End Function",
+      "original_body_sha256": "339f59fc1e6479e841bfe0cba28d3b81b39997a5c8143c9489a2c990a3ba6a8a",
+      "current_body_sha256": "5ed77896d2e6d592f94f9bec16b9541361ba1f7dd7a35eff1fedbf0ae4926c57",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgPredicates|FunctionBlock|33c9c76896826ed5@387:169"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+          "name": "TryAlphaText",
+          "whole_body": "        Public Shared Function TryAlphaText(text As String, ByRef alpha As Double) As Boolean\n            If Not Double.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, alpha) AndAlso\n               Not Double.TryParse(text, alpha) Then Return False\n            Return IsOpenProbability(alpha)\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+            "bytes": 5771,
+            "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+          }
+        },
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+          "name": "IsOpenProbability",
+          "whole_body": "        Public Shared Function IsOpenProbability(value As Double) As Boolean\n            If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return False\n            If value <= 0.0 OrElse value >= 1.0 Then Return False\n            Return True\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfScalarChoice38.vb",
+            "bytes": 5771,
+            "sha256": "59b38b3eb7e9b70dff3b6234e51b092d94dd4cd1583a763f9bca67759e68c4cb"
+          }
+        }
+      ],
+      "review": "Initial alpha=.05 regardless of global default, then native missing guard. String conversion/Trim and numeric Convert.ToDouble stay within original real Framework Try; invariant NumberStyles.Any TryParse followed only on failure by current-culture TryParse writes directly to caller alpha. Portable early IsOpenProbability replaces only post-Try finite/open-interval comparisons; it cannot throw or observe state. Numeric conversion failure leaves .05; invalid text leaves parser output; no default unification.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|c14bdd6fe1f1af70@16029:579",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "IsNumericValue",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Private Function IsNumericValue(value As Object) As Boolean\n        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is Boolean Then Return False\n\n        Select Case Type.GetTypeCode(value.GetType())\n            Case TypeCode.Byte, TypeCode.SByte, TypeCode.Int16, TypeCode.UInt16,\n                 TypeCode.Int32, TypeCode.UInt32, TypeCode.Int64, TypeCode.UInt64,\n                 TypeCode.Single, TypeCode.Double, TypeCode.Decimal\n                Return True\n            Case Else\n                Return False\n        End Select\n    End Function",
+      "current_whole_body": "    Private Function IsNumericValue(value As Object) As Boolean\n        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is Boolean Then Return False\n\n        Return Global.BESHStatNG.ExcelCommon.UdfCellConversion38.IsNumericTypeCode(Type.GetTypeCode(value.GetType()))\n    End Function",
+      "original_body_sha256": "5a9a0ec967a43b6564296b42a6a0bbccdf4c32c421d1628971ccf0da1c6da87c",
+      "current_body_sha256": "7d5edfc30b2e80d948f038c45579d3945498392673d20211fb63ac16cef96ada",
+      "dependency_ids": [],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfCellConversion38.vb",
+          "name": "IsNumericTypeCode",
+          "whole_body": "        Public Shared Function IsNumericTypeCode(code As TypeCode) As Boolean\n            Select Case code\n                Case TypeCode.Byte, TypeCode.SByte, TypeCode.Int16, TypeCode.UInt16,\n                     TypeCode.Int32, TypeCode.UInt32, TypeCode.Int64, TypeCode.UInt64,\n                     TypeCode.Single, TypeCode.Double, TypeCode.Decimal\n                    Return True\n                Case Else\n                    Return False\n            End Select\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfCellConversion38.vb",
+            "bytes": 2200,
+            "sha256": "445acf2cce51106d4b97c3fb400a365a72ac6af47f417931a3e642f31431f198"
+          }
+        }
+      ],
+      "review": "Native null/DBNull/Boolean rejection and runtime Type.GetTypeCode(value.GetType()) remain before portable exact eleven-code switch. Underlying numeric enum types remain eligible, including legacy ExcelError behavior; no conversion occurs here. Custom IConvertible GetTypeCode is never called. Raw Excel values never pass to the typed portable whitelist.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|275c6da426aa4b6f@15597:424",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "FormatPValueForUdf",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Private Function FormatPValueForUdf(value As Object) As Object\n        If Not IsNumericValue(value) Then Return value\n\n        Dim pvalue As Double\n        Try\n            pvalue = Convert.ToDouble(value, CultureInfo.InvariantCulture)\n        Catch ex As Exception\n            Return value\n        End Try\n\n        Return PValuePresentation.FormatForDisplay(pvalue, AppGlobals.PValuePresentation)\n    End Function",
+      "current_whole_body": "    Private Function FormatPValueForUdf(value As Object) As Object\n        If Not IsNumericValue(value) Then Return value\n\n        Dim pvalue As Double\n        Try\n            pvalue = Convert.ToDouble(value, CultureInfo.InvariantCulture)\n        Catch ex As Exception\n            Return value\n        End Try\n\n        Return PValuePresentation.FormatForDisplay(pvalue, AppGlobals.PValuePresentation)\n    End Function",
+      "original_body_sha256": "378caf8eac43fb1036e23dbd3b12a1e32b589598312d3acb1f98d8673ce58afb",
+      "current_body_sha256": "378caf8eac43fb1036e23dbd3b12a1e32b589598312d3acb1f98d8673ce58afb",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|c14bdd6fe1f1af70@16029:579"
+      ],
+      "portable_bodies": [],
+      "review": "Whole original/current body/CIL exact: nonnumeric returns original object by reference; invariant numeric conversion within real native catch returns same object on exception; only after success read AppGlobals.PValuePresentation afresh and call accepted Core FormatForDisplay. No cached settings, thresholds, finite rejection or precision change. Full settings/services/formatter type/field/initializer/method context pinned to original passive metadata.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0930af4a3f1a65dc@11324:1506",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "PrepareResultTableForUdf",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Friend Function PrepareResultTableForUdf(table As ResultTable) As Object(,)\n        If table Is Nothing Then Return Nothing\n\n        Dim model As ResultTableOutputModel = table.ToOutputModel()\n        Dim out As Object(,) = PrepareResultTableForUdf(model.Values)\n        If out Is Nothing Then Return Nothing\n\n        Dim firstBodyRow As Integer = model.TitleRows + model.HeaderTopRows\n        Dim lastBodyRow As Integer = out.GetLength(0) - model.FooterRows - 1\n\n        For Each bodyColumn As Integer In model.PvalueColumns\n            Dim columnIndex As Integer = model.HeaderLeftColumns + bodyColumn - 1\n            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For\n\n            For rowIndex As Integer = Math.Max(0, firstBodyRow) To Math.Min(lastBodyRow, out.GetLength(0) - 1)\n                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))\n            Next\n        Next\n\n        For Each address As ResultTableCellAddress In model.PvalueCells\n            Dim rowIndex As Integer = firstBodyRow + address.BodyRow - 1\n            Dim columnIndex As Integer = model.HeaderLeftColumns + address.BodyColumn - 1\n            If rowIndex < firstBodyRow OrElse rowIndex > lastBodyRow Then Continue For\n            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For\n            out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))\n        Next\n\n        Return out\n    End Function",
+      "current_whole_body": "    Friend Function PrepareResultTableForUdf(table As ResultTable) As Object(,)\n        If table Is Nothing Then Return Nothing\n\n        Dim model As ResultTableOutputModel = table.ToOutputModel()\n        Dim out As Object(,) = PrepareResultTableForUdf(model.Values)\n        If out Is Nothing Then Return Nothing\n\n        For Each address In Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.PvalueCells(model, out.GetLength(0), out.GetLength(1))\n            out(address.RowOrdinal, address.ColumnOrdinal) = FormatPValueForUdf(out(address.RowOrdinal, address.ColumnOrdinal))\n        Next\n\n        Return out\n    End Function",
+      "original_body_sha256": "e7caa74dec9574852cf4b9836ea0493101729f40508d2892732373d8457da361",
+      "current_body_sha256": "97008a618f0c9b32855176dddc5c8e76b3f7c4990743dc6f489c025fd63d0160",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|275c6da426aa4b6f@15597:424"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+          "name": "PvalueCells",
+          "whole_body": "        Public Shared Function PvalueCells(model As Global.BESHStatNG.ResultTableOutputModel,\n                                          rows As Integer, columns As Integer) As UdfSpillCell38()\n            Dim result As New List(Of UdfSpillCell38)()\n            Dim firstBodyRow As Integer = model.TitleRows + model.HeaderTopRows\n            Dim lastBodyRow As Integer = rows - model.FooterRows - 1\n            For Each bodyColumn As Integer In model.PvalueColumns\n                Dim columnIndex As Integer = model.HeaderLeftColumns + bodyColumn - 1\n                If columnIndex < 0 OrElse columnIndex >= columns Then Continue For\n                For rowIndex As Integer = Math.Max(0, firstBodyRow) To Math.Min(lastBodyRow, rows - 1)\n                    result.Add(New UdfSpillCell38(rowIndex, columnIndex))\n                Next\n            Next\n            For Each address As Global.BESHStatNG.ResultTableCellAddress In model.PvalueCells\n                Dim rowIndex As Integer = firstBodyRow + address.BodyRow - 1\n                Dim columnIndex As Integer = model.HeaderLeftColumns + address.BodyColumn - 1\n                If rowIndex < firstBodyRow OrElse rowIndex > lastBodyRow Then Continue For\n                If columnIndex < 0 OrElse columnIndex >= columns Then Continue For\n                result.Add(New UdfSpillCell38(rowIndex, columnIndex))\n            Next\n            Return result.ToArray()\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+            "bytes": 5095,
+            "sha256": "59889f3e18e61b6de75a53f76fa4dd8cad080e01e612872dfaf16315bf4361e7"
+          }
+        }
+      ],
+      "review": "ResultTable null guard, ToOutputModel then original Object normalization; fresh model owns nonnull copied metadata lists. Original column-first then explicit-cell loops use identical coordinate formulas, range tests and duplicate order. Address-list preparation has no user callbacks or host settings reads; formatting sees only CLR primitive/enum numeric cells, so no caller/model mutation can interleave. Keep per-cell AppGlobals read, blank/error preservation and output shape. Accepted ResultTable/OutputModel constructors and ToOutputModel full source/IL unchanged.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|e280472dc17ca06d@15015:574",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "IsPValueLabel",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Private Function IsPValueLabel(value As Object) As Boolean\n        If value Is Nothing OrElse TypeOf value Is DBNull Then Return False\n        Dim label As String = Convert.ToString(value, CultureInfo.InvariantCulture)\n        If String.IsNullOrWhiteSpace(label) Then Return False\n\n        Dim normalized As New System.Text.StringBuilder(label.Length)\n        For Each ch As Char In label\n            If Char.IsLetterOrDigit(ch) Then normalized.Append(Char.ToLowerInvariant(ch))\n        Next\n        Return normalized.ToString().Contains(\"pvalue\")\n    End Function",
+      "current_whole_body": "    Private Function IsPValueLabel(value As Object) As Boolean\n        If value Is Nothing OrElse TypeOf value Is DBNull Then Return False\n        Return Global.BESHStatNG.ExcelCommon.UdfSpillPreparation38.IsPValueLabel(Convert.ToString(value, CultureInfo.InvariantCulture))\n    End Function",
+      "original_body_sha256": "7885af6ea07552b8b5e58296158498deb4a9dfed79dd45c2b72dcf5a45eef48b",
+      "current_body_sha256": "d04711c0b59b85d2b388aec36afb156b657d441ced5b5cfbe1fc6d94fb539bac",
+      "dependency_ids": [],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+          "name": "IsPValueLabel",
+          "whole_body": "        Public Shared Function IsPValueLabel(label As String) As Boolean\n            If String.IsNullOrWhiteSpace(label) Then Return False\n            Dim normalized As New System.Text.StringBuilder(label.Length)\n            For Each ch As Char In label\n                If Char.IsLetterOrDigit(ch) Then normalized.Append(Char.ToLowerInvariant(ch))\n            Next\n            Return normalized.ToString().Contains(\"pvalue\")\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+            "bytes": 5095,
+            "sha256": "59889f3e18e61b6de75a53f76fa4dd8cad080e01e612872dfaf16315bf4361e7"
+          }
+        }
+      ],
+      "review": "Native null/DBNull guards precede invariant Convert.ToString; Common preserves blank rejection, Unicode letter/digit lower-invariant filtering and Contains(pvalue). No Excel interpretation or label normalization change.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|225370e3746663e1@12968:689",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "PreparePValueTableForUdf",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Friend Function PreparePValueTableForUdf(table As Object, ParamArray pvalueColumns() As Integer) As Object(,)\n        Dim out As Object(,) = PrepareResultTableForUdf(table)\n        If out Is Nothing OrElse pvalueColumns Is Nothing Then Return out\n\n        For Each columnNumber As Integer In pvalueColumns\n            Dim columnIndex As Integer = columnNumber - 1\n            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For\n\n            For rowIndex As Integer = 0 To out.GetLength(0) - 1\n                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))\n            Next\n        Next\n\n        Return out\n    End Function",
+      "current_whole_body": "    Friend Function PreparePValueTableForUdf(table As Object, ParamArray pvalueColumns() As Integer) As Object(,)\n        Dim out As Object(,) = PrepareResultTableForUdf(table)\n        If out Is Nothing OrElse pvalueColumns Is Nothing Then Return out\n\n        For Each columnNumber As Integer In pvalueColumns\n            Dim columnIndex As Integer = columnNumber - 1\n            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For\n\n            For rowIndex As Integer = 0 To out.GetLength(0) - 1\n                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))\n            Next\n        Next\n\n        Return out\n    End Function",
+      "original_body_sha256": "0f2c5e5d68fa5d2389de51abdd2113586262f0c1ce0dd3004c214dacfb5d9e75",
+      "current_body_sha256": "0f2c5e5d68fa5d2389de51abdd2113586262f0c1ce0dd3004c214dacfb5d9e75",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|275c6da426aa4b6f@15597:424"
+      ],
+      "portable_bodies": [],
+      "review": "Whole original/current resolved CIL and source exact. Normalize first, return on null output/column list; one-based column subtraction and bounds before row-major formatting within each supplied column; duplicate columns, integer overflow, blank/string/error identity and per-cell setting reads unchanged.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|9b36d7f06903deb8@13847:570",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "PreparePValueRowsForUdf",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Friend Function PreparePValueRowsForUdf(table As Object) As Object(,)\n        Dim out As Object(,) = PrepareResultTableForUdf(table)\n        If out Is Nothing OrElse out.GetLength(1) < 2 Then Return out\n\n        For rowIndex As Integer = 0 To out.GetLength(0) - 1\n            If Not IsPValueLabel(out(rowIndex, 0)) Then Continue For\n            For columnIndex As Integer = 1 To out.GetLength(1) - 1\n                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))\n            Next\n        Next\n\n        Return out\n    End Function",
+      "current_whole_body": "    Friend Function PreparePValueRowsForUdf(table As Object) As Object(,)\n        Dim out As Object(,) = PrepareResultTableForUdf(table)\n        If out Is Nothing OrElse out.GetLength(1) < 2 Then Return out\n\n        For rowIndex As Integer = 0 To out.GetLength(0) - 1\n            If Not IsPValueLabel(out(rowIndex, 0)) Then Continue For\n            For columnIndex As Integer = 1 To out.GetLength(1) - 1\n                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))\n            Next\n        Next\n\n        Return out\n    End Function",
+      "original_body_sha256": "a8995a3529216f4dc62965ccd7325f1335df8e2392f5dd2237ebbd907697ce69",
+      "current_body_sha256": "a8995a3529216f4dc62965ccd7325f1335df8e2392f5dd2237ebbd907697ce69",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|e280472dc17ca06d@15015:574",
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|275c6da426aa4b6f@15597:424"
+      ],
+      "portable_bodies": [],
+      "review": "Whole original/current resolved CIL and source exact. Normalize first; null/<2-column short circuit; inspect first-column label before formatting remaining columns in row order; no new header skips or p-value eligibility changes.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|SubBlock|ebd7a718cf8e38b6@14425:582",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "MarkPValueRows",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Private Sub MarkPValueRows(table As ResultTable, body As Object(,))\n        If table Is Nothing OrElse body Is Nothing OrElse body.GetLength(1) < 2 Then Return\n\n        For rowIndex As Integer = 0 To body.GetLength(0) - 1\n            If Not IsPValueLabel(body(rowIndex, 0)) Then Continue For\n            For columnIndex As Integer = 1 To body.GetLength(1) - 1\n                If IsNumericValue(body(rowIndex, columnIndex)) Then\n                    table.AddPvalueCellToFormat(rowIndex + 1, columnIndex + 1)\n                End If\n            Next\n        Next\n    End Sub",
+      "current_whole_body": "    Private Sub MarkPValueRows(table As ResultTable, body As Object(,))\n        If table Is Nothing OrElse body Is Nothing OrElse body.GetLength(1) < 2 Then Return\n\n        For rowIndex As Integer = 0 To body.GetLength(0) - 1\n            If Not IsPValueLabel(body(rowIndex, 0)) Then Continue For\n            For columnIndex As Integer = 1 To body.GetLength(1) - 1\n                If IsNumericValue(body(rowIndex, columnIndex)) Then\n                    table.AddPvalueCellToFormat(rowIndex + 1, columnIndex + 1)\n                End If\n            Next\n        Next\n    End Sub",
+      "original_body_sha256": "c76e509d8e81e43c79cce7a0b1b79ec0a92db770125335270f5c3edd91b9d9d2",
+      "current_body_sha256": "c76e509d8e81e43c79cce7a0b1b79ec0a92db770125335270f5c3edd91b9d9d2",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|e280472dc17ca06d@15015:574",
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|c14bdd6fe1f1af70@16029:579"
+      ],
+      "portable_bodies": [],
+      "review": "Whole original/current resolved CIL and source exact. Null/table/body/width guards before row-label recognition; only eligible cells get one-based body addresses in original row/column order; duplicate metadata semantics remain Core-owned.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|b77af7de56dd988d@16991:442",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "StackResultTables",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Friend Function StackResultTables(tables As List(Of ResultTable)) As Object(,)\n        If tables Is Nothing OrElse tables.Count = 0 Then Return Nothing\n        Dim stacked As Object(,) = Nothing\n        For Each t In tables\n            Dim arr As Object(,) = PrepareResultTableForUdf(t)\n            stacked = PrepareResultTableForUdf(ParametricUDFs.StackWithBlankRow(stacked, arr))\n        Next\n        Return stacked\n    End Function",
+      "current_whole_body": "    Friend Function StackResultTables(tables As List(Of ResultTable)) As Object(,)\n        If tables Is Nothing OrElse tables.Count = 0 Then Return Nothing\n        Dim stacked As Object(,) = Nothing\n        For Each t In tables\n            Dim arr As Object(,) = PrepareResultTableForUdf(t)\n            stacked = PrepareResultTableForUdf(ParametricUDFs.StackWithBlankRow(stacked, arr))\n        Next\n        Return stacked\n    End Function",
+      "original_body_sha256": "c90fde36fa29579c7443456359f8abae819616ce8353e14d8fd3ed2358c0dd92",
+      "current_body_sha256": "c90fde36fa29579c7443456359f8abae819616ce8353e14d8fd3ed2358c0dd92",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+        "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|0b82712d3fec65fc@60502:916"
+      ],
+      "portable_bodies": [],
+      "review": "Whole original/current resolved CIL and source exact. Null/empty list returns Nothing; process table list in order, prepare each metadata-bearing table, stack with existing exact Common blank-row layout, then normalize after every append. Local partial result not returned on exception.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|3b411fab66492827@829:275",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "BuildResultTable",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Friend Function BuildResultTable(title As String, body As Object(,)) As Object(,)\n        Dim t As New ResultTable\n        t.SetBody(body)\n        MarkPValueRows(t, body)\n        t.AddHeaderTopRow({title, \"\"})\n        Return PrepareResultTableForUdf(t)\n    End Function",
+      "current_whole_body": "    Friend Function BuildResultTable(title As String, body As Object(,)) As Object(,)\n        Dim t As New ResultTable\n        t.SetBody(body)\n        MarkPValueRows(t, body)\n        t.AddHeaderTopRow({title, \"\"})\n        Return PrepareResultTableForUdf(t)\n    End Function",
+      "original_body_sha256": "c1df4911b261c0f4f7f1b4c61f05b8a07c3b90e63bd86381c4269fabd798d524",
+      "current_body_sha256": "c1df4911b261c0f4f7f1b4c61f05b8a07c3b90e63bd86381c4269fabd798d524",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|SubBlock|ebd7a718cf8e38b6@14425:582",
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826"
+      ],
+      "portable_bodies": [],
+      "review": "Whole original/current resolved CIL and source exact. Construct accepted ResultTable, SetBody, mark numeric p-value rows, add title header, then metadata-bearing preparation; preserve sequence, metadata coordinates, blank propagation and original body ownership.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0aa2ea98fc091242@16740:243",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+      "name": "ClampProb",
+      "owner": "BESHStatNG.UdfOutputTables",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UdfOutputTables.vb.txt",
+        "bytes": 19696,
+        "sha256": "45c4737ced6dbe1fa7b1b13abb6985d493f0c2209ec69bfc6374c01ad14cbc64"
+      },
+      "original_whole_body": "    Friend Function ClampProb(p As Double) As Object\n        If Double.IsNaN(p) OrElse Double.IsInfinity(p) Then Return ExcelError.ExcelErrorNum\n        If p < 0.0 Then p = 0.0\n        If p > 1.0 Then p = 1.0\n        Return p\n    End Function",
+      "current_whole_body": "    Friend Function ClampProb(p As Double) As Object\n        If Double.IsNaN(p) OrElse Double.IsInfinity(p) Then Return ExcelError.ExcelErrorNum\n        Return Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ClampProbabilityValue(p)\n    End Function",
+      "original_body_sha256": "6c49e1e6c4b1b18090a12b961044cb69633a2d1cfeb660987849530a36030e52",
+      "current_body_sha256": "5b8b5ba23c2d7ffe2f67bf7a0bf1f07f7fae574df08628e3bf61b99346449f4b",
+      "dependency_ids": [],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+          "name": "ClampProbabilityValue",
+          "whole_body": "        Public Shared Function ClampProbabilityValue(value As Double) As Double\n            If value < 0.0R Then Return 0.0R\n            If value > 1.0R Then Return 1.0R\n            Return value\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Core/src/WorksheetFunctions/UdfNumericPreparation38.vb",
+            "bytes": 22982,
+            "sha256": "105b84279a001933893d36417c1a7160b3ea1e02ad9a942dffa9000e902ad3a6"
+          }
+        }
+      ],
+      "review": "Native NaN/infinity returns ExcelErrorNum before portable min/max clamp. Original negative-to-zero/greater-than-one-to-one/otherwise identity with signed zero unchanged; no scientific p-value change.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|f49139737bf6c76c@2546:1533",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "name": "ANOVA1",
+      "owner": "BESHStatNG.WorksheetFunctions.ParametricUDFs",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+        "bytes": 62170,
+        "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+      },
+      "original_whole_body": "        Public Function ANOVA1(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Dim mdl As New parametric.OneWayANOVA(data, names)\n                mdl.compute()\n                Dim tables = mdl.wrapResults()\n                Return PrepareResultTableForUdf(tables(0))\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "current_whole_body": "        Public Function ANOVA1(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayAnovaTable(data, names))\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "original_body_sha256": "d34654b621a10545ccdfcf0d9bb9b0da9c193a9e0665638679565b6eb452e9da",
+      "current_body_sha256": "fde1022791b320f3650f0a21bff452155d28c971086a4a0128bd44e35b04c4f1",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+        "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+        "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb|BESHStatNG.UDFhelpers|FunctionBlock|b48bd79d93052119@119:585"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+          "name": "BuildOneWayAnovaTable",
+          "whole_body": "        Public Shared Function BuildOneWayAnovaTable(data()() As Double, names() As String) As Global.BESHStatNG.ResultTable\n            Dim mdl As New Global.BESHStatNG.parametric.OneWayANOVA(data, names)\n            mdl.compute()\n            Dim tables = mdl.wrapResults()\n            Return tables(0)\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+            "bytes": 45155,
+            "sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+          }
+        }
+      ],
+      "review": "Full C4 independently checked original/current source substitution and actual CIL rebound unchanged. Import then group-count rejection then lazy names; MCP alpha before selector conversion, existing engine construction/compute before selector rejection. Classical compute/wrap/table0; Welch compute then original WelshANOVA, same cell types/labels/SetBody/pvalue-column/header order; MCP exact aliases/actions/ALL order, selected table1 or sequential rendering/stack with final normalization once. Entire OneWayANOVA engine and ResultTable source/IL/context unchanged; native real catch/logging/error fallback preserved. All surrounding named dependencies now supported rather than merely the report call edge.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|92e012471d500c66@5814:1980",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "name": "ANOVA1_WELCH",
+      "owner": "BESHStatNG.WorksheetFunctions.ParametricUDFs",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+        "bytes": 62170,
+        "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+      },
+      "original_whole_body": "        Public Function ANOVA1_WELCH(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Dim mdl As New parametric.OneWayANOVA(data, names)\n                mdl.compute()\n                Dim w = mdl.WelshANOVA()\n\n                Dim body(0, 3) As Object\n                body(0, 0) = data.Length - 1\n                body(0, 1) = w.DF1\n                body(0, 2) = w.TestStatistics1\n                body(0, 3) = w.Pvalue\n\n                Dim t As New ResultTable\n                t.SetBody(body)\n                t.AddPvalueToFormat(4)\n                t.AddHeaderLeftRow({\"Welch ANOVA\"})\n                t.AddHeaderTopRow({\"Source\", \"df numerator\", \"df denominator\", \"F\", \"P-value\"})\n                Return PrepareResultTableForUdf(t)\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_WELCH\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "current_whole_body": "        Public Function ANOVA1_WELCH(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n                Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildWelchAnovaTable(data, names))\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_WELCH\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "original_body_sha256": "2cffb719b77a1bc0494bd4e2e48e91c4a64597b4c688b701102f7039391b5df8",
+      "current_body_sha256": "2d9f3f10c3ee2f6df1a00224dc84e3b721a5c5245e521a9c6b948b06d66da97b",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+        "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+        "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb|BESHStatNG.UDFhelpers|FunctionBlock|b48bd79d93052119@119:585"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+          "name": "BuildWelchAnovaTable",
+          "whole_body": "        Public Shared Function BuildWelchAnovaTable(data()() As Double, names() As String) As Global.BESHStatNG.ResultTable\n            Dim mdl As New Global.BESHStatNG.parametric.OneWayANOVA(data, names)\n            mdl.compute()\n            Dim w = mdl.WelshANOVA()\n\n            Dim body(0, 3) As Object\n            body(0, 0) = data.Length - 1\n            body(0, 1) = w.DF1\n            body(0, 2) = w.TestStatistics1\n            body(0, 3) = w.Pvalue\n\n            Dim t As New Global.BESHStatNG.ResultTable\n            t.SetBody(body)\n            t.AddPvalueToFormat(4)\n            t.AddHeaderLeftRow({\"Welch ANOVA\"})\n            t.AddHeaderTopRow({\"Source\", \"df numerator\", \"df denominator\", \"F\", \"P-value\"})\n            Return t\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+            "bytes": 45155,
+            "sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+          }
+        }
+      ],
+      "review": "Full C4 independently checked original/current source substitution and actual CIL rebound unchanged. Import then group-count rejection then lazy names; MCP alpha before selector conversion, existing engine construction/compute before selector rejection. Classical compute/wrap/table0; Welch compute then original WelshANOVA, same cell types/labels/SetBody/pvalue-column/header order; MCP exact aliases/actions/ALL order, selected table1 or sequential rendering/stack with final normalization once. Entire OneWayANOVA engine and ResultTable source/IL/context unchanged; native real catch/logging/error fallback preserved. All surrounding named dependencies now supported rather than merely the report call edge.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|48e659350cca435d@19669:3886",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+      "name": "ANOVA1_MCP",
+      "owner": "BESHStatNG.WorksheetFunctions.ParametricUDFs",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/ParametricUDFs.vb.txt",
+        "bytes": 62170,
+        "sha256": "87d618aabff82cfdcd6db2601a00d84296fc9e202a7b450c4430e6349f41f6f1"
+      },
+      "original_whole_body": "        Public Function ANOVA1_MCP(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing,\n            <ExcelArgument(Name:=\"method\", Description:=\"Optional: tukey/tukey-kramer (default), games-howell, lsd/fisher, bonferroni, or all.\")> Optional method As Object = Nothing,\n            <ExcelArgument(Name:=\"alpha\", Description:=\"Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).\")> Optional alpha As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n\n                Dim alphaValue As Double = 0.05\n                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum\n\n                Dim which As String = NormalizeText(method)\n                Dim mdl As New parametric.OneWayANOVA(data, names)\n                mdl.compute()\n\n                Select Case which\n                    Case \"\", \"TUKEY\", \"TUKEYKRAMER\", \"TUKEY-KRAMER\", \"TK\"\n                        mdl.TukeyKramer(alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"GAMESHOWELL\", \"GAMES-HOWELL\", \"GH\", \"GAMES\"\n                        mdl.GamesHowell(alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"LSD\", \"FISHER\", \"FISHERLSD\", \"FISHER-LSD\"\n                        mdl.FisherLSD(False, alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"BONF\", \"BONFERRONI\"\n                        mdl.FisherLSD(True, alphaValue)\n                        Dim tables = mdl.wrapResults()\n                        Return PrepareResultTableForUdf(tables(1))\n\n                    Case \"ALL\", \"BOTH\"\n                        mdl.FisherLSD(False, alphaValue)\n                        mdl.FisherLSD(True, alphaValue)\n                        mdl.TukeyKramer(alphaValue)\n                        mdl.GamesHowell(alphaValue)\n\n                        Dim tables = mdl.wrapResults()\n                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))\n                        For i As Integer = 2 To tables.Count - 1\n                            stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))\n                        Next\n                        Return PrepareResultTableForUdf(stacked)\n\n                    Case Else\n                        Return ExcelError.ExcelErrorValue\n                End Select\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_MCP\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "current_whole_body": "        Public Function ANOVA1_MCP(\n            <ExcelArgument(Name:=\"groups\", Description:=\"Multi-column range; one column per group. First row may contain headers.\")> groups As Object,\n            <ExcelArgument(Name:=\"groupNames\", Description:=\"Optional group names as comma-separated text or 1-row/1-column range.\")> Optional groupNames As Object = Nothing,\n            <ExcelArgument(Name:=\"method\", Description:=\"Optional: tukey/tukey-kramer (default), games-howell, lsd/fisher, bonferroni, or all.\")> Optional method As Object = Nothing,\n            <ExcelArgument(Name:=\"alpha\", Description:=\"Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).\")> Optional alpha As Object = Nothing\n        ) As Object\n            Try\n                Dim data()() As Double = Nothing\n                Dim detectedNames() As String = Nothing\n                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then\n                    Return ExcelError.ExcelErrorValue\n                End If\n                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum\n\n                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, \"Group\")\n\n                Dim alphaValue As Double = 0.05\n                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum\n\n                Dim which As String = NormalizeText(method)\n                Dim stackAll As Boolean = False\n                Dim tables = Global.BESHStatNG.ExcelCommon.ParametricUdfReports38.BuildOneWayMcpTables(data, names, which, alphaValue, stackAll)\n                If tables Is Nothing Then Return ExcelError.ExcelErrorValue\n                If Not stackAll Then Return PrepareResultTableForUdf(tables(1))\n                Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))\n                For i As Integer = 2 To tables.Count - 1\n                    stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))\n                Next\n                Return PrepareResultTableForUdf(stacked)\n            Catch ex As Exception\n                Return LoggedUdfError(\"BESH.PAR.ANOVA1_MCP\", ex, ExcelError.ExcelErrorValue)\n            End Try\n        End Function",
+      "original_body_sha256": "4947dfbc9cdca18cbb858df3d6d9e71ee01137b4f2edc6c67e3e801553286e44",
+      "current_body_sha256": "8f93a3efcd70673693f1df25e3436028f8195d1217bb6ee510eeadc7bd1557ef",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec04546ffeaf0df4@5641:307",
+        "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|d58387d9a054c961@58740:1225",
+        "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|0b8c41739ffaa923@5864:902",
+        "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|603632dd8d74d641@1004:159",
+        "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb|BESHStatNG.UdfOutputTables|FunctionBlock|0b974951799f68dc@10051:826",
+        "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|0b82712d3fec65fc@60502:916",
+        "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb|BESHStatNG.UDFhelpers|FunctionBlock|b48bd79d93052119@119:585"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+          "name": "BuildOneWayMcpTables",
+          "whole_body": "        Public Shared Function BuildOneWayMcpTables(data()() As Double, names() As String, which As String, alphaValue As Double, ByRef stackAll As Boolean) As List(Of Global.BESHStatNG.ResultTable)\n            Dim mdl As New Global.BESHStatNG.parametric.OneWayANOVA(data, names)\n            mdl.compute()\n            stackAll = False\n            Select Case LegacyUdfText38.CaseToken(which, New String() {\"\", \"TUKEY\", \"TUKEYKRAMER\", \"TUKEY-KRAMER\", \"TK\", \"GAMESHOWELL\", \"GAMES-HOWELL\", \"GH\", \"GAMES\", \"LSD\", \"FISHER\", \"FISHERLSD\", \"FISHER-LSD\", \"BONF\", \"BONFERRONI\", \"ALL\", \"BOTH\"})\n                Case \"\", \"TUKEY\", \"TUKEYKRAMER\", \"TUKEY-KRAMER\", \"TK\"\n                    mdl.TukeyKramer(alphaValue)\n                Case \"GAMESHOWELL\", \"GAMES-HOWELL\", \"GH\", \"GAMES\"\n                    mdl.GamesHowell(alphaValue)\n                Case \"LSD\", \"FISHER\", \"FISHERLSD\", \"FISHER-LSD\"\n                    mdl.FisherLSD(False, alphaValue)\n                Case \"BONF\", \"BONFERRONI\"\n                    mdl.FisherLSD(True, alphaValue)\n                Case \"ALL\", \"BOTH\"\n                    mdl.FisherLSD(False, alphaValue)\n                    mdl.FisherLSD(True, alphaValue)\n                    mdl.TukeyKramer(alphaValue)\n                    mdl.GamesHowell(alphaValue)\n                    stackAll = True\n                Case Else\n                    Return Nothing\n            End Select\n            Return mdl.wrapResults()\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+            "bytes": 45155,
+            "sha256": "24951f8057cc1d01ba22819b053b379d95d9a5494ca53920b619332a9bd42b8c"
+          }
+        }
+      ],
+      "review": "Full C4 independently checked original/current source substitution and actual CIL rebound unchanged. Import then group-count rejection then lazy names; MCP alpha before selector conversion, existing engine construction/compute before selector rejection. Classical compute/wrap/table0; Welch compute then original WelshANOVA, same cell types/labels/SetBody/pvalue-column/header order; MCP exact aliases/actions/ALL order, selected table1 or sequential rendering/stack with final normalization once. Entire OneWayANOVA engine and ResultTable source/IL/context unchanged; native real catch/logging/error fallback preserved. All surrounding named dependencies now supported rather than merely the report call edge.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|9700fe899e4bb41e@25614:393",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "name": "FindLastNonBlankRow",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      },
+      "original_whole_body": "    Friend Function FindLastNonBlankRow(arr As Object(,)) As Integer\n        If arr Is Nothing Then Return -1\n\n        For i As Integer = arr.GetLength(0) - 1 To 0 Step -1\n            For j As Integer = 0 To arr.GetLength(1) - 1\n                If Not IsBlankCell(arr(i, j)) Then\n                    Return i\n                End If\n            Next\n        Next\n\n        Return -1\n    End Function",
+      "current_whole_body": "    Friend Function FindLastNonBlankRow(arr As Object(,)) As Integer\n        If arr Is Nothing Then Return -1\n        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.FindLastNonBlankRow(arr.GetLength(0), arr.GetLength(1), Function(row, column) IsBlankCell(arr(row, column)))\n    End Function",
+      "original_body_sha256": "f8cdbf7f20f12bc05a89172ccee0630681a6d423707bb8fe886a014b375a03e8",
+      "current_body_sha256": "2574d43bc041603780882f363fc126704bd2e9c54e5db6dbb7d18f28d45026fd",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgPredicates|FunctionBlock|2aea0dcf3f874530@568:307"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+          "name": "FindLastNonBlankRow",
+          "whole_body": "        Public Shared Function FindLastNonBlankRow(rows As Integer, columns As Integer, blank As Func(Of Integer, Integer, Boolean)) As Integer\n\n        For i As Integer = rows - 1 To 0 Step -1\n            For j As Integer = 0 To columns - 1\n                If Not blank(i, j) Then\n                    Return i\n                End If\n            Next\n        Next\n\n        Return -1\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+            "bytes": 3912,
+            "sha256": "d92986a427d2925aea257dad77edf532aff28ea372d9a35bc7a8f3b66ee0fc7a"
+          }
+        }
+      ],
+      "review": "Complete original null/dimension guards stay in native adapter, followed by exact original portable scanning/validation operations. Reverse row/ascending column order for last-row search. Header probes preserve blank-before-number and first/second cell conversion order, including eager second probe, all-column checks and short circuits. Numeric and binary callbacks are native primitives with reviewed state/exception behavior; no array normalization or data/name mutation occurs here.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|f9b4e31af001d51d@26381:477",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "name": "HasNumericColumnHeader",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      },
+      "original_whole_body": "    Friend Function HasNumericColumnHeader(arr As Object(,), lastRow As Integer) As Boolean\n        If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False\n        If lastRow < 1 Then Return False\n        If IsBlankCell(arr(0, 0)) Then Return False\n        Dim firstIsNumeric As Boolean = TryGetDouble(arr(0, 0)).HasValue\n        Dim secondIsNumeric As Boolean = TryGetDouble(arr(1, 0)).HasValue\n        Return (Not firstIsNumeric) AndAlso secondIsNumeric\n    End Function",
+      "current_whole_body": "    Friend Function HasNumericColumnHeader(arr As Object(,), lastRow As Integer) As Boolean\n        If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False\n        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.HasNumericColumnHeader(lastRow, arr.GetLength(1), Function(row, column) IsBlankCell(arr(row, column)), Function(row, column) TryGetDouble(arr(row, column)).HasValue)\n    End Function",
+      "original_body_sha256": "396a523747bdd54333df6277e34f3a6b5e7ad6b4540393043b0812b87105e344",
+      "current_body_sha256": "67d298cdb4d09847cf13bb58e56d47aee8d54af5389cba16d06efe39152eeffa",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgPredicates|FunctionBlock|2aea0dcf3f874530@568:307",
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+          "name": "HasNumericColumnHeader",
+          "whole_body": "        Public Shared Function HasNumericColumnHeader(lastRow As Integer, columns As Integer, blank As Func(Of Integer, Integer, Boolean), numeric As Func(Of Integer, Integer, Boolean)) As Boolean\n        If lastRow < 1 Then Return False\n        If blank(0, 0) Then Return False\n        Dim firstIsNumeric As Boolean = numeric(0, 0)\n        Dim secondIsNumeric As Boolean = numeric(1, 0)\n        Return (Not firstIsNumeric) AndAlso secondIsNumeric\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+            "bytes": 3912,
+            "sha256": "d92986a427d2925aea257dad77edf532aff28ea372d9a35bc7a8f3b66ee0fc7a"
+          }
+        }
+      ],
+      "review": "Complete original null/dimension guards stay in native adapter, followed by exact original portable scanning/validation operations. Reverse row/ascending column order for last-row search. Header probes preserve blank-before-number and first/second cell conversion order, including eager second probe, all-column checks and short circuits. Numeric and binary callbacks are native primitives with reviewed state/exception behavior; no array normalization or data/name mutation occurs here.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|2f408f10d213da57@27231:450",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "name": "HasBinaryColumnHeader",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      },
+      "original_whole_body": "    Friend Function HasBinaryColumnHeader(arr As Object(,), lastRow As Integer) As Boolean\n        If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False\n        If lastRow < 1 Then Return False\n\n        Dim dummy As Integer\n        Dim firstIsBinary As Boolean = TryGetBinary01(arr(0, 0), dummy)\n        Dim secondIsBinary As Boolean = TryGetBinary01(arr(1, 0), dummy)\n        Return (Not firstIsBinary) AndAlso secondIsBinary\n    End Function",
+      "current_whole_body": "    Friend Function HasBinaryColumnHeader(arr As Object(,), lastRow As Integer) As Boolean\n        If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False\n        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.HasBinaryColumnHeader(lastRow, Function(row, column) IsBinaryCell38(arr(row, column)))\n    End Function",
+      "original_body_sha256": "99a0e17df096a2a809b0cdee3cf8f9a6ff1cf5e795293e1d9312d45a9673de45",
+      "current_body_sha256": "b5f29d068495275417d4468b74f11ff624dd605c602a145dbd1808abd244789c",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|807f56660248891f@5171:806"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+          "name": "HasBinaryColumnHeader",
+          "whole_body": "        Public Shared Function HasBinaryColumnHeader(lastRow As Integer, binary As Func(Of Integer, Integer, Boolean)) As Boolean\n        If lastRow < 1 Then Return False\n\n        Dim firstIsBinary As Boolean = binary(0, 0)\n        Dim secondIsBinary As Boolean = binary(1, 0)\n        Return (Not firstIsBinary) AndAlso secondIsBinary\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+            "bytes": 3912,
+            "sha256": "d92986a427d2925aea257dad77edf532aff28ea372d9a35bc7a8f3b66ee0fc7a"
+          }
+        }
+      ],
+      "review": "Complete original null/dimension guards stay in native adapter, followed by exact original portable scanning/validation operations. Reverse row/ascending column order for last-row search. Header probes preserve blank-before-number and first/second cell conversion order, including eager second probe, all-column checks and short circuits. Numeric and binary callbacks are native primitives with reviewed state/exception behavior; no array normalization or data/name mutation occurs here.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    },
+    {
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|099b4934aa8c10b4@29492:1263",
+      "new_support": true,
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+      "name": "HasNumericMatrixHeader",
+      "owner": "BESHStatNG.UdfDataImport",
+      "original_snapshot": {
+        "path": "evidence/04A38/preedit/source/UDFdataImport/UdfDataImportRangeReaders.vb.txt",
+        "bytes": 45541,
+        "sha256": "e182bcc319b19cfa6e0560f93f530f7975e5b830f81e374d8bb0050fe05e3185"
+      },
+      "original_whole_body": "    Friend Function HasNumericMatrixHeader(arr As Object(,), lastRow As Integer) As Boolean\n        If arr Is Nothing Then Return False\n        If lastRow < 1 Then Return False\n\n        Dim cols As Integer = arr.GetLength(1)\n        Dim anyNonBlankNonNumericFirstRow As Boolean = False\n        Dim anyNumericFirstRow As Boolean = False\n        For j As Integer = 0 To cols - 1\n            If IsBlankCell(arr(0, j)) Then Continue For\n\n            If TryGetDouble(arr(0, j)).HasValue Then\n                anyNumericFirstRow = True\n            Else\n                anyNonBlankNonNumericFirstRow = True\n            End If\n        Next\n\n        ' A real numeric-matrix header should look like labels, not like a data row\n        ' with one or more missing numeric values. This prevents explicit data ranges\n        ' whose first observation has missing values from being shortened before row-wise\n        ' complete-case filtering aligns y, x, subject, and visit.\n        If Not anyNonBlankNonNumericFirstRow Then Return False\n        If anyNumericFirstRow Then Return False\n\n        For j As Integer = 0 To cols - 1\n            If Not TryGetDouble(arr(1, j)).HasValue Then\n                Return False\n            End If\n        Next\n\n        Return True\n    End Function",
+      "current_whole_body": "    Friend Function HasNumericMatrixHeader(arr As Object(,), lastRow As Integer) As Boolean\n        If arr Is Nothing Then Return False\n        Return Global.BESHStatNG.ExcelCommon.UdfRangePreparation38.HasNumericMatrixHeader(lastRow, arr.GetLength(1), Function(row, column) IsBlankCell(arr(row, column)), Function(row, column) TryGetDouble(arr(row, column)).HasValue)\n    End Function",
+      "original_body_sha256": "ba5e56e8294df9416120876412b54ca4e085a417d28ac11a50cbd6ebfa02c502",
+      "current_body_sha256": "1b88451ed5474387b418b520d6b98e6759d9cdf067acdd323ecc0e750eb4b4d1",
+      "dependency_ids": [
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgPredicates|FunctionBlock|2aea0dcf3f874530@568:307",
+        "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb|BESHStatNG.WorksheetFunctions.ExcelArgNumeric|FunctionBlock|0ca2f29369aba58d@2582:625"
+      ],
+      "portable_bodies": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+          "name": "HasNumericMatrixHeader",
+          "whole_body": "        Public Shared Function HasNumericMatrixHeader(lastRow As Integer, columns As Integer, blank As Func(Of Integer, Integer, Boolean), numeric As Func(Of Integer, Integer, Boolean)) As Boolean\n        If lastRow < 1 Then Return False\n\n        Dim cols As Integer = columns\n        Dim anyNonBlankNonNumericFirstRow As Boolean = False\n        Dim anyNumericFirstRow As Boolean = False\n        For j As Integer = 0 To cols - 1\n            If blank(0, j) Then Continue For\n\n            If numeric(0, j) Then\n                anyNumericFirstRow = True\n            Else\n                anyNonBlankNonNumericFirstRow = True\n            End If\n        Next\n\n        ' A real numeric-matrix header should look like labels, not like a data row\n        ' with one or more missing numeric values. This prevents explicit data ranges\n        ' whose first observation has missing values from being shortened before row-wise\n        ' complete-case filtering aligns y, x, subject, and visit.\n        If Not anyNonBlankNonNumericFirstRow Then Return False\n        If anyNumericFirstRow Then Return False\n\n        For j As Integer = 0 To cols - 1\n            If Not numeric(1, j) Then\n                Return False\n            End If\n        Next\n\n        Return True\n        End Function",
+          "source_pin": {
+            "path": "BESHStat.Excel.Common/src/Analysis/UdfRangePreparation38.vb",
+            "bytes": 3912,
+            "sha256": "d92986a427d2925aea257dad77edf532aff28ea372d9a35bc7a8f3b66ee0fc7a"
+          }
+        }
+      ],
+      "review": "Complete original null/dimension guards stay in native adapter, followed by exact original portable scanning/validation operations. Reverse row/ascending column order for last-row search. Header probes preserve blank-before-number and first/second cell conversion order, including eager second probe, all-column checks and short circuits. Numeric and binary callbacks are native primitives with reviewed state/exception behavior; no array normalization or data/name mutation occurs here.",
+      "disposition": "REVIEWED_COMPLETE_SOURCE_COMPOSITION_WITH_ACTUAL_CIL_AND_RESOLVED_DEPENDENCIES",
+      "branch_proof": "Every statement/branch/short-circuit/inline under the exact reviewed source body is bound in the refreshed syntax crosswalk; no child closed by a declaration header",
+      "exception_byref": "All original native conversion/catch boundaries, assignment order, ByRef writes and returned array ownership reviewed as stated in the contract; no new original execution"
+    }
+  ],
+  "original_queries": 0,
+  "review_scope": "Complete selected original/current bodies and all portable sub-bodies, native host state, callbacks and named dependencies; no generic HOST_ONLY"
+}

@@ -1,0 +1,36 @@
+{
+  "suite": "Common",
+  "part": "main",
+  "name": "w3R-Common-main",
+  "outcomes": {
+    "Passed": 9394,
+    "Failed": 5
+  },
+  "cases": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-Common-main/cases.json",
+    "bytes": 3025858,
+    "sha256": "ab537eb7822ae48c5b6fe80f102285a5d73116d0f1269018ad4dbbf3b2856c3a"
+  },
+  "TRX": {
+    "path": ".test-rationalization-04A38.tmp/executions/w3R-Common-main/results/Common.trx",
+    "bytes": 332496952,
+    "sha256": "0fe210c0a326322510987d67484d5bdebc8e05e5c0ca7b8fcd8f06f25c0f5526"
+  },
+  "command": {
+    "command": [
+      "dotnet",
+      "vstest",
+      "<ISOLATED_RUN>\\executions\\w3R-Common-main\\sandbox\\BESHStat.Excel.Common.Tests\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+      "/Settings:<ISOLATED_RUN>\\executions\\w3R-Common-main\\serial.runsettings",
+      "/ResultsDirectory:<ISOLATED_RUN>\\executions\\w3R-Common-main\\results",
+      "/Logger:trx;LogFileName=Common.trx",
+      "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 1,
+    "seconds": 85.31885720000719,
+    "stdout_sha256": "fd164309d52d0f0242df028ec76edd37ffb2c2e4ef8372eff9e1b9f82bd9300a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  }
+}

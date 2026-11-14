@@ -1,0 +1,755 @@
+{
+  "status": "PRE_EDIT_EXECUTION_ATTEMPT_NOT_SEALED",
+  "rows": 13024,
+  "source_commit": "ba1636f5356ac761509c2cfa16fc66b92430935d",
+  "cases": {
+    "path": "evidence/04A38/preedit/attempts/capture-v1/cases.jsonl",
+    "bytes": 4351250,
+    "sha256": "87b8bbb77075cfd729ef310c54d374a3b65ed42f5e8cff0a444f5e081eb77b86"
+  },
+  "generator": {
+    "path": "evidence/04A38/capture_cases.py",
+    "bytes": 6610,
+    "sha256": "ad408bdeaf6e2d703f9ccc1bda5051695e9cedff7aa2c0ce6281e9b2742bdadf"
+  },
+  "recorder": {
+    "path": "evidence/04A38/helpers/Capture38.cs",
+    "bytes": 19506,
+    "sha256": "ee094639e565182d9a91c6126fc062f1d32289f70b5bab8c1a5a6d83d8481ded"
+  },
+  "parsers": [
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb|BESHStatNG.WorksheetFunctions.NonparametricUDFs|FunctionBlock|c40901b81f9a44fa@55935:1223",
+      "type": "BESHStatNG.WorksheetFunctions.NonparametricUDFs",
+      "name": "ParseKwType",
+      "literal_inputs": [
+        "COR",
+        "CORR",
+        "CORRECTED",
+        "H",
+        "HCOR",
+        "H_COR",
+        "RAW",
+        "TIE",
+        "TIES",
+        "UNCOR",
+        "UNCORRECTED"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb|BESHStatNG.WorksheetFunctions.ParametricUDFs|FunctionBlock|7167bd65dd336bac@61430:630",
+      "type": "BESHStatNG.WorksheetFunctions.ParametricUDFs",
+      "name": "ParseEqualVarianceMode",
+      "literal_inputs": [
+        "",
+        "ASSUME-EQUAL",
+        "ASSUME-UNEQUAL",
+        "ASSUMEEQUAL",
+        "ASSUMEUNEQUAL",
+        "EQUAL",
+        "POOLED",
+        "STUDENT",
+        "UNEQUAL",
+        "Unsupported variance method. Use welch or equal/pooled/student.",
+        "WELCH"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d521fef63ad9e043@51939:1065",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseRunMethod",
+      "literal_inputs": [
+        "cem",
+        "coarsenedexact",
+        "coarsenedexactmatching",
+        "iptw",
+        "matching",
+        "nearest",
+        "nearestneighbor",
+        "nn",
+        "optimal",
+        "optimalpair",
+        "optimalpairmatching",
+        "overlap",
+        "standardnearestneighbor",
+        "standardsubclassification",
+        "strata",
+        "subclass",
+        "subclassification",
+        "weighting",
+        "weightingonly",
+        "weights"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|ddeb09debb5d238b@53016:211",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseEstimand",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|6bbfbb3cd115c227@53239:556",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseScoreMethod",
+      "literal_inputs": [
+        "existing",
+        "glm",
+        "logistic",
+        "logisticregression",
+        "logit",
+        "propensityscore",
+        "score",
+        "supplied"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|675a03c3687b0bda@53807:872",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseDistance",
+      "literal_inputs": [
+        "logit",
+        "logitpropensity",
+        "logitpropensityscore",
+        "logitps",
+        "mahalanobis",
+        "mahalanobiswithinpropensitycaliper",
+        "mahalanobiswithpropensitycaliper",
+        "mahalanobiswithpscaliper",
+        "propensity",
+        "propensityscore",
+        "ps"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|2485a76036aa8e22@54691:1012",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseCaliperScale",
+      "literal_inputs": [
+        "0",
+        "false",
+        "logit",
+        "logitpropensityscore",
+        "logitps",
+        "no",
+        "none",
+        "ps",
+        "raw",
+        "rawpropensity",
+        "rawpropensityscore",
+        "rawps",
+        "sd",
+        "sdlogit",
+        "sdps",
+        "standardized",
+        "standardizedlogit",
+        "standardizedlogitpropensityscore",
+        "standardizedpropensityscore",
+        "standardizedps"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|a4c067785b072089@55715:882",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseOrder",
+      "literal_inputs": [
+        "ascending",
+        "asinput",
+        "bestfirst",
+        "descending",
+        "hardest",
+        "hardestfirst",
+        "input",
+        "original",
+        "propensityascending",
+        "propensitydescending",
+        "psascending",
+        "psdescending",
+        "random"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|d05992834cd8c5aa@56609:900",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseSupport",
+      "literal_inputs": [
+        "0",
+        "control",
+        "controls",
+        "dropcontrolsoutsidetreatedrange",
+        "dropoutsidcontrol",
+        "dropoutsideoverlaprange",
+        "dropoutsidetreated",
+        "droptreatedoutsidecontrolrange",
+        "false",
+        "minmax",
+        "no",
+        "none",
+        "overlap",
+        "treated"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|3838b7ccbc018d3d@57890:509",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseBoolean",
+      "literal_inputs": [
+        "0",
+        "1",
+        "f",
+        "false",
+        "n",
+        "no",
+        "off",
+        "on",
+        "t",
+        "true",
+        "y",
+        "yes"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|264e91352870dabf@58411:291",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseInteger",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|267c69b4ffc64d5f@58714:460",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "ParseDouble",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb|BESHStatNG.WorksheetFunctions.PropensityScoreUDFs|FunctionBlock|ff25a1167e816e49@59186:386",
+      "type": "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs",
+      "name": "NormalizeOptionKey",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb|BESHStatNG.WorksheetFunctions.MixedModelUDFs|FunctionBlock|114c024ced2c9330@90282:256",
+      "type": "BESHStatNG.WorksheetFunctions.MixedModelUDFs",
+      "name": "NormalizeDesignColumnName",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|38b91fc4e2ad7566@12980:273",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseAlphaOrDefault",
+      "literal_inputs": [
+        "alpha must be in the open interval (0, 1)."
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|ce563298be0f0d64@13261:911",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseAgreementCiMethod",
+      "literal_inputs": [
+        "",
+        "ANALYTIC",
+        "ANALYTICAL",
+        "BCA",
+        "BOOTSTRAP",
+        "BOOTSTRAPBCA",
+        "BOOTSTRAPPERCENTILE",
+        "BOOTSTRAP_BCA",
+        "BOOTSTRAP_PERCENTILE",
+        "JACK",
+        "JACKKNIFE",
+        "PERCENTILE",
+        "Unsupported ciMethod. Use analytical, jackknife, bootstrap, or bca."
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|87cb7db8290a0fc2@14180:770",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseBlandAltmanMode",
+      "literal_inputs": [
+        "",
+        "AUTO",
+        "PAIRS",
+        "REPEATED",
+        "REPEATEDBYSUBJECT",
+        "SIMPLE",
+        "SIMPLEPAIRS",
+        "SUBJECT",
+        "Unsupported Bland–Altman mode. Use auto, simple, or repeated."
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|61eefe4d50b146fe@14958:1042",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseBlandAltmanScale",
+      "literal_inputs": [
+        "",
+        "DIFF",
+        "DIFFERENCE",
+        "LOG",
+        "LOGRATIO",
+        "MEANPCT",
+        "PCTMEAN",
+        "PCTREF",
+        "PCTTEST",
+        "PERCENTMEAN",
+        "PERCENTOFMEAN",
+        "PERCENTOFREFERENCE",
+        "PERCENTOFTEST",
+        "PERCENTREF",
+        "PERCENTTEST",
+        "RATIO",
+        "RAW",
+        "RAWDIFFERENCE",
+        "REFERENCE",
+        "REFPCT",
+        "TESTPCT",
+        "Unsupported Bland–Altman scale."
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|c03d38c011bfa6a7@16008:713",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseBlandAltmanXAxisMode",
+      "literal_inputs": [
+        "",
+        "MEAN",
+        "MEANOFMETHODS",
+        "REF",
+        "REFERENCE",
+        "TEST",
+        "Unsupported Bland–Altman xAxis.",
+        "X",
+        "Y"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|6c9554b02dd0d7c3@16729:838",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseBlandAltmanPlotMode",
+      "literal_inputs": [
+        "",
+        "ALL",
+        "ALLANDMEANS",
+        "ALLOBSERVATIONS",
+        "ALLOBSERVATIONSANDSUBJECTMEANS",
+        "BOTH",
+        "MEANS",
+        "MEANSONLY",
+        "OBS",
+        "SUBJECTMEANS",
+        "Unsupported Bland–Altman plotMode."
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|d6de5d9132e15b4a@17575:1021",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseKappaWeighting",
+      "literal_inputs": [
+        "",
+        "CA",
+        "CICCHETTI",
+        "CICCHETTIALLISON",
+        "COHEN",
+        "CUSTOM",
+        "FC",
+        "FLEISS",
+        "FLEISSCOHEN",
+        "LINEAR",
+        "NONE",
+        "QUADRATIC",
+        "UNWEIGHTED",
+        "Unsupported kappa weighting scheme."
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|700acac27474a17f@18604:762",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseDemingVarianceModel",
+      "literal_inputs": [
+        "",
+        "CONSTANT",
+        "CONSTANTCV",
+        "CONSTANTLAMBDA",
+        "CV",
+        "KNOWNPOINTWISESD",
+        "LAMBDA",
+        "POINTWISE",
+        "POINTWISESD",
+        "SD",
+        "Unsupported Deming varianceModel."
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|8e97a1a3647f2279@19374:299",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseOptionalNullableDouble",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|c50a12b8e27b5044@19681:299",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseOptionalSeed",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb|BESHStatNG.UdfDataImport|FunctionBlock|efcf20225d4429c4@19988:757",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "ParseIccModel",
+      "literal_inputs": [
+        "",
+        "11",
+        "1K",
+        "21",
+        "2K",
+        "31",
+        "3K",
+        "ICC11",
+        "ICC1K",
+        "ICC21",
+        "ICC2K",
+        "ICC31",
+        "ICC3K",
+        "Unsupported ICC model. Use ICC11, ICC1K, ICC21, ICC2K, ICC31, or ICC3K."
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|ff25a1167e816e49@465:265",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "NormalizeOptionKey",
+      "literal_inputs": [
+        " ",
+        "-",
+        "_"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|9ffb0f0c5deb7bfe@3558:372",
+      "type": "BESHStatNG.UdfDataImport",
+      "name": "NormalizeRegressionOptionKey",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|c153721ea7532907@311:562",
+      "type": "BESHStatNG.UdfScalarUtilities",
+      "name": "NormalizeMatchToken",
+      "literal_inputs": [
+        " ",
+        "-",
+        "_"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|4f02f5d31aad2dbb@1310:164",
+      "type": "BESHStatNG.UdfScalarUtilities",
+      "name": "NormalizeToken",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|85ca50ff31c8e32d@1599:156",
+      "type": "BESHStatNG.UdfScalarUtilities",
+      "name": "NormalizeKey",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|49d32f28afb18f5c@2082:329",
+      "type": "BESHStatNG.UdfScalarUtilities",
+      "name": "NormalizeMixedModelOptionToken",
+      "literal_inputs": [],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|fc195a11b44740bb@2801:621",
+      "type": "BESHStatNG.UdfScalarUtilities",
+      "name": "ParseMixedModelFitMethodStrict",
+      "literal_inputs": [
+        " fitMethod. Use REML or ML.",
+        "MAXIMUMLIKELIHOOD",
+        "ML",
+        "REML",
+        "RESTRICTEDMAXIMUMLIKELIHOOD",
+        "RESTRICTEDML",
+        "Unsupported "
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|65ba76d89527230d@3856:1277",
+      "type": "BESHStatNG.UdfScalarUtilities",
+      "name": "ParseMixedModelInferenceMethodStrict",
+      "literal_inputs": [
+        " inference method. Use KR, Satterthwaite, BetweenWithin, ResidualDF, or Wald.",
+        "BETWEENWITHIN",
+        "BETWEENWITHINDF",
+        "BW",
+        "KENWARDROGER",
+        "KENWARDROGERDF",
+        "KENWARDROGERF",
+        "KR",
+        "LARGESAMPLENORMAL",
+        "NORMAL",
+        "RESID",
+        "RESIDUAL",
+        "RESIDUALDF",
+        "SAT",
+        "SATTERTHWAITE",
+        "SATTERTHWAITEDF",
+        "Unsupported ",
+        "WALD",
+        "WALDNORMAL",
+        "Z"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|eb5ec70fb627cb2b@5598:1769",
+      "type": "BESHStatNG.UdfScalarUtilities",
+      "name": "ParseMixedModelCovarianceOptimizerModeStrict",
+      "literal_inputs": [
+        " covOptimizerMode. Use AI, AverageInformation, FisherScoring, SAS, BFGS, BFGS_ANALYTIC, or BFGS_NUMERICAL.",
+        "AI",
+        "AIFISHERSCORINGDEFAULT",
+        "AIREML",
+        "ANALYTICBFGS",
+        "AVERAGEINFORMATION",
+        "AVERAGEINFORMATIONREML",
+        "BFGS",
+        "BFGSANALYTIC",
+        "BFGSAUTOGRADIENT",
+        "BFGSFINITE",
+        "BFGSFINITEDIFFERENCE",
+        "BFGSNUMERICAL",
+        "FISHER",
+        "FISHERSCORE",
+        "FISHERSCORING",
+        "NUMERICALBFGS",
+        "PROCMIXED",
+        "PROCMIXEDSTYLE",
+        "PROJECTEDBFGS",
+        "PROJECTEDBFGSANALYTIC",
+        "PROJECTEDBFGSANALYTICGRADIENT",
+        "PROJECTEDBFGSAUTO",
+        "PROJECTEDBFGSAUTOGRADIENT",
+        "PROJECTEDBFGSNUMERICAL",
+        "SAS",
+        "Unsupported "
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|0aa7ac88cca81bf1@7811:1529",
+      "type": "BESHStatNG.UdfScalarUtilities",
+      "name": "ParseMixedModelCovarianceGradientModeStrict",
+      "literal_inputs": [
+        " covGradientMode. Use Auto, Analytic, AnalyticValidation, Validate, Numerical, or FiniteDifference.",
+        "ANALYTIC",
+        "ANALYTICSCORE",
+        "ANALYTICSCOREFINITEDIFFERENCEVALIDATION",
+        "ANALYTICSCOREVALIDATION",
+        "ANALYTICSCOREWITHFINITEDIFFERENCEVALIDATION",
+        "ANALYTICVALIDATION",
+        "ANALYTICWITHVALIDATION",
+        "AUTO",
+        "AUTOANALYTICWHEREAVAILABLE",
+        "AUTOMATIC",
+        "FD",
+        "FINITE",
+        "FINITEDIFFERENCE",
+        "NUMERICAL",
+        "NUMERICALFINITEDIFFERENCE",
+        "SCORE",
+        "Unsupported ",
+        "VALIDATE",
+        "VALIDATION"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    },
+    {
+      "member_id": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb|BESHStatNG.UdfScalarUtilities|FunctionBlock|36cc743a7464b1d3@11023:1530",
+      "type": "BESHStatNG.UdfScalarUtilities",
+      "name": "NormalizeMixedModelResidualCovarianceName",
+      "literal_inputs": [
+        "AR",
+        "AR(1)",
+        "AR1",
+        "ARH",
+        "ARH1",
+        "AUTOREGRESSIVE",
+        "COMPOUNDSYMMETRY",
+        "CS",
+        "CSH",
+        "DIAG",
+        "DIAGONAL",
+        "DIAGONALHETEROGENEOUS",
+        "Diagonal",
+        "EXCHANGEABLE",
+        "HAR",
+        "HAR1",
+        "HCS",
+        "HETEROGENEOUSAR",
+        "HETEROGENEOUSAR1",
+        "HETEROGENEOUSAUTOREGRESSIVE",
+        "HETEROGENEOUSCOMPOUNDSYMMETRY",
+        "HETEROGENEOUSCS",
+        "HETEROGENEOUSDIAGONAL",
+        "HETEROGENEOUSTOEP",
+        "HETEROGENEOUSTOEPLITZ",
+        "Heterogeneous AR(1)",
+        "Heterogeneous CS",
+        "Heterogeneous Toeplitz (TOEPH)",
+        "ID",
+        "IDENTITY",
+        "INDEPENDENCE",
+        "Identity",
+        "TOEP",
+        "TOEPH",
+        "TOEPHETEROGENEOUS",
+        "TOEPLITZ",
+        "TOEPLITZHETEROGENEOUS",
+        "Toeplitz (TOEP)",
+        "UN",
+        "UNSTRUCTURED"
+      ],
+      "cultures": [
+        "",
+        "sk-SK"
+      ]
+    }
+  ],
+  "dimensions": "Named target/culture/argument/state, independently Cartesian; no id-modulo parameter selection.",
+  "native": "Explicit wizard-false test double; native coercion getter/call both blocked and counted. No ExcelReference constructed. Shipping native/registration branches source-only.",
+  "nondeterminism_policy": "Only runtime-created GUID identity entropy is replaced with a stable creation ordinal. Exact prefix, N format/length/case and all referential/cache relationships retained. No other output tolerance or normalization.",
+  "proof_limit": "A returned error or setup exception never counts as a valid calculation. Full matrix/ownership/source/coverage audit must pass before product edits; this pilot alone cannot authorize implementation."
+}

@@ -1,0 +1,52 @@
+{
+  "current_python": {
+    "total": 956,
+    "passed": 765,
+    "failed": 180,
+    "errors": 11
+  },
+  "previous_C1_final": {
+    "passed": 766,
+    "failed": 180,
+    "errors": 10
+  },
+  "source_pin_failure": {
+    "identity": {
+      "outcome": "FAIL",
+      "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+      "subtest": "(path='BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb')",
+      "occurrences": 1
+    },
+    "source_before": {
+      "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+      "bytes": 8846,
+      "sha256": "21f616d24d0b7473ff87b0b207d16c168ac324b1b04fa46a2273c8c95f6fab63"
+    },
+    "source_after": {
+      "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+      "bytes": 7836,
+      "sha256": "4a0a482f26d4b134cedf4d141359e90ad0d5c689195738e467c6d7089af38f8f"
+    },
+    "classification": "NEW_HISTORICAL_SOURCE_ASSERTION_NONPASS_FROM_AUTHORIZED_EXTRACTION_NOT_WAIVED",
+    "compatibility": "All312 distribution public frozen cases/config remain exact inside full29424/config replay; independent source operations and unchanged pinned Core engine prove intended move. Old expected hash/test remains unchanged."
+  },
+  "SPC": {
+    "extra": {
+      "outcome": "ERROR",
+      "identity": "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)",
+      "subtest": "",
+      "occurrences": 1
+    },
+    "lost": {
+      "outcome": "FAIL",
+      "identity": "test_all_retained_native_methods_and_appearance_remain_exact (test_04a22_spc.Spc22Contracts.test_all_retained_native_methods_and_appearance_remain_exact)",
+      "subtest": "",
+      "occurrences": 1
+    },
+    "classification": "UNCHANGED_SOURCE_AUDIT_UNORDERED_SET_FIRST_DISCREPANCY;INHERITED_NONPASS_NOT_A_NEW_SPC_PRODUCTION_EDIT",
+    "explanation": "test_04a22_spc.py iterates set(a)-changed; existing absent/changed native members may surface as first KeyError/ERROR or source-difference FAIL. No SPC file or audit expectation changed in this continuation. Historical controlled seed receipts remain under C1."
+  },
+  "managed_new_nonpasses": [],
+  "historical_managed_failures_retained": 14,
+  "all_old_Python_versions_retained": true
+}

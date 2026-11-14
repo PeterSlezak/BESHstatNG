@@ -1,0 +1,25 @@
+{
+  "command": {
+    "command": [
+      "<PYTHON>",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v5",
+      "-p",
+      "C4_controls_projected.py",
+      "-v"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 50.93303479999304,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "94b1c64cd64e3c4f599db858b9dc268039a22296127f419572c9a6f64c1c4dee",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "passed": true,
+  "projection": "Exact retained preimages for the four C5 modified existing source/test files. All mutations overlay after projection. Historical tests unchanged except explicit reader adapters.",
+  "original_queries": 0
+}

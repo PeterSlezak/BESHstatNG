@@ -1,0 +1,50 @@
+{
+  "role": "original",
+  "configuration": "Debug",
+  "mode": "plain",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/input-seal.json",
+    "bytes": 6539,
+    "sha256": "01cc313340fec74a06951d8456ecfaea06562c46ba3b3f7fd3b490e160ad8dec"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 38400,
+    "sha256": "907db11f195ebc69e5e420fabd3fb011295c25a9bdbe295bf1a706716ece4178"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Debug/plain/execution.json",
+      "bytes": 1178,
+      "sha256": "c14992c8e267b2a2a57d451d094781eaba42aa8ac7df13c8d164464aa10cd794"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Debug/plain/results.tsv",
+      "bytes": 33646,
+      "sha256": "c036ff73ec9a6eb56fef45551fc69254bf8b66375ff913795cfd7647af40d16e"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Debug/plain/results.tsv.sessions.json",
+      "bytes": 14789,
+      "sha256": "10245bbb4f1d85e43c3e76a0fd46e4a5421fc779d6d7f7ecf24992388eb3765a"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v3\\original-Debug-plain",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Debug.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\plain\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Debug\\plain\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.4623924999978044,
+    "stdout_sha256": "f91ed326f60e6adcb27e78fbf38a363949c6942a3e5f220ab64f6617ab6a8f56",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

@@ -1,0 +1,79 @@
+{
+  "commands": [
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v2\\verify_a1_dependency.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 0.37970510000013746,
+      "stdout_sha256": "4e19cf6470fbb237f3fe443f3007a116da6bf02c091a95cac88331fe662c4003",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    {
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v2\\recheck_preedit_isolated_v3.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "seconds": 16.28355249998276,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "eeda32b4f65bb35c78c5a7b9595b3a135568e1e68a8da8f5273c65d2d534f2ac",
+      "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    }
+  ],
+  "actual_tests": {
+    "label": "w2c2-preedit-unique-isolation-v3",
+    "total": 28,
+    "passed": 28,
+    "failed": 0,
+    "errors": 0,
+    "stderr_sha256": "eeda32b4f65bb35c78c5a7b9595b3a135568e1e68a8da8f5273c65d2d534f2ac",
+    "console_decoding": "utf-8-sig",
+    "exit_code": 0,
+    "identities": [
+      "test_case_descriptor_edit_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_descriptor_edit_rejected)",
+      "test_case_duplicate_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_duplicate_rejected)",
+      "test_case_omission_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_omission_rejected)",
+      "test_case_recorder_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_recorder_change_rejected)",
+      "test_case_reorder_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_case_reorder_rejected)",
+      "test_compiled_metadata_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_compiled_metadata_change_rejected)",
+      "test_drive_path_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_drive_path_rejected)",
+      "test_essential_grid_missing_cell_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_essential_grid_missing_cell_rejected)",
+      "test_essential_grid_unexpected_cell_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_essential_grid_unexpected_cell_rejected)",
+      "test_false_golden_receipt_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_false_golden_receipt_rejected)",
+      "test_false_outcome_accounting_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_false_outcome_accounting_rejected)",
+      "test_false_registration_census_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_false_registration_census_rejected)",
+      "test_false_trace_member_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_false_trace_member_rejected)",
+      "test_native_attempt_receipt_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_native_attempt_receipt_rejected)",
+      "test_original_and_repeats_cannot_refresh_expected_output (preedit38_unchanged_test.PreeditReaderAdverseTests.test_original_and_repeats_cannot_refresh_expected_output)",
+      "test_original_result_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_original_result_change_rejected)",
+      "test_path_traversal_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_path_traversal_rejected)",
+      "test_rehashed_source_inventory_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_rehashed_source_inventory_rejected)",
+      "test_release_result_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_release_result_change_rejected)",
+      "test_repeat_result_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_repeat_result_change_rejected)",
+      "test_reserved_windows_path_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_reserved_windows_path_rejected)",
+      "test_source_corruption_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_source_corruption_rejected)",
+      "test_trace_case_omission_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_trace_case_omission_rejected)",
+      "test_trace_result_change_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_trace_result_change_rejected)",
+      "test_untouched_original_view_passes (preedit38_unchanged_test.PreeditReaderAdverseTests.test_untouched_original_view_passes)",
+      "test_windows_backslash_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_windows_backslash_rejected)",
+      "test_windows_trailing_dot_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_windows_trailing_dot_rejected)",
+      "test_wrong_entry_commit_rejected (preedit38_unchanged_test.PreeditReaderAdverseTests.test_wrong_entry_commit_rejected)"
+    ],
+    "nonpasses": []
+  },
+  "earlier_attempt": {
+    "label": "w2c2-predecessor-preedit",
+    "executed_methods": 0,
+    "setup_errors": 1,
+    "passed": 0,
+    "reason": "Reused private test destination existed; no previous file removed or overwritten. Baseline receipt formula total-errors yields -1 for setUpClass and is not a valid PASS total; use executed_methods0/setupERROR1. Same immutable source/assertions subsequently28PASS in fresh private root."
+  },
+  "original_queries": 0
+}

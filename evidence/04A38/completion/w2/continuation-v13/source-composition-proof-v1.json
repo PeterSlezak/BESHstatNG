@@ -1,0 +1,239 @@
+{
+  "status": "C13_COMPLETE_SUPPORTED_SOURCE_COMPOSITES_WITH_EXPLICIT_OPEN_BYREF_DEPENDENCY",
+  "rows": [
+    {
+      "name": "FindWrappedDiscriminantTable",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|4a8a66567d725d26@239762:1076",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|4a8a66567d725d26@205395:638",
+      "portable_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|ee1b3efca39c975d@31449:810",
+      "mode": "EXACT_COMPLETE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX_COMPOSITE",
+      "actual_native_call": "            Return Global.BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.FindWrappedDiscriminantTablePrepared(tables, title, startsWith, AddressOf CellToTrimmedText)\n",
+      "bindings": {
+        "CellToTrimmedText": "toText"
+      },
+      "original_segment": "            For Each t As ResultTable In tables\n                Dim arr As Object(,) = t.returnSelf()\n                If arr Is Nothing OrElse arr.GetLength(0) < 1 OrElse arr.GetLength(1) < 1 Then Continue For\n                Dim candidate As String = CellToTrimmedText(arr(0, 0))\n                If startsWith Then\n                    If candidate.StartsWith(title, StringComparison.OrdinalIgnoreCase) Then Return arr\n                Else\n                    If String.Equals(candidate, title, StringComparison.OrdinalIgnoreCase) Then Return arr\n                End If\n            Next\n            Return Nothing\n",
+      "actual_portable_segment": "            For Each t As ResultTable In tables\n                Dim arr As Object(,) = t.returnSelf()\n                If arr Is Nothing OrElse arr.GetLength(0) < 1 OrElse arr.GetLength(1) < 1 Then Continue For\n                Dim candidate As String = toText(arr(0, 0))\n                If startsWith Then\n                    If candidate.StartsWith(title, StringComparison.OrdinalIgnoreCase) Then Return arr\n                Else\n                    If String.Equals(candidate, title, StringComparison.OrdinalIgnoreCase) Then Return arr\n                End If\n            Next\n            Return Nothing\n",
+      "supported": true
+    },
+    {
+      "name": "DA_COVARIANCE",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|2935743f410b8ccd@178833:2717",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|2935743f410b8ccd@165137:2517",
+      "portable_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|9d71526f6736f8a8@32269:590",
+      "mode": "EXACT_COMPLETE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX_COMPOSITE",
+      "actual_native_call": "                Dim gs As Multivariate.DiscriminantGroupStatistics = Global.BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38.FindDiscriminantGroupPrepared(h.Model.GroupStatistics, requested)\n",
+      "bindings": {
+        "h.Model.GroupStatistics": "statistics"
+      },
+      "original_segment": "                Dim gs As Multivariate.DiscriminantGroupStatistics = Nothing\n                For Each item As Multivariate.DiscriminantGroupStatistics In h.Model.GroupStatistics\n                    If String.Equals(item.GroupLabel, requested, StringComparison.OrdinalIgnoreCase) Then\n                        gs = item\n                        Exit For\n                    End If\n                Next\n",
+      "actual_portable_segment": "            Dim gs As Multivariate.DiscriminantGroupStatistics = Nothing\n            For Each item As Multivariate.DiscriminantGroupStatistics In statistics\n                If String.Equals(item.GroupLabel, requested, StringComparison.OrdinalIgnoreCase) Then\n                    gs = item\n                    Exit For\n                End If\n            Next\n            Return gs\n",
+      "supported": true
+    },
+    {
+      "name": "HIST_BINS",
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|4203524fc1d2fab4@3145:2362",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|4203524fc1d2fab4@3145:1629",
+      "portable_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.PlotDataUDFsReports38|FunctionBlock|22beafa0224d97c4@4315:1083",
+      "mode": "EXACT_COMPLETE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX_COMPOSITE",
+      "actual_native_call": "                Dim parts As List(Of Object(,)) = Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildHistogramPartsPrepared(groups, names, resolvedRule, AddressOf graphics.HistogramBinsComputation)\n",
+      "bindings": {
+        "graphics.HistogramBinsComputation": "computeBins"
+      },
+      "original_segment": "                Dim parts As New List(Of Object(,))()\n\n                For i As Integer = 0 To groups.Length - 1\n                    Dim values() As Double = groups(i)\n                    If values Is Nothing OrElse values.Length < 1 Then Continue For\n\n                    Dim bins As Object(,) = graphics.HistogramBinsComputation(values, resolvedRule)\n                    If bins Is Nothing OrElse bins.GetLength(0) < 1 Then Continue For\n\n                    Dim part(bins.GetLength(0), 2) As Object\n                    part(0, 0) = \"Group\"\n                    part(0, 1) = \"BinMidpoint\"\n                    part(0, 2) = \"Frequency\"\n                    For r As Integer = 0 To bins.GetLength(0) - 1\n                        part(r + 1, 0) = names(i)\n                        part(r + 1, 1) = bins(r, 0)\n                        part(r + 1, 2) = bins(r, 1)\n                    Next\n                    parts.Add(part)\n                Next\n\n",
+      "actual_portable_segment": "            Dim parts As New List(Of Object(,))()\n\n            For i As Integer = 0 To groups.Length - 1\n                Dim values() As Double = groups(i)\n                If values Is Nothing OrElse values.Length < 1 Then Continue For\n\n                Dim bins As Object(,) = computeBins(values, resolvedRule)\n                If bins Is Nothing OrElse bins.GetLength(0) < 1 Then Continue For\n\n                Dim part(bins.GetLength(0), 2) As Object\n                part(0, 0) = \"Group\"\n                part(0, 1) = \"BinMidpoint\"\n                part(0, 2) = \"Frequency\"\n                For r As Integer = 0 To bins.GetLength(0) - 1\n                    part(r + 1, 0) = names(i)\n                    part(r + 1, 1) = bins(r, 0)\n                    part(r + 1, 2) = bins(r, 1)\n                Next\n                parts.Add(part)\n            Next\n\n            Return parts\n",
+      "supported": true
+    },
+    {
+      "name": "HIST_NORMAL",
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|fa28dff62c0b78f5@7186:2811",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|fa28dff62c0b78f5@6453:1686",
+      "portable_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.PlotDataUDFsReports38|FunctionBlock|903f414979795add@5408:1547",
+      "mode": "EXACT_COMPLETE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX_COMPOSITE",
+      "actual_native_call": "                Dim parts As List(Of Object(,)) = Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildHistogramNormalPartsPrepared(groups, names, resolvedRule, AddressOf graphics.HistogramBinsComputation, AddressOf graphics.GaussOverlayComputation)\n",
+      "bindings": {
+        "graphics.HistogramBinsComputation": "computeBins",
+        "graphics.GaussOverlayComputation": "computeOverlay"
+      },
+      "original_segment": "                Dim parts As New List(Of Object(,))()\n\n                For i As Integer = 0 To groups.Length - 1\n                    Dim values() As Double = groups(i)\n                    If values Is Nothing OrElse values.Length < 2 Then Continue For\n\n                    Dim bins As Object(,) = graphics.HistogramBinsComputation(values, resolvedRule)\n                    If bins Is Nothing OrElse bins.GetLength(0) < 1 Then Continue For\n\n                    Dim mids(bins.GetLength(0) - 1) As Double\n                    For r As Integer = 0 To bins.GetLength(0) - 1\n                        mids(r) = Convert.ToDouble(bins(r, 0), CultureInfo.InvariantCulture)\n                    Next\n\n                    Dim overlay As Double(,) = graphics.GaussOverlayComputation(values, mids)\n                    If overlay Is Nothing OrElse overlay.GetLength(0) < 1 Then Continue For\n\n                    Dim part(overlay.GetLength(0), 2) As Object\n                    part(0, 0) = \"Group\"\n                    part(0, 1) = \"X\"\n                    part(0, 2) = \"NormalFrequency\"\n                    For r As Integer = 0 To overlay.GetLength(0) - 1\n                        part(r + 1, 0) = names(i)\n                        part(r + 1, 1) = overlay(r, 0)\n                        part(r + 1, 2) = overlay(r, 1)\n                    Next\n                    parts.Add(part)\n                Next\n\n",
+      "actual_portable_segment": "            Dim parts As New List(Of Object(,))()\n\n            For i As Integer = 0 To groups.Length - 1\n                Dim values() As Double = groups(i)\n                If values Is Nothing OrElse values.Length < 2 Then Continue For\n\n                Dim bins As Object(,) = computeBins(values, resolvedRule)\n                If bins Is Nothing OrElse bins.GetLength(0) < 1 Then Continue For\n\n                Dim mids(bins.GetLength(0) - 1) As Double\n                For r As Integer = 0 To bins.GetLength(0) - 1\n                    mids(r) = Convert.ToDouble(bins(r, 0), CultureInfo.InvariantCulture)\n                Next\n\n                Dim overlay As Double(,) = computeOverlay(values, mids)\n                If overlay Is Nothing OrElse overlay.GetLength(0) < 1 Then Continue For\n\n                Dim part(overlay.GetLength(0), 2) As Object\n                part(0, 0) = \"Group\"\n                part(0, 1) = \"X\"\n                part(0, 2) = \"NormalFrequency\"\n                For r As Integer = 0 To overlay.GetLength(0) - 1\n                    part(r + 1, 0) = names(i)\n                    part(r + 1, 1) = overlay(r, 0)\n                    part(r + 1, 2) = overlay(r, 1)\n                Next\n                parts.Add(part)\n            Next\n\n            Return parts\n",
+      "supported": true
+    },
+    {
+      "name": "BuildKaplanMeierStepTable",
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|0fcb4b292f4645d0@34344:3143",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|0fcb4b292f4645d0@30146:384",
+      "portable_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.PlotDataUDFsReports38|FunctionBlock|65fe0d5cc1b4ac74@6965:3239",
+      "mode": "EXACT_COMPLETE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX_COMPOSITE",
+      "actual_native_call": "            Return Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.BuildKaplanMeierStepTablePrepared(\n                rawCurves, Function(x) CType(x, survival.SurvivalTableRecord),\n                Function(x) CType(x, survival.SurvivalTableRecord), AddressOf BuildSimpleNoteTable)\n",
+      "bindings": {
+        ".Select(Function(x) CType(x, survival.SurvivalTableRecord)) occurrences": [
+          ".Select(countRecord)",
+          ".Select(fillRecord)"
+        ],
+        "BuildSimpleNoteTable": "noteTable"
+      },
+      "original_segment": "            Dim totalRows As Integer = 1 'header\n\n            For Each groupObj As Object In rawCurves\n                If groupObj Is Nothing Then Continue For\n                Dim items As IEnumerable = TryCast(groupObj, IEnumerable)\n                If items Is Nothing Then Continue For\n                Dim recs As List(Of survival.SurvivalTableRecord) = items.Cast(Of Object)().Select(Function(x) CType(x, survival.SurvivalTableRecord)).ToList()\n                If recs.Count = 0 Then Continue For\n                totalRows += 1 + 2 * recs.Count\n            Next\n\n            If totalRows <= 1 Then\n                Return BuildSimpleNoteTable(\"Kaplan-Meier\", \"No survival-curve rows were returned.\")\n            End If\n\n            Dim out(totalRows - 1, 6) As Object\n            out(0, 0) = \"Group\"\n            out(0, 1) = \"PlotOrder\"\n            out(0, 2) = \"Time\"\n            out(0, 3) = \"Survival\"\n            out(0, 4) = \"LowerCI\"\n            out(0, 5) = \"UpperCI\"\n            out(0, 6) = \"AtRisk\"\n\n            Dim row As Integer = 1\n            For Each groupObj As Object In rawCurves\n                If groupObj Is Nothing Then Continue For\n                Dim items As IEnumerable = TryCast(groupObj, IEnumerable)\n                If items Is Nothing Then Continue For\n                Dim recs As List(Of survival.SurvivalTableRecord) = items.Cast(Of Object)().Select(Function(x) CType(x, survival.SurvivalTableRecord)).ToList()\n                If recs.Count = 0 Then Continue For\n\n                Dim groupName As String = recs(0).strGroup\n                Dim prevProb As Double = 1.0R\n                Dim prevLL As Double = 1.0R\n                Dim prevUL As Double = 1.0R\n                Dim plotOrder As Integer = 1\n\n                out(row, 0) = groupName\n                out(row, 1) = plotOrder\n                out(row, 2) = 0.0R\n                out(row, 3) = 1.0R\n                out(row, 4) = 1.0R\n                out(row, 5) = 1.0R\n                out(row, 6) = recs(0).AtRisk\n                row += 1\n                plotOrder += 1\n\n                For Each rec As survival.SurvivalTableRecord In recs\n                    out(row, 0) = groupName\n                    out(row, 1) = plotOrder\n                    out(row, 2) = rec.Time\n                    out(row, 3) = prevProb\n                    out(row, 4) = prevLL\n                    out(row, 5) = prevUL\n                    out(row, 6) = \"\"\n                    row += 1\n                    plotOrder += 1\n\n                    out(row, 0) = groupName\n                    out(row, 1) = plotOrder\n                    out(row, 2) = rec.Time\n                    out(row, 3) = rec.Prob\n                    out(row, 4) = rec.ProbCILL\n                    out(row, 5) = rec.ProbCIUL\n                    out(row, 6) = rec.AtRisk\n                    row += 1\n                    plotOrder += 1\n\n                    prevProb = rec.Prob\n                    prevLL = rec.ProbCILL\n                    prevUL = rec.ProbCIUL\n                Next\n            Next\n\n            Return out\n",
+      "actual_portable_segment": "            Dim totalRows As Integer = 1 'header\n\n            For Each groupObj As Object In rawCurves\n                If groupObj Is Nothing Then Continue For\n                Dim items As IEnumerable = TryCast(groupObj, IEnumerable)\n                If items Is Nothing Then Continue For\n                Dim recs As List(Of survival.SurvivalTableRecord) = items.Cast(Of Object)().Select(countRecord).ToList()\n                If recs.Count = 0 Then Continue For\n                totalRows += 1 + 2 * recs.Count\n            Next\n\n            If totalRows <= 1 Then\n                Return noteTable(\"Kaplan-Meier\", \"No survival-curve rows were returned.\")\n            End If\n\n            Dim out(totalRows - 1, 6) As Object\n            out(0, 0) = \"Group\"\n            out(0, 1) = \"PlotOrder\"\n            out(0, 2) = \"Time\"\n            out(0, 3) = \"Survival\"\n            out(0, 4) = \"LowerCI\"\n            out(0, 5) = \"UpperCI\"\n            out(0, 6) = \"AtRisk\"\n\n            Dim row As Integer = 1\n            For Each groupObj As Object In rawCurves\n                If groupObj Is Nothing Then Continue For\n                Dim items As IEnumerable = TryCast(groupObj, IEnumerable)\n                If items Is Nothing Then Continue For\n                Dim recs As List(Of survival.SurvivalTableRecord) = items.Cast(Of Object)().Select(fillRecord).ToList()\n                If recs.Count = 0 Then Continue For\n\n                Dim groupName As String = recs(0).strGroup\n                Dim prevProb As Double = 1.0R\n                Dim prevLL As Double = 1.0R\n                Dim prevUL As Double = 1.0R\n                Dim plotOrder As Integer = 1\n\n                out(row, 0) = groupName\n                out(row, 1) = plotOrder\n                out(row, 2) = 0.0R\n                out(row, 3) = 1.0R\n                out(row, 4) = 1.0R\n                out(row, 5) = 1.0R\n                out(row, 6) = recs(0).AtRisk\n                row += 1\n                plotOrder += 1\n\n                For Each rec As survival.SurvivalTableRecord In recs\n                    out(row, 0) = groupName\n                    out(row, 1) = plotOrder\n                    out(row, 2) = rec.Time\n                    out(row, 3) = prevProb\n                    out(row, 4) = prevLL\n                    out(row, 5) = prevUL\n                    out(row, 6) = \"\"\n                    row += 1\n                    plotOrder += 1\n\n                    out(row, 0) = groupName\n                    out(row, 1) = plotOrder\n                    out(row, 2) = rec.Time\n                    out(row, 3) = rec.Prob\n                    out(row, 4) = rec.ProbCILL\n                    out(row, 5) = rec.ProbCIUL\n                    out(row, 6) = rec.AtRisk\n                    row += 1\n                    plotOrder += 1\n\n                    prevProb = rec.Prob\n                    prevLL = rec.ProbCILL\n                    prevUL = rec.ProbCIUL\n                Next\n            Next\n\n            Return out\n",
+      "supported": true
+    },
+    {
+      "name": "StackHomogeneousTables",
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|3226ce518a866845@37497:1060",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|3226ce518a866845@30540:420",
+      "portable_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.PlotDataUDFsReports38|FunctionBlock|31fedd4a5517a22d@10214:867",
+      "mode": "EXACT_COMPLETE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX_COMPOSITE",
+      "actual_native_call": "            Return Global.BESHStatNG.ExcelCommon.PlotDataUDFsReports38.StackHomogeneousTablesPrepared(tables)\n",
+      "bindings": {},
+      "original_segment": "            Dim cols As Integer = tables(0).GetLength(1)\n            Dim totalRows As Integer = 1\n            For Each tbl As Object(,) In tables\n                totalRows += Math.Max(0, tbl.GetLength(0) - 1)\n            Next\n\n            Dim out(totalRows - 1, cols - 1) As Object\n            For j As Integer = 0 To cols - 1\n                out(0, j) = tables(0)(0, j)\n            Next\n\n            Dim row As Integer = 1\n            For Each tbl As Object(,) In tables\n                For i As Integer = 1 To tbl.GetLength(0) - 1\n                    For j As Integer = 0 To cols - 1\n                        out(row, j) = tbl(i, j)\n                    Next\n                    row += 1\n                Next\n            Next\n\n            Return out\n",
+      "actual_portable_segment": "            Dim cols As Integer = tables(0).GetLength(1)\n            Dim totalRows As Integer = 1\n            For Each tbl As Object(,) In tables\n                totalRows += Math.Max(0, tbl.GetLength(0) - 1)\n            Next\n\n            Dim out(totalRows - 1, cols - 1) As Object\n            For j As Integer = 0 To cols - 1\n                out(0, j) = tables(0)(0, j)\n            Next\n\n            Dim row As Integer = 1\n            For Each tbl As Object(,) In tables\n                For i As Integer = 1 To tbl.GetLength(0) - 1\n                    For j As Integer = 0 To cols - 1\n                        out(row, j) = tbl(i, j)\n                    Next\n                    row += 1\n                Next\n            Next\n\n            Return out\n",
+      "supported": true
+    },
+    {
+      "name": "TryGetRocInput",
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5b63d0ff64a1d271@521:3241",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|5b63d0ff64a1d271@750:2372",
+      "portable_id": "BESHStat.Excel.Common/src/Analysis/UdfPlotDataPreparation38.vb|BESHStatNG.ExcelCommon.UdfPlotDataPreparation38|FunctionBlock|7efa252d7055fce5@447:1577",
+      "mode": "EXACT_COMPLETE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX_COMPOSITE",
+      "actual_native_call": "        Return Global.BESHStatNG.ExcelCommon.UdfPlotDataPreparation38.CompleteRocInputPrepared(markerCol, statusCol, positiveLabel, isLowerDirection,\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible,\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible,\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText, AddressOf NormalizeOptionKey, rocInput)\n",
+      "bindings": {
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible": "finiteDouble",
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible": "status01",
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText": "toText",
+        "NormalizeOptionKey": "normalize"
+      },
+      "original_segment": "        Dim pos As New List(Of Double)()\n        Dim neg As New List(Of Double)()\n        Dim normalizedPositive As String = NormalizeOptionKey(positiveLabel)\n\n        For i As Integer = 0 To markerCol.GetLength(0) - 1\n            Dim x As Double\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible(markerCol(i, 0), x) Then Continue For\n\n            Dim label As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(statusCol(i, 0))\n            If String.IsNullOrWhiteSpace(label) Then Continue For\n\n            Dim isPositive As Boolean = False\n            Dim iv As Integer\n            If normalizedPositive = \"1\" AndAlso Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusCol(i, 0), iv) Then\n                isPositive = (iv = 1)\n            Else\n                isPositive = String.Equals(NormalizeOptionKey(label), normalizedPositive, StringComparison.OrdinalIgnoreCase)\n            End If\n\n            If isLowerDirection Then x = -x\n            If isPositive Then\n                pos.Add(x)\n            Else\n                neg.Add(x)\n            End If\n        Next\n\n        If pos.Count < 1 OrElse neg.Count < 1 Then Return False\n        rocInput = New Double()() {pos.ToArray(), neg.ToArray()}\n        Return True\n",
+      "actual_portable_segment": "            Dim pos As New List(Of Double)()\n            Dim neg As New List(Of Double)()\n            Dim normalizedPositive As String = normalize(positiveLabel)\n\n            For i As Integer = 0 To markerCol.GetLength(0) - 1\n                Dim x As Double\n                If Not finiteDouble(markerCol(i, 0), x) Then Continue For\n\n                Dim label As String = toText(statusCol(i, 0))\n                If String.IsNullOrWhiteSpace(label) Then Continue For\n\n                Dim isPositive As Boolean = False\n                Dim iv As Integer\n                If normalizedPositive = \"1\" AndAlso status01(statusCol(i, 0), iv) Then\n                    isPositive = (iv = 1)\n                Else\n                    isPositive = String.Equals(normalize(label), normalizedPositive, StringComparison.OrdinalIgnoreCase)\n                End If\n\n                If isLowerDirection Then x = -x\n                If isPositive Then\n                    pos.Add(x)\n                Else\n                    neg.Add(x)\n                End If\n            Next\n\n            If pos.Count < 1 OrElse neg.Count < 1 Then Return False\n            rocInput = New Double()() {pos.ToArray(), neg.ToArray()}\n            Return True\n",
+      "supported": false
+    },
+    {
+      "name": "TryGetSurvivalRecords",
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|ed3f011cb1c7c35b@3915:2493",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|ed3f011cb1c7c35b@3275:1656",
+      "portable_id": "BESHStat.Excel.Common/src/Analysis/UdfPlotDataPreparation38.vb|BESHStatNG.ExcelCommon.UdfPlotDataPreparation38|FunctionBlock|e1dadc13e937dc66@2034:1499",
+      "mode": "EXACT_COMPLETE_NATIVE_PREFIX_PREPARED_BODY_SUFFIX_COMPOSITE",
+      "actual_native_call": "        Return Global.BESHStatNG.ExcelCommon.UdfPlotDataPreparation38.CompleteSurvivalRecordsPrepared(timeCol, statusCol, groupCol, hasGroup,\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible,\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible,\n            AddressOf Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText, records)\n",
+      "bindings": {
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible": "finiteDouble",
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible": "status01",
+        "Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText": "toText"
+      },
+      "original_segment": "        Dim tList As New List(Of Double)()\n        Dim sList As New List(Of Integer)()\n        Dim gList As New List(Of String)()\n        Dim stratList As New List(Of String)()\n\n        For i As Integer = 0 To timeCol.GetLength(0) - 1\n            Dim t As Double\n            Dim s As Integer\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDoubleFlexible(timeCol(i, 0), t) Then Continue For\n            If t < 0.0R Then Return False\n            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusCol(i, 0), s) Then Continue For\n\n            Dim g As String = \"ALL\"\n            If hasGroup Then\n                g = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(groupCol(i, 0))\n                If String.IsNullOrWhiteSpace(g) Then Continue For\n            End If\n\n            tList.Add(t)\n            sList.Add(s)\n            gList.Add(g)\n            stratList.Add(\"ALL\")\n        Next\n\n        If tList.Count < 1 Then Return False\n\n        Dim err As String = Nothing\n        records = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)\n        Return records IsNot Nothing AndAlso records.Count > 0\n",
+      "actual_portable_segment": "            Dim tList As New List(Of Double)()\n            Dim sList As New List(Of Integer)()\n            Dim gList As New List(Of String)()\n            Dim stratList As New List(Of String)()\n\n            For i As Integer = 0 To timeCol.GetLength(0) - 1\n                Dim t As Double\n                Dim s As Integer\n                If Not finiteDouble(timeCol(i, 0), t) Then Continue For\n                If t < 0.0R Then Return False\n                If Not status01(statusCol(i, 0), s) Then Continue For\n\n                Dim g As String = \"ALL\"\n                If hasGroup Then\n                    g = toText(groupCol(i, 0))\n                    If String.IsNullOrWhiteSpace(g) Then Continue For\n                End If\n\n                tList.Add(t)\n                sList.Add(s)\n                gList.Add(g)\n                stratList.Add(\"ALL\")\n            Next\n\n            If tList.Count < 1 Then Return False\n\n            Dim err As String = Nothing\n            records = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)\n            Return records IsNot Nothing AndAlso records.Count > 0\n",
+      "supported": true
+    },
+    {
+      "name": "DA_MEANS",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1eae5c2ad10b29ac@174615:1245",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|1eae5c2ad10b29ac@160919:1245",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "DA_PREPROCESS",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|99d21013fcc234b9@176444:1554",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|99d21013fcc234b9@162748:1554",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "DA_FUNCTIONS",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|4ea58f646204f78d@182242:1496",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|4ea58f646204f78d@168346:1496",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "DA_CANONICAL",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|30436481cbb552db@184405:1514",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|30436481cbb552db@170509:1514",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "DA_CANONCOEF",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|2f0ff71eb4d77426@186579:1498",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|2f0ff71eb4d77426@172683:1498",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "DA_CENTROIDS",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|bac6d30c0bd72eba@188673:1510",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|bac6d30c0bd72eba@174777:1510",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "DA_CONFUSION",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|18f6f8b4387d88c1@191058:1736",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|18f6f8b4387d88c1@177162:1736",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "DA_CASEWISE",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|35eb02e6f759280a@193741:1884",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|35eb02e6f759280a@179845:1884",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "DA_PREDICT",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|6137f5a46ca70bac@196644:2944",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|6137f5a46ca70bac@182748:2944",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "DA_REMOVED",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|d254ceaa9565b763@200240:1194",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|d254ceaa9565b763@186344:1194",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "BuildDiscriminantMeansTable",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|cf7a03753380b546@241820:1073",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|cf7a03753380b546@206359:392",
+      "portable_id": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb|BESHStatNG.ExcelCommon.MultivariateAnalysisUDFsReports38|FunctionBlock|253c0415cc341943@30248:1192",
+      "mode": "EXACT_RAW_PROJECTION_AND_NATIVE_MATERIALIZER_COMPOSITE"
+    },
+    {
+      "name": "GetDiscriminantPredictionResult",
+      "original_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|77f4481228bc3b98@242903:750",
+      "current_id": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb|BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs|FunctionBlock|77f4481228bc3b98@206761:750",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "KM_CURVE",
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|3a6a1ef9b6f9232c@21873:1999",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|3a6a1ef9b6f9232c@20015:1999",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "CALIB_POINTS",
+      "original_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|5ba0205615e08357@27004:3251",
+      "current_id": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb|BESHStatNG.WorksheetFunctions.PlotDataUDFs|FunctionBlock|5ba0205615e08357@25146:3251",
+      "mode": "EXACT_COMPLETE_ORIGINAL_CURRENT_PARENT"
+    },
+    {
+      "name": "GetHistogramBinRule",
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|24d3193da5f51d04@872:664",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb|BESHStatNG.UdfDataImport|FunctionBlock|24d3193da5f51d04@782:235",
+      "portable_id": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb|BESHStatNG.ExcelCommon.UdfDataImportOptions38|FunctionBlock|0704345cad585604@58245:767",
+      "mode": "COMPLETE_NATIVE_TEXT_COERCION_AND_LEGACY_COMPARETEXT_POLICY_COMPOSITE",
+      "qualifications": "Actual unchanged LegacyUdfText38 source/CIL implements the original VB text comparison. Type/message/precedence and host catch remain; extra existing Common stack frames are explicit."
+    },
+    {
+      "name": "IsStatusBinaryCell38",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|007bc25d3f6739b2@359:221",
+      "mode": "COMPLETE_CURRENT_ONLY_HOST_BODY_WITH_INDEPENDENT_ENTRY_SOURCE_AND_CIL"
+    },
+    {
+      "name": "ParseRocDirection",
+      "original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|15c7e8ca42e9986d@6416:379",
+      "current_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb|BESHStatNG.UdfDataImport|FunctionBlock|15c7e8ca42e9986d@4939:245",
+      "portable_id": "BESHStat.Excel.Common/src/Analysis/UdfOptionPreparation38.vb|BESHStatNG.ExcelCommon.UdfDataImportOptions38|FunctionBlock|e42881dd3ad073ae@59022:438",
+      "mode": "COMPLETE_NATIVE_TEXT_COERCION_AND_LEGACY_COMPARETEXT_POLICY_COMPOSITE",
+      "qualifications": "Actual unchanged LegacyUdfText38 source/CIL implements the original VB text comparison. Type/message/precedence and host catch remain; extra existing Common stack frames are explicit."
+    }
+  ],
+  "blocked_parents": [
+    "GuessPositiveClass",
+    "ROC_POINTS",
+    "ROC_STATS",
+    "TryGetRocInput"
+  ],
+  "original_queries": 0,
+  "qualification": "Static full source/compiled boundary proof; does not assert every dynamic/native arm executed. Ordinary frozen compatibility does not close the recorded ByRef alias difference."
+}

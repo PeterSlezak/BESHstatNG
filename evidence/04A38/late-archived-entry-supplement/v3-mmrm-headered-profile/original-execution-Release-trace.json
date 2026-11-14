@@ -1,0 +1,55 @@
+{
+  "role": "original",
+  "configuration": "Release",
+  "mode": "trace",
+  "input_seal": {
+    "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/input-seal.json",
+    "bytes": 6539,
+    "sha256": "01cc313340fec74a06951d8456ecfaea06562c46ba3b3f7fd3b490e160ad8dec"
+  },
+  "executable": {
+    "name": "MmrmCapture38.exe",
+    "bytes": 38400,
+    "sha256": "a327550b6446cdafba898ab9b7187b41f95e19aa96da853deb53eee42f0aaf2e"
+  },
+  "files": [
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Release/trace/execution.json",
+      "bytes": 1180,
+      "sha256": "74f0aeb67e3b684eccfbab53dd52251fce68461e32a5a7ea4381ce4058bd2bb3"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Release/trace/results.tsv",
+      "bytes": 33646,
+      "sha256": "6fcb91c225671fc99144334f23f58d7e96267c9989f9666e41270e4c5a8f949d"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Release/trace/results.tsv.branches.json",
+      "bytes": 1738,
+      "sha256": "0fcbf5640e905b59db0514fde33c973f13f19614af5153144fc0a9abe50781e2"
+    },
+    {
+      "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Release/trace/results.tsv.sessions.json",
+      "bytes": 14789,
+      "sha256": "219c71d1f99692c19dd9211e5dc08cbf60d5621b10fda666c9db147064798681"
+    }
+  ],
+  "command": {
+    "command": [
+      "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace\\MmrmCapture38.exe",
+      "<ISOLATED_RUN>\\mmrm38-v3\\original-Release-trace",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Release.jsonl",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Release\\trace\\results.tsv",
+      "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\original-results\\Release\\trace\\execution.json",
+      "original"
+    ],
+    "cwd": "<REPO_ROOT>",
+    "exit_code": 0,
+    "seconds": 0.5116677999976673,
+    "stdout_sha256": "f91ed326f60e6adcb27e78fbf38a363949c6942a3e5f220ab64f6617ab6a8f56",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+  },
+  "current_executions": 0,
+  "reference_class": "LATE_ARCHIVED_ENTRY_SUPPLEMENT"
+}

@@ -1,0 +1,19 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/reconcile_source_v1.py",
+    "bytes": 10048,
+    "sha256": "35229992d856fcbd11abbc824c880c67aa4655f74a921619ae23da27d0899ba4"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/reconcile_source_v2.py",
+    "bytes": 10088,
+    "sha256": "364f8de2ad84aa01716e5cd97f2579fb56c6d5082334993f756ebb418651b3f1"
+  },
+  "retained_first_attempt": {
+    "path": "evidence/04A38/completion/w2/continuation-v15/source-composition-proof-v1-execution.json",
+    "bytes": 948,
+    "sha256": "e26b2d0a288b1fa7cb7855ddb4601f309db3acf4009d371bf45e605161892292"
+  },
+  "reason": "Authenticate raw source and UTF16 body hashes first, then use the same explicit universal newline view as the extraction record for syntactic reconstruction. Raw historical/source hashes, exact body records and token/branch assertions remain mandatory; no original bytes are rewritten.",
+  "original_queries": 0
+}

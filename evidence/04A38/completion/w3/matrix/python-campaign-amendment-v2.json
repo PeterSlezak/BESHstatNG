@@ -1,0 +1,39 @@
+{
+  "campaign": "W3-PYTHON-v1",
+  "state": "ALL956_PARENTS_UNSTARTED_AFTER_PRESERVED_PRELAUNCH_FAILURE",
+  "driver": {
+    "path": "evidence/04A38/completion/w3/python-node-scanners/full-python-campaign-v2.py",
+    "bytes": 1327,
+    "sha256": "3c29bf096af034c46dc2533c8f1f7fb464f1d556bf00f4ce10e6acc3b8e664c8"
+  },
+  "command": [
+    "<OWNER_PYTHON>",
+    "-I",
+    "-B",
+    "evidence/04A38/completion/w3/run-private-w3-v1.py",
+    "full-python-campaign-unstarted-v2",
+    "python-node-scanners/full-python-campaign-v2.py"
+  ],
+  "inventory": {
+    "path": "evidence/04A38/completion/w3/python-node-scanners/campaign-v1/python-discovery-inventory-v1.json",
+    "bytes": 386521,
+    "sha256": "666d6e45af2d4994341acc5a58def3f13a66b822b976c6494002709e20ac5701"
+  },
+  "parents": 956,
+  "parent_reference": {
+    "PASS": 830,
+    "FAIL": 113,
+    "ERROR": 13
+  },
+  "event_reference": {
+    "FAIL": 185,
+    "ERROR": 13
+  },
+  "ordinary_workers_at_peak": 3,
+  "scanner_workers": 1,
+  "scanner_helpers": 0,
+  "owner_worker_ceiling": 8,
+  "shared_scanner_schedule": "After all ordinary and disposable partitions, scanner alone",
+  "full_campaign_executions_scheduled": 1,
+  "completed_identity_repetitions": 0
+}

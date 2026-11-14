@@ -1,0 +1,10 @@
+{
+  "status": "INVALID_FIXTURE_NOT_ACCEPTED",
+  "executed": 17,
+  "nominal_pass": 15,
+  "errors": 2,
+  "reason": "Fixture omitted protected lineage payloads not present in predecessor compact publication manifest. Missing-file errors could falsely reject mutated data.",
+  "repair": "Add actual protected lineage/capture payloads and require every intact reader to pass before any mutations",
+  "expectations_weakened": false,
+  "original_data_changes": 0
+}

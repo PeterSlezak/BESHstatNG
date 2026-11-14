@@ -1,0 +1,5 @@
+Friend Function CoerceToObjectMatrix(v As Object, ByRef err As ExcelError?) As Object(,)
+        Dim mat As Object(,) = Nothing
+        If TryCoerceToObjectMatrix(v, allowScalar:=True, mat:=mat, err:=err) Then Return mat
+        Return Nothing
+    End Function

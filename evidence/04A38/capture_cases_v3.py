@@ -1,0 +1,51 @@
+"""Further authentic BEFORE-product cases; no late/reference chronology exception."""
+from pathlib import Path
+import hashlib
+import itertools
+import json
+import re
+from preflight import ROOT,HERE,pin,save
+
+def main():
+    out=HERE/'preedit/attempts/capture-v3';out.mkdir(exist_ok=True)
+    assert not (out/'cases.jsonl').exists(),'Refuse to replace constructed cases'
+    entry=json.loads((HERE/'entry-members.json').read_bytes());cases=[]
+    def add(c):
+        c=dict(c);c.pop('case_id',None);c['input_factory_version']='v3';c['fixture_clock_policy']='MEASURED_CLOCK_METADATA_FIXED_AS_TEST_INPUT; statistics untouched'
+        c['case_id']=c['target']+'.'+hashlib.sha256(json.dumps(c,sort_keys=True,separators=(',',':')).encode()).hexdigest()[:24];cases.append(c)
+    for line in (HERE/'preedit/attempts/capture-v2/cases.jsonl').read_text(encoding='utf-8').splitlines():
+        c=json.loads(line)
+        if c['cohort']=='threshold_shape_value_policy':
+            values={'ordinary':'0.75,0.25,0.5','blank':'null,null','duplicates':'0.5,0.5,0.25','near_duplicates':'0.25,0.2500000000001,0.2500000000002','invalid':'0.25,1.1'}[c['value_profile']]
+            c['arguments']={'arg':'thresholds:'+c['shape']+':'+values}
+        add(c)
+    # Explicit numerical helpers: null/empty/ordinary/signed zero/nonfinite;
+    # retained ordering/formulas, not a replacement estimator/reference.
+    vector_methods=[('Cumulative','BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs'),('HasOnlyFinite','BESHStatNG.UdfDataImport'),('CountZeros','BESHStatNG.WorksheetFunctions.ZIPUDFs')]
+    for name,owner in vector_methods:
+        member=next(m for m in entry['members'] if m['name']==name and m['containing_type']==owner and m['kind']=='FunctionBlock')
+        arg=re.search(r'\(\s*(\w+)\s*\(\)\s+As (Double|Integer)',member['signature']);assert arg,member['signature']
+        states=['null','doubles:','doubles:1,2,3','doubles:-0,-0','doubles:NaN,+Inf,-Inf','doubles:1,-2,0'] if arg.group(2)=='Double' else ['null','ints:','ints:1,2,3','ints:0,0','ints:-1,0,1']
+        for culture,state in itertools.product(['','sk-SK'],states):
+            add(dict(target_kind='helper',type=owner,target=name,culture=culture,cohort='numeric_vector_branches',arguments={arg.group(1):state},input_state=state,expected_stage='ORIGINAL_NUMERIC_HELPER'))
+    for culture,n,p,profile in itertools.product(['','sk-SK'],[0,1,2,4],[0,1,2,3],['ordinary','zero','signed_zero','nonfinite']):
+        add(dict(target_kind='helper',type='BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs',target='ColumnSumsOfSquares',culture=culture,cohort='numeric_matrix_branches',arguments={'mat':f'double_matrix:{n}:{p}:{profile}'},rows=n,columns=p,value_profile=profile,expected_stage='ORIGINAL_SUM_OF_SQUARES_HELPER'))
+    # Original p-value/raw native spill semantics, with every cell type preserved.
+    for culture,name in itertools.product(['','sk-SK'],['PrepareResultTableForUdf','PreparePValueRowsForUdf','PreparePValueTableForUdf']):
+        args={'table':'object_cells'}
+        if name=='PreparePValueTableForUdf':args['pvalueColumns']='ints:2,4'
+        c=dict(target_kind='helper',type='BESHStatNG.UdfOutputTables',target=name,culture=culture,cohort='native_cell_type_and_spill_projection',arguments=args,expected_stage='ORIGINAL_OUTPUT_TABLE_HELPER')
+        if name=='PrepareResultTableForUdf':c['overload_first_type']='System.Object'
+        add(c)
+    assert len(cases)==len({c['case_id'] for c in cases})
+    with (out/'cases.jsonl').open('x',encoding='utf-8',newline='\n') as f:
+        for c in cases:f.write(json.dumps(c,ensure_ascii=False,sort_keys=True,separators=(',',':'))+'\n')
+    (out/'Capture38.cs.txt').write_bytes((HERE/'helpers/Capture38.cs').read_bytes())
+    save('preedit/attempts/capture-v3/specification.json',dict(status='PRE_EDIT_EXECUTION_ATTEMPT_NOT_SEALED',rows=len(cases),cases=pin((out/'cases.jsonl').relative_to(ROOT).as_posix()),recorder=pin('evidence/04A38/helpers/Capture38.cs'),generator=pin('evidence/04A38/capture_cases_v3.py'),
+        metadata_control='Fixture-only cached model CompTime, ExecutionTimeMs, finite phase TimeMs; UTC fields set to2000-01-02T03:04:05Z. Nonfinite/not-recorded timing markers retain their values. Never modify coefficients/data/iterations/likelihoods/decisions; no output-cell filtering.',
+        metadata_control_chronology='Declared after pre-product original-vs-original repeatability probe isolated48 clock-only row differences; BEFORE any production edit or current-code comparisons. Pilot attempts remain immutable; no genuine freeze yet.',
+        fixed_threshold_cross_product=True,native='NOT_RUN; explicit wizard-false/blocked-coercion test double',scientific='NOT_GOLDEN',
+        known_gaps=['Ownership review not complete.','Full model/handle/copy-safety and source identity coverage audit pending.','Reference helper argument names and successful target coverage must be independently audited; any guard/binding error is separate.']))
+    print('Prepared',len(cases),'v3 pre-edit cases; clock inputs explicit; not a final freeze')
+
+if __name__=='__main__':main()

@@ -1,0 +1,7 @@
+{
+  "exit_code": 1,
+  "stage": "P1 inspection setup",
+  "observed": "PowerShell parsed nested double quotes in Python -c; no source/evidence payload changed and inspector file was not produced. Subsequent missing-file invocation exit2 preserved as tool attempt.",
+  "correction": "Versioned Python setup script; no shell interpolation",
+  "affected_paths": []
+}

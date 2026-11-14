@@ -1,0 +1,24 @@
+{
+  "before": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/verify_c8_checkpoint_template_v1.py",
+    "bytes": 30328,
+    "sha256": "c87f1f42c4ad963596e26860780ee7314d1f4597b6ffdef58858aea558a6750c"
+  },
+  "after": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/verify_c8_checkpoint_template_v2.py",
+    "bytes": 30970,
+    "sha256": "a6b0043e7cc30e5c22c1519433a9c2f9047b8fbe37918363f3ba2e4a510eda98"
+  },
+  "prior_callbacks": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/callback-proofs-v1.json",
+    "bytes": 125677,
+    "sha256": "82b92608945753be13cbc4de17601a69d7d29a7fda538af7a2de0d14a89ba3ae"
+  },
+  "complete_callbacks": {
+    "path": "evidence/04A38/completion/w2/continuation-v8/callback-proofs-v2.json",
+    "bytes": 141960,
+    "sha256": "aa916e45e20c42315032ecc19b71889a7f390f199fdbe5b86e692bada46280d0"
+  },
+  "reason": "Fail-closed first draft detected omitted nested GetVariableNames lambda. Recursively bind its actual immediate caller and complete field context. Retain unnamed open-constructed measurements by exact multiset, never by collapsing None dictionary keys; claimed methods must still have concrete owners.",
+  "original_queries": 0
+}

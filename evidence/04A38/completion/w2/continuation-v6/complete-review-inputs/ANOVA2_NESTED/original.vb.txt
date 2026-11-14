@@ -1,0 +1,37 @@
+s unbalanced, Satterthwaite-style approximations may be used for selected F tests.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.PAR.ANOVA2_NESTED(A1:C100,,"both")
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.PAR.ANOVA2_NESTED",
+            Category:="BESHStatNG - Parametric",
+            Description:="Two-way nested ANOVA. Input: 3 columns = group, subgroup, response.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function ANOVA2_NESTED(
+            <ExcelArgument(Name:="data", Description:="Three columns: group, subgroup (nested), response. First row may contain headers.")> data As Object,
+            <ExcelArgument(Name:="varNames", Description:="Optional variable names as comma-separated text or 1-row/1-column range.")> Optional varNames As Object = Nothing,
+            <ExcelArgument(Name:="output", Description:="Optional: both/main/satterthwaite.")> Optional outputType As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Object = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNestedThreeColumnData(data, mat, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If mat.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(varNames, detectedNames, 3, "Var")
+                Dim mdl As New parametric.TwoWayNestedANOVA(mat, names)
+                mdl.compute()
+
+                Dim tables = mdl.wrapResults()
+                Dim which As String = NormalizeText(outputType)
+
+                If which = "" OrElse which = "BOTH" OrElse which = "ALL" Then
+                    Return StackWithBlankRow(PrepareResultTableForUdf(tables(0)), PrepareResultTableForUdf(tables(1)))
+                ElseIf which = "MAIN" OrElse which = "CLASSICAL" Then
+                    Return PrepareResultTableForUdf(tables(0))
+                ElseIf which = "SATTERTHWAITE" OrElse which = "SW" OrElse which = "ADJUSTED" Then
+                    Retu

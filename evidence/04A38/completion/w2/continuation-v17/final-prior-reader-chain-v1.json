@@ -1,0 +1,70 @@
+{
+  "status": "UNCHANGED_FINAL_V16_AND_PREDECESSORS_PASS_WITH_EXACT_AUTHENTICATED_SOURCE_VERSIONS",
+  "raw_command": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c17-final-prior-v16-chain-v1/command.json",
+    "bytes": 602,
+    "sha256": "754ee077272fa8c58fc28b7682a541f392b45c7f8b983c0704adfec0d987846e"
+  },
+  "stdout": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c17-final-prior-v16-chain-v1/stdout.log",
+    "bytes": 11903,
+    "sha256": "d3b18a6894e4be66e4edef492986c148d55fba7a7213a454eb0616001f47a01d"
+  },
+  "stderr": {
+    "path": ".test-rationalization-04A38.tmp/commands/w2c17-final-prior-v16-chain-v1/stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "projected_existing_sources": 13,
+  "historical_assertions_changed": false,
+  "original_queries": 0,
+  "predecessor_result": {
+    "status": "NOT_READY_04A38",
+    "W2": "IN_PROGRESS",
+    "W3": "NOT_STARTED",
+    "historical_supported": 607,
+    "historical_OPEN": 97,
+    "current_supported": 635,
+    "current_OPEN": 91,
+    "support_supported": 271,
+    "support_OPEN": 32,
+    "selected58_closed": 57,
+    "Debug": {
+      "PASS": 21039,
+      "FAIL": 14,
+      "new_PASS": 49
+    },
+    "Debug_frozen": 29424,
+    "exports": 268,
+    "Python": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "Python_subtests": {
+      "FAIL": 183,
+      "ERROR": 13
+    },
+    "Node_PASS": 916,
+    "strict_profile_MkDocs": {
+      "strict": 1,
+      "profile": 1,
+      "docs": 0
+    },
+    "Release_compilation": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_full_selected_focused_unit_tests": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_ABI_CIL_signatures_exports": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "Release_frozen_compatibility": "NOT_RUN_OWNER_DEFERRED_TO_04A38_FINALIZATION",
+    "predecessor": "UNCHANGED_FINAL_C15_READER_AND_PREDECESSOR_CHAIN_PASS_WITH_EXACT_AUTHORIZED_PREIMAGES",
+    "original_queries": 0,
+    "phase04A39": "BLOCKED",
+    "historical_new": 70,
+    "current_new": 69,
+    "support_new": 9,
+    "original_only_callbacks": 3,
+    "final_review": "final/owner-review.md",
+    "final_ledger": "canonical-identity-status-v2.json",
+    "final_queue": "remaining-work-queue-v2.json",
+    "qualification": "All old seals/readers and nonfinal publication versions are preserved. Two independently proved original-only callbacks correct the final separate identity dispositions; no production/test source or campaign changed."
+  }
+}

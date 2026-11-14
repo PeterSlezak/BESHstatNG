@@ -1,0 +1,1711 @@
+{
+  "status": "CURRENT_ONLY_FROZEN_COMPARISONS",
+  "compilation": [
+    {
+      "configuration": "Debug",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize-",
+          "/out:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\FixtureInputs38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.6874088000040501,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "sources": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 111787,
+          "sha256": "f6222384f7543bcdc6b1a11a89fd72738f7d9dec73f68e0d719a76068858c40d"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 41420,
+          "sha256": "22618414dbc72347d95990f7847c671676332332ca20a458e9a9aad7f5ba5ee6"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+          "bytes": 23660,
+          "sha256": "9ed0e5316baa66ab2ea972531f0418bb555b76d191ddf5ffec7f286d2893f372"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 78984,
+          "sha256": "b1734105c0f115edc41985e8fd9e038d031a717a435a3cc63143db0994b589ea"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+          "bytes": 7836,
+          "sha256": "4a0a482f26d4b134cedf4d141359e90ad0d5c689195738e467c6d7089af38f8f"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+          "bytes": 8752,
+          "sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "bytes": 221916,
+          "sha256": "ead88a15ee8de7d18446d9ae7d09a5cb270fc16cf07fad171192b61ad74ddd3c"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 57064,
+          "sha256": "932411ad9682d8fd94e3c3b1101f135af798fb1222852ab74c23779e9b966d52"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53546,
+          "sha256": "e8e0bb3b738ce29b7f76ef3342f8f79f159337d4b87ba9107b67b9a428ba6164"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+          "bytes": 36318,
+          "sha256": "dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "bytes": 48126,
+          "sha256": "a6ec6181ac7bea01cf6f264e5eae5555faaae6ea21760035e26bf84d0e60af09"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "bytes": 55531,
+          "sha256": "b5d6ce31a3afa51d1b7fdc1d6bd803b7cf074c05ac904f7dc36d961449aebb7d"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "bytes": 93320,
+          "sha256": "234bb5b7b7f0ab498322195f4aac53222e8242c2b1e971b7932c6e9e26b3533a"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "bytes": 43728,
+          "sha256": "c3a553d1e6c72486ed6d627718849b7a2eb0a98cb801abd5f65403d7739a5da8"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "bytes": 69744,
+          "sha256": "dd5b8f8a273ec2a44cc2acd84516394cfef9bac6207b47f9b9c0d88792fb95b3"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "bytes": 46860,
+          "sha256": "652563256df92cecbe9b7425766f7863f7e6e62ff1f64d9e68a4690a35983816"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "bytes": 67135,
+          "sha256": "aac03b058aa35c3b4f1daff43966c57f468400e0f45db52864b9cc8ea537e6f0"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+          "bytes": 84656,
+          "sha256": "ed072b0418f86546a3f10951f65be817176681157cd649b24293682301ec39f2"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "bytes": 51591,
+          "sha256": "ae7ba18a58279ebc948c39d2481afed671f00f58d1dcd9b8e58af6f3f0f5478e"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "bytes": 47996,
+          "sha256": "594723690f162f9c35cbdf677f9c8da51cf9031f81ee33c9dcd12ecc37d659de"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+          "bytes": 16108,
+          "sha256": "dd402e908bc4b9f4bca4acbd458ddd08033a06347997f5f939a939b655fe5ef6"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+          "bytes": 4056,
+          "sha256": "e22eb5525e15f94ae1ea2eaa406d57cbd8d485da898e435776ed5a9a7a210551"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "bytes": 57030,
+          "sha256": "840bd88e20704624c8a537f2a5940ad7a09fd0226deed9fce353697b5a458411"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 67232,
+          "sha256": "14707e09a16f7798919e2ef7c94411f755b9163f0e37689715737fd691149f80"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+          "bytes": 18862,
+          "sha256": "dc848cfe4fad16878d31f758657a4aef77ca269390ffa53fbd3b2ea17a8d6ed1"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+          "bytes": 28428,
+          "sha256": "dc9c0a758b35355d909d0ddd50f1b6a0df2b28ea5ce0f40fd16374772282fd75"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+          "bytes": 22371,
+          "sha256": "c8420c2c62bc80cb55d57ce6846ece8b5ed283220ef4e5a22451801591c4e088"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportContingency.vb",
+          "bytes": 1426,
+          "sha256": "523fd952732b61e81996869d76c2c865f45deb2188d0df182f7bc5c8a4eded4d"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+          "bytes": 7635,
+          "sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+          "bytes": 20297,
+          "sha256": "285ab4113b594947691f0567120129c9196ae9bcb1a33d23c78ec80ad56cfcd2"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+          "bytes": 11941,
+          "sha256": "f4f7f913b8b0f41ed1a7335ff56a5070338ebf7936dafbfd99f6049e91e7a10c"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+          "bytes": 5369,
+          "sha256": "a8be297be0121682449eb913f0d5f13c35bb9e74f920e131d6e527b6ee17e78f"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+          "bytes": 7660,
+          "sha256": "3a4362f50f2189db44d24788084385d50fc5d008aaff00b1233785eacad7e42f"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+          "bytes": 8679,
+          "sha256": "ca34a806c3222359e7e862097502b20c20e0c958eb5dfbd92f1f5bce27d48309"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+          "bytes": 41331,
+          "sha256": "7dfcf7ebda854d2f3cacaf210c035c2d5e17e0caba86e05e66a66d72804b20ab"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+          "bytes": 2424,
+          "sha256": "726834fdd1192ce956bc8d3f464a1b38698644a06ab5563e7bf850c26a616f2f"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+          "bytes": 11730,
+          "sha256": "4d06a35bc858d6174143e7a9042dc4f15de89ebf805b1655a31677ae5b287037"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb",
+          "bytes": 2429,
+          "sha256": "1599b453f8f35b21c8a01781104c33e99ce93bc62e8f21b83cebb94d35fe7112"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+          "bytes": 1102,
+          "sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+          "bytes": 19571,
+          "sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+          "bytes": 7128,
+          "sha256": "9f01e31fcf27229338ad9c6e27963db13fb8727a7bbda946cb1e535a443a04ab"
+        },
+        {
+          "path": "BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb",
+          "bytes": 10860,
+          "sha256": "a2a5e1c896b36d8fcfae43c4310e55fd6cc2f8384df30fd090688620e960b0cb"
+        },
+        {
+          "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+          "bytes": 23894,
+          "sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e"
+        },
+        {
+          "path": "evidence/04A38/preedit/native-safety/NativeBoundary38.vb",
+          "bytes": 1254,
+          "sha256": "037f48222021668448dd851e5c5e10e9db95d92b4db88b191bc10931fe9bda05"
+        },
+        {
+          "path": "evidence/04A38/preedit/native-safety/DependencySlices38.vb",
+          "bytes": 7992,
+          "sha256": "579af77801f01137e3a31f34d84179d8e74ca47af15e15e4fe8e8ac873836ab9"
+        },
+        {
+          "path": "evidence/04A38/preedit/native-safety/FixtureInputs38.vb",
+          "bytes": 4705,
+          "sha256": "c2a9a3507a1415387cdc1cca1a70af257179cb2de7b1704826f4e69e2f7db55a"
+        }
+      ],
+      "assemblies": [
+        {
+          "name": "BESHStat.Core.dll",
+          "bytes": 2088448,
+          "sha256": "7f9cae8f11db2d11fa6365f939467f1533c137bb077c3f3cec10ffd4a0b02fb7"
+        },
+        {
+          "name": "BESHStat.Core.Tests.dll",
+          "bytes": 517120,
+          "sha256": "82a793089f647b500a0a8127c780387ecf7db788bbb081b84dc75136332abb73"
+        },
+        {
+          "name": "BESHStat.Excel.Common.dll",
+          "bytes": 1081856,
+          "sha256": "37bebf8286f04e0e6ca7d4da74addf668c24193bc1eac5d4d936c47d6eb11a98"
+        },
+        {
+          "name": "BESHStatNG.dll",
+          "bytes": 2678272,
+          "sha256": "50e04ab865486d0c4d82a5b868491bdc657b05c9115d7ea9dd90a9ea1b16c294"
+        },
+        {
+          "name": "ExcelDna.Integration.dll",
+          "bytes": 308224,
+          "sha256": "c92fcabda2f18eb68d0d1e91cfa4bf05ea079eb66eecb9762884ab576a84f41f"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\Roslyn\\vbc.exe",
+          "/nologo",
+          "/target:library",
+          "/rootnamespace:BESHStatNG",
+          "/optioncompare:text",
+          "/optioninfer+",
+          "/optionexplicit+",
+          "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+          "/optimize+",
+          "/out:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\BESHStat.Core.Tests.dll",
+          "/reference:System.Core.dll",
+          "/reference:System.dll",
+          "/reference:System.Data.dll",
+          "/reference:System.Xml.Linq.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\BESHStatNG.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\BESHStat.Core.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\BESHStat.Excel.Common.dll",
+          "/reference:<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\ExcelDna.Integration.dll",
+          "/reference:<PROGRAM_FILES>/Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.8\\Facades\\netstandard.dll",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AgreementMethodUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\AssumptionsUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ClassificationReportUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ContingencyTableUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\DistributionUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ExcelArgModules.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\MultivariateAnalysisUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\NonparametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\ParametricUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PlotDataUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\PropensityScoreUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\CoxUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GeeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmNbUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\GlmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LinearModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\LmmUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MixedModelUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\MultinomialLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\OrdinalLogitUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\RegressionFormulaUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\UdfRegressionOutput.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\Regression\\ZipUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SampleSizeUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\SurvivalUDFs.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportAgreement.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportContingency.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportFormula.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMixedModel.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportMultivariate.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPlot.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportPsm.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRangeReaders.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportRegressionOptions.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFdataImport\\UdfDataImportSurvival.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UDFhelpers.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfLinearAlgebra.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfOutputTables.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\ExcelUDFs\\UdfScalarUtilities.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\DM\\WindowsSpreadsheetTransport.vb",
+          "<REPO_ROOT>\\BESHstatNG\\src\\RegModels\\MixedModels\\MixedModelFrontEndHelpers.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\NativeBoundary38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\DependencySlices38.vb",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\native-safety\\FixtureInputs38.vb"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5458438000059687,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "sources": [
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 111787,
+          "sha256": "f6222384f7543bcdc6b1a11a89fd72738f7d9dec73f68e0d719a76068858c40d"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 41420,
+          "sha256": "22618414dbc72347d95990f7847c671676332332ca20a458e9a9aad7f5ba5ee6"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+          "bytes": 23660,
+          "sha256": "9ed0e5316baa66ab2ea972531f0418bb555b76d191ddf5ffec7f286d2893f372"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 78984,
+          "sha256": "b1734105c0f115edc41985e8fd9e038d031a717a435a3cc63143db0994b589ea"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+          "bytes": 7836,
+          "sha256": "4a0a482f26d4b134cedf4d141359e90ad0d5c689195738e467c6d7089af38f8f"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+          "bytes": 8752,
+          "sha256": "17d150654200416f0c8f3cace4ac6ce68691ccd5fd25b44e317e36ded8d28422"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "bytes": 221916,
+          "sha256": "ead88a15ee8de7d18446d9ae7d09a5cb270fc16cf07fad171192b61ad74ddd3c"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 57064,
+          "sha256": "932411ad9682d8fd94e3c3b1101f135af798fb1222852ab74c23779e9b966d52"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53546,
+          "sha256": "e8e0bb3b738ce29b7f76ef3342f8f79f159337d4b87ba9107b67b9a428ba6164"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+          "bytes": 36318,
+          "sha256": "dffd3155485786140f96e09d01dbfb1c7f68ab46c5e49eca1f047fc048988f80"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "bytes": 48126,
+          "sha256": "a6ec6181ac7bea01cf6f264e5eae5555faaae6ea21760035e26bf84d0e60af09"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "bytes": 55531,
+          "sha256": "b5d6ce31a3afa51d1b7fdc1d6bd803b7cf074c05ac904f7dc36d961449aebb7d"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "bytes": 93320,
+          "sha256": "234bb5b7b7f0ab498322195f4aac53222e8242c2b1e971b7932c6e9e26b3533a"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "bytes": 43728,
+          "sha256": "c3a553d1e6c72486ed6d627718849b7a2eb0a98cb801abd5f65403d7739a5da8"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "bytes": 69744,
+          "sha256": "dd5b8f8a273ec2a44cc2acd84516394cfef9bac6207b47f9b9c0d88792fb95b3"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "bytes": 46860,
+          "sha256": "652563256df92cecbe9b7425766f7863f7e6e62ff1f64d9e68a4690a35983816"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "bytes": 67135,
+          "sha256": "aac03b058aa35c3b4f1daff43966c57f468400e0f45db52864b9cc8ea537e6f0"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+          "bytes": 84656,
+          "sha256": "ed072b0418f86546a3f10951f65be817176681157cd649b24293682301ec39f2"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "bytes": 51591,
+          "sha256": "ae7ba18a58279ebc948c39d2481afed671f00f58d1dcd9b8e58af6f3f0f5478e"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "bytes": 47996,
+          "sha256": "594723690f162f9c35cbdf677f9c8da51cf9031f81ee33c9dcd12ecc37d659de"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+          "bytes": 16108,
+          "sha256": "dd402e908bc4b9f4bca4acbd458ddd08033a06347997f5f939a939b655fe5ef6"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+          "bytes": 4056,
+          "sha256": "e22eb5525e15f94ae1ea2eaa406d57cbd8d485da898e435776ed5a9a7a210551"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "bytes": 57030,
+          "sha256": "840bd88e20704624c8a537f2a5940ad7a09fd0226deed9fce353697b5a458411"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 67232,
+          "sha256": "14707e09a16f7798919e2ef7c94411f755b9163f0e37689715737fd691149f80"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+          "bytes": 18862,
+          "sha256": "dc848cfe4fad16878d31f758657a4aef77ca269390ffa53fbd3b2ea17a8d6ed1"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+          "bytes": 28428,
+          "sha256": "dc9c0a758b35355d909d0ddd50f1b6a0df2b28ea5ce0f40fd16374772282fd75"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+          "bytes": 22371,
+          "sha256": "c8420c2c62bc80cb55d57ce6846ece8b5ed283220ef4e5a22451801591c4e088"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportContingency.vb",
+          "bytes": 1426,
+          "sha256": "523fd952732b61e81996869d76c2c865f45deb2188d0df182f7bc5c8a4eded4d"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+          "bytes": 7635,
+          "sha256": "85a92dc4342766e4fc9342ab76cc336e20e4afa472d25c9796dc9138600f4727"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+          "bytes": 20297,
+          "sha256": "285ab4113b594947691f0567120129c9196ae9bcb1a33d23c78ec80ad56cfcd2"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+          "bytes": 11941,
+          "sha256": "f4f7f913b8b0f41ed1a7335ff56a5070338ebf7936dafbfd99f6049e91e7a10c"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+          "bytes": 5369,
+          "sha256": "a8be297be0121682449eb913f0d5f13c35bb9e74f920e131d6e527b6ee17e78f"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+          "bytes": 7660,
+          "sha256": "3a4362f50f2189db44d24788084385d50fc5d008aaff00b1233785eacad7e42f"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+          "bytes": 8679,
+          "sha256": "ca34a806c3222359e7e862097502b20c20e0c958eb5dfbd92f1f5bce27d48309"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+          "bytes": 41331,
+          "sha256": "7dfcf7ebda854d2f3cacaf210c035c2d5e17e0caba86e05e66a66d72804b20ab"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+          "bytes": 2424,
+          "sha256": "726834fdd1192ce956bc8d3f464a1b38698644a06ab5563e7bf850c26a616f2f"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+          "bytes": 11730,
+          "sha256": "4d06a35bc858d6174143e7a9042dc4f15de89ebf805b1655a31677ae5b287037"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UDFhelpers.vb",
+          "bytes": 2429,
+          "sha256": "1599b453f8f35b21c8a01781104c33e99ce93bc62e8f21b83cebb94d35fe7112"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+          "bytes": 1102,
+          "sha256": "54874a72c27d51cfa5eb906ed41f71f1373e234c787838544286a4fd3454dc6a"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+          "bytes": 19571,
+          "sha256": "0252d2b5fdd6ad79fe287f08caf4cac92c5630ba0f7fa7d4de03fa771addf526"
+        },
+        {
+          "path": "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+          "bytes": 7128,
+          "sha256": "9f01e31fcf27229338ad9c6e27963db13fb8727a7bbda946cb1e535a443a04ab"
+        },
+        {
+          "path": "BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb",
+          "bytes": 10860,
+          "sha256": "a2a5e1c896b36d8fcfae43c4310e55fd6cc2f8384df30fd090688620e960b0cb"
+        },
+        {
+          "path": "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+          "bytes": 23894,
+          "sha256": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e"
+        },
+        {
+          "path": "evidence/04A38/preedit/native-safety/NativeBoundary38.vb",
+          "bytes": 1254,
+          "sha256": "037f48222021668448dd851e5c5e10e9db95d92b4db88b191bc10931fe9bda05"
+        },
+        {
+          "path": "evidence/04A38/preedit/native-safety/DependencySlices38.vb",
+          "bytes": 7992,
+          "sha256": "579af77801f01137e3a31f34d84179d8e74ca47af15e15e4fe8e8ac873836ab9"
+        },
+        {
+          "path": "evidence/04A38/preedit/native-safety/FixtureInputs38.vb",
+          "bytes": 4705,
+          "sha256": "c2a9a3507a1415387cdc1cca1a70af257179cb2de7b1704826f4e69e2f7db55a"
+        }
+      ],
+      "assemblies": [
+        {
+          "name": "BESHStat.Core.dll",
+          "bytes": 1924096,
+          "sha256": "2f6e237af4863c4372c4559577f2ba178fd96414bb8b3379c22e113a0bf98812"
+        },
+        {
+          "name": "BESHStat.Core.Tests.dll",
+          "bytes": 485888,
+          "sha256": "1de333195f1b0b4ef4d00e20b68e39ca6cff6938153ee2422bf7cb062f812416"
+        },
+        {
+          "name": "BESHStat.Excel.Common.dll",
+          "bytes": 1005568,
+          "sha256": "2f556ebcbac5604fd127c50278557064131a867001f2c7483ab2d8033f02247d"
+        },
+        {
+          "name": "BESHStatNG.dll",
+          "bytes": 2517504,
+          "sha256": "499b534be521ec486b6e5d95061b59e2d3c1bbeaa5b57404abec02749beac68b"
+        },
+        {
+          "name": "ExcelDna.Integration.dll",
+          "bytes": 308224,
+          "sha256": "c92fcabda2f18eb68d0d1e91cfa4bf05ea079eb66eecb9762884ab576a84f41f"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "configuration": "Debug",
+      "corpus": "preedit-main",
+      "cases": 24732,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/frozen-v2/original-Debug.tsv",
+        "bytes": 17065755,
+        "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/preedit-main/results.tsv",
+        "bytes": 17065755,
+        "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+        "bytes": 11751614,
+        "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+        "bytes": 30438,
+        "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\preedit-main-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\frozen-v2\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\preedit-main\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\preedit-main\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 133.16712599998573,
+        "stdout_sha256": "3f2e1d45cfed909d59e146f4379d3a6cc121a69efab67a267e594529445d4667",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "public-options-v1",
+      "cases": 2508,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-original-v1.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/public-options-v1/results.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+        "bytes": 3168046,
+        "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+        "bytes": 30438,
+        "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\public-options-v1-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\public-options-v1\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\public-options-v1\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\public-options-v1\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 49.04190319997724,
+        "stdout_sha256": "1da4095d6e2c25cd45e1179fc8eaaeb5ec63bb4bb1189b94d01c9b95f369c6ce",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "public-primitives-v1",
+      "cases": 226,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-original-v1.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/public-primitives-v1/results.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+        "bytes": 191201,
+        "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+        "bytes": 30438,
+        "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\public-primitives-v1-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\public-primitives-v1\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\public-primitives-v1\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\public-primitives-v1\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 1.081111499981489,
+        "stdout_sha256": "896e1e79e9f245b4bbe9f4221e40db46a9905c34782831a61125751349caea09",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "model-inputs-v2",
+      "cases": 882,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-original-v1.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/model-inputs-v2/results.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+        "bytes": 751343,
+        "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/Capture38.cs",
+        "bytes": 33456,
+        "sha256": "7bc7045db30657b30d011bf8b683b1804ddf7e67b86b23704d61ed1be5ebfec4"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\model-inputs-v2-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\model-inputs-v2\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\model-inputs-v2\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\model-inputs-v2\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 13.812301700003445,
+        "stdout_sha256": "475288995a7028c01dc1724b5adc66d0d2873d947333c41b1be35cc803cabfc5",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "math-edges-v1",
+      "cases": 618,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-original-v1.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/math-edges-v1/results.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+        "bytes": 286237,
+        "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/Capture38.cs",
+        "bytes": 30706,
+        "sha256": "bda04dd1d82990f543ff6eaed407cc488b5f7450eeb019354e97fabe97afe9b4"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\math-edges-v1-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\math-edges-v1\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\math-edges-v1\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\math-edges-v1\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.7119810000003781,
+        "stdout_sha256": "352f0ae32a801aaa9fa561aec99b44cf13bf87cc86965786ec5d6ff53ac0b17f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "A",
+      "cases": 432,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v1/original-results/Debug/plain-v2/results.tsv",
+        "bytes": 689840,
+        "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/A/results.tsv",
+        "bytes": 689840,
+        "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v1/inputs-Debug.jsonl",
+        "bytes": 987452,
+        "sha256": "d46f8a4997a0adf8b60c78384751ee525ff06628726d926c350ba42b5f15fef6"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v1/LateCapture38.cs",
+        "bytes": 11155,
+        "sha256": "e1764c0c009151473e0c515573ac44e83483c2429c3cab756eed13da630dd3fc"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\A-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v1\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\A\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\A\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.6763357000018004,
+        "stdout_sha256": "759b5ca0d006abf5a30e73d40ef8ee24d3b9d437a473de7c8e1450c951d64039",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "B",
+      "cases": 12,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Debug/plain-v2/results.tsv",
+        "bytes": 68076,
+        "sha256": "a30aa1a82f60fbf2cca762ece3bf79fbaf24291c5e6709e6896ef1163b35513b"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/B/results.tsv",
+        "bytes": 68076,
+        "sha256": "a30aa1a82f60fbf2cca762ece3bf79fbaf24291c5e6709e6896ef1163b35513b"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/inputs-Debug.jsonl",
+        "bytes": 114150,
+        "sha256": "9c59198ea1f06e2457756cdaefd18cb6dff6d9f47a0b29a397c7964c6720c8eb"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38-v2.cs",
+        "bytes": 13269,
+        "sha256": "9d867afcc90dadb34a989962f5298ce18aa343622f9d89f2304d5f9ab46ef2ea"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\B-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\B\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\B\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.610584399983054,
+        "stdout_sha256": "f4ce8127bd26ed607c967770322517c91265de6cd566d8a22b6c652825f45b0a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "C",
+      "cases": 2,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Debug/plain/results.tsv",
+        "bytes": 33646,
+        "sha256": "c036ff73ec9a6eb56fef45551fc69254bf8b66375ff913795cfd7647af40d16e"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/C/results.tsv",
+        "bytes": 33646,
+        "sha256": "c036ff73ec9a6eb56fef45551fc69254bf8b66375ff913795cfd7647af40d16e"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/inputs-Debug.jsonl",
+        "bytes": 46514,
+        "sha256": "8ed6ef1e04eb34a4614f3faf98118dd277e18478e14c22b215fb66c4f1aac773"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/MmrmCapture38.cs",
+        "bytes": 13458,
+        "sha256": "28b099782a665e8ac695efed6247f674dba8765dc297a02dfa4f7edc06f7c367"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\C-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\C\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\C\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.6001976999978069,
+        "stdout_sha256": "e090c51ad9c4007dc8a884037fe63e51e1b2d03ee68cefbb09e1709069159b5c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "D",
+      "cases": 4,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Debug/plain/results.tsv",
+        "bytes": 64486,
+        "sha256": "fb1372bc77b3cb05b8e0c6964522e10ac6b94c04760eb1ba0e8c7d6490005f4c"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/D/results.tsv",
+        "bytes": 64486,
+        "sha256": "fb1372bc77b3cb05b8e0c6964522e10ac6b94c04760eb1ba0e8c7d6490005f4c"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/inputs-Debug.jsonl",
+        "bytes": 91808,
+        "sha256": "3f60a953fd3cbff0c2a751d170d73ff3c4c304acc4c48f2c85f2aeab6f31805b"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/MmrmCapture38.cs",
+        "bytes": 13458,
+        "sha256": "3c3b4d16e63909c014b7d4feb0c8c4b91aab1b873400b58b3d0f1910e2db56d1"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\D-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\D\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\D\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.6755869000044186,
+        "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "E",
+      "cases": 2,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/plain/results.tsv",
+        "bytes": 31484,
+        "sha256": "f4cabe1eaea62672ad4e54578431b31b98d354f5308d007dc2d10248393dbd6a"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/E/results.tsv",
+        "bytes": 31484,
+        "sha256": "f4cabe1eaea62672ad4e54578431b31b98d354f5308d007dc2d10248393dbd6a"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/inputs-Debug.jsonl",
+        "bytes": 70006,
+        "sha256": "860f381d55a0986df258d6b36b8ba58c132b95307452667b681052bf9c56686d"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/MmrmCapture38.cs",
+        "bytes": 17000,
+        "sha256": "77880f48c568bf2e9093ecf36344f7755746eef9ca11aa752cbceabae1dfdd8a"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\E-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\E\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\E\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.654940100008389,
+        "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "F",
+      "cases": 2,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Debug/plain/results.tsv",
+        "bytes": 31314,
+        "sha256": "16f4d287c22ade963412832192f1ae2355ad87f1d1bcefa8ea54b946ce0a8722"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/F/results.tsv",
+        "bytes": 31314,
+        "sha256": "16f4d287c22ade963412832192f1ae2355ad87f1d1bcefa8ea54b946ce0a8722"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/inputs-Debug.jsonl",
+        "bytes": 58064,
+        "sha256": "929d5c5cec45c3e5a336424701b02129ea14210968f43d3e9b2ec103231fd941"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/MmrmCapture38.cs",
+        "bytes": 16748,
+        "sha256": "26120094bdf4ef49a0f3e48aaca005f91ce9d7d0647d866ec1279e0877bb8ef3"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\F-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\F\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\F\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.6234398999949917,
+        "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Debug",
+      "corpus": "G",
+      "cases": 4,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Debug/plain/results.tsv",
+        "bytes": 43444,
+        "sha256": "b41c738f41b7f94153d89cff62feb8753f1d316bd2324951f52acfed5ecb2279"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Debug/G/results.tsv",
+        "bytes": 43444,
+        "sha256": "b41c738f41b7f94153d89cff62feb8753f1d316bd2324951f52acfed5ecb2279"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/inputs-Debug.jsonl",
+        "bytes": 65070,
+        "sha256": "fe36f7bdb3f56c8df3ab2dd9f61e0d8c3d790f205401f2b5c5ce935aefbe0b99"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/MmrmCapture38-v2.cs",
+        "bytes": 17060,
+        "sha256": "2c71456350841a375852c8f3f4ae427672a493216ee1ff2e4783e71b368c52fd"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf\\G-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Debug\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide\\inputs-Debug.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\G\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Debug\\G\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.7744264999928419,
+        "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "preedit-main",
+      "cases": 24732,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/frozen-v2/original-Release.tsv",
+        "bytes": 17067771,
+        "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/preedit-main/results.tsv",
+        "bytes": 17067771,
+        "sha256": "4d78707c8f2d0f2c5a431832be7c86a222db034958f16c540bb44b831b7ecccf"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+        "bytes": 11751614,
+        "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+        "bytes": 30438,
+        "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\preedit-main-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\frozen-v2\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\preedit-main\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\preedit-main\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 127.26485199999297,
+        "stdout_sha256": "3f2e1d45cfed909d59e146f4379d3a6cc121a69efab67a267e594529445d4667",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "public-options-v1",
+      "cases": 2508,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Release-original-v1.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/public-options-v1/results.tsv",
+        "bytes": 6942877,
+        "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+        "bytes": 3168046,
+        "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+        "bytes": 30438,
+        "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\public-options-v1-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\public-options-v1\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\public-options-v1\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\public-options-v1\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 26.048084300011396,
+        "stdout_sha256": "1da4095d6e2c25cd45e1179fc8eaaeb5ec63bb4bb1189b94d01c9b95f369c6ce",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "public-primitives-v1",
+      "cases": 226,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Release-original-v1.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/public-primitives-v1/results.tsv",
+        "bytes": 76370,
+        "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+        "bytes": 191201,
+        "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+        "bytes": 30438,
+        "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\public-primitives-v1-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\public-primitives-v1\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\public-primitives-v1\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\public-primitives-v1\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.8136850000009872,
+        "stdout_sha256": "896e1e79e9f245b4bbe9f4221e40db46a9905c34782831a61125751349caea09",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "model-inputs-v2",
+      "cases": 882,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Release-original-v1.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/model-inputs-v2/results.tsv",
+        "bytes": 6357582,
+        "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+        "bytes": 751343,
+        "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/attempts/model-inputs-v2/Capture38.cs",
+        "bytes": 33456,
+        "sha256": "7bc7045db30657b30d011bf8b683b1804ddf7e67b86b23704d61ed1be5ebfec4"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\model-inputs-v2-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\model-inputs-v2\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\model-inputs-v2\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\model-inputs-v2\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 9.439239400002407,
+        "stdout_sha256": "475288995a7028c01dc1724b5adc66d0d2873d947333c41b1be35cc803cabfc5",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "math-edges-v1",
+      "cases": 618,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Release-original-v1.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/math-edges-v1/results.tsv",
+        "bytes": 174484,
+        "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+      },
+      "inputs": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+        "bytes": 286237,
+        "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+      },
+      "recorder": {
+        "path": "evidence/04A38/preedit/attempts/math-edges-v1/Capture38.cs",
+        "bytes": 30706,
+        "sha256": "bda04dd1d82990f543ff6eaed407cc488b5f7450eeb019354e97fabe97afe9b4"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\math-edges-v1-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\math-edges-v1\\cases.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\math-edges-v1\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\math-edges-v1\\execution.json"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5644873999990523,
+        "stdout_sha256": "352f0ae32a801aaa9fa561aec99b44cf13bf87cc86965786ec5d6ff53ac0b17f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "A",
+      "cases": 432,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v1/original-results/Release/plain-v2/results.tsv",
+        "bytes": 689840,
+        "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/A/results.tsv",
+        "bytes": 689840,
+        "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v1/inputs-Release.jsonl",
+        "bytes": 987452,
+        "sha256": "d46f8a4997a0adf8b60c78384751ee525ff06628726d926c350ba42b5f15fef6"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v1/LateCapture38.cs",
+        "bytes": 11155,
+        "sha256": "e1764c0c009151473e0c515573ac44e83483c2429c3cab756eed13da630dd3fc"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\A-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v1\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\A\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\A\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.633215800015023,
+        "stdout_sha256": "759b5ca0d006abf5a30e73d40ef8ee24d3b9d437a473de7c8e1450c951d64039",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "B",
+      "cases": 12,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Release/plain-v2/results.tsv",
+        "bytes": 68076,
+        "sha256": "871d9a0c606015a705ded209429c8e425734148218fdc513997d60564543a24a"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/B/results.tsv",
+        "bytes": 68076,
+        "sha256": "871d9a0c606015a705ded209429c8e425734148218fdc513997d60564543a24a"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/inputs-Release.jsonl",
+        "bytes": 114174,
+        "sha256": "09dde00b3dc1940f103be612ccbc1a20d754d3dcf5e129514577e06cbe3b31c5"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38-v2.cs",
+        "bytes": 13269,
+        "sha256": "9d867afcc90dadb34a989962f5298ce18aa343622f9d89f2304d5f9ab46ef2ea"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\B-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\B\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\B\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.5637215999886394,
+        "stdout_sha256": "f4ce8127bd26ed607c967770322517c91265de6cd566d8a22b6c652825f45b0a",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "C",
+      "cases": 2,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Release/plain/results.tsv",
+        "bytes": 33646,
+        "sha256": "6fcb91c225671fc99144334f23f58d7e96267c9989f9666e41270e4c5a8f949d"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/C/results.tsv",
+        "bytes": 33646,
+        "sha256": "6fcb91c225671fc99144334f23f58d7e96267c9989f9666e41270e4c5a8f949d"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/inputs-Release.jsonl",
+        "bytes": 46518,
+        "sha256": "f5a8775e2da9c105b460372af029404542656b154a31c6645c9c2433eca8e772"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/MmrmCapture38.cs",
+        "bytes": 13458,
+        "sha256": "28b099782a665e8ac695efed6247f674dba8765dc297a02dfa4f7edc06f7c367"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\C-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\C\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\C\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.6917726999963634,
+        "stdout_sha256": "e090c51ad9c4007dc8a884037fe63e51e1b2d03ee68cefbb09e1709069159b5c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "D",
+      "cases": 4,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Release/plain/results.tsv",
+        "bytes": 64486,
+        "sha256": "c41219aedcbb91614ae2f2c801edc19d08b6f89a0d05615889ac13d449323f05"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/D/results.tsv",
+        "bytes": 64486,
+        "sha256": "c41219aedcbb91614ae2f2c801edc19d08b6f89a0d05615889ac13d449323f05"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/inputs-Release.jsonl",
+        "bytes": 91816,
+        "sha256": "a238f0e045ee1b5aaa9f3450390028aa7fda18f0adb1e5782158f298300c8b06"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/MmrmCapture38.cs",
+        "bytes": 13458,
+        "sha256": "3c3b4d16e63909c014b7d4feb0c8c4b91aab1b873400b58b3d0f1910e2db56d1"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\D-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\D\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\D\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.7431214000098407,
+        "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "E",
+      "cases": 2,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Release/plain/results.tsv",
+        "bytes": 31484,
+        "sha256": "086ecf6cc806ad18fad68e19052eef7e523e35598b299939b861c730db871b8d"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/E/results.tsv",
+        "bytes": 31484,
+        "sha256": "086ecf6cc806ad18fad68e19052eef7e523e35598b299939b861c730db871b8d"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/inputs-Release.jsonl",
+        "bytes": 70010,
+        "sha256": "b243aedfe81b2d005a68b122320954617af42931594584686e394085326e6ade"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/MmrmCapture38.cs",
+        "bytes": 17000,
+        "sha256": "77880f48c568bf2e9093ecf36344f7755746eef9ca11aa752cbceabae1dfdd8a"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\E-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\E\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\E\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.7202743000234477,
+        "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "F",
+      "cases": 2,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Release/plain/results.tsv",
+        "bytes": 31314,
+        "sha256": "8cf9ccf6448e7cf0b7a4aa60aff6e57a14b83e6e25ced602397543984fc7cdf1"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/F/results.tsv",
+        "bytes": 31314,
+        "sha256": "8cf9ccf6448e7cf0b7a4aa60aff6e57a14b83e6e25ced602397543984fc7cdf1"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/inputs-Release.jsonl",
+        "bytes": 58068,
+        "sha256": "5ef9f802d41e9eba48b5e13237e0f411aad646c81e6305344b9de6cf31d65b94"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/MmrmCapture38.cs",
+        "bytes": 16748,
+        "sha256": "26120094bdf4ef49a0f3e48aaca005f91ce9d7d0647d866ec1279e0877bb8ef3"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\F-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\F\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\F\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.6474003000184894,
+        "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    },
+    {
+      "configuration": "Release",
+      "corpus": "G",
+      "cases": 4,
+      "exact": true,
+      "original": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Release/plain/results.tsv",
+        "bytes": 43444,
+        "sha256": "f8ecca980945fdd2757caa8f0394693c0418a14f30bc5dd93f0d2d6a7b43e71e"
+      },
+      "current": {
+        "path": "evidence/04A38/completion/w2/continuation-v6/captures/families-v1/Release/G/results.tsv",
+        "bytes": 43444,
+        "sha256": "f8ecca980945fdd2757caa8f0394693c0418a14f30bc5dd93f0d2d6a7b43e71e"
+      },
+      "inputs": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/inputs-Release.jsonl",
+        "bytes": 65078,
+        "sha256": "2a29f17df4bc3af0d3918c36d4900225ffd152b31ea14562aa24cac37d11e05e"
+      },
+      "recorder": {
+        "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/MmrmCapture38-v2.cs",
+        "bytes": 17060,
+        "sha256": "2c71456350841a375852c8f3f4ae427672a493216ee1ff2e4783e71b368c52fd"
+      },
+      "command": {
+        "command": [
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf\\G-current.exe",
+          "<ISOLATED_RUN>\\completion-w2-cont6\\families-v1\\Release\\udf",
+          "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide\\inputs-Release.jsonl",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\G\\results.tsv",
+          "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v6\\captures\\families-v1\\Release\\G\\execution.json",
+          "current"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.778183699992951,
+        "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "original_queries": 0
+    }
+  ],
+  "all_exact": true,
+  "totals_per_configuration": {
+    "Debug": 29424,
+    "Release": 29424
+  },
+  "new_original_queries": 0,
+  "native": "NOT_RUN",
+  "science": "NOT_GOLDEN"
+}

@@ -369,37 +369,7 @@ Namespace WorksheetFunctions
 
                 Dim names() As String = BuildParameterNames(h, beta.Length)
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)
-                Dim out(outRows - 1, 7) As Object
-                Dim zCrit As Double = distributions.ZCritTwoSided(ciAlpha)
-                Dim ciLabel As String = (100.0R * (1.0R - ciAlpha)).ToString("0.##", CultureInfo.InvariantCulture) & "%"
-                Dim r0 As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Parameter"
-                    out(0, 1) = "Type"
-                    out(0, 2) = "Coef"
-                    out(0, 3) = "SE"
-                    out(0, 4) = "Z"
-                    out(0, 5) = "P-value"
-                    out(0, 6) = ciLabel & " CI Lower"
-                    out(0, 7) = ciLabel & " CI Upper"
-                    r0 = 1
-                End If
-
-                For i As Integer = 0 To beta.Length - 1
-                    Dim z As Double = If(se(i) > 0.0R, beta(i) / se(i), Double.NaN)
-                    Dim pv As Double = If(se(i) > 0.0R, 2.0R * distributions.PNorm(-Math.Abs(z)), Double.NaN)
-
-                    out(r0 + i, 0) = names(i)
-                    out(r0 + i, 1) = If(h.InterceptIncluded AndAlso i = 0, "Intercept", "Slope")
-                    out(r0 + i, 2) = beta(i)
-                    out(r0 + i, 3) = se(i)
-                    out(r0 + i, 4) = z
-                    out(r0 + i, 5) = pv
-                    out(r0 + i, 6) = beta(i) - zCrit * se(i)
-                    out(r0 + i, 7) = beta(i) + zCrit * se(i)
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildGlmCoefficientTable(beta, se, names, hdr, ciAlpha, h.InterceptIncluded)
 
                 Return PreparePValueTableForUdf(out, 6)
 
@@ -457,25 +427,8 @@ Namespace WorksheetFunctions
                 If Not String.IsNullOrWhiteSpace(h.Model.strError) Then extraRows += 1
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, labels.Length + extraRows + 1, labels.Length + extraRows)
-                Dim out(outRows - 1, 3) As Object
                 Dim r As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "Item"
-                    out(0, 1) = "Value"
-                    out(0, 2) = "df"
-                    out(0, 3) = "P-value"
-                    r = 1
-                End If
-
-                For i As Integer = 0 To labels.Length - 1
-                    out(r, 0) = labels(i)
-                    out(r, 1) = vals(i, 0)
-                    out(r, 2) = vals(i, 1)
-                    out(r, 3) = vals(i, 2)
-                    r += 1
-                Next
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.BuildRegressionTestsPrefix(labels, vals, hdr, extraRows, r)
 
                 Dim nbAlpha As Double = h.Model.NBalpha
                 out(r, 0) = "NB2 dispersion alpha"
@@ -667,15 +620,8 @@ Namespace WorksheetFunctions
                 If beta Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim outRows As Integer = If(hdr, nRows + 1, nRows)
-                Dim out(outRows - 1, 1) As Object
                 Dim r0 As Integer = 0
-
-                If hdr Then
-                    out(0, 0) = "PredictedResponse"
-                    out(0, 1) = "LinearPredictor"
-                    r0 = 1
-                End If
+                Dim out As Object(,) = Global.BESHStatNG.ExcelCommon.UdfCoxGeeReportPreparation38.CreateGeePredictionTable(nRows, hdr, r0)
 
                 For i As Integer = 0 To nRows - 1
                     Dim eta As Double = ComputeLinearPredictor(expandedX, i, beta, h.InterceptIncluded, offsetVals)
@@ -727,20 +673,8 @@ Namespace WorksheetFunctions
                 nextIndex = 1
             End If
 
-            Dim predictorNames() As String = If(h.VarNames, New String() {})
-            For i As Integer = 0 To predictorNames.Length - 1
-                If nextIndex + i <= UBound(out) Then
-                    out(nextIndex + i) = predictorNames(i)
-                End If
-            Next
+            Return Global.BESHStatNG.ExcelCommon.UdfRegressionFamilyReportPreparation38.CompleteRegressionParameterNames(out, nextIndex, h.VarNames)
 
-            For i As Integer = 0 To UBound(out)
-                If String.IsNullOrWhiteSpace(out(i)) Then
-                    out(i) = "Param" & (i + 1).ToString(CultureInfo.InvariantCulture)
-                End If
-            Next
-
-            Return out
         End Function
 
     End Module

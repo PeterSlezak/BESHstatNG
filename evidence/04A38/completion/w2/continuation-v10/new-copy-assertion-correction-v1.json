@@ -1,0 +1,29 @@
+{
+  "before": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 86284,
+    "sha256": "5c9caf457d07645ed7dc4bdee4a42ebca0bb60846227616c6329eaa2ffa85a90"
+  },
+  "preimage": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/source-attempts/new-copy-assertion-v1/BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb.txt",
+    "bytes": 86284,
+    "sha256": "5c9caf457d07645ed7dc4bdee4a42ebca0bb60846227616c6329eaa2ffa85a90"
+  },
+  "after": {
+    "path": "BESHStatNG.Test/src/UDFs/UdfPreparation38AdapterTests.vb",
+    "bytes": 86726,
+    "sha256": "f2e6c53988aa18bc15a364c102f29c87a3cab900a6a25fde6eadf4c3aedb004b"
+  },
+  "basis": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/boxing-copy-investigation-v1.json",
+    "bytes": 94534,
+    "sha256": "2056359416614ccbc30a80ea046a16aa736a78a223060a7af37a23c5fe0e63fc"
+  },
+  "first_tests": {
+    "path": "evidence/04A38/completion/w2/continuation-v10/focused-bc-v1-packet-v2-Debug.json",
+    "bytes": 21998,
+    "sha256": "176a23621d5aada8b52db3de8f1fdb7174a900fe533ecb2c9146456bf1ba91c7"
+  },
+  "reason": "New assertion incorrectly prohibited every GetObjectValue in FA_EIGEN. Preserved C9 CIL has one handle copy and one late header copy; C10 keeps the handle copy native and the single header copy after derived arrays in Common. Only the new test changes; no production or historical assertion change.",
+  "original_queries": 0
+}

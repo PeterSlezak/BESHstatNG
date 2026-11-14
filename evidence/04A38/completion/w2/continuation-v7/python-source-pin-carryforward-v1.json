@@ -1,0 +1,32 @@
+{
+  "status": "RETAINED_C6_INTRODUCED_FAIL_NOT_INHERITED_FROM_V5",
+  "test": {
+    "path": "scripts/tests/test_04a27_transport_successor.py",
+    "bytes": 8216,
+    "sha256": "e268340655fb8be7889e13c0f22d1cb3acd662aba09264b33728dcd431e23830"
+  },
+  "first_location": "scripts/tests/test_04a27_transport_successor.py:60",
+  "outcome": "FAIL",
+  "occurrences": 1,
+  "C6_evidence": {
+    "path": "evidence/04A38/completion/w2/continuation-v6/python-source-pin-delta-v1.json",
+    "bytes": 6687,
+    "sha256": "9e364214e8a1b2f069d377736dfab7e265e168f87b0589d4229941c709c73bdc"
+  },
+  "unchanged_C6_paired_member_bodies": [
+    {
+      "member": "TryReadPairedNumericColumns",
+      "C6_after_sha256": "d2c59e7073a401e386a87b76eec3b6de8f56dc4fb019b4cb44378cb20a297039",
+      "C7_after_sha256": "d2c59e7073a401e386a87b76eec3b6de8f56dc4fb019b4cb44378cb20a297039",
+      "canonical_original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|e0115878bff3edd3@34247:1289"
+    },
+    {
+      "member": "ExtractPairedNumericColumnsIgnoringNonNumeric",
+      "C6_after_sha256": "4f0d0d922d88c75040a9274e95d2b4160cc0c3371e491821da08c36103c790b1",
+      "C7_after_sha256": "4f0d0d922d88c75040a9274e95d2b4160cc0c3371e491821da08c36103c790b1",
+      "canonical_original_id": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb|BESHStatNG.UdfDataImport|FunctionBlock|ec6dd73cd7c33ba1@38242:1105"
+    }
+  ],
+  "new_original_queries": 0,
+  "waived": false
+}

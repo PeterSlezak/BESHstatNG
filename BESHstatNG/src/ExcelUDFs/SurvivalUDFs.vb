@@ -286,38 +286,7 @@ Namespace WorksheetFunctions
                 Dim km As New survival.Survival_KM_LR(records)
                 Dim outObj As Object() = km.SurvivalCurveTabularOutput(alphaValue)
 
-                Dim totalRows As Integer = 0
-                For Each g In outObj
-                    If g Is Nothing Then Continue For
-                    Dim lst = TryCast(g, System.Collections.IEnumerable)
-                    If lst Is Nothing Then Continue For
-                    totalRows += lst.Cast(Of Object)().Count()
-                Next
-
-                If totalRows = 0 Then Return ExcelError.ExcelErrorNum
-
-                Dim result(totalRows - 1, 6) As Object
-
-                Dim r As Integer = 0
-                For Each g In outObj
-                    If g Is Nothing Then Continue For
-                    Dim lst = TryCast(g, System.Collections.IEnumerable)
-                    If lst Is Nothing Then Continue For
-
-                    For Each itemObj In lst
-                        Dim rec As survival.SurvivalTableRecord = CType(itemObj, survival.SurvivalTableRecord)
-                        result(r, 0) = rec.strGroup
-                        result(r, 1) = rec.Time
-                        result(r, 2) = rec.AtRisk
-                        result(r, 3) = rec.Prob
-                        result(r, 4) = rec.SE
-                        result(r, 5) = rec.ProbCILL
-                        result(r, 6) = rec.ProbCIUL
-                        r += 1
-                    Next
-                Next
-
-                Return result
+                Return Global.BESHStatNG.ExcelCommon.UdfW2CompletionReports38.BuildKaplanMeierTable(outObj, ExcelError.ExcelErrorNum)
 
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SURV.KM_TABLE", ex, ExcelError.ExcelErrorValue)

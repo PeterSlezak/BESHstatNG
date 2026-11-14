@@ -1,0 +1,811 @@
+{
+  "status": "LOCKED_BEFORE_EXECUTION",
+  "rows": [
+    {
+      "configuration": "Debug",
+      "category": "compilation",
+      "status": "SCHEDULED_FRESH_W3_EXECUTION",
+      "campaign_id": "w3v1-Debug",
+      "expected_cases": null,
+      "expected_managed_identities": null,
+      "Release_identity_policy": "Publish separately discovered actual multiset; compare Debug multiset without assuming equality",
+      "expected_exports": null
+    },
+    {
+      "configuration": "Debug",
+      "category": "managed-six-suites",
+      "status": "SCHEDULED_FRESH_W3_EXECUTION",
+      "campaign_id": "w3v1-Debug",
+      "expected_cases": null,
+      "expected_managed_identities": 21094,
+      "Release_identity_policy": "Publish separately discovered actual multiset; compare Debug multiset without assuming equality",
+      "expected_exports": null
+    },
+    {
+      "configuration": "Debug",
+      "category": "ABI-CIL-signatures-exports-closure",
+      "status": "SCHEDULED_FRESH_W3_EXECUTION",
+      "campaign_id": "w3v1-Debug",
+      "expected_cases": null,
+      "expected_managed_identities": null,
+      "Release_identity_policy": "Publish separately discovered actual multiset; compare Debug multiset without assuming equality",
+      "expected_exports": 268
+    },
+    {
+      "configuration": "Debug",
+      "category": "frozen-current-only-compatibility",
+      "status": "SCHEDULED_FRESH_W3_EXECUTION",
+      "campaign_id": "w3v1-Debug",
+      "expected_cases": 29424,
+      "expected_managed_identities": null,
+      "Release_identity_policy": "Publish separately discovered actual multiset; compare Debug multiset without assuming equality",
+      "expected_exports": null
+    },
+    {
+      "configuration": "Release",
+      "category": "compilation",
+      "status": "SCHEDULED_FRESH_W3_EXECUTION",
+      "campaign_id": "w3v1-Release",
+      "expected_cases": null,
+      "expected_managed_identities": null,
+      "Release_identity_policy": "Publish separately discovered actual multiset; compare Debug multiset without assuming equality",
+      "expected_exports": null
+    },
+    {
+      "configuration": "Release",
+      "category": "managed-six-suites",
+      "status": "SCHEDULED_FRESH_W3_EXECUTION",
+      "campaign_id": "w3v1-Release",
+      "expected_cases": null,
+      "expected_managed_identities": null,
+      "Release_identity_policy": "Publish separately discovered actual multiset; compare Debug multiset without assuming equality",
+      "expected_exports": null
+    },
+    {
+      "configuration": "Release",
+      "category": "ABI-CIL-signatures-exports-closure",
+      "status": "SCHEDULED_FRESH_W3_EXECUTION",
+      "campaign_id": "w3v1-Release",
+      "expected_cases": null,
+      "expected_managed_identities": null,
+      "Release_identity_policy": "Publish separately discovered actual multiset; compare Debug multiset without assuming equality",
+      "expected_exports": 268
+    },
+    {
+      "configuration": "Release",
+      "category": "frozen-current-only-compatibility",
+      "status": "SCHEDULED_FRESH_W3_EXECUTION",
+      "campaign_id": "w3v1-Release",
+      "expected_cases": 29424,
+      "expected_managed_identities": null,
+      "Release_identity_policy": "Publish separately discovered actual multiset; compare Debug multiset without assuming equality",
+      "expected_exports": null
+    }
+  ],
+  "source_freeze": {
+    "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/production-test-freeze-v1.json",
+    "bytes": 424596,
+    "sha256": "43cd9af03ab09829c205b694f6650df1779766692159da791144b9f48f7c868e"
+  },
+  "entry": {
+    "path": "evidence/04A38/completion/w3/entry/entry-manifest-v2.json",
+    "bytes": 1371,
+    "sha256": "0f00c65bb391b61738dedfaa223775e9cd9c2979f4867d940bfb79966746119b"
+  },
+  "managed": {
+    "suites": [
+      {
+        "suite": "Core",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3D-Core"
+      },
+      {
+        "suite": "Common",
+        "part": "main",
+        "filter": "FullyQualifiedName!~MigrationSemantic04A02Tests",
+        "execution_name": "w3D-Common-main"
+      },
+      {
+        "suite": "Common",
+        "part": "semantic",
+        "filter": "FullyQualifiedName~MigrationSemantic04A02Tests",
+        "execution_name": "w3D-Common-semantic"
+      },
+      {
+        "suite": "Legacy",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3D-Legacy"
+      },
+      {
+        "suite": "ControlMitigation",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3D-ControlMitigation"
+      },
+      {
+        "suite": "OfficeAddin",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3D-OfficeAddin"
+      },
+      {
+        "suite": "OfficeExecution",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3D-OfficeExecution"
+      },
+      {
+        "suite": "Core",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3R-Core"
+      },
+      {
+        "suite": "Common",
+        "part": "main",
+        "filter": "FullyQualifiedName!~MigrationSemantic04A02Tests",
+        "execution_name": "w3R-Common-main"
+      },
+      {
+        "suite": "Common",
+        "part": "semantic",
+        "filter": "FullyQualifiedName~MigrationSemantic04A02Tests",
+        "execution_name": "w3R-Common-semantic"
+      },
+      {
+        "suite": "Legacy",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3R-Legacy"
+      },
+      {
+        "suite": "ControlMitigation",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3R-ControlMitigation"
+      },
+      {
+        "suite": "OfficeAddin",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3R-OfficeAddin"
+      },
+      {
+        "suite": "OfficeExecution",
+        "part": "all",
+        "filter": null,
+        "execution_name": "w3R-OfficeExecution"
+      }
+    ],
+    "runner": {
+      "path": "scripts/test_suite_rationalization.py",
+      "bytes": 18786,
+      "sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    "parallelism": 1,
+    "inner_hosts": 1,
+    "source_policy": "No source/test repair or normalization; one complete execution per configuration; halt unexplained new nonpass"
+  },
+  "compatibility": {
+    "corpora": [
+      {
+        "configuration": "Debug",
+        "corpus": "preedit-main",
+        "cases": 24732,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/preedit/frozen-v2/original-Debug.tsv",
+          "bytes": 17065755,
+          "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/preedit-main/results.tsv",
+          "bytes": 17065755,
+          "sha256": "a33f7772c14a40cadd139258efde1960029503ae9294024efd7f66b23e3daf2e"
+        },
+        "inputs": {
+          "path": "evidence/04A38/preedit/frozen-v2/cases.jsonl",
+          "bytes": 11751614,
+          "sha256": "d0708d20b91f6031a17ad9c59ef051d26bf8778cdfbe98a9083d95a511283128"
+        },
+        "recorder": {
+          "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+          "bytes": 30438,
+          "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\preedit-main-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\preedit\\frozen-v2\\cases.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\preedit-main\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\preedit-main\\execution.json"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 109.92811179999262,
+          "stdout_sha256": "3f2e1d45cfed909d59e146f4379d3a6cc121a69efab67a267e594529445d4667",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "public-options-v1",
+        "cases": 2508,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/preedit/attempts/public-options-v1/capture-Debug-original-v1.tsv",
+          "bytes": 6942877,
+          "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/public-options-v1/results.tsv",
+          "bytes": 6942877,
+          "sha256": "2d3705fffe38f46081e18c6218977b6402d38ef9ee0a882fd5f28e24a6c47b52"
+        },
+        "inputs": {
+          "path": "evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+          "bytes": 3168046,
+          "sha256": "4fe960cb0528a8b0024743c906d99406a62c39bdf732d5190b60a13ad3947a62"
+        },
+        "recorder": {
+          "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+          "bytes": 30438,
+          "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\public-options-v1-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\public-options-v1\\cases.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\public-options-v1\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\public-options-v1\\execution.json"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 44.15400829999999,
+          "stdout_sha256": "1da4095d6e2c25cd45e1179fc8eaaeb5ec63bb4bb1189b94d01c9b95f369c6ce",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "public-primitives-v1",
+        "cases": 226,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/preedit/attempts/public-primitives-v1/capture-Debug-original-v1.tsv",
+          "bytes": 76370,
+          "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/public-primitives-v1/results.tsv",
+          "bytes": 76370,
+          "sha256": "0bc33bbf358d1abf79b93ffe6afbfd54f93c2d07d9c034f95686d83046c22b3b"
+        },
+        "inputs": {
+          "path": "evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+          "bytes": 191201,
+          "sha256": "6dcb8a7a5c7f966d06b1808aecc7e283dd2edb5663d527e03a53ae2266ca9f3e"
+        },
+        "recorder": {
+          "path": "evidence/04A38/preedit/frozen-v2/Capture38.cs",
+          "bytes": 30438,
+          "sha256": "f5fd36496ea14fce012bb18e4ba45f07ca162a3134c76b8e8d65073a8475a46e"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\public-primitives-v1-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\public-primitives-v1\\cases.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\public-primitives-v1\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\public-primitives-v1\\execution.json"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.8440383000124712,
+          "stdout_sha256": "896e1e79e9f245b4bbe9f4221e40db46a9905c34782831a61125751349caea09",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "model-inputs-v2",
+        "cases": 882,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/preedit/attempts/model-inputs-v2/capture-Debug-original-v1.tsv",
+          "bytes": 6357582,
+          "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/model-inputs-v2/results.tsv",
+          "bytes": 6357582,
+          "sha256": "3107a6d7b8116beb62f37665ed5d59f6df0cf3c1d2743cf5c28ddf59eaed0e58"
+        },
+        "inputs": {
+          "path": "evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+          "bytes": 751343,
+          "sha256": "d654eca1627a2235697c2a677ea7534a90c5af9716dee5971666f973f12d569e"
+        },
+        "recorder": {
+          "path": "evidence/04A38/preedit/attempts/model-inputs-v2/Capture38.cs",
+          "bytes": 33456,
+          "sha256": "7bc7045db30657b30d011bf8b683b1804ddf7e67b86b23704d61ed1be5ebfec4"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\model-inputs-v2-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\model-inputs-v2\\cases.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\model-inputs-v2\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\model-inputs-v2\\execution.json"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 12.2761363999889,
+          "stdout_sha256": "475288995a7028c01dc1724b5adc66d0d2873d947333c41b1be35cc803cabfc5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "math-edges-v1",
+        "cases": 618,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/preedit/attempts/math-edges-v1/capture-Debug-original-v1.tsv",
+          "bytes": 174484,
+          "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/math-edges-v1/results.tsv",
+          "bytes": 174484,
+          "sha256": "faba4ad9a633d88625388b627354d5cea916fcf60ba05e1e7ac6e06c8234b6d6"
+        },
+        "inputs": {
+          "path": "evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+          "bytes": 286237,
+          "sha256": "f0af15b083bc8735cbfc529beb898f26367350545daec5b6418e62402dabe0fd"
+        },
+        "recorder": {
+          "path": "evidence/04A38/preedit/attempts/math-edges-v1/Capture38.cs",
+          "bytes": 30706,
+          "sha256": "bda04dd1d82990f543ff6eaed407cc488b5f7450eeb019354e97fabe97afe9b4"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\math-edges-v1-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\preedit\\attempts\\math-edges-v1\\cases.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\math-edges-v1\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\math-edges-v1\\execution.json"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.5978699999977835,
+          "stdout_sha256": "352f0ae32a801aaa9fa561aec99b44cf13bf87cc86965786ec5d6ff53ac0b17f",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "A",
+        "cases": 432,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v1/original-results/Debug/plain-v2/results.tsv",
+          "bytes": 689840,
+          "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/A/results.tsv",
+          "bytes": 689840,
+          "sha256": "ac75e34cad07e150bdc45f8020e64278e64c7080394252417bd3de0cbb690db5"
+        },
+        "inputs": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v1/inputs-Debug.jsonl",
+          "bytes": 987452,
+          "sha256": "d46f8a4997a0adf8b60c78384751ee525ff06628726d926c350ba42b5f15fef6"
+        },
+        "recorder": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v1/LateCapture38.cs",
+          "bytes": 11155,
+          "sha256": "e1764c0c009151473e0c515573ac44e83483c2429c3cab756eed13da630dd3fc"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\A-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v1\\inputs-Debug.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\A\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\A\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.6527698999998393,
+          "stdout_sha256": "759b5ca0d006abf5a30e73d40ef8ee24d3b9d437a473de7c8e1450c951d64039",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "B",
+        "cases": 12,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/original-results/Debug/plain-v2/results.tsv",
+          "bytes": 68076,
+          "sha256": "a30aa1a82f60fbf2cca762ece3bf79fbaf24291c5e6709e6896ef1163b35513b"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/B/results.tsv",
+          "bytes": 68076,
+          "sha256": "a30aa1a82f60fbf2cca762ece3bf79fbaf24291c5e6709e6896ef1163b35513b"
+        },
+        "inputs": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/inputs-Debug.jsonl",
+          "bytes": 114150,
+          "sha256": "9c59198ea1f06e2457756cdaefd18cb6dff6d9f47a0b29a397c7964c6720c8eb"
+        },
+        "recorder": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38-v2.cs",
+          "bytes": 13269,
+          "sha256": "9d867afcc90dadb34a989962f5298ce18aa343622f9d89f2304d5f9ab46ef2ea"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\B-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v2-gee-profile\\inputs-Debug.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\B\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\B\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.5244437000073958,
+          "stdout_sha256": "f4ce8127bd26ed607c967770322517c91265de6cd566d8a22b6c652825f45b0a",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "C",
+        "cases": 2,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/original-results/Debug/plain/results.tsv",
+          "bytes": 33646,
+          "sha256": "c036ff73ec9a6eb56fef45551fc69254bf8b66375ff913795cfd7647af40d16e"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/C/results.tsv",
+          "bytes": 33646,
+          "sha256": "c036ff73ec9a6eb56fef45551fc69254bf8b66375ff913795cfd7647af40d16e"
+        },
+        "inputs": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/inputs-Debug.jsonl",
+          "bytes": 46514,
+          "sha256": "8ed6ef1e04eb34a4614f3faf98118dd277e18478e14c22b215fb66c4f1aac773"
+        },
+        "recorder": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/MmrmCapture38.cs",
+          "bytes": 13458,
+          "sha256": "28b099782a665e8ac695efed6247f674dba8765dc297a02dfa4f7edc06f7c367"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\C-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v3-mmrm-headered-profile\\inputs-Debug.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\C\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\C\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.5853898000059417,
+          "stdout_sha256": "e090c51ad9c4007dc8a884037fe63e51e1b2d03ee68cefbb09e1709069159b5c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "D",
+        "cases": 4,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/original-results/Debug/plain/results.tsv",
+          "bytes": 64486,
+          "sha256": "fb1372bc77b3cb05b8e0c6964522e10ac6b94c04760eb1ba0e8c7d6490005f4c"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/D/results.tsv",
+          "bytes": 64486,
+          "sha256": "fb1372bc77b3cb05b8e0c6964522e10ac6b94c04760eb1ba0e8c7d6490005f4c"
+        },
+        "inputs": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/inputs-Debug.jsonl",
+          "bytes": 91808,
+          "sha256": "3f60a953fd3cbff0c2a751d170d73ff3c4c304acc4c48f2c85f2aeab6f31805b"
+        },
+        "recorder": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/MmrmCapture38.cs",
+          "bytes": 13458,
+          "sha256": "3c3b4d16e63909c014b7d4feb0c8c4b91aab1b873400b58b3d0f1910e2db56d1"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\D-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v4-mmrm-duplicate-guards\\inputs-Debug.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\D\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\D\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.5597016999963671,
+          "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "E",
+        "cases": 2,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/original-results/Debug/plain/results.tsv",
+          "bytes": 31484,
+          "sha256": "f4cabe1eaea62672ad4e54578431b31b98d354f5308d007dc2d10248393dbd6a"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/E/results.tsv",
+          "bytes": 31484,
+          "sha256": "f4cabe1eaea62672ad4e54578431b31b98d354f5308d007dc2d10248393dbd6a"
+        },
+        "inputs": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/inputs-Debug.jsonl",
+          "bytes": 70006,
+          "sha256": "860f381d55a0986df258d6b36b8ba58c132b95307452667b681052bf9c56686d"
+        },
+        "recorder": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/MmrmCapture38.cs",
+          "bytes": 17000,
+          "sha256": "77880f48c568bf2e9093ecf36344f7755746eef9ca11aa752cbceabae1dfdd8a"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\E-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v5-mmrm-unmatched-profile\\inputs-Debug.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\E\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\E\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.5612609999952838,
+          "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "F",
+        "cases": 2,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/original-results/Debug/plain/results.tsv",
+          "bytes": 31314,
+          "sha256": "16f4d287c22ade963412832192f1ae2355ad87f1d1bcefa8ea54b946ce0a8722"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/F/results.tsv",
+          "bytes": 31314,
+          "sha256": "16f4d287c22ade963412832192f1ae2355ad87f1d1bcefa8ea54b946ce0a8722"
+        },
+        "inputs": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/inputs-Debug.jsonl",
+          "bytes": 58064,
+          "sha256": "929d5c5cec45c3e5a336424701b02129ea14210968f43d3e9b2ec103231fd941"
+        },
+        "recorder": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/MmrmCapture38.cs",
+          "bytes": 16748,
+          "sha256": "26120094bdf4ef49a0f3e48aaca005f91ce9d7d0647d866ec1279e0877bb8ef3"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\F-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v6-mmrm-intercept-group\\inputs-Debug.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\F\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\F\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.5526537999976426,
+          "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      },
+      {
+        "configuration": "Debug",
+        "corpus": "G",
+        "cases": 4,
+        "exact": true,
+        "original": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/original-results-v2/Debug/plain/results.tsv",
+          "bytes": 43444,
+          "sha256": "b41c738f41b7f94153d89cff62feb8753f1d316bd2324951f52acfed5ecb2279"
+        },
+        "current": {
+          "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/captures/replacement-v1/Debug/G/results.tsv",
+          "bytes": 43444,
+          "sha256": "b41c738f41b7f94153d89cff62feb8753f1d316bd2324951f52acfed5ecb2279"
+        },
+        "inputs": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/inputs-Debug.jsonl",
+          "bytes": 65070,
+          "sha256": "fe36f7bdb3f56c8df3ab2dd9f61e0d8c3d790f205401f2b5c5ce935aefbe0b99"
+        },
+        "recorder": {
+          "path": "evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/MmrmCapture38-v2.cs",
+          "bytes": 17060,
+          "sha256": "2c71456350841a375852c8f3f4ae427672a493216ee1ff2e4783e71b368c52fd"
+        },
+        "command": {
+          "command": [
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf\\G-current.exe",
+            "<ISOLATED_RUN>\\completion-w2-cont17-postcorrection-v1\\replacement-v1\\Debug\\udf",
+            "<REPO_ROOT>\\evidence\\04A38\\late-archived-entry-supplement\\v7-consolidated-gee-spec-mmrm-wide\\inputs-Debug.jsonl",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\G\\results.tsv",
+            "<REPO_ROOT>\\evidence\\04A38\\completion\\w2\\continuation-v17-postcorrection-v1\\captures\\replacement-v1\\Debug\\G\\execution.json",
+            "current"
+          ],
+          "cwd": "<REPO_ROOT>",
+          "exit_code": 0,
+          "seconds": 0.6739039999956731,
+          "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+        },
+        "original_queries": 0
+      }
+    ],
+    "original_Release_authority": "Pre-existing sealed Release original outputs in corresponding 12 corpora; no original execution",
+    "PRE_EDIT_FROZEN": 28966,
+    "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458,
+    "parallelism": 4,
+    "configurations": [
+      "Debug",
+      "Release"
+    ],
+    "command_authority": {
+      "path": "evidence/04A38/completion/w2/continuation-v17-postcorrection-v1/compatibility_Debug_v3.py",
+      "bytes": 5554,
+      "sha256": "776463f26238009b3644cf50630f8ef70bf10a1ad32713ad0904cd8bbd2a4de4"
+    }
+  },
+  "build": {
+    "projects": [
+      "BESHStat.Core/BESHStat.Core.vbproj",
+      "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+      "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+      "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+      "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+      "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj"
+    ],
+    "msbuild": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+    "vstest": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+    "command_recipe": {
+      "path": "scripts/test_suite_rationalization.py",
+      "bytes": 18786,
+      "sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    "restore": false,
+    "host_targets": "PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+    "source_unchanged_required": true
+  },
+  "python": {
+    "status": "DECISION_PENDING_EXACT_INPUT_ENVIRONMENT_CROSSWALK",
+    "expected_parents": 956,
+    "expected_parent_outcomes": {
+      "PASS": 830,
+      "FAIL": 113,
+      "ERROR": 13
+    },
+    "expected_nonpass_events": {
+      "FAIL": 185,
+      "ERROR": 13
+    },
+    "execution_limit": 8,
+    "ordinary_worker_limit": 3,
+    "scanner_workers": 1,
+    "full_campaigns_per_source": 1
+  },
+  "node": {
+    "status": "SCHEDULED_FRESH_W3_EXECUTION",
+    "expected_identities": 916,
+    "parallelism": 1,
+    "commands": [
+      {
+        "cwd": "BESHStat.OfficeAddin",
+        "args": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "tests/*.test.mjs"
+        ]
+      },
+      {
+        "cwd": ".",
+        "args": [
+          "node",
+          "--test",
+          "--test-concurrency=1",
+          "BESHStatNG_Help_MkDocs/tests/help-resolver.test.mjs"
+        ]
+      },
+      {
+        "cwd": "BESHStat.WasmSmoke",
+        "args": [
+          "node",
+          "--test",
+          "--test-concurrency=1"
+        ]
+      }
+    ]
+  },
+  "serial": {
+    "command_recipe": "Runner.serial: strict/profile/MkDocs, once after build and tests",
+    "command_authority": {
+      "path": "scripts/test_suite_rationalization.py",
+      "bytes": 18786,
+      "sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+    },
+    "expected_exits": {
+      "strict": 1,
+      "profile": 1,
+      "docs": 0
+    }
+  },
+  "wrapper": {
+    "commands": [
+      "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-beshstatng.ps1",
+      "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-beshstatng.ps1 -Legacy"
+    ],
+    "status": "NOT_RUN",
+    "reason": "Implicit restore and shared historical TestResults writers; isolated offline equivalents used"
+  },
+  "restricted": "NOT_RUN_UNAUTHORIZED: native Excel/COM/UIA/RefEdit, scientific/R, Office/Mac/browser/manual acceptance, installers/XLL/signing/deploy/original execution/04A39"
+}
