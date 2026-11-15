@@ -1,0 +1,114 @@
+{
+  "parents": 956,
+  "exact39_and_first40_identity_module_multiset": true,
+  "inventory": {
+    "path": ".test-rationalization-04A40.tmp/python-tools-v2/python-discovery-inventory-v1.json",
+    "bytes": 386451,
+    "sha256": "ce0d370489bd2faf9e93e6d48c0a443fd7c5832bb9e14b5a7f11bd5a26050c93"
+  },
+  "crosswalk": [
+    {
+      "before": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/common.py",
+        "bytes": 2151,
+        "sha256": "ac09b83fb32b4dc1740507f91d82882cd537738d75ae9fd5a106018cb570b136"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools-v2/common.py",
+        "bytes": 2154,
+        "sha256": "424cfd81a5610a5ee5366a39a3b5cf11340e1fc654cd431d960ccca7988196d8"
+      },
+      "path_substitutions": [
+        {
+          "before": ".test-rationalization-04A40.tmp/python-private",
+          "after": ".test-rationalization-04A40.tmp/python-private-v2",
+          "count": 1
+        },
+        {
+          "before": "a40pyv1-",
+          "after": "a40pyv2-",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/python_workers_v4.py",
+        "bytes": 17913,
+        "sha256": "be13ca613c042c7edc1a82453192d056eb67e94921d738af121669366d7b131b"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools-v2/python_workers_v4.py",
+        "bytes": 17917,
+        "sha256": "3e0eb1d8152b228270b3789f51b609d043e8d075337e528cc0a60370aedfa996"
+      },
+      "path_substitutions": [
+        {
+          "before": ".test-rationalization-04A40.tmp/python-private",
+          "after": ".test-rationalization-04A40.tmp/python-private-v2",
+          "count": 1
+        },
+        {
+          "before": "executions/a40-final-Debug-Common-semantic",
+          "after": "executions/a40-final2-Debug-Common-semantic",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools-v2/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "path_substitutions": []
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools-v2/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "path_substitutions": []
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools-v2/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "path_substitutions": []
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/implementation-plan-v2.json",
+        "bytes": 2061,
+        "sha256": "92823f0d4eda28714b215bc47bb0d14723ab764112483987242694415b310e70"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools-v2/implementation-plan-v2.json",
+        "bytes": 2061,
+        "sha256": "92823f0d4eda28714b215bc47bb0d14723ab764112483987242694415b310e70"
+      },
+      "path_substitutions": []
+    }
+  ],
+  "assertions_changed": 0,
+  "max_workers": 3,
+  "scanner_helpers": 0
+}

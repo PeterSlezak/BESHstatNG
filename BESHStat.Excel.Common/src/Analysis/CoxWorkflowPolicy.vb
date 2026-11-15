@@ -44,7 +44,7 @@ Namespace ExcelCommon
         ''' <summary>Existing Windows validation/conversion remains authoritative for shipping
         ''' refusal timing. No new IsValid gate, exception handling or Fit call is inserted.</summary>
         Public Function CreateAcquiredModel(records As List(Of SurvivalRecord)) As CoxPH
-            Dim fit As New CoxPH(SurvivalWorkflowPolicy.CopyRecords(records), Expanded.Names, _options.MaximumIterations, _options.Epsilon)
+            Dim fit = CoxWorkflowPolicy.CreateAcquiredModel(SurvivalWorkflowPolicy.CopyRecords(records), Expanded.Names, _options)
             fit.startParams = Expanded.InitialValues
             fit.bRobustVariance = _options.RobustVariance : fit.bReturnCov = _options.ReturnCovariance
             fit.bComputeAllResiduals = _options.AllResiduals : fit.bComputePHScoreTest = _options.PHScoreTest
@@ -54,6 +54,14 @@ Namespace ExcelCommon
     End Class
 
     Public NotInheritable Class CoxWorkflowPolicy
+        ''' <summary>Construct from already acquired records without cloning, validating,
+        ''' changing strata/status, or applying extra fit/report flags. Callers retain their
+        ''' existing record-copy policy and subsequent setter/exception order.</summary>
+        Public Shared Function CreateAcquiredModel(records As List(Of SurvivalRecord), names() As String, options As CoxOptions) As CoxPH
+            If options Is Nothing Then Throw New ArgumentNullException(NameOf(options))
+            Return New CoxPH(records, names, options.MaximumIterations, options.Epsilon)
+        End Function
+
         Private Sub New()
         End Sub
         Public Shared ReadOnly Property OmitCategoricalReference As Boolean

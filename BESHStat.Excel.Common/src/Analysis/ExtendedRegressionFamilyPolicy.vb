@@ -72,6 +72,32 @@ Namespace ExcelCommon
     End Class
 
     Public NotInheritable Class ExtendedRegressionFamilyPolicy
+        ''' <summary>Exact parsed UDF settings; no new validation, category coding or fitting.</summary>
+        Public Shared Sub ConfigureUdfOrdinalFit(model As OrdinalLogitModel, options As RegressionOptions)
+            If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
+            If options Is Nothing Then Throw New ArgumentNullException(NameOf(options))
+            model.bComputeResiduals = options.Residuals
+            model.bReturnCov = options.Covariance
+            model.bIterationDetails = options.IterationDetails
+            model.SettingInputs(options.Alpha, options.MaximumIterations, options.Epsilon)
+        End Sub
+
+        Public Shared Sub ConfigureUdfMultinomialFit(model As MultinomialLogitModel, options As RegressionOptions)
+            If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
+            If options Is Nothing Then Throw New ArgumentNullException(NameOf(options))
+            model.bComputeResiduals = options.Residuals
+            model.bReturnCov = options.Covariance
+            model.bIterationDetails = options.IterationDetails
+            model.settingInputs(options.Alpha, options.MaximumIterations, options.Epsilon)
+        End Sub
+
+        ''' <summary>Called after ZIP dataInputs, retaining its original exception order.</summary>
+        Public Shared Sub ApplyZipFitSettings(model As ZeroInflatedPoisson, options As RegressionOptions)
+            If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
+            If options Is Nothing Then Throw New ArgumentNullException(NameOf(options))
+            model.settingInputs(options.Alpha, options.MaximumIterations, options.EmIterations, options.Epsilon)
+        End Sub
+
         Private Sub New()
         End Sub
         Public Shared Function Project(request As RegressionRequest) As ExtendedRegressionIntent

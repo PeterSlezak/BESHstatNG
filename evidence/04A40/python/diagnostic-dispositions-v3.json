@@ -1,0 +1,1825 @@
+{
+  "rows": [
+    {
+      "stable_event_id": "17cf3e6b16a36c6d76eb48a0c4f1935a7fee3219cb0b66f92e7afa61688d8f09",
+      "identity": "test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "EXACT_RECONSTRUCTED_LEGACY_PUBLICATION_ALLOWED_PATH_SET;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "reader": {
+          "path": "scripts/verify-04a24-publication.py",
+          "bytes": 6996,
+          "sha256": "640d86cb3dcee8e7ff2c81eb673438abbe10c39e47d1820671a2e123a1890da4"
+        },
+        "before_set": [
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "current_set": [
+          "BESHStat.Excel.Common/src/Analysis/CoxWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/ExtendedRegressionFamilyPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/LinearBinomialRegressionPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/RegressionRequestPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/UdfLmmInputPreparation38.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "raw_set_repr_order": "PRESERVED_IN_PROTECTED_RAW;NO_ORDER_NORMALIZATION_OF_TEST_OUTPUT"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a24_multivariate_payload.py",
+          "bytes": 14011,
+          "sha256": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461"
+        },
+        "method": "test_publication_exact_membership_hashes_and_empty_index",
+        "lines": [
+          [
+            194,
+            196
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+        "traceback_sha256": "ef18d2038dc5d290ef32d1f81bb9447a157755fa7d12e37bbbcc9a16c88ddcd0"
+      },
+      "current": {
+        "message_sha256": "a94e5dd6db29d04e6e62a0f117e0dae801eec3196717d179188c8635dd8b5b8d",
+        "traceback_sha256": "f1c16d542989423d49ca7f49e37da52c7f994c909f9217eb9a093d7d80cb626a"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "da62212d3c47187396b82e95c4d6c961bd55bf6c0d64f0334b1e979e0fbbdd86",
+      "identity": "test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHENTICATED_FEATURE_BRANCH_CONTEXT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_branch": "codex/04A-39",
+        "current_branch": "codex/04A-40"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a16_post_estimation.py",
+          "bytes": 8710,
+          "sha256": "4c1384ee83aa78f6893221e6fcaf926880e400ea2c82b597e65e7923035a5984"
+        },
+        "method": "test_branch_base_index_and_exact_scope",
+        "lines": [
+          [
+            15,
+            21
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "90589ec4b6d8f31338da4a55663712ccb2f6e52bd2a1de263ce7c2dd9a1938bd",
+        "traceback_sha256": "e07a5681caaf56ef92c8a10ef60b324b0812f18050521a44f99909f2077d0245"
+      },
+      "current": {
+        "message_sha256": "f42cda1782f7e9135f3e2e3a6cd9bd599871f2042f818d6242affb4935f07628",
+        "traceback_sha256": "c0f166ac8c7177c4a06e4cd2f9284c274d116bb8fd76babb97ae4fff33482800"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "c5686c255b33624341a1ca1f4fd57c26ab5c8bdb0f7a4470136d5612a17f12c6",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "EXACT_REPRODUCED_BRANCH_ARGUMENTS_AND_DIFF_MARKERS;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_operands": [
+          "codex/04A-14",
+          "codex/04A-39"
+        ],
+        "current_operands": [
+          "codex/04A-14",
+          "codex/04A-40"
+        ],
+        "message_reproduction_exact": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a14_mixed_workflow.py",
+          "bytes": 14339,
+          "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+        },
+        "method": "test_branch_base_ancestry_and_empty_index",
+        "lines": [
+          [
+            21,
+            26
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "57901a66253d21dd4de7c3d18745d605a715d5f11f2397daf9574d68ba53662b",
+        "traceback_sha256": "06994401ad2cf5d8472ddbc920062bc51e491e90a2c9a98794ee32caa0323dd2"
+      },
+      "current": {
+        "message_sha256": "dba01fe47eebc86f7cd9cd8d6d5735e56e3a98727ec14ed4e63d897a750d6c2f",
+        "traceback_sha256": "e73e997c3f1f058d762142694ae4623af8d9a452dd784d224fa63e2af73c5dfb"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "8738a2b4981206d4c75491e82b61f037893baa0868562e16e46f97e8ba924f4c",
+      "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+      "classification": "NEW_NONPASS",
+      "disposition": "HISTORICAL_W3_DIFF_SCOPE_FAIL_REEXPOSED;NOT_WAIVED",
+      "proof": {},
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a05_completion_successor.py",
+          "bytes": 9515,
+          "sha256": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952"
+        },
+        "method": "test_no_designer_importer_targets_exports_or_signing_change",
+        "lines": [
+          [
+            132,
+            139
+          ]
+        ]
+      },
+      "before": null,
+      "current": {
+        "message_sha256": "112343d7cd0bfc97241ee8c32e5c72c1ee58df95d602bf724c3180bce1ed0667",
+        "traceback_sha256": "3d1e9c51ead0a6da102f925d9bc7037f968752ecb49d52541c734c0e8c60a8f8"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "9d663e194c01a2d4a5046b103a852252c119a69cbb39a5873b91402115cc1ad8",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+            "bytes": 51900,
+            "sha256": "2893e57baa8845b9c6d53b861130e4bcc8fd1e6bc5e407a0511ed561fdb5d65e"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+            "bytes": 52128,
+            "sha256": "d0f1105b78c2a7945070374d9cc9d008d50e17f90c2f55685b10ee5b1107fc95"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "9d8303594b13c057f70d3f6702210cb084705442c433105234b2f02f4869e8b1",
+        "traceback_sha256": "37b5092e7d3a4a2f728c0f1112aadaa1d2d8c92e7975cb8d9527e0d533f59741"
+      },
+      "current": {
+        "message_sha256": "498c1460ab5f50f946e464fb8ce8f25997083a3c4a73be542c2504b48ff52421",
+        "traceback_sha256": "335531d6320d8ecec59a0147668f168365f96d76b6bafa62a65c037f4d95bd6c"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "7f9d0948665245c0513f98b6513468e089822f14b4ef3c76c61455a01c145126",
+      "identity": "test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHENTICATED_FEATURE_BRANCH_CONTEXT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_branch": "codex/04A-39",
+        "current_branch": "codex/04A-40"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a18_projection.py",
+          "bytes": 7203,
+          "sha256": "53e1b4e323b682dedcb64df3fc1e90a04faeb3a146314f4bb1330c00c594716e"
+        },
+        "method": "test_live_branch_index_and_protected_entry_bytes",
+        "lines": [
+          [
+            19,
+            27
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "18672027e36c9bc32fc18e4d89fb5b976c392c211951753307bc2246fe7155c8",
+        "traceback_sha256": "6aeb8e07820405af0f2225ba4ed39c4549dcb5b8f4442d723d1159bde2267e69"
+      },
+      "current": {
+        "message_sha256": "d2ab672b7dc6bf808d675755599a4883f8cef55855965dcda76e9f6d6d082529",
+        "traceback_sha256": "a0e75f2c91e6c94dfaf286be8b8a2e886492b57c97989b20ddfcf4fa5e38c027"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "3d7a04da485b06ee88adac7163b3d208893cd9df00ce5a14408a1045dce48f22",
+      "identity": "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+      "classification": "NEW_NONPASS",
+      "disposition": "HISTORICAL_W3_DIFF_SCOPE_FAIL_REEXPOSED;NOT_WAIVED",
+      "proof": {},
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a04_alignment.py",
+          "bytes": 6834,
+          "sha256": "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff"
+        },
+        "method": "test_udf_exports_and_packaging_unchanged",
+        "lines": [
+          [
+            82,
+            90
+          ]
+        ]
+      },
+      "before": null,
+      "current": {
+        "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "traceback_sha256": "261bbe08bba3836e79db18dbab48d382d0b67f7de27f4f1110a66501b2e65b58"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "67b3e484a6a5b036e9057cdeb3a1c453b8129a48fcfb91de50438cf2747be75b",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+            "bytes": 40613,
+            "sha256": "f888db425e4ef6811213837b1289f64e4012fcf60573f9c3fe3189a087f0cfb2"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+            "bytes": 40754,
+            "sha256": "54aec1c6778465bc7571672a28c784d8c705e92de7225409cd79446fbf3e0e48"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "3518ac432b47372e50dd8ab97632cdec453c3830a3ca5b8d37e46989a9b41feb",
+        "traceback_sha256": "c12f336a962154a4b59ace3cec730a271ce62cdf4d8d6ede26d986528458eeb5"
+      },
+      "current": {
+        "message_sha256": "11ffadeb9366e6bf12a590bd4d26eb91fa16afb65011ce0ef86dd3efe7913524",
+        "traceback_sha256": "1a7487bb79fcf411928fcafe665eae72d585a349ac44d3267d02983e981cc725"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "2183ea74aa932646b379d625a3bd0641d3bc9de5f65069bf9955338b9a0c635a",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_all_prechange_protected_bytes_except_exact_approved_scope",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "EXACT_RECONSTRUCTED_HISTORICAL_SOURCE_SCOPE_ARGUMENTS;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "baseline": {
+          "path": "TestResults/04A-13-20261103-run01/baseline.json",
+          "bytes": 503297,
+          "sha256": "58ea82716f7a84c48936d94ac217b02ac45fdb3f6efa8cce3d3cba61dfdd09d5"
+        },
+        "reader": {
+          "path": "scripts/capture-04a13-contract.py",
+          "bytes": 10290,
+          "sha256": "7f28d54cb3125b08a2ffcca75bda1ead593b5ce6f6abbbd99695ee425fcf329f"
+        },
+        "before_paths": [
+          ".gitignore",
+          "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+          "BESHStat.Core.Tests/README.md",
+          "BESHStat.Core/README.md",
+          "BESHStat.Core/src/Graphics/HistogramBinningCore.vb",
+          "BESHStat.Core/src/Graphics/ViolinPlotCore.vb",
+          "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+          "BESHStat.Excel.Common.Tests/README.md",
+          "BESHStat.Excel.Common/README.md",
+          "BESHStat.OfficeAddin/README.md",
+          "BESHStat.OfficeAddin/tests/README.md",
+          "BESHStat.WasmSmoke/README.md",
+          "BESHStatNG.Test/README.md",
+          "BESHStatNG_Help_MkDocs/README.md",
+          "BESHStatNG_Help_MkDocs/docs/global-settings.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/control-charts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/correspondence-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/discriminant-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/factor-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/hierarchical-clustering.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/k-means-clustering.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/linear-mixed-models-lmm.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/options-and-output.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/random-effects-and-covariance.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/user-interface.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mixed-models-for-repeated-measures-mmrm.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/lsmeans-and-contrasts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/options-and-output.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/user-interface.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/multiple-correspondence-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/multivariate-control-charts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/principal-component-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/propensity-score-matching.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/sample-size-bland-altman.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/sample-size-icc.md",
+          "BESHStatNG_Installer/README.md",
+          "BESHstatNG/README.md",
+          "BESHstatNG/src/DM/PSMdataImport.vb",
+          "BESHstatNG/src/DM/ResultWriter/ExcelDnaResultWriter.vb",
+          "BESHstatNG/src/DM/ResultWriter/ExcelDnaSharedOutputPlanAdapter.vb",
+          "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+          "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+          "BESHstatNG/src/Graphics/3Dobjects.vb",
+          "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+          "BESHstatNG/src/Graphics/BoxPlot.vb",
+          "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+          "BESHstatNG/src/Graphics/CalibrationPlot.vb",
+          "BESHstatNG/src/Graphics/ClusterAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/ConvexHullPlot.vb",
+          "BESHstatNG/src/Graphics/CorrespondenceAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/CoxSurvivalPlotExcel.vb",
+          "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb",
+          "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb",
+          "BESHstatNG/src/Graphics/FactorAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/GifAnimator.vb",
+          "BESHstatNG/src/Graphics/Histogram.vb",
+          "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+          "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+          "BESHstatNG/src/Graphics/NormalPlot.vb",
+          "BESHstatNG/src/Graphics/PcaPlotExcel.vb",
+          "BESHstatNG/src/Graphics/PolarPlot.vb",
+          "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+          "BESHstatNG/src/Graphics/ROC.vb",
+          "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+          "BESHstatNG/src/Graphics/ScatterPlotMatrix.vb",
+          "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+          "BESHstatNG/src/Graphics/SymetryPlot.vb",
+          "BESHstatNG/src/Graphics/ViolinPlot.vb",
+          "BESHstatNG/src/Graphics/XYZscatter.vb",
+          "BESHstatNG/src/RegModels/BinaryClassificationReporting.vb",
+          "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+          "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+          "BESHstatNG/src/UI/Ui11PCA.vb",
+          "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+          "BESHstatNG/src/UI/Ui18MMRM.vb",
+          "BESHstatNG/src/UI/Ui19LMM.vb",
+          "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+          "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+          "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+          "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+          "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+          "README.md",
+          "docs/architecture/README.md",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+          "planning/README.md",
+          "scripts/README.md"
+        ],
+        "current_paths": [
+          ".gitignore",
+          "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+          "BESHStat.Core.Tests/README.md",
+          "BESHStat.Core/README.md",
+          "BESHStat.Core/src/Graphics/HistogramBinningCore.vb",
+          "BESHStat.Core/src/Graphics/ViolinPlotCore.vb",
+          "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+          "BESHStat.Excel.Common.Tests/README.md",
+          "BESHStat.Excel.Common/README.md",
+          "BESHStat.Excel.Common/src/Analysis/ExtendedRegressionFamilyPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/LinearBinomialRegressionPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/RegressionRequestPolicy.vb",
+          "BESHStat.OfficeAddin/README.md",
+          "BESHStat.OfficeAddin/tests/README.md",
+          "BESHStat.WasmSmoke/README.md",
+          "BESHStatNG.Test/README.md",
+          "BESHStatNG_Help_MkDocs/README.md",
+          "BESHStatNG_Help_MkDocs/docs/global-settings.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/control-charts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/correspondence-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/discriminant-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/factor-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/hierarchical-clustering.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/k-means-clustering.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/linear-mixed-models-lmm.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/options-and-output.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/random-effects-and-covariance.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/user-interface.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mixed-models-for-repeated-measures-mmrm.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/lsmeans-and-contrasts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/options-and-output.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/user-interface.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/multiple-correspondence-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/multivariate-control-charts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/principal-component-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/propensity-score-matching.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/sample-size-bland-altman.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/sample-size-icc.md",
+          "BESHStatNG_Installer/README.md",
+          "BESHstatNG/Generated/VersionAttributes.vb",
+          "BESHstatNG/README.md",
+          "BESHstatNG/src/DM/PSMdataImport.vb",
+          "BESHstatNG/src/DM/ResultWriter/ExcelDnaResultWriter.vb",
+          "BESHstatNG/src/DM/ResultWriter/ExcelDnaSharedOutputPlanAdapter.vb",
+          "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+          "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+          "BESHstatNG/src/Graphics/3Dobjects.vb",
+          "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+          "BESHstatNG/src/Graphics/BoxPlot.vb",
+          "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+          "BESHstatNG/src/Graphics/CalibrationPlot.vb",
+          "BESHstatNG/src/Graphics/ClusterAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/ConvexHullPlot.vb",
+          "BESHstatNG/src/Graphics/CorrespondenceAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/CoxSurvivalPlotExcel.vb",
+          "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb",
+          "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb",
+          "BESHstatNG/src/Graphics/FactorAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/GifAnimator.vb",
+          "BESHstatNG/src/Graphics/Histogram.vb",
+          "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+          "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+          "BESHstatNG/src/Graphics/NormalPlot.vb",
+          "BESHstatNG/src/Graphics/PcaPlotExcel.vb",
+          "BESHstatNG/src/Graphics/PolarPlot.vb",
+          "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+          "BESHstatNG/src/Graphics/ROC.vb",
+          "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+          "BESHstatNG/src/Graphics/ScatterPlotMatrix.vb",
+          "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+          "BESHstatNG/src/Graphics/SymetryPlot.vb",
+          "BESHstatNG/src/Graphics/ViolinPlot.vb",
+          "BESHstatNG/src/Graphics/XYZscatter.vb",
+          "BESHstatNG/src/RegModels/BinaryClassificationReporting.vb",
+          "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+          "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+          "BESHstatNG/src/UI/Ui11PCA.vb",
+          "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+          "BESHstatNG/src/UI/Ui18MMRM.vb",
+          "BESHstatNG/src/UI/Ui19LMM.vb",
+          "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+          "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+          "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+          "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+          "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+          "README.md",
+          "docs/architecture/README.md",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+          "planning/README.md",
+          "scripts/README.md"
+        ]
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a13_survival_workflow.py",
+          "bytes": 10622,
+          "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+        },
+        "method": "test_all_prechange_protected_bytes_except_exact_approved_scope",
+        "lines": [
+          [
+            32,
+            36
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "7e1c445865a51eb4410ebd9d808ef535c5538e00d6439d8426800dfd280c30b3",
+        "traceback_sha256": "1cd68dd40c03481a75784e051f8f4ab382205dbbc87f218d022df2737df2fe7e"
+      },
+      "current": {
+        "message_sha256": "566f1953d3639847d3f13992669d71ac80bb874c22162f93cb02813be29c7cf4",
+        "traceback_sha256": "88f5b8b0b88341a5c6b56aa13f52c42cc2d15765f49f66bee2a46d9d63287c74"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "39b68a3bf48b3bbd4b1dfdbee39fc205b051428cee753f25ebb9d034bb3d3a38",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+            "bytes": 40155,
+            "sha256": "5a36e766e4859eae8e6292bcc8975d4b926d53caa50fa5d972335c0d49ef61d3"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+            "bytes": 40307,
+            "sha256": "c5e292d117b1aeb6b0a0d0eb6930027df9220321c45ce26dbb4924a703abdc44"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "56d6f8da758b31ee9250f25f8770ac9cb2cd4143f6c260fb56fb810b78d190d7",
+        "traceback_sha256": "e49cb899778ee03700c4ceecfd9f4570d82d058d503d55b7a2f7a076019aec99"
+      },
+      "current": {
+        "message_sha256": "99b724b8244938a2bcb7e3e65eda94917807b01ce302696d911df519bf2e1c3f",
+        "traceback_sha256": "a983fc797402be280e258cad92a4925bd51f34705697f6db93f82daba130fb13"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "625ba4bf056b3e9c79d7e630ba5c0075196886b0f543ae573ec9fb0e8ca1e027",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+            "bytes": 43528,
+            "sha256": "de1149c832b97a957937904c58dfa3d2dabbd9bd411c71a2ca19f6c2dc87e53f"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+            "bytes": 43687,
+            "sha256": "3891b9687d18cb7cbbef662caae55f78bacb6f2dc4b82d68a4a5239d8b028c67"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "65f842c41f3242e3722040e6005f5ed16bdf40e8ac4933c443fdb0057f31e876",
+        "traceback_sha256": "533c962e37fdce4f0ed7ac13077814e9daa55c6f910d4ca442be4ccf5b5d72c8"
+      },
+      "current": {
+        "message_sha256": "6c72b3c200b788f74562a9f1f831b09815f14269413e89cb1bea91411baff8fa",
+        "traceback_sha256": "218b51152a294053a6bed207612b2d43cdb4a81d23857324b6d22bb876f7157e"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "226d4ba867675dbe44e4d4ba8d06444eccd689bcba1736e3b5f5a9d9a3d7f6a5",
+      "identity": "test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHENTICATED_MAIN_ADVANCE;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_main": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+        "current_main": "bba848305c2c46ff3fc835a1132522ebfec59514"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a21_spc.py",
+          "bytes": 13212,
+          "sha256": "46858710327c0e3e34d142afa61a3456a1d805d3ebc7d5481ac4c84680d38693"
+        },
+        "method": "test_live_merged_main_ancestry_branch_and_empty_index",
+        "lines": [
+          [
+            23,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "a3d58bfe8321e896af9714edcf96100a8f221a1596e0f1522869b71bf04cfe24",
+        "traceback_sha256": "67de30a679e2e1adb59137582af6827c1314a65a3c8d85734dcef013941f0077"
+      },
+      "current": {
+        "message_sha256": "28b82c3653d58eabf6fb5efbe081f12fcd2ecb195db6a5f8bacc5bf7652e2660",
+        "traceback_sha256": "f318f9a131d8cf56d8aae0cfe3d27859608ed590580d99bb0cb0fd870ed479a8"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "c7ad8437badd1ed0b44eccb120923cdd908075d6d16151a519164851719214a4",
+      "identity": "test_04a11_publication.Publication11Tests.test_accepted_dossier_and_dormant_patches_unchanged",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "FIRST_FAILING_SOURCE_PIN_SHIFT;CURRENT_AUTHORIZED_TRANSITION;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHStat.Excel.Common/src/Analysis/ExtendedRegressionFamilyPolicy.vb",
+            "bytes": 6462,
+            "sha256": "ab11cc8080b2d4001e5ebdb2a98a5a5899eefc5d8ce899b96fe47634f249dddf"
+          },
+          "after": {
+            "path": "BESHStat.Excel.Common/src/Analysis/ExtendedRegressionFamilyPolicy.vb",
+            "bytes": 8195,
+            "sha256": "7337736b001f35b47b5f2254bf3113900d86f2a7cc9f7fdced8e5361230ac7ac"
+          }
+        },
+        "current_assertion_message_reproduced_exact": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a11_publication.py",
+          "bytes": 4164,
+          "sha256": "4be50a31f8aa0b48e5c96afdb957e2f2b9c71f6933a879413d2b2da7b896604e"
+        },
+        "method": "test_accepted_dossier_and_dormant_patches_unchanged",
+        "lines": [
+          [
+            64,
+            67
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "7322e1f001840cb5eed19c3a66e32066d5877e2b1b44cfb95cc70f150f34726d",
+        "traceback_sha256": "854adc0cfb9ed4ad6f7eb9771f05aaabf70145aa94092e30bdc650bcde8350ed"
+      },
+      "current": {
+        "message_sha256": "a305962ac29cbe15cf02a505f6ce6e79b1f174b4537dca4601a4663463c29b28",
+        "traceback_sha256": "463c85fe23f193815759ce683705649e90358e98b08f27f61a2c7f4b45178c48"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "a77e296b4e93d38026a4ce5d44c885a61f3c72eb55a3c85a047485ae0eab317b",
+      "identity": "test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHENTICATED_FEATURE_BRANCH_CONTEXT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_branch": "codex/04A-39",
+        "current_branch": "codex/04A-40"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a15_fitting.py",
+          "bytes": 5180,
+          "sha256": "393ff03ddff0d05d15ab61835825c0b8dabd4013710bdb80e5ba99504c78385d"
+        },
+        "method": "test_branch_ancestry_empty_index_and_exact_existing_scope",
+        "lines": [
+          [
+            15,
+            21
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "809e6d946c53f4641431223f05ca951784ebf3ecd821357169340a33c29e8866",
+        "traceback_sha256": "235083e535a23d06d7142370eb7acb16f81a5cf89aefbd20f96446970b6656a9"
+      },
+      "current": {
+        "message_sha256": "8b8104408f5336193c10816d9f8a8dc546b69e6853b0d71113afd75ee655d5c5",
+        "traceback_sha256": "92e6b48a7ec6c374e6784b2df188cf1af3fbfa4f0a24789c3d71f5ebac356f2b"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "50016fd4f0d56f06db6fe9a0f3163380697e2c3b15b20c80120a2b309fd778c5",
+      "identity": "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHENTICATED_MAIN_ADVANCE;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_main": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+        "current_main": "bba848305c2c46ff3fc835a1132522ebfec59514"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a20_factor_discriminant.py",
+          "bytes": 12829,
+          "sha256": "1fc46c38c6695727ebf008e5a30999bd01f15737c14c5a5b56d04069f590e4bb"
+        },
+        "method": "test_live_main_branch_index_and_accepted_source",
+        "lines": [
+          [
+            20,
+            27
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "de334f36774bb9f1081d7dfb65fc434e8664c80d82c5e0ad64964bc5c82aecdb",
+        "traceback_sha256": "34044ebc9504ec18d177cc9c00447a0f970d8426874625e5889e2c4a36cd719b"
+      },
+      "current": {
+        "message_sha256": "c0a8e3eb7c4b01df8fb9bbc282f290dece032c9cba31664d39ee6f4ba38895fb",
+        "traceback_sha256": "ac10255387a6e8e8faaea1ae3e6fee3e7355380deec96c7aff6c4d0d302db83f"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "e40ffb86a64357e60615a998c65ee1d633913a853818f71e3bfd3629c48c89cb",
+      "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+            "bytes": 85276,
+            "sha256": "3e2b4da4cfb234ca7089e60db8bdd00c954f3ccd0171b73e856ab76c7524199d"
+          },
+          "after": {
+            "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+            "bytes": 86083,
+            "sha256": "07c79aabba1db57a697024eeba0a4813b28cc3897100585b979f7837677867b9"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py",
+          "bytes": 18295,
+          "sha256": "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7"
+        },
+        "method": "test_packet_covers_all_original_cases_and_six_gates",
+        "lines": [
+          [
+            107,
+            119
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "9e5db6d6d7c672712306661d6647a8723450c13c64ae92d315ba6784b7a2289c",
+        "traceback_sha256": "794e3ca8a0b945ea7e288419a0675c9890e6e2fa7f164ee9e591d7416c90a06a"
+      },
+      "current": {
+        "message_sha256": "dc2f76572af51b4ce97c6be463ef1eeef9bc3fc2298b2f7eec76132c73e28125",
+        "traceback_sha256": "a369bf760d7807e4e8016a9df66f536282dc62103d95db242784e06e9e7d2b29"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "34a9f96db209068b98559c836c8902360ccdfc7d710d9982e526056de23571b6",
+      "identity": "test_04a12_gee_workflow.Gee12WorkflowSuccessorTests.test_original_udf_exports_and_no_gui_contrast_panel",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+            "bytes": 89689,
+            "sha256": "bf7517f0d38283d8f77f0ecd0c73c10c7d9d8b9fe26de3d8ae27bcbcd981c335"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+            "bytes": 89907,
+            "sha256": "511bb7254de5aeb8a37469f0fd5300ae08ac56fad209b24db854fb21d5d1b69f"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a12_gee_workflow.py",
+          "bytes": 8676,
+          "sha256": "487ecbb6836632cf30547b60cf45aab9c07586cb3407431976cda5aa311b8a6b"
+        },
+        "method": "test_original_udf_exports_and_no_gui_contrast_panel",
+        "lines": [
+          [
+            97,
+            106
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "6c6fe01036e0846aedaf2f34a8ea74e0bd5ad8df33c3aed18db37a117e5b655f",
+        "traceback_sha256": "ec3123d46b6a57c1e586d8c81d620de5edd9fd714bf8084790e6a57d3a90a5e8"
+      },
+      "current": {
+        "message_sha256": "57f42ed221c7c2575bb04b49728bcb48d4f4b41ae073fa098ef75e5b1866e986",
+        "traceback_sha256": "688d90a0c20b85153a4ec647eeb134c82f7c18dcfd4614d4b2320298bd868b88"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "a017141e788442f356802e3de2236e59615c35b8a3ddefac7b3f5e5a4aab6c84",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+            "bytes": 65409,
+            "sha256": "945479354176869c562473cee68352c66402052d1c697b4c55ab7d552bc02f01"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+            "bytes": 65550,
+            "sha256": "af4143e948136048d6b1f41f295c08867219f4023f76b85be6b431343fd7f038"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "f7de099417eb83e526aa381483570d136176846aaed02c1bc6239df1bb973b86",
+        "traceback_sha256": "a1d6571cb4333c512581f4c48835bff8479135a4ea273d56b6b0741dd373cf73"
+      },
+      "current": {
+        "message_sha256": "8a374136aab3508e4dc203d6c9aceb271bb81b58e5a721cf7d8af4b346e096d7",
+        "traceback_sha256": "c88a9c1cc5e77a588a28da24735e80165ddcded91dd4117bca7c9b0fe88b5943"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "2326920affcddf7ded9d17f78617996cd9968f8ddfbcc7682d2e992b88a625ff",
+      "identity": "test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHENTICATED_MAIN_ADVANCE;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_main": "22da2214da6bb1cad4f2934d0b36276324a1432f",
+        "current_main": "bba848305c2c46ff3fc835a1132522ebfec59514"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a19_clustering.py",
+          "bytes": 10215,
+          "sha256": "565f5a4071b7a3d319614f5d4000d66c696c2832433ff39062d46885dccf703e"
+        },
+        "method": "test_live_base_branch_and_empty_index",
+        "lines": [
+          [
+            18,
+            24
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "674b6c865d1f8f36a79aa60eb9248dd152922496d33556d049036ee6cc75ba74",
+        "traceback_sha256": "7cc39c1a6ac79c2e31bcbc02be6a21f65f69e2033902b142a41ef61bb579eb9e"
+      },
+      "current": {
+        "message_sha256": "32c51e0ee7f1d94e981748cef8f84bb8c6ed289e337500c41e187bd20af512ec",
+        "traceback_sha256": "e10ced4a907c6af8bef06aee7c1b9ce334c5cd5e71ebce305d8a6babe57f4cf4"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "b013646ae640220d27c765f2dc0a95c19ab4406bd5e2d757e6c36f5ebe2e3eb1",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+            "bytes": 49442,
+            "sha256": "7a58c166a4ebece7a4e50de6e3c1db88f18b4982e46f675230705e055884ac46"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+            "bytes": 49612,
+            "sha256": "ed9c1fda8722b941144eac586ae63d411f0a79e4021a2667f5e091ae6a521e3e"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "6e92258e7b6d19e4638a050e2dad22ad16f2be1b5bb156a386846d28fde39ce1",
+        "traceback_sha256": "64d24477f69acdd42d88b53b16030df938fe07152321baff75036e6acd1c6f56"
+      },
+      "current": {
+        "message_sha256": "244361864242a4dbcb8c9e9cd8d80331728524d815780d44eafc6b1eb4858084",
+        "traceback_sha256": "6f58a9aed276ac44135be188bc41385da668443074bc66253e10a3ffd153dcc5"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "f594ede8f91bd602af1ddf006421396c6a010fc111028fd3ad134ffd5c46fbee",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "REPOSITORY_CANDIDATE_SET_CHANGED;FINDINGS_FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_findings": 1599,
+        "current_findings": 6,
+        "original_scan_scope_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a14_mixed_workflow.py",
+          "bytes": 14339,
+          "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+        },
+        "method": "test_entire_proposed_publication_set_privacy",
+        "lines": [
+          [
+            211,
+            215
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "3bde51962874322c0b2c4c495ca2d838cea774b31b88df8cffd2c1b20f0292a0",
+        "traceback_sha256": "5285a9206c7da2fd704879826968290d7db54fd503e660cf281c162e448ddf04"
+      },
+      "current": {
+        "message_sha256": "a7e9ef37912f856e55aaddbdeea5b3b0e4a23bb74b2656521bf677abe441864d",
+        "traceback_sha256": "0453963216a8e851a111c2b5e84b2b261eb36a778615bf5724bb2a10e5409d4e"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "a3cd328bb5a9c0f297debdcb929c69bd62ae54fbbff2f8e851d6a35679159fae",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+            "bytes": 59584,
+            "sha256": "d571ec9300de844bc3801eb96944edf59faf6f13a160be9168cda1b387cbe781"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+            "bytes": 59030,
+            "sha256": "3da26331ba4d20dc3cf41dc41df94e8a46b2e1bd25d8c428ca77a287a4e97363"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "4fdf418dbe8d9a4318c245303d89fc4e8682c53b23af9c6cace1c5aae453e8b9",
+        "traceback_sha256": "2163f2026f515473c435266f31ae8610767960cfbdc281e452cf191f279ccb66"
+      },
+      "current": {
+        "message_sha256": "34902f104d709486a8aef0cb0a1bccedbbfb56d39c36866476f52a34d886f324",
+        "traceback_sha256": "03611fd3004f83753d38c44083ca69ac6c7d9338b43dd9ddd3be5ede62c4585b"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "5a8064715b037c4dd269945fc4dc93a999c56961468cdd229739c17ccc0824cc",
+      "identity": "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+      "classification": "NEW_NONPASS",
+      "disposition": "HISTORICAL_W3_DIFF_SCOPE_FAIL_REEXPOSED;NOT_WAIVED",
+      "proof": {},
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a05_contingency.py",
+          "bytes": 9696,
+          "sha256": "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b"
+        },
+        "method": "test_no_designer_udf_numerical_packaging_or_framework_change",
+        "lines": [
+          [
+            141,
+            147
+          ]
+        ]
+      },
+      "before": null,
+      "current": {
+        "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "traceback_sha256": "c3febe5720f4b2004487bd3877ec724ffd31ec623059612b03c5bee644c39ca5"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "dc5f06341902db6582e14db81d9aa04c6f8edcd2396cb10a87b692029c71223b",
+      "identity": "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "EXACT_RECONSTRUCTED_LEGACY_PUBLICATION_ALLOWED_PATH_SET;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "reader": {
+          "path": "scripts/verify-04a22-publication.py",
+          "bytes": 7473,
+          "sha256": "20c17d6274c9049f366b23cfde890f3beb1277743bb37fa0e66a3b891f9599c3"
+        },
+        "before_set": [
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "current_set": [
+          "BESHStat.Excel.Common/src/Analysis/CoxWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/ExtendedRegressionFamilyPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/LinearBinomialRegressionPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/RegressionRequestPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/UdfLmmInputPreparation38.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "raw_set_repr_order": "PRESERVED_IN_PROTECTED_RAW;NO_ORDER_NORMALIZATION_OF_TEST_OUTPUT"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a22_spc.py",
+          "bytes": 9384,
+          "sha256": "7654f6e2b47b6a19bbb994a1d23470036d54fe0b7090969906289b7247c3e3bb"
+        },
+        "method": "test_publication_membership_hashes_empty_index_and_privacy",
+        "lines": [
+          [
+            138,
+            141
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+        "traceback_sha256": "db23ed29f45101d1cc83c989a66e6761c99f4902e752f8e3ea80eee545a0933b"
+      },
+      "current": {
+        "message_sha256": "0e7a5418c86c9da1128e8b8cc002d32b5c9fc33e985d163f77ed31b8c0b1bbb1",
+        "traceback_sha256": "d5c8ec4412841c7e4b0315d70bf7139bd1ba46043f23679388d79196f5766c26"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "a6f5f82f853aecce400e1888593185049792a97089fbffa2f24dfb175150afd5",
+      "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHENTICATED_FEATURE_BRANCH_CONTEXT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_branch": "codex/04A-39",
+        "current_branch": "codex/04A-40"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a17_multivariate.py",
+          "bytes": 8080,
+          "sha256": "06afd4bd4829b90688f0924c13a4a1d5ea5fc22d85120fde21308895f2dd1db0"
+        },
+        "method": "test_live_base_branch_index_and_protected_sources",
+        "lines": [
+          [
+            19,
+            23
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "2939905788845e8f723cdb6558e124d5c559591001246d9bb4cd90c7cec1261b",
+        "traceback_sha256": "35a9eb2fefd3647b1e4a91d2ecac28353a602d12cdb119e63da5183cf4431ac0"
+      },
+      "current": {
+        "message_sha256": "6f3729f1d1a7024df9971df6b5536431e039044511a0aa536d6f4acfaa8bf432",
+        "traceback_sha256": "ff7a67a522ee01a7c3190be21f7e115c60c9abc76902b48fc1794a07e29418da"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "2698353e8a7efbaef1dd6bbcd2b342247dcc9a3873102e087c916b38b83e2f79",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "EXACT_REPRODUCED_BRANCH_ARGUMENTS_AND_DIFF_MARKERS;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_operands": [
+          "codex/04A-13",
+          "codex/04A-39"
+        ],
+        "current_operands": [
+          "codex/04A-13",
+          "codex/04A-40"
+        ],
+        "message_reproduction_exact": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a13_survival_workflow.py",
+          "bytes": 10622,
+          "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+        },
+        "method": "test_local_main_ancestry_empty_index_and_dedicated_branch",
+        "lines": [
+          [
+            25,
+            30
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "ced9310a49e2d00b4bfc2a73243916208b0ccfd99339064da1f0f37a11a1197c",
+        "traceback_sha256": "2bf9ea7b7548c0da7b5a4d93ace96c963d46872a08e0bac9b6e2e668a11ab8e8"
+      },
+      "current": {
+        "message_sha256": "8f354856fac4bc77193983e68ecf4b9ebdc2780a623ca17449ed5fab1f4a6ade",
+        "traceback_sha256": "960bd121323e8d37a820d4a3643d7a9529666cdba62a79e82ac537cff9bb9bd3"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "aa1f078b2c7800123cca604e962c0f9baf5c1b38014b0c22a56eb17d090f7ecd",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_c09_c11_c12_dormant_candidates_gee_and_public_accepted_evidence_unchanged",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "FIRST_FAILING_SOURCE_PIN_SHIFT;CURRENT_AUTHORIZED_TRANSITION;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+            "bytes": 18490,
+            "sha256": "fc60ac8efe7afa6e1ba2e65c33dec0d0523537b0ce3e34de8a9aed93ae882c4a"
+          },
+          "after": {
+            "path": "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+            "bytes": 19280,
+            "sha256": "7b2d3a28eba5a6be0dd68b80390e064e6b6e9b1170cba03575736173717a5a05"
+          }
+        },
+        "current_assertion_message_reproduced_exact": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a13_survival_workflow.py",
+          "bytes": 10622,
+          "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+        },
+        "method": "test_c09_c11_c12_dormant_candidates_gee_and_public_accepted_evidence_unchanged",
+        "lines": [
+          [
+            144,
+            151
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "9606a1e9b803b4d421f41e7593a3d83881fb311b08e4454e2290ca0bb6e6624b",
+        "traceback_sha256": "792dd5f8008a2c33c4c5eefb9053cee8d79f55613adad8f24a83b9caaa29e3c9"
+      },
+      "current": {
+        "message_sha256": "1e17751763ce6be3719e127e26d65c296cfbf5e74e3dd2342987ec06662555b8",
+        "traceback_sha256": "97a458669ae51dcdf9546a94dae85eedd3c407dec93b24e4aea355da63392cc5"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "fdb3cd45fcadd8425f2e838f80b1f82ed4c0e5f95e4430b0b0c6fbdbe3b059b1",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_exact_scope_and_external_owner_plan_are_separate",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "EXACT_RECONSTRUCTED_HISTORICAL_SOURCE_SCOPE_ARGUMENTS;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "baseline": {
+          "path": "TestResults/04A-14-20261103-run01/baseline.json",
+          "bytes": 526443,
+          "sha256": "0338b90fcf36b4cec1b30c98ae669fd44f5280be0feb7da00648bba1c71350b2"
+        },
+        "reader": {
+          "path": "scripts/capture-04a14-contract.py",
+          "bytes": 11676,
+          "sha256": "68909acd05300bd5b18e2cf9bd6f402fdb8c54d760cff08d7843e4bd122dc74d"
+        },
+        "before_paths": [
+          ".gitignore",
+          "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+          "BESHStat.Core.Tests/README.md",
+          "BESHStat.Core/README.md",
+          "BESHStat.Core/src/Graphics/HistogramBinningCore.vb",
+          "BESHStat.Core/src/Graphics/ViolinPlotCore.vb",
+          "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+          "BESHStat.Excel.Common.Tests/README.md",
+          "BESHStat.Excel.Common/README.md",
+          "BESHStat.Excel.Common/src/Results/SurvivalReportPolicy.vb",
+          "BESHStat.OfficeAddin/README.md",
+          "BESHStat.OfficeAddin/tests/README.md",
+          "BESHStat.WasmSmoke/README.md",
+          "BESHStatNG.Test/README.md",
+          "BESHStatNG_Help_MkDocs/README.md",
+          "BESHStatNG_Help_MkDocs/docs/global-settings.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/control-charts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/correspondence-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/discriminant-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/factor-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/hierarchical-clustering.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/k-means-clustering.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/options-and-output.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/random-effects-and-covariance.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/user-interface.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/lsmeans-and-contrasts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/options-and-output.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/user-interface.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/multiple-correspondence-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/multivariate-control-charts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/principal-component-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/propensity-score-matching.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/sample-size-bland-altman.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/sample-size-icc.md",
+          "BESHStatNG_Installer/README.md",
+          "BESHstatNG/README.md",
+          "BESHstatNG/src/DM/PSMdataImport.vb",
+          "BESHstatNG/src/DM/ResultWriter/ExcelDnaResultWriter.vb",
+          "BESHstatNG/src/DM/ResultWriter/ExcelDnaSharedOutputPlanAdapter.vb",
+          "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+          "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+          "BESHstatNG/src/Graphics/3Dobjects.vb",
+          "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+          "BESHstatNG/src/Graphics/BoxPlot.vb",
+          "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+          "BESHstatNG/src/Graphics/CalibrationPlot.vb",
+          "BESHstatNG/src/Graphics/ClusterAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/ConvexHullPlot.vb",
+          "BESHstatNG/src/Graphics/CorrespondenceAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/CoxSurvivalPlotExcel.vb",
+          "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb",
+          "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb",
+          "BESHstatNG/src/Graphics/FactorAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/GifAnimator.vb",
+          "BESHstatNG/src/Graphics/Histogram.vb",
+          "BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb",
+          "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+          "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+          "BESHstatNG/src/Graphics/NormalPlot.vb",
+          "BESHstatNG/src/Graphics/PcaPlotExcel.vb",
+          "BESHstatNG/src/Graphics/PolarPlot.vb",
+          "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+          "BESHstatNG/src/Graphics/ROC.vb",
+          "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+          "BESHstatNG/src/Graphics/ScatterPlotMatrix.vb",
+          "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+          "BESHstatNG/src/Graphics/SymetryPlot.vb",
+          "BESHstatNG/src/Graphics/ViolinPlot.vb",
+          "BESHstatNG/src/Graphics/XYZscatter.vb",
+          "BESHstatNG/src/RegModels/BinaryClassificationReporting.vb",
+          "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+          "BESHstatNG/src/UI/Ui11PCA.vb",
+          "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+          "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+          "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+          "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+          "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+          "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+          "README.md",
+          "docs/architecture/README.md",
+          "planning/README.md",
+          "scripts/README.md"
+        ],
+        "current_paths": [
+          ".gitignore",
+          "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+          "BESHStat.Core.Tests/README.md",
+          "BESHStat.Core/README.md",
+          "BESHStat.Core/src/Graphics/HistogramBinningCore.vb",
+          "BESHStat.Core/src/Graphics/ViolinPlotCore.vb",
+          "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+          "BESHStat.Excel.Common.Tests/README.md",
+          "BESHStat.Excel.Common/README.md",
+          "BESHStat.Excel.Common/src/Analysis/CoxWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/ExtendedRegressionFamilyPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/LinearBinomialRegressionPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/RegressionRequestPolicy.vb",
+          "BESHStat.Excel.Common/src/Results/SurvivalReportPolicy.vb",
+          "BESHStat.OfficeAddin/README.md",
+          "BESHStat.OfficeAddin/tests/README.md",
+          "BESHStat.WasmSmoke/README.md",
+          "BESHStatNG.Test/README.md",
+          "BESHStatNG_Help_MkDocs/README.md",
+          "BESHStatNG_Help_MkDocs/docs/global-settings.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/control-charts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/correspondence-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/discriminant-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/factor-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/hierarchical-clustering.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/k-means-clustering.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/options-and-output.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/random-effects-and-covariance.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/lmm/user-interface.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/lsmeans-and-contrasts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/options-and-output.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/mmrm/user-interface.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/multiple-correspondence-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/multivariate-control-charts.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/principal-component-analysis.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/propensity-score-matching.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/sample-size-bland-altman.md",
+          "BESHStatNG_Help_MkDocs/docs/methods/sample-size-icc.md",
+          "BESHStatNG_Installer/README.md",
+          "BESHstatNG/Generated/VersionAttributes.vb",
+          "BESHstatNG/README.md",
+          "BESHstatNG/src/DM/PSMdataImport.vb",
+          "BESHstatNG/src/DM/ResultWriter/ExcelDnaResultWriter.vb",
+          "BESHstatNG/src/DM/ResultWriter/ExcelDnaSharedOutputPlanAdapter.vb",
+          "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+          "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+          "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+          "BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+          "BESHstatNG/src/Graphics/3Dobjects.vb",
+          "BESHstatNG/src/Graphics/AgreementPlotExcel.vb",
+          "BESHstatNG/src/Graphics/BoxPlot.vb",
+          "BESHstatNG/src/Graphics/BulletChartExcel.vb",
+          "BESHstatNG/src/Graphics/CalibrationPlot.vb",
+          "BESHstatNG/src/Graphics/ClusterAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/ConvexHullPlot.vb",
+          "BESHstatNG/src/Graphics/CorrespondenceAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/CoxSurvivalPlotExcel.vb",
+          "BESHstatNG/src/Graphics/CumulativeDistributionPlotExcel.vb",
+          "BESHstatNG/src/Graphics/DumbbellPlotExcel.vb",
+          "BESHstatNG/src/Graphics/FactorAnalysisPlotExcel.vb",
+          "BESHstatNG/src/Graphics/GifAnimator.vb",
+          "BESHstatNG/src/Graphics/Histogram.vb",
+          "BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb",
+          "BESHstatNG/src/Graphics/LadderPlotExcel.vb",
+          "BESHstatNG/src/Graphics/MultipleComparisonPlotExcel.vb",
+          "BESHstatNG/src/Graphics/NormalPlot.vb",
+          "BESHstatNG/src/Graphics/PcaPlotExcel.vb",
+          "BESHstatNG/src/Graphics/PolarPlot.vb",
+          "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+          "BESHstatNG/src/Graphics/ROC.vb",
+          "BESHstatNG/src/Graphics/SankeyPlotExcel.vb",
+          "BESHstatNG/src/Graphics/ScatterPlotMatrix.vb",
+          "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+          "BESHstatNG/src/Graphics/SymetryPlot.vb",
+          "BESHstatNG/src/Graphics/ViolinPlot.vb",
+          "BESHstatNG/src/Graphics/XYZscatter.vb",
+          "BESHstatNG/src/RegModels/BinaryClassificationReporting.vb",
+          "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+          "BESHstatNG/src/UI/Ui11PCA.vb",
+          "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+          "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+          "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+          "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+          "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+          "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+          "README.md",
+          "docs/architecture/README.md",
+          "planning/README.md",
+          "scripts/README.md"
+        ]
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a14_mixed_workflow.py",
+          "bytes": 14339,
+          "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+        },
+        "method": "test_exact_scope_and_external_owner_plan_are_separate",
+        "lines": [
+          [
+            28,
+            36
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "66f3805bd26618fe38980abbd0aec41418336089ba2a91fbe36f436ff211fe0e",
+        "traceback_sha256": "cea87b0718ec7ce0c7c3643ec7965cea3ba19be507fe4135611fa5f6f0db3024"
+      },
+      "current": {
+        "message_sha256": "519331078f92dbb4769a0e6539ea4b39f57a2a6772663a7b2935e49d098b40ad",
+        "traceback_sha256": "d64697cf9de16efb05c3ed2bcb5971aeff2911af954bf7eb25b1119d8dcae969"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "13ab121f11298ca3673d91ccbfdf634b8d83ea36daeb7b9d3e49261d34f4ed6c",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+            "bytes": 42519,
+            "sha256": "531e90704a789862ba955d426967b0cb93fa11a43a4ac21a068fd3727cf733af"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+            "bytes": 42743,
+            "sha256": "0b4d974771d552dad7a96161c4c9b7a0dd8bf0faab1dd39dd31e1440f40ab3ad"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "a6766b16dd805ff1ff58c351ce8d18f804c04351c2d9ddc5148f3dd62bb3cb94",
+        "traceback_sha256": "821730d775e70844edd3dbed4214fcad9928fa7dcdcdff5f43f535afae8655ee"
+      },
+      "current": {
+        "message_sha256": "e47b8c068452adcf46ea7062a593a0b5e0bdaecac224077e6a26327d99be1661",
+        "traceback_sha256": "fabadd34fc4331f23f6453d4f2b946b08d58bf10ec828347181b125b4b0f4b45"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "8414064d92d76f687a359db9ac4bcaca357285f18e0d4df7910bfb4c92766559",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "REPOSITORY_CANDIDATE_SET_CHANGED;FINDINGS_FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "before_findings": 1599,
+        "current_findings": 6,
+        "original_scan_scope_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a13_survival_workflow.py",
+          "bytes": 10622,
+          "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+        },
+        "method": "test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "lines": [
+          [
+            162,
+            166
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "3bde51962874322c0b2c4c495ca2d838cea774b31b88df8cffd2c1b20f0292a0",
+        "traceback_sha256": "3701f4ed48301659e55e76eb6a20105e996571babc610f8600a604f93a3f13cc"
+      },
+      "current": {
+        "message_sha256": "a7e9ef37912f856e55aaddbdeea5b3b0e4a23bb74b2656521bf677abe441864d",
+        "traceback_sha256": "309e48d866a29a8abea201ccd0d1ec780a07eb75e7a5d0c245e5ba20a4f0d848"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "bd7426fee898f689aa36cdc064dc23b9e502723670eac5a2ff056a98ae121c65",
+      "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_actual_merged_base_and_protected_owner_plan",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+            "bytes": 85276,
+            "sha256": "3e2b4da4cfb234ca7089e60db8bdd00c954f3ccd0171b73e856ab76c7524199d"
+          },
+          "after": {
+            "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+            "bytes": 86083,
+            "sha256": "07c79aabba1db57a697024eeba0a4813b28cc3897100585b979f7837677867b9"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a23_multivariate_spc.py",
+          "bytes": 13644,
+          "sha256": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8"
+        },
+        "method": "test_actual_merged_base_and_protected_owner_plan",
+        "lines": [
+          [
+            24,
+            30
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "b20fa69ddbc4b8a79933f2a705dccd3a395e5491089921b0feff7655029ebe2f",
+        "traceback_sha256": "756f0aaa607037fd427f865f6f8c216458ea3039e6d7186d9fee72c26281f27a"
+      },
+      "current": {
+        "message_sha256": "44b69c994af0284715aaa73a5b02e9c26803dbe98c22e130683a1e7647eff49e",
+        "traceback_sha256": "724fd9850b297f56a6d394e2da3f79696f0fad6087777a3f9c73133657f2cb54"
+      },
+      "waived": false
+    },
+    {
+      "stable_event_id": "2468e3d9a084ec8cd8251174d01a9b9eb14b378d7ce12f2ecd16dc23dcaa1f16",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED",
+      "proof": {
+        "same_final_test_frame": true,
+        "transition": {
+          "before": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+            "bytes": 89689,
+            "sha256": "bf7517f0d38283d8f77f0ecd0c73c10c7d9d8b9fe26de3d8ae27bcbcd981c335"
+          },
+          "after": {
+            "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+            "bytes": 89907,
+            "sha256": "511bb7254de5aeb8a37469f0fd5300ae08ac56fad209b24db854fb21d5d1b69f"
+          }
+        }
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      },
+      "before": {
+        "message_sha256": "6c6fe01036e0846aedaf2f34a8ea74e0bd5ad8df33c3aed18db37a117e5b655f",
+        "traceback_sha256": "c4f07aae9f5a3c3510302a322a8b8c544836de87e6802fc6f2d071e8ed832f9f"
+      },
+      "current": {
+        "message_sha256": "57f42ed221c7c2575bb04b49728bcb48d4f4b41ae073fa098ef75e5b1866e986",
+        "traceback_sha256": "e2f1443624161fc9efe753ddcb5730a0e56e73bd09397e5ec8b9e6fce0e12580"
+      },
+      "waived": false
+    }
+  ],
+  "counts": {
+    "EXACT_RECONSTRUCTED_LEGACY_PUBLICATION_ALLOWED_PATH_SET;FAIL_UNWAIVED": 2,
+    "AUTHENTICATED_FEATURE_BRANCH_CONTEXT_DRIFT;FAIL_UNWAIVED": 4,
+    "EXACT_REPRODUCED_BRANCH_ARGUMENTS_AND_DIFF_MARKERS;FAIL_UNWAIVED": 2,
+    "HISTORICAL_W3_DIFF_SCOPE_FAIL_REEXPOSED;NOT_WAIVED": 3,
+    "AUTHORIZED_SOURCE_PIN_ARGUMENT_DRIFT;FAIL_UNWAIVED": 12,
+    "EXACT_RECONSTRUCTED_HISTORICAL_SOURCE_SCOPE_ARGUMENTS;FAIL_UNWAIVED": 2,
+    "AUTHENTICATED_MAIN_ADVANCE;FAIL_UNWAIVED": 3,
+    "FIRST_FAILING_SOURCE_PIN_SHIFT;CURRENT_AUTHORIZED_TRANSITION;FAIL_UNWAIVED": 2,
+    "REPOSITORY_CANDIDATE_SET_CHANGED;FINDINGS_FAIL_UNWAIVED": 2
+  },
+  "original54": {
+    "path": "evidence/04A39/correction-v1/diagnostics/changed-54-crosswalk-v2.json",
+    "bytes": 137837,
+    "sha256": "52110a5707992ab72b2a3272114e3b35a7ac31eeaf06e0309c754a72cb24f8a3"
+  },
+  "original54_retained": true,
+  "none_waived": true,
+  "unresolved": [],
+  "raw": {
+    "path": ".test-rationalization-04A40.tmp/python-event-crosswalk-raw-v2.json",
+    "bytes": 2074827,
+    "sha256": "542f4b5af387f4b78c09b1a29c8aa6311456b89312445fd76b6a3933a0fe41b2"
+  },
+  "full_Python_campaigns_per_state": 1,
+  "stopped_state1_five_new_nonpasses_retained": true,
+  "reproduction": "Read-only source/assertion-argument reconstruction, not another parent-test campaign. Unchanged assertions/expected operands; no FAIL waived."
+}

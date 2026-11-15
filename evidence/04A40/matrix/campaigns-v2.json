@@ -1,0 +1,77 @@
+{
+  "Debug": {
+    "mode": "ONE_FRESH_FULL",
+    "label": "a40-final2-Debug-v2",
+    "parts": [
+      [
+        "Core",
+        "all",
+        null
+      ],
+      [
+        "Common",
+        "main",
+        "FullyQualifiedName!~MigrationSemantic04A02Tests"
+      ],
+      [
+        "Legacy",
+        "all",
+        null
+      ],
+      [
+        "ControlMitigation",
+        "all",
+        null
+      ],
+      [
+        "OfficeAddin",
+        "all",
+        null
+      ],
+      [
+        "OfficeExecution",
+        "all",
+        null
+      ],
+      [
+        "Common",
+        "semantic",
+        "FullyQualifiedName~MigrationSemantic04A02Tests"
+      ]
+    ],
+    "expected_inherited": 21127,
+    "expected_added": 12
+  },
+  "Release": {
+    "mode": "FRESH_BUILD_TARGETED_ONLY;FULL_NOT_RUN",
+    "target": "Regression/formula/GEE/mixed/survival/UDF preparation and39 input policies",
+    "expected_exports": 268
+  },
+  "compatibility": {
+    "mode": "FRESH_CURRENT_ONLY_DEBUG_AND_RELEASE",
+    "preedit": 28966,
+    "supplement": 458,
+    "total_per_configuration": 29424,
+    "original_executions": 0
+  },
+  "Python": {
+    "mode": "ONE_FRESH_FINAL_956_PARENT_CAMPAIGN",
+    "worker_limit": 6,
+    "shared_scanners": "SERIAL"
+  },
+  "Node": {
+    "mode": "FRESH_FINAL_SHARED_POLICY_DEPENDENCY_CHECK",
+    "baseline": 916
+  },
+  "strict_profile_MkDocs": "SERIAL_REAL_EXITS",
+  "native_scientific": "NOT_RUN_UNAUTHORIZED;C13_AND_C12_BEHAVIOR_FIXES_NOT_ACTIVATED",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A41_NOT_AUTHORIZED"
+  }
+}

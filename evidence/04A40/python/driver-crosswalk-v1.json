@@ -1,0 +1,113 @@
+{
+  "files": [
+    {
+      "before": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/common.py",
+        "bytes": 2151,
+        "sha256": "698342dffcd7361998d10290c4387cc3e6619650524781675dfa76aec2d15f15"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/common.py",
+        "bytes": 2151,
+        "sha256": "ac09b83fb32b4dc1740507f91d82882cd537738d75ae9fd5a106018cb570b136"
+      },
+      "substitutions": [
+        {
+          "before": "ROOT=Path(__file__).resolve().parents[4]",
+          "after": "ROOT=Path(__file__).resolve().parents[2]",
+          "count": 1
+        },
+        {
+          "before": "BASE='22da2214da6bb1cad4f2934d0b36276324a1432f'",
+          "after": "BASE='bba848305c2c46ff3fc835a1132522ebfec59514'",
+          "count": 1
+        },
+        {
+          "before": ".test-rationalization-04A39.tmp/python-private",
+          "after": ".test-rationalization-04A40.tmp/python-private",
+          "count": 1
+        },
+        {
+          "before": "ROOT/'.test-rationalization-04A39.tmp'",
+          "after": "ROOT/'.test-rationalization-04A40.tmp'",
+          "count": 1
+        },
+        {
+          "before": "'a39pyv1-'",
+          "after": "'a40pyv1-'",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "before": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/python_workers_v4.py",
+        "bytes": 17908,
+        "sha256": "896877e177cfa1368dc09463311779fb352c5e78a8de56fdc0a25e4dba10c303"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/python_workers_v4.py",
+        "bytes": 17913,
+        "sha256": "be13ca613c042c7edc1a82453192d056eb67e94921d738af121669366d7b131b"
+      },
+      "substitutions": [
+        {
+          "before": ".test-rationalization-04A39.tmp/python-private",
+          "after": ".test-rationalization-04A40.tmp/python-private",
+          "count": 1
+        },
+        {
+          "before": ".test-rationalization-04A39.tmp/executions/a39fD-full-Common-semantic/observations",
+          "after": ".test-rationalization-04A40.tmp/executions/a40-final-Debug-Common-semantic/observations",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "before": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "substitutions": []
+    },
+    {
+      "before": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "substitutions": []
+    },
+    {
+      "before": {
+        "path": "evidence/04A39/python-node-scanners/campaign-v2/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "after": {
+        "path": ".test-rationalization-04A40.tmp/python-tools/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "substitutions": []
+    }
+  ],
+  "assertions_changed": 0,
+  "max_workers": 3,
+  "owner_ceiling": 6,
+  "scanner_workers": 1,
+  "original_tests_changed": false,
+  "historical_cache": "Unchanged5829-row reader; current HEAD differs, so old environment-dependent cache may decline reuse. No new fallback assertion or source normalization.",
+  "source_binding": "Stock Python modules/dependencies unchanged; production and branch deltas remain real assertions/nonpasses, never rebaselined."
+}

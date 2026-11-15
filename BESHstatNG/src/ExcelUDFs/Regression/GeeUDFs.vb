@@ -361,9 +361,9 @@ Namespace WorksheetFunctions
                 If String.IsNullOrWhiteSpace(seType) Then Return ExcelError.ExcelErrorValue
 
                 Dim mdl As New GEE(fam, lnk, covStr, seType)
-                mdl.bComputeResiduals = False
-                mdl.bIterationDetails = False
-                mdl.settingInputs(alphaValue, maxIterValue, tolValue, usePValue)
+                Global.BESHStatNG.ExcelCommon.GeeWorkflowPolicy.ConfigureUdfFit(mdl,
+                    New Global.BESHStatNG.ExcelCommon.RegressionOptions With {.Alpha = alphaValue, .MaximumIterations = maxIterValue, .Epsilon = tolValue,
+                        .Residuals = False, .IterationDetails = False}, New Global.BESHStatNG.ExcelCommon.GeeWorkflowOptions With {.UseP = usePValue})
                 mdl.data(fitData,
                          fitCluster,
                          rowIds,

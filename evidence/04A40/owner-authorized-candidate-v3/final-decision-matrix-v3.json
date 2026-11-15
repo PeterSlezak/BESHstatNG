@@ -1,0 +1,96 @@
+{
+  "status": "READY_FOR_OWNER_04A40_ACCEPTANCE_REVIEW_WITH_DOCUMENTED_RESTRICTIONS",
+  "kind": "ADDITIVE_OWNER_ACCEPTANCE_REVIEW_READINESS;NOT_OWNER_ACCEPTANCE",
+  "effective_only_with_matching_external_delivery_receipt": true,
+  "conditions": [
+    {
+      "gate": "Two authorized review representations",
+      "outcome": "AUTHENTICATED",
+      "evidence": "raw-presentation-crosswalk-v3.json"
+    },
+    {
+      "gate": "Current actual Git candidate privacy",
+      "outcome": "ZERO_UNRESOLVED_UNDER_BOTH_ORIGINAL_SCANNERS",
+      "evidence": "repository-privacy-witness-v3.json;final external seal includes later metadata"
+    },
+    {
+      "gate": "Historical guard outcomes",
+      "outcome": "3_FAIL;SCOPE_APPLICABILITY_DOCUMENTED;UNWAIVED",
+      "evidence": "scope-guard-dispositions-v3.json"
+    },
+    {
+      "gate": "Source/preservation/ABI/compatibility",
+      "outcome": "AUTHENTICATED_NO_RUNTIME_CHANGE",
+      "evidence": "preservation-readback-v3.json;source-lock-v3.json"
+    },
+    {
+      "gate": "Final physical witness",
+      "outcome": "REQUIRES_MATCHING_PASS_EXTERNAL_DELIVERY_RECEIPT",
+      "evidence": "external-delivery-receipt-v3.json outside ZIP"
+    }
+  ],
+  "authorization": {
+    "representation_exact": "I authorize versioned, sanitized **Git-candidate representations** of the two newly created reporting artifacts.",
+    "additional_exact_response": "I authorize the reuquest",
+    "additional_scope": "Exact preceding request: remove only the two raw reports from repository working-tree paths after independently verified immutable separately pinned copies; retain original path provenance and failures; change no scanner or ignore rules.",
+    "longer_draft_not_separately_granted": true
+  },
+  "actual_operations": [
+    "Created read-only separately pinned exact copies and preserved timestamps/path provenance",
+    "Independently verified protected copies before removing exactly two untracked raw repository paths",
+    "Kept both safe v2 representations byte-exact and added explicit candidate provenance labels",
+    "Added scoped guard/privacy/preservation/readiness/review evidence; no historical result replaced"
+  ],
+  "retained_nonpasses": {
+    "managed_Debug": "14_FAIL",
+    "targeted_Release": "2_FAIL",
+    "Python_parents": {
+      "PASS": 830,
+      "FAIL": 115,
+      "ERROR": 11
+    },
+    "Python_events": {
+      "FAIL": 187,
+      "ERROR": 11
+    },
+    "guard_failures": 3,
+    "accepted39_privacy": "2_FAIL_PARENTS_1941_EACH;1599+342",
+    "W3": "2_PRIVACY_ERROR_PARENTS",
+    "historical_diagnostic_differences": 54,
+    "current_diagnostic_differences": 32,
+    "strict_profile_MkDocs_exit_codes": [
+      1,
+      1,
+      0
+    ]
+  },
+  "full_Release": "NOT_RUN",
+  "scientific_native": "NOT_RUN;NOT_GOLDEN;NO_GATE_DISCHARGED",
+  "register": {
+    "entries": 1169,
+    "obligations": 1514,
+    "restricted_controls": 802,
+    "mappings": 2967,
+    "investigations": 20
+  },
+  "continuous_physical_identity": "NOT_VERIFIED;788_PREVIOUS_ID_DRIFTS_RETAINED",
+  "W3_37484_154": "INHERITED_QUALIFIED;NOT_FRESH_AUDIT",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A41_NOT_AUTHORIZED"
+  },
+  "accepted": false,
+  "committed": false,
+  "merged": false,
+  "phase04A41_authorized": false,
+  "readiness_document": {
+    "path": "evidence/04A40/owner-authorized-candidate-v3/readiness-postseal-v4.json",
+    "bytes": 3362,
+    "sha256": "92ba68aaee89aa23404059bd1b4c2729cd329f2e6fbf7b221bed8caa6204eab3"
+  }
+}

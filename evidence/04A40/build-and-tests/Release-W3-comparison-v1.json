@@ -1,0 +1,30 @@
+{
+  "rows": [
+    {
+      "identity_sha256": "122ba29dfff98e0b3913da1c02af1beaad595182694fdfa6de35b560d01ceed2",
+      "suite": "Common",
+      "outcome": "Failed",
+      "message_exact": true,
+      "trace_exact": true,
+      "current_trace": "3dd056c4be2b33de5aeeb09986959118ac7f7295b6ed5eff7dce51ef7c255270",
+      "W3_Release_trace": "3dd056c4be2b33de5aeeb09986959118ac7f7295b6ed5eff7dce51ef7c255270",
+      "Debug_comparison": "RETAINED_IDENTICAL"
+    },
+    {
+      "identity_sha256": "9eab40b21e984244e4a97640b9b585bdfd2a3e285f1f0a1ba00293741d0ecb5e",
+      "suite": "Legacy",
+      "outcome": "Failed",
+      "message_exact": true,
+      "trace_exact": true,
+      "current_trace": "5a9538310288dd45132cc07affc87afd64e3434b709309c997bcebddb5d55c81",
+      "W3_Release_trace": "5a9538310288dd45132cc07affc87afd64e3434b709309c997bcebddb5d55c81",
+      "Debug_comparison": "RETAINED_CHANGED_TRACE"
+    }
+  ],
+  "baseline": {
+    "path": "evidence/04A38/completion/w3/build-and-tests/Release-identities-v1.json",
+    "bytes": 9581263,
+    "sha256": "8096dbaa4e7641cf07e5c2b3723c9db5042c775a021f13606864f7f1e5866346"
+  },
+  "scope": "Release inherited nonpass comparison separately from39 Debug crosswalk; no missing fullRelease claim."
+}

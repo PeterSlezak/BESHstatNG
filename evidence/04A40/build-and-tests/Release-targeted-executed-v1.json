@@ -1,0 +1,65 @@
+{
+  "configuration": "Release",
+  "mode": "TARGETED_FRESH",
+  "parts": [
+    {
+      "suite": "Common",
+      "part": "targeted",
+      "selection": "FullyQualifiedName~Regression40|FullyQualifiedName~Regression08|FullyQualifiedName~Regression09|FullyQualifiedName~Regression10|FullyQualifiedName~Regression11|FullyQualifiedName~Gee12|FullyQualifiedName~Survival13|FullyQualifiedName~Mixed14|FullyQualifiedName~Mixed15|FullyQualifiedName~Mixed16|FullyQualifiedName~UdfRegression|FullyQualifiedName~UdfCox|FullyQualifiedName~UdfGee|FullyQualifiedName~UdfLmm|FullyQualifiedName~UdfMmrm|FullyQualifiedName~UdfW2Completion|FullyQualifiedName~UdfPreparation38|FullyQualifiedName~UdfInputPolicy39|FullyQualifiedName~UdfInputBoundary39",
+      "name": "a40-final-Release-Common-targeted",
+      "outcomes": {
+        "Passed": 1405,
+        "Failed": 1
+      },
+      "cases": {
+        "path": ".test-rationalization-04A40.tmp/executions/a40-final-Release-Common-targeted/cases.json",
+        "bytes": 491717,
+        "sha256": "c99fcb2a3d69cb44128abb695573203aae8d858e7db764d4a3c64da97687fdb8"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A40.tmp/executions/a40-final-Release-Common-targeted/results/Common.trx",
+        "bytes": 2329048,
+        "sha256": "c009b8944a497429f3b2f5ad184c57981086acf01d28eda5085f916e2c204a51"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A40.tmp/a40-final-Release-Common-targeted.json",
+        "bytes": 491717,
+        "sha256": "c99fcb2a3d69cb44128abb695573203aae8d858e7db764d4a3c64da97687fdb8"
+      },
+      "command_exit": 1
+    },
+    {
+      "suite": "Legacy",
+      "part": "targeted",
+      "selection": "FullyQualifiedName~Regression40|FullyQualifiedName~Regression08|FullyQualifiedName~Regression09|FullyQualifiedName~Regression10|FullyQualifiedName~Regression11|FullyQualifiedName~Gee12|FullyQualifiedName~Survival13|FullyQualifiedName~Mixed14|FullyQualifiedName~Mixed15|FullyQualifiedName~Mixed16|FullyQualifiedName~UdfRegression|FullyQualifiedName~UdfCox|FullyQualifiedName~UdfGee|FullyQualifiedName~UdfLmm|FullyQualifiedName~UdfMmrm|FullyQualifiedName~UdfW2Completion|FullyQualifiedName~UdfPreparation38|FullyQualifiedName~UdfInputPolicy39|FullyQualifiedName~UdfInputBoundary39",
+      "name": "a40-final-Release-Legacy-targeted",
+      "outcomes": {
+        "Passed": 1703,
+        "Failed": 1
+      },
+      "cases": {
+        "path": ".test-rationalization-04A40.tmp/executions/a40-final-Release-Legacy-targeted/cases.json",
+        "bytes": 572884,
+        "sha256": "c34900efda54c07d1244b40aa5ac6c762f175ae0f1eafe196c485d4b095a3fc7"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A40.tmp/executions/a40-final-Release-Legacy-targeted/results/Legacy.trx",
+        "bytes": 2622638,
+        "sha256": "ed993e3c642b9735cf8454fd28f8bc567e07f0ff55e6211077d69d5a8e9932c6"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A40.tmp/a40-final-Release-Legacy-targeted.json",
+        "bytes": 572884,
+        "sha256": "c34900efda54c07d1244b40aa5ac6c762f175ae0f1eafe196c485d4b095a3fc7"
+      },
+      "command_exit": 1
+    }
+  ],
+  "outcomes": {
+    "Passed": 3108,
+    "Failed": 2
+  },
+  "identities": 3110,
+  "source_unchanged": true,
+  "full_Release": "NOT_RUN;targeted family tests plus per-config ABI/CIL,77 input fixtures and29424 compatibility cases; no concrete release-only risk requires full campaign."
+}

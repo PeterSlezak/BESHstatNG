@@ -261,17 +261,15 @@ Namespace WorksheetFunctions
                     rawBaseDisplayNames:=rawBaseDisplayNames)
 
                 Dim lm As New regression.LinearModel()
-                lm.Alpha = alphaValue
-                lm.bComputeResiduals = residualFlag
-                lm.bReturnCov = False
+                Global.BESHStatNG.ExcelCommon.LinearBinomialRegressionPolicy.ConfigureUdfFit(lm,
+                    New Global.BESHStatNG.ExcelCommon.RegressionOptions With {.Alpha = alphaValue, .Residuals = residualFlag, .Covariance = False})
                 lm.Data(fitDataAdjusted, fitVarNames, rowIds, fitWeights)
                 lm.SetPredictorCodingFootnotes(codingNotes)
                 lm.Fit(interceptFlag, customGroups, regression.TermSumOfSquaresType.TypeIII)
 
                 Dim lmTypeI As New regression.LinearModel()
-                lmTypeI.Alpha = alphaValue
-                lmTypeI.bComputeResiduals = False
-                lmTypeI.bReturnCov = False
+                Global.BESHStatNG.ExcelCommon.LinearBinomialRegressionPolicy.ConfigureUdfFit(lmTypeI,
+                    New Global.BESHStatNG.ExcelCommon.RegressionOptions With {.Alpha = alphaValue, .Residuals = False, .Covariance = False})
                 lmTypeI.Data(fitDataAdjusted, fitVarNames, rowIds, fitWeights)
                 lmTypeI.SetPredictorCodingFootnotes(codingNotes)
                 lmTypeI.Fit(interceptFlag, customGroups, regression.TermSumOfSquaresType.TypeI)

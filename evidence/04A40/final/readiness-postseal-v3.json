@@ -1,0 +1,44 @@
+{
+  "status": "NOT_READY_04A40",
+  "software": {
+    "compilation": "VERIFIED_PASS",
+    "managed": "VERIFIED_NONPASS_INHERITED",
+    "exports": "VERIFIED_PASS",
+    "compatibility": "VERIFIED_PASS",
+    "Python": "NONPASS_UNWAIVED",
+    "Node": "VERIFIED_PASS"
+  },
+  "blocking": [
+    {
+      "id": "04A40-PRIVACY-ENTRY-RAW-01",
+      "reason": "Untracked raw entry receipt still has six owner-path rule occurrences. Exact original retained; sanitized derivative is not a repository scanner waiver."
+    },
+    {
+      "id": "04A40-HISTORICAL-SCOPE-GUARDS-01",
+      "reason": "Historical three diff-scope guards reexpose FAIL under authorized UDF edits; owner applicability disposition remains unwaived."
+    }
+  ],
+  "scientific_native": "NOT_RUN_UNAUTHORIZED;NOT_GOLDEN",
+  "publication": "PHYSICAL_DERIVATIVE_PUBLICATION_PASS",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A41_NOT_AUTHORIZED"
+  },
+  "publication_receipt": {
+    "path": "evidence/04A40/publication/physical-readback-v1.json",
+    "bytes": 5910,
+    "sha256": "9cdaf36fb8ce5e2132f186a97d3a9864d4643396cf667def3779ddb70d8f1161"
+  },
+  "repository_current_rule_occurrences": 8,
+  "repository_snapshot": {
+    "path": "evidence/04A40/python/repository-privacy-witness-v2.json",
+    "bytes": 18177,
+    "sha256": "c57c92cc2064d40409349972eed1d73942edfa88a52720a28264b42fb529d722"
+  },
+  "Python_parent_privacy_snapshot": "Six occurrences per privacy parent at full-campaign freeze; later focused candidate scan has eight. No parent rerun or historical result replacement."
+}

@@ -16,6 +16,23 @@ Namespace ExcelCommon
     End Class
 
     Public NotInheritable Class UdfLmmInputPreparation38
+        ''' <summary>Exact LMM request inference selection. MMRM retains its distinct
+        ''' existing preparation; neither estimator nor degrees of freedom is changed.</summary>
+        Public Shared Sub ApplyInference(request As Global.BESHStatNG.regression.MixedModelFitRequest, inference As Global.BESHStatNG.regression.MixedModelFixedInferenceMethod)
+            Select Case inference
+                Case Global.BESHStatNG.regression.MixedModelFixedInferenceMethod.KenwardRoger
+                    request.EnableFullKenwardRogerForLmm()
+                Case Global.BESHStatNG.regression.MixedModelFixedInferenceMethod.Satterthwaite
+                    request.UseSatterthwaite = True
+                    request.UseKenwardRoger = False
+                    request.FixedInferenceMethod = inference
+                Case Else
+                    request.UseSatterthwaite = False
+                    request.UseKenwardRoger = False
+                    request.FixedInferenceMethod = inference
+            End Select
+        End Sub
+
         Private Sub New()
         End Sub
 

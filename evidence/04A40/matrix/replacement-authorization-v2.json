@@ -1,0 +1,52 @@
+{
+  "utc": "2026-11-14T19:22:57.909333+00:00",
+  "reason": "Final Python exposed two new source-contract failures. Remove misleading host-keyword comment; restore unnecessary GUI GEE intent setter rewrite to authenticated main. Existing test source unchanged; no algorithm/default/native change.",
+  "source_changes": [
+    {
+      "before": {
+        "path": ".test-rationalization-04A40.tmp/pre-correction-v1/RegressionRequestPolicy.vb",
+        "bytes": 27788,
+        "sha256": "df3d21a7149e2ea1f14508f3b116f67b4179c32df03896b0e62629a3c9ff4d3b"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Analysis/RegressionRequestPolicy.vb",
+        "bytes": 27782,
+        "sha256": "11e70e5c7b26d4569d6a215e7f2a931c69bfe29e8051c2ab0b521b33fd591749"
+      }
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A40.tmp/pre-correction-v1/GeeWorkflowPolicy.vb",
+        "bytes": 19155,
+        "sha256": "f277218dfafec72bf56b2e724d22ab8fd2ad38bc31e6e982118006f4b0bf47a0"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+        "bytes": 19280,
+        "sha256": "7b2d3a28eba5a6be0dd68b80390e064e6b6e9b1170cba03575736173717a5a05"
+      }
+    }
+  ],
+  "original_full_Python": {
+    "path": "evidence/04A40/python/parent-event-reconciliation-v1.json",
+    "bytes": 845139,
+    "sha256": "8b1762650c4b0f8f66ed7c44654e5ed88826892c2761eba5311b1febe6a4ca07"
+  },
+  "old_full_campaigns_retained": true,
+  "focused_corrected_parents": {
+    "executed": 2,
+    "PASS": 2,
+    "exit_code": 0,
+    "provenance": "Actual unified-exec tool result; original stdout two tests/OK retained in conversation; no rerun to manufacture raw receipt."
+  },
+  "new_campaigns": "One fullDebug and one full956Python per corrected source state; Release build/targeted and fresh original-reference current-only compatibility. Node remains exact unchanged JS input carry-forward of fresh916.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A41_NOT_AUTHORIZED"
+  }
+}

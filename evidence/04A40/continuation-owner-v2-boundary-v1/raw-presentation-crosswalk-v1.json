@@ -1,0 +1,131 @@
+{
+    "status":  "AUTHENTICATED_BYTES_AND_JSON_FIELD_SCOPE;REMEDY_STOPPED",
+    "artifacts":  [
+                      {
+                          "original":  {
+                                           "path":  "evidence/04A40/baseline/Debug-build-v1.json",
+                                           "bytes":  172325,
+                                           "sha256":  "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+                                       },
+                          "original_mtime_utc":  "2026-11-14T18:33:33.1681639Z",
+                          "original_status":  "PROTECTED_RAW_UNTRACKED_NONIGNORED;UNCHANGED;HISTORICAL_PRIVACY_FAIL_RETAINED",
+                          "existing_protected_copy":  {
+                                                          "path":  ".test-rationalization-04A40.tmp/protected-public-raw/baseline/Debug-build-v1.json",
+                                                          "bytes":  172325,
+                                                          "sha256":  "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+                                                      },
+                          "separate_copy_verification":  "BYTE_EXACT_COPY_AUTHENTICATED",
+                          "representation":  {
+                                                 "path":  "evidence/04A40/baseline/Debug-build-review-v2.json",
+                                                 "bytes":  172293,
+                                                 "sha256":  "4f04ce1e02d3e0241f15460c88ec4c4f41d67b102ddd744efef1212ae83eacea"
+                                             },
+                          "kind":  "SANITIZED_REVIEW_CANDIDATE_REPRESENTATION;NOT_ORIGINAL_EXECUTION_TRANSCRIPT",
+                          "changed_json_fields":  [
+                                                      "/output"
+                                                  ],
+                          "command_arguments_and_other_json_values_exact":  true,
+                          "transformation":  "Build output-directory metadata rendered for review; raw build stdout and command arguments unchanged.",
+                          "rule_categories_from_retained_original_scan":  [
+                                                                              "known_private_identifier",
+                                                                              "profile_or_home",
+                                                                              "appdata_or_drive_path"
+                                                                          ],
+                          "fresh_scanner_status":  "NOT_RUN_PYTHON_UNAVAILABLE",
+                          "authority":  "Owner authorization quoted in decision-matrix-v1.json; only these two report representations and minimal necessary references.",
+                          "candidate_remedy":  "STOPPED_BEFORE_CHANGE;RAW_PATH_STILL_SELECTED_BY_UNCHANGED_SCANNER"
+                      },
+                      {
+                          "original":  {
+                                           "path":  "evidence/04A40/entry/tool-runtime-final-v1.json",
+                                           "bytes":  6401,
+                                           "sha256":  "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+                                       },
+                          "original_mtime_utc":  "2026-11-14T20:01:37.6123030Z",
+                          "original_status":  "PROTECTED_RAW_UNTRACKED_NONIGNORED;UNCHANGED;HISTORICAL_PRIVACY_FAIL_RETAINED",
+                          "existing_protected_copy":  null,
+                          "separate_copy_verification":  "NOT_VERIFIED_AT_THIS_EXPECTED_PATH;NO_MISSING_GLOBAL_PROTECTION_CLAIM",
+                          "representation":  {
+                                                 "path":  "evidence/04A40/entry/tool-runtime-review-v2.json",
+                                                 "bytes":  6364,
+                                                 "sha256":  "84dc88b1a9fdb13a7f87a49226a5d7fa779027b12aaf45ba6840f09e8842478c"
+                                             },
+                          "kind":  "SANITIZED_REVIEW_CANDIDATE_REPRESENTATION;NOT_ORIGINAL_EXECUTION_TRANSCRIPT",
+                          "changed_json_fields":  [
+                                                      "/commands/0/stdout"
+                                                  ],
+                          "command_arguments_and_other_json_values_exact":  true,
+                          "transformation":  "Only dotnet-info rendered stdout differs; tool paths use review aliases/forward separators. Command stdout_sha256 still identifies protected raw stdout, not the rendered string.",
+                          "rule_categories_from_retained_original_scan":  [
+                                                                              "unc_share"
+                                                                          ],
+                          "fresh_scanner_status":  "NOT_RUN_PYTHON_UNAVAILABLE",
+                          "authority":  "Owner authorization quoted in decision-matrix-v1.json; only these two report representations and minimal necessary references.",
+                          "candidate_remedy":  "STOPPED_BEFORE_CHANGE;RAW_PATH_STILL_SELECTED_BY_UNCHANGED_SCANNER"
+                      }
+                  ],
+    "no_original_mutated":  true,
+    "new_protected_copies_created":  0,
+    "historical_provenance":  [
+                                  {
+                                      "path":  "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+                                      "bytes":  86083,
+                                      "sha256":  "07c79aabba1db57a697024eeba0a4813b28cc3897100585b979f7837677867b9"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/final/owner-review-v2.md",
+                                      "bytes":  6506,
+                                      "sha256":  "71a5300ce575db9b7f9d9388ef3afa433485ee88f6944175e84e0d391ddf8c81"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/final/readiness-postseal-v3.json",
+                                      "bytes":  1651,
+                                      "sha256":  "1794915ade46fa7ec31840aa91a8bfb3b7c403e163254e60e344b7b598878021"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/python/repository-privacy-witness-v2.json",
+                                      "bytes":  18177,
+                                      "sha256":  "c57c92cc2064d40409349972eed1d73942edfa88a52720a28264b42fb529d722"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/register/issue-delta-v4.json",
+                                      "bytes":  334736,
+                                      "sha256":  "91d55db8700836a361a97f17c4fa7a8100d4cfecc567caaf7c8c4c855c52f37a"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/preservation/historical-readback-v4.json",
+                                      "bytes":  19028,
+                                      "sha256":  "12ced2ac131ea850f70535e4536faf43a02ec308eb624fe0fd6836d4fd48ec5e"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/publication/physical-readback-v1.json",
+                                      "bytes":  5910,
+                                      "sha256":  "9cdaf36fb8ce5e2132f186a97d3a9864d4643396cf667def3779ddb70d8f1161"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/final/git-final-v3.json",
+                                      "bytes":  12759,
+                                      "sha256":  "9bc718466057448caf9e9cb6753df57710d6c1c405ae15dd85058da5963cdeea"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/baseline/Debug-build-review-v2-provenance.json",
+                                      "bytes":  796,
+                                      "sha256":  "9aa5c854bbcb7aab187ac9e99bcfb871c30ecbc343aa1cb444fce4a51c2b15b0"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/publication/narrow-renderings-v1.json",
+                                      "bytes":  2166,
+                                      "sha256":  "6cdab5a07083169e80fb0b1a8a81f389562e2b8305c18427176c748196e45b21"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/python/diagnostic-dispositions-v3.json",
+                                      "bytes":  84221,
+                                      "sha256":  "e61e9cd856997eae0a47002bcb3c7e911f17de594cf9a3107a17d4fe605736ba"
+                                  },
+                                  {
+                                      "path":  "evidence/04A40/python/parent-event-reconciliation-v2.json",
+                                      "bytes":  841190,
+                                      "sha256":  "c879843b18ebda1a2a0b446dd71854faec0d9243e8b3436af26ec2f0295e1a5a"
+                                  }
+                              ]
+}

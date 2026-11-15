@@ -340,18 +340,7 @@ Namespace WorksheetFunctions
                 End If
                 req.Control = control
 
-                Select Case fixedInference
-                    Case regression.MixedModelFixedInferenceMethod.KenwardRoger
-                        req.EnableFullKenwardRogerForLmm()
-                    Case regression.MixedModelFixedInferenceMethod.Satterthwaite
-                        req.UseSatterthwaite = True
-                        req.UseKenwardRoger = False
-                        req.FixedInferenceMethod = fixedInference
-                    Case Else
-                        req.UseSatterthwaite = False
-                        req.UseKenwardRoger = False
-                        req.FixedInferenceMethod = fixedInference
-                End Select
+                Global.BESHStatNG.ExcelCommon.UdfLmmInputPreparation38.ApplyInference(req, fixedInference)
 
                 req.Validate()
 

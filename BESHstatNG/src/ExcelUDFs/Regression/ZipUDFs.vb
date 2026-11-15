@@ -335,7 +335,9 @@ Namespace WorksheetFunctions
                                rowIds,
                                fitOffset,
                                If(countData.bOffset, countData.OffsetVarName, Nothing))
-                mdl.settingInputs(ciAlpha, maxIrlsValue, maxEmValue, tolValue)
+                Global.BESHStatNG.ExcelCommon.ExtendedRegressionFamilyPolicy.ApplyZipFitSettings(mdl,
+                    New Global.BESHStatNG.ExcelCommon.RegressionOptions With {.Alpha = ciAlpha, .MaximumIterations = maxIrlsValue,
+                        .EmIterations = maxEmValue, .Epsilon = tolValue})
                 mdl.Fit(If(countInterceptFlag, 1, 0), If(zeroInterceptFlag, 1, 0), False, False)
 
                 If mdl.resultsPoisson Is Nothing OrElse mdl.resultsPoisson.Coeffs_est Is Nothing OrElse mdl.resultsPoisson.Coeffs_SEs Is Nothing Then

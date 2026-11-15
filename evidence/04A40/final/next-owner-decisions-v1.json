@@ -1,0 +1,40 @@
+{
+  "status": "NOT_READY_04A40",
+  "blocking": [
+    {
+      "id": "04A40-PRIVACY-ENTRY-RAW-01",
+      "reason": "Untracked raw entry receipt still has six owner-path rule occurrences. Exact original retained; sanitized derivative is not a repository scanner waiver."
+    },
+    {
+      "id": "04A40-HISTORICAL-SCOPE-GUARDS-01",
+      "reason": "Historical three diff-scope guards reexpose FAIL under authorized UDF edits; owner applicability disposition remains unwaived."
+    }
+  ],
+  "raw_artifact": {
+    "path": "evidence/04A40/baseline/Debug-build-v1.json",
+    "bytes": 172325,
+    "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+  },
+  "safe_counterpart": {
+    "path": "evidence/04A40/baseline/Debug-build-review-v2.json",
+    "bytes": 172293,
+    "sha256": "4f04ce1e02d3e0241f15460c88ec4c4f41d67b102ddd744efef1212ae83eacea"
+  },
+  "smallest_decision": "Authorize a versioned safe Git-candidate representation for this new raw entry receipt, preserving its protected original and all failed attempts; no source/test/scanner/historical oracle waiver.",
+  "separate_restricted_decisions": [
+    "C13 exact correction authority and independent R reference",
+    "C12 supplied-start/QIC science correction",
+    "Native UI/control gates04A45–47",
+    "Original obligations and04A48 exits"
+  ],
+  "no_automatic_acceptance_merge_next_batch": true,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A41_NOT_AUTHORIZED"
+  }
+}

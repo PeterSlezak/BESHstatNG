@@ -1,0 +1,97 @@
+{
+  "utc": "2026-11-14T20:01:37.545447+00:00",
+  "mode": "END_AUTHENTICATED;ACTUAL_BUILD_COMMANDS_LOGGED;NO_FABRICATED_PRELAUNCH_RECEIPT",
+  "commands": [
+    {
+      "label": "dotnet-info",
+      "command": {
+        "command": [
+          "dotnet",
+          "--info"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.4556270000175573,
+        "stdout_sha256": "946696e4c4350f97b3b93c8225c97e5c7572b19d7076a39ee2fb252a4856c67b",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": ".NET SDK:\n Version:           10.0.404\n Commit:            2ab2854867\n Workload version:  10.0.400-manifests.80e15866\n MSBuild version:   18.9.15+2ab285486\n\nRuntime Environment:\n OS Name:     Windows\n OS Version:  10.0.26300\n OS Platform: Windows\n RID:         win-x64\n Base Path:   <PROGRAM_FILES>/dotnet/sdk/10.0.404/\n\n.NET workloads installed:\n [wasm-tools]\n   Installation Source: VS 18.11.12402.416\n   Manifest Version:    10.0.115/10.0.100\n   Manifest Path:       <PROGRAM_FILES>/dotnet/sdk-manifests/10.0.100/microsoft.net.workload.mono.toolchain.current/10.0.115/WorkloadManifest.json\n   Install Type:              Msi\n\nConfigured to use workload sets when installing new manifests.\nNo workload sets are installed. Run \"dotnet workload restore\" to install a workload set.\n\nHost:\n  Version:      10.0.15\n  Architecture: x64\n  Commit:       8e0f8ed231\n\n.NET SDKs installed:\n  10.0.404 [<PROGRAM_FILES>/dotnet/sdk]\n\n.NET runtimes installed:\n  Microsoft.AspNetCore.App 8.0.34 [<PROGRAM_FILES>/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 9.0.23 [<PROGRAM_FILES>/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.AspNetCore.App 10.0.15 [<PROGRAM_FILES>/dotnet/shared/Microsoft.AspNetCore.App]\n  Microsoft.NETCore.App 8.0.34 [<PROGRAM_FILES>/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 9.0.23 [<PROGRAM_FILES>/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.1 [<PROGRAM_FILES>/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.NETCore.App 10.0.15 [<PROGRAM_FILES>/dotnet/shared/Microsoft.NETCore.App]\n  Microsoft.WindowsDesktop.App 8.0.34 [<PROGRAM_FILES>/dotnet/shared/Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 9.0.23 [<PROGRAM_FILES>/dotnet/shared/Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.1 [<PROGRAM_FILES>/dotnet/shared/Microsoft.WindowsDesktop.App]\n  Microsoft.WindowsDesktop.App 10.0.15 [<PROGRAM_FILES>/dotnet/shared/Microsoft.WindowsDesktop.App]\n\nOther architectures found:\n  x86   [<PROGRAM_FILES>/dotnet]\n    registered at [HKLM/SOFTWARE/dotnet/Setup/InstalledVersions/x86/InstallLocation]\n\nEnvironment variables:\n  DOTNET_CLI_TELEMETRY_OPTOUT              [1]\n  DOTNET_CLI_UI_LANGUAGE                   [en-US]\n  DOTNET_GCCONCURRENT                      [0]\n  DOTNET_GCHEAPCOUNT                       [2]\n  DOTNET_GCNOAFFINITIZE                    [1]\n  DOTNET_MULTILEVEL_LOOKUP                 [0]\n  DOTNET_SKIP_FIRST_TIME_EXPERIENCE        [1]\n  DOTNET_TC_CALLCOUNTTHRESHOLD             [1000]\n  DOTNET_THREADPOOL_UNFAIRSEMAPHORESPINLIMIT [0]\n  Detected COMPlus_* environment variable(s). Consider transitioning to DOTNET_* equivalent.\n\nglobal.json file:\n  Not found\n\nLearn more:\n  https://aka.ms/dotnet/info\n\nDownload .NET:\n  https://aka.ms/dotnet/download\n",
+      "raw_stdout": {
+        "path": ".test-rationalization-04A40.tmp/commands/a40-final-dotnet-info/stdout.log",
+        "bytes": 2864,
+        "sha256": "946696e4c4350f97b3b93c8225c97e5c7572b19d7076a39ee2fb252a4856c67b"
+      }
+    },
+    {
+      "label": "node-version",
+      "command": {
+        "command": [
+          "node",
+          "--version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.04397569998400286,
+        "stdout_sha256": "a18ba454716b5449eabf6c34a4418c2678b600d8c81c01d5ca876f529ea4d626",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": "v24.20.0\n",
+      "raw_stdout": {
+        "path": ".test-rationalization-04A40.tmp/commands/a40-final-node-version/stdout.log",
+        "bytes": 10,
+        "sha256": "a18ba454716b5449eabf6c34a4418c2678b600d8c81c01d5ca876f529ea4d626"
+      }
+    },
+    {
+      "label": "msbuild-version",
+      "command": {
+        "command": [
+          "<PROGRAM_FILES>/Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+          "/nologo",
+          "/version"
+        ],
+        "cwd": "<REPO_ROOT>",
+        "exit_code": 0,
+        "seconds": 0.22130699999979697,
+        "stdout_sha256": "4ba5f9f90faf22b04646c58336c4c6458db0b0bd3c1375728cab215b09c91fb0",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "runner_sha256": "8dc6ca3f1ba27fdd8e328ab875ba9ef6b04bc758e08225874a59818169256f0b"
+      },
+      "stdout": "18.11.1.51303\n",
+      "raw_stdout": {
+        "path": ".test-rationalization-04A40.tmp/commands/a40-final-msbuild-version/stdout.log",
+        "bytes": 15,
+        "sha256": "4ba5f9f90faf22b04646c58336c4c6458db0b0bd3c1375728cab215b09c91fb0"
+      }
+    }
+  ],
+  "Windows": {
+    "Culture": "en-US",
+    "UICulture": "en-US",
+    "OS": "Microsoft Windows NT 10.0.26300.0",
+    "PowerShell": "5.1.26100.9818"
+  },
+  "Python": {
+    "version": "3.14.7 (main, Aug  7 2026, 02:26:22) [MSC v.1944 64 bit (AMD64)]",
+    "implementation": "CPython",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "locale": [
+      "English_United States",
+      "1252"
+    ],
+    "executable_name": "python.exe",
+    "executable_sha256": "6bf492976e3a0cbb10695171d7f11897c4935ba93bc078b3bc3be52861d78ecc"
+  },
+  "dependency_inventory": {
+    "path": ".test-rationalization-04A40.tmp/python-input-freeze-v2.json",
+    "bytes": 2216792,
+    "sha256": "c16c4f9870fa7c6dcdee481773472ceb483d6f30a6d204da5cd841a68b8123af"
+  },
+  "test_cultures": [
+    "InvariantCulture",
+    "sk-SK"
+  ],
+  "source_of_other_compatibility_cultures": "Unchanged genuine frozen input rows and recorders, not invented combinations."
+}

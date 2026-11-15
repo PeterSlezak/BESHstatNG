@@ -1,15 +1,17 @@
 # BESHStatNG — Cross-platform development master plan
 
-**Revision 2.15 · 14 November 2026 · Accepted/merged04A.38;04A.39 in progress**
-**Current state:** Official batches **00.01–04.07 and04A.01–04A.38 accepted**. Owner accepted04A.38 W2 on13 November2026, qualified W3 software and overall04A.38 on14 November2026. **04A.38 merged main independently verified at `22da2214da6bb1cad4f2934d0b36276324a1432f`**, direct child of W3 baseline `ba1636f5356ac761509c2cfa16fc66b92430935d`. All1350 source paths exist in that commit;1113 exact Git byte hashes and237 owner-authorized newline-only differences (live1311 exact/39 newline-only). **04A.39 IN_PROGRESS**, on `codex/04A-39`, not accepted. No04A.40 authority follows. The exact previous living plan is retained as `BESHStatNG_CrossPlatform_MasterPlan2.14.md`.
+**Revision 2.17 · 14 November 2026 · 04A.39 accepted/merged;04A.40 in progress**
+**Current owner authority (04A.40 entry):** Owner accepted04A.39 and its limited physical-derivative publication gate, then committed/merged39 at `f2eb060c9c422c1fec4e82989d07907dbd4b9337`. Updated main `bba848305c2c46ff3fc835a1132522ebfec59514` is its direct child, containing only the previously observed BuildDate metadata update. Actual39 source, canonical register and final witness are authenticated;1352 historical source pins remain exact and the one owner BuildDate transition is explicitly recorded. **04A.40 IN_PROGRESS**, not accepted;04A.41 is unauthorized. Repository privacy FAILs, W3 ERRORs and scientific/native gates remain unwaived. Exact Revision2.15 is retained separately.
+
+**Historical Revision2.15 state (retained for chronology):** Official batches **00.01–04.07 and04A.01–04A.38 accepted**. Owner accepted04A.38 W2 on13 November2026, qualified W3 software and overall04A.38 on14 November2026. **04A.38 merged main independently verified at `22da2214da6bb1cad4f2934d0b36276324a1432f`**, direct child of W3 baseline `ba1636f5356ac761509c2cfa16fc66b92430935d`. All1350 source paths exist in that commit;1113 exact Git byte hashes and237 owner-authorized newline-only differences (live1311 exact/39 newline-only). **04A.39 IN_PROGRESS**, on `codex/04A-39`, not accepted. No04A.40 authority follows. The exact previous living plan is retained as `BESHStatNG_CrossPlatform_MasterPlan2.14.md`.
 
 | Roadmap measure | Count |
 |---|---:|
 | All numbered batches | **226** |
-| Accepted (Phases 00–04: 40; Phase 04A: 38) | **78** |
-| Not yet accepted (including in-progress 04A.39) | **148** |
-| Phase 04A accepted / total | **38 / 75** |
-| Phase 04A not yet accepted | **37** |
+| Accepted (Phases 00–04: 40; Phase 04A: 39) | **79** |
+| Not yet accepted (including in-progress 04A.40) | **147** |
+| Phase 04A accepted / total | **39 / 75** |
+| Phase 04A not yet accepted | **36** |
 
 **Historical Revision2.14 verification boundary (superseded by current entry above; preserved for chronology).** Acceptance and merges through 04A.37 are **owner-reported**, not a fresh independent live-Git checkout. The latest independently inspected **uploaded derivative packages** are `BESHStatNG_04A38_ACTIVE_20261112-133023.zip` (recovered from binary volumes) and `BESHStatNG_04A38_REFERENCE_20261112-133023.zip`, with the v12 sealed owner review and final post-seal addendum v2. Their contents and archived frozen compatibility comparisons were independently reviewed; Windows builds/tests, live Git and excluded private files are supported by Codex receipts rather than independently rerun or rehashed here. The v12 Codex receipts identify `codex/04A-38` and pinned HEAD/`main`/merge-base `ba1636f5356ac761509c2cfa16fc66b92430935d`, with an empty staged index, no commit and `git diff --check` exit 0. Every subsequent Codex continuation must authenticate the actual live branch, source, preservation and sealed reference before editing.
 
@@ -158,7 +160,7 @@
 
 ### Phase 04A — Windows code migration and selected Excel-DNA enhancements (in progress)
 
-**04A.01–04A.38 owner-accepted;04A.38 merge independently verified;04A.39 IN_PROGRESS and not accepted;04A.40–04A.75 remain planned.** The `04A.39–04A.48` defect/native authorization charter and 04A.75 histogram option remain binding. Later phases do not duplicate Core/Common already extracted here.
+**04A.01–04A.39 owner-accepted;04A.39 merge independently verified at `f2eb060c9c422c1fec4e82989d07907dbd4b9337`;04A.40 IN_PROGRESS and not accepted;04A.41–04A.75 remain planned.** The `04A.39–04A.48` defect/native authorization charter and 04A.75 histogram option remain binding. Later phases do not duplicate Core/Common already extracted here.
 
 | Batch | Objective / delivered scope | Depends on | Evidence / completion criterion | Risk |
 |---|---|---|---|---|
@@ -200,8 +202,8 @@
 | **04A.36** **✓** | Accepted/merged: portable KM censor/step/CI, Cox baseline/deferred residual payloads and univariate/multivariate SPC chart/limit/annotation data with Windows consumers; native rendering and disabled Cox residual UI preserved. | 04A.35 | Frozen KM/Cox/SPC compatibility and source/row/phase geometry obligations retained; no scientific/native activation or Mac parity. | High |
 | **04A.37** **✓** | Accepted/merged: portable PCA/factor/cluster/CA plot geometry, axes, score/loadings/biplot/dendrogram labels; final late archived-entry supplement/correction evidence retained. | 04A.36 | Original/late coverage authority distinguished; source and native-only rendering boundaries preserved; no scientific-golden promotion. | High |
 | **04A.38** **✓** | Accepted controlled extraction across268 Excel-DNA UDF exports; Windows registration/cache/native session ownership retained. | 04A.01,01.09 | W2 accepted13Nov; W3 software/overall accepted14Nov; verified main `22da2214da6bb1cad4f2934d0b36276324a1432f`.704/726/303 closed,zeroOPEN; Debug/Release21080PASS/14 inheritedFAIL each;29424 exact/config. Native/scientific restrictions retained. | High |
-| **04A.39** **IN PROGRESS** | Reconcile UDF argument/data-import policies, row provenance, nested numeric-text precision and paired positional/source-row differences; establish single defect register. | 04A.38 | Exact source-row/positional equivalence; issue-register entry and triage; no blanket scientific fix. | High |
-| **04A.40** | Regression, mixed, GEE, Cox, log-rank and formula UDF request/result parity; investigate LM alpha, QIC, cluster/prediction identities and controlled scientific corrections. | 04A.39 | Independent numerical/GUI/UDF cases; candidate decisions and unchanged gate unless specifically authorized. | High |
+| **04A.39** **ACCEPTED / MERGED** | Reconcile UDF argument/data-import policies, row provenance, nested numeric-text precision and paired positional/source-row differences; establish single defect register. | 04A.38 | Exact source-row/positional equivalence; issue-register entry and triage; no blanket scientific fix. | High |
+| **04A.40** **IN PROGRESS** | Regression, mixed, GEE, Cox, log-rank and formula UDF request/result parity; investigate LM alpha, QIC, cluster/prediction identities and controlled scientific corrections. | 04A.39 | Independent numerical/GUI/UDF cases; candidate decisions and unchanged gate unless specifically authorized. | High |
 | **04A.41** | Basic statistics, contingency, agreement, assumptions and sample-size UDF reconciliation; Shapiro, D’Agostino, nested labels, Liddell and scientific candidates. | 04A.39 | Independent p-value/CI/assumption reference; explicit policy and native decision for any behavior change. | High |
 | **04A.42** | Multivariate/classification/PSM and plot-source UDF payloads, row mapping and arrays. | 04A.39 | PCA, clustering, PSM and plotted data output snapshots → Typed portable result contracts and row order preserved | High |
 | **04A.43** | Shared UDF model-handle semantics, cache ownership, invalidation and recalculation; Windows session cache stays host-owned. | 04A.40–04A.42 | Handle invalidation, workbook lifecycle, parallel access and no stale cache leakage → Shared model result semantics without Windows `ConcurrentDictionary` dependency | High |

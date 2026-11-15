@@ -1,0 +1,48 @@
+{
+  "kind": "AUTHENTICATED_SANITIZED_SUCCESSOR_SUMMARY;NOT_RAW_EXECUTION",
+  "previous_archive": {
+    "path": ".test-rationalization-04A40.tmp/publication-v3/BESHStatNG_04A40_REVIEW_v3.zip",
+    "bytes": 42325347,
+    "sha256": "e7176975d0e3db13466bf7d84b89edfa7e2c854dbca4b5c819d2f21fd4b20c45"
+  },
+  "previous_receipt": {
+    "path": "evidence/04A40/publication/physical-readback-v1.json",
+    "bytes": 5910,
+    "sha256": "9cdaf36fb8ce5e2132f186a97d3a9864d4643396cf667def3779ddb70d8f1161"
+  },
+  "previous_members": 399,
+  "previous_indexed": 398,
+  "prior_physical_scanner_results": "RETAINED_PASS;NOT_FRESHLY_RERUN_ON_PREVIOUS_ZIP",
+  "fresh_prior_zip_sha_and_two_report_member_pins_verified": true,
+  "original_indexed_paths_contain": "REVIEW_RENDERED_BYTES;NOT_EXACT_RAW_REPORT_BYTES",
+  "rendered_reports": [
+    {
+      "indexed_path": "evidence/04A40/baseline/Debug-build-v1.json",
+      "raw": {
+        "path": "evidence/04A40/baseline/Debug-build-v1.json",
+        "bytes": 172325,
+        "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+      },
+      "review": {
+        "path": "evidence/04A40/baseline/Debug-build-review-v2.json",
+        "bytes": 172293,
+        "sha256": "4f04ce1e02d3e0241f15460c88ec4c4f41d67b102ddd744efef1212ae83eacea"
+      }
+    },
+    {
+      "indexed_path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+      "raw": {
+        "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+        "bytes": 6401,
+        "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+      },
+      "review": {
+        "path": "evidence/04A40/entry/tool-runtime-review-v2.json",
+        "bytes": 6364,
+        "sha256": "84dc88b1a9fdb13a7f87a49226a5d7fa779027b12aaf45ba6840f09e8842478c"
+      }
+    }
+  ],
+  "prior_raw_scanner_results": "FAIL_RETAINED",
+  "new_final_witness": "Exact safe-v2 member names used; no raw-looking aliases for review bytes. Every new physical member/index is scanned; authoritative physical results are external to the immutable ZIP."
+}

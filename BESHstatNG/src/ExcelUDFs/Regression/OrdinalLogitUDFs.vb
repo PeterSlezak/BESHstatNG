@@ -242,10 +242,9 @@ Namespace WorksheetFunctions
                 Dim refCat As regression.ReferenceCategory = Global.BESHStatNG.UdfDataImport.GetReferenceCategory(reference)
 
                 Dim ord As New regression.OrdinalLogitModel()
-                ord.bComputeResiduals = True
-                ord.bReturnCov = False
-                ord.bIterationDetails = False
-                ord.SettingInputs(alphaValue, maxIterValue, tolValue)
+                Global.BESHStatNG.ExcelCommon.ExtendedRegressionFamilyPolicy.ConfigureUdfOrdinalFit(ord,
+                    New Global.BESHStatNG.ExcelCommon.RegressionOptions With {.Alpha = alphaValue, .MaximumIterations = maxIterValue, .Epsilon = tolValue,
+                        .Residuals = True, .Covariance = False, .IterationDetails = False})
                 ord.Data(fitData,
                          fitVarNames,
                          rowIds,

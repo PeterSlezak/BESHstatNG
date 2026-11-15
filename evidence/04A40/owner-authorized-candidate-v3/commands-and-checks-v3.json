@@ -1,0 +1,140 @@
+{
+  "runtime": {
+    "version": "3.13.18",
+    "executable_name": "python.exe",
+    "sha256": "d0a3fdb2f523217cc05cbfa015a249f53f670fe38c72522fa893377c5d2f17d5",
+    "location_alias": "<APPDATA>/uv/python/cpython-3.13.18-windows-x86_64-none/python.exe",
+    "preexisting": true,
+    "installed": false,
+    "retained_campaign_version": "3.14.7"
+  },
+  "command_prefix": [
+    "<EXISTING_MANAGED_PYTHON_3.13.18>",
+    "-I",
+    "-B"
+  ],
+  "commands": [
+    {
+      "arguments": [
+        "evidence/04A40/owner-authorized-candidate-v3/remedy.py",
+        "prepare"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "evidence/04A40/owner-authorized-candidate-v3/remedy.py",
+        "crosswalk"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "evidence/04A40/owner-authorized-candidate-v3/remedy.py",
+        "guards"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "evidence/04A40/owner-authorized-candidate-v3/remedy.py",
+        "preserve"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "evidence/04A40/owner-authorized-candidate-v3/finish.py",
+        "labels"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "evidence/04A40/owner-authorized-candidate-v3/finish.py",
+        "scan"
+      ],
+      "exit_code": 0
+    },
+    {
+      "arguments": [
+        "evidence/04A40/owner-authorized-candidate-v3/finish.py",
+        "documents"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "guard_test_results": {
+    "run": 3,
+    "FAIL": 3,
+    "ERROR": 0,
+    "PASS": 0
+  },
+  "unchanged_reader_adverse_controls": {
+    "run": 13,
+    "detected": 13
+  },
+  "candidate_runs": {
+    "before_removal": "BOTH_FAIL;8_UNIQUE_OCCURRENCES_EACH",
+    "after_removal": "BOTH_ZERO_FINDINGS"
+  },
+  "seal_commands_pending_external_attestation": [
+    [
+      "evidence/04A40/owner-authorized-candidate-v3/finish.py",
+      "package"
+    ],
+    [
+      "evidence/04A40/owner-authorized-candidate-v3/readback.py",
+      "<FINAL_WITNESS_ZIP>"
+    ]
+  ],
+  "not_rerun": [
+    "Full Debug",
+    "Full Release",
+    "Full Python 956-parent campaign",
+    "Node",
+    "Compatibility calculations 29424/configuration",
+    "verify-beshstatng.ps1 / -Legacy",
+    "Live Excel/COM/UIA",
+    "WASM manual checks",
+    "Independent R/scientific oracle"
+  ],
+  "reason": "Reporting/candidate-only correction; source/shipping and exact compatibility bytes authenticated without rerunning unaffected campaigns.",
+  "git_commands": [
+    [
+      "branch",
+      "--show-current"
+    ],
+    [
+      "rev-parse",
+      "HEAD",
+      "main",
+      "codex/04A-40"
+    ],
+    [
+      "merge-base",
+      "main",
+      "codex/04A-40"
+    ],
+    [
+      "rev-parse",
+      "HEAD^"
+    ],
+    [
+      "diff",
+      "--cached",
+      "--name-only"
+    ],
+    [
+      "diff",
+      "--check"
+    ],
+    [
+      "status",
+      "--short",
+      "--untracked-files=all"
+    ]
+  ],
+  "git_prefix": "git -c safe.directory=<REPO_ROOT> --no-optional-locks",
+  "privacy": "Private absolute interpreter/root values are represented by explicit aliases, not falsely published as literal execution arguments."
+}

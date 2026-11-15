@@ -1,0 +1,15 @@
+{
+  "kind": "EXTERNAL_SEAL_POLICY;NOT_A_FABRICATED_PHYSICAL_PASS",
+  "index": ".review-index.json",
+  "scope": "Every physical member, index and final metadata under both unchanged original scanners with real owner context. Zero findings required; no fixture whitelist.",
+  "external_receipt": "external-delivery-receipt-v3.json",
+  "no_circular_hash": "The external receipt binds ZIP SHA/size, all actual candidates, physical member results and independent readback; it is not itself a ZIP member.",
+  "required_latest_members": [
+    "readiness-postseal-v4.json",
+    "git-final-v4.json",
+    "repository-privacy-witness-v3.json",
+    "physical-readback-provenance-v3.json",
+    "source-lock-v3.json",
+    "owner-review-v3.md"
+  ]
+}

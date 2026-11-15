@@ -1,0 +1,92 @@
+{
+  "runs": [
+    {
+      "command": [
+        "node",
+        "--check",
+        "wwwroot/js/officeHost.mjs"
+      ],
+      "exit_code": 0,
+      "tests": [],
+      "passed": [],
+      "failed": [],
+      "stdout": {
+        "path": ".test-rationalization-04A40.tmp/commands/a40-final-office-check/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "tests/*.test.mjs"
+      ],
+      "exit_code": 0,
+      "tests": [],
+      "passed": [],
+      "failed": [],
+      "stdout": {
+        "path": ".test-rationalization-04A40.tmp/commands/a40-final-office-node/stdout.log",
+        "bytes": 37302,
+        "sha256": "91ca38d4372433c5a797e8f1adf59208c8c7a090715668e457715a10ca1617ba"
+      }
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "BESHStatNG_Help_MkDocs/tests/help-resolver.test.mjs"
+      ],
+      "exit_code": 0,
+      "tests": [],
+      "passed": [],
+      "failed": [],
+      "stdout": {
+        "path": ".test-rationalization-04A40.tmp/commands/a40-final-resolver/stdout.log",
+        "bytes": 5959,
+        "sha256": "32e473df4b9d9c75b09826c2a210014188145a0e5335b9ff1f2727bc32d7671b"
+      }
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "wwwroot/js/officeBridge.js"
+      ],
+      "exit_code": 0,
+      "tests": [],
+      "passed": [],
+      "failed": [],
+      "stdout": {
+        "path": ".test-rationalization-04A40.tmp/commands/a40-final-wasm-check/stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1"
+      ],
+      "exit_code": 0,
+      "tests": [],
+      "passed": [],
+      "failed": [],
+      "stdout": {
+        "path": ".test-rationalization-04A40.tmp/commands/a40-final-wasm-node/stdout.log",
+        "bytes": 32165,
+        "sha256": "db57c14097745668c506e4ed6d7da4e618db514f523b5153c6ed6aa8934cb07c"
+      }
+    }
+  ],
+  "raw": {
+    "path": ".test-rationalization-04A40.tmp/Node-raw-v1.json",
+    "bytes": 2543,
+    "sha256": "a6fd23e52b44731e353bf0256e083518ecd37e38eb73a16fea7ea39080c59f4d"
+  },
+  "Office_Mac_browser_native": "NOT_RUN_UNAUTHORIZED"
+}

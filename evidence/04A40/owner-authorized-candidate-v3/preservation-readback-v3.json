@@ -1,0 +1,150 @@
+{
+  "status": "BYTE_AND_SOURCE_LOCK_READBACK_PASS;CONTINUOUS_FILE_IDENTITY_NOT_VERIFIED",
+  "checkpoint_files": 468,
+  "live_byte_exact": 464,
+  "previous_owner_authorized_newline_renderings": 4,
+  "exact_checkpoint_copies": 468,
+  "protected_unique_paths": 8984,
+  "protected_listed_bytes": 3222863329,
+  "protected_authorities": [
+    {
+      "path": "evidence/04A39/preservation/new-pins-v1.json",
+      "bytes": 2016814,
+      "sha256": "f79afe493552159cc3bac6ea203e2ea6df13c20c4167ad882db684665197d77a"
+    },
+    {
+      "path": "evidence/04A39/preservation/post-publication-additions-v1.json",
+      "bytes": 687811,
+      "sha256": "e8f45e40cc4ca905d2ee74b104546f10cd2d9e1c2380b29130819fe2081859dd"
+    },
+    {
+      "path": ".test-rationalization-04A39-correction-v1.tmp/private-pins-after-postseal.json",
+      "bytes": 243518,
+      "sha256": "f2db0c9b36e728eab2f1856cbcb5a0032ac237e9d18761e4a5f93c9f381f956b"
+    }
+  ],
+  "prior_snapshots_checked": 1009,
+  "source_entry_identities": 1353,
+  "unchanged_source_identities": 1337,
+  "authorized_production_transitions": 15,
+  "authorized_plan_transition": 1,
+  "new_tests": [
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/Regression40FitPolicyTests.vb",
+      "bytes": 4649,
+      "sha256": "5809c13653a3cb467e3fa06ee59d924de35dc6af6d4e85788a817ec7d67c6a7c"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/Regression40MixedSurvivalTests.vb",
+      "bytes": 4405,
+      "sha256": "71185b8b51972a7bdfb71c837ef7a016830fc6ab0cbe9e28c6b98719d007d1a7"
+    }
+  ],
+  "all_current_source_pins_verified": 1353,
+  "register": {
+    "canonical_entries": 1169,
+    "original_obligations": 1514,
+    "restricted_controls": 802,
+    "report_occurrences": 286,
+    "statuses": {
+      "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+      "OWNER_AUTHORIZED_04A39_ONLY": 1,
+      "REQUIRES_OWNER_DECISION": 6,
+      "OBSERVED_RESTRICTED": 3,
+      "CHANGED_NONPASS_BLOCKING": 3,
+      "HISTORICALLY_REPORTED_RESTRICTED": 76,
+      "SUSPECTED_REQUIRES_REVIEW": 13,
+      "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+      "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+      "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+    },
+    "no_discharge": true,
+    "W3_validation_gate_records": 163,
+    "W3_events": 198,
+    "original_member_signatures": 759,
+    "unknown_entries": 0
+  },
+  "mappings": 2967,
+  "investigations": 20,
+  "observed_file_id_drift_records": 788,
+  "retained_previous_drift_count": 788,
+  "continuous_precommit_identity": "NOT_VERIFIED;NO_REBASELINE",
+  "W3_union": {
+    "files": 37484,
+    "archives": 154,
+    "inherited_qualified": true,
+    "fresh_audit": false
+  },
+  "retained_reader_result": "NOT_READY_04A40",
+  "reader_note": "Unchanged historical reader returns historical NOT_READY policy. New additive readiness is evaluated separately; no historical assertions changed.",
+  "adverse_controls": [
+    {
+      "control": "changed-source-pin",
+      "detected": true
+    },
+    {
+      "control": "branch",
+      "detected": true
+    },
+    {
+      "control": "staged",
+      "detected": true
+    },
+    {
+      "control": "missing-test",
+      "detected": true
+    },
+    {
+      "control": "changed-test-outcome",
+      "detected": true
+    },
+    {
+      "control": "missing-case",
+      "detected": true
+    },
+    {
+      "control": "duplicate-case",
+      "detected": true
+    },
+    {
+      "control": "baseline-replacement",
+      "detected": true
+    },
+    {
+      "control": "export-change",
+      "detected": true
+    },
+    {
+      "control": "lost-parent",
+      "detected": true
+    },
+    {
+      "control": "lost-original",
+      "detected": true
+    },
+    {
+      "control": "lost-control",
+      "detected": true
+    },
+    {
+      "control": "privacy-greenwash",
+      "detected": true
+    }
+  ],
+  "shipping_exports_compatibility_live_pins_verified": true,
+  "compatibility": {
+    "per_configuration": 29424,
+    "PRE_EDIT_FROZEN": 28966,
+    "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458
+  },
+  "exports_per_configuration": 268,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A41_NOT_AUTHORIZED"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "original": {
+    "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+    "bytes": 6401,
+    "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+  },
+  "original_mtime_utc": "2026-11-14T20:01:37.612303+00:00",
+  "original_mtime_ns": 1794686497612303000,
+  "protected_copy": {
+    "path": ".test-rationalization-04A40.tmp/owner-authorized-candidate-v3/protected-originals/evidence/04A40/entry/tool-runtime-final-v1.json",
+    "bytes": 6401,
+    "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+  },
+  "representation": {
+    "path": "evidence/04A40/entry/tool-runtime-review-v2.json",
+    "bytes": 6364,
+    "sha256": "84dc88b1a9fdb13a7f87a49226a5d7fa779027b12aaf45ba6840f09e8842478c"
+  },
+  "kind": "SANITIZED_REVIEW_AND_GIT_CANDIDATE_DOCUMENT;NOT_AN_ORIGINAL_EXECUTION_TRANSCRIPT",
+  "changed_fields": [
+    "/commands/0/stdout"
+  ],
+  "categories": [
+    "unc_share"
+  ],
+  "raw_failure": "FAIL_RETAINED",
+  "repository_original_path": "ABSENT_BY_EXACT_ADDITIONAL_OWNER_AUTHORIZATION",
+  "copy_read_only": true,
+  "commands_arguments_exit_codes_and_other_JSON_values_exact": true,
+  "transformation": "Only dotnet-info stdout path rendering differs. Paths use aliases/forward separators. Embedded stdout_sha256 identifies protected raw stdout, not rendered text.",
+  "authority": "pre-removal-scans-v1.json authorizations; current owner approved exact removal request."
+}

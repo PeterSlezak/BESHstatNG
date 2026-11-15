@@ -274,10 +274,9 @@ Namespace WorksheetFunctions
                 If lnk Is Nothing Then Return ExcelError.ExcelErrorValue
 
                 Dim mdl As New GLM_NB(lnk)
-                mdl.bComputeResiduals = False
-                mdl.bReturnCov = False
-                mdl.bIterationDetails = False
-                mdl.settingInputs(ciAlpha, maxIterValue, tolValue)
+                Global.BESHStatNG.ExcelCommon.RegressionRequestPolicy.ConfigureUdfGlmFit(mdl,
+                    New Global.BESHStatNG.ExcelCommon.RegressionOptions With {.Alpha = ciAlpha, .MaximumIterations = maxIterValue, .Epsilon = tolValue,
+                        .Residuals = False, .Covariance = False, .IterationDetails = False})
                 mdl.data(fitData,
                          rowIds,
                          fitOffset,

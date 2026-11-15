@@ -227,7 +227,8 @@ Namespace WorksheetFunctions
                 Dim method As TieMethod = Global.BESHStatNG.UdfDataImport.GetCoxTieMethod(ties, TieMethod.Breslow)
                 Dim useRobust As Boolean = GetOptionalBool(robust, False)
 
-                Dim model As New CoxPH(records, fitVarNames, mi, eps)
+                Dim model As CoxPH = Global.BESHStatNG.ExcelCommon.CoxWorkflowPolicy.CreateAcquiredModel(records, fitVarNames,
+                    New Global.BESHStatNG.ExcelCommon.CoxOptions With {.MaximumIterations = mi, .Epsilon = eps})
                 model.bRobustVariance = useRobust
 
                 Dim res As CoxResult = model.Fit(method)

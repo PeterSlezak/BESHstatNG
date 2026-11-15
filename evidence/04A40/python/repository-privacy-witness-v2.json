@@ -1,0 +1,453 @@
+{
+  "reports": [
+    {
+      "scanner": "13",
+      "source": {
+        "path": "scripts/verify-04a13-publication.py",
+        "bytes": 9176,
+        "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+      },
+      "candidates": 214,
+      "findings": 10,
+      "unique_occurrence_keys": 8,
+      "scanner_outcome": "FAIL",
+      "scanner_command_exit": 0,
+      "rows": [
+        {
+          "id": "2a1ddc8ef01214734ee4328d1c2427a2413d0a3e6c281b3a4e15fbcff8c97967",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "content",
+          "category": "known_private_identifier",
+          "line": null,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "37e01efdb99760308a1f6ada67a4687a31df956b1bffd07cfee88e5679a7f153",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "content",
+          "category": "profile_or_home",
+          "line": 1369,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "e11ae301f04c734c242b3366a56751043592ff33dc0fd6d33fafbb943f1dd3ce",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "content",
+          "category": "appdata_or_drive_path",
+          "line": 1369,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "8eed08af05bd8efdae0fa4165a36939fb13bd62eb12255fcaea20ba710ffd62d",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "decoded_json",
+          "category": "known_private_identifier",
+          "line": null,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "d10200f92cb1ccd34a1f984a243ef49f57f325c279687cad418f9c579880f6da",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "decoded_json",
+          "category": "profile_or_home",
+          "line": 1,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "f7d2604abf4f15de50e86919878d823f47f9eda5e9bd5a67150c2d2d5e4df733",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "decoded_json",
+          "category": "appdata_or_drive_path",
+          "line": 1,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "1f369891cf4b702f1025504165fc3e91d7f9f294a823f9ef30031d4f501ae672",
+          "source": {
+            "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+            "bytes": 6401,
+            "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+          },
+          "origin": "content",
+          "category": "unc_share",
+          "line": 19,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "1f369891cf4b702f1025504165fc3e91d7f9f294a823f9ef30031d4f501ae672",
+          "source": {
+            "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+            "bytes": 6401,
+            "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+          },
+          "origin": "content",
+          "category": "unc_share",
+          "line": 19,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "cc0a591d9f5a8ff78db877d35af18d69b6875be562e0c1289e19449050e2595e",
+          "source": {
+            "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+            "bytes": 6401,
+            "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+          },
+          "origin": "decoded_json",
+          "category": "unc_share",
+          "line": 1,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "cc0a591d9f5a8ff78db877d35af18d69b6875be562e0c1289e19449050e2595e",
+          "source": {
+            "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+            "bytes": 6401,
+            "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+          },
+          "origin": "decoded_json",
+          "category": "unc_share",
+          "line": 1,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        }
+      ],
+      "raw": {
+        "path": ".test-rationalization-04A40.tmp/repository-privacy-13-v2.json",
+        "bytes": 40282,
+        "sha256": "80328997a3c536feb6c63f8e19f8e34aa9f9cc197fbee0d86f856680d49baea8"
+      }
+    },
+    {
+      "scanner": "14",
+      "source": {
+        "path": "scripts/verify-04a14-publication.py",
+        "bytes": 9320,
+        "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+      },
+      "candidates": 213,
+      "findings": 10,
+      "unique_occurrence_keys": 8,
+      "scanner_outcome": "FAIL",
+      "scanner_command_exit": 0,
+      "rows": [
+        {
+          "id": "2a1ddc8ef01214734ee4328d1c2427a2413d0a3e6c281b3a4e15fbcff8c97967",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "content",
+          "category": "known_private_identifier",
+          "line": null,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "37e01efdb99760308a1f6ada67a4687a31df956b1bffd07cfee88e5679a7f153",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "content",
+          "category": "profile_or_home",
+          "line": 1369,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "e11ae301f04c734c242b3366a56751043592ff33dc0fd6d33fafbb943f1dd3ce",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "content",
+          "category": "appdata_or_drive_path",
+          "line": 1369,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "8eed08af05bd8efdae0fa4165a36939fb13bd62eb12255fcaea20ba710ffd62d",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "decoded_json",
+          "category": "known_private_identifier",
+          "line": null,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "d10200f92cb1ccd34a1f984a243ef49f57f325c279687cad418f9c579880f6da",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "decoded_json",
+          "category": "profile_or_home",
+          "line": 1,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "f7d2604abf4f15de50e86919878d823f47f9eda5e9bd5a67150c2d2d5e4df733",
+          "source": {
+            "path": "evidence/04A40/baseline/Debug-build-v1.json",
+            "bytes": 172325,
+            "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+          },
+          "origin": "decoded_json",
+          "category": "appdata_or_drive_path",
+          "line": 1,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "1f369891cf4b702f1025504165fc3e91d7f9f294a823f9ef30031d4f501ae672",
+          "source": {
+            "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+            "bytes": 6401,
+            "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+          },
+          "origin": "content",
+          "category": "unc_share",
+          "line": 19,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "1f369891cf4b702f1025504165fc3e91d7f9f294a823f9ef30031d4f501ae672",
+          "source": {
+            "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+            "bytes": 6401,
+            "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+          },
+          "origin": "content",
+          "category": "unc_share",
+          "line": 19,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "cc0a591d9f5a8ff78db877d35af18d69b6875be562e0c1289e19449050e2595e",
+          "source": {
+            "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+            "bytes": 6401,
+            "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+          },
+          "origin": "decoded_json",
+          "category": "unc_share",
+          "line": 1,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        },
+        {
+          "id": "cc0a591d9f5a8ff78db877d35af18d69b6875be562e0c1289e19449050e2595e",
+          "source": {
+            "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+            "bytes": 6401,
+            "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+          },
+          "origin": "decoded_json",
+          "category": "unc_share",
+          "line": 1,
+          "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+          "scanner_outcome": "FAIL",
+          "command_exit": 0
+        }
+      ],
+      "raw": {
+        "path": ".test-rationalization-04A40.tmp/repository-privacy-14-v2.json",
+        "bytes": 40099,
+        "sha256": "a014b4b6c694658cf4105045e4cbd209f9eeb40287758dfa113688ba2d888cb1"
+      }
+    }
+  ],
+  "distinct_rule_occurrences": 8,
+  "findings": [
+    {
+      "id": "2a1ddc8ef01214734ee4328d1c2427a2413d0a3e6c281b3a4e15fbcff8c97967",
+      "source": {
+        "path": "evidence/04A40/baseline/Debug-build-v1.json",
+        "bytes": 172325,
+        "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+      },
+      "origin": "content",
+      "category": "known_private_identifier",
+      "line": null,
+      "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+      "scanner_outcome": "FAIL",
+      "command_exit": 0
+    },
+    {
+      "id": "37e01efdb99760308a1f6ada67a4687a31df956b1bffd07cfee88e5679a7f153",
+      "source": {
+        "path": "evidence/04A40/baseline/Debug-build-v1.json",
+        "bytes": 172325,
+        "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+      },
+      "origin": "content",
+      "category": "profile_or_home",
+      "line": 1369,
+      "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+      "scanner_outcome": "FAIL",
+      "command_exit": 0
+    },
+    {
+      "id": "e11ae301f04c734c242b3366a56751043592ff33dc0fd6d33fafbb943f1dd3ce",
+      "source": {
+        "path": "evidence/04A40/baseline/Debug-build-v1.json",
+        "bytes": 172325,
+        "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+      },
+      "origin": "content",
+      "category": "appdata_or_drive_path",
+      "line": 1369,
+      "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+      "scanner_outcome": "FAIL",
+      "command_exit": 0
+    },
+    {
+      "id": "8eed08af05bd8efdae0fa4165a36939fb13bd62eb12255fcaea20ba710ffd62d",
+      "source": {
+        "path": "evidence/04A40/baseline/Debug-build-v1.json",
+        "bytes": 172325,
+        "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+      },
+      "origin": "decoded_json",
+      "category": "known_private_identifier",
+      "line": null,
+      "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+      "scanner_outcome": "FAIL",
+      "command_exit": 0
+    },
+    {
+      "id": "d10200f92cb1ccd34a1f984a243ef49f57f325c279687cad418f9c579880f6da",
+      "source": {
+        "path": "evidence/04A40/baseline/Debug-build-v1.json",
+        "bytes": 172325,
+        "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+      },
+      "origin": "decoded_json",
+      "category": "profile_or_home",
+      "line": 1,
+      "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+      "scanner_outcome": "FAIL",
+      "command_exit": 0
+    },
+    {
+      "id": "f7d2604abf4f15de50e86919878d823f47f9eda5e9bd5a67150c2d2d5e4df733",
+      "source": {
+        "path": "evidence/04A40/baseline/Debug-build-v1.json",
+        "bytes": 172325,
+        "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+      },
+      "origin": "decoded_json",
+      "category": "appdata_or_drive_path",
+      "line": 1,
+      "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+      "scanner_outcome": "FAIL",
+      "command_exit": 0
+    },
+    {
+      "id": "1f369891cf4b702f1025504165fc3e91d7f9f294a823f9ef30031d4f501ae672",
+      "source": {
+        "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+        "bytes": 6401,
+        "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+      },
+      "origin": "content",
+      "category": "unc_share",
+      "line": 19,
+      "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+      "scanner_outcome": "FAIL",
+      "command_exit": 0
+    },
+    {
+      "id": "cc0a591d9f5a8ff78db877d35af18d69b6875be562e0c1289e19449050e2595e",
+      "source": {
+        "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+        "bytes": 6401,
+        "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+      },
+      "origin": "decoded_json",
+      "category": "unc_share",
+      "line": 1,
+      "disposition": "RULE_FINDING_UNWAIVED;SOURCE_CLASSIFICATION_REQUIRED;REVIEW_DERIVATIVE_MUST_PASS",
+      "scanner_outcome": "FAIL",
+      "command_exit": 0
+    }
+  ],
+  "same_findings_are_not_additive": true,
+  "original_scope_unchanged": true,
+  "rules_changed": false,
+  "waivers": 0,
+  "publication_separate": true,
+  "historical39": {
+    "parents": 2,
+    "each": 1941,
+    "earlier_each": 1599,
+    "added_each": 342,
+    "W3": "TWO_ERROR_PARENTS_UNWAIVED"
+  },
+  "finding_values_and_owner_token_fingerprints": "PROTECTED_LOCAL_ONLY",
+  "scope_reason": "Accepted39 raw artifacts became committed main. New40 candidate paths are actual diff/untracked plus original scanner metadata. A lower current count is not resolution or waiver of old findings."
+}

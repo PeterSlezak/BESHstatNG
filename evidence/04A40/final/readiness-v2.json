@@ -1,0 +1,32 @@
+{
+  "status": "NOT_READY_04A40",
+  "software": {
+    "compilation": "VERIFIED_PASS",
+    "managed": "VERIFIED_NONPASS_INHERITED",
+    "exports": "VERIFIED_PASS",
+    "compatibility": "VERIFIED_PASS",
+    "Python": "NONPASS_UNWAIVED",
+    "Node": "VERIFIED_PASS"
+  },
+  "blocking": [
+    {
+      "id": "04A40-PRIVACY-ENTRY-RAW-01",
+      "reason": "Untracked raw entry receipt still has six owner-path rule occurrences. Exact original retained; sanitized derivative is not a repository scanner waiver."
+    },
+    {
+      "id": "04A40-HISTORICAL-SCOPE-GUARDS-01",
+      "reason": "Historical three diff-scope guards reexpose FAIL under authorized UDF edits; owner applicability disposition remains unwaived."
+    }
+  ],
+  "scientific_native": "NOT_RUN_UNAUTHORIZED;NOT_GOLDEN",
+  "publication": "EXTERNAL_PHYSICAL_ORIGINAL_SCANNER_RECEIPT_REQUIRED",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A41_NOT_AUTHORIZED"
+  }
+}

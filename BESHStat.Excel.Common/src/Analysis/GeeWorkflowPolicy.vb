@@ -173,6 +173,17 @@ Namespace ExcelCommon
     End Class
 
     Public NotInheritable Class GeeWorkflowPolicy
+        ''' <summary>Shared parsed fit intent only. Supplied-start QIC, weight equations,
+        ''' AR(1), row sorting and family selection remain the existing Core contracts.</summary>
+        Public Shared Sub ConfigureUdfFit(model As GEE, options As RegressionOptions, gee As GeeWorkflowOptions)
+            If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
+            If options Is Nothing Then Throw New ArgumentNullException(NameOf(options))
+            If gee Is Nothing Then Throw New ArgumentNullException(NameOf(gee))
+            model.bComputeResiduals = options.Residuals
+            model.bIterationDetails = options.IterationDetails
+            model.settingInputs(options.Alpha, options.MaximumIterations, options.Epsilon, gee.UseP)
+        End Sub
+
         Private Sub New()
         End Sub
         Public Shared ReadOnly Property OmitCategoricalReference As Boolean

@@ -1,0 +1,120 @@
+{
+    "status":  "RETAINED_FAILS;STATIC_SOURCE_AND_LIVE_DIFF_REVIEW_ONLY",
+    "guards":  [
+                   {
+                       "identity":  "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+                       "retained_current_status":  "FAIL",
+                       "fresh_execution":  "NOT_RUN_PYTHON_UNAVAILABLE",
+                       "source":  {
+                                      "path":  "scripts/tests/test_04a05_completion_successor.py",
+                                      "bytes":  9515,
+                                      "sha256":  "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952"
+                                  },
+                       "method_lines":  [
+                                            [
+                                                132,
+                                                139
+                                            ]
+                                        ],
+                       "current_diagnostics":  {
+                                                   "message_sha256":  "112343d7cd0bfc97241ee8c32e5c72c1ee58df95d602bf724c3180bce1ed0667",
+                                                   "traceback_sha256":  "3d1e9c51ead0a6da102f925d9bc7037f968752ecb49d52541c734c0e8c60a8f8"
+                                               },
+                       "earlier_passing_snapshot_diagnostics":  null,
+                       "triggering_actual_git_diff_paths":  [
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb"
+                                                            ],
+                       "applicability":  "Historical batch no-UDF-change assertion is violated by explicitly authorized 04A.40 UDF edits. This scope explanation does not change the current FAIL, waive it, or establish scientific/export/native readiness.",
+                       "waived":  false
+                   },
+                   {
+                       "identity":  "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+                       "retained_current_status":  "FAIL",
+                       "fresh_execution":  "NOT_RUN_PYTHON_UNAVAILABLE",
+                       "source":  {
+                                      "path":  "scripts/tests/test_04a05_contingency.py",
+                                      "bytes":  9696,
+                                      "sha256":  "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b"
+                                  },
+                       "method_lines":  [
+                                            [
+                                                141,
+                                                147
+                                            ]
+                                        ],
+                       "current_diagnostics":  {
+                                                   "message_sha256":  "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+                                                   "traceback_sha256":  "c3febe5720f4b2004487bd3877ec724ffd31ec623059612b03c5bee644c39ca5"
+                                               },
+                       "earlier_passing_snapshot_diagnostics":  null,
+                       "triggering_actual_git_diff_paths":  [
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb"
+                                                            ],
+                       "applicability":  "Historical batch no-UDF-change assertion is violated by explicitly authorized 04A.40 UDF edits. This scope explanation does not change the current FAIL, waive it, or establish scientific/export/native readiness.",
+                       "waived":  false
+                   },
+                   {
+                       "identity":  "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+                       "retained_current_status":  "FAIL",
+                       "fresh_execution":  "NOT_RUN_PYTHON_UNAVAILABLE",
+                       "source":  {
+                                      "path":  "scripts/tests/test_04a04_alignment.py",
+                                      "bytes":  6834,
+                                      "sha256":  "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff"
+                                  },
+                       "method_lines":  [
+                                            [
+                                                82,
+                                                90
+                                            ]
+                                        ],
+                       "current_diagnostics":  {
+                                                   "message_sha256":  "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+                                                   "traceback_sha256":  "261bbe08bba3836e79db18dbab48d382d0b67f7de27f4f1110a66501b2e65b58"
+                                               },
+                       "earlier_passing_snapshot_diagnostics":  null,
+                       "triggering_actual_git_diff_paths":  [
+                                                                "BESHStat.Excel.Common/src/Analysis/UdfLmmInputPreparation38.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+                                                                "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb"
+                                                            ],
+                       "applicability":  "Historical batch no-UDF-change assertion is violated by explicitly authorized 04A.40 UDF edits. This scope explanation does not change the current FAIL, waive it, or establish scientific/export/native readiness.",
+                       "waived":  false
+                   }
+               ],
+    "current_differences_retained":  32,
+    "historical_differences_retained":  54,
+    "Python_parents":  {
+                           "PASS":  830,
+                           "ERROR":  11,
+                           "FAIL":  115
+                       },
+    "Python_events":  {
+                          "ERROR":  11,
+                          "FAIL":  187
+                      },
+    "no_assertions_changed":  true
+}

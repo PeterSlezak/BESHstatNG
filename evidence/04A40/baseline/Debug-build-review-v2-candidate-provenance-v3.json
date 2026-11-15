@@ -1,0 +1,34 @@
+{
+  "original": {
+    "path": "evidence/04A40/baseline/Debug-build-v1.json",
+    "bytes": 172325,
+    "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+  },
+  "original_mtime_utc": "2026-11-14T18:33:33.168164+00:00",
+  "original_mtime_ns": 1794681213168163900,
+  "protected_copy": {
+    "path": ".test-rationalization-04A40.tmp/owner-authorized-candidate-v3/protected-originals/evidence/04A40/baseline/Debug-build-v1.json",
+    "bytes": 172325,
+    "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+  },
+  "representation": {
+    "path": "evidence/04A40/baseline/Debug-build-review-v2.json",
+    "bytes": 172293,
+    "sha256": "4f04ce1e02d3e0241f15460c88ec4c4f41d67b102ddd744efef1212ae83eacea"
+  },
+  "kind": "SANITIZED_REVIEW_AND_GIT_CANDIDATE_DOCUMENT;NOT_AN_ORIGINAL_EXECUTION_TRANSCRIPT",
+  "changed_fields": [
+    "/output"
+  ],
+  "categories": [
+    "appdata_or_drive_path",
+    "known_private_identifier",
+    "profile_or_home"
+  ],
+  "raw_failure": "FAIL_RETAINED",
+  "repository_original_path": "ABSENT_BY_EXACT_ADDITIONAL_OWNER_AUTHORIZATION",
+  "copy_read_only": true,
+  "commands_arguments_exit_codes_and_other_JSON_values_exact": true,
+  "transformation": "Only build output-directory metadata is sanitized. Raw build output/arguments and outcome data are unchanged.",
+  "authority": "pre-removal-scans-v1.json authorizations; current owner approved exact removal request."
+}

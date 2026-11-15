@@ -1,0 +1,88 @@
+{
+  "status": "48_STATISTICAL_CONTRACTS_EXACT;4_ELAPSED_TIME_FIELDS_DIFFER",
+  "before": {
+    "path": ".test-rationalization-04A40.tmp/before-v2.json",
+    "bytes": 120918,
+    "sha256": "ad92252d7dcff2d712e75988e43ee1557d32a6f4cf9afe9eb20e8e2f20bb4e24"
+  },
+  "after": {
+    "path": ".test-rationalization-04A40.tmp/after-wave2-v2.json",
+    "bytes": 120918,
+    "sha256": "eddf0386aaec733a7c3a6ec3901c28d39e6e08f1cffe3b346f17dca6585aff79"
+  },
+  "cases": 48,
+  "fully_exact_cases": 44,
+  "elapsed_time_only_cases": 4,
+  "differences": [
+    [
+      "rows",
+      16,
+      "output",
+      "state",
+      "GEE.CompTime",
+      "bits"
+    ],
+    [
+      "rows",
+      17,
+      "output",
+      "state",
+      "GEE.CompTime",
+      "bits"
+    ],
+    [
+      "rows",
+      40,
+      "output",
+      "state",
+      "GEE.CompTime",
+      "bits"
+    ],
+    [
+      "rows",
+      41,
+      "output",
+      "state",
+      "GEE.CompTime",
+      "bits"
+    ]
+  ],
+  "source_timing_proof": {
+    "source": {
+      "path": "BESHStat.Core/src/RegModels/GEE.vb",
+      "bytes": 81856,
+      "sha256": "94e54c22d788a43113a4c7a96d986cf42e802ac2258e4fe3d22dbff1a702925d"
+    },
+    "lines": [
+      {
+        "line": 125,
+        "text": "Private CompTime As Double"
+      },
+      {
+        "line": 832,
+        "text": "Return Me.CompTime"
+      },
+      {
+        "line": 874,
+        "text": "t.AddFootnote($\"Computational time: {Me.CompTime} seconds.\")"
+      },
+      {
+        "line": 1113,
+        "text": "Me.CompTime = stopwatch.Elapsed.TotalSeconds"
+      },
+      {
+        "line": 1114,
+        "text": "CoreServices.Logger.Debug($\"GEE.Fit completed. converged={Me.pConverged}; iterations={Me.pItration}; logLikelihood={Me.pQL}; compTime={Me.CompTime}\")"
+      }
+    ]
+  },
+  "statistical_or_input_or_exception_differences": 0,
+  "focused_tests": 12,
+  "outcomes": {
+    "Passed": 12
+  },
+  "raw_reference_unchanged": true,
+  "report_only_correction": "Original strict whole-object comparison stopped on measured runtime. No value, raw baseline, test or expected estimator output was changed. Subsequent comparisons exclude only this exact source-backed elapsed-time field.",
+  "inherited_GEE_start_exceptions": 4,
+  "scientific": "NOT_GOLDEN"
+}

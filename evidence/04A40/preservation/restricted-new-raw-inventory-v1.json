@@ -1,0 +1,34 @@
+{
+  "private_inventory": {
+    "path": ".test-rationalization-04A40.tmp/new-authoritative-private-pins-v1.json",
+    "bytes": 467181,
+    "sha256": "9691e03feff8c4674534a283f7c58b454da82736f20c735c28534f0c86b7419a"
+  },
+  "files": 1906,
+  "bytes": 1951688011,
+  "raw_public_artifact": {
+    "path": "evidence/04A40/baseline/Debug-build-v1.json",
+    "bytes": 172325,
+    "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+  },
+  "protected_exact_copy": {
+    "path": ".test-rationalization-04A40.tmp/protected-public-raw/baseline/Debug-build-v1.json",
+    "bytes": 172325,
+    "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+  },
+  "safe_counterpart": {
+    "path": "evidence/04A40/baseline/Debug-build-review-v2.json",
+    "bytes": 172293,
+    "sha256": "4f04ce1e02d3e0241f15460c88ec4c4f41d67b102ddd744efef1212ae83eacea"
+  },
+  "transport_exclusions": [
+    "Raw managed/Python stdout/stderr/TRX/tracebacks",
+    "Owner context and token fingerprints",
+    "Build intermediates and binary sandbox copies",
+    "Live Git index bytes",
+    "Historical ignored TestResults payload"
+  ],
+  "typed_compatibility_exception": "Synthetic frozen input JSONL and exact typed original/current TSV may be included only after original physical scanner gate; full error stack traces remain excluded.",
+  "historical_scope": "468 originals preserved, four already-committed owner-authorized LF renderings with exact original copies.8984 protected listed paths checked incrementally.37484/154 W3 union inherited qualified, not freshly re-audited.",
+  "original_file_id_continuity": "NOT_VERIFIED;precommit tracked-path file IDs changed, bytes/copies authenticated. No ID baseline rewritten."
+}

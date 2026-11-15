@@ -1,0 +1,41 @@
+{
+    "utc":  "2026-11-15T07:42:40.2196750Z",
+    "status":  "INDEPENDENT_POWERSHELL_READBACK_PASS_BEFORE_REMOVAL",
+    "copies":  [
+                   {
+                       "original":  {
+                                        "path":  "evidence/04A40/baseline/Debug-build-v1.json",
+                                        "bytes":  172325,
+                                        "sha256":  "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+                                    },
+                       "protected_copy":  {
+                                              "path":  ".test-rationalization-04A40.tmp/owner-authorized-candidate-v3/protected-originals/evidence/04A40/baseline/Debug-build-v1.json",
+                                              "bytes":  172325,
+                                              "sha256":  "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+                                          },
+                       "read_only":  true,
+                       "mtime_exact":  true,
+                       "sha_size_exact":  true,
+                       "original_mtime_utc":  "2026-11-14T18:33:33.1681639Z"
+                   },
+                   {
+                       "original":  {
+                                        "path":  "evidence/04A40/entry/tool-runtime-final-v1.json",
+                                        "bytes":  6401,
+                                        "sha256":  "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+                                    },
+                       "protected_copy":  {
+                                              "path":  ".test-rationalization-04A40.tmp/owner-authorized-candidate-v3/protected-originals/evidence/04A40/entry/tool-runtime-final-v1.json",
+                                              "bytes":  6401,
+                                              "sha256":  "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+                                          },
+                       "read_only":  true,
+                       "mtime_exact":  true,
+                       "sha_size_exact":  true,
+                       "original_mtime_utc":  "2026-11-14T20:01:37.6123030Z"
+                   }
+               ],
+    "manifest_sha256":  "1d0ab258cfe25ac01cea282c2f1dffdcb8fc4257497be52b86a4db0aff154d60",
+    "owner_response_exact":  "I authorize the reuquest",
+    "scope":  "Exact preceding two-path removal request only; no other raw mutation authorized"
+}

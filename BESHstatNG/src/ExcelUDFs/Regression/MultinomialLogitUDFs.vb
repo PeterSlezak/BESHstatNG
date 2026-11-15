@@ -257,10 +257,9 @@ Namespace WorksheetFunctions
                 Dim interceptFlag As Boolean = GetOptionalBool(includeIntercept, True)
 
                 Dim mn As New regression.MultinomialLogitModel()
-                mn.bComputeResiduals = True
-                mn.bReturnCov = False
-                mn.bIterationDetails = False
-                mn.settingInputs(alphaValue, maxIterValue, tolValue)
+                Global.BESHStatNG.ExcelCommon.ExtendedRegressionFamilyPolicy.ConfigureUdfMultinomialFit(mn,
+                    New Global.BESHStatNG.ExcelCommon.RegressionOptions With {.Alpha = alphaValue, .MaximumIterations = maxIterValue, .Epsilon = tolValue,
+                        .Residuals = True, .Covariance = False, .IterationDetails = False})
                 mn.data(fitData,
                         fitVarNames,
                         rowIds,

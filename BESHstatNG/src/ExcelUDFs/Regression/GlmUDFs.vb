@@ -314,10 +314,9 @@ Namespace WorksheetFunctions
 
                 Dim mdl As New GLM(fam, lnk)
                 mdl.bHosmerLemeshow = True
-                mdl.bComputeResiduals = False
-                mdl.bReturnCov = False
-                mdl.bIterationDetails = False
-                mdl.settingInputs(alphaValue, maxIterValue, tolValue)
+                Global.BESHStatNG.ExcelCommon.RegressionRequestPolicy.ConfigureUdfGlmFit(mdl,
+                    New Global.BESHStatNG.ExcelCommon.RegressionOptions With {.Alpha = alphaValue, .MaximumIterations = maxIterValue, .Epsilon = tolValue,
+                        .Residuals = False, .Covariance = False, .IterationDetails = False})
                 mdl.data(fitData,
                          rowIds,
                          fitOffset,

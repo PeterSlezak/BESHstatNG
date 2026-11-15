@@ -1,0 +1,88 @@
+{
+  "status": "FOCUSED_CONTROLS_PASS",
+  "raw_source": {
+    "path": "evidence/04A40/baseline/Debug-build-v1.json",
+    "bytes": 172325,
+    "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+  },
+  "raw_unchanged": true,
+  "deterministic_sanitized": {
+    "path": ".test-rationalization-04A40.tmp/baseline-Debug-build-review-v1.json",
+    "bytes": 172293,
+    "sha256": "4f04ce1e02d3e0241f15460c88ec4c4f41d67b102ddd744efef1212ae83eacea"
+  },
+  "counts_status_source_identities_preserved": true,
+  "results": [
+    {
+      "scanner": "13",
+      "raw_findings": 6,
+      "sanitized_findings": 0,
+      "controls": [
+        "OWNER_IDENTIFIER_REJECTED",
+        "OWNER_IDENTIFIER_REJECTED",
+        "email_REJECTED",
+        "secret_REJECTED",
+        "appdata_or_drive_path_REJECTED"
+      ],
+      "SDK_missing_HEAD_literal_findings": 2,
+      "SDK_actual_reviewed": [
+        [
+          "BESHstatNG/BESHStatNG.vbproj",
+          "inherited_public_windows_sdk_tool_path"
+        ]
+      ],
+      "original_source": {
+        "path": "scripts/verify-04a13-publication.py",
+        "bytes": 9176,
+        "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+      }
+    },
+    {
+      "scanner": "14",
+      "raw_findings": 6,
+      "sanitized_findings": 0,
+      "controls": [
+        "OWNER_IDENTIFIER_REJECTED",
+        "OWNER_IDENTIFIER_REJECTED",
+        "email_REJECTED",
+        "secret_REJECTED",
+        "appdata_or_drive_path_REJECTED"
+      ],
+      "SDK_missing_HEAD_literal_findings": 2,
+      "SDK_actual_reviewed": [
+        [
+          "BESHstatNG/BESHStatNG.vbproj",
+          "inherited_public_windows_sdk_tool_path"
+        ]
+      ],
+      "original_source": {
+        "path": "scripts/verify-04a14-publication.py",
+        "bytes": 9320,
+        "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+      }
+    }
+  ],
+  "protected_raw_paths": [
+    {
+      "path": "evidence/04A40/baseline/Debug-build-v1.json",
+      "bytes": 172325,
+      "sha256": "c2fe841a71b4b859358a5aced18ec71aedc03c07d6dc23aced051f9e8e75835f"
+    }
+  ],
+  "raw_repository_disposition": "SIX_CURRENT_RULE_OCCURRENCES_UNWAIVED;ONE_RAW_OUTPUT_PATH_IN_CONTENT_AND_JSON_VIEWS;LOCAL_PROTECTED",
+  "producer": {
+    "historical_recipe": {
+      "path": "evidence/04A40/baseline-build-v1.py",
+      "bytes": 316,
+      "sha256": "98c2df353818a098a37cb27c908956e80896d054337b55d4b9bcd8be7e96be69"
+    },
+    "active_final_pipeline": "Build raw receipts written to task-private storage; public source-freezes contain only receipt pins and non-sensitive facts. Publication derives sanitized JSON and independently scans actual ZIP."
+  },
+  "owner_identifiers_and_values": "PRIVATE_ONLY",
+  "new_synthetic_allowances": 0,
+  "SDK_HEAD": {
+    "HEAD": "bba848305c2c46ff3fc835a1132522ebfec59514",
+    "source_sha256": "b60d19153a8539240b1562abc0055d2cb0de8217838d4579d0bf2874962a0383",
+    "size": 30519
+  }
+}

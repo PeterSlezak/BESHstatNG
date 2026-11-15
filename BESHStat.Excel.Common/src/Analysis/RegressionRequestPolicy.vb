@@ -236,6 +236,18 @@ Namespace ExcelCommon
     End Class
 
     Public NotInheritable Class RegressionRequestPolicy
+        ''' <summary>Apply already parsed UDF fit intent without adding a refusal or
+        ''' replacing caller-owned data. UDF defaults are explicit at the caller; these are
+        ''' not the different GUI/request defaults. NB2 uses the same inherited GLM setter.</summary>
+        Public Shared Sub ConfigureUdfGlmFit(model As GLM, options As RegressionOptions)
+            If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
+            If options Is Nothing Then Throw New ArgumentNullException(NameOf(options))
+            model.bComputeResiduals = options.Residuals
+            model.bReturnCov = options.Covariance
+            model.bIterationDetails = options.IterationDetails
+            model.settingInputs(options.Alpha, options.MaximumIterations, options.Epsilon)
+        End Sub
+
         Private Sub New()
         End Sub
         Public Shared Function Validate(request As RegressionRequest) As RegressionValidation

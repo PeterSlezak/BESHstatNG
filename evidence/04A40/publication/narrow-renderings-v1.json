@@ -1,0 +1,66 @@
+{
+  "symbols": {
+    "original": {
+      "path": "docs/architecture/WindowsMigrationLedger/symbols.csv",
+      "bytes": 35861897,
+      "sha256": "68be9da47884f41cbeff2c5867ae22e3f26a063628fd976e7c8fe45f6dce65dd"
+    },
+    "derivative": {
+      "path": ".test-rationalization-04A40.tmp/review-symbols-v1.csv",
+      "bytes": 35323967,
+      "sha256": "fc8743705f835aa7f3918f31d5ad4eb00e881ef14c1d828464f7e2b9a7dd633b"
+    },
+    "rows": 3866,
+    "row_identity_order_exact": true,
+    "all759_referenced_signatures_exact": true,
+    "changed_cells": [
+      {
+        "symbol_id": "BESHstatNG/src/UI/Ui11AboutAddin.Designer.vb|BESHStatNG.Ui11AboutAddin|SubBlock|1c52542b07fc440b@835:3993",
+        "column": "source_excerpt",
+        "referenced759": false,
+        "raw_values": "CONTROLLED_LOCAL_ONLY"
+      }
+    ],
+    "original_controls_aliases_unchanged": true
+  },
+  "tools": {
+    "original": {
+      "path": "evidence/04A40/entry/tool-runtime-final-v1.json",
+      "bytes": 6401,
+      "sha256": "4ef9143dc7241ce08da3322607ba30e6c0b4581eb643194ec0b7c2d065d67f54"
+    },
+    "derivative": {
+      "path": ".test-rationalization-04A40.tmp/review-tool-runtime-v2.json",
+      "bytes": 6364,
+      "sha256": "84dc88b1a9fdb13a7f87a49226a5d7fa779027b12aaf45ba6840f09e8842478c"
+    },
+    "changed_stdout_paths": [
+      "dotnet-info"
+    ],
+    "version_numbers_exact": true,
+    "diagnostic_change": "Review-only forward path separators avoid escaped-path false UNC matches; raw stdout/receipt unchanged."
+  },
+  "controls": [
+    {
+      "scanner": "13",
+      "original_source": {
+        "path": "scripts/verify-04a13-publication.py",
+        "bytes": 9176,
+        "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+      },
+      "new_findings": 0
+    },
+    {
+      "scanner": "14",
+      "original_source": {
+        "path": "scripts/verify-04a14-publication.py",
+        "bytes": 9320,
+        "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+      },
+      "new_findings": 0
+    }
+  ],
+  "restricted_source_modified": false,
+  "original_scanners_unchanged": true,
+  "new_synthetic_allowances": 0
+}

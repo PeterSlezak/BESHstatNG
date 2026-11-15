@@ -87,6 +87,16 @@ Namespace ExcelCommon
     End Class
 
     Public NotInheritable Class LinearBinomialRegressionPolicy
+        ''' <summary>Worksheet LM uses requested alpha. NativeLegacyDefault remains an
+        ''' explicit GUI-only mode pending C11; this method does not activate that patch.</summary>
+        Public Shared Sub ConfigureUdfFit(model As LinearModel, options As RegressionOptions)
+            If model Is Nothing Then Throw New ArgumentNullException(NameOf(model))
+            If options Is Nothing Then Throw New ArgumentNullException(NameOf(options))
+            model.Alpha = options.Alpha
+            model.bComputeResiduals = options.Residuals
+            model.bReturnCov = options.Covariance
+        End Sub
+
         Private Sub New()
         End Sub
         Public Shared Function Supports(request As RegressionRequest) As Boolean
