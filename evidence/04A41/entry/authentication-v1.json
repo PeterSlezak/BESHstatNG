@@ -1,0 +1,679 @@
+{
+  "status": "AUTHENTICATED_OWNER_ACCEPTED40_MERGED_MAIN",
+  "utc": "2026-11-15T08:20:08.461637+00:00",
+  "entry_branch": "main",
+  "HEAD": "c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc",
+  "main": "c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc",
+  "merge_base": "c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc",
+  "prior": "bba848305c2c46ff3fc835a1132522ebfec59514",
+  "ancestry": [
+    "c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc bba848305c2c46ff3fc835a1132522ebfec59514",
+    "bba848305c2c46ff3fc835a1132522ebfec59514 f2eb060c9c422c1fec4e82989d07907dbd4b9337",
+    "f2eb060c9c422c1fec4e82989d07907dbd4b9337 22da2214da6bb1cad4f2934d0b36276324a1432f",
+    "22da2214da6bb1cad4f2934d0b36276324a1432f ba1636f5356ac761509c2cfa16fc66b92430935d",
+    "ba1636f5356ac761509c2cfa16fc66b92430935d a0680f546c5130fa5143c0b0c7136f852d650cc5",
+    "a0680f546c5130fa5143c0b0c7136f852d650cc5 92f5916d9dc0aaa727c99c0ceea9c89c10eefef3"
+  ],
+  "index": {
+    "path": ".git/index",
+    "bytes": 2147626,
+    "sha256": "d7ba76a6337352e00708d68e8018e22b6c14b2ab8a9f9958e1f6ce46b5761991"
+  },
+  "preexisting_tracked_edits": [],
+  "preexisting_staged_edits": [],
+  "preexisting_untracked_owner_edits": [],
+  "own_initial_evidence": [
+    "evidence/04A41/common41.py",
+    "evidence/04A41/authenticate-v1.py"
+  ],
+  "diff_check_exit": 0,
+  "accepted40_receipt": {
+    "path": ".test-rationalization-04A40.tmp/owner-authorized-candidate-v3/external-delivery-receipt-v3.json",
+    "bytes": 120527,
+    "sha256": "3f6319067baea846b8f3a29a8d7dd376c81bb4fd44a245c1df7461f2d3c1000c"
+  },
+  "accepted40_archive": {
+    "path": ".test-rationalization-04A40.tmp/owner-authorized-candidate-v3/BESHStatNG_04A40_FINAL_WITNESS_v4.zip",
+    "bytes": 245080,
+    "sha256": "9df90aa3b406c7b78426562be59071275939419325d78d2bae954f96e64b89cb"
+  },
+  "accepted40_owner_review": {
+    "path": "evidence/04A40/owner-authorized-candidate-v3/owner-review-v3.md",
+    "bytes": 4730,
+    "sha256": "ead4e59618b5a3a7e05f093d1d14f9e5163e973e830d9e385fbfdddcf0ef4a98"
+  },
+  "newline_only_owner_checkout_transitions": [
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/compatibility-readback-v3.py",
+        "bytes": 2636,
+        "sha256": "2ec622d11595f6988ecd64bb3e138ebc18f5574857fcedc8aa6a22dce3f93b85"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/compatibility-readback-v3.py",
+        "bytes": 2610,
+        "sha256": "1f736f4bfed3cc19a4b5961260312e3c5574dbdd8720164cc3a7b14e6c7ed215"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/compatibility-readback-v3.py",
+        "bytes": 2636,
+        "sha256": "2ec622d11595f6988ecd64bb3e138ebc18f5574857fcedc8aa6a22dce3f93b85"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/compiled-index-v2.py",
+        "bytes": 3493,
+        "sha256": "6eef4591dfd6ccc4350ceed7d4f41fcd26291d4fd30a1df519e6be8f8a53ba75"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/compiled-index-v2.py",
+        "bytes": 3458,
+        "sha256": "45da436a09be6fe2d7698fb7029836586ef2ab8aa3fd60b8781370c508c141f4"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/compiled-index-v2.py",
+        "bytes": 3493,
+        "sha256": "6eef4591dfd6ccc4350ceed7d4f41fcd26291d4fd30a1df519e6be8f8a53ba75"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/compiled-readback-v3.py",
+        "bytes": 4086,
+        "sha256": "3ad571616d1d99407f25db0905b13873650c9005ef40a1962d71f4a34efd0c4d"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/compiled-readback-v3.py",
+        "bytes": 4043,
+        "sha256": "3f454869391dc84523e6b3da624ebd530ba70ede474d0b248860fa52564ee7b0"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/compiled-readback-v3.py",
+        "bytes": 4086,
+        "sha256": "3ad571616d1d99407f25db0905b13873650c9005ef40a1962d71f4a34efd0c4d"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/candidate-scope-v1.json",
+        "bytes": 44049,
+        "sha256": "5a260e67ed0b0184494fab2c289209ed464048286025aa904d706358916f0a60"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/candidate-scope-v1.json",
+        "bytes": 43539,
+        "sha256": "61e989170d8b1079d6e0e8e77c2a61add5bf362452e801a69e39e206d60024f8"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/continuation-owner-v2-boundary-v1/candidate-scope-v1.json",
+        "bytes": 44049,
+        "sha256": "5a260e67ed0b0184494fab2c289209ed464048286025aa904d706358916f0a60"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/decision-matrix-v1.json",
+        "bytes": 3307,
+        "sha256": "54fc7a74a473ed49c533c2525f8d7a779c06bcf8450334e7f2b36573e117b9db"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/decision-matrix-v1.json",
+        "bytes": 3281,
+        "sha256": "9663406d1d556deb39fe2dce5ec58dfa78fcafb006d801276df1494b1860704a"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/continuation-owner-v2-boundary-v1/decision-matrix-v1.json",
+        "bytes": 3307,
+        "sha256": "54fc7a74a473ed49c533c2525f8d7a779c06bcf8450334e7f2b36573e117b9db"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/git-source-readback-v1.json",
+        "bytes": 27009,
+        "sha256": "94afd2eb0b0c4a20e235bf913d12b13c561cfb53914c5aa876a5431bf1e0440e"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/git-source-readback-v1.json",
+        "bytes": 26671,
+        "sha256": "1879a2d2e04e3a65ff709d96192fe119ff8c6c6c3fa8fc71f3485b687e879736"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/continuation-owner-v2-boundary-v1/git-source-readback-v1.json",
+        "bytes": 27009,
+        "sha256": "94afd2eb0b0c4a20e235bf913d12b13c561cfb53914c5aa876a5431bf1e0440e"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/raw-presentation-crosswalk-v1.json",
+        "bytes": 9873,
+        "sha256": "e4e936ec3324d5a7844257ab4db06de001de451daa80dc6af60981e0afd95a8e"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/raw-presentation-crosswalk-v1.json",
+        "bytes": 9743,
+        "sha256": "44b508f937cacb0a56a18bf44059f8a105e31c34a47b0252eec86528fc66f092"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/continuation-owner-v2-boundary-v1/raw-presentation-crosswalk-v1.json",
+        "bytes": 9873,
+        "sha256": "e4e936ec3324d5a7844257ab4db06de001de451daa80dc6af60981e0afd95a8e"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/scope-guard-dispositions-v1.json",
+        "bytes": 9356,
+        "sha256": "5d7b5f813cce840a6f64faf28c4fa3386c74730fb11578dc888218430e118fda"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/continuation-owner-v2-boundary-v1/scope-guard-dispositions-v1.json",
+        "bytes": 9237,
+        "sha256": "eed6d8ea4b2b88abc2ca14b7c3ac9376c7182f5a33babf021ca119521496fc98"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/continuation-owner-v2-boundary-v1/scope-guard-dispositions-v1.json",
+        "bytes": 9356,
+        "sha256": "5d7b5f813cce840a6f64faf28c4fa3386c74730fb11578dc888218430e118fda"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/family-reconciliation-v3.py",
+        "bytes": 8162,
+        "sha256": "f758307a95e1180578a9ce8ceb5b23ae5de9f7bd3b2b03d78f55d48fe78c9067"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/family-reconciliation-v3.py",
+        "bytes": 8102,
+        "sha256": "aa975594922eae217ef6d1d6f25414c4dfe1079d69f675a7fddb9b1f9d33d579"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/family-reconciliation-v3.py",
+        "bytes": 8162,
+        "sha256": "f758307a95e1180578a9ce8ceb5b23ae5de9f7bd3b2b03d78f55d48fe78c9067"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/final-observations-readback-v2.py",
+        "bytes": 1433,
+        "sha256": "4985646b1831f51598628530f37209a7ba2b868ef1fef1c738850274cd698839"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/final-observations-readback-v2.py",
+        "bytes": 1417,
+        "sha256": "a5d1cc82d86f6b3e598f553ee1f04f29fd3bad468fd032d38ffada01d554a168"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/final-observations-readback-v2.py",
+        "bytes": 1433,
+        "sha256": "4985646b1831f51598628530f37209a7ba2b868ef1fef1c738850274cd698839"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/full-python-v2.py",
+        "bytes": 1854,
+        "sha256": "99778f8493af9f263e19fd44bc2fa97e322441798781bb482a3dbc18fc5e90af"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/full-python-v2.py",
+        "bytes": 1834,
+        "sha256": "d2dc2a4587406b9d704f2f2f1afb72583da988c3609ad4c74bd292c309c42950"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/full-python-v2.py",
+        "bytes": 1854,
+        "sha256": "99778f8493af9f263e19fd44bc2fa97e322441798781bb482a3dbc18fc5e90af"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/node-readback-v3.py",
+        "bytes": 1179,
+        "sha256": "c50665fb178fe74546a97135269606c43651690eaa74611f9677f3baabd413a6"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/node-readback-v3.py",
+        "bytes": 1163,
+        "sha256": "6c852e533c13f0e05e5f5dab49a38fd536ba86e14bbd8f55ff6f3c04542f74f5"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/node-readback-v3.py",
+        "bytes": 1179,
+        "sha256": "c50665fb178fe74546a97135269606c43651690eaa74611f9677f3baabd413a6"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/node-scanners-v2.py",
+        "bytes": 1695,
+        "sha256": "35e0b4e5fe83f838fddbf14fd527ca635d4027a312d568a943bc8d3d7e607c32"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/node-scanners-v2.py",
+        "bytes": 1681,
+        "sha256": "8d9ede6d55399fb511ec1fe0211517e42e5002cdf3ae2eeefd3b4c15baa25d77"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/node-scanners-v2.py",
+        "bytes": 1695,
+        "sha256": "35e0b4e5fe83f838fddbf14fd527ca635d4027a312d568a943bc8d3d7e607c32"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/owner-authorized-candidate-v3/independent-copy-readback-v3.json",
+        "bytes": 2574,
+        "sha256": "a94154edc63252dac9c2273737aba3c8783909818df162c953a87c8e8269628f"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/owner-authorized-candidate-v3/independent-copy-readback-v3.json",
+        "bytes": 2533,
+        "sha256": "5e9c86e3d493a3119061b88b4ee18ee405a01f36873e0872ad3622acf553d123"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/owner-authorized-candidate-v3/independent-copy-readback-v3.json",
+        "bytes": 2574,
+        "sha256": "a94154edc63252dac9c2273737aba3c8783909818df162c953a87c8e8269628f"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/owner-dossier-v2.py",
+        "bytes": 9805,
+        "sha256": "f41b4a39b5b3392849af3b5f75e8813325a7af4e9dcc979f682c07ea31e7e223"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/owner-dossier-v2.py",
+        "bytes": 9747,
+        "sha256": "849327728777ee920a43a80bf4c056faf710a5d1c862c7784f5b9cd492f41490"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/owner-dossier-v2.py",
+        "bytes": 9805,
+        "sha256": "f41b4a39b5b3392849af3b5f75e8813325a7af4e9dcc979f682c07ea31e7e223"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/ownership-final-readback-v3.py",
+        "bytes": 4386,
+        "sha256": "24f8bafcd39349cae11a4169a234dcfe3cf7d840eeeb4bb1aba427d0deaad0db"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/ownership-final-readback-v3.py",
+        "bytes": 4353,
+        "sha256": "c449e7882826f067e22140d93bb8128c51061164ee52998043b32e5496f77218"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/ownership-final-readback-v3.py",
+        "bytes": 4386,
+        "sha256": "24f8bafcd39349cae11a4169a234dcfe3cf7d840eeeb4bb1aba427d0deaad0db"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/ownership-final-v2.py",
+        "bytes": 4674,
+        "sha256": "0877ccd979d5f6f757a90c7e662e25a4e2b3ff72f1ec744b8ba35e70c5693aa9"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/ownership-final-v2.py",
+        "bytes": 4637,
+        "sha256": "8f3fd35e152c2b56b98d4d684d1499378bd5723ad44191de1072e28936f9bebd"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/ownership-final-v2.py",
+        "bytes": 4674,
+        "sha256": "0877ccd979d5f6f757a90c7e662e25a4e2b3ff72f1ec744b8ba35e70c5693aa9"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/preservation-reader-v4.py",
+        "bytes": 1991,
+        "sha256": "e4779b09ce3d5125e15b2002230094d85e20e6180717b78be16893cbc4182297"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/preservation-reader-v4.py",
+        "bytes": 1973,
+        "sha256": "def542e315f417490cf37e8bed03d4e5785f83054e0696bb120abcadb80add32"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/preservation-reader-v4.py",
+        "bytes": 1991,
+        "sha256": "e4779b09ce3d5125e15b2002230094d85e20e6180717b78be16893cbc4182297"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/preservation-v2.py",
+        "bytes": 5169,
+        "sha256": "0495ab2a3077edf9d2d8e06a41c3b2c3981b7cf240e246b48a4706d157bae67d"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/preservation-v2.py",
+        "bytes": 5118,
+        "sha256": "6dcfb0df9d060e80bed3c610421e8bb675fd3c2b847625ed138c864cf8467a58"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/preservation-v2.py",
+        "bytes": 5169,
+        "sha256": "0495ab2a3077edf9d2d8e06a41c3b2c3981b7cf240e246b48a4706d157bae67d"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/preservation-v3.py",
+        "bytes": 6032,
+        "sha256": "2e9f8319ac86ef00165bf0b67c0320fdfbb6ee44f576940a7f7674a5629013f7"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/preservation-v3.py",
+        "bytes": 5976,
+        "sha256": "052549ea035260c2508c04a4c462cca737cef2f5858f3f7d2ca6d7424372771c"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/preservation-v3.py",
+        "bytes": 6032,
+        "sha256": "2e9f8319ac86ef00165bf0b67c0320fdfbb6ee44f576940a7f7674a5629013f7"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/preservation-v4.py",
+        "bytes": 6298,
+        "sha256": "9bf496ef675d5606dcd4e9f904efea1c228fc8469e6e7cc918a86dae0007f1c2"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/preservation-v4.py",
+        "bytes": 6240,
+        "sha256": "1f769e3f29e69686e8d0e578cb3aa2ef17f300ae0db257a01eda694201436d0b"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/preservation-v4.py",
+        "bytes": 6298,
+        "sha256": "9bf496ef675d5606dcd4e9f904efea1c228fc8469e6e7cc918a86dae0007f1c2"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/publish-v1.py",
+        "bytes": 10581,
+        "sha256": "871a40aa77d7594fff36558e4e80ac4dfbd93dd3880fb59c114bdefcb6f08e77"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/publish-v1.py",
+        "bytes": 10455,
+        "sha256": "f4fbdcaa70ba32937190968ba8b150c946e5c57f57ac89105cd544d10d29bbf1"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/publish-v1.py",
+        "bytes": 10581,
+        "sha256": "871a40aa77d7594fff36558e4e80ac4dfbd93dd3880fb59c114bdefcb6f08e77"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/publish-v2.py",
+        "bytes": 11379,
+        "sha256": "625f0e7e12126ec908bda56e7884363a7721511800d318b56f61808fe1bf623d"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/publish-v2.py",
+        "bytes": 11245,
+        "sha256": "2056524e175485c70adaabc534bb65dee7336c1c4167c6bce497a4c066391fe7"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/publish-v2.py",
+        "bytes": 11379,
+        "sha256": "625f0e7e12126ec908bda56e7884363a7721511800d318b56f61808fe1bf623d"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/publish-v3.py",
+        "bytes": 11763,
+        "sha256": "b0ac34a64054562bcf2d37d8d95ad0329584d10425d174feda2bd6d3277229de"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/publish-v3.py",
+        "bytes": 11627,
+        "sha256": "3b3aff5b2041a4a2f96f93c72cac5a9ee06ead164138aeb902f40bc8ee41a946"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/publish-v3.py",
+        "bytes": 11763,
+        "sha256": "b0ac34a64054562bcf2d37d8d95ad0329584d10425d174feda2bd6d3277229de"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/publish-v4.py",
+        "bytes": 12027,
+        "sha256": "f2429c2d719a5a5701b61cb219687c0dae47ec51b69530b541f2350f0046dd2f"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/publish-v4.py",
+        "bytes": 11889,
+        "sha256": "1a169f343f4dde0ce3cf276d7bf9fc62f44ddccc32ba544e78cdabc393e87cb6"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/publish-v4.py",
+        "bytes": 12027,
+        "sha256": "f2429c2d719a5a5701b61cb219687c0dae47ec51b69530b541f2350f0046dd2f"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/python-reconcile-v2.py",
+        "bytes": 6215,
+        "sha256": "0fc1eea709d94a7229e761e3c429443962e4baa42bd54c2038d0747e6e3e9536"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/python-reconcile-v2.py",
+        "bytes": 6149,
+        "sha256": "700c6494b1f440e9731e893455abf8d87a07688e12cadda540b5bc4e39683faa"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/python-reconcile-v2.py",
+        "bytes": 6215,
+        "sha256": "0fc1eea709d94a7229e761e3c429443962e4baa42bd54c2038d0747e6e3e9536"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/repository-privacy-witness-v2.py",
+        "bytes": 2386,
+        "sha256": "f9afb781488df9fa8ecee21fb2367777d07ce6704c81cf35314f36193a7c4c27"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/repository-privacy-witness-v2.py",
+        "bytes": 2362,
+        "sha256": "992d91cb94a0a6164e29bce5c7981dbe270eda757968fba1f9f48fae59e52905"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/repository-privacy-witness-v2.py",
+        "bytes": 2386,
+        "sha256": "f9afb781488df9fa8ecee21fb2367777d07ce6704c81cf35314f36193a7c4c27"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/review_readback-v2.py",
+        "bytes": 4334,
+        "sha256": "413367445703f5a0d733f4b375bbd3730291f7440d34d256aa07f9905468311f"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/review_readback-v2.py",
+        "bytes": 4288,
+        "sha256": "eb065b953597e46db8f0f857b1fc02c3d3d87221d0ad38a25d5154e1cf3d74ae"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/review_readback-v2.py",
+        "bytes": 4334,
+        "sha256": "413367445703f5a0d733f4b375bbd3730291f7440d34d256aa07f9905468311f"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/review_readback.py",
+        "bytes": 3546,
+        "sha256": "261d05ebc476d3cffdcbcbaf4c4252f079146f95776f3a28ddbf9e72263b8166"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/review_readback.py",
+        "bytes": 3508,
+        "sha256": "46dcd422cf8068937425f6552b82894568040b0e12792a2c3dae31df10cd4105"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/review_readback.py",
+        "bytes": 3546,
+        "sha256": "261d05ebc476d3cffdcbcbaf4c4252f079146f95776f3a28ddbf9e72263b8166"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/verify40-v2.py",
+        "bytes": 8109,
+        "sha256": "9938fb1c8a7f00fcbb325b4f4392a7b4c52f2f8a5d3f1a045bc5692f2a3fb1b3"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/verify40-v2.py",
+        "bytes": 8038,
+        "sha256": "f9f51f7ccd4df1e85eb17b82830644f2278d50b03d1c407a91c91611d0e35b12"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/verify40-v2.py",
+        "bytes": 8109,
+        "sha256": "9938fb1c8a7f00fcbb325b4f4392a7b4c52f2f8a5d3f1a045bc5692f2a3fb1b3"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    },
+    {
+      "original_sealed": {
+        "path": "evidence/04A40/verify40-v3.py",
+        "bytes": 8109,
+        "sha256": "2b50efa1254184e9bb1cdb85ae727bcfa2187ccd26057689d2363c4bb8f87d55"
+      },
+      "current_owner_checkout": {
+        "path": "evidence/04A40/verify40-v3.py",
+        "bytes": 8038,
+        "sha256": "78eb8f82644630bcc9744bfc93e5a32c843a3644c00399e25a4aa48b8777583b"
+      },
+      "exact_original_copy": {
+        "path": ".test-rationalization-04A41.tmp/sealed40-original-bytes-v3/evidence/04A40/verify40-v3.py",
+        "bytes": 8109,
+        "sha256": "2b50efa1254184e9bb1cdb85ae727bcfa2187ccd26057689d2363c4bb8f87d55"
+      },
+      "scope": "Existing clean owner commit/checkout representation, before41; no historical file rewritten by41.",
+      "recovery": "Verified canonical Git blob plus deterministic newline rendering; exact original SHA/size required."
+    }
+  ],
+  "raw_boundary_verified": true,
+  "canonical_register": {
+    "path": "evidence/04A39/register/defects-v7.json",
+    "bytes": 38049892,
+    "sha256": "23785e28026d5c94ea803efd0a00f4e5f8147dbf5b5122f6a0476b530f14cd8d"
+  },
+  "register_counts": {
+    "canonical_entries": 1169,
+    "original_obligations": 1514,
+    "restricted_controls": 802,
+    "report_occurrences": 286,
+    "statuses": {
+      "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+      "OWNER_AUTHORIZED_04A39_ONLY": 1,
+      "REQUIRES_OWNER_DECISION": 6,
+      "OBSERVED_RESTRICTED": 3,
+      "CHANGED_NONPASS_BLOCKING": 3,
+      "HISTORICALLY_REPORTED_RESTRICTED": 76,
+      "SUSPECTED_REQUIRES_REVIEW": 13,
+      "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+      "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+      "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+    },
+    "no_discharge": true,
+    "W3_validation_gate_records": 163,
+    "W3_events": 198,
+    "original_member_signatures": 759,
+    "unknown_entries": 0
+  },
+  "mappings": 2967,
+  "plan_revision": "2.17",
+  "plan_status_stale": true,
+  "owner_authority": "Current task explicitly accepts40 with restrictions, reports merged main, authorizes41 only; this overrides the stale plan header, not the deferred-defect charter.",
+  "plan_ids": 226,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A42_NOT_AUTHORIZED"
+  }
+}

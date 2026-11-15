@@ -257,10 +257,7 @@ Namespace WorksheetFunctions
                 If Not IsMissingArg(sdY) Then opts.SDy = data.SDy
 
                 Dim seed As Integer = ParseOptionalSeed(randomSeed)
-                Dim mdl As New Agreement.WeightedDemingRegression(data.X, data.Y, names(0), names(1), opts)
-                mdl.alpha = opts.Alpha
-                If opts.VarianceModel = Agreement.DemingVarianceModel.ConstantLambda Then mdl.Lambda = opts.Lambda
-                mdl.Fit(Nothing, seed)
+                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitDeming(data.X, data.Y, names(0), names(1), opts, seed, True)
                 Return StackResultTables(mdl.wrapResults())
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.DEMING_FIT", ex, ExcelError.ExcelErrorValue)
@@ -332,8 +329,7 @@ Namespace WorksheetFunctions
                 If Not IsMissingArg(sdY) Then opts.SDy = data.SDy
 
                 Dim seed As Integer = ParseOptionalSeed(randomSeed)
-                Dim mdl As New Agreement.WeightedDemingRegression(data.X, data.Y, "Reference", "Test", opts)
-                mdl.Fit(Nothing, seed)
+                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitDeming(data.X, data.Y, "Reference", "Test", opts, seed, False)
 
                 Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.BuildRegressionCoefficients(mdl.SlopeCI, mdl.InterceptCI, "Deming Regression Coefficients"))
             Catch ex As Exception
@@ -449,8 +445,8 @@ Namespace WorksheetFunctions
                 If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
 
                 Dim seed As Integer = ParseOptionalSeed(randomSeed)
-                Dim mdl As New Agreement.BlandAltmanAgreement(input.X, input.Y, names(0), names(1), opts)
-                mdl.Fit(seed)
+                Dim fitResult As Agreement.BlandAltmanResult = Nothing
+                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitBlandAltman(input.X, input.Y, names(0), names(1), opts, Function() seed, fitResult)
                 Return StackResultTables(mdl.wrapResults())
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.BLANDALTMAN_FIT", ex, ExcelError.ExcelErrorValue)
@@ -511,8 +507,8 @@ Namespace WorksheetFunctions
                 }
                 If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
 
-                Dim mdl As New Agreement.BlandAltmanAgreement(input.X, input.Y, "Reference", "Test", opts)
-                Dim res = mdl.Fit(ParseOptionalSeed(randomSeed))
+                Dim res As Agreement.BlandAltmanResult = Nothing
+                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitBlandAltman(input.X, input.Y, "Reference", "Test", opts, Function() ParseOptionalSeed(randomSeed), res)
 
                 Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.BuildBlandAltmanStatistics(res))
             Catch ex As Exception
@@ -567,8 +563,8 @@ Namespace WorksheetFunctions
                 }
                 If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
 
-                Dim mdl As New Agreement.BlandAltmanAgreement(input.X, input.Y, "Reference", "Test", opts)
-                Dim res = mdl.Fit(ParseOptionalSeed(randomSeed))
+                Dim res As Agreement.BlandAltmanResult = Nothing
+                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitBlandAltman(input.X, input.Y, "Reference", "Test", opts, Function() ParseOptionalSeed(randomSeed), res)
                 Return UdfDataImport.BuildBlandAltmanPlotDataTable(res)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.BLANDALTMAN_PLOTDATA", ex, ExcelError.ExcelErrorValue)
@@ -867,8 +863,8 @@ Namespace WorksheetFunctions
                     .NullConcordance = GetOptionalDouble(nullConcordance, 0.0),
                     .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
-                Dim mdl As New Agreement.LinConcordanceCorrelation(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), names(0), names(1), opts)
-                mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
+                Dim fitResult As Agreement.LinConcordanceResult = Nothing
+                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitLinConcordance(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), names(0), names(1), opts, Function() ParseOptionalSeed(randomSeed), fitResult)
                 Return StackResultTables(mdl.wrapResults())
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.LINCCC_FIT", ex, ExcelError.ExcelErrorValue)
@@ -917,8 +913,8 @@ Namespace WorksheetFunctions
                     .NullConcordance = GetOptionalDouble(nullConcordance, 0.0),
                     .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
-                Dim mdl As New Agreement.LinConcordanceCorrelation(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), "Reference", "Test", opts)
-                Dim res = mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
+                Dim res As Agreement.LinConcordanceResult = Nothing
+                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitLinConcordance(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), "Reference", "Test", opts, Function() ParseOptionalSeed(randomSeed), res)
                 Return res.ConcordanceCI.Estimate
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.LINCCC_VALUE", ex, ExcelError.ExcelErrorValue)
@@ -991,8 +987,8 @@ Namespace WorksheetFunctions
                 Dim cats() As Object = Nothing
                 If Global.BESHStatNG.UdfDataImport.TryGetCategoryList(categories, cats) Then opts.Categories = cats
 
-                Dim mdl As New Agreement.WeightedKappaAgreement(cat.X, cat.Y, names(0), names(1), opts)
-                mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
+                Dim fitResult As Agreement.KappaResult = Nothing
+                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitKappa(cat.X, cat.Y, names(0), names(1), opts, Function() ParseOptionalSeed(randomSeed), fitResult)
                 Return StackResultTables(mdl.wrapResults())
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.KAPPA_FIT", ex, ExcelError.ExcelErrorValue)
@@ -1048,8 +1044,8 @@ Namespace WorksheetFunctions
                 Dim cats() As Object = Nothing
                 If Global.BESHStatNG.UdfDataImport.TryGetCategoryList(categories, cats) Then opts.Categories = cats
 
-                Dim mdl As New Agreement.WeightedKappaAgreement(cat.X, cat.Y, "Rater 1", "Rater 2", opts)
-                Dim res = mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
+                Dim res As Agreement.KappaResult = Nothing
+                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitKappa(cat.X, cat.Y, "Rater 1", "Rater 2", opts, Function() ParseOptionalSeed(randomSeed), res)
                 Return res.KappaCI.Estimate
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.KAPPA_VALUE", ex, ExcelError.ExcelErrorValue)

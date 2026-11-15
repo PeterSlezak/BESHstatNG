@@ -1,0 +1,641 @@
+{
+  "existing_Common_services_extended": 5,
+  "new_Common_classes": 0,
+  "added_public_methods": 22,
+  "added_private_finite_predicate": 1,
+  "members": [
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb",
+        "bytes": 26223,
+        "sha256": "bd8f28fc0ec9ad800cea7052c68f9aaa1cad4bab048038165f7009a7a6ab6ca7"
+      },
+      "owner": "UdfSampleSizePreparation38",
+      "method": "PreparePaired",
+      "visibility": "Public",
+      "lines": [
+        30,
+        45
+      ],
+      "header": "Public Shared Function PreparePaired(meanDifference As Object, sdDifference As Object, alpha As Object, beta As Object,",
+      "body_sha256": "498e697c6ea86f9018477c03773dc9bbf8ee38844fdce2213266cbb094da2cec",
+      "Core_constructors": [],
+      "Core_calls": [
+        "SampleSizeCalculator.CalculatePairedTTest"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb",
+        "bytes": 5320,
+        "sha256": "552daf91ce813d8a69b083952ef7a1a3ea643e4f5bfe55a6eb6cb464c11237f6"
+      },
+      "owner": "UdfAgreementReportPreparation38",
+      "method": "FitDeming",
+      "visibility": "Public",
+      "lines": [
+        50,
+        59
+      ],
+      "header": "Public Shared Function FitDeming(first() As Double, second() As Double, firstName As String, secondName As String,",
+      "body_sha256": "c59b6fb9db92d9c0219b11b4f2958f5b132e697e6ec571f4c6f203d784f02c6e",
+      "Core_constructors": [
+        "Agreement.WeightedDemingRegression"
+      ],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "Fit"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb",
+        "bytes": 5320,
+        "sha256": "552daf91ce813d8a69b083952ef7a1a3ea643e4f5bfe55a6eb6cb464c11237f6"
+      },
+      "owner": "UdfAgreementReportPreparation38",
+      "method": "FitBlandAltman",
+      "visibility": "Public",
+      "lines": [
+        62,
+        68
+      ],
+      "header": "Public Shared Function FitBlandAltman(first() As Double, second() As Double, firstName As String, secondName As String,",
+      "body_sha256": "3f0799e6e08d1c956ff5612bf072e1a9fa304f6dcfe844ac57c6eb7b1a5773f1",
+      "Core_constructors": [
+        "Agreement.BlandAltmanAgreement"
+      ],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "Fit"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb",
+        "bytes": 5320,
+        "sha256": "552daf91ce813d8a69b083952ef7a1a3ea643e4f5bfe55a6eb6cb464c11237f6"
+      },
+      "owner": "UdfAgreementReportPreparation38",
+      "method": "FitLinConcordance",
+      "visibility": "Public",
+      "lines": [
+        70,
+        76
+      ],
+      "header": "Public Shared Function FitLinConcordance(first() As Double, second() As Double, firstName As String, secondName As String,",
+      "body_sha256": "02e2e55ab0d22103b3271b3466b9bc11482720d05bfd9077827d830c76e3885f",
+      "Core_constructors": [
+        "Agreement.LinConcordanceCorrelation"
+      ],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "Fit"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb",
+        "bytes": 5320,
+        "sha256": "552daf91ce813d8a69b083952ef7a1a3ea643e4f5bfe55a6eb6cb464c11237f6"
+      },
+      "owner": "UdfAgreementReportPreparation38",
+      "method": "FitKappa",
+      "visibility": "Public",
+      "lines": [
+        78,
+        84
+      ],
+      "header": "Public Shared Function FitKappa(first() As Object, second() As Object, firstName As String, secondName As String,",
+      "body_sha256": "371faf8cd513838ac475627318bea8a99ed9f8620e94d71344c5e13aad2ae7c0",
+      "Core_constructors": [
+        "Agreement.WeightedKappaAgreement"
+      ],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "Fit"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+        "bytes": 11926,
+        "sha256": "f5343a0d5193ec7f286be22a6e75f54d8aab06ad75b5ccebd66c054d8bff68e2"
+      },
+      "owner": "UdfInferencePreparation38",
+      "method": "BuildRepeatedAnovaTables",
+      "visibility": "Public",
+      "lines": [
+        181,
+        186
+      ],
+      "header": "Public Shared Function BuildRepeatedAnovaTables(mat(,) As Double, names() As String, readCorrection As Func(Of String)) As List(Of ResultTable)",
+      "body_sha256": "5380b921cc55017e28c66aa9242d6928dae8fc6104297f5e5878d674846cf648",
+      "Core_constructors": [
+        "parametric.OneWayRmANOVA"
+      ],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "compute",
+        "wrapResults"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+        "bytes": 11926,
+        "sha256": "f5343a0d5193ec7f286be22a6e75f54d8aab06ad75b5ccebd66c054d8bff68e2"
+      },
+      "owner": "UdfInferencePreparation38",
+      "method": "BuildNestedAnovaTables",
+      "visibility": "Public",
+      "lines": [
+        188,
+        192
+      ],
+      "header": "Public Shared Function BuildNestedAnovaTables(mat(,) As Object, names() As String) As List(Of ResultTable)",
+      "body_sha256": "a55cae9108301d66f5f74b7a0272e8da82ee8a4eff448d20a550a1080a9bda57",
+      "Core_constructors": [
+        "parametric.TwoWayNestedANOVA"
+      ],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "compute",
+        "wrapResults"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+        "bytes": 11926,
+        "sha256": "f5343a0d5193ec7f286be22a6e75f54d8aab06ad75b5ccebd66c054d8bff68e2"
+      },
+      "owner": "UdfInferencePreparation38",
+      "method": "BuildIndependentTTables",
+      "visibility": "Public",
+      "lines": [
+        194,
+        198
+      ],
+      "header": "Public Shared Function BuildIndependentTTables(data()() As Double, names() As String, alpha As Double) As List(Of ResultTable)",
+      "body_sha256": "2426335e69db8b22095b8f2048b0a7af7dea5366ed075e1ff87e42151568f460",
+      "Core_constructors": [
+        "parametric.UnpairedTtest"
+      ],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "compute",
+        "wrapResults"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+        "bytes": 11926,
+        "sha256": "f5343a0d5193ec7f286be22a6e75f54d8aab06ad75b5ccebd66c054d8bff68e2"
+      },
+      "owner": "UdfInferencePreparation38",
+      "method": "BuildPairedTTables",
+      "visibility": "Public",
+      "lines": [
+        200,
+        204
+      ],
+      "header": "Public Shared Function BuildPairedTTables(mat(,) As Double, names() As String) As List(Of ResultTable)",
+      "body_sha256": "3559fe746b6b601924730eeac611c0b927c5ea75194134d57b0615c75dec8b8b",
+      "Core_constructors": [
+        "parametric.PairedTtest"
+      ],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "compute",
+        "wrapResults"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+        "bytes": 11926,
+        "sha256": "f5343a0d5193ec7f286be22a6e75f54d8aab06ad75b5ccebd66c054d8bff68e2"
+      },
+      "owner": "UdfInferencePreparation38",
+      "method": "ComputeMannWhitney",
+      "visibility": "Public",
+      "lines": [
+        206,
+        210
+      ],
+      "header": "Public Shared Function ComputeMannWhitney(first() As Double, second() As Double) As TestResult",
+      "body_sha256": "331a816bac9e298212cb75a28c820acadca7d8a4103a9c8603e90da9e1bac255",
+      "Core_constructors": [],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "Compute"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+        "bytes": 11926,
+        "sha256": "f5343a0d5193ec7f286be22a6e75f54d8aab06ad75b5ccebd66c054d8bff68e2"
+      },
+      "owner": "UdfInferencePreparation38",
+      "method": "ComputeWilcoxon",
+      "visibility": "Public",
+      "lines": [
+        212,
+        215
+      ],
+      "header": "Public Shared Function ComputeWilcoxon(pairs(,) As Double) As TestResult",
+      "body_sha256": "e82f37909a121face0101b8bc2ca92a9d1e69c48c8d6b437052713619b063209",
+      "Core_constructors": [],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "Compute"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+        "bytes": 6286,
+        "sha256": "17097769b61289a869c5f2d94cc031cc649346e395778d647e044a7f50c6f003"
+      },
+      "owner": "UdfSpillPreparation38",
+      "method": "TwoValueTable",
+      "visibility": "Public",
+      "lines": [
+        32,
+        44
+      ],
+      "header": "Public Shared Function TwoValueTable(title As String, firstLabel As String, firstValue As Double,",
+      "body_sha256": "36097e447a1fefbc88cd27b80ca5666efdb66edeaf80cabe1db2e819f0aeb45e",
+      "Core_constructors": [],
+      "Core_calls": [],
+      "existing_model_calls": [
+        "Values"
+      ],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "IsFinite",
+      "visibility": "Private",
+      "lines": [
+        274,
+        276
+      ],
+      "header": "Private Shared Function IsFinite(value As Double) As Boolean",
+      "body_sha256": "39db94bbbcc5996e953e3611f143ee3a2e8fc6fee8c69af0eb6b8a7346a2ecb2",
+      "Core_constructors": [],
+      "Core_calls": [],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareShapiroWilk",
+      "visibility": "Public",
+      "lines": [
+        278,
+        286
+      ],
+      "header": "Public Shared Function PrepareShapiroWilk(x() As Double) As UdfReportProjection38",
+      "body_sha256": "c4313636d1595d08225e3086f9950b5fc6f6d1c9c2f030679ddfa8878a03dcdc",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.ShapiroWilk"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareDAgostino",
+      "visibility": "Public",
+      "lines": [
+        288,
+        296
+      ],
+      "header": "Public Shared Function PrepareDAgostino(x() As Double) As UdfReportProjection38",
+      "body_sha256": "423db2fecf8144a2a2d7c08c754d241fe1c0c3616a9a9533be937d95e31fe3bf",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.DAgostino"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareAndersonDarling",
+      "visibility": "Public",
+      "lines": [
+        298,
+        305
+      ],
+      "header": "Public Shared Function PrepareAndersonDarling(x() As Double) As UdfReportProjection38",
+      "body_sha256": "bcdb94af4cbddd1a158c9e2242d7bc8fa94d02cce3038d229f2c1f3353c5f5b6",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.AndersonDarlingTEST"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareFlignerKilleen",
+      "visibility": "Public",
+      "lines": [
+        307,
+        314
+      ],
+      "header": "Public Shared Function PrepareFlignerKilleen(data()() As Double) As UdfReportProjection38",
+      "body_sha256": "4a9d5ea15c548918f9729e2481061f9260a2f9ed8195d4814ddec16b50841902",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.FlignerKilleenTEST"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareLevene",
+      "visibility": "Public",
+      "lines": [
+        316,
+        323
+      ],
+      "header": "Public Shared Function PrepareLevene(data()() As Double, useMedian As Boolean, label As String) As UdfReportProjection38",
+      "body_sha256": "866f2897e933a79368a003728b3ba23c96c8a2d64e27196ae1b91916503c8c96",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.LeveneTEST"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareBartlett",
+      "visibility": "Public",
+      "lines": [
+        325,
+        336
+      ],
+      "header": "Public Shared Function PrepareBartlett(data()() As Double) As UdfReportProjection38",
+      "body_sha256": "d0dd01926094dd100a434eeb52208ee495db5c2dd4fe858e25e38fe03b3aeb99",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.BartlettTEST"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareSquaredRanks",
+      "visibility": "Public",
+      "lines": [
+        338,
+        345
+      ],
+      "header": "Public Shared Function PrepareSquaredRanks(data()() As Double) As UdfReportProjection38",
+      "body_sha256": "fd5542f0c992ef37151f4094941b2ed106c3e6d59b4b2dd135279684e61f58fd",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.SquaredRanksTestVARIANCE"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareMauchly",
+      "visibility": "Public",
+      "lines": [
+        347,
+        354
+      ],
+      "header": "Public Shared Function PrepareMauchly(mat(,) As Double) As UdfReportProjection38",
+      "body_sha256": "66f292f508735c50fb727f20867b2d67e37de3ea56e61d8e7de6162914f7f9f3",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.MauchlyTest"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareSymmetry",
+      "visibility": "Public",
+      "lines": [
+        356,
+        363
+      ],
+      "header": "Public Shared Function PrepareSymmetry(x() As Double, methodInternal As String, title As String) As UdfReportProjection38",
+      "body_sha256": "cf917f1e82d965337e2247f12b37fc7e4fb9ebe39f87bad354092969b92fafe3",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.SymmetryTest"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    },
+    {
+      "source": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60549,
+        "sha256": "6fd39f3dee86c0058fc5f0b082b984f808c17e2c960d501acf15c1b3587cf706"
+      },
+      "owner": "AssumptionsUDFsReports38",
+      "method": "PrepareGrubbs",
+      "visibility": "Public",
+      "lines": [
+        365,
+        372
+      ],
+      "header": "Public Shared Function PrepareGrubbs(x() As Double, alphaValue As Double) As UdfReportProjection38",
+      "body_sha256": "7b1e43227928253e7b6db967a368fb81db801cacf1e9c86f614d528c0ad42769",
+      "Core_constructors": [],
+      "Core_calls": [
+        "assumptions.Grubbs"
+      ],
+      "existing_model_calls": [],
+      "classification": "ADDED_TO_EXISTING_SERVICE",
+      "previous": null
+    }
+  ],
+  "existing_Common_method_bodies_changed": [],
+  "Core_numerical_source_locks": [
+    {
+      "path": "BESHStat.Core/src/StatTests/Agreement/Agreement.vb",
+      "bytes": 74629,
+      "sha256": "b3e8537cc69985afc664f711a62a32f864a5ebc0b9a15999312aa75aa3273125"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Agreement/AgreementBlandAltman.vb",
+      "bytes": 72814,
+      "sha256": "ffc7bce037cc7a503b4e30672f74750f359e3e73c94831cc6464cefec428604a"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Agreement/AgreementHelpers.vb",
+      "bytes": 18901,
+      "sha256": "664bc9b6b7c94926d991d9b3ca5a4575a508b96921b92978ea07b6c88d302da7"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Agreement/AgreementLinConcordance.vb",
+      "bytes": 33664,
+      "sha256": "912189e12484f0be8646081d2272099e864796eb0904d5fe19ac0cddfece6ba5"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Agreement/AgreementPlotData.vb",
+      "bytes": 1862,
+      "sha256": "58f83057cb8f1dd202719db14cbbe137afb848d30b4145188b820982f9e1c818"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Agreement/AgreementWeightedDeming.vb",
+      "bytes": 63680,
+      "sha256": "5e436bb229a0e2e9cff5555b23064d12c793128f53b7c17bda1fdc61a6528695"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Agreement/AgreementWeightedKappa.vb",
+      "bytes": 46152,
+      "sha256": "5264956eabad4dfa70f316082b25ffed1884e92f507cb69cb1747531769f6075"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Assumptions.vb",
+      "bytes": 55889,
+      "sha256": "c4a8f192b005e74652f608f0f1c7c077d5d70a6b98c7d32b70767c7b7098792b"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/ContingencyTable.vb",
+      "bytes": 52900,
+      "sha256": "96765d51276ccb802f5105029b30e002f7cc49664a5ae23bed2cbffd8798d345"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Nonparametric.vb",
+      "bytes": 129062,
+      "sha256": "16d06875bb9fe7acbc9dbf2e0fed0805e9da8d3717e1edfbb9241409ffe94960"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Parametric.vb",
+      "bytes": 118007,
+      "sha256": "e0b950692ba15f06ccf4a7169fdd81fd38be47f96a7aeeef9c1659250276daa8"
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/SampleSize.vb",
+      "bytes": 56886,
+      "sha256": "9fef5dcedf35f4b7cf4c34b0ff15b5df62be95a9e857a4ef2597264503017680"
+    }
+  ],
+  "Core_algorithm_edits": 0,
+  "compiled_Core_and_other_method_equality": [
+    {
+      "path": "evidence/04A41/abi-cil/Debug-proof-v1.json",
+      "bytes": 45188,
+      "sha256": "99cfa6fcd03c2f83d4747416663e91a7b9d9499263e981c162d2c21b3f9482cd"
+    },
+    {
+      "path": "evidence/04A41/abi-cil/Release-proof-v1.json",
+      "bytes": 45206,
+      "sha256": "2fcfbd115f3791f7b3588dd994c6b7d87d0e90790562432bba2a306a40e6c963"
+    }
+  ],
+  "source_ownership": "Every new method owns typed acquisition-independent preparation/orchestration/layout. Exact numerical calls and model constructors remain Core. Deferred host readers carry Windows-only conversion/order without native objects.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A42_NOT_AUTHORIZED"
+  }
+}

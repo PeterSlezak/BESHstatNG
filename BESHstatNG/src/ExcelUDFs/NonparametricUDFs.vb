@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 Option Strict On
 
 Imports System.Collections.Generic
@@ -71,9 +71,7 @@ Namespace WorksheetFunctions
                 Return ExcelError.ExcelErrorNum
             End If
 
-            Dim data As Double()() = {x1, x2}
-            Dim mw As New MannWhitney(data, "group1", "group2")
-            Dim res As TestResult = mw.Compute()
+            Dim res As TestResult = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ComputeMannWhitney(x1, x2)
 
             Dim p As Double = res.Pvalue
             If Double.IsNaN(p) OrElse Double.IsInfinity(p) OrElse p < 0.0 OrElse p > 1.0 Then
@@ -158,9 +156,7 @@ Namespace WorksheetFunctions
                 Return ExcelError.ExcelErrorNum
             End If
 
-            Dim data As Double()() = {x1, x2}
-            Dim mw As New MannWhitney(data, "group1", "group2")
-            Dim res As TestResult = mw.Compute()
+            Dim res As TestResult = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ComputeMannWhitney(x1, x2)
 
             If Not res.bExactAvailable Then
                 Return ExcelError.ExcelErrorNum
@@ -239,8 +235,7 @@ Namespace WorksheetFunctions
                 Return ExcelError.ExcelErrorNum
             End If
 
-            Dim w As New WilcoxonTest(pairs, "x", "y")
-            Dim res As TestResult = w.Compute()
+            Dim res As TestResult = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ComputeWilcoxon(pairs)
 
             Dim p As Double = res.Pvalue
             Return ClampProb(p)
@@ -311,8 +306,7 @@ Namespace WorksheetFunctions
                 Return ExcelError.ExcelErrorNum
             End If
 
-            Dim w As New WilcoxonTest(pairs, "x", "y")
-            Dim res As TestResult = w.Compute()
+            Dim res As TestResult = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ComputeWilcoxon(pairs)
 
             If Not res.bExactAvailable Then
                 Return ExcelError.ExcelErrorNum

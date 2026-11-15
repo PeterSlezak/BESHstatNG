@@ -1,0 +1,93 @@
+{
+  "configuration": "Release",
+  "mode": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+  "parts": [
+    {
+      "suite": "Core",
+      "part": "affected",
+      "selection": "FullyQualifiedName~UdfInference41|FullyQualifiedName~UdfAgreementSizing41|FullyQualifiedName~Agreement26|FullyQualifiedName~Planning26|FullyQualifiedName~AnovaWorkflow07|FullyQualifiedName~Assumptions|FullyQualifiedName~Contingency|FullyQualifiedName~Udf|FullyQualifiedName~Parametric|FullyQualifiedName~SampleSize",
+      "name": "a41-final-Release-Core-affected",
+      "outcomes": {
+        "Passed": 127
+      },
+      "cases": {
+        "path": ".test-rationalization-04A41.tmp/executions/a41-final-Release-Core-affected/cases.json",
+        "bytes": 41256,
+        "sha256": "b9519b4f3f51884df62a0f28ce48c09f47ccd167e66c91748f42587aac05fd35"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A41.tmp/executions/a41-final-Release-Core-affected/results/Core.trx",
+        "bytes": 192150,
+        "sha256": "f5c339aa917f97e51a2327a7297ffc41f96de1eb4f1feb3e0d1c375304a69388"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A41.tmp/a41-final-Release-Core-affected.json",
+        "bytes": 41256,
+        "sha256": "b9519b4f3f51884df62a0f28ce48c09f47ccd167e66c91748f42587aac05fd35"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Common",
+      "part": "affected",
+      "selection": "FullyQualifiedName~UdfInference41|FullyQualifiedName~UdfAgreementSizing41|FullyQualifiedName~Agreement26|FullyQualifiedName~Planning26|FullyQualifiedName~AnovaWorkflow07|FullyQualifiedName~Assumptions|FullyQualifiedName~Contingency|FullyQualifiedName~Udf|FullyQualifiedName~Parametric|FullyQualifiedName~SampleSize",
+      "name": "a41-final-Release-Common-affected",
+      "outcomes": {
+        "Passed": 1124
+      },
+      "cases": {
+        "path": ".test-rationalization-04A41.tmp/executions/a41-final-Release-Common-affected/cases.json",
+        "bytes": 360110,
+        "sha256": "e8d3ccbd4365d9a92105a3bf2a6ed4ad88ea3df66a64d1f4f1eadb7f94984edf"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A41.tmp/executions/a41-final-Release-Common-affected/results/Common.trx",
+        "bytes": 3642519,
+        "sha256": "d276e687e50bd31b304716c5ac48a7995ae56fcfe301cc03fa261f97c22a446b"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A41.tmp/a41-final-Release-Common-affected.json",
+        "bytes": 360110,
+        "sha256": "e8d3ccbd4365d9a92105a3bf2a6ed4ad88ea3df66a64d1f4f1eadb7f94984edf"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Legacy",
+      "part": "affected",
+      "selection": "FullyQualifiedName~UdfInference41|FullyQualifiedName~UdfAgreementSizing41|FullyQualifiedName~Agreement26|FullyQualifiedName~Planning26|FullyQualifiedName~AnovaWorkflow07|FullyQualifiedName~Assumptions|FullyQualifiedName~Contingency|FullyQualifiedName~Udf|FullyQualifiedName~Parametric|FullyQualifiedName~SampleSize",
+      "name": "a41-final-Release-Legacy-affected",
+      "outcomes": {
+        "Passed": 1020,
+        "Failed": 1
+      },
+      "cases": {
+        "path": ".test-rationalization-04A41.tmp/executions/a41-final-Release-Legacy-affected/cases.json",
+        "bytes": 320581,
+        "sha256": "b7acedb1a22eb56f1698759ef5d35b0e946f9697d6e745d2e77730b6099a7c9e"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A41.tmp/executions/a41-final-Release-Legacy-affected/results/Legacy.trx",
+        "bytes": 3420934,
+        "sha256": "f3988957e58890ffd84736254e68bd7f8a0292a54dff3e1912e443040f2835cc"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A41.tmp/a41-final-Release-Legacy-affected.json",
+        "bytes": 320581,
+        "sha256": "b7acedb1a22eb56f1698759ef5d35b0e946f9697d6e745d2e77730b6099a7c9e"
+      },
+      "command_exit": 1
+    }
+  ],
+  "outcomes": {
+    "Passed": 2271,
+    "Failed": 1
+  },
+  "identities": 2272,
+  "source_unchanged": true,
+  "Debug_label": "a41-wave2-v1",
+  "Release_label": "a41-final-v1",
+  "full_Release": "NOT_RUN",
+  "max_parallel_test_hosts": 1,
+  "protected_raw_diagnostics": true
+}

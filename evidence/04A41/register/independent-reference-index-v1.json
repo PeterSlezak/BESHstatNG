@@ -1,0 +1,55 @@
+{
+  "references": [
+    {
+      "key": "R_SHAPIRO",
+      "url": "https://www.stat.math.ethz.ch/R-manual/R-devel/library/stats/html/shapiro.test.html",
+      "definition": "R stats documents3 through5000 nonmissing observations. This is a reviewed reference definition, not permission to change GUI eligibility or engine constants."
+    },
+    {
+      "key": "SCIPY_SHAPIRO_1_14_1",
+      "url": "https://docs.scipy.org/doc/scipy-1.14.1/reference/generated/scipy.stats.shapiro.html",
+      "definition": "At least3 observations; documentation qualifies p-value accuracy above5000. Core coefficient/constant accuracy remains a separate restricted review."
+    },
+    {
+      "key": "SCIPY_NORMALTEST_1_14_1",
+      "url": "https://docs.scipy.org/doc/scipy-1.14.1/reference/generated/scipy.stats.normaltest.html",
+      "definition": "Combines skewness and kurtosis; documented minimum8 differs from the retained BESH minimum9. No domain or tail change is authorized."
+    },
+    {
+      "key": "R_FISHER",
+      "url": "https://stat.ethz.ch/R-manual/R-patched/library/stats/html/fisher.test.html",
+      "definition": "Fixed marginal conditional test; alternative/tail and conditional odds-ratio confidence interval must be specified. This is distinct from a cohort risk ratio."
+    },
+    {
+      "key": "NIST_MCNEMAR",
+      "url": "https://itl.nist.gov/div898/software/dataplot/refman1/auxillar/mcnemar.htm",
+      "definition": "Paired binary discordant cells define the hypothesis; the small-discordant-count reference uses a binomial distribution. Table orientation and two-sided convention must be retained explicitly."
+    },
+    {
+      "key": "LIDDELL_1983",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1052263/",
+      "doi": "10.1136/jech.37.1.82",
+      "definition": "The paper is matched-pair case-referent analysis and describes the discordant ratio r/s with historical relative-risk terminology. Scientific interpretation is design-dependent; blindly replacing the label or substituting cohort RR is not justified."
+    },
+    {
+      "key": "R_TTEST",
+      "url": "https://www.stat.ethz.ch/R-manual/R-devel/library/stats/html/t.test.html",
+      "definition": "Paired and independent tests, Welch versus pooled variance, alternative-specific confidence intervals and confidence level are explicit reference choices."
+    },
+    {
+      "key": "R_WILCOX",
+      "url": "https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html",
+      "definition": "Rank-sum versus signed-rank, symmetry, exact/tie handling and continuity correction are separate method choices; no new Friedman/Nemenyi feature is authorized."
+    },
+    {
+      "key": "SCIPY_LEVENE",
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.levene.html",
+      "definition": "Mean versus median centering are distinct variance-test options; the selected BESH alias and its report label are preserved."
+    }
+  ],
+  "reviewed_utc": "2026-11-15T08:59:03.064978+00:00",
+  "new_R_or_external_scientific_execution": false,
+  "independent_numeric_successor_authority": false,
+  "scientific_status": "NOT_GOLDEN;REFERENCE_DEFINITIONS_FOR_RESTRICTED_INVESTIGATION",
+  "no_external_text_copied": true
+}

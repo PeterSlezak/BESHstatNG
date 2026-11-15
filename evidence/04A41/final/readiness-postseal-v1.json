@@ -1,0 +1,111 @@
+{
+  "status": "READY_FOR_OWNER_04A41_ACCEPTANCE_REVIEW_WITH_DOCUMENTED_RESTRICTIONS",
+  "kind": "OWNER_ACCEPTANCE_REVIEW_READINESS_ONLY",
+  "effective_only_with_matching_external_receipt": true,
+  "base": "c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc",
+  "branch": "codex/04A-41",
+  "owner_accepted": false,
+  "merged": false,
+  "phase04A42_authorized": false,
+  "scientific_corrections": 0,
+  "native_activations": 0,
+  "implementation": {
+    "production_files": 10,
+    "Windows_files": 5,
+    "Common_files": 5,
+    "new_Common_public_methods": 22,
+    "new_Common_classes": 0,
+    "changed_exported_parent_bodies": 28,
+    "scoped_exports": 76,
+    "total_exports": 268,
+    "new_test_files": 2,
+    "new_passed_test_identities": 18
+  },
+  "software": {
+    "Debug": {
+      "configuration": "Debug",
+      "scope": "ONE_FULL_FRESH_CAMPAIGN",
+      "identities": 21157,
+      "outcomes": {
+        "Passed": 21143,
+        "Failed": 14
+      },
+      "added": 18,
+      "missing": [],
+      "nonpass_deltas": {
+        "RETAINED_IDENTICAL": 14
+      }
+    },
+    "Release": {
+      "configuration": "Release",
+      "scope": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+      "identities": 2272,
+      "outcomes": {
+        "Passed": 2271,
+        "Failed": 1
+      },
+      "added": 18,
+      "missing": [],
+      "nonpass_deltas": {
+        "RETAINED_CHANGED_TRACE": 1
+      }
+    },
+    "full_Release": "NOT_RUN",
+    "Python": {
+      "PASS": 832,
+      "ERROR": 11,
+      "FAIL": 113
+    },
+    "Python_events": {
+      "ERROR": 11,
+      "FAIL": 185
+    },
+    "Node": "INHERITED_916_PASS;NOT_RERUN",
+    "strict_profile_MkDocs": [
+      1,
+      1,
+      0
+    ]
+  },
+  "compatibility": {
+    "sealed_per_configuration": 29424,
+    "PRE_EDIT_FROZEN": 28966,
+    "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458,
+    "new_current_main_cases": 390,
+    "accepted39_cases": 77,
+    "accepted40_contracts": 48,
+    "GEE_elapsed_only_fields": 4,
+    "original_queries": 0,
+    "scientific": "NOT_GOLDEN"
+  },
+  "privacy": "Both unchanged full actual-candidate scanners zero;matching external receipt must also seal final metadata and all physical ZIP members/index with zero findings.",
+  "historical_failures": "14_Debug_FAIL;1_affected_Release_FAIL;113_Python_FAIL_and11_ERROR;3_historical_UDF_guards_FAIL;39privacy1941each_andW3ERROR_and54+32_records_unwaived",
+  "investigations": {
+    "count": 17,
+    "register_entries": 1169,
+    "obligations": 1514,
+    "restricted_controls": 802,
+    "mappings": 2967,
+    "scientific_native_exits_discharged": 0
+  },
+  "preservation": {
+    "checkpoint": 468,
+    "historical": 8984,
+    "newer_raw": 1906,
+    "source_history": 1353,
+    "continuous_physical_identity": "NOT_VERIFIED",
+    "old_ID_drifts": 788,
+    "W3_37484_154": "INHERITED_QUALIFIED_NOT_FRESH_AUDIT",
+    "sealed40_newline_recoveries": 31
+  },
+  "coverage_limits": "Five ordinary current-main probes retain errors in unchanged parents.390 is representative, not an independent scientific oracle or exhaustive native/domain coverage. Full preserved corpus/affected tests are separately reported.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A42_NOT_AUTHORIZED"
+  }
+}

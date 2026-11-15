@@ -93,20 +93,10 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="beta", Description:="Type II error rate, 0 < beta < 1. Power = 1 - beta.")> beta As Object
         ) As Object
             Try
-                Dim diff As Double? = TryGetDouble(meanDifference)
-                Dim sd As Double? = TryGetDouble(sdDifference)
-                Dim a As Double? = TryGetDouble(alpha)
-                Dim b As Double? = TryGetDouble(beta)
-
-                If Not diff.HasValue OrElse Not sd.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If diff.Value = 0 OrElse sd.Value <= 0 OrElse Not IsOpenUnitInterval(a.Value) OrElse Not IsOpenUnitInterval(b.Value) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Dim result As PairedTTestSampleSizeResult = SampleSizeCalculator.CalculatePairedTTest(diff.Value, sd.Value, a.Value, b.Value)
-                Return MakeMetricValueTable("Required pairs", result.NumberOfPairs)
+                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
+                Dim report = Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PreparePaired(
+                    meanDifference, sdDifference, alpha, beta, AddressOf TryGetDouble, AddressOf IsOpenUnitInterval, errorKind)
+                Return MaterializeSampleSizeResult38(report, errorKind)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SSIZE.SSIZE_TTEST_PAIRED", ex, ExcelError.ExcelErrorValue)
             End Try

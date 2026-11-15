@@ -27,6 +27,23 @@ Namespace ExcelCommon
             Return Nothing
         End Function
 
+        Public Shared Function PreparePaired(meanDifference As Object, sdDifference As Object, alpha As Object, beta As Object,
+                                             readNumber As Func(Of Object, Double?), isOpenUnitInterval As Func(Of Double, Boolean),
+                                             ByRef errorKind As UdfSampleSizeError38) As UdfReportProjection38
+            Dim diff As Double? = readNumber(meanDifference)
+            Dim sd As Double? = readNumber(sdDifference)
+            Dim a As Double? = readNumber(alpha)
+            Dim b As Double? = readNumber(beta)
+            If Not diff.HasValue OrElse Not sd.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
+                Return Failed(errorKind, UdfSampleSizeError38.Value)
+            End If
+            If diff.Value = 0 OrElse sd.Value <= 0 OrElse Not isOpenUnitInterval(a.Value) OrElse Not isOpenUnitInterval(b.Value) Then
+                Return Failed(errorKind, UdfSampleSizeError38.Numeric)
+            End If
+            Dim result As PairedTTestSampleSizeResult = SampleSizeCalculator.CalculatePairedTTest(diff.Value, sd.Value, a.Value, b.Value)
+            Return SampleSizeUDFsReports38.MakeMetricValueTable("Required pairs", result.NumberOfPairs)
+        End Function
+
         Public Shared Function PrepareUnpaired(meanDifference As Object, _
             commonSd As Object, _
             controlToExperimentalRatio As Object, _

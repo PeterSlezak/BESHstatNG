@@ -271,6 +271,107 @@ Namespace ExcelCommon
         Private Sub New()
         End Sub
 
+        Private Shared Function IsFinite(value As Double) As Boolean
+            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
+        End Function
+
+        Public Shared Function PrepareShapiroWilk(x() As Double) As UdfReportProjection38
+            Dim errText As String = String.Empty
+            Dim res As TestResult = assumptions.ShapiroWilk(x, errText)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return UdfSpillPreparation38.TwoValueTable("Shapiro-Wilk Test", "W statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
+        End Function
+
+        Public Shared Function PrepareDAgostino(x() As Double) As UdfReportProjection38
+            Dim errText As String = String.Empty
+            Dim res As TestResult = assumptions.DAgostino(x, errText)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return UdfSpillPreparation38.TwoValueTable("D'Agostino-Pearson K² Test", "K² statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
+        End Function
+
+        Public Shared Function PrepareAndersonDarling(x() As Double) As UdfReportProjection38
+            Dim res As TestResult = assumptions.AndersonDarlingTEST(x)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return UdfSpillPreparation38.TwoValueTable("Anderson-Darling Test", "Adjusted AD²", res.TestStatistics1, "Approximate p-value", res.Pvalue)
+        End Function
+
+        Public Shared Function PrepareFlignerKilleen(data()() As Double) As UdfReportProjection38
+            Dim res As TestResult = assumptions.FlignerKilleenTEST(data)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return UdfSpillPreparation38.TwoValueTable("Fligner-Killeen Test", "Chi-square statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
+        End Function
+
+        Public Shared Function PrepareLevene(data()() As Double, useMedian As Boolean, label As String) As UdfReportProjection38
+            Dim res As TestResult = assumptions.LeveneTEST(data, useMedian)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return UdfSpillPreparation38.TwoValueTable(label, "F statistic", res.TestStatistics1, "P-value", res.Pvalue)
+        End Function
+
+        Public Shared Function PrepareBartlett(data()() As Double) As UdfReportProjection38
+            For Each g In data
+                If g Is Nothing OrElse g.Length < 2 Then Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            Next
+
+            Dim res As TestResult = assumptions.BartlettTEST(data)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return UdfSpillPreparation38.TwoValueTable("Bartlett Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
+        End Function
+
+        Public Shared Function PrepareSquaredRanks(data()() As Double) As UdfReportProjection38
+            Dim res As TestResult = assumptions.SquaredRanksTestVARIANCE(data)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return UdfSpillPreparation38.TwoValueTable("Squared Ranks Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
+        End Function
+
+        Public Shared Function PrepareMauchly(mat(,) As Double) As UdfReportProjection38
+            Dim res As TestResult = assumptions.MauchlyTest(mat)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return UdfSpillPreparation38.TwoValueTable("Mauchly's Test of Sphericity", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
+        End Function
+
+        Public Shared Function PrepareSymmetry(x() As Double, methodInternal As String, title As String) As UdfReportProjection38
+            Dim res As TestResult = assumptions.SymmetryTest(x, methodInternal)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return UdfSpillPreparation38.TwoValueTable(title, "Test statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
+        End Function
+
+        Public Shared Function PrepareGrubbs(x() As Double, alphaValue As Double) As UdfReportProjection38
+            Dim res As TestResult = assumptions.Grubbs(x, alphaValue)
+            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.TestStatistics2) Then
+                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
+            End If
+
+            Return BuildGrubbsTable(alphaValue, res)
+        End Function
+
+
         Public Shared Function BuildGrubbsTable(alpha As Double, res As TestResult) As UdfReportProjection38
             Dim t As New ResultTable
             t.SetBody(New Object(,) {

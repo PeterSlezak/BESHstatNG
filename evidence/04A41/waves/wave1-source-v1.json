@@ -1,0 +1,135 @@
+{
+  "files": [
+    {
+      "before": {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "sha256": "b87df3b3a071aed8ff5691031c1e3a4481e65b9ddb30caa7c44e0d6b5301052a"
+      },
+      "after": {
+        "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "bytes": 53348,
+        "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+      }
+    },
+    {
+      "before": {
+        "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+        "sha256": "7c633a4e02447ceffcda098772ba2f6e3f490af0c86efc961a4d8587d3423e75"
+      },
+      "after": {
+        "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+        "bytes": 56999,
+        "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+      }
+    },
+    {
+      "before": {
+        "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "sha256": "0a7e05f79fe8a7f95f6e02c1358f4335a70dc5902f4e1eac0c84ff422aade38d"
+      },
+      "after": {
+        "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "bytes": 38067,
+        "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+      }
+    },
+    {
+      "before": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+        "sha256": "364753a609f0e485eb2d7b8a934a235dca6d8e25699d25cd221601888f0f432b"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+        "bytes": 11926,
+        "sha256": "f5343a0d5193ec7f286be22a6e75f54d8aab06ad75b5ccebd66c054d8bff68e2"
+      }
+    },
+    {
+      "before": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "sha256": "f9ecd7c5436ad197ecf9ddf31a339381e2cfba023fa72f65bff5b8fa04d69277"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "bytes": 60374,
+        "sha256": "e6cfc71de1c84aac62844b018f9a443a2b0f28e3f1008727dec6a94a9f6af8be"
+      }
+    },
+    {
+      "before": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+        "sha256": "59889f3e18e61b6de75a53f76fa4dd8cad080e01e612872dfaf16315bf4361e7"
+      },
+      "after": {
+        "path": "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+        "bytes": 6286,
+        "sha256": "17097769b61289a869c5f2d94cc031cc649346e395778d647e044a7f50c6f003"
+      }
+    }
+  ],
+  "assumptions_engine_fragments": [
+    {
+      "function": "SHAPIRO_WILK",
+      "source_fragment_sha256": "7fe4fdf4f830787e130f6ede134652fda75306d97319dc83b86f709e30780bf7",
+      "destination": "PrepareShapiroWilk"
+    },
+    {
+      "function": "DAGOSTINO_PEARSON",
+      "source_fragment_sha256": "188e6865632e5ff1fdf4ec6b20ead09b2d0887c20cac3b106de0d261bc2e52a5",
+      "destination": "PrepareDAgostino"
+    },
+    {
+      "function": "ANDERSON_DARLING",
+      "source_fragment_sha256": "6da083f56d9284ebbc72bcbfb9e4c6fdb82e4f8b1c360d1f29a6c49868fc2dc9",
+      "destination": "PrepareAndersonDarling"
+    },
+    {
+      "function": "FLIGNER_KILLEEN",
+      "source_fragment_sha256": "70564315037f38fa7c162a949d5b4e724be81033d95c6cc5dd1d68bd238ba6b6",
+      "destination": "PrepareFlignerKilleen"
+    },
+    {
+      "function": "LEVENE",
+      "source_fragment_sha256": "c05fbe55b7857c94262de50887bc3bfd6d8857ac210f528b4ceb7d745a0c5e84",
+      "destination": "PrepareLevene"
+    },
+    {
+      "function": "BARTLETT",
+      "source_fragment_sha256": "7e74265de61d547d96731159be6ca218cba7af7eb30ea8f851d10ade1e019fa0",
+      "destination": "PrepareBartlett"
+    },
+    {
+      "function": "SQUARED_RANKS",
+      "source_fragment_sha256": "19dd0c631df77f4ef6a212d2e276618982188e5807bd1109e1c8bb2ee5b3ae55",
+      "destination": "PrepareSquaredRanks"
+    },
+    {
+      "function": "MAUCHLY",
+      "source_fragment_sha256": "fbfc78ba9303f7148cf1571955fb164ef409191cde1faf9efeca1a6d5272818d",
+      "destination": "PrepareMauchly"
+    },
+    {
+      "function": "SYMMETRY",
+      "source_fragment_sha256": "c8aa8500f314ea0acdc58ae1feaca7df9f5badd100c7667f803cb067c380f84d",
+      "destination": "PrepareSymmetry"
+    },
+    {
+      "function": "GRUBBS",
+      "source_fragment_sha256": "3d60cfc01e39173402c822c7660d64d729c714e18de5286c1a7bf80fd7902781",
+      "destination": "PrepareGrubbs"
+    }
+  ],
+  "numerical_algorithms_changed": false,
+  "Windows_acquisition_option_read_order_and_domain_guards_retained": true,
+  "new_public_Common_methods": 16,
+  "new_classes": 0,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A42_NOT_AUTHORIZED"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "kind": "SANITIZED_RAW_PRESERVATION_INDEX;NOT_RAW_DIAGNOSTICS",
+  "inventory": {
+    "path": ".test-rationalization-04A41.tmp/new-raw-inventory-v1.json",
+    "bytes": 1772755,
+    "sha256": "d095ddc540f0cafb354cc7dacfde7982bce3f3bdacb9ea2791ce886dcc28271e"
+  },
+  "files": 6810,
+  "bytes": 1655386425,
+  "failed_attempts": [
+    {
+      "recipe": "wave1-check-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A41.tmp/failed-attempts/014f8cecc7d7464c91cad754cc63cba5.json",
+        "bytes": 898,
+        "sha256": "640669b3fd4413b8cebeff677c216fa717ce15fbdfa44d017ab0c0224685230c"
+      },
+      "disposition": "RETAINED_FAILED_ATTEMPT;NOT_REPLACED_BY_SUCCESSOR"
+    },
+    {
+      "recipe": "authenticate-v2.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A41.tmp/failed-attempts/51cde89471124172bb06ea58bcc91fc3.json",
+        "bytes": 797,
+        "sha256": "14d05fa0241ec068287648b8cd09b25afaa92dc34747ef5965f349bd79a379e2"
+      },
+      "disposition": "RETAINED_FAILED_ATTEMPT;NOT_REPLACED_BY_SUCCESSOR"
+    },
+    {
+      "recipe": "python-campaign-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A41.tmp/failed-attempts/be3eabbf133e48988cd71e0a979205c3.json",
+        "bytes": 973,
+        "sha256": "1ed7590f82df5868c6cf48fbc2ee447747776bd635a65a8d02ecf39ea1b82ad1"
+      },
+      "disposition": "RETAINED_FAILED_ATTEMPT;NOT_REPLACED_BY_SUCCESSOR"
+    },
+    {
+      "recipe": "investigations-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A41.tmp/failed-attempts/d781508a08ee4543bc3757026a3b870f.json",
+        "bytes": 869,
+        "sha256": "389d96a3070256cf1f62b2210b63d92c30bdb81584dcaf54f1c631b149a0b6f7"
+      },
+      "disposition": "RETAINED_FAILED_ATTEMPT;NOT_REPLACED_BY_SUCCESSOR"
+    },
+    {
+      "recipe": "publication-v1.py",
+      "type": "FileNotFoundError",
+      "raw": {
+        "path": ".test-rationalization-04A41.tmp/failed-attempts/df743aa3b2d74786835182a1a014de47.json",
+        "bytes": 676,
+        "sha256": "ccb03aecce38b30c1531fdf5662593a9e8ccc8de5b2cfd2e002caa8d2658d752"
+      },
+      "disposition": "RETAINED_FAILED_ATTEMPT;NOT_REPLACED_BY_SUCCESSOR"
+    },
+    {
+      "recipe": "authenticate-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A41.tmp/failed-attempts/f57a6c901fa9472ba7546ebcbd2f14f9.json",
+        "bytes": 797,
+        "sha256": "e10057eaa4a38daf922228b8121b7ef9fbaac9a83adec3e52bf391c747f70cdf"
+      },
+      "disposition": "RETAINED_FAILED_ATTEMPT;NOT_REPLACED_BY_SUCCESSOR"
+    }
+  ],
+  "initial_unwrapped_launch": "A ModuleNotFoundError before the protected recipe wrapper was introduced is retained in tool history;no fabricated raw receipt.",
+  "raw_vs_review": "Build/test/trace/command/cache/binary outputs stay in ignored controlled41 storage. Public documents contain explicit versioned facts, raw SHA/provenance and no raw owner identifiers.",
+  "new41_raw_path_removals": 0,
+  "old40_two_raw_paths_absent": true
+}

@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "configuration": "Release",
+    "suite": "Legacy",
+    "part": "affected",
+    "identity_sha256": "f9f5210e17cef1ce5a497e9ebfdbe0787a0d57042aad14369ebce655e80191b7",
+    "occurrence": 0,
+    "class_name": "BESHStatNG.Test.ContingencyAdapterTests",
+    "method": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+    "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+    "outcome": "Failed",
+    "classification": "RETAINED_IDENTICAL_OUTCOME"
+  },
+  "retained_status": "FAIL",
+  "same_message_sha256": "e76c3eb015b7bbbe5b13c7d8256e5df57b7d96ea6d0d44ea1855c24f4cd330b8",
+  "before_Debug_trace_sha256": "b39ee893a89dfc0e35612f5e4ee1dd2dcf583a152bd95a7d5eb407d048172ecc",
+  "current_Release_trace_sha256": "908b390f684b44d6791a28ed332693168f2ca0c1e4a8abb178191c6a0679971f",
+  "identical_method_frames": [
+    "at BESHStatNG.Test.ContingencyAdapterTests.PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden()"
+  ],
+  "before_Debug_source_lines": [
+    "88"
+  ],
+  "current_Release_source_lines": [
+    "89"
+  ],
+  "source": {
+    "path": "BESHStatNG.Test/src/ContingencyAdapterTests.vb",
+    "bytes": 6533,
+    "sha256": "9ae52251d1ac1f2119d617e76c585f3a9f3ea818401f57d6326ef583ae13f869"
+  },
+  "disposition": "OBSERVED_CONFIGURATION_SOURCE_SEQUENCE_POINT_ONLY;UNCHANGED_TEST_SOURCE_AND_FAILURE_MESSAGE;FAIL_UNWAIVED",
+  "explanation": "Accepted40 targeted Release did not include this test; comparison uses accepted full Debug. Current full Debug retains its exact original trace; current optimized Release points at line89 rather than88. No assertion or numerical correction is inferred.",
+  "accepted40_Release_coverage": false,
+  "waived": false
+}

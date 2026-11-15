@@ -176,5 +176,42 @@ Namespace ExcelCommon
 
             Return test.wrapResults()
         End Function
+
+        ''' <summary>Retains compute-before-option-read ordering used by the Windows UDF.</summary>
+        Public Shared Function BuildRepeatedAnovaTables(mat(,) As Double, names() As String, readCorrection As Func(Of String)) As List(Of ResultTable)
+            Dim mdl As New parametric.OneWayRmANOVA(mat, names)
+            mdl.compute()
+            If Not ApplyRepeatedCorrection(mdl, readCorrection()) Then Return Nothing
+            Return mdl.wrapResults()
+        End Function
+
+        Public Shared Function BuildNestedAnovaTables(mat(,) As Object, names() As String) As List(Of ResultTable)
+            Dim mdl As New parametric.TwoWayNestedANOVA(mat, names)
+            mdl.compute()
+            Return mdl.wrapResults()
+        End Function
+
+        Public Shared Function BuildIndependentTTables(data()() As Double, names() As String, alpha As Double) As List(Of ResultTable)
+            Dim mdl As New parametric.UnpairedTtest(data, names)
+            mdl.compute(alpha)
+            Return mdl.wrapResults()
+        End Function
+
+        Public Shared Function BuildPairedTTables(mat(,) As Double, names() As String) As List(Of ResultTable)
+            Dim mdl As New parametric.PairedTtest(mat, names)
+            mdl.compute()
+            Return mdl.wrapResults()
+        End Function
+
+        Public Shared Function ComputeMannWhitney(first() As Double, second() As Double) As TestResult
+            Dim data As Double()() = {first, second}
+            Dim mdl As New MannWhitney(data, "group1", "group2")
+            Return mdl.Compute()
+        End Function
+
+        Public Shared Function ComputeWilcoxon(pairs(,) As Double) As TestResult
+            Dim mdl As New WilcoxonTest(pairs, "x", "y")
+            Return mdl.Compute()
+        End Function
     End Class
 End Namespace

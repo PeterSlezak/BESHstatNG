@@ -1,0 +1,705 @@
+diff --git a/BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb b/BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb
+index 477e2478..5eff7328 100644
+--- a/BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb
++++ b/BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb
+@@ -27,6 +27,23 @@ Namespace ExcelCommon
+             Return Nothing
+         End Function
+ 
++        Public Shared Function PreparePaired(meanDifference As Object, sdDifference As Object, alpha As Object, beta As Object,
++                                             readNumber As Func(Of Object, Double?), isOpenUnitInterval As Func(Of Double, Boolean),
++                                             ByRef errorKind As UdfSampleSizeError38) As UdfReportProjection38
++            Dim diff As Double? = readNumber(meanDifference)
++            Dim sd As Double? = readNumber(sdDifference)
++            Dim a As Double? = readNumber(alpha)
++            Dim b As Double? = readNumber(beta)
++            If Not diff.HasValue OrElse Not sd.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
++                Return Failed(errorKind, UdfSampleSizeError38.Value)
++            End If
++            If diff.Value = 0 OrElse sd.Value <= 0 OrElse Not isOpenUnitInterval(a.Value) OrElse Not isOpenUnitInterval(b.Value) Then
++                Return Failed(errorKind, UdfSampleSizeError38.Numeric)
++            End If
++            Dim result As PairedTTestSampleSizeResult = SampleSizeCalculator.CalculatePairedTTest(diff.Value, sd.Value, a.Value, b.Value)
++            Return SampleSizeUDFsReports38.MakeMetricValueTable("Required pairs", result.NumberOfPairs)
++        End Function
++
+         Public Shared Function PrepareUnpaired(meanDifference As Object, _
+             commonSd As Object, _
+             controlToExperimentalRatio As Object, _
+diff --git a/BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb b/BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb
+index 0156c118..56e31ad5 100644
+--- a/BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb
++++ b/BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb
+@@ -45,5 +45,42 @@ Namespace ExcelCommon
+                 t.AddHeaderTopRow({title, ""})
+                 Return t
+         End Function
++
++        ''' <summary>Fitted typed model; host option conversion and its ordering remain at the caller.</summary>
++        Public Shared Function FitDeming(first() As Double, second() As Double, firstName As String, secondName As String,
++                                         options As Agreement.DemingOptions, seed As Integer, configureLegacyFields As Boolean) As Agreement.WeightedDemingRegression
++            Dim model As New Agreement.WeightedDemingRegression(first, second, firstName, secondName, options)
++            If configureLegacyFields Then
++                model.alpha = options.Alpha
++                If options.VarianceModel = Agreement.DemingVarianceModel.ConstantLambda Then model.Lambda = options.Lambda
++            End If
++            model.Fit(Nothing, seed)
++            Return model
++        End Function
++
++        ''' <summary>Deferred seed readers preserve constructor-before-reader exception precedence.</summary>
++        Public Shared Function FitBlandAltman(first() As Double, second() As Double, firstName As String, secondName As String,
++                                             options As Agreement.BlandAltmanOptions, readSeed As Func(Of Integer),
++                                             ByRef result As Agreement.BlandAltmanResult) As Agreement.BlandAltmanAgreement
++            Dim model As New Agreement.BlandAltmanAgreement(first, second, firstName, secondName, options)
++            result = model.Fit(readSeed())
++            Return model
++        End Function
++
++        Public Shared Function FitLinConcordance(first() As Double, second() As Double, firstName As String, secondName As String,
++                                                 options As Agreement.LinConcordanceOptions, readSeed As Func(Of Integer),
++                                                 ByRef result As Agreement.LinConcordanceResult) As Agreement.LinConcordanceCorrelation
++            Dim model As New Agreement.LinConcordanceCorrelation(first, second, firstName, secondName, options)
++            result = model.Fit(Nothing, readSeed())
++            Return model
++        End Function
++
++        Public Shared Function FitKappa(first() As Object, second() As Object, firstName As String, secondName As String,
++                                       options As Agreement.KappaOptions, readSeed As Func(Of Integer),
++                                       ByRef result As Agreement.KappaResult) As Agreement.WeightedKappaAgreement
++            Dim model As New Agreement.WeightedKappaAgreement(first, second, firstName, secondName, options)
++            result = model.Fit(Nothing, readSeed())
++            Return model
++        End Function
+     End Class
+ End Namespace
+diff --git a/BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb b/BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb
+index 60b6107f..2b5e0874 100644
+--- a/BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb
++++ b/BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb
+@@ -176,5 +176,42 @@ Namespace ExcelCommon
+ 
+             Return test.wrapResults()
+         End Function
++
++        ''' <summary>Retains compute-before-option-read ordering used by the Windows UDF.</summary>
++        Public Shared Function BuildRepeatedAnovaTables(mat(,) As Double, names() As String, readCorrection As Func(Of String)) As List(Of ResultTable)
++            Dim mdl As New parametric.OneWayRmANOVA(mat, names)
++            mdl.compute()
++            If Not ApplyRepeatedCorrection(mdl, readCorrection()) Then Return Nothing
++            Return mdl.wrapResults()
++        End Function
++
++        Public Shared Function BuildNestedAnovaTables(mat(,) As Object, names() As String) As List(Of ResultTable)
++            Dim mdl As New parametric.TwoWayNestedANOVA(mat, names)
++            mdl.compute()
++            Return mdl.wrapResults()
++        End Function
++
++        Public Shared Function BuildIndependentTTables(data()() As Double, names() As String, alpha As Double) As List(Of ResultTable)
++            Dim mdl As New parametric.UnpairedTtest(data, names)
++            mdl.compute(alpha)
++            Return mdl.wrapResults()
++        End Function
++
++        Public Shared Function BuildPairedTTables(mat(,) As Double, names() As String) As List(Of ResultTable)
++            Dim mdl As New parametric.PairedTtest(mat, names)
++            mdl.compute()
++            Return mdl.wrapResults()
++        End Function
++
++        Public Shared Function ComputeMannWhitney(first() As Double, second() As Double) As TestResult
++            Dim data As Double()() = {first, second}
++            Dim mdl As New MannWhitney(data, "group1", "group2")
++            Return mdl.Compute()
++        End Function
++
++        Public Shared Function ComputeWilcoxon(pairs(,) As Double) As TestResult
++            Dim mdl As New WilcoxonTest(pairs, "x", "y")
++            Return mdl.Compute()
++        End Function
+     End Class
+ End Namespace
+diff --git a/BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb b/BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb
+index 57525d41..0ea5a8de 100644
+--- a/BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb
++++ b/BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb
+@@ -28,6 +28,21 @@ Namespace ExcelCommon
+             Return New UdfReportProjection38(table.ToOutputModel(), UdfReportPreparation38.NormalizeBlanks)
+         End Function
+ 
++        ''' <summary>Supplies computed scalar values to the existing two-value layout without duplicating its grammar.</summary>
++        Public Shared Function TwoValueTable(title As String, firstLabel As String, firstValue As Double,
++                                             secondLabel As String, secondValue As Double) As UdfReportProjection38
++            Dim projection = TwoValueTable(title, firstLabel, secondLabel)
++            Dim model = projection.ToOutputModel()
++            Dim values() As Double = {firstValue, secondValue}
++            For row = model.Values.GetLowerBound(0) To model.Values.GetUpperBound(0)
++                For column = model.Values.GetLowerBound(1) To model.Values.GetUpperBound(1)
++                    Dim reference = TryCast(model.Values(row, column), UdfSourceCellReference38)
++                    If reference IsNot Nothing Then model.Values(row, column) = values(reference.SourceOrdinal)
++                Next
++            Next
++            Return New UdfReportProjection38(model, projection.Preparation)
++        End Function
++
+         ''' <summary>Retains column-first then explicit-cell order, including repeated cells.</summary>
+         Public Shared Function PvalueCells(model As Global.BESHStatNG.ResultTableOutputModel,
+                                           rows As Integer, columns As Integer) As UdfSpillCell38()
+diff --git a/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb b/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb
+index c1e61f3c..975e9dda 100644
+--- a/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb
++++ b/BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb
+@@ -271,6 +271,107 @@ Namespace ExcelCommon
+         Private Sub New()
+         End Sub
+ 
++        Private Shared Function IsFinite(value As Double) As Boolean
++            Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
++        End Function
++
++        Public Shared Function PrepareShapiroWilk(x() As Double) As UdfReportProjection38
++            Dim errText As String = String.Empty
++            Dim res As TestResult = assumptions.ShapiroWilk(x, errText)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return UdfSpillPreparation38.TwoValueTable("Shapiro-Wilk Test", "W statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
++        End Function
++
++        Public Shared Function PrepareDAgostino(x() As Double) As UdfReportProjection38
++            Dim errText As String = String.Empty
++            Dim res As TestResult = assumptions.DAgostino(x, errText)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return UdfSpillPreparation38.TwoValueTable("D'Agostino-Pearson K² Test", "K² statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
++        End Function
++
++        Public Shared Function PrepareAndersonDarling(x() As Double) As UdfReportProjection38
++            Dim res As TestResult = assumptions.AndersonDarlingTEST(x)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return UdfSpillPreparation38.TwoValueTable("Anderson-Darling Test", "Adjusted AD²", res.TestStatistics1, "Approximate p-value", res.Pvalue)
++        End Function
++
++        Public Shared Function PrepareFlignerKilleen(data()() As Double) As UdfReportProjection38
++            Dim res As TestResult = assumptions.FlignerKilleenTEST(data)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return UdfSpillPreparation38.TwoValueTable("Fligner-Killeen Test", "Chi-square statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
++        End Function
++
++        Public Shared Function PrepareLevene(data()() As Double, useMedian As Boolean, label As String) As UdfReportProjection38
++            Dim res As TestResult = assumptions.LeveneTEST(data, useMedian)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return UdfSpillPreparation38.TwoValueTable(label, "F statistic", res.TestStatistics1, "P-value", res.Pvalue)
++        End Function
++
++        Public Shared Function PrepareBartlett(data()() As Double) As UdfReportProjection38
++            For Each g In data
++                If g Is Nothing OrElse g.Length < 2 Then Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            Next
++
++            Dim res As TestResult = assumptions.BartlettTEST(data)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return UdfSpillPreparation38.TwoValueTable("Bartlett Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
++        End Function
++
++        Public Shared Function PrepareSquaredRanks(data()() As Double) As UdfReportProjection38
++            Dim res As TestResult = assumptions.SquaredRanksTestVARIANCE(data)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return UdfSpillPreparation38.TwoValueTable("Squared Ranks Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
++        End Function
++
++        Public Shared Function PrepareMauchly(mat(,) As Double) As UdfReportProjection38
++            Dim res As TestResult = assumptions.MauchlyTest(mat)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return UdfSpillPreparation38.TwoValueTable("Mauchly's Test of Sphericity", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
++        End Function
++
++        Public Shared Function PrepareSymmetry(x() As Double, methodInternal As String, title As String) As UdfReportProjection38
++            Dim res As TestResult = assumptions.SymmetryTest(x, methodInternal)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return UdfSpillPreparation38.TwoValueTable(title, "Test statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
++        End Function
++
++        Public Shared Function PrepareGrubbs(x() As Double, alphaValue As Double) As UdfReportProjection38
++            Dim res As TestResult = assumptions.Grubbs(x, alphaValue)
++            If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.TestStatistics2) Then
++                Return UdfReportProjection38.FromFault(UdfReportFault38.InvalidNumber)
++            End If
++
++            Return BuildGrubbsTable(alphaValue, res)
++        End Function
++
++
+         Public Shared Function BuildGrubbsTable(alpha As Double, res As TestResult) As UdfReportProjection38
+             Dim t As New ResultTable
+             t.SetBody(New Object(,) {
+diff --git a/BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb b/BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb
+index b1d3a925..caf5755f 100644
+--- a/BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb
++++ b/BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb
+@@ -257,10 +257,7 @@ Namespace WorksheetFunctions
+                 If Not IsMissingArg(sdY) Then opts.SDy = data.SDy
+ 
+                 Dim seed As Integer = ParseOptionalSeed(randomSeed)
+-                Dim mdl As New Agreement.WeightedDemingRegression(data.X, data.Y, names(0), names(1), opts)
+-                mdl.alpha = opts.Alpha
+-                If opts.VarianceModel = Agreement.DemingVarianceModel.ConstantLambda Then mdl.Lambda = opts.Lambda
+-                mdl.Fit(Nothing, seed)
++                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitDeming(data.X, data.Y, names(0), names(1), opts, seed, True)
+                 Return StackResultTables(mdl.wrapResults())
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.AGREE.DEMING_FIT", ex, ExcelError.ExcelErrorValue)
+@@ -332,8 +329,7 @@ Namespace WorksheetFunctions
+                 If Not IsMissingArg(sdY) Then opts.SDy = data.SDy
+ 
+                 Dim seed As Integer = ParseOptionalSeed(randomSeed)
+-                Dim mdl As New Agreement.WeightedDemingRegression(data.X, data.Y, "Reference", "Test", opts)
+-                mdl.Fit(Nothing, seed)
++                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitDeming(data.X, data.Y, "Reference", "Test", opts, seed, False)
+ 
+                 Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.BuildRegressionCoefficients(mdl.SlopeCI, mdl.InterceptCI, "Deming Regression Coefficients"))
+             Catch ex As Exception
+@@ -449,8 +445,8 @@ Namespace WorksheetFunctions
+                 If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
+ 
+                 Dim seed As Integer = ParseOptionalSeed(randomSeed)
+-                Dim mdl As New Agreement.BlandAltmanAgreement(input.X, input.Y, names(0), names(1), opts)
+-                mdl.Fit(seed)
++                Dim fitResult As Agreement.BlandAltmanResult = Nothing
++                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitBlandAltman(input.X, input.Y, names(0), names(1), opts, Function() seed, fitResult)
+                 Return StackResultTables(mdl.wrapResults())
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.AGREE.BLANDALTMAN_FIT", ex, ExcelError.ExcelErrorValue)
+@@ -511,8 +507,8 @@ Namespace WorksheetFunctions
+                 }
+                 If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
+ 
+-                Dim mdl As New Agreement.BlandAltmanAgreement(input.X, input.Y, "Reference", "Test", opts)
+-                Dim res = mdl.Fit(ParseOptionalSeed(randomSeed))
++                Dim res As Agreement.BlandAltmanResult = Nothing
++                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitBlandAltman(input.X, input.Y, "Reference", "Test", opts, Function() ParseOptionalSeed(randomSeed), res)
+ 
+                 Return PrepareResultTableForUdf(Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.BuildBlandAltmanStatistics(res))
+             Catch ex As Exception
+@@ -567,8 +563,8 @@ Namespace WorksheetFunctions
+                 }
+                 If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
+ 
+-                Dim mdl As New Agreement.BlandAltmanAgreement(input.X, input.Y, "Reference", "Test", opts)
+-                Dim res = mdl.Fit(ParseOptionalSeed(randomSeed))
++                Dim res As Agreement.BlandAltmanResult = Nothing
++                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitBlandAltman(input.X, input.Y, "Reference", "Test", opts, Function() ParseOptionalSeed(randomSeed), res)
+                 Return UdfDataImport.BuildBlandAltmanPlotDataTable(res)
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.AGREE.BLANDALTMAN_PLOTDATA", ex, ExcelError.ExcelErrorValue)
+@@ -867,8 +863,8 @@ Namespace WorksheetFunctions
+                     .NullConcordance = GetOptionalDouble(nullConcordance, 0.0),
+                     .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
+                 }
+-                Dim mdl As New Agreement.LinConcordanceCorrelation(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), names(0), names(1), opts)
+-                mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
++                Dim fitResult As Agreement.LinConcordanceResult = Nothing
++                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitLinConcordance(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), names(0), names(1), opts, Function() ParseOptionalSeed(randomSeed), fitResult)
+                 Return StackResultTables(mdl.wrapResults())
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.AGREE.LINCCC_FIT", ex, ExcelError.ExcelErrorValue)
+@@ -917,8 +913,8 @@ Namespace WorksheetFunctions
+                     .NullConcordance = GetOptionalDouble(nullConcordance, 0.0),
+                     .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
+                 }
+-                Dim mdl As New Agreement.LinConcordanceCorrelation(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), "Reference", "Test", opts)
+-                Dim res = mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
++                Dim res As Agreement.LinConcordanceResult = Nothing
++                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitLinConcordance(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), "Reference", "Test", opts, Function() ParseOptionalSeed(randomSeed), res)
+                 Return res.ConcordanceCI.Estimate
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.AGREE.LINCCC_VALUE", ex, ExcelError.ExcelErrorValue)
+@@ -991,8 +987,8 @@ Namespace WorksheetFunctions
+                 Dim cats() As Object = Nothing
+                 If Global.BESHStatNG.UdfDataImport.TryGetCategoryList(categories, cats) Then opts.Categories = cats
+ 
+-                Dim mdl As New Agreement.WeightedKappaAgreement(cat.X, cat.Y, names(0), names(1), opts)
+-                mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
++                Dim fitResult As Agreement.KappaResult = Nothing
++                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitKappa(cat.X, cat.Y, names(0), names(1), opts, Function() ParseOptionalSeed(randomSeed), fitResult)
+                 Return StackResultTables(mdl.wrapResults())
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.AGREE.KAPPA_FIT", ex, ExcelError.ExcelErrorValue)
+@@ -1048,8 +1044,8 @@ Namespace WorksheetFunctions
+                 Dim cats() As Object = Nothing
+                 If Global.BESHStatNG.UdfDataImport.TryGetCategoryList(categories, cats) Then opts.Categories = cats
+ 
+-                Dim mdl As New Agreement.WeightedKappaAgreement(cat.X, cat.Y, "Rater 1", "Rater 2", opts)
+-                Dim res = mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
++                Dim res As Agreement.KappaResult = Nothing
++                Dim mdl = Global.BESHStatNG.ExcelCommon.UdfAgreementReportPreparation38.FitKappa(cat.X, cat.Y, "Rater 1", "Rater 2", opts, Function() ParseOptionalSeed(randomSeed), res)
+                 Return res.KappaCI.Estimate
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.AGREE.KAPPA_VALUE", ex, ExcelError.ExcelErrorValue)
+diff --git a/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb b/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb
+index 1d08d884..84e5d924 100644
+--- a/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb
++++ b/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb
+@@ -62,13 +62,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
+                 If x Is Nothing OrElse x.Length < 3 OrElse x.Length > 5000 Then Return ExcelError.ExcelErrorNum
+ 
+-                Dim errText As String = String.Empty
+-                Dim res As TestResult = assumptions.ShapiroWilk(x, errText)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildTwoValueTable("Shapiro-Wilk Test", "W statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareShapiroWilk(x))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.SHAPIRO_WILK", ex, ExcelError.ExcelErrorValue)
+             End Try
+@@ -115,13 +109,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
+                 If x Is Nothing OrElse x.Length < 9 Then Return ExcelError.ExcelErrorNum
+ 
+-                Dim errText As String = String.Empty
+-                Dim res As TestResult = assumptions.DAgostino(x, errText)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildTwoValueTable("D'Agostino-Pearson K² Test", "K² statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareDAgostino(x))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.DAGOSTINO_PEARSON", ex, ExcelError.ExcelErrorValue)
+             End Try
+@@ -168,12 +156,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
+                 If x Is Nothing OrElse x.Length < 2 Then Return ExcelError.ExcelErrorNum
+ 
+-                Dim res As TestResult = assumptions.AndersonDarlingTEST(x)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildTwoValueTable("Anderson-Darling Test", "Adjusted AD²", res.TestStatistics1, "Approximate p-value", res.Pvalue)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareAndersonDarling(x))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.ANDERSON_DARLING", ex, ExcelError.ExcelErrorValue)
+             End Try
+@@ -288,12 +271,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+ 
+-                Dim res As TestResult = assumptions.FlignerKilleenTEST(data)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildTwoValueTable("Fligner-Killeen Test", "Chi-square statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareFlignerKilleen(data))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.FLIGNER_KILLEEN", ex, ExcelError.ExcelErrorValue)
+             End Try
+@@ -350,12 +328,7 @@ Namespace WorksheetFunctions
+                 Dim label As String = Nothing
+                 If Not TryParseLeveneCenter(center, useMedian, label) Then Return ExcelError.ExcelErrorValue
+ 
+-                Dim res As TestResult = assumptions.LeveneTEST(data, useMedian)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildTwoValueTable(label, "F statistic", res.TestStatistics1, "P-value", res.Pvalue)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareLevene(data, useMedian, label))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.LEVENE", ex, ExcelError.ExcelErrorValue)
+             End Try
+@@ -398,16 +371,7 @@ Namespace WorksheetFunctions
+                 Dim detectedNames() As String = Nothing
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+-                For Each g In data
+-                    If g Is Nothing OrElse g.Length < 2 Then Return ExcelError.ExcelErrorNum
+-                Next
+-
+-                Dim res As TestResult = assumptions.BartlettTEST(data)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildTwoValueTable("Bartlett Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareBartlett(data))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.BARTLETT", ex, ExcelError.ExcelErrorValue)
+             End Try
+@@ -451,12 +415,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+ 
+-                Dim res As TestResult = assumptions.SquaredRanksTestVARIANCE(data)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildTwoValueTable("Squared Ranks Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareSquaredRanks(data))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.SQUARED_RANKS", ex, ExcelError.ExcelErrorValue)
+             End Try
+@@ -505,12 +464,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, names) Then Return ExcelError.ExcelErrorValue
+                 If mat Is Nothing OrElse mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 3 Then Return ExcelError.ExcelErrorNum
+ 
+-                Dim res As TestResult = assumptions.MauchlyTest(mat)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildTwoValueTable("Mauchly's Test of Sphericity", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareMauchly(mat))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.MAUCHLY", ex, ExcelError.ExcelErrorValue)
+             End Try
+@@ -567,12 +521,7 @@ Namespace WorksheetFunctions
+                 Dim title As String = Nothing
+                 If Not TryParseSymmetryMethod(method, methodInternal, title) Then Return ExcelError.ExcelErrorValue
+ 
+-                Dim res As TestResult = assumptions.SymmetryTest(x, methodInternal)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildTwoValueTable(title, "Test statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareSymmetry(x, methodInternal, title))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.SYMMETRY", ex, ExcelError.ExcelErrorValue)
+             End Try
+@@ -629,12 +578,7 @@ Namespace WorksheetFunctions
+                 Dim alphaValue As Double = 0.05
+                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+ 
+-                Dim res As TestResult = assumptions.Grubbs(x, alphaValue)
+-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.TestStatistics2) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Return BuildGrubbsTable(alphaValue, res)
++                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareGrubbs(x, alphaValue))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.ASSUMP.GRUBBS", ex, ExcelError.ExcelErrorValue)
+             End Try
+diff --git a/BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb b/BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb
+index 20cf3f0f..da0df357 100644
+--- a/BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb
++++ b/BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb
+@@ -1,4 +1,4 @@
+-﻿Option Explicit On
++Option Explicit On
+ Option Strict On
+ 
+ Imports System.Collections.Generic
+@@ -71,9 +71,7 @@ Namespace WorksheetFunctions
+                 Return ExcelError.ExcelErrorNum
+             End If
+ 
+-            Dim data As Double()() = {x1, x2}
+-            Dim mw As New MannWhitney(data, "group1", "group2")
+-            Dim res As TestResult = mw.Compute()
++            Dim res As TestResult = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ComputeMannWhitney(x1, x2)
+ 
+             Dim p As Double = res.Pvalue
+             If Double.IsNaN(p) OrElse Double.IsInfinity(p) OrElse p < 0.0 OrElse p > 1.0 Then
+@@ -158,9 +156,7 @@ Namespace WorksheetFunctions
+                 Return ExcelError.ExcelErrorNum
+             End If
+ 
+-            Dim data As Double()() = {x1, x2}
+-            Dim mw As New MannWhitney(data, "group1", "group2")
+-            Dim res As TestResult = mw.Compute()
++            Dim res As TestResult = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ComputeMannWhitney(x1, x2)
+ 
+             If Not res.bExactAvailable Then
+                 Return ExcelError.ExcelErrorNum
+@@ -239,8 +235,7 @@ Namespace WorksheetFunctions
+                 Return ExcelError.ExcelErrorNum
+             End If
+ 
+-            Dim w As New WilcoxonTest(pairs, "x", "y")
+-            Dim res As TestResult = w.Compute()
++            Dim res As TestResult = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ComputeWilcoxon(pairs)
+ 
+             Dim p As Double = res.Pvalue
+             Return ClampProb(p)
+@@ -311,8 +306,7 @@ Namespace WorksheetFunctions
+                 Return ExcelError.ExcelErrorNum
+             End If
+ 
+-            Dim w As New WilcoxonTest(pairs, "x", "y")
+-            Dim res As TestResult = w.Compute()
++            Dim res As TestResult = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ComputeWilcoxon(pairs)
+ 
+             If Not res.bExactAvailable Then
+                 Return ExcelError.ExcelErrorNum
+diff --git a/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb b/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb
+index 1d747df0..5f4fab79 100644
+--- a/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb
++++ b/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb
+@@ -190,13 +190,9 @@ Namespace WorksheetFunctions
+                 If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
+ 
+                 Dim names() As String = ResolveNames(conditionNames, detectedNames, mat.GetLength(1), "Condition")
+-                Dim mdl As New parametric.OneWayRmANOVA(mat, names)
+-                mdl.compute()
+-
+-                Dim which As String = NormalizeText(correction)
+-                If Not Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ApplyRepeatedCorrection(mdl, which) Then Return ExcelError.ExcelErrorValue
+-
+-                Dim tables = mdl.wrapResults()
++                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildRepeatedAnovaTables(
++                    mat, names, Function() NormalizeText(correction))
++                If tables Is Nothing Then Return ExcelError.ExcelErrorValue
+                 Return PrepareResultTableForUdf(tables(0))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.PAR.RMANOVA1", ex, ExcelError.ExcelErrorValue)
+@@ -264,10 +260,7 @@ Namespace WorksheetFunctions
+                 If mat.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
+ 
+                 Dim names() As String = ResolveNames(varNames, detectedNames, 3, "Var")
+-                Dim mdl As New parametric.TwoWayNestedANOVA(mat, names)
+-                mdl.compute()
+-
+-                Dim tables = mdl.wrapResults()
++                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildNestedAnovaTables(mat, names)
+                 Dim which As String = NormalizeText(outputType)
+ 
+                 Select Case Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.NestedTableSelection(which)
+@@ -510,9 +503,7 @@ Namespace WorksheetFunctions
+                 Dim alphaValue As Double = 0.05
+                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+ 
+-                Dim mdl As New parametric.UnpairedTtest(data, names)
+-                mdl.compute(alphaValue)
+-                Dim tables = mdl.wrapResults()
++                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildIndependentTTables(data, names, alphaValue)
+ 
+                 Dim which As String = NormalizeText(outputType)
+                 Select Case Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.IndependentTTableSelection(which)
+@@ -590,9 +581,7 @@ Namespace WorksheetFunctions
+                 If mat Is Nothing OrElse mat.GetLength(0) < 2 Then Return ExcelError.ExcelErrorNum
+ 
+                 Dim names() As String = ResolveNames(varNames, detectedNames, 2, "Sample")
+-                Dim mdl As New parametric.PairedTtest(mat, names)
+-                mdl.compute()
+-                Dim tables = mdl.wrapResults()
++                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildPairedTTables(mat, names)
+                 Return PrepareResultTableForUdf(tables(0))
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.PAR.TTEST_PAIRED", ex, ExcelError.ExcelErrorValue)
+diff --git a/BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb b/BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb
+index 175d0441..4c310430 100644
+--- a/BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb
++++ b/BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb
+@@ -93,20 +93,10 @@ Namespace WorksheetFunctions
+             <ExcelArgument(Name:="beta", Description:="Type II error rate, 0 < beta < 1. Power = 1 - beta.")> beta As Object
+         ) As Object
+             Try
+-                Dim diff As Double? = TryGetDouble(meanDifference)
+-                Dim sd As Double? = TryGetDouble(sdDifference)
+-                Dim a As Double? = TryGetDouble(alpha)
+-                Dim b As Double? = TryGetDouble(beta)
+-
+-                If Not diff.HasValue OrElse Not sd.HasValue OrElse Not a.HasValue OrElse Not b.HasValue Then
+-                    Return ExcelError.ExcelErrorValue
+-                End If
+-                If diff.Value = 0 OrElse sd.Value <= 0 OrElse Not IsOpenUnitInterval(a.Value) OrElse Not IsOpenUnitInterval(b.Value) Then
+-                    Return ExcelError.ExcelErrorNum
+-                End If
+-
+-                Dim result As PairedTTestSampleSizeResult = SampleSizeCalculator.CalculatePairedTTest(diff.Value, sd.Value, a.Value, b.Value)
+-                Return MakeMetricValueTable("Required pairs", result.NumberOfPairs)
++                Dim errorKind As Global.BESHStatNG.ExcelCommon.UdfSampleSizeError38
++                Dim report = Global.BESHStatNG.ExcelCommon.UdfSampleSizePreparation38.PreparePaired(
++                    meanDifference, sdDifference, alpha, beta, AddressOf TryGetDouble, AddressOf IsOpenUnitInterval, errorKind)
++                Return MaterializeSampleSizeResult38(report, errorKind)
+             Catch ex As Exception
+                 Return LoggedUdfError("BESH.SSIZE.SSIZE_TTEST_PAIRED", ex, ExcelError.ExcelErrorValue)
+             End Try
+diff --git a/planning/BESHStatNG_CrossPlatform_MasterPlan.md b/planning/BESHStatNG_CrossPlatform_MasterPlan.md
+index e1c2b690..a5136a04 100644
+--- a/planning/BESHStatNG_CrossPlatform_MasterPlan.md
++++ b/planning/BESHStatNG_CrossPlatform_MasterPlan.md
+@@ -1,17 +1,19 @@
+ # BESHStatNG — Cross-platform development master plan
+ 
+-**Revision 2.17 · 14 November 2026 · 04A.39 accepted/merged;04A.40 in progress**
+-**Current owner authority (04A.40 entry):** Owner accepted04A.39 and its limited physical-derivative publication gate, then committed/merged39 at `f2eb060c9c422c1fec4e82989d07907dbd4b9337`. Updated main `bba848305c2c46ff3fc835a1132522ebfec59514` is its direct child, containing only the previously observed BuildDate metadata update. Actual39 source, canonical register and final witness are authenticated;1352 historical source pins remain exact and the one owner BuildDate transition is explicitly recorded. **04A.40 IN_PROGRESS**, not accepted;04A.41 is unauthorized. Repository privacy FAILs, W3 ERRORs and scientific/native gates remain unwaived. Exact Revision2.15 is retained separately.
++**Revision 2.18 · 15 November 2026 · 04A.40 owner-accepted/merged; 04A.41 in progress**
++**Current owner authority (04A.41 entry):** The owner explicitly accepted04A.40 with its documented restrictions and authorized04A.41 only. Actual clean merged main `c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc` is the direct child of `bba848305c2c46ff3fc835a1132522ebfec59514`; the accepted40 final witness, exact raw preservation boundary and sanitized successors are authenticated. **04A.41 IN_PROGRESS**, not accepted or merged; **04A.42_NOT_AUTHORIZED**. No scientific/native correction, historical waiver, staging, commit, merge or release authority follows. The original226 batch identities and deferred-defect charter remain binding. Exact Revision2.17 is retained separately.
++
++**Historical Revision2.17 entry (retained for chronology):**  Owner accepted04A.39 and its limited physical-derivative publication gate, then committed/merged39 at `f2eb060c9c422c1fec4e82989d07907dbd4b9337`. Updated main `bba848305c2c46ff3fc835a1132522ebfec59514` is its direct child, containing only the previously observed BuildDate metadata update. Actual39 source, canonical register and final witness are authenticated;1352 historical source pins remain exact and the one owner BuildDate transition is explicitly recorded. **04A.40 IN_PROGRESS**, not accepted;04A.41 is unauthorized. Repository privacy FAILs, W3 ERRORs and scientific/native gates remain unwaived. Exact Revision2.15 is retained separately.
+ 
+ **Historical Revision2.15 state (retained for chronology):** Official batches **00.01–04.07 and04A.01–04A.38 accepted**. Owner accepted04A.38 W2 on13 November2026, qualified W3 software and overall04A.38 on14 November2026. **04A.38 merged main independently verified at `22da2214da6bb1cad4f2934d0b36276324a1432f`**, direct child of W3 baseline `ba1636f5356ac761509c2cfa16fc66b92430935d`. All1350 source paths exist in that commit;1113 exact Git byte hashes and237 owner-authorized newline-only differences (live1311 exact/39 newline-only). **04A.39 IN_PROGRESS**, on `codex/04A-39`, not accepted. No04A.40 authority follows. The exact previous living plan is retained as `BESHStatNG_CrossPlatform_MasterPlan2.14.md`.
+ 
+ | Roadmap measure | Count |
+ |---|---:|
+ | All numbered batches | **226** |
+-| Accepted (Phases 00–04: 40; Phase 04A: 39) | **79** |
+-| Not yet accepted (including in-progress 04A.40) | **147** |
+-| Phase 04A accepted / total | **39 / 75** |
+-| Phase 04A not yet accepted | **36** |
++| Accepted (Phases 00–04: 40; Phase 04A: 40) | **80** |
++| Not yet accepted (including in-progress 04A.41) | **146** |
++| Phase 04A accepted / total | **40 / 75** |
++| Phase 04A not yet accepted | **35** |
+ 
+ **Historical Revision2.14 verification boundary (superseded by current entry above; preserved for chronology).** Acceptance and merges through 04A.37 are **owner-reported**, not a fresh independent live-Git checkout. The latest independently inspected **uploaded derivative packages** are `BESHStatNG_04A38_ACTIVE_20261112-133023.zip` (recovered from binary volumes) and `BESHStatNG_04A38_REFERENCE_20261112-133023.zip`, with the v12 sealed owner review and final post-seal addendum v2. Their contents and archived frozen compatibility comparisons were independently reviewed; Windows builds/tests, live Git and excluded private files are supported by Codex receipts rather than independently rerun or rehashed here. The v12 Codex receipts identify `codex/04A-38` and pinned HEAD/`main`/merge-base `ba1636f5356ac761509c2cfa16fc66b92430935d`, with an empty staged index, no commit and `git diff --check` exit 0. Every subsequent Codex continuation must authenticate the actual live branch, source, preservation and sealed reference before editing.
+ 
+@@ -160,7 +162,7 @@
+ 
+ ### Phase 04A — Windows code migration and selected Excel-DNA enhancements (in progress)
+ 
+-**04A.01–04A.39 owner-accepted;04A.39 merge independently verified at `f2eb060c9c422c1fec4e82989d07907dbd4b9337`;04A.40 IN_PROGRESS and not accepted;04A.41–04A.75 remain planned.** The `04A.39–04A.48` defect/native authorization charter and 04A.75 histogram option remain binding. Later phases do not duplicate Core/Common already extracted here.
++**04A.01–04A.40 owner-accepted;04A.40 merged main independently verified at `c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc`;04A.41 IN_PROGRESS and not accepted;04A.42–04A.75 remain planned.** The `04A.39–04A.48` defect/native authorization charter and 04A.75 histogram option remain binding. Later phases do not duplicate Core/Common already extracted here.
+ 
+ | Batch | Objective / delivered scope | Depends on | Evidence / completion criterion | Risk |
+ |---|---|---|---|---|
+@@ -203,8 +205,8 @@
+ | **04A.37** **✓** | Accepted/merged: portable PCA/factor/cluster/CA plot geometry, axes, score/loadings/biplot/dendrogram labels; final late archived-entry supplement/correction evidence retained. | 04A.36 | Original/late coverage authority distinguished; source and native-only rendering boundaries preserved; no scientific-golden promotion. | High |
+ | **04A.38** **✓** | Accepted controlled extraction across268 Excel-DNA UDF exports; Windows registration/cache/native session ownership retained. | 04A.01,01.09 | W2 accepted13Nov; W3 software/overall accepted14Nov; verified main `22da2214da6bb1cad4f2934d0b36276324a1432f`.704/726/303 closed,zeroOPEN; Debug/Release21080PASS/14 inheritedFAIL each;29424 exact/config. Native/scientific restrictions retained. | High |
+ | **04A.39** **ACCEPTED / MERGED** | Reconcile UDF argument/data-import policies, row provenance, nested numeric-text precision and paired positional/source-row differences; establish single defect register. | 04A.38 | Exact source-row/positional equivalence; issue-register entry and triage; no blanket scientific fix. | High |
+-| **04A.40** **IN PROGRESS** | Regression, mixed, GEE, Cox, log-rank and formula UDF request/result parity; investigate LM alpha, QIC, cluster/prediction identities and controlled scientific corrections. | 04A.39 | Independent numerical/GUI/UDF cases; candidate decisions and unchanged gate unless specifically authorized. | High |
+-| **04A.41** | Basic statistics, contingency, agreement, assumptions and sample-size UDF reconciliation; Shapiro, D’Agostino, nested labels, Liddell and scientific candidates. | 04A.39 | Independent p-value/CI/assumption reference; explicit policy and native decision for any behavior change. | High |
++| **04A.40** **ACCEPTED / MERGED** | Regression, mixed, GEE, Cox, log-rank and formula UDF request/result parity; investigate LM alpha, QIC, cluster/prediction identities and controlled scientific corrections. | 04A.39 | Independent numerical/GUI/UDF cases; candidate decisions and unchanged gate unless specifically authorized. | High |
++| **04A.41** **IN PROGRESS** | Basic statistics, contingency, agreement, assumptions and sample-size UDF reconciliation; Shapiro, D’Agostino, nested labels, Liddell and scientific candidates. | 04A.39 | Independent p-value/CI/assumption reference; explicit policy and native decision for any behavior change. | High |
+ | **04A.42** | Multivariate/classification/PSM and plot-source UDF payloads, row mapping and arrays. | 04A.39 | PCA, clustering, PSM and plotted data output snapshots → Typed portable result contracts and row order preserved | High |
+ | **04A.43** | Shared UDF model-handle semantics, cache ownership, invalidation and recalculation; Windows session cache stays host-owned. | 04A.40–04A.42 | Handle invalidation, workbook lifecycle, parallel access and no stale cache leakage → Shared model result semantics without Windows `ConcurrentDictionary` dependency | High |
+ | **04A.44** | Portable settings, defaults, Help, errors and progress from Windows infrastructure; keep OS/UI/updater actions native. | 03.01–03.06,04A.01 | Alpha/help/locale/runtime fault behavior; no-host dependencies → Neutral policy shared; files, registry, UI controls, updater remain Windows | Medium |
+@@ -489,3 +491,5 @@ Only **after all official 04A batches and formal exit/merge**, seek a fresh owne
+ **Status precedence:** most recent explicit owner acceptance + verified live Git `main` > this living plan > immutable per-batch reports > older plan editions. A plan edit does not authorize a production change, a native test, a scientific correction, evidence deletion or a release.
+ 
+ **Revision2.15 change log (14November2026):** Records owner W2/W3/overall04A.38 acceptances, independently verified merged-main SHA and explicit newline reconciliation; starts04A.39 audit/fixtures/canonical issue register only. Preserves exact Revision2.14, original226 roadmap identities and04A.39–48 charter. New04A.39 evidence is an implementation/review candidate, never owner acceptance.
++
++**Revision2.18 change log (15 November2026):** Records explicit owner acceptance and actual merged main for04A.40, starts only04A.41 behavior-preserving basic/assumptions/contingency/agreement/sizing UDF reconciliation. Retains exact2.17, all226 IDs, original charter and all scientific/native/privacy failure history.04A.41 has not been owner-accepted or merged.

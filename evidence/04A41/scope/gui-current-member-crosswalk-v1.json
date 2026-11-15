@@ -1,0 +1,3657 @@
+{
+  "functions": [
+    {
+      "excel_name": "BESH.PAR.ANOVA1",
+      "function": "ANOVA1",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          59,
+          76
+        ],
+        "method_sha256": "e1057984d6c22a2ca9e7dcae542166005c737bccfe091dce9ca0c79ef8a61bd6"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunOneWayANOVA",
+          "lines": [
+            1426,
+            1431
+          ],
+          "method_text_sha256": "b3df82946729718908f7a2ee4ad009ffef6d6c80ca2335a2a4b4b9803ba28136",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        },
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunOneWayANOVAThroughSharedLayer",
+          "lines": [
+            1433,
+            1473
+          ],
+          "method_text_sha256": "2eb4e5aca88cc929ab918bc17a6b0f9ff0cba89d89ba5642d2c98b1ddf767018",
+          "Common_types_or_calls": [
+            "AnovaGroupedWorkflowOptions",
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [
+            "parametric.MultipleComparisonPlotData"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "ParametricUdfReports38.BuildOneWayAnovaTable"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.PAR.ANOVA1_WELCH",
+      "function": "ANOVA1_WELCH",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          115,
+          130
+        ],
+        "method_sha256": "860b80fa665d6b87adaca8dd7ed4345fb7f5a611493f1856d66b1c190d241a48"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunOneWayANOVA",
+          "lines": [
+            1426,
+            1431
+          ],
+          "method_text_sha256": "b3df82946729718908f7a2ee4ad009ffef6d6c80ca2335a2a4b4b9803ba28136",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        },
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunOneWayANOVAThroughSharedLayer",
+          "lines": [
+            1433,
+            1473
+          ],
+          "method_text_sha256": "2eb4e5aca88cc929ab918bc17a6b0f9ff0cba89d89ba5642d2c98b1ddf767018",
+          "Common_types_or_calls": [
+            "AnovaGroupedWorkflowOptions",
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [
+            "parametric.MultipleComparisonPlotData"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "ParametricUdfReports38.BuildWelchAnovaTable"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.PAR.RMANOVA1",
+      "function": "RMANOVA1",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          179,
+          200
+        ],
+        "method_sha256": "04dff2dfea96f2f5597bbffdf66b7dbddbcbdd1c0bdfa03c651a720f39cbd8d5"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "Run1WayRmANOVA",
+          "lines": [
+            769,
+            795
+          ],
+          "method_text_sha256": "ee439d0228cd2a1313395614e1579d39c46a8f4da149e1357569d331006d66f4",
+          "Common_types_or_calls": [
+            "RepeatedAnovaWorkflowOptions",
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.BuildRepeatedAnovaTables"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.PAR.ANOVA2_NESTED",
+      "function": "ANOVA2_NESTED",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          251,
+          279
+        ],
+        "method_sha256": "520c9a26011768daf6bd843719494859aac76c84c40c135ecfffa04df546251d"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+            "bytes": 24973,
+            "sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55"
+          },
+          "method": "Run2WayNested",
+          "lines": [
+            304,
+            324
+          ],
+          "method_text_sha256": "e656d9b938ec9d56179ce9c2d9fb95d9738b51eba7a496f376d3727131c1c160",
+          "Common_types_or_calls": [
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.BuildNestedAnovaTables",
+        "UdfInferencePreparation38.NestedTableSelection"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.PAR.ANOVA1_MCP",
+      "function": "ANOVA1_MCP",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          318,
+          350
+        ],
+        "method_sha256": "680b80734434add7fd1c37b5aaf55b69a76a99053face0dcbd659f5b2a9f066d"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunOneWayANOVA",
+          "lines": [
+            1426,
+            1431
+          ],
+          "method_text_sha256": "b3df82946729718908f7a2ee4ad009ffef6d6c80ca2335a2a4b4b9803ba28136",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        },
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunOneWayANOVAThroughSharedLayer",
+          "lines": [
+            1433,
+            1473
+          ],
+          "method_text_sha256": "2eb4e5aca88cc929ab918bc17a6b0f9ff0cba89d89ba5642d2c98b1ddf767018",
+          "Common_types_or_calls": [
+            "AnovaGroupedWorkflowOptions",
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [
+            "parametric.MultipleComparisonPlotData"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "ParametricUdfReports38.BuildOneWayMcpTables"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.PAR.RMANOVA1_MCP",
+      "function": "RMANOVA1_MCP",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          385,
+          417
+        ],
+        "method_sha256": "333afc2c5a8c681570c05f7915eb7c1d9c7e0a7cc000f1c46bebbfc04966ee32"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "Run1WayRmANOVA",
+          "lines": [
+            769,
+            795
+          ],
+          "method_text_sha256": "ee439d0228cd2a1313395614e1579d39c46a8f4da149e1357569d331006d66f4",
+          "Common_types_or_calls": [
+            "RepeatedAnovaWorkflowOptions",
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.BuildRepeatedMcpTables"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.PAR.TTEST_UNPAIRED",
+      "function": "TTEST_UNPAIRED",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          484,
+          522
+        ],
+        "method_sha256": "6e8617eb8a6668615192d5cd715413871ef7f5ccd0536c78d88781b2dead7a2c"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunTtest",
+          "lines": [
+            1340,
+            1407
+          ],
+          "method_text_sha256": "bbce84229378cf3b88951a18587cb947af7dfcaa1abe17c6dc882cffb28371ff",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "parametric.UnpairedTtest"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.BuildIndependentTTables",
+        "UdfInferencePreparation38.IndependentTTableSelection"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.PAR.TTEST_PAIRED",
+      "function": "TTEST_PAIRED",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          572,
+          589
+        ],
+        "method_sha256": "3c09a6d42871f6fb5a0f0f9be3a9349e4a884631103f316a4e1bdd5b69ae3089"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunPairedTtest",
+          "lines": [
+            511,
+            532
+          ],
+          "method_text_sha256": "536b4f7ec563069a64f3a4f3f829b55ba66afd2763080cdc0d07aff35fa0c9d3",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "parametric.PairedTtest"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.BuildPairedTTables"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.PAR.TTEST_UNPAIRED_NI",
+      "function": "TTEST_UNPAIRED_NI",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          662,
+          697
+        ],
+        "method_sha256": "8eedccb4af4b75e39211613a6e6d31461c6d61b2c90d946bd01dfa203a9b9b1a"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunTtest",
+          "lines": [
+            1340,
+            1407
+          ],
+          "method_text_sha256": "bbce84229378cf3b88951a18587cb947af7dfcaa1abe17c6dc882cffb28371ff",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "parametric.UnpairedTtest"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.MeanNonInferiorityBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.PAR.TTEST_UNPAIRED_EQUIV",
+      "function": "TTEST_UNPAIRED_EQUIV",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "bytes": 53348,
+          "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+        },
+        "lines": [
+          750,
+          787
+        ],
+        "method_sha256": "1fa086d2148460e19d4603fd5e87015c905f68d91bbb03731f8a2a4a4f3eb76d"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunTtest",
+          "lines": [
+            1340,
+            1407
+          ],
+          "method_text_sha256": "bbce84229378cf3b88951a18587cb947af7dfcaa1abe17c6dc882cffb28371ff",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "parametric.UnpairedTtest"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.MeanEquivalenceBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.MW_P_NORM",
+      "function": "MW_P_NORM",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          56,
+          81
+        ],
+        "method_sha256": "469643ee0dc3e4126b8921f1357fc300481e924da1a8b04897a3ae81467f57e5"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunMannWhitney",
+          "lines": [
+            1559,
+            1597
+          ],
+          "method_text_sha256": "00b5f10d6ed91250edaf79d774f0a3906d8083b2546466229746d5ee55f8283b",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.MannWhitney"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.ComputeMannWhitney"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.NP.MW_P_EXACT",
+      "function": "MW_P_EXACT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          135,
+          176
+        ],
+        "method_sha256": "6c53a68716cdf2fd72ef2e0e4367f0dd4e563f374eb446bd065adb8ae2dbcdac"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunMannWhitney",
+          "lines": [
+            1559,
+            1597
+          ],
+          "method_text_sha256": "00b5f10d6ed91250edaf79d774f0a3906d8083b2546466229746d5ee55f8283b",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.MannWhitney"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.ComputeMannWhitney"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.NP.WILCOX_P_NORM",
+      "function": "WILCOX_P_NORM",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          224,
+          242
+        ],
+        "method_sha256": "165f96088c59b85c795bb8528716d3930029bcf369c37a489cc47478414ca805"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunWilcoxon",
+          "lines": [
+            608,
+            635
+          ],
+          "method_text_sha256": "640144c66c0a0d907c8ecf052a4de5b08d817295df7251a1b4d8c5b2bfba6d6b",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.WilcoxonTest"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.ComputeWilcoxon"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.NP.WILCOX_P_EXACT",
+      "function": "WILCOX_P_EXACT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          294,
+          326
+        ],
+        "method_sha256": "f13caf05c52c735ebfc4fa9c9d1f058f2b546493e9d4071edc4f530d5b2048b9"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunWilcoxon",
+          "lines": [
+            608,
+            635
+          ],
+          "method_text_sha256": "640144c66c0a0d907c8ecf052a4de5b08d817295df7251a1b4d8c5b2bfba6d6b",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.WilcoxonTest"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.ComputeWilcoxon"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.NP.SPEARMAN_RHO",
+      "function": "SPEARMAN_RHO",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          379,
+          399
+        ],
+        "method_sha256": "614a4a84471b833d6cf5ada7ab0d416fd8c8782306e182189d3414453ec2f2e3"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunSpearman",
+          "lines": [
+            583,
+            606
+          ],
+          "method_text_sha256": "d86175ad7237f9d8e5cbe3c4feb3ebd39f6863e24f384c78aad161883c2db00c",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.SpearmanRho"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.SplitCorrelationColumns"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.SPEARMAN_P",
+      "function": "SPEARMAN_P",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          446,
+          466
+        ],
+        "method_sha256": "7c49f59781273360ea1642f16844b24d45f3ecd542f04333e75c73d6646a43e0"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunSpearman",
+          "lines": [
+            583,
+            606
+          ],
+          "method_text_sha256": "d86175ad7237f9d8e5cbe3c4feb3ebd39f6863e24f384c78aad161883c2db00c",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.SpearmanRho"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.SplitCorrelationColumns"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.KENDALL_TAU",
+      "function": "KENDALL_TAU",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          520,
+          540
+        ],
+        "method_sha256": "5208e30816e2958ca2649c8dfce04d1a8813077327e5f62193552a4be53518d4"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunKendall",
+          "lines": [
+            559,
+            581
+          ],
+          "method_text_sha256": "4f879c32d69dfbaf27aaf3251d433564804fdcc2a6f13a069eb9ba54cc3d1835",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.KendallsTau"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.SplitCorrelationColumns"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.KENDALL_P",
+      "function": "KENDALL_P",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          580,
+          600
+        ],
+        "method_sha256": "e99eebdc28d54f78ed664e308379651f71cb5af208462fe859901841db818e97"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunKendall",
+          "lines": [
+            559,
+            581
+          ],
+          "method_text_sha256": "4f879c32d69dfbaf27aaf3251d433564804fdcc2a6f13a069eb9ba54cc3d1835",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.KendallsTau"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.SplitCorrelationColumns"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.KW_STAT",
+      "function": "KW_STAT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          648,
+          671
+        ],
+        "method_sha256": "92c2ece0101e474d5bbda20811da8d5c00f07ff30eebd7e5c6bee6cdc05dbd33"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunKruskallWalis",
+          "lines": [
+            1528,
+            1557
+          ],
+          "method_text_sha256": "8a25b5b53807f37eb78ba2f568db63bc86b544db222e810852a36fe5c75c1542",
+          "Common_types_or_calls": [
+            "AnovaGroupedWorkflowOptions",
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.KruskalGroupNames"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.KW_P",
+      "function": "KW_P",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          712,
+          732
+        ],
+        "method_sha256": "d3ca7c20b129d2d6423a82b178706967b24415ed7640b6e4ef7b581df613c6d7"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunKruskallWalis",
+          "lines": [
+            1528,
+            1557
+          ],
+          "method_text_sha256": "8a25b5b53807f37eb78ba2f568db63bc86b544db222e810852a36fe5c75c1542",
+          "Common_types_or_calls": [
+            "AnovaGroupedWorkflowOptions",
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.KruskalGroupNames"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.FRIEDMAN_STAT",
+      "function": "FRIEDMAN_STAT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          782,
+          808
+        ],
+        "method_sha256": "7c44c1fbbc4bc4ebb4a17e23bae41b28bd170cec47060dc4884829d102cf6c4a"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunFriedman",
+          "lines": [
+            797,
+            834
+          ],
+          "method_text_sha256": "565f30914c6cf504e10adb7bd2f9d615457e7994bf7d5650c72d67239a8302d4",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.Friedman"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.FriedmanGroupNames"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.FRIEDMAN_P",
+      "function": "FRIEDMAN_P",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          849,
+          880
+        ],
+        "method_sha256": "08aec1841f32b52e9973f6babb1961dcc110a5f7a96d6b1e70bea6bdf216040c"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunFriedman",
+          "lines": [
+            797,
+            834
+          ],
+          "method_text_sha256": "565f30914c6cf504e10adb7bd2f9d615457e7994bf7d5650c72d67239a8302d4",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.Friedman"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.FriedmanGroupNames"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.KW_MCP",
+      "function": "KW_MCP",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          913,
+          934
+        ],
+        "method_sha256": "1fcd40e5583328cb94b4d6d8b4759b7c64b803e3a134040e5072d2cd5c3ef4cb"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunKruskallWalis",
+          "lines": [
+            1528,
+            1557
+          ],
+          "method_text_sha256": "8a25b5b53807f37eb78ba2f568db63bc86b544db222e810852a36fe5c75c1542",
+          "Common_types_or_calls": [
+            "AnovaGroupedWorkflowOptions",
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.BuildKruskalMcpTables"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.NP.FRIEDMAN_MCP",
+      "function": "FRIEDMAN_MCP",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "bytes": 56999,
+          "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+        },
+        "lines": [
+          973,
+          1013
+        ],
+        "method_sha256": "1cc51061700450fb1f74784e645ef98f3f5e37f6ece2af1608b24b36414f8009"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunFriedman",
+          "lines": [
+            797,
+            834
+          ],
+          "method_text_sha256": "565f30914c6cf504e10adb7bd2f9d615457e7994bf7d5650c72d67239a8302d4",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "nonparametric.Friedman"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfInferencePreparation38.BuildFriedmanMcpTables"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.ASM.SHAPIRO_WILK",
+      "function": "SHAPIRO_WILK",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          56,
+          69
+        ],
+        "method_sha256": "4c7cf093129b38badb3c5155c224d5de09b027b48daba14beba48d2a1200c84e"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunNormality",
+          "lines": [
+            1241,
+            1265
+          ],
+          "method_text_sha256": "ca7a2a24dab79510d123e04351f6fa7cc82a21c0bf466c503403e536ae2d9ce0",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareShapiroWilk"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI eligibility/composed report error order differs from standalone UDF eligibility and error result; n=5000 NA eligibility does not prove a GUI report was written before DAgostino overflow."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.DAGOSTINO_PEARSON",
+      "function": "DAGOSTINO_PEARSON",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          103,
+          116
+        ],
+        "method_sha256": "6cb58e936218775c233cc21eed3ddd076d5dae4652383d76f09a324ec7b64692"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunNormality",
+          "lines": [
+            1241,
+            1265
+          ],
+          "method_text_sha256": "ca7a2a24dab79510d123e04351f6fa7cc82a21c0bf466c503403e536ae2d9ce0",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareDAgostino"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI eligibility/composed report error order differs from standalone UDF eligibility and error result; n=5000 NA eligibility does not prove a GUI report was written before DAgostino overflow."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.ANDERSON_DARLING",
+      "function": "ANDERSON_DARLING",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          150,
+          163
+        ],
+        "method_sha256": "8adb463bd49b25af5af26e5f001cca989fb61f066370fe5fdaaff2c67bc8488d"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunNormality",
+          "lines": [
+            1241,
+            1265
+          ],
+          "method_text_sha256": "ca7a2a24dab79510d123e04351f6fa7cc82a21c0bf466c503403e536ae2d9ce0",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareAndersonDarling"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI eligibility/composed report error order differs from standalone UDF eligibility and error result; n=5000 NA eligibility does not prove a GUI report was written before DAgostino overflow."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.BOX_M",
+      "function": "BOX_M",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          211,
+          234
+        ],
+        "method_sha256": "ead291e15e19bf00280de27187a34604796323a96c58525f947b76877239a161"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunHotteling",
+          "lines": [
+            452,
+            508
+          ],
+          "method_text_sha256": "506d6d4d58fafff707f9adad9f4c1358368184696936d0580a2d716f95f83b74",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "assumptions.BoxM",
+            "parametric.HotelingsT_independent",
+            "parametric.HotelingsT_paired",
+            "parametric.HotelingsT_single"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [],
+      "Core_direct_calls_or_types": [
+        "assumptions.BoxM"
+      ],
+      "specific_divergences": [
+        "GUI BoxM is embedded in the two-sample Hotelling workflow; UDF BoxM is a standalone grouped matrix interface, not an identical GUI request."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.ASM.FLIGNER_KILLEEN",
+      "function": "FLIGNER_KILLEEN",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          265,
+          278
+        ],
+        "method_sha256": "fca366e63b007bd9d88d789d74d3b882f9f1c9e4975d2b9e46eab3823f5a9940"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunHomogeneityVar",
+          "lines": [
+            841,
+            865
+          ],
+          "method_text_sha256": "63bb1985adce9e54e59ddc224c04350a578d6f46520409b0c60751dd75590232",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareFlignerKilleen"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.LEVENE",
+      "function": "LEVENE",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          317,
+          335
+        ],
+        "method_sha256": "c3239ff08cca650e924c00360e48143cc7d71f1dcba1675a6795718f1ddbf13b"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunHomogeneityVar",
+          "lines": [
+            841,
+            865
+          ],
+          "method_text_sha256": "63bb1985adce9e54e59ddc224c04350a578d6f46520409b0c60751dd75590232",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareLevene"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.BARTLETT",
+      "function": "BARTLETT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          366,
+          378
+        ],
+        "method_sha256": "6bab19b4afeeabe2221482c650a8177e0d19d156fd63086aa4dabdb54d0c5663"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunHomogeneityVar",
+          "lines": [
+            841,
+            865
+          ],
+          "method_text_sha256": "63bb1985adce9e54e59ddc224c04350a578d6f46520409b0c60751dd75590232",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareBartlett"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.SQUARED_RANKS",
+      "function": "SQUARED_RANKS",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          409,
+          422
+        ],
+        "method_sha256": "9c0e419f4294a723b092b4f26231fbb569b176bffaeec242ed30a8aa7951d343"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunHomogeneityVar",
+          "lines": [
+            841,
+            865
+          ],
+          "method_text_sha256": "63bb1985adce9e54e59ddc224c04350a578d6f46520409b0c60751dd75590232",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareSquaredRanks"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.MAUCHLY",
+      "function": "MAUCHLY",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          458,
+          471
+        ],
+        "method_sha256": "f1e8e5ea77b8633f4e0ce75ecd4441025667f5b74a3e79a77e21199f43d3f618"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "Run1WayRmANOVA",
+          "lines": [
+            769,
+            795
+          ],
+          "method_text_sha256": "ee439d0228cd2a1313395614e1579d39c46a8f4da149e1357569d331006d66f4",
+          "Common_types_or_calls": [
+            "RepeatedAnovaWorkflowOptions",
+            "WindowsAnovaWorkflowAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareMauchly"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI Mauchly is selected within repeated ANOVA; standalone UDF matrix guards and result shape differ."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.SYMMETRY",
+      "function": "SYMMETRY",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          510,
+          528
+        ],
+        "method_sha256": "f78dbcb48bcb333a8b6db0e90e8bab4b5ea1d3504267fef31a4bdb9b98a8a800"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunSymmetry",
+          "lines": [
+            806,
+            839
+          ],
+          "method_text_sha256": "cc83f7488dd480606bc3eac620026f06e403ea94c915568488dd4418716d2b1b",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareSymmetry"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.GRUBBS",
+      "function": "GRUBBS",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          568,
+          585
+        ],
+        "method_sha256": "7f8d0643e12894c126a21abb5a6e9e13ce5cd04e52b4ebff389e01d4d5a9e6d4"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunOutliers",
+          "lines": [
+            777,
+            804
+          ],
+          "method_text_sha256": "f89d4d7a37b6f6b5121ba38931a6ccb30e59b089e7b90b28a7dc409e4f5dbadd",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "AssumptionsUDFsReports38.PrepareGrubbs"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.ASM.ROSNER",
+      "function": "ROSNER",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "bytes": 38067,
+          "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+        },
+        "lines": [
+          624,
+          642
+        ],
+        "method_sha256": "1806066b4964e3d4c44a925f867c6fbb75a9a175c550ff82ae162cee2bf0f764"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UibyID.vb",
+            "bytes": 101646,
+            "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+          },
+          "method": "RunOutliers",
+          "lines": [
+            777,
+            804
+          ],
+          "method_text_sha256": "f89d4d7a37b6f6b5121ba38931a6ccb30e59b089e7b90b28a7dc409e4f5dbadd",
+          "Common_types_or_calls": [
+            "AssumptionReportOptions",
+            "WindowsAssumptionReportAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [],
+      "Core_direct_calls_or_types": [
+        "assumptions.Rosner"
+      ],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.CHI2",
+      "function": "CT_CHI2",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          81,
+          96
+        ],
+        "method_sha256": "b5947d2de18e02fb4304b22faf435322e547a243748cf8a2b03efac22df2790c"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui82x2.vb",
+            "bytes": 6212,
+            "sha256": "0834fa690bccdf7e2081a560bbe1f39478399d6d611da5b3c92ed0964cc8563a"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            21,
+            69
+          ],
+          "method_text_sha256": "8eda9c1b722695ee729c9e6076e40691e6e30ddf07fb9d0aaf57c49290d2447b",
+          "Common_types_or_calls": [
+            "ContingencyReportPolicy",
+            "SpreadsheetContingencyCountParseOptions",
+            "TwoByTwoReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        },
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunRxC",
+          "lines": [
+            637,
+            667
+          ],
+          "method_text_sha256": "093b0467fdedeb5ad5ac461f001077108ffcab650925b952ca24dee342f25f64",
+          "Common_types_or_calls": [
+            "RxCReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.ChiSquaredBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.NOMINAL_ASSOC",
+      "function": "CT_NOMINAL_ASSOC",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          137,
+          152
+        ],
+        "method_sha256": "a9a425f2b259e157c19906de348a51d6f9fba6a9bdd1c7057612d0dcbfda4ae5"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui82x2.vb",
+            "bytes": 6212,
+            "sha256": "0834fa690bccdf7e2081a560bbe1f39478399d6d611da5b3c92ed0964cc8563a"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            21,
+            69
+          ],
+          "method_text_sha256": "8eda9c1b722695ee729c9e6076e40691e6e30ddf07fb9d0aaf57c49290d2447b",
+          "Common_types_or_calls": [
+            "ContingencyReportPolicy",
+            "SpreadsheetContingencyCountParseOptions",
+            "TwoByTwoReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        },
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunRxC",
+          "lines": [
+            637,
+            667
+          ],
+          "method_text_sha256": "093b0467fdedeb5ad5ac461f001077108ffcab650925b952ca24dee342f25f64",
+          "Common_types_or_calls": [
+            "RxCReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.NominalAssociationBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.FISHER_2X2",
+      "function": "CT_FISHER_2X2",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          197,
+          211
+        ],
+        "method_sha256": "571dd80e164a6a05e7cf7c5f0abf462e55118d3f59d93948f14d058a73888233"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui82x2.vb",
+            "bytes": 6212,
+            "sha256": "0834fa690bccdf7e2081a560bbe1f39478399d6d611da5b3c92ed0964cc8563a"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            21,
+            69
+          ],
+          "method_text_sha256": "8eda9c1b722695ee729c9e6076e40691e6e30ddf07fb9d0aaf57c49290d2447b",
+          "Common_types_or_calls": [
+            "ContingencyReportPolicy",
+            "SpreadsheetContingencyCountParseOptions",
+            "TwoByTwoReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.Fisher2x2Body"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.FFH_EXACT",
+      "function": "CT_FFH_EXACT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          251,
+          266
+        ],
+        "method_sha256": "d30e7a5a1acfc48a6002f2b3607280a58a04a84dd45e018da5c8481ca02b524c"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunRxC",
+          "lines": [
+            637,
+            667
+          ],
+          "method_text_sha256": "093b0467fdedeb5ad5ac461f001077108ffcab650925b952ca24dee342f25f64",
+          "Common_types_or_calls": [
+            "RxCReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.FreemanHaltonBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.MCNEMAR_EXACT",
+      "function": "CT_MCNEMAR_EXACT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          315,
+          334
+        ],
+        "method_sha256": "793fdb78e5a9e515d239f39cde5fba01bfb3809032c78816c87fef19431b1e74"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui82x2.vb",
+            "bytes": 6212,
+            "sha256": "0834fa690bccdf7e2081a560bbe1f39478399d6d611da5b3c92ed0964cc8563a"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            21,
+            69
+          ],
+          "method_text_sha256": "8eda9c1b722695ee729c9e6076e40691e6e30ddf07fb9d0aaf57c49290d2447b",
+          "Common_types_or_calls": [
+            "ContingencyReportPolicy",
+            "SpreadsheetContingencyCountParseOptions",
+            "TwoByTwoReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.McNemarBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.ODDS_RATIO",
+      "function": "CT_ODDS_RATIO",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          386,
+          405
+        ],
+        "method_sha256": "4ee6830e787c4cbec018e1fd9d33c078b8959b9146f26e5a0a01a2ed673bc796"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui82x2.vb",
+            "bytes": 6212,
+            "sha256": "0834fa690bccdf7e2081a560bbe1f39478399d6d611da5b3c92ed0964cc8563a"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            21,
+            69
+          ],
+          "method_text_sha256": "8eda9c1b722695ee729c9e6076e40691e6e30ddf07fb9d0aaf57c49290d2447b",
+          "Common_types_or_calls": [
+            "ContingencyReportPolicy",
+            "SpreadsheetContingencyCountParseOptions",
+            "TwoByTwoReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.OddsRatioBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.RISK_RATIO",
+      "function": "CT_RISK_RATIO",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          456,
+          475
+        ],
+        "method_sha256": "f47c02e0e00f59b91aa48445a2feaa03ab015a2c70244b279b7217c179cb4104"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui82x2.vb",
+            "bytes": 6212,
+            "sha256": "0834fa690bccdf7e2081a560bbe1f39478399d6d611da5b3c92ed0964cc8563a"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            21,
+            69
+          ],
+          "method_text_sha256": "8eda9c1b722695ee729c9e6076e40691e6e30ddf07fb9d0aaf57c49290d2447b",
+          "Common_types_or_calls": [
+            "ContingencyReportPolicy",
+            "SpreadsheetContingencyCountParseOptions",
+            "TwoByTwoReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.RiskRatioBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.TREND",
+      "function": "CT_TREND",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          523,
+          542
+        ],
+        "method_sha256": "4e17ce57aac871dabed1b8857e6c8f47ea0248a5d893e1f8b306d7473fb61ba5"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunRxC",
+          "lines": [
+            637,
+            667
+          ],
+          "method_text_sha256": "093b0467fdedeb5ad5ac461f001077108ffcab650925b952ca24dee342f25f64",
+          "Common_types_or_calls": [
+            "RxCReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.TrendBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.ORDINAL_ASSOC",
+      "function": "CT_ORDINAL_ASSOC",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          597,
+          616
+        ],
+        "method_sha256": "142a3961df769608da1a763d8e3e8587a73fd601e140aeb62c6b665c04f7d249"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunRxC",
+          "lines": [
+            637,
+            667
+          ],
+          "method_text_sha256": "093b0467fdedeb5ad5ac461f001077108ffcab650925b952ca24dee342f25f64",
+          "Common_types_or_calls": [
+            "RxCReportOptions",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.OrdinalAssociationBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.MANTEL_HAENSZEL",
+      "function": "CT_MANTEL_HAENSZEL",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          665,
+          694
+        ],
+        "method_sha256": "1b183926a078d3ab6e19b029a0172f8d0fa8963d2cfeb59079c736b18ba015c5"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunMantelHaenszel",
+          "lines": [
+            669,
+            707
+          ],
+          "method_text_sha256": "ffff2d96de4151c6bc5d00b051c043a489a7dca0f2be899faecec6f99a1eb917",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "contingencytable.MantelHaenszel"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.MantelHaenszelBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.SINGLE_PROPORTION",
+      "function": "CT_SINGLE_PROPORTION",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          763,
+          788
+        ],
+        "method_sha256": "2dbd3cbf7877708f2bf5bdf26d1a013af5a6892b5335fd0f9a6b5fa5bfd691be"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui8Proportions.vb",
+            "bytes": 10484,
+            "sha256": "703e0a634dadac786dd7b05184c8ea242562c1c15b0a8620991b1f8606d2e126"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            37,
+            79
+          ],
+          "method_text_sha256": "fa2f238ad0cf4ff03099d28c8593add608dc0222235ffce0ba7193c1d81f6558",
+          "Common_types_or_calls": [
+            "ProportionsInputPolicy",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.SingleProportionBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.TWO_INDEPENDENT_PROPORTIONS",
+      "function": "CT_TWO_INDEPENDENT_PROPORTIONS",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          857,
+          889
+        ],
+        "method_sha256": "67ac2c4ff9ef2cbee15540131a9b3e01c3d50479e626c271c56335b90ebaf98d"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui8Proportions.vb",
+            "bytes": 10484,
+            "sha256": "703e0a634dadac786dd7b05184c8ea242562c1c15b0a8620991b1f8606d2e126"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            37,
+            79
+          ],
+          "method_text_sha256": "fa2f238ad0cf4ff03099d28c8593add608dc0222235ffce0ba7193c1d81f6558",
+          "Common_types_or_calls": [
+            "ProportionsInputPolicy",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.IndependentProportionsBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.PAIRED_PROPORTIONS",
+      "function": "CT_PAIRED_PROPORTIONS",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          966,
+          1000
+        ],
+        "method_sha256": "1d8c54e031659acb1be06c445e2ecd8b4f6840f76516ae984491159755f1c99b"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui8Proportions.vb",
+            "bytes": 10484,
+            "sha256": "703e0a634dadac786dd7b05184c8ea242562c1c15b0a8620991b1f8606d2e126"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            37,
+            79
+          ],
+          "method_text_sha256": "fa2f238ad0cf4ff03099d28c8593add608dc0222235ffce0ba7193c1d81f6558",
+          "Common_types_or_calls": [
+            "ProportionsInputPolicy",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.PairedProportionsBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "Current accepted05 corrected CoreLiddellTable dispatch is retained. Separate2x2 Liddell Risk ratio label is still restricted, not silently changed."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI",
+      "function": "CT_TWO_INDEPENDENT_PROPORTIONS_NI",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          1044,
+          1075
+        ],
+        "method_sha256": "b51f6af01f9327827b24d81913797a36cbb79539dcbdb4243a6f9fa1293aae84"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui8Proportions.vb",
+            "bytes": 10484,
+            "sha256": "703e0a634dadac786dd7b05184c8ea242562c1c15b0a8620991b1f8606d2e126"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            37,
+            79
+          ],
+          "method_text_sha256": "fa2f238ad0cf4ff03099d28c8593add608dc0222235ffce0ba7193c1d81f6558",
+          "Common_types_or_calls": [
+            "ProportionsInputPolicy",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.ProportionsNonInferiorityBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+      "function": "CT_TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+          "bytes": 67317,
+          "sha256": "a5f4df9b2c40997eb23756d1df45d34e2ea422680d6780f0bca8771bbf5f3ba0"
+        },
+        "lines": [
+          1120,
+          1153
+        ],
+        "method_sha256": "9f44a575eb6b73f6371cf902dd458080be51b83db81ec25730aa5f6c853fe337"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui8Proportions.vb",
+            "bytes": 10484,
+            "sha256": "703e0a634dadac786dd7b05184c8ea242562c1c15b0a8620991b1f8606d2e126"
+          },
+          "method": "btCompute_Click",
+          "lines": [
+            37,
+            79
+          ],
+          "method_text_sha256": "fa2f238ad0cf4ff03099d28c8593add608dc0222235ffce0ba7193c1d81f6558",
+          "Common_types_or_calls": [
+            "ProportionsInputPolicy",
+            "WindowsContingencyInputAdapter"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfContingencyPreparation38.ProportionsEquivalenceBody"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.AGREE.PASSINGBABLOK_FIT",
+      "function": "PASSINGBABLOK_FIT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          77,
+          107
+        ],
+        "method_sha256": "1b133a1e10fb5b08be7004b5511600442a07dd9d33f2ce0054158082d8d9ba7c"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+            "bytes": 24973,
+            "sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55"
+          },
+          "method": "RunPassingBablok",
+          "lines": [
+            262,
+            302
+          ],
+          "method_text_sha256": "cfeb8331eb6c990d6ae608e15a26c2e0428ae623be94e3000464f05129a7d6ca",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "Agreement.PassinbBablok"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [],
+      "Core_direct_calls_or_types": [
+        "Agreement.PassinbBablok"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.AGREE.PASSINGBABLOK_COEF",
+      "function": "PASSINGBABLOK_COEF",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          138,
+          165
+        ],
+        "method_sha256": "f5d42efafb6dc0d5fc45e1b1225370daa1e12e72d35b11f2c29cc704867e897b"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+            "bytes": 24973,
+            "sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55"
+          },
+          "method": "RunPassingBablok",
+          "lines": [
+            262,
+            302
+          ],
+          "method_text_sha256": "cfeb8331eb6c990d6ae608e15a26c2e0428ae623be94e3000464f05129a7d6ca",
+          "Common_types_or_calls": [],
+          "Core_types_or_calls": [
+            "Agreement.PassinbBablok"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.BuildRegressionCoefficients"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.PassinbBablok"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.AGREE.DEMING_FIT",
+      "function": "DEMING_FIT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          225,
+          265
+        ],
+        "method_sha256": "fe3d96e95ff35a1636b3cbe0b92ef6b3debe130280402def49345e55ef1c0625"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunDeming",
+          "lines": [
+            368,
+            450
+          ],
+          "method_text_sha256": "303f35eba63d91ee3359c296822dbeabc7a32d19f9deb06c2b2450dc00c5448a",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "CreateOptions",
+            "DemingOptions",
+            "DemingRequestSelection"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.DemingOptions",
+            "Agreement.WeightedDemingRegression"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.FitDeming"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.AgreementCiMethod",
+        "Agreement.DemingOptions",
+        "Agreement.DemingVarianceModel"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.AGREE.DEMING_COEF",
+      "function": "DEMING_COEF",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          299,
+          338
+        ],
+        "method_sha256": "c852f6ddefedac2febf252190f15ec6e90d1db3248fd6b565b7d51e6108e26ff"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunDeming",
+          "lines": [
+            368,
+            450
+          ],
+          "method_text_sha256": "303f35eba63d91ee3359c296822dbeabc7a32d19f9deb06c2b2450dc00c5448a",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "CreateOptions",
+            "DemingOptions",
+            "DemingRequestSelection"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.DemingOptions",
+            "Agreement.WeightedDemingRegression"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.BuildRegressionCoefficients",
+        "UdfAgreementReportPreparation38.FitDeming"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.AgreementCiMethod",
+        "Agreement.DemingOptions",
+        "Agreement.DemingVarianceModel"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.AGREE.BLANDALTMAN_FIT",
+      "function": "BLANDALTMAN_FIT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          404,
+          454
+        ],
+        "method_sha256": "e4cb17602b648801f937f49234dde2cc2edb04ada9812880d5a70fa26e8be2e0"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+            "bytes": 24973,
+            "sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55"
+          },
+          "method": "RunBlandAltman",
+          "lines": [
+            171,
+            260
+          ],
+          "method_text_sha256": "ab86984ed4346d505bf8bef909793822c0db80f3eff9ff45915cc03fbecd6e75",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "BlandAltmanOptions",
+            "BlandRequestSelection",
+            "CreateOptions",
+            "PairedOptionPolicy",
+            "WindowsPairedInputAdapter"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.BlandAltmanAgreement",
+            "Agreement.BlandAltmanOptions"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.FitBlandAltman"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.AgreementCiMethod",
+        "Agreement.BlandAltmanOptions",
+        "Agreement.BlandAltmanResult",
+        "Agreement.BlandAltmanScale",
+        "Agreement.BlandAltmanXAxisMode",
+        "Agreement.RepeatedBlandAltmanMode",
+        "Agreement.RepeatedBlandAltmanPlotMode"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.AGREE.BLANDALTMAN_STATS",
+      "function": "BLANDALTMAN_STATS",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          484,
+          517
+        ],
+        "method_sha256": "279e41731b3c4f485d8cf7cb0ad7869d64b3127a6a5480cd073de2575bd13bec"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+            "bytes": 24973,
+            "sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55"
+          },
+          "method": "RunBlandAltman",
+          "lines": [
+            171,
+            260
+          ],
+          "method_text_sha256": "ab86984ed4346d505bf8bef909793822c0db80f3eff9ff45915cc03fbecd6e75",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "BlandAltmanOptions",
+            "BlandRequestSelection",
+            "CreateOptions",
+            "PairedOptionPolicy",
+            "WindowsPairedInputAdapter"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.BlandAltmanAgreement",
+            "Agreement.BlandAltmanOptions"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.BuildBlandAltmanStatistics",
+        "UdfAgreementReportPreparation38.FitBlandAltman"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.AgreementCiMethod",
+        "Agreement.BlandAltmanOptions",
+        "Agreement.BlandAltmanResult",
+        "Agreement.BlandAltmanScale",
+        "Agreement.BlandAltmanXAxisMode",
+        "Agreement.RepeatedBlandAltmanMode"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.AGREE.BLANDALTMAN_PLOTDATA",
+      "function": "BLANDALTMAN_PLOTDATA",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          544,
+          572
+        ],
+        "method_sha256": "37b5bbe0708fce2763051fb1ea35ee68a4e523ba4e9f7ef2ac41071b8ae03222"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+            "bytes": 24973,
+            "sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55"
+          },
+          "method": "RunBlandAltman",
+          "lines": [
+            171,
+            260
+          ],
+          "method_text_sha256": "ab86984ed4346d505bf8bef909793822c0db80f3eff9ff45915cc03fbecd6e75",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "BlandAltmanOptions",
+            "BlandRequestSelection",
+            "CreateOptions",
+            "PairedOptionPolicy",
+            "WindowsPairedInputAdapter"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.BlandAltmanAgreement",
+            "Agreement.BlandAltmanOptions"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.FitBlandAltman"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.BlandAltmanOptions",
+        "Agreement.BlandAltmanResult",
+        "Agreement.BlandAltmanScale",
+        "Agreement.BlandAltmanXAxisMode",
+        "Agreement.RepeatedBlandAltmanMode",
+        "Agreement.RepeatedBlandAltmanPlotMode"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.AGREE.BLANDALTMAN_ALLOWABLE_BIAS",
+      "function": "BLANDALTMAN_ALLOWABLE_BIAS",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          636,
+          692
+        ],
+        "method_sha256": "b9c922293445b035cbb4ff4e17c6b4fc095ce585a793ff261ce6d73c11ef6f2a"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+            "bytes": 24973,
+            "sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55"
+          },
+          "method": "RunBlandAltman",
+          "lines": [
+            171,
+            260
+          ],
+          "method_text_sha256": "ab86984ed4346d505bf8bef909793822c0db80f3eff9ff45915cc03fbecd6e75",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "BlandAltmanOptions",
+            "BlandRequestSelection",
+            "CreateOptions",
+            "PairedOptionPolicy",
+            "WindowsPairedInputAdapter"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.BlandAltmanAgreement",
+            "Agreement.BlandAltmanOptions"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [],
+      "Core_direct_calls_or_types": [
+        "Agreement.BlandAltmanResult",
+        "Agreement.BlandAltmanScale"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.AGREE.BLANDALTMAN_DECISION",
+      "function": "BLANDALTMAN_DECISION",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          749,
+          808
+        ],
+        "method_sha256": "fac9f0af207b4159f33c1b5512796b14f90e9431eb4a3f8da298189c73af4eea"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui9ANOVA2nested.vb",
+            "bytes": 24973,
+            "sha256": "d5071f9b6011d3e2ccb60cb22bf33d336657bea4a0268d2575211db2941c6d55"
+          },
+          "method": "RunBlandAltman",
+          "lines": [
+            171,
+            260
+          ],
+          "method_text_sha256": "ab86984ed4346d505bf8bef909793822c0db80f3eff9ff45915cc03fbecd6e75",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "BlandAltmanOptions",
+            "BlandRequestSelection",
+            "CreateOptions",
+            "PairedOptionPolicy",
+            "WindowsPairedInputAdapter"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.BlandAltmanAgreement",
+            "Agreement.BlandAltmanOptions"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [],
+      "Core_direct_calls_or_types": [
+        "Agreement.BlandAltmanResult",
+        "Agreement.BlandAltmanScale"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.AGREE.LINCCC_FIT",
+      "function": "LINCCC_FIT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          844,
+          872
+        ],
+        "method_sha256": "48ddb38a0bcc9f930ff09a02ea509abde457e2bef5d567b77e4e774ca2e3ea9f"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunLinsCCC",
+          "lines": [
+            314,
+            366
+          ],
+          "method_text_sha256": "8810bd2ab5bcb9017be415b29c2db9a2dca19508a23965b4049a35b536c2d779",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "CreateOptions",
+            "LinConcordanceOptions",
+            "LinRequestSelection"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.LinConcordanceCorrelation",
+            "Agreement.LinConcordanceOptions"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.FitLinConcordance"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.AgreementCiMethod",
+        "Agreement.LinConcordanceOptions",
+        "Agreement.LinConcordanceResult"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.AGREE.LINCCC_VALUE",
+      "function": "LINCCC_VALUE",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          896,
+          922
+        ],
+        "method_sha256": "2fac88839f103b508545b37baa3ccdf9ee58af71b64bc57fadcde7f2e1666f74"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunLinsCCC",
+          "lines": [
+            314,
+            366
+          ],
+          "method_text_sha256": "8810bd2ab5bcb9017be415b29c2db9a2dca19508a23965b4049a35b536c2d779",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "CreateOptions",
+            "LinConcordanceOptions",
+            "LinRequestSelection"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.LinConcordanceCorrelation",
+            "Agreement.LinConcordanceOptions"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.FitLinConcordance"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.AgreementCiMethod",
+        "Agreement.LinConcordanceOptions",
+        "Agreement.LinConcordanceResult"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.AGREE.KAPPA_FIT",
+      "function": "KAPPA_FIT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          965,
+          996
+        ],
+        "method_sha256": "1593fc957e99f8e084fae0ac8d3cbd3047400949e5d717c01be46a43cec12ca9"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunCohensKappa",
+          "lines": [
+            261,
+            312
+          ],
+          "method_text_sha256": "b2bc946dfe7554b061b09bc55c3fe8427a8e775c716ea4a2d5c8e3dbb1a0a689",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "CreateOptions",
+            "KappaOptions",
+            "KappaRequestSelection"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.KappaOptions",
+            "Agreement.WeightedKappaAgreement"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.FitKappa"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.AgreementCiMethod",
+        "Agreement.KappaOptions",
+        "Agreement.KappaResult",
+        "Agreement.KappaWeightingScheme"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.AGREE.KAPPA_VALUE",
+      "function": "KAPPA_VALUE",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          1024,
+          1053
+        ],
+        "method_sha256": "ce5031199d358458eb1316eb6b4562eac3ee7c13afbda92cd5e5924683043757"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/UiTwoInputRefedits.vb",
+            "bytes": 39892,
+            "sha256": "292827fbd8595dcbe1b1504b59d21866be7ad16c7c1b694c65bc8fab8ac15970"
+          },
+          "method": "RunCohensKappa",
+          "lines": [
+            261,
+            312
+          ],
+          "method_text_sha256": "b2bc946dfe7554b061b09bc55c3fe8427a8e775c716ea4a2d5c8e3dbb1a0a689",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "CreateOptions",
+            "KappaOptions",
+            "KappaRequestSelection"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.KappaOptions",
+            "Agreement.WeightedKappaAgreement"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.FitKappa"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.AgreementCiMethod",
+        "Agreement.KappaOptions",
+        "Agreement.KappaResult",
+        "Agreement.KappaWeightingScheme"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.AGREE.ICC_FIT",
+      "function": "ICC_FIT",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          1131,
+          1192
+        ],
+        "method_sha256": "b8d193bf91c33657b35302f24c0f8e71ca9113f41f09e7dd606e1525abd6624c"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunICC",
+          "lines": [
+            449,
+            524
+          ],
+          "method_text_sha256": "44c352aa79248b86fa400516b2da4673ebedd7f789bc2e679a918cd05bdd99a6",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "WindowsPairedInputAdapter"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.IntraclassCorrelation"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [],
+      "Core_direct_calls_or_types": [
+        "Agreement.IntraclassCorrelation"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.AGREE.ICC_VALUE",
+      "function": "ICC_VALUE",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          1235,
+          1271
+        ],
+        "method_sha256": "0038a3eba73f5e01c3f705420ab70e4cedd0faedf960292c0fe85b0e3aadf498"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunICC",
+          "lines": [
+            449,
+            524
+          ],
+          "method_text_sha256": "44c352aa79248b86fa400516b2da4673ebedd7f789bc2e679a918cd05bdd99a6",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "WindowsPairedInputAdapter"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.IntraclassCorrelation"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [],
+      "Core_direct_calls_or_types": [
+        "Agreement.IntraclassCorrelation"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.AGREE.ICC_RC",
+      "function": "ICC_RC",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "bytes": 110172,
+          "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+        },
+        "lines": [
+          1320,
+          1371
+        ],
+        "method_sha256": "3efdaae963db16434af099d4030e4b2e4909b1ed84aed61c8be6570faa76d86b"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+            "bytes": 38354,
+            "sha256": "165933f7d69901cb72d65b5792f511133439386051aa78f75f433ace4cbc3b22"
+          },
+          "method": "RunICC",
+          "lines": [
+            449,
+            524
+          ],
+          "method_text_sha256": "44c352aa79248b86fa400516b2da4673ebedd7f789bc2e679a918cd05bdd99a6",
+          "Common_types_or_calls": [
+            "AgreementReportPlan",
+            "WindowsPairedInputAdapter"
+          ],
+          "Core_types_or_calls": [
+            "Agreement.IntraclassCorrelation"
+          ],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfAgreementReportPreparation38.BuildRepeatability"
+      ],
+      "Core_direct_calls_or_types": [
+        "Agreement.IntraclassCorrelation"
+      ],
+      "specific_divergences": [
+        "GUI selection precedence, resampling minimum/spinners and native progress remain distinct from UDF parsed options; fitted numerical model is Core-owned."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.SSIZE.TTEST_PAIRED",
+      "function": "SSIZE_TTEST_PAIRED",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53503,
+          "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+        },
+        "lines": [
+          89,
+          103
+        ],
+        "method_sha256": "d49b0b036402e99d98234e331e10c15a139a4aaf6282967bf0764b50d9339698"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+            "bytes": 38452,
+            "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+          },
+          "method": "RunPTtest",
+          "lines": [
+            289,
+            296
+          ],
+          "method_text_sha256": "b2847a5412339cb0a0399e0b63fbaa1b685b8c1633c1f4db6412047a1a143424",
+          "Common_types_or_calls": [
+            "SampleSizePlanningPolicy",
+            "SampleSizePlanningRequest"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfSampleSizeError38",
+        "UdfSampleSizePreparation38.PreparePaired"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI spinner/default/text/allocation and optionality differ from UDF explicit arguments/metric spill; C26 decisions remain restricted."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "BEHAVIOR_PRESERVING_IMPLEMENTED"
+    },
+    {
+      "excel_name": "BESH.SSIZE.TTEST_UNPAIRED",
+      "function": "SSIZE_TTEST_UNPAIRED",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53503,
+          "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+        },
+        "lines": [
+          179,
+          197
+        ],
+        "method_sha256": "8a8ec83c7559c5acef595d2efdb545664d247d317b36f4f2e1caa5b0da396d49"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+            "bytes": 38452,
+            "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+          },
+          "method": "RunUPTtest",
+          "lines": [
+            298,
+            329
+          ],
+          "method_text_sha256": "87fec9d3fe99126a7089361b4f8aeb48b23390ac3b9cb010ed121ef5a4cddfe9",
+          "Common_types_or_calls": [
+            "SampleSizePlanningPolicy",
+            "SampleSizePlanningRequest"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfReportProjection38",
+        "UdfSampleSizeError38",
+        "UdfSampleSizePreparation38.PrepareUnpaired"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI spinner/default/text/allocation and optionality differ from UDF explicit arguments/metric spill; C26 decisions remain restricted."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.SSIZE.PROP_SINGLE",
+      "function": "SSIZE_PROP_SINGLE",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53503,
+          "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+        },
+        "lines": [
+          250,
+          265
+        ],
+        "method_sha256": "912a980cb39c647f306831bcaa419e092514a83ca38910976584ba7dd1be4b24"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+            "bytes": 38452,
+            "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+          },
+          "method": "RunSingleProp",
+          "lines": [
+            248,
+            287
+          ],
+          "method_text_sha256": "768de2184e5b3b4121fb1ff909e20a0305daf409e001223e794daa511896d8c4",
+          "Common_types_or_calls": [
+            "SampleSizePlanningPolicy",
+            "SampleSizePlanningRequest"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfReportProjection38",
+        "UdfSampleSizeError38",
+        "UdfSampleSizePreparation38.PrepareSingleProportion"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI spinner/default/text/allocation and optionality differ from UDF explicit arguments/metric spill; C26 decisions remain restricted."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.SSIZE.PROP_INDEP",
+      "function": "SSIZE_PROP_INDEP",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53503,
+          "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+        },
+        "lines": [
+          333,
+          351
+        ],
+        "method_sha256": "3c71f8f7772ab8434e1f3dff14dfc3c9b5d302716fc99e53725432200da52f5d"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+            "bytes": 38452,
+            "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+          },
+          "method": "RunIndependentProp",
+          "lines": [
+            190,
+            246
+          ],
+          "method_text_sha256": "e9cce49aa3a3e3e56753a92da05f0d1ec8e50401f86ae8b54e69671a613f4d85",
+          "Common_types_or_calls": [
+            "SampleSizePlanningPolicy",
+            "SampleSizePlanningRequest"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfReportProjection38",
+        "UdfSampleSizeError38",
+        "UdfSampleSizePreparation38.PrepareIndependentProportions"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI spinner/default/text/allocation and optionality differ from UDF explicit arguments/metric spill; C26 decisions remain restricted."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.SSIZE.LOGRANK",
+      "function": "SSIZE_LOGRANK",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53503,
+          "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+        },
+        "lines": [
+          420,
+          438
+        ],
+        "method_sha256": "6a04f4f3b9bee303ec96b51116c8ff23385be1ca71496726fd65e251be1b2ccf"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+            "bytes": 38452,
+            "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+          },
+          "method": "RunLogRank",
+          "lines": [
+            129,
+            139
+          ],
+          "method_text_sha256": "f34c4045826139b6959901b5e36ea0dc5690bd41bb8dae52a59fe8e241f709ee",
+          "Common_types_or_calls": [
+            "SampleSizePlanningPolicy",
+            "SampleSizePlanningRequest"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfReportProjection38",
+        "UdfSampleSizeError38",
+        "UdfSampleSizePreparation38.PrepareLogRank"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI spinner/default/text/allocation and optionality differ from UDF explicit arguments/metric spill; C26 decisions remain restricted."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.SSIZE.COX_BINARY",
+      "function": "SSIZE_COX_BINARY",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53503,
+          "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+        },
+        "lines": [
+          510,
+          528
+        ],
+        "method_sha256": "151f00e4f3b754c3712a6e5deb9eb572538f1be0bef0611c57d600475cf2a772"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+            "bytes": 38452,
+            "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+          },
+          "method": "RunCox",
+          "lines": [
+            141,
+            161
+          ],
+          "method_text_sha256": "99e5082a1c6eb2a8a4a7ca9e106c4032dd79b5bc26a0f58d69e1befb4502226f",
+          "Common_types_or_calls": [
+            "SampleSizePlanningPolicy",
+            "SampleSizePlanningRequest"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfReportProjection38",
+        "UdfSampleSizeError38",
+        "UdfSampleSizePreparation38.PrepareCoxBinary"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI spinner/default/text/allocation and optionality differ from UDF explicit arguments/metric spill; C26 decisions remain restricted."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.SSIZE.COX_CONTINUOUS",
+      "function": "SSIZE_COX_CONTINUOUS",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53503,
+          "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+        },
+        "lines": [
+          597,
+          615
+        ],
+        "method_sha256": "0c2c8688677fbd9dd5dfc31dc8a88afbc8b2670e20d0523a4c9e9ed3f538f989"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+            "bytes": 38452,
+            "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+          },
+          "method": "RunCox",
+          "lines": [
+            141,
+            161
+          ],
+          "method_text_sha256": "99e5082a1c6eb2a8a4a7ca9e106c4032dd79b5bc26a0f58d69e1befb4502226f",
+          "Common_types_or_calls": [
+            "SampleSizePlanningPolicy",
+            "SampleSizePlanningRequest"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfReportProjection38",
+        "UdfSampleSizeError38",
+        "UdfSampleSizePreparation38.PrepareCoxContinuous"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI spinner/default/text/allocation and optionality differ from UDF explicit arguments/metric spill; C26 decisions remain restricted."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.SSIZE.ICC",
+      "function": "SSIZE_ICC",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53503,
+          "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+        },
+        "lines": [
+          668,
+          684
+        ],
+        "method_sha256": "d55df8475bffb61124810bbe4414047f684db9a85a588fd8906c2115f283ae24"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+            "bytes": 38452,
+            "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+          },
+          "method": "RunICC",
+          "lines": [
+            163,
+            177
+          ],
+          "method_text_sha256": "3fde88ba6cbf35688349f5842e1d42fd3c41a7a8f9e5c67b9b549f19ce22e170",
+          "Common_types_or_calls": [
+            "SampleSizePlanningPolicy",
+            "SampleSizePlanningRequest"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfReportProjection38",
+        "UdfSampleSizeError38",
+        "UdfSampleSizePreparation38.PrepareIcc"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI spinner/default/text/allocation and optionality differ from UDF explicit arguments/metric spill; C26 decisions remain restricted."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    },
+    {
+      "excel_name": "BESH.SSIZE.BLANDALTMAN",
+      "function": "SSIZE_BLANDALTMAN",
+      "Windows_UDF": {
+        "source": {
+          "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "bytes": 53503,
+          "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+        },
+        "lines": [
+          737,
+          752
+        ],
+        "method_sha256": "703019769b7334d60796e4b318644ea6502bce8695cf2c8c572c0663bf14b3c4"
+      },
+      "GUI_members": [
+        {
+          "source": {
+            "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+            "bytes": 38452,
+            "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+          },
+          "method": "RunBlandAltman",
+          "lines": [
+            179,
+            187
+          ],
+          "method_text_sha256": "4471ae6edb870d540448ed96ac103b12c6506d81633eadaaa1ef8a0be8adf5eb",
+          "Common_types_or_calls": [
+            "SampleSizePlanningPolicy",
+            "SampleSizePlanningRequest"
+          ],
+          "Core_types_or_calls": [],
+          "native_operations": "Me/control state, acquisition, progress and writer operations remain native and unexecuted."
+        }
+      ],
+      "Common_calls_or_types": [
+        "UdfReportProjection38",
+        "UdfSampleSizeError38",
+        "UdfSampleSizePreparation38.PrepareBlandAltman"
+      ],
+      "Core_direct_calls_or_types": [],
+      "specific_divergences": [
+        "GUI spinner/default/text/allocation and optionality differ from UDF explicit arguments/metric spill; C26 decisions remain restricted."
+      ],
+      "parity_limit": "Read-only source correspondence, not native UI verification or equivalence of unlike host requests. Existing39 row/acquisition policy remains authoritative.",
+      "decision": "EXISTING_SHARED_PATH_RETAINED_WITHOUT_CHURN"
+    }
+  ],
+  "scoped_exports": 76,
+  "GUI_source_methods_authenticated": true,
+  "GUI_source_changed": false,
+  "native_executed": false,
+  "all_related_files_unmodified": true,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A42_NOT_AUTHORIZED"
+  }
+}

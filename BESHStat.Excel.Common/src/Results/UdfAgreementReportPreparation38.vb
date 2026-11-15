@@ -45,5 +45,42 @@ Namespace ExcelCommon
                 t.AddHeaderTopRow({title, ""})
                 Return t
         End Function
+
+        ''' <summary>Fitted typed model; host option conversion and its ordering remain at the caller.</summary>
+        Public Shared Function FitDeming(first() As Double, second() As Double, firstName As String, secondName As String,
+                                         options As Agreement.DemingOptions, seed As Integer, configureLegacyFields As Boolean) As Agreement.WeightedDemingRegression
+            Dim model As New Agreement.WeightedDemingRegression(first, second, firstName, secondName, options)
+            If configureLegacyFields Then
+                model.alpha = options.Alpha
+                If options.VarianceModel = Agreement.DemingVarianceModel.ConstantLambda Then model.Lambda = options.Lambda
+            End If
+            model.Fit(Nothing, seed)
+            Return model
+        End Function
+
+        ''' <summary>Deferred seed readers preserve constructor-before-reader exception precedence.</summary>
+        Public Shared Function FitBlandAltman(first() As Double, second() As Double, firstName As String, secondName As String,
+                                             options As Agreement.BlandAltmanOptions, readSeed As Func(Of Integer),
+                                             ByRef result As Agreement.BlandAltmanResult) As Agreement.BlandAltmanAgreement
+            Dim model As New Agreement.BlandAltmanAgreement(first, second, firstName, secondName, options)
+            result = model.Fit(readSeed())
+            Return model
+        End Function
+
+        Public Shared Function FitLinConcordance(first() As Double, second() As Double, firstName As String, secondName As String,
+                                                 options As Agreement.LinConcordanceOptions, readSeed As Func(Of Integer),
+                                                 ByRef result As Agreement.LinConcordanceResult) As Agreement.LinConcordanceCorrelation
+            Dim model As New Agreement.LinConcordanceCorrelation(first, second, firstName, secondName, options)
+            result = model.Fit(Nothing, readSeed())
+            Return model
+        End Function
+
+        Public Shared Function FitKappa(first() As Object, second() As Object, firstName As String, secondName As String,
+                                       options As Agreement.KappaOptions, readSeed As Func(Of Integer),
+                                       ByRef result As Agreement.KappaResult) As Agreement.WeightedKappaAgreement
+            Dim model As New Agreement.WeightedKappaAgreement(first, second, firstName, secondName, options)
+            result = model.Fit(Nothing, readSeed())
+            Return model
+        End Function
     End Class
 End Namespace

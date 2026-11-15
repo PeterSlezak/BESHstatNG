@@ -62,13 +62,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 3 OrElse x.Length > 5000 Then Return ExcelError.ExcelErrorNum
 
-                Dim errText As String = String.Empty
-                Dim res As TestResult = assumptions.ShapiroWilk(x, errText)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildTwoValueTable("Shapiro-Wilk Test", "W statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareShapiroWilk(x))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.SHAPIRO_WILK", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -115,13 +109,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 9 Then Return ExcelError.ExcelErrorNum
 
-                Dim errText As String = String.Empty
-                Dim res As TestResult = assumptions.DAgostino(x, errText)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildTwoValueTable("D'Agostino-Pearson K² Test", "K² statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareDAgostino(x))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.DAGOSTINO_PEARSON", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -168,12 +156,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = assumptions.AndersonDarlingTEST(x)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildTwoValueTable("Anderson-Darling Test", "Adjusted AD²", res.TestStatistics1, "Approximate p-value", res.Pvalue)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareAndersonDarling(x))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.ANDERSON_DARLING", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -288,12 +271,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = assumptions.FlignerKilleenTEST(data)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildTwoValueTable("Fligner-Killeen Test", "Chi-square statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareFlignerKilleen(data))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.FLIGNER_KILLEEN", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -350,12 +328,7 @@ Namespace WorksheetFunctions
                 Dim label As String = Nothing
                 If Not TryParseLeveneCenter(center, useMedian, label) Then Return ExcelError.ExcelErrorValue
 
-                Dim res As TestResult = assumptions.LeveneTEST(data, useMedian)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildTwoValueTable(label, "F statistic", res.TestStatistics1, "P-value", res.Pvalue)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareLevene(data, useMedian, label))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.LEVENE", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -398,16 +371,7 @@ Namespace WorksheetFunctions
                 Dim detectedNames() As String = Nothing
                 If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
-                For Each g In data
-                    If g Is Nothing OrElse g.Length < 2 Then Return ExcelError.ExcelErrorNum
-                Next
-
-                Dim res As TestResult = assumptions.BartlettTEST(data)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildTwoValueTable("Bartlett Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareBartlett(data))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.BARTLETT", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -451,12 +415,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = assumptions.SquaredRanksTestVARIANCE(data)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildTwoValueTable("Squared Ranks Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareSquaredRanks(data))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.SQUARED_RANKS", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -505,12 +464,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, names) Then Return ExcelError.ExcelErrorValue
                 If mat Is Nothing OrElse mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 3 Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = assumptions.MauchlyTest(mat)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildTwoValueTable("Mauchly's Test of Sphericity", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareMauchly(mat))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.MAUCHLY", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -567,12 +521,7 @@ Namespace WorksheetFunctions
                 Dim title As String = Nothing
                 If Not TryParseSymmetryMethod(method, methodInternal, title) Then Return ExcelError.ExcelErrorValue
 
-                Dim res As TestResult = assumptions.SymmetryTest(x, methodInternal)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildTwoValueTable(title, "Test statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareSymmetry(x, methodInternal, title))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.SYMMETRY", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -629,12 +578,7 @@ Namespace WorksheetFunctions
                 Dim alphaValue As Double = 0.05
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = assumptions.Grubbs(x, alphaValue)
-                If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.TestStatistics2) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
-
-                Return BuildGrubbsTable(alphaValue, res)
+                Return MaterializePortableReport38(Global.BESHStatNG.ExcelCommon.AssumptionsUDFsReports38.PrepareGrubbs(x, alphaValue))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.GRUBBS", ex, ExcelError.ExcelErrorValue)
             End Try

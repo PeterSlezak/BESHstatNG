@@ -28,6 +28,21 @@ Namespace ExcelCommon
             Return New UdfReportProjection38(table.ToOutputModel(), UdfReportPreparation38.NormalizeBlanks)
         End Function
 
+        ''' <summary>Supplies computed scalar values to the existing two-value layout without duplicating its grammar.</summary>
+        Public Shared Function TwoValueTable(title As String, firstLabel As String, firstValue As Double,
+                                             secondLabel As String, secondValue As Double) As UdfReportProjection38
+            Dim projection = TwoValueTable(title, firstLabel, secondLabel)
+            Dim model = projection.ToOutputModel()
+            Dim values() As Double = {firstValue, secondValue}
+            For row = model.Values.GetLowerBound(0) To model.Values.GetUpperBound(0)
+                For column = model.Values.GetLowerBound(1) To model.Values.GetUpperBound(1)
+                    Dim reference = TryCast(model.Values(row, column), UdfSourceCellReference38)
+                    If reference IsNot Nothing Then model.Values(row, column) = values(reference.SourceOrdinal)
+                Next
+            Next
+            Return New UdfReportProjection38(model, projection.Preparation)
+        End Function
+
         ''' <summary>Retains column-first then explicit-cell order, including repeated cells.</summary>
         Public Shared Function PvalueCells(model As Global.BESHStatNG.ResultTableOutputModel,
                                           rows As Integer, columns As Integer) As UdfSpillCell38()

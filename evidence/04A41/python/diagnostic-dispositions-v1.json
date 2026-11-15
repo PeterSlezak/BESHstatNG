@@ -1,0 +1,1121 @@
+{
+  "status": "ALL_CURRENT_EVENT_DIFFERENCES_EXACT_ARGUMENT_OR_SCOPE_EXPLAINED;NONPASSES_UNWAIVED",
+  "rows": [
+    {
+      "stable_event_id": "8738a2b4981206d4c75491e82b61f037893baa0868562e16e46f97e8ba924f4c",
+      "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "112343d7cd0bfc97241ee8c32e5c72c1ee58df95d602bf724c3180bce1ed0667",
+        "traceback_sha256": "3d1e9c51ead0a6da102f925d9bc7037f968752ecb49d52541c734c0e8c60a8f8"
+      },
+      "current": {
+        "message_sha256": "ec50bfd9ae566ea7528333f918bc409b623cb2fca7023c270a6a8bb8b6c15c36",
+        "traceback_sha256": "5ef8265dcb315e5aac8c080bc44193a9ac9a750b6291a6ac9eab007374c9bc5d"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_SOURCE_DIFF_GUARD_FAIL_RETAINED;CURRENT_AUTHORIZED_UDF_PATH_ARGUMENTS_CHANGED",
+      "proof": {
+        "actual_current_git_diff": [
+          "BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+          "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "original_assertions_unchanged": true,
+        "current_outcome": "FAIL"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a05_completion_successor.py",
+          "bytes": 9515,
+          "sha256": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952"
+        },
+        "method": "test_no_designer_importer_targets_exports_or_signing_change",
+        "lines": [
+          [
+            132,
+            139
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "8414064d92d76f687a359db9ac4bcaca357285f18e0d4df7910bfb4c92766559",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "a7e9ef37912f856e55aaddbdeea5b3b0e4a23bb74b2656521bf677abe441864d",
+        "traceback_sha256": "309e48d866a29a8abea201ccd0d1ec780a07eb75e7a5d0c245e5ba20a4f0d848"
+      },
+      "current": null,
+      "classification": "MISSING_NONPASS_EVENT",
+      "disposition": "CURRENT_CANDIDATE_PRIVACY_PASS;HISTORICAL_RAW_AND1941_FINDINGS_FAIL_RETAINED",
+      "proof": {
+        "current_parent": "PASS",
+        "original_scanner": "UNCHANGED_ACTUAL_SCOPE;FINAL_FULL_AND_PHYSICAL_SCANS_RECORDED_SEPARATELY",
+        "before40_raw_snapshot": "6_RULE_OCCURRENCES_IN_PYTHON;LATER8_FOCUSED_OCCURRENCES_RETAINED",
+        "accepted39": "1941_EACH_FAIL;1599+342;W3_ERRORS_UNWAIVED"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a13_survival_workflow.py",
+          "bytes": 10622,
+          "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+        },
+        "method": "test_complete_existing_publication_set_has_no_unresolved_private_values",
+        "lines": [
+          [
+            162,
+            166
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "2698353e8a7efbaef1dd6bbcd2b342247dcc9a3873102e087c916b38b83e2f79",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "8f354856fac4bc77193983e68ecf4b9ebdc2780a623ca17449ed5fab1f4a6ade",
+        "traceback_sha256": "960bd121323e8d37a820d4a3643d7a9529666cdba62a79e82ac537cff9bb9bd3"
+      },
+      "current": {
+        "message_sha256": "f3ed5714e6b56e28c351392d0caaee190f782df6af8ca7fe9b935d863f65c351",
+        "traceback_sha256": "90303c4b4185ed1fceba0c42ee3397122bf8a204d833df298b96576504cd2d52"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_BRANCH_LITERAL_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "codex/04A-13",
+          "codex/04A-40"
+        ],
+        "assertion_arguments_current": [
+          "codex/04A-13",
+          "codex/04A-41"
+        ],
+        "unchanged_historical_expected_argument": "codex/04A-13",
+        "changed_argument_position": 1,
+        "authority": "Explicit current owner41 task and authenticated dedicated branch",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a13_survival_workflow.py",
+          "bytes": 10622,
+          "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+        },
+        "method": "test_local_main_ancestry_empty_index_and_dedicated_branch",
+        "lines": [
+          [
+            25,
+            30
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "c5686c255b33624341a1ca1f4fd57c26ab5c8bdb0f7a4470136d5612a17f12c6",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "dba01fe47eebc86f7cd9cd8d6d5735e56e3a98727ec14ed4e63d897a750d6c2f",
+        "traceback_sha256": "e73e997c3f1f058d762142694ae4623af8d9a452dd784d224fa63e2af73c5dfb"
+      },
+      "current": {
+        "message_sha256": "d5135b57fdf282cda4ac22a521f3698361e1ce9c72042e154f7788423956e982",
+        "traceback_sha256": "5ee89ccf4300872feb11c253ef504d4e582e8b46679dd0d25fc8e2689999ce84"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_BRANCH_LITERAL_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "codex/04A-14",
+          "codex/04A-40"
+        ],
+        "assertion_arguments_current": [
+          "codex/04A-14",
+          "codex/04A-41"
+        ],
+        "unchanged_historical_expected_argument": "codex/04A-14",
+        "changed_argument_position": 1,
+        "authority": "Explicit current owner41 task and authenticated dedicated branch",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a14_mixed_workflow.py",
+          "bytes": 14339,
+          "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+        },
+        "method": "test_branch_base_ancestry_and_empty_index",
+        "lines": [
+          [
+            21,
+            26
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "f594ede8f91bd602af1ddf006421396c6a010fc111028fd3ad134ffd5c46fbee",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "a7e9ef37912f856e55aaddbdeea5b3b0e4a23bb74b2656521bf677abe441864d",
+        "traceback_sha256": "0453963216a8e851a111c2b5e84b2b261eb36a778615bf5724bb2a10e5409d4e"
+      },
+      "current": null,
+      "classification": "MISSING_NONPASS_EVENT",
+      "disposition": "CURRENT_CANDIDATE_PRIVACY_PASS;HISTORICAL_RAW_AND1941_FINDINGS_FAIL_RETAINED",
+      "proof": {
+        "current_parent": "PASS",
+        "original_scanner": "UNCHANGED_ACTUAL_SCOPE;FINAL_FULL_AND_PHYSICAL_SCANS_RECORDED_SEPARATELY",
+        "before40_raw_snapshot": "6_RULE_OCCURRENCES_IN_PYTHON;LATER8_FOCUSED_OCCURRENCES_RETAINED",
+        "accepted39": "1941_EACH_FAIL;1599+342;W3_ERRORS_UNWAIVED"
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a14_mixed_workflow.py",
+          "bytes": 14339,
+          "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+        },
+        "method": "test_entire_proposed_publication_set_privacy",
+        "lines": [
+          [
+            211,
+            215
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "a77e296b4e93d38026a4ce5d44c885a61f3c72eb55a3c85a047485ae0eab317b",
+      "identity": "test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "8b8104408f5336193c10816d9f8a8dc546b69e6853b0d71113afd75ee655d5c5",
+        "traceback_sha256": "92e6b48a7ec6c374e6784b2df188cf1af3fbfa4f0a24789c3d71f5ebac356f2b"
+      },
+      "current": {
+        "message_sha256": "f25a9c30c7b816fb5e5c4605adf291bc4f0c292516ca9ee3f95949b0472e8af0",
+        "traceback_sha256": "fd5bc98cd230a0991cea9e0a34fbc04a73b60d7f391953a644f55c5302db3bf0"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_BRANCH_LITERAL_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "codex/04A-15",
+          "codex/04A-40"
+        ],
+        "assertion_arguments_current": [
+          "codex/04A-15",
+          "codex/04A-41"
+        ],
+        "unchanged_historical_expected_argument": "codex/04A-15",
+        "changed_argument_position": 1,
+        "authority": "Explicit current owner41 task and authenticated dedicated branch",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a15_fitting.py",
+          "bytes": 5180,
+          "sha256": "393ff03ddff0d05d15ab61835825c0b8dabd4013710bdb80e5ba99504c78385d"
+        },
+        "method": "test_branch_ancestry_empty_index_and_exact_existing_scope",
+        "lines": [
+          [
+            15,
+            21
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "da62212d3c47187396b82e95c4d6c961bd55bf6c0d64f0334b1e979e0fbbdd86",
+      "identity": "test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "f42cda1782f7e9135f3e2e3a6cd9bd599871f2042f818d6242affb4935f07628",
+        "traceback_sha256": "c0f166ac8c7177c4a06e4cd2f9284c274d116bb8fd76babb97ae4fff33482800"
+      },
+      "current": {
+        "message_sha256": "c1515be6d56264bfe529248812b82791f76a8e8bfc5ae166971e1c809950c4fa",
+        "traceback_sha256": "5259bbb262017a7abe78df2eb88a61bffc5fe17bd4e635d57f75892d3fb889c5"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_BRANCH_LITERAL_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "codex/04A-16",
+          "codex/04A-40"
+        ],
+        "assertion_arguments_current": [
+          "codex/04A-16",
+          "codex/04A-41"
+        ],
+        "unchanged_historical_expected_argument": "codex/04A-16",
+        "changed_argument_position": 1,
+        "authority": "Explicit current owner41 task and authenticated dedicated branch",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a16_post_estimation.py",
+          "bytes": 8710,
+          "sha256": "4c1384ee83aa78f6893221e6fcaf926880e400ea2c82b597e65e7923035a5984"
+        },
+        "method": "test_branch_base_index_and_exact_scope",
+        "lines": [
+          [
+            15,
+            21
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "a6f5f82f853aecce400e1888593185049792a97089fbffa2f24dfb175150afd5",
+      "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "6f3729f1d1a7024df9971df6b5536431e039044511a0aa536d6f4acfaa8bf432",
+        "traceback_sha256": "ff7a67a522ee01a7c3190be21f7e115c60c9abc76902b48fc1794a07e29418da"
+      },
+      "current": {
+        "message_sha256": "3248ef074159095b2994aa631498cdb72a64373cd8781081798c6ab9447d6570",
+        "traceback_sha256": "255416600be8e6333d7df678ee000333d32c2863651681f0ffd1100b8c26331f"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_BRANCH_LITERAL_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "codex/04A-17",
+          "codex/04A-40"
+        ],
+        "assertion_arguments_current": [
+          "codex/04A-17",
+          "codex/04A-41"
+        ],
+        "unchanged_historical_expected_argument": "codex/04A-17",
+        "changed_argument_position": 1,
+        "authority": "Explicit current owner41 task and authenticated dedicated branch",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a17_multivariate.py",
+          "bytes": 8080,
+          "sha256": "06afd4bd4829b90688f0924c13a4a1d5ea5fc22d85120fde21308895f2dd1db0"
+        },
+        "method": "test_live_base_branch_index_and_protected_sources",
+        "lines": [
+          [
+            19,
+            23
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "7f9d0948665245c0513f98b6513468e089822f14b4ef3c76c61455a01c145126",
+      "identity": "test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "d2ab672b7dc6bf808d675755599a4883f8cef55855965dcda76e9f6d6d082529",
+        "traceback_sha256": "a0e75f2c91e6c94dfaf286be8b8a2e886492b57c97989b20ddfcf4fa5e38c027"
+      },
+      "current": {
+        "message_sha256": "2d68ace8311a31f2c463f1dcdbb0dfc78aaedf585d06004ad76ede36fd095c70",
+        "traceback_sha256": "522b0281f088deb6c35016b8ba1f22346c5c9457758ca64548f94b5868e7dac5"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_BRANCH_LITERAL_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "codex/04A-40",
+          "codex/04A-18"
+        ],
+        "assertion_arguments_current": [
+          "codex/04A-41",
+          "codex/04A-18"
+        ],
+        "unchanged_historical_expected_argument": "codex/04A-18",
+        "changed_argument_position": 0,
+        "authority": "Explicit current owner41 task and authenticated dedicated branch",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a18_projection.py",
+          "bytes": 7203,
+          "sha256": "53e1b4e323b682dedcb64df3fc1e90a04faeb3a146314f4bb1330c00c594716e"
+        },
+        "method": "test_live_branch_index_and_protected_entry_bytes",
+        "lines": [
+          [
+            19,
+            27
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "2326920affcddf7ded9d17f78617996cd9968f8ddfbcc7682d2e992b88a625ff",
+      "identity": "test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "32c51e0ee7f1d94e981748cef8f84bb8c6ed289e337500c41e187bd20af512ec",
+        "traceback_sha256": "e10ced4a907c6af8bef06aee7c1b9ce334c5cd5e71ebce305d8a6babe57f4cf4"
+      },
+      "current": {
+        "message_sha256": "085a676637f6b46ce302f30660f1514570d3a49a4055b75dc81eed596ccb6761",
+        "traceback_sha256": "96e2258ca56643361008fd29badf592b78e63a1c49cba4e5a73d15b8452abeed"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_MAIN_COMMIT_LITERAL_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "5429a46ac706a43c9f57136eef68158decedf89d",
+          "bba848305c2c46ff3fc835a1132522ebfec59514"
+        ],
+        "assertion_arguments_current": [
+          "5429a46ac706a43c9f57136eef68158decedf89d",
+          "c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc"
+        ],
+        "unchanged_historical_expected_argument": "5429a46ac706a43c9f57136eef68158decedf89d",
+        "changed_argument_position": 1,
+        "authority": "Authenticated accepted40 merged-main direct ancestry",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a19_clustering.py",
+          "bytes": 10215,
+          "sha256": "565f5a4071b7a3d319614f5d4000d66c696c2832433ff39062d46885dccf703e"
+        },
+        "method": "test_live_base_branch_and_empty_index",
+        "lines": [
+          [
+            18,
+            24
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "50016fd4f0d56f06db6fe9a0f3163380697e2c3b15b20c80120a2b309fd778c5",
+      "identity": "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "c0a8e3eb7c4b01df8fb9bbc282f290dece032c9cba31664d39ee6f4ba38895fb",
+        "traceback_sha256": "ac10255387a6e8e8faaea1ae3e6fee3e7355380deec96c7aff6c4d0d302db83f"
+      },
+      "current": {
+        "message_sha256": "354d72e196d8b41cda9b99d1396912e1a0f16ad885e5c47b485c56138caaea99",
+        "traceback_sha256": "daed2b88eca5d18f43fb9d75a319bfa18b193e496853fb1e8d837caf8f9a2f64"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_MAIN_COMMIT_LITERAL_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "ae7490bbce241dd8a444fd4d23ba413fb89a36ca",
+          "bba848305c2c46ff3fc835a1132522ebfec59514"
+        ],
+        "assertion_arguments_current": [
+          "ae7490bbce241dd8a444fd4d23ba413fb89a36ca",
+          "c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc"
+        ],
+        "unchanged_historical_expected_argument": "ae7490bbce241dd8a444fd4d23ba413fb89a36ca",
+        "changed_argument_position": 1,
+        "authority": "Authenticated accepted40 merged-main direct ancestry",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a20_factor_discriminant.py",
+          "bytes": 12829,
+          "sha256": "1fc46c38c6695727ebf008e5a30999bd01f15737c14c5a5b56d04069f590e4bb"
+        },
+        "method": "test_live_main_branch_index_and_accepted_source",
+        "lines": [
+          [
+            20,
+            27
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "226d4ba867675dbe44e4d4ba8d06444eccd689bcba1736e3b5f5a9d9a3d7f6a5",
+      "identity": "test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "28b82c3653d58eabf6fb5efbe081f12fcd2ecb195db6a5f8bacc5bf7652e2660",
+        "traceback_sha256": "f318f9a131d8cf56d8aae0cfe3d27859608ed590580d99bb0cb0fd870ed479a8"
+      },
+      "current": {
+        "message_sha256": "e6d0d22a9275d68126604827eaae17129f76ff4edee9233db38fd6150a228a40",
+        "traceback_sha256": "1589618e3eeca1bebd24a6754444ec9438bcec6738b9512cd6f25f41a9c1501e"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_MAIN_COMMIT_LITERAL_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e",
+          "bba848305c2c46ff3fc835a1132522ebfec59514"
+        ],
+        "assertion_arguments_current": [
+          "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e",
+          "c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc"
+        ],
+        "unchanged_historical_expected_argument": "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e",
+        "changed_argument_position": 1,
+        "authority": "Authenticated accepted40 merged-main direct ancestry",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a21_spc.py",
+          "bytes": 13212,
+          "sha256": "46858710327c0e3e34d142afa61a3456a1d805d3ebc7d5481ac4c84680d38693"
+        },
+        "method": "test_live_merged_main_ancestry_branch_and_empty_index",
+        "lines": [
+          [
+            23,
+            29
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "dc5f06341902db6582e14db81d9aa04c6f8edcd2396cb10a87b692029c71223b",
+      "identity": "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "0e7a5418c86c9da1128e8b8cc002d32b5c9fc33e985d163f77ed31b8c0b1bbb1",
+        "traceback_sha256": "d5c8ec4412841c7e4b0315d70bf7139bd1ba46043f23679388d79196f5766c26"
+      },
+      "current": {
+        "message_sha256": "44d7ca53fe611b1a4193487cb7c726aa866c2409c45179e93553d13907799d5c",
+        "traceback_sha256": "e47736a32b9c17be4d3db247474157cee5a015adcec166bdc89432b1aa280b6e"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_CHANGED_PATH_SET_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "original_current40_paths": [
+          "BESHStat.Excel.Common/src/Analysis/CoxWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/ExtendedRegressionFamilyPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/LinearBinomialRegressionPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/RegressionRequestPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/UdfLmmInputPreparation38.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "current41_paths": [
+          "BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+          "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "actual_git_diff_exact": true,
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a22_spc.py",
+          "bytes": 9384,
+          "sha256": "7654f6e2b47b6a19bbb994a1d23470036d54fe0b7090969906289b7247c3e3bb"
+        },
+        "method": "test_publication_membership_hashes_empty_index_and_privacy",
+        "lines": [
+          [
+            138,
+            141
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "bd7426fee898f689aa36cdc064dc23b9e502723670eac5a2ff056a98ae121c65",
+      "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_actual_merged_base_and_protected_owner_plan",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "44b69c994af0284715aaa73a5b02e9c26803dbe98c22e130683a1e7647eff49e",
+        "traceback_sha256": "724fd9850b297f56a6d394e2da3f79696f0fad6087777a3f9c73133657f2cb54"
+      },
+      "current": {
+        "message_sha256": "fe3228453b71ee645d1d0981cf6b96792055f46e363e59104a9adb67b66b29d8",
+        "traceback_sha256": "2d952cb8f434f96821ce1ae481e16626a7527c26a07ba136a795b7840f0e70d7"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_PLAN_HASH_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "9c0d2559d5c543b19978ffbe4fada77a580d9daf5528a36978bedb9262fab185",
+          "07c79aabba1db57a697024eeba0a4813b28cc3897100585b979f7837677867b9"
+        ],
+        "assertion_arguments_current": [
+          "9c0d2559d5c543b19978ffbe4fada77a580d9daf5528a36978bedb9262fab185",
+          "a849b14c27e9ea0c2c2dab02c945a743f630ec16a2e768235a954bfe2e5f9b5a"
+        ],
+        "unchanged_historical_expected_argument": "9c0d2559d5c543b19978ffbe4fada77a580d9daf5528a36978bedb9262fab185",
+        "changed_argument_position": 1,
+        "authority": "Exact2.17 snapshot and authorized2.18 reconciliation preserving226 IDs",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a23_multivariate_spc.py",
+          "bytes": 13644,
+          "sha256": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8"
+        },
+        "method": "test_actual_merged_base_and_protected_owner_plan",
+        "lines": [
+          [
+            24,
+            30
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "17cf3e6b16a36c6d76eb48a0c4f1935a7fee3219cb0b66f92e7afa61688d8f09",
+      "identity": "test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "a94e5dd6db29d04e6e62a0f117e0dae801eec3196717d179188c8635dd8b5b8d",
+        "traceback_sha256": "f1c16d542989423d49ca7f49e37da52c7f994c909f9217eb9a093d7d80cb626a"
+      },
+      "current": {
+        "message_sha256": "44d7ca53fe611b1a4193487cb7c726aa866c2409c45179e93553d13907799d5c",
+        "traceback_sha256": "89f1badba3100ddee037255f6c1b012a9236843c5bd6f50ca46af09c38cb9bc3"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_CHANGED_PATH_SET_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "original_current40_paths": [
+          "BESHStat.Excel.Common/src/Analysis/CoxWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/ExtendedRegressionFamilyPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/LinearBinomialRegressionPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/RegressionRequestPolicy.vb",
+          "BESHStat.Excel.Common/src/Analysis/UdfLmmInputPreparation38.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "current41_paths": [
+          "BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+          "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+          "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+          "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "actual_git_diff_exact": true,
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a24_multivariate_payload.py",
+          "bytes": 14011,
+          "sha256": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461"
+        },
+        "method": "test_publication_exact_membership_hashes_and_empty_index",
+        "lines": [
+          [
+            194,
+            196
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "c7ab0c57786e2e2026481db72b475e2ce56ddc251f426ac30ef4bf34f9a45df2",
+      "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+        "traceback_sha256": "190526db225f7dc4049575bf9222e4bef30b7b63e8b65f26d48002c3cf95d6f4"
+      },
+      "current": {
+        "message_sha256": "9bdc14be0a4c5eb2cbffbd5bbe8ce1e049236d0695a57dc7e95e71f776e8aec6",
+        "traceback_sha256": "0a25d5a7ae819dc0292d33b0e1db814bae07fed2f381113e4270f885a848e633"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED",
+      "proof": {
+        "transitions": [
+          {
+            "before": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 108322,
+              "sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa"
+            },
+            "after": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 110172,
+              "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+            }
+          }
+        ],
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a27_geometry_completion.py",
+          "bytes": 8338,
+          "sha256": "54cec305dc4898b35d9e9b585c22dcc0667bdffb563ef04dfecfc933d3432625"
+        },
+        "method": "test_real_consumer_routes_and_udf_exports_preserved",
+        "lines": [
+          [
+            99,
+            112
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "be12ebfee1baad9c11ebf7baad1316d31800bb33440fb2b56e5161ce2709d96b",
+      "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_udf_exports_signatures_and_packing_are_preserved",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+        "traceback_sha256": "1ea5a70ea61195b050c8eb02e9086d387415105006ea0c5c2dd290d17e1e8da8"
+      },
+      "current": {
+        "message_sha256": "9bdc14be0a4c5eb2cbffbd5bbe8ce1e049236d0695a57dc7e95e71f776e8aec6",
+        "traceback_sha256": "dacf05d0ec4f740d6098d205511ddd2f9ede67f376f17fa8c43bb52f1eb7d6b3"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED",
+      "proof": {
+        "transitions": [
+          {
+            "before": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 108322,
+              "sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa"
+            },
+            "after": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 110172,
+              "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+            }
+          }
+        ],
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a27_transport_successor.py",
+          "bytes": 8216,
+          "sha256": "e268340655fb8be7889e13c0f22d1cb3acd662aba09264b33728dcd431e23830"
+        },
+        "method": "test_udf_exports_signatures_and_packing_are_preserved",
+        "lines": [
+          [
+            85,
+            94
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "229a15f55c8668561042e4b445367a5c063b3d77953bd865b629736604c4f350",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "32d1853bee9d3fd1c883dbe8d6feaed3367939f787670ee62443081df78ebdd6",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "511c1db0d20f47b8ac5142eed19b9da6c639074e29e22dd27372bdd0cccd6020",
+        "traceback_sha256": "323457bb2a7a9dd7196a8119e759d16da9e103b96733b47c62531d5c0151e43e"
+      },
+      "current": {
+        "message_sha256": "9bdc14be0a4c5eb2cbffbd5bbe8ce1e049236d0695a57dc7e95e71f776e8aec6",
+        "traceback_sha256": "8b487a6a6524067ba80c37d407111f49d9a959f0811804547883a2fc996aa16d"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED",
+      "proof": {
+        "transitions": [
+          {
+            "before": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 108322,
+              "sha256": "1658eeb1a1726d69086200ee0e94d39ef115bebf5e1d3b0692acf438bb80aefa"
+            },
+            "after": {
+              "path": "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+              "bytes": 110172,
+              "sha256": "0d2ccd2393b2affb2c51af1253cda8d85cb8278ca30bd80c5cd37caeeb6917c8"
+            }
+          }
+        ],
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "4c300c0dd5f2c8405a692fd9b36d0fa6b751028c393da500e50cb894fe0ecf93",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e9c5ae4f5682ec7d1ebc506f7e77fc5ba1dca9bc14ae4f3f0758ba7d60515f6e",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "d87ce9c24799aa289cdeb5742512632cd1ccd0490fb65c56fac7e4bef186e8d5",
+        "traceback_sha256": "ac4928f3f3cc0b64b4af51c7d064d7ed0a98409fd036e07a7b8890e130979443"
+      },
+      "current": {
+        "message_sha256": "21cfbfe7fa6fea7fed2315f7c8c6faafa0fcd0354aa8e39b4484d452d17af0b3",
+        "traceback_sha256": "fac8f60f4e9719b292614108de409d96aafef198d47b56db7c2006447fc5070b"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED",
+      "proof": {
+        "transitions": [
+          {
+            "before": {
+              "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+              "bytes": 40206,
+              "sha256": "0a7e05f79fe8a7f95f6e02c1358f4335a70dc5902f4e1eac0c84ff422aade38d"
+            },
+            "after": {
+              "path": "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+              "bytes": 38067,
+              "sha256": "3212dfe8f878f0267dc16afb08eb91366ab4b14fd17ff9183dfba92d7963f4a2"
+            }
+          }
+        ],
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "c04ae0ad665c473883949eefc75d5c336fab8881e23dc55f813d96f8f86d71c5",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "070f9637bb17e9779df772f83fba804ff2fcd4e4899e9a1cbc5f07abf06cfcef",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "51ae5c0dd10833d44cda64c514c7b936e9d631cd55661ce138611c54e3ff3f21",
+        "traceback_sha256": "0b958c702946899cda67b90ac1b98aac90c78c835c7cd3bd8bb92c63def20ba9"
+      },
+      "current": {
+        "message_sha256": "b6a5005cacf303a79a07c81f423bf97145ec187f26da0e609aa77b9c6fa7776d",
+        "traceback_sha256": "9b324f8f674727e2c32da39d2dc031f7e206a88aa432f4c8346f141f7caaded0"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED",
+      "proof": {
+        "transitions": [
+          {
+            "before": {
+              "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+              "bytes": 56001,
+              "sha256": "7c633a4e02447ceffcda098772ba2f6e3f490af0c86efc961a4d8587d3423e75"
+            },
+            "after": {
+              "path": "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+              "bytes": 56999,
+              "sha256": "7b96c4cab39b0722fd5b0b7a9011b4c420a6165fe940d6816076b1dec62e613b"
+            }
+          }
+        ],
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "fe54401a4001978176542d0b22ae2d7b6348fac0bc0f9f3eff4ff40675536d38",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "dbfcae5a97a107416bdebf2e5aa0e66e805059f219ab6de98f8ab7f2f229ced4",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "8ecb30447288425376140b0f64b1d1c1b2c8871ef4b06ab2139e493a6ff399a4",
+        "traceback_sha256": "6e0e51dd254c3aa909f6ffe9d713a52b01b033250b22e36c7272568c21d9c47f"
+      },
+      "current": {
+        "message_sha256": "c56644a2a7fb2aa8eefa12edd9640ebdbdbaa95cf4e969f5cefca083ab29fa2d",
+        "traceback_sha256": "e1a950561161063c0dbd3b749851e2bc75cd7b5c57abaf568a40d56c188d830e"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED",
+      "proof": {
+        "transitions": [
+          {
+            "before": {
+              "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+              "bytes": 52696,
+              "sha256": "b87df3b3a071aed8ff5691031c1e3a4481e65b9ddb30caa7c44e0d6b5301052a"
+            },
+            "after": {
+              "path": "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+              "bytes": 53348,
+              "sha256": "d985c6dab6fd1e70f371eff902832853e4e1a99b07aa89289ea05e4a8050069b"
+            }
+          }
+        ],
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "d04437269403382d4ba53b991ff93521ca88aa3b4e3b5756dcb4784e050757e6",
+      "identity": "test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "96525ecf42ba14e204ae082449eb973f8873f1160f7abecf703621dd88894438",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "1e9bef28684ec13002a4c87b6f0e0f50b14031cdc52bb7b694d18d5a9d2a649c",
+        "traceback_sha256": "50f5d41b89738838f6ca7e675607af2c5992e93b9f63e9a38503217e53da4ba7"
+      },
+      "current": {
+        "message_sha256": "fb9cbe1c1444ec3392514b1f331ba7afe55d582c5da4679bf13e00e5df8a7792",
+        "traceback_sha256": "8ee50cafad37737fbd4f0f3ecf4922ac4cfca2fbdc611ceb392c126350cee733"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED",
+      "proof": {
+        "transitions": [
+          {
+            "before": {
+              "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+              "bytes": 53163,
+              "sha256": "037f1bf4d87d3d9ea7935e28aa5f5a95805c8168640b2a049504310d7c20c593"
+            },
+            "after": {
+              "path": "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+              "bytes": 53503,
+              "sha256": "36fdb1cd7986520f35dfd9bcd338c0bcf2c18992a38616185f7e0ce7a67c501d"
+            }
+          }
+        ],
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a28_output.py",
+          "bytes": 8219,
+          "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+        },
+        "method": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved",
+        "lines": [
+          [
+            25,
+            29
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "e40ffb86a64357e60615a998c65ee1d633913a853818f71e3bfd3629c48c89cb",
+      "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "dc2f76572af51b4ce97c6be463ef1eeef9bc3fc2298b2f7eec76132c73e28125",
+        "traceback_sha256": "a369bf760d7807e4e8016a9df66f536282dc62103d95db242784e06e9e7d2b29"
+      },
+      "current": {
+        "message_sha256": "54850bff4048c5cb73b25de773e33117a17389dc63526b21b044a276e70580ef",
+        "traceback_sha256": "9d213f9a5d3d73b75cbd3a0ed61414d2559e445f232180771658153062635af4"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_PLAN_HASH_ASSERTION;FAIL_RETAINED",
+      "proof": {
+        "assertion_arguments_before": [
+          "98d76584e8ffc3afebb069126965dec9e55e70d70e54ba70140c6d10d721753e",
+          "07c79aabba1db57a697024eeba0a4813b28cc3897100585b979f7837677867b9"
+        ],
+        "assertion_arguments_current": [
+          "98d76584e8ffc3afebb069126965dec9e55e70d70e54ba70140c6d10d721753e",
+          "a849b14c27e9ea0c2c2dab02c945a743f630ec16a2e768235a954bfe2e5f9b5a"
+        ],
+        "unchanged_historical_expected_argument": "98d76584e8ffc3afebb069126965dec9e55e70d70e54ba70140c6d10d721753e",
+        "changed_argument_position": 1,
+        "authority": "Exact2.17 snapshot and authorized2.18 reconciliation preserving226 IDs",
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py",
+          "bytes": 18295,
+          "sha256": "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7"
+        },
+        "method": "test_packet_covers_all_original_cases_and_six_gates",
+        "lines": [
+          [
+            107,
+            119
+          ]
+        ]
+      }
+    }
+  ],
+  "counts": {
+    "HISTORICAL_SOURCE_DIFF_GUARD_FAIL_RETAINED;CURRENT_AUTHORIZED_UDF_PATH_ARGUMENTS_CHANGED": 1,
+    "CURRENT_CANDIDATE_PRIVACY_PASS;HISTORICAL_RAW_AND1941_FINDINGS_FAIL_RETAINED": 2,
+    "HISTORICAL_BRANCH_LITERAL_ASSERTION;FAIL_RETAINED": 6,
+    "HISTORICAL_MAIN_COMMIT_LITERAL_ASSERTION;FAIL_RETAINED": 3,
+    "HISTORICAL_CHANGED_PATH_SET_ASSERTION;FAIL_RETAINED": 2,
+    "HISTORICAL_PLAN_HASH_ASSERTION;FAIL_RETAINED": 2,
+    "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED": 7
+  },
+  "unresolved": 0,
+  "actual_tests_and_assertions_modified": false,
+  "raw_pairs": {
+    "path": ".test-rationalization-04A41.tmp/python-event-pairs-v1.json",
+    "bytes": 2072254,
+    "sha256": "4352bcd75f191e9d7783a3834d003c9a15548511b1ef0f0297275439d8aaa9db"
+  },
+  "original54": {
+    "path": "evidence/04A39/correction-v1/diagnostics/changed-54-crosswalk-v2.json",
+    "bytes": 137837,
+    "sha256": "52110a5707992ab72b2a3272114e3b35a7ac31eeaf06e0309c754a72cb24f8a3"
+  },
+  "original32": {
+    "path": "evidence/04A40/python/diagnostic-dispositions-v3.json",
+    "bytes": 84221,
+    "sha256": "e61e9cd856997eae0a47002bcb3c7e911f17de594cf9a3107a17d4fe605736ba"
+  },
+  "historical_outcomes_retained": true,
+  "repository_privacy_history": "Current candidate2PASS parents do not resolve historical39 FAIL1941each or W3ERROR;old40 raw failure snapshots remain.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A42_NOT_AUTHORIZED"
+  }
+}

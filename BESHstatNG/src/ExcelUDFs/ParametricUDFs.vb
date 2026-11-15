@@ -190,13 +190,9 @@ Namespace WorksheetFunctions
                 If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(conditionNames, detectedNames, mat.GetLength(1), "Condition")
-                Dim mdl As New parametric.OneWayRmANOVA(mat, names)
-                mdl.compute()
-
-                Dim which As String = NormalizeText(correction)
-                If Not Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.ApplyRepeatedCorrection(mdl, which) Then Return ExcelError.ExcelErrorValue
-
-                Dim tables = mdl.wrapResults()
+                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildRepeatedAnovaTables(
+                    mat, names, Function() NormalizeText(correction))
+                If tables Is Nothing Then Return ExcelError.ExcelErrorValue
                 Return PrepareResultTableForUdf(tables(0))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.RMANOVA1", ex, ExcelError.ExcelErrorValue)
@@ -264,10 +260,7 @@ Namespace WorksheetFunctions
                 If mat.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(varNames, detectedNames, 3, "Var")
-                Dim mdl As New parametric.TwoWayNestedANOVA(mat, names)
-                mdl.compute()
-
-                Dim tables = mdl.wrapResults()
+                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildNestedAnovaTables(mat, names)
                 Dim which As String = NormalizeText(outputType)
 
                 Select Case Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.NestedTableSelection(which)
@@ -510,9 +503,7 @@ Namespace WorksheetFunctions
                 Dim alphaValue As Double = 0.05
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-                Dim mdl As New parametric.UnpairedTtest(data, names)
-                mdl.compute(alphaValue)
-                Dim tables = mdl.wrapResults()
+                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildIndependentTTables(data, names, alphaValue)
 
                 Dim which As String = NormalizeText(outputType)
                 Select Case Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.IndependentTTableSelection(which)
@@ -590,9 +581,7 @@ Namespace WorksheetFunctions
                 If mat Is Nothing OrElse mat.GetLength(0) < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(varNames, detectedNames, 2, "Sample")
-                Dim mdl As New parametric.PairedTtest(mat, names)
-                mdl.compute()
-                Dim tables = mdl.wrapResults()
+                Dim tables = Global.BESHStatNG.ExcelCommon.UdfInferencePreparation38.BuildPairedTTables(mat, names)
                 Return PrepareResultTableForUdf(tables(0))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.TTEST_PAIRED", ex, ExcelError.ExcelErrorValue)

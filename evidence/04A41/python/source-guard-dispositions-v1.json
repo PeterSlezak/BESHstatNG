@@ -1,0 +1,131 @@
+{
+  "guards": [
+    {
+      "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+      "current_status": "FAIL",
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a05_completion_successor.py",
+          "bytes": 9515,
+          "sha256": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952"
+        },
+        "method": "test_no_designer_importer_targets_exports_or_signing_change",
+        "lines": [
+          [
+            132,
+            139
+          ]
+        ]
+      },
+      "old40_diagnostics": {
+        "message_sha256": "112343d7cd0bfc97241ee8c32e5c72c1ee58df95d602bf724c3180bce1ed0667",
+        "traceback_sha256": "3d1e9c51ead0a6da102f925d9bc7037f968752ecb49d52541c734c0e8c60a8f8"
+      },
+      "current41_diagnostics": {
+        "message_sha256": "ec50bfd9ae566ea7528333f918bc409b623cb2fca7023c270a6a8bb8b6c15c36",
+        "traceback_sha256": "5ef8265dcb315e5aac8c080bc44193a9ac9a750b6291a6ac9eab007374c9bc5d"
+      },
+      "triggering_authorized_paths": [
+        "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb"
+      ],
+      "applicability": "Literal historical no-UDF-diff assertion is currently violated by authorized41 paths. Separate software/ABI proofs do not change or waive the FAIL.",
+      "waived": false,
+      "old40_scope_disposition": {
+        "path": "evidence/04A40/owner-authorized-candidate-v3/scope-guard-dispositions-v3.json",
+        "bytes": 7165,
+        "sha256": "b629d5b8a80ef7a02ed4885e55b9d95abc0e5ae3e6e14b5924cf7424952ec670"
+      }
+    },
+    {
+      "identity": "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+      "current_status": "FAIL",
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a04_alignment.py",
+          "bytes": 6834,
+          "sha256": "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff"
+        },
+        "method": "test_udf_exports_and_packaging_unchanged",
+        "lines": [
+          [
+            82,
+            90
+          ]
+        ]
+      },
+      "old40_diagnostics": {
+        "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "traceback_sha256": "261bbe08bba3836e79db18dbab48d382d0b67f7de27f4f1110a66501b2e65b58"
+      },
+      "current41_diagnostics": {
+        "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "traceback_sha256": "261bbe08bba3836e79db18dbab48d382d0b67f7de27f4f1110a66501b2e65b58"
+      },
+      "triggering_authorized_paths": [
+        "BESHStat.Excel.Common/src/Analysis/UdfSampleSizePreparation38.vb",
+        "BESHStat.Excel.Common/src/Results/UdfAgreementReportPreparation38.vb",
+        "BESHStat.Excel.Common/src/Results/UdfInferencePreparation38.vb",
+        "BESHStat.Excel.Common/src/Results/UdfSpillPreparation38.vb",
+        "BESHStat.Excel.Common/src/Results/UdfTypedReportPreparation38.vb",
+        "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb"
+      ],
+      "applicability": "Literal historical no-UDF-diff assertion is currently violated by authorized41 paths. Separate software/ABI proofs do not change or waive the FAIL.",
+      "waived": false,
+      "old40_scope_disposition": {
+        "path": "evidence/04A40/owner-authorized-candidate-v3/scope-guard-dispositions-v3.json",
+        "bytes": 7165,
+        "sha256": "b629d5b8a80ef7a02ed4885e55b9d95abc0e5ae3e6e14b5924cf7424952ec670"
+      }
+    },
+    {
+      "identity": "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+      "current_status": "FAIL",
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a05_contingency.py",
+          "bytes": 9696,
+          "sha256": "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b"
+        },
+        "method": "test_no_designer_udf_numerical_packaging_or_framework_change",
+        "lines": [
+          [
+            141,
+            147
+          ]
+        ]
+      },
+      "old40_diagnostics": {
+        "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "traceback_sha256": "c3febe5720f4b2004487bd3877ec724ffd31ec623059612b03c5bee644c39ca5"
+      },
+      "current41_diagnostics": {
+        "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "traceback_sha256": "c3febe5720f4b2004487bd3877ec724ffd31ec623059612b03c5bee644c39ca5"
+      },
+      "triggering_authorized_paths": [
+        "BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb"
+      ],
+      "applicability": "Literal historical no-UDF-diff assertion is currently violated by authorized41 paths. Separate software/ABI proofs do not change or waive the FAIL.",
+      "waived": false,
+      "old40_scope_disposition": {
+        "path": "evidence/04A40/owner-authorized-candidate-v3/scope-guard-dispositions-v3.json",
+        "bytes": 7165,
+        "sha256": "b629d5b8a80ef7a02ed4885e55b9d95abc0e5ae3e6e14b5924cf7424952ec670"
+      }
+    }
+  ],
+  "actual_campaign": "Full956 current parent/event campaign;no test overrides",
+  "status": "THREE_FAILS_RETAINED_UNWAIVED"
+}
