@@ -1,0 +1,51 @@
+{
+  "kind": "CURRENT_MAIN_PRE_EDIT_04A43_BOUNDED_HOST_RACES",
+  "raw": {
+    "path": ".test-rationalization-04A43.tmp/races-before-v1/observations.json",
+    "bytes": 211581,
+    "sha256": "0d49a77d5d7305a8897ad15f371e7a1cffe5b59476c8d3c8775067c9f19e2c5d"
+  },
+  "driver": {
+    "path": ".test-rationalization-04A43.tmp/races-before-v1/Race43.exe",
+    "bytes": 55296,
+    "sha256": "43b4fbb5cae6d8b3ff7eae2daa70a68378986b974137bf2b35801cfbd024539c"
+  },
+  "sources": [
+    {
+      "path": "evidence/04A43/fixtures/Race43.cs",
+      "bytes": 5278,
+      "sha256": "742115fc8c2b9f1fa1eebb65502a2c439c055a39300f5c16183e2c3f2c453fd1"
+    },
+    {
+      "path": "evidence/04A43/fixtures/Observe43V3.cs",
+      "bytes": 11753,
+      "sha256": "8340f9f2efca9dea20ded7f31b480792e7f2be5f49220f4f0e6700dc3176cb13"
+    },
+    {
+      "path": "evidence/04A42/fixtures/Observe42.cs",
+      "bytes": 6949,
+      "sha256": "43c81be070998bf91ca000ade94c3ee90bcbb250dca3cbf8c56482f32f4e71af"
+    }
+  ],
+  "rows": 864,
+  "families": 18,
+  "cultures": [
+    "Invariant",
+    "sk-SK"
+  ],
+  "iterations_per_event": 8,
+  "bounded_seconds": 10,
+  "parallel_FIT_and_read": true,
+  "live_Excel": "NOT_RUN",
+  "Count_then_Clear": "Snapshot count race preserved;not promised serializable",
+  "pre_production_edit": true,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A44_NOT_AUTHORIZED"
+  }
+}

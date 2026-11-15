@@ -1,0 +1,9 @@
+from common43 import *
+s=(ROOT/'evidence/04A42/python-campaign-execution-v5.py').read_text(encoding='utf-8-sig').replace('from common42','from common43')
+s=s.replace("target=PRIVATE/'python-tools-v4'","target=PRIVATE/'python-tools-v1'").replace("(PRIVATE/'python-private-v4').mkdir()","(PRIVATE/'python-private-v1').mkdir()")
+s=s.replace("source=ROOT/'.test-rationalization-04A41.tmp/python-tools-v2'","source=ROOT/'.test-rationalization-04A42.tmp/python-tools-v4'")
+start=s.index('        for a,b in [');end=s.index('\n            if a in text:',start)
+s=s[:start]+'''        for a,b in [('.test-rationalization-04A42.tmp/python-private-v4','.test-rationalization-04A43.tmp/python-private-v1'),('.test-rationalization-04A42.tmp/executions/a42-final2-Debug-Common-semantic/observations','.test-rationalization-04A43.tmp/executions/a43-final-Debug-Common-semantic/observations'),("BASE='1df856c47f2342e26de1115f1621722b7c0ac23e'","BASE='"+MAIN+"'"),("ROOT/'.test-rationalization-04A42.tmp'","ROOT/'.test-rationalization-04A43.tmp'"),('a42pyv4-','a43pyv1-')]:'''+s[end:]
+s=s.replace('matrix/source-freeze-v2.json','matrix/source-freeze-v1.json').replace("ROOT/'.test-rationalization-04A41.tmp/python-tools-v2/python-discovery-inventory-v1.json'","ROOT/'.test-rationalization-04A42.tmp/python-tools-v4/python-discovery-inventory-v1.json'").replace('exact_accepted41','exact_accepted42').replace('python/discovery-v4.json','python/discovery-v1.json').replace('python-input-freeze-v4.json','python-input-freeze-v1.json').replace('python-input-postcheck-v4.json','python-input-postcheck-v1.json').replace("'python4-'","'python1-'").replace("'python-full-v4'","'python-full-v1'")
+with (HERE/'python-campaign-v1.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+print('Accepted42 unchanged Python tests/controls scheduled with fresh43 disjoint paths and labels',flush=True)

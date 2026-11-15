@@ -1,0 +1,80 @@
+{
+  "build": {
+    "path": ".test-rationalization-04A43.tmp/wave-b2-build-v1.json",
+    "bytes": 173524,
+    "sha256": "3327cdc831a7918da27d505a11cb5f96b852aad44936ba337caf8af57279c162"
+  },
+  "parts": [
+    {
+      "suite": "Common",
+      "outcomes": {
+        "Passed": 35
+      },
+      "raw": {
+        "path": ".test-rationalization-04A43.tmp/wave-b2-Common-tests-v1.json",
+        "bytes": 12905,
+        "sha256": "6a5652e2dac416a0c780c7d17a0888bf97acd92fa87ee50178988bf18437870e"
+      }
+    },
+    {
+      "suite": "Legacy",
+      "outcomes": {
+        "Passed": 218
+      },
+      "raw": {
+        "path": ".test-rationalization-04A43.tmp/wave-b2-Legacy-tests-v1.json",
+        "bytes": 79889,
+        "sha256": "efd95e08ab6acadec9206f0b622a1287c81d2d911488304f16b4f6a212582160"
+      }
+    }
+  ],
+  "operations": 1118,
+  "reference_graphs": 36,
+  "source_reached_runtime_fields": {
+    "path": "evidence/04A43/fixtures/volatile-fields-v1.json",
+    "bytes": 23413,
+    "sha256": "3c7bb602198ef8981e0775cfbc992b319962c0001a7899497f513133002f78c8"
+  },
+  "lifecycle_baseline": {
+    "path": ".test-rationalization-04A43.tmp/fixtures-before-v3/observations.json",
+    "bytes": 2773060,
+    "sha256": "1829e74666574fcbebf0f773efa0e4aee9a8cf0acce4e48025737de4c53679f5"
+  },
+  "lifecycle_successor": {
+    "path": ".test-rationalization-04A43.tmp/wave-b2-lifecycle-v1/observations.json",
+    "bytes": 2773060,
+    "sha256": "cbfcc4fc32465b3c63026f407a5efc2896617053cbd349bcf3f1885a0d833bdd"
+  },
+  "embedded_driver_kind": "Capture-driver schema label;successor capture is POST_EDIT_CURRENT,not a new pre-edit oracle.",
+  "nonvolatile_values_errors_bounds_and_relational_graph_exact": true,
+  "races": {
+    "rows": 864,
+    "identities": "9e5c9bf2fc049b891d7aae839534826a18f1f317c0b7422926cc538e2fb23dec",
+    "observed_outcomes": {
+      "('GET_DROP', False, True, -1, -1)": 271,
+      "('GET_CLEAR', True, False, 2, -1)": 5,
+      "('GET_CLEAR', False, False, 2, -1)": 283,
+      "('CLEAR_CLEAR', False, False, 2, 0)": 31,
+      "('CLEAR_CLEAR', False, False, 0, 2)": 193,
+      "('CLEAR_CLEAR', False, False, 2, 2)": 64,
+      "('GET_DROP', True, True, -1, -1)": 17
+    },
+    "same_fixed_schedule_claimed": false
+  },
+  "races_raw": {
+    "path": ".test-rationalization-04A43.tmp/wave-b-races-v4/observations.json",
+    "bytes": 211581,
+    "sha256": "9780c61396ad3c7a400a30991b4eb01a56ead1cef1ffb2931f5e3f114629df63"
+  },
+  "races_fixed_outcomes_not_claimed": true,
+  "failed_verifier_attempts": "Original198 discovery lacked explicit legacy Compile include;uncorrected comparator counted runtime clocks. Both failed attempts retained;existing tests unchanged and all55 new identities actually executed.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A44_NOT_AUTHORIZED"
+  }
+}

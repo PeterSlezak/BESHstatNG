@@ -1,0 +1,231 @@
+{
+  "new_Common_source": {
+    "path": "BESHStat.Excel.Common/src/Analysis/UdfModelHandlePolicy.vb",
+    "bytes": 12265,
+    "sha256": "891bd79ce53d5ff6504f83a00ad223c8b3ed0e17237c0bb02f0e9021556f731e"
+  },
+  "Common_target": "netstandard2.0",
+  "Windows_target": "net48",
+  "Core_source_unchanged": true,
+  "host_dependencies_in_new_Common": false,
+  "mutable_Common_cache_instances": 0,
+  "all18_Windows_dictionaries_unchanged": true,
+  "all18_FIT_generation_capture_order_methods_exact": [
+    {
+      "family": "PCA",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 210566,
+        "sha256": "67c9f1b76bf95458f412e64aa9ce0bd1c1131b7edbb8d67f0bb0ac590988211a"
+      },
+      "method": "PCA_FIT",
+      "sha256": "cc46c9eb14471c345665758d52dcb036b4ccf0f04ca3426e34bd19da66c6db5d",
+      "exact": true
+    },
+    {
+      "family": "FA",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 210566,
+        "sha256": "67c9f1b76bf95458f412e64aa9ce0bd1c1131b7edbb8d67f0bb0ac590988211a"
+      },
+      "method": "FA_FIT",
+      "sha256": "76d3c3f0862fb5160a240cf6f6531c3c61e53542051774d55838577b952b6983",
+      "exact": true
+    },
+    {
+      "family": "KMEANS",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 210566,
+        "sha256": "67c9f1b76bf95458f412e64aa9ce0bd1c1131b7edbb8d67f0bb0ac590988211a"
+      },
+      "method": "KMEANS_FIT",
+      "sha256": "ccd55046dfc73751539eb56ce6760588a17d5cb23448d9d45548d6b6cc2fc15a",
+      "exact": true
+    },
+    {
+      "family": "HCLUST",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 210566,
+        "sha256": "67c9f1b76bf95458f412e64aa9ce0bd1c1131b7edbb8d67f0bb0ac590988211a"
+      },
+      "method": "HCLUST_FIT",
+      "sha256": "4f8690001b9d2f366a45a4e608cf4db3b534e2720aa80e4c32fde457d87ce672",
+      "exact": true
+    },
+    {
+      "family": "CA",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 210566,
+        "sha256": "67c9f1b76bf95458f412e64aa9ce0bd1c1131b7edbb8d67f0bb0ac590988211a"
+      },
+      "method": "CA_FIT",
+      "sha256": "527dd7e871bba78d99c81e35844c1a7ef6b6061348ed5d241ad3ef967af626f6",
+      "exact": true
+    },
+    {
+      "family": "MCA",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 210566,
+        "sha256": "67c9f1b76bf95458f412e64aa9ce0bd1c1131b7edbb8d67f0bb0ac590988211a"
+      },
+      "method": "MCA_FIT",
+      "sha256": "fe6667d2a19fa237299aafb55717dfaebcf3b90c7675bfc2b60e4957e107a52b",
+      "exact": true
+    },
+    {
+      "family": "DA",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 210566,
+        "sha256": "67c9f1b76bf95458f412e64aa9ce0bd1c1131b7edbb8d67f0bb0ac590988211a"
+      },
+      "method": "DA_FIT",
+      "sha256": "fec56eb71c9e67d569128f4dcfc94de12b112f37b4594f9a17603499ce74d9e2",
+      "exact": true
+    },
+    {
+      "family": "PSM",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "bytes": 45440,
+        "sha256": "383782f2bc6f2ddb0b02bb6c254eaaffc1c1ba65e4f492e0e64e52fb08740abe"
+      },
+      "method": "PS_FIT",
+      "sha256": "167e0b0b816f828f183f06858ed7f02655d285722ab4ac5e97b9d85f4cc519c2",
+      "exact": true
+    },
+    {
+      "family": "COX",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+        "bytes": 49612,
+        "sha256": "ed9c1fda8722b941144eac586ae63d411f0a79e4021a2667f5e091ae6a521e3e"
+      },
+      "method": "COX_FIT",
+      "sha256": "12d441352e2719882965f4367df9cfc38f4a2e6771b4b2fe176838b7371f6ac4",
+      "exact": true
+    },
+    {
+      "family": "GEE",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "bytes": 89907,
+        "sha256": "511bb7254de5aeb8a37469f0fd5300ae08ac56fad209b24db854fb21d5d1b69f"
+      },
+      "method": "GEE_FIT",
+      "sha256": "b17e4ca81dcf4e3b4621f14c5c3825f4b6e2f12db95a83392081b39271bbd819",
+      "exact": true
+    },
+    {
+      "family": "GLMNB",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+        "bytes": 40754,
+        "sha256": "54aec1c6778465bc7571672a28c784d8c705e92de7225409cd79446fbf3e0e48"
+      },
+      "method": "GLMNB_FIT",
+      "sha256": "d9710bf5abc24ae7043dac63f07b4e8ffa01a6170f5528c16c25511129b4c8ab",
+      "exact": true
+    },
+    {
+      "family": "GLM",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+        "bytes": 65550,
+        "sha256": "af4143e948136048d6b1f41f295c08867219f4023f76b85be6b431343fd7f038"
+      },
+      "method": "GLM_FIT",
+      "sha256": "5805c35e1dfab401a847517401394777b6e297b47bd707d9dd83d86d21db4b90",
+      "exact": true
+    },
+    {
+      "family": "LM",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+        "bytes": 42743,
+        "sha256": "0b4d974771d552dad7a96161c4c9b7a0dd8bf0faab1dd39dd31e1440f40ab3ad"
+      },
+      "method": "LM_FIT",
+      "sha256": "d8ef14ae34f01bf53b31385ca4e22ec57a02924ba9270363dc03f88b7ac21ceb",
+      "exact": true
+    },
+    {
+      "family": "LMM",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+        "bytes": 59030,
+        "sha256": "3da26331ba4d20dc3cf41dc41df94e8a46b2e1bd25d8c428ca77a287a4e97363"
+      },
+      "method": "LMM_FIT",
+      "sha256": "384c67b5fc424448b16708fe68bf2d687b0d51e1b3fd025fd1d1fa1435995c8a",
+      "exact": true
+    },
+    {
+      "family": "MMRM",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "bytes": 79787,
+        "sha256": "2efed3093c4b12e83b91328dce4e84bf6dbd287b44c7ec9fb2dc19767507e800"
+      },
+      "method": "MMRM_FIT",
+      "sha256": "c8c97d12afe204eed0ed96dfc2070221a88b94fcd97ede4d354b8456ecb0214d",
+      "exact": true
+    },
+    {
+      "family": "MNLOGIT",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "bytes": 43687,
+        "sha256": "3891b9687d18cb7cbbef662caae55f78bacb6f2dc4b82d68a4a5239d8b028c67"
+      },
+      "method": "MNLOGIT_FIT",
+      "sha256": "e512e44cb6cfad7fc0b252ebcf9f18695f8721fd780d565de4c7edaaa3884520",
+      "exact": true
+    },
+    {
+      "family": "ORDLOGIT",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "bytes": 40307,
+        "sha256": "c5e292d117b1aeb6b0a0d0eb6930027df9220321c45ce26dbb4924a703abdc44"
+      },
+      "method": "ORDLOGIT_FIT",
+      "sha256": "a87e168980319ec2a4a21f4293cfe98ff202a757b7f99b77d6d3f4838f9fc79b",
+      "exact": true
+    },
+    {
+      "family": "ZIP",
+      "source": {
+        "path": "BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+        "bytes": 52128,
+        "sha256": "d0f1105b78c2a7945070374d9cc9d008d50e17f90c2f55685b10ee5b1107fc95"
+      },
+      "method": "ZIP_FIT",
+      "sha256": "d8ac38602fb67e12fa3b8c76ad851512feda2d029629f388671a33f222436615",
+      "exact": true
+    }
+  ],
+  "scope_markers_acquired_by_Windows": false,
+  "Common_policy_only_scope_simulations": true,
+  "legacy_test_registration_only": true,
+  "existing_tests_modified": false,
+  "accepted42_regression_locks": [
+    "ResolveNamedTable unknown does not eagerly dereference missing handle",
+    "Discriminant directly pinned prepared-owner dependency unchanged",
+    "FA_FACTORABILITY source exception unchanged"
+  ],
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A44_NOT_AUTHORIZED"
+  }
+}

@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 Option Strict On
 
 Imports System
@@ -189,7 +189,7 @@ Namespace WorksheetFunctions
 
         Friend Function TryGetHandleKey(handle As Object, ByRef key As String) As Boolean
             key = ExcelArgReaders.AsString(handle)
-            Return Not String.IsNullOrWhiteSpace(key)
+            Return Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key)
         End Function
 
         Friend Function TryGetCachedHandle(Of T As Class)(handle As Object,

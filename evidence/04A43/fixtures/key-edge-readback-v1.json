@@ -1,0 +1,57 @@
+{
+  "kind": "ADDITIONAL_LATE_MEASUREMENT_OF_AUTHENTIC_SEALED_ENTRY;NOT_PRE_EDIT_FROZEN_OR_PART_OF1118",
+  "results": [
+    {
+      "configuration": "Debug",
+      "rows": 30,
+      "exact": true,
+      "baseline": {
+        "path": ".test-rationalization-04A43.tmp/key-edge-readback-v1/Debug-sealed-entry.json",
+        "bytes": 3643,
+        "sha256": "cd3e57908e81c38e2ad16f47aa3d6ebaef56034b760eabdc6b459e1fbe22e91c"
+      },
+      "current": {
+        "path": ".test-rationalization-04A43.tmp/key-edge-readback-v1/Debug-current.json",
+        "bytes": 3643,
+        "sha256": "cd3e57908e81c38e2ad16f47aa3d6ebaef56034b760eabdc6b459e1fbe22e91c"
+      }
+    },
+    {
+      "configuration": "Release",
+      "rows": 30,
+      "exact": true,
+      "baseline": {
+        "path": ".test-rationalization-04A43.tmp/key-edge-readback-v1/Release-sealed-entry.json",
+        "bytes": 3643,
+        "sha256": "cd3e57908e81c38e2ad16f47aa3d6ebaef56034b760eabdc6b459e1fbe22e91c"
+      },
+      "current": {
+        "path": ".test-rationalization-04A43.tmp/key-edge-readback-v1/Release-current.json",
+        "bytes": 3643,
+        "sha256": "cd3e57908e81c38e2ad16f47aa3d6ebaef56034b760eabdc6b459e1fbe22e91c"
+      }
+    }
+  ],
+  "input_axes": [
+    "Invariant/sk-SK numeric/string/bool coercion",
+    "Missing/Empty/ExcelError",
+    "0/1/nonzero lower-bound arrays",
+    "Throwing ToString and ByRef key state on exception"
+  ],
+  "original1118_and_old29424_unchanged": true,
+  "raw_values_private": true,
+  "source": {
+    "path": "evidence/04A43/fixtures/KeyEdges43.cs",
+    "bytes": 2639,
+    "sha256": "116f2bcf93bafcc17c6ae468cf9b6b8f5079dae7d0543fbf1e45ce77de5bae5c"
+  },
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A44_NOT_AUTHORIZED"
+  }
+}

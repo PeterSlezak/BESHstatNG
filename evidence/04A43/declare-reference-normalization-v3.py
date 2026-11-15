@@ -1,0 +1,9 @@
+from common43 import *
+s=(HERE/'compare43_v2.py').read_text(encoding='utf-8-sig');needle="        tokens={t['symbol']:t['token'] for t in g['tokens']}"
+replacement=needle+"\n        wrong=ops[g['context']+'/INVALID_11']['input']['values'][0]['value'];assert wrong=='OTHER:'+tokens['A'].split(':')[1]\n        assert ops[g['context']+'/INVALID_11']['output']['type'].endswith('ExcelError')\n        mapping[wrong]=g['context']+'/WRONG_FAMILY_DERIVED_FROM_A'"
+assert needle in s;s=s.replace(needle,replacement)
+with (HERE/'compare43_v3.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+save('fixtures/reference-normalization-v3.json',dict(kind='EXPLICIT_RELATIONAL_REFERENCE_NORMALIZATION;NOT_GUID_SHAPE_ERASURE',actual_graphs=36,generated_tokens='A/B and PSM C captured directly from actual FIT;unique grammar and distinct cached object ordinals required before substitution.',wrong_family_control='INVALID_11 must equal OTHER plus exact captured A GUID suffix and return ExcelError. Prefix and association are validated before replacing that derived reference with a symbolic edge.',unrelated_unknown_keys='Remain exact;not normalized.',source=pin(HERE/'fixtures/Observe43V3.cs'),comparator=pin(HERE/'compare43_v3.py'),clock_cells=pin(HERE/'fixtures/volatile-fields-v1.json'),raws_unchanged=True,prior_mismatches='36 INVALID_11 input-reference suffixes were previously left unbound;no output/statistic/API behavior difference.',gates=GATES))
+s=(HERE/'close-wave-b-v3.py').read_text(encoding='utf-8-sig').replace('compare43_v2.py','compare43_v3.py').replace('differences-v3.json','differences-v4.json').replace('wave-b-races-v3','wave-b-races-v4').replace('waves/wave-b-v3.json','waves/wave-b-v4.json')
+with (HERE/'close-wave-b-v4.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+print('Derived wrong-family GUID suffix now validated as an A reference,not discarded as arbitrary GUID text',flush=True)

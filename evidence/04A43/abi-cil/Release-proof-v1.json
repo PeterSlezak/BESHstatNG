@@ -1,0 +1,124 @@
+{
+  "configuration": "Release",
+  "exports": 268,
+  "exact_export_order_names_signatures_attributes": true,
+  "baseline42": {
+    "path": "evidence/04A42/abi-cil/Release-proof-v3.json",
+    "bytes": 25628,
+    "sha256": "2b160ec5f064c9b1a62cdf5da941b379074777c97f8b18f84d3fda5c9cbc014d"
+  },
+  "current_metadata": {
+    "path": ".test-rationalization-04A43.tmp/abi-cil/Release/current.json",
+    "bytes": 72356550,
+    "sha256": "44498af6efa520d5ba1016ffde32f8f3c95d7246918092b7bd67fe32000a562f"
+  },
+  "current_exports": {
+    "path": ".test-rationalization-04A43.tmp/abi-cil/Release/exports.json",
+    "bytes": 2598188,
+    "sha256": "1d494cc2d79a18a3768ed268cc3a067b02f364d9bcddacd0071a685180960b15"
+  },
+  "assembly_hashes": [
+    {
+      "path": ".test-rationalization-04A43.tmp/compiled/Release/lib/BESHStat.Core.dll",
+      "bytes": 1924608,
+      "sha256": "5a7eef12532fdd2181bb35d4949ac28b607745140b40f89ca0c3d53d39b57a11"
+    },
+    {
+      "path": ".test-rationalization-04A43.tmp/compiled/Release/lib/BESHStat.Excel.Common.dll",
+      "bytes": 1096192,
+      "sha256": "aa64384bc0af0cd3c595518cb53db75d92e1cc7ada27b8833d2eee762226a082"
+    },
+    {
+      "path": ".test-rationalization-04A43.tmp/compiled/Release/lib/BESHStatNG.dll",
+      "bytes": 2466304,
+      "sha256": "7642bf15c4f7221a27fd049fed1c51508953c133046ff78bcea52cd4cfea0d8d"
+    },
+    {
+      "path": ".test-rationalization-04A43.tmp/compiled/Release/lib/ExcelDna.Integration.dll",
+      "bytes": 308224,
+      "sha256": "c92fcabda2f18eb68d0d1e91cfa4bf05ea079eb66eecb9762884ab576a84f41f"
+    }
+  ],
+  "changed_methods": [
+    "BESHStatNG.ExcelCommon.UdfHandleLifecycleDecision @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(BESHStatNG.ExcelCommon.UdfHandleAction @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.ExcelCommon.UdfHandleState @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.ExcelCommon.UdfHandleLifecycleDecision @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Action()",
+    "BESHStatNG.ExcelCommon.UdfHandleLifecycleDecision @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_NextState()",
+    "BESHStatNG.ExcelCommon.UdfHandleLifecycleDecision @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_PerformsStorage()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.ExcelCommon.UdfHandleFamily @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.ExcelCommon.UdfHandleState @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.ExcelCommon.UdfHandleScopeEvidence @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.ExcelCommon.UdfHandleScopeEvidence @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.WithState(BESHStatNG.ExcelCommon.UdfHandleState @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ConvertedKey()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Family()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ResultTypeVersion()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_SessionEpoch()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_SessionEvidence()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_State()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_WorkbookEpoch()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_WorkbookEvidence()",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasLookupKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IdentifyFamily(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.InspectSyntax(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsClearAllRequest(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Plan(BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.ExcelCommon.UdfHandleEvent @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ReferenceMatches(BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.ExcelCommon.UdfHandleFamily @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Validity(BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.ExcelCommon.UdfHandleFamily @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.CA_DROP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.DA_DROP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FA_DROP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HCLUST_DROP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.KMEANS_DROP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.MCA_DROP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PCA_DROP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetCaHandle(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs+CorrespondenceHandle& @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetDaHandle(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs+DiscriminantHandle& @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetFaHandle(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs+FactorAnalysisHandle& @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetHierarchicalHandle(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs+HierarchicalHandle& @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetKMeansHandle(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs+KMeansHandle& @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetMcaHandle(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs+MultipleCorrespondenceHandle& @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetPcaHandle(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.WorksheetFunctions.MultivariateAnalysisUDFs+PcaHandle& @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.WorksheetFunctions.PropensityScoreUDFs @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PS_CLEANUP(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.WorksheetFunctions.UdfCacheHelpers @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryGetHandleKey(System.Object @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+  ],
+  "unexpected": [],
+  "removed": [],
+  "new": [
+    "BESHStatNG.ExcelCommon.UdfHandleLifecycleDecision @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(BESHStatNG.ExcelCommon.UdfHandleAction @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.ExcelCommon.UdfHandleState @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.ExcelCommon.UdfHandleLifecycleDecision @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Action()",
+    "BESHStatNG.ExcelCommon.UdfHandleLifecycleDecision @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_NextState()",
+    "BESHStatNG.ExcelCommon.UdfHandleLifecycleDecision @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_PerformsStorage()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.ExcelCommon.UdfHandleFamily @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.ExcelCommon.UdfHandleState @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.ExcelCommon.UdfHandleScopeEvidence @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.ExcelCommon.UdfHandleScopeEvidence @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.WithState(BESHStatNG.ExcelCommon.UdfHandleState @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null)",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ConvertedKey()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_Family()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_ResultTypeVersion()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_SessionEpoch()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_SessionEvidence()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_State()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_WorkbookEpoch()",
+    "BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.get_WorkbookEvidence()",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.HasLookupKey(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IdentifyFamily(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.InspectSyntax(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.IsClearAllRequest(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Plan(BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.ExcelCommon.UdfHandleEvent @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ReferenceMatches(BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,BESHStatNG.ExcelCommon.UdfHandleFamily @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Boolean @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UdfModelHandlePolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.Validity(BESHStatNG.ExcelCommon.UdfModelHandleDescriptor @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,BESHStatNG.ExcelCommon.UdfHandleFamily @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null,System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Nullable`1[[System.Int64, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]] @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+  ],
+  "all_other_compiled_methods_exact": true,
+  "Core_scientific_source_unchanged": true,
+  "complete_change_records": {
+    "path": ".test-rationalization-04A43.tmp/compiled-method-differences-Release.json",
+    "bytes": 365494,
+    "sha256": "ae79cf9b9d521caf717017ecfd1b62d51e8c750cb9b136b8e5268d0d61d0330e"
+  },
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A44_NOT_AUTHORIZED"
+  }
+}

@@ -393,7 +393,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim key As String = AsString(handle)
-                If String.IsNullOrWhiteSpace(key) Then Return False
+                If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
                 Dim removed As PcaHandle = Nothing
                 Return _pcaCache.TryRemove(key.Trim(), removed)
             Catch ex As Exception
@@ -837,7 +837,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim key As String = AsString(handle)
-                If String.IsNullOrWhiteSpace(key) Then Return False
+                If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
                 Dim removed As FactorAnalysisHandle = Nothing
                 Return _faCache.TryRemove(key.Trim(), removed)
             Catch ex As Exception
@@ -1168,7 +1168,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim key As String = AsString(handle)
-                If String.IsNullOrWhiteSpace(key) Then Return False
+                If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
                 Dim removed As KMeansHandle = Nothing
                 Return _kmeansCache.TryRemove(key.Trim(), removed)
             Catch ex As Exception
@@ -1489,7 +1489,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim key As String = AsString(handle)
-                If String.IsNullOrWhiteSpace(key) Then Return False
+                If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
                 Dim removed As HierarchicalHandle = Nothing
                 Return _hclustCache.TryRemove(key.Trim(), removed)
             Catch ex As Exception
@@ -1881,7 +1881,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim key As String = AsString(handle)
-                If String.IsNullOrWhiteSpace(key) Then Return False
+                If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
                 Dim removed As CorrespondenceHandle = Nothing
                 Return _caCache.TryRemove(key.Trim(), removed)
             Catch ex As Exception
@@ -2212,7 +2212,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim key As String = AsString(handle)
-                If String.IsNullOrWhiteSpace(key) Then Return False
+                If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
                 Dim removed As MultipleCorrespondenceHandle = Nothing
                 Return _mcaCache.TryRemove(key.Trim(), removed)
             Catch ex As Exception
@@ -2887,7 +2887,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim key As String = AsString(handle)
-                If String.IsNullOrWhiteSpace(key) Then Return False
+                If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
                 Dim removed As DiscriminantHandle = Nothing
                 Return _daCache.TryRemove(key.Trim(), removed)
             Catch ex As Exception
@@ -2901,49 +2901,49 @@ Namespace WorksheetFunctions
         Private Function TryGetKMeansHandle(handle As Object, ByRef found As KMeansHandle) As Boolean
             found = Nothing
             Dim key As String = AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
+            If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
             Return _kmeansCache.TryGetValue(key.Trim(), found)
         End Function
 
         Private Function TryGetHierarchicalHandle(handle As Object, ByRef found As HierarchicalHandle) As Boolean
             found = Nothing
             Dim key As String = AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
+            If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
             Return _hclustCache.TryGetValue(key.Trim(), found)
         End Function
 
         Private Function TryGetPcaHandle(handle As Object, ByRef found As PcaHandle) As Boolean
             found = Nothing
             Dim key As String = AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
+            If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
             Return _pcaCache.TryGetValue(key.Trim(), found)
         End Function
 
         Private Function TryGetFaHandle(handle As Object, ByRef found As FactorAnalysisHandle) As Boolean
             found = Nothing
             Dim key As String = AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
+            If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
             Return _faCache.TryGetValue(key.Trim(), found)
         End Function
 
         Private Function TryGetCaHandle(handle As Object, ByRef found As CorrespondenceHandle) As Boolean
             found = Nothing
             Dim key As String = AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
+            If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
             Return _caCache.TryGetValue(key.Trim(), found)
         End Function
 
         Private Function TryGetMcaHandle(handle As Object, ByRef found As MultipleCorrespondenceHandle) As Boolean
             found = Nothing
             Dim key As String = AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
+            If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
             Return _mcaCache.TryGetValue(key.Trim(), found)
         End Function
 
         Private Function TryGetDaHandle(handle As Object, ByRef found As DiscriminantHandle) As Boolean
             found = Nothing
             Dim key As String = AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
+            If Not Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.HasLookupKey(key) Then Return False
             Return _daCache.TryGetValue(key.Trim(), found)
         End Function
 

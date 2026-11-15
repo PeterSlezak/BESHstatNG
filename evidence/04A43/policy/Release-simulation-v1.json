@@ -1,0 +1,129 @@
+{
+  "kind": "SAFE_SIMULATED_GENERATION_MARKERS;NOT_LIVE_WORKBOOK_IDS_OR_EVENTS",
+  "configuration": "Release",
+  "data": {
+    "kind": "DEFINED_POLICY_ONLY_COMPILED_COMMON_SIMULATION",
+    "rows": [
+      {
+        "id": "blank",
+        "kind": "VALIDITY",
+        "actual": "Blank"
+      },
+      {
+        "id": "same-scope",
+        "kind": "VALIDITY",
+        "actual": "Available"
+      },
+      {
+        "id": "wrong-session",
+        "kind": "VALIDITY",
+        "actual": "WrongVerifiedSession"
+      },
+      {
+        "id": "wrong-workbook",
+        "kind": "VALIDITY",
+        "actual": "WrongVerifiedWorkbook"
+      },
+      {
+        "id": "not-found",
+        "kind": "VALIDITY",
+        "actual": "NotFound"
+      },
+      {
+        "id": "removed",
+        "kind": "VALIDITY",
+        "actual": "ExplicitlyInvalidated"
+      },
+      {
+        "id": "unestablished-scope",
+        "kind": "VALIDITY",
+        "actual": "Available"
+      },
+      {
+        "id": "unknown-workbook-close",
+        "kind": "POLICY_ONLY_PLAN",
+        "actual": "NativeScopeNotVerified",
+        "nextState": "Unobserved",
+        "performsStorage": false
+      },
+      {
+        "id": "verified-simulated-close",
+        "kind": "POLICY_ONLY_PLAN",
+        "actual": "RecommendInvalidation",
+        "nextState": "WorkbookClosed",
+        "performsStorage": false
+      },
+      {
+        "id": "workbook-switch",
+        "kind": "POLICY_ONLY_PLAN",
+        "actual": "None",
+        "nextState": "Unobserved",
+        "performsStorage": false
+      },
+      {
+        "id": "repeat-fit",
+        "kind": "POLICY_ONLY_PLAN",
+        "actual": "CreateIndependentHandle",
+        "nextState": "Unobserved",
+        "performsStorage": false
+      },
+      {
+        "id": "reference-good",
+        "kind": "RELATIONAL_REFERENCE",
+        "actual": true
+      },
+      {
+        "id": "reference-alias-substitution",
+        "kind": "RELATIONAL_REFERENCE",
+        "actual": false
+      },
+      {
+        "id": "reference-wrong-cache-family",
+        "kind": "RELATIONAL_REFERENCE",
+        "actual": false
+      },
+      {
+        "id": "reference-wrong-object",
+        "kind": "RELATIONAL_REFERENCE",
+        "actual": false
+      }
+    ],
+    "actualWindowsCallbacksInstalled": 0,
+    "actualWorkbookAttribution": "NOT_ESTABLISHED",
+    "liveExcel": "NOT_RUN"
+  },
+  "raw": {
+    "path": ".test-rationalization-04A43.tmp/policy-simulation-Release-v1/observations.json",
+    "bytes": 1464,
+    "sha256": "880af5f7415f61280b3337b5aa75355c707702d278c0e8a8ae68470db5138fb0"
+  },
+  "driver": {
+    "path": ".test-rationalization-04A43.tmp/policy-simulation-Release-v1/Policy43.exe",
+    "bytes": 12288,
+    "sha256": "117b5bb7dee3e79842b7e94cbc6f34bea42967dd96668b729ec1a49409a4dc9a"
+  },
+  "source": {
+    "path": "evidence/04A43/fixtures/Policy43.cs",
+    "bytes": 2964,
+    "sha256": "f65c4996f474a6bbf107b0283e4377d788fa1bec34e6846749a1e205c26b74e4"
+  },
+  "Common": {
+    "path": ".test-rationalization-04A43.tmp/compiled/Release/lib/BESHStat.Excel.Common.dll",
+    "bytes": 1096192,
+    "sha256": "aa64384bc0af0cd3c595518cb53db75d92e1cc7ada27b8833d2eee762226a082"
+  },
+  "Core": {
+    "path": ".test-rationalization-04A43.tmp/compiled/Release/lib/BESHStat.Core.dll",
+    "bytes": 1924608,
+    "sha256": "5a7eef12532fdd2181bb35d4949ac28b607745140b40f89ca0c3d53d39b57a11"
+  },
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A44_NOT_AUTHORIZED"
+  }
+}

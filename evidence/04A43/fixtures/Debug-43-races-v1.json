@@ -1,0 +1,45 @@
+{
+  "kind": "POST_EDIT_CURRENT43_BOUNDED_HOST_CACHE_RACES;NOT_LIVE_EXCEL",
+  "baseline": {
+    "path": ".test-rationalization-04A43.tmp/races-before-v1/observations.json",
+    "bytes": 211581,
+    "sha256": "0d49a77d5d7305a8897ad15f371e7a1cffe5b59476c8d3c8775067c9f19e2c5d"
+  },
+  "current": {
+    "path": ".test-rationalization-04A43.tmp/fixture-final-Debug-43-races/observations.json",
+    "bytes": 211587,
+    "sha256": "97b0aa8c252e0760d076d6921f250b29922f921e0a03038b3c25493b5519f076"
+  },
+  "before": {
+    "rows": 864,
+    "identities": "9e5c9bf2fc049b891d7aae839534826a18f1f317c0b7422926cc538e2fb23dec",
+    "observed_outcomes": {
+      "('GET_DROP', False, True, -1, -1)": 272,
+      "('GET_CLEAR', True, False, 2, -1)": 6,
+      "('GET_CLEAR', False, False, 2, -1)": 282,
+      "('CLEAR_CLEAR', False, False, 0, 2)": 190,
+      "('CLEAR_CLEAR', False, False, 2, 2)": 65,
+      "('GET_DROP', True, True, -1, -1)": 16,
+      "('CLEAR_CLEAR', False, False, 2, 0)": 33
+    },
+    "same_fixed_schedule_claimed": false
+  },
+  "after": {
+    "rows": 864,
+    "identities": "9e5c9bf2fc049b891d7aae839534826a18f1f317c0b7422926cc538e2fb23dec",
+    "observed_outcomes": {
+      "('GET_DROP', False, True, -1, -1)": 276,
+      "('GET_CLEAR', True, False, 2, -1)": 4,
+      "('GET_CLEAR', False, False, 2, -1)": 284,
+      "('CLEAR_CLEAR', False, False, 0, 2)": 202,
+      "('CLEAR_CLEAR', False, False, 2, 0)": 21,
+      "('CLEAR_CLEAR', False, False, 2, 2)": 65,
+      "('GET_DROP', True, True, -1, -1)": 12
+    },
+    "same_fixed_schedule_claimed": false
+  },
+  "identities_exact": true,
+  "allowed_outcome_invariants_pass": true,
+  "fixed_schedule_equality_claimed": false,
+  "live_Excel": "NOT_RUN"
+}

@@ -1,0 +1,31 @@
+{
+  "kind": "POST_EDIT_CURRENT43_RELATIONAL_COMPATIBILITY",
+  "operations": 1118,
+  "graphs": 36,
+  "families": 18,
+  "baseline": {
+    "path": ".test-rationalization-04A43.tmp/fixtures-before-v3/observations.json",
+    "bytes": 2773060,
+    "sha256": "1829e74666574fcbebf0f773efa0e4aee9a8cf0acce4e48025737de4c53679f5"
+  },
+  "current": {
+    "path": ".test-rationalization-04A43.tmp/fixture-final-Debug-43/observations.json",
+    "bytes": 2773060,
+    "sha256": "a1354d0fbd130869be885e49f788fb2a302ad251cc729a46388e8ea518ee98f4"
+  },
+  "generated_reference_bijection_validated": true,
+  "raw_tokens_grammar_uniqueness_and_object_association_verified": true,
+  "nonvolatile_typed_outputs_errors_shapes_exact": true,
+  "clock_fields": {
+    "path": "evidence/04A43/fixtures/volatile-fields-v1.json",
+    "bytes": 23413,
+    "sha256": "3c7bb602198ef8981e0775cfbc992b319962c0001a7899497f513133002f78c8"
+  },
+  "normalization": {
+    "path": "evidence/04A43/fixtures/reference-normalization-v3.json",
+    "bytes": 1406,
+    "sha256": "e37e231dfe3ae4bc413e3d3c860304235e836b959747cb488181a411dde51c3b"
+  },
+  "embedded_raw_kind_is_driver_schema_not_capture_time": true,
+  "scientific": "NOT_GOLDEN"
+}

@@ -1,0 +1,181 @@
+{
+  "status": "READY_FOR_OWNER_04A43_ACCEPTANCE_REVIEW_WITH_DOCUMENTED_RESTRICTIONS",
+  "kind": "OWNER_REVIEW_READINESS_ONLY",
+  "effective_only_with_matching_external_receipt": true,
+  "base": "3955a6e9142256df6bc1fd53a924010c58367b51",
+  "prior": "1df856c47f2342e26de1115f1621722b7c0ac23e",
+  "branch": "codex/04A-43",
+  "owner_accepted": false,
+  "merged": false,
+  "phase04A44_authorized": false,
+  "scientific_corrections": 0,
+  "native_activations": 0,
+  "cached_model_semantics_changed": false,
+  "live_Excel": "NOT_RUN",
+  "implementation": {
+    "existing_Windows_runtime_files": 3,
+    "new_Common_source_files": 1,
+    "new_test_files": 2,
+    "test_Compile_include": 1,
+    "changed_public_parents": 8,
+    "cache_families": 18,
+    "cache_modules": 12,
+    "handle_exports": 174,
+    "total_exports": 268,
+    "new_PASS_identities": 55
+  },
+  "software": {
+    "Debug": {
+      "configuration": "Debug",
+      "scope": "ONE_FULL_FRESH_CAMPAIGN",
+      "identities": 21232,
+      "outcomes": {
+        "Passed": 21218,
+        "Failed": 14
+      },
+      "added": 55,
+      "missing": [],
+      "nonpass_deltas": {
+        "RETAINED_IDENTICAL": 14
+      }
+    },
+    "Release": {
+      "configuration": "Release",
+      "scope": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+      "identities": 373,
+      "outcomes": {
+        "Passed": 373
+      },
+      "added": 55,
+      "missing": [],
+      "nonpass_deltas": {}
+    },
+    "full_Release": "NOT_RUN",
+    "Python": {
+      "parents": 956,
+      "parent_outcomes": {
+        "PASS": 832,
+        "ERROR": 11,
+        "FAIL": 113
+      },
+      "before_outcomes": {
+        "PASS": 832,
+        "ERROR": 11,
+        "FAIL": 113
+      },
+      "event_outcomes": {
+        "ERROR": 11,
+        "FAIL": 185
+      },
+      "categories": {
+        "RETAINED_IDENTICAL": 175,
+        "RETAINED_CHANGED_MESSAGE": 21
+      },
+      "changed_parents": [],
+      "unresolved_diagnostic_events": [],
+      "dropped_parents": [],
+      "duplicated_parents": [],
+      "campaigns": 1,
+      "workers_at_peak": 3,
+      "diagnostic_dispositions": {
+        "path": "evidence/04A43/python/diagnostic-dispositions-v1.json",
+        "bytes": 43799,
+        "sha256": "e4b19874de98765080f9e2a219fddbdccd9a46e62f94bb4dfc1d4cafcc79203e"
+      }
+    },
+    "Node": "INHERITED_916_PASS;NOT_RERUN",
+    "strict_profile_MkDocs": [
+      1,
+      1,
+      0
+    ]
+  },
+  "compatibility": {
+    "sealed_per_configuration": 29424,
+    "PRE_EDIT_FROZEN": 28966,
+    "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458,
+    "accepted39": 77,
+    "accepted40": 48,
+    "accepted41": 390,
+    "accepted42": 1802,
+    "current43_operations": 1118,
+    "real_fit_graphs": 36,
+    "generated_tokens": 74,
+    "bounded_race_rows": 864,
+    "simulated_policy_cases": 15,
+    "precisely_qualified_runtime_cells": 92,
+    "late_sealed_entry_key_edges": 30,
+    "original_queries": 0,
+    "scientific": "NOT_GOLDEN"
+  },
+  "privacy": "Both unchanged actual-candidate and all physical-member/index scans zero in matching external receipt;no allowances.",
+  "historical": "14 DebugFAIL;113 PythonFAIL/11ERROR;three historical UDF-diff guards FAIL;39privacy1941each;W3privacyERROR;54+32+21+25 prior and21 current diagnostic differences retained. Accepted41 targeted Release failure/optimized sequence drift remains FAIL outside this subset;42 first-freeze regressions and failed evidence preserved.",
+  "preservation": {
+    "path": "evidence/04A43/preservation/readback-v1.json",
+    "bytes": 5318,
+    "sha256": "187740ed7ffae060b1f61dde7d1519bff92b7c76313090716735e479da76d33a"
+  },
+  "native_limitations": "Global session dictionaries are not demonstrated workbook-bound. No new workbook/session epoch acquisition/event hook;simulated verified epochs are policy-only. No automatic cleanup/rebinding/capacity/TTL/LRU/disposal. Dictionary atomics do not prove mutable model safety or serializable Count-Clear.",
+  "required_next_gate": "Owner review/acceptance of43;any changed workbook invalidation,eviction,error/key grammar or native behavior requires separate exact decision and applicable native gate.44 not authorized.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A44_NOT_AUTHORIZED"
+  },
+  "readiness": {
+    "path": "evidence/04A43/final/readiness-postseal-v1.json",
+    "bytes": 4323,
+    "sha256": "cdf1178233043bab026983be590bc79cc147b3b3f0b707a0083b7fd7c1906ec3"
+  },
+  "gate_evidence": [
+    {
+      "path": "evidence/04A43/build-and-tests/Debug-identities-v1.json",
+      "bytes": 10756733,
+      "sha256": "f7d2245d7bfd313ac1ae83e324ca311777a4963a4cca8c2d195e6af223fd4403"
+    },
+    {
+      "path": "evidence/04A43/build-and-tests/Release-identities-v1.json",
+      "bytes": 229146,
+      "sha256": "0181e5cf1b4def49d7c60f615981c394b3ab295b200d5eade8ee1879f595ea67"
+    },
+    {
+      "path": "evidence/04A43/python/parent-event-reconciliation-v2.json",
+      "bytes": 810262,
+      "sha256": "618af73c1cbef9f9f2ab9573fa257d266e54d1e9fee99d742170f1b20de7f866"
+    },
+    {
+      "path": "evidence/04A43/python/diagnostic-dispositions-v1.json",
+      "bytes": 43799,
+      "sha256": "e4b19874de98765080f9e2a219fddbdccd9a46e62f94bb4dfc1d4cafcc79203e"
+    },
+    {
+      "path": "evidence/04A43/python/source-guard-dispositions-v1.json",
+      "bytes": 5220,
+      "sha256": "8fc9c83187f1aa13c5258d89bfc33f64fba44737545fd3eefe2b3980e0721294"
+    },
+    {
+      "path": "evidence/04A43/privacy/repository-candidate-v1.json",
+      "bytes": 58957,
+      "sha256": "254024c6809e91bdf6cd22c6158dd8511823dcf2f9365ba5fdfa3f0dc8d6e37f"
+    },
+    {
+      "path": "evidence/04A43/preservation/readback-v1.json",
+      "bytes": 5318,
+      "sha256": "187740ed7ffae060b1f61dde7d1519bff92b7c76313090716735e479da76d33a"
+    },
+    {
+      "path": "evidence/04A43/register/issue-delta-v1.json",
+      "bytes": 9457,
+      "sha256": "b6c0898e1b03386142f27f1483e8575e393cd72021b41baaa2d1f66a9e1add2a"
+    },
+    {
+      "path": "evidence/04A43/scope/portable-ownership-lock-v1.json",
+      "bytes": 7844,
+      "sha256": "eb33d435da5ffeef2d0aadfec8aa38c050521307c3321bfc45be2d5ec10877b5"
+    }
+  ]
+}

@@ -530,7 +530,7 @@ Namespace WorksheetFunctions
         Public Function PS_CLEANUP(<ExcelArgument(Name:="handle", Description:="Optional handle returned by BESH.PS.FIT. Blank or ALL clears all PSM handles.")> Optional handle As Object = Nothing) As Object
             Try
                 Dim key As String = ExcelArgReaders.AsString(handle)
-                If String.IsNullOrWhiteSpace(key) OrElse String.Equals(key, "ALL", StringComparison.OrdinalIgnoreCase) Then
+                If Global.BESHStatNG.ExcelCommon.UdfModelHandlePolicy.IsClearAllRequest(key, "ALL") Then
                     Dim n As Integer = _psmCache.Count
                     _psmCache.Clear()
                     Return n

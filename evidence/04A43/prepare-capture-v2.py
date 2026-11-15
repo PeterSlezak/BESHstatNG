@@ -1,0 +1,10 @@
+from common43 import *
+s=(HERE/'fixtures/Observe43.cs').read_text(encoding='utf-8-sig').replace('class Observe43 {','class Observe43V2 {').replace('static void Main(string[] argv){','static void Run(string[] argv){')
+s=s.replace('var families=(object[])cfg["families"];','var families=((IEnumerable)cfg["families"]).Cast<Dictionary<string,object>>().ToArray();')
+for name in ['queries','drop','clear']:s=s.replace('((object[])f["'+name+'"]).Cast<string>()','((IEnumerable)f["'+name+'"]).Cast<string>()')
+s=s.replace(' static void Run(string[] argv){',' static void Main(string[] argv){try{Run(argv);}catch(Exception e){Console.Error.WriteLine(e);Environment.ExitCode=1;}}\n static void Run(string[] argv){')
+s=s.replace('Context=culture+"/"+family;','Context=culture+"/"+family;Console.WriteLine("Lifecycle "+Context);')
+with (HERE/'fixtures/Observe43V2.cs').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+s=(HERE/'capture-v1.py').read_text(encoding='utf-8-sig').replace('fixtures-before-v1','fixtures-before-v2').replace('Observe43.exe','Observe43V2.exe').replace('Observe43.cs','Observe43V2.cs').replace('/main:Observe43','/main:Observe43V2').replace('before-compile-v1','before-compile-v2').replace('before-execute-v1','before-execute-v2')
+with (HERE/'capture-v2.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+print('Failed JSON collection cast retained;version2 uses actual enumerable JSON shape and bounded exception exit',flush=True)
