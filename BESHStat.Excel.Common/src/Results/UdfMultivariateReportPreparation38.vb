@@ -367,5 +367,38 @@ Namespace ExcelCommon
             Return out
         End Function
 
+
+        ''' <summary>Preserves factor naming, contribution calculation and deferred header-read order.</summary>
+        Public Shared Function BuildFactorCommunalities(model As Multivariate.FactorAnalysis, variableNames() As String, readHeader As Func(Of Boolean)) As Object(,)
+            Dim factorNames() As String = model.FactorNames("Factor ")
+            Dim contrib(,) As Double = model.CommunalityContributionsByFactor()
+            Dim p As Integer = variableNames.Length
+            Dim k As Integer = model.NumberOfFactors
+            Dim hdr As Boolean = readHeader()
+            Return BuildFactorCommunalities(model, variableNames, factorNames, contrib, p, k, hdr)
+        End Function
+
+        Public Shared Function BuildHierarchicalMembership(result As Multivariate.HierarchicalClusterResult,
+                                                          mode As Multivariate.HierarchicalMembershipDisplayMode,
+                                                          readHeight As Func(Of Double), readCount As Func(Of Integer)) As Object(,)
+            If mode = Multivariate.HierarchicalMembershipDisplayMode.ByHeight Then
+                Return result.GetMembershipTableByHeight(readHeight())
+            End If
+            Return result.GetMembershipTable(readCount())
+        End Function
+
+        Public Shared Function SelectDiscriminantPrediction(model As Multivariate.DiscriminantAnalysis, normalizedSource As String) As Multivariate.DiscriminantPredictionResult
+            If model Is Nothing Then Return Nothing
+            Select Case normalizedSource
+                Case "", "TRAINING", "APPARENT", "RESUBSTITUTION"
+                    Return model.TrainingClassification
+                Case "VALIDATION", "CV", "CROSSVALIDATION"
+                    Return model.ValidationClassification
+                Case Else
+                    Throw New ArgumentException("source must be training or validation.")
+            End Select
+        End Function
+
+
     End Class
 End Namespace

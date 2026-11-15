@@ -77,5 +77,16 @@ Namespace ExcelCommon
             records = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)
             Return records IsNot Nothing AndAlso records.Count > 0
         End Function
+
+        Public Shared Function ComputeKaplanMeierCurves(records As List(Of survival.SurvivalRecord), alpha As Double) As Object()
+            Dim model As New survival.Survival_KM_LR(records)
+            Return model.SurvivalCurveTabularOutput(alpha)
+        End Function
+
+        Public Shared Function ComputeCalibrationRows(y() As Double, probabilities() As Double, bins As Integer,
+                                                     weights() As Double, method As String) As List(Of Global.BESHStatNG.regression.CalibrationBinSummary)
+            Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(y, probabilities, weights)
+            Return Global.BESHStatNG.regression.BinaryClassificationCore.BuildCalibrationBins(y, probabilities, bins, weights, method)
+        End Function
     End Class
 End Namespace

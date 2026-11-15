@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 Option Strict On
 
 Imports System
@@ -106,10 +106,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim summary As regression.BinaryClassificationSummary =
-                    regression.BinaryClassificationReporting.ComputeBinarySummary(observed, probs, cutoff, w)
-
-                Return ConvertBinaryClassificationOutputForExcel(regression.BinaryClassificationReporting.BuildBinaryCrosstabUdfOutput(summary, hdr))
+                Return ConvertBinaryClassificationOutputForExcel(Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.ComputeConfusionOutput(observed, probs, cutoff, w, BinaryClassificationReporting.MissingOutputValue, hdr))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.CONFUSION", ex)
             End Try
@@ -189,10 +186,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim rows As List(Of regression.BinaryThresholdRow) =
-                    regression.BinaryClassificationReporting.BuildThresholdTable(observed, probs, thresholdVector, w)
-
-                Return ConvertBinaryClassificationOutputForExcel(regression.BinaryClassificationReporting.BuildThresholdTableUdfOutput(rows, hdr))
+                Return ConvertBinaryClassificationOutputForExcel(Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.ComputeThresholdOutput(observed, probs, thresholdVector, w, BinaryClassificationReporting.MissingOutputValue, hdr))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.THRESH", ex)
             End Try
@@ -280,10 +274,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim rows As List(Of regression.CalibrationBinSummary) =
-                    regression.BinaryClassificationReporting.BuildCalibrationBins(observed, probs, binCount, w, methodName)
-
-                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildCalibrationTableUdfOutput(rows, hdr))
+                Return ConvertBinaryClassificationOutputForExcel(Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.ComputeCalibrationOutput(observed, probs, binCount, w, methodName, BinaryClassificationReporting.MissingOutputValue, hdr))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.CALIB", ex)
             End Try
@@ -353,11 +344,7 @@ Namespace WorksheetFunctions
                 Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(observed, probs, w)
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim brier As Double = regression.BinaryClassificationReporting.ComputeBrierScore(observed, probs, w)
-                Dim eventRate As Double = ComputeWeightedEventRate(observed, w)
-                Dim nObs As Double = If(w Is Nothing, observed.Length, w.Sum())
-
-                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildBrierScoreUdfOutput(brier, nObs, eventRate, hdr))
+                Return ConvertBinaryClassificationOutputForExcel(Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.ComputeBrierOutput(observed, probs, w, BinaryClassificationReporting.MissingOutputValue, hdr))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.BRIER", ex)
             End Try

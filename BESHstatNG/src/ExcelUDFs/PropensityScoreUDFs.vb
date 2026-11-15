@@ -286,7 +286,7 @@ Namespace WorksheetFunctions
             Try
                 Dim h As PsmUdfHandle = Nothing
                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
-                Return PrepareExistingObjectTableForUdf(PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds), GetOptionalBool(includeHeader, True))
+                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "scores"), GetOptionalBool(includeHeader, True))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.PS.SCORES", ex)
             End Try
@@ -323,7 +323,7 @@ Namespace WorksheetFunctions
             Try
                 Dim h As PsmUdfHandle = Nothing
                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
-                Return PrepareExistingObjectTableForUdf(PsmBackendTables.MatchesTable(h.Result.Result, h.Data.Input), GetOptionalBool(includeHeader, True))
+                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "matches"), GetOptionalBool(includeHeader, True))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.PSM.MATCHES", ex)
             End Try
@@ -358,7 +358,7 @@ Namespace WorksheetFunctions
             Try
                 Dim h As PsmUdfHandle = Nothing
                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
-                Return PrepareExistingObjectTableForUdf(PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds), GetOptionalBool(includeHeader, True))
+                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "scores"), GetOptionalBool(includeHeader, True))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.PS.WEIGHTS", ex)
             End Try
@@ -393,7 +393,7 @@ Namespace WorksheetFunctions
             Try
                 Dim h As PsmUdfHandle = Nothing
                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
-                Return PrepareExistingObjectTableForUdf(PsmBackendTables.BalanceTable(h.Result.Result), GetOptionalBool(includeHeader, True))
+                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "balance"), GetOptionalBool(includeHeader, True))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.PS.BALANCE", ex)
             End Try
@@ -427,7 +427,7 @@ Namespace WorksheetFunctions
             Try
                 Dim h As PsmUdfHandle = Nothing
                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
-                Return PrepareExistingObjectTableForUdf(PsmBackendTables.EffectTable(h.Result.Result), GetOptionalBool(includeHeader, True))
+                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "effect"), GetOptionalBool(includeHeader, True))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.PS.EFFECT", ex)
             End Try
@@ -461,7 +461,7 @@ Namespace WorksheetFunctions
             Try
                 Dim h As PsmUdfHandle = Nothing
                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
-                Return PrepareExistingObjectTableForUdf(PsmAdvancedTables.LovePlotTable(h.Result.LovePlotRows), GetOptionalBool(includeHeader, True))
+                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "loveplot"), GetOptionalBool(includeHeader, True))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.PS.LOVEPLOT_DATA", ex)
             End Try
@@ -578,49 +578,9 @@ Namespace WorksheetFunctions
         End Sub
 
         Private Function ResolveNamedTable(h As PsmUdfHandle, requested As String) As Object(,)
-            Dim name As Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38 = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.ResolveTableKindPrepared(requested)
-            Select Case name
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RunSummary
-                    Return PsmComprehensiveTables.RunSummaryTable(h.Result)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Options
-                    Return PsmFrontEndTables.OptionsTable(h.FitOptions)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ImportSummary
-                    Return DataImportSummaryTable(h)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.SampleSize
-                    Return PsmFrontEndTables.SampleSizeTable(h.Result.Result)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ScoreModel
-                    Return PsmBackendTables.ScoreModelTable(h.Result.Result)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RowAudit
-                    Return PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Matches
-                    Return PsmBackendTables.MatchesTable(h.Result.Result, h.Data.Input)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.MatchedData
-                    Return PsmFrontEndTables.MatchedDatasetTable(h.Data.Input, h.Result.Result, h.Data.RowIds)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Balance
-                    Return PsmBackendTables.BalanceTable(h.Result.Result)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Effect
-                    Return PsmBackendTables.EffectTable(h.Result.Result)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.DoublyRobust
-                    Return PsmAdvancedTables.DoublyRobustEffectTable(h.Result.DoublyRobustResult)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.WeightDiagnostics
-                    Return PsmAdvancedTables.WeightDiagnosticsTable(h.Result.WeightDiagnostics)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapSummary
-                    Return PsmAdvancedTables.OverlapSummaryTable(h.Result.OverlapDiagnostics)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapBins
-                    Return PsmAdvancedTables.OverlapBinsTable(h.Result.OverlapDiagnostics)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.LovePlot
-                    Return PsmAdvancedTables.LovePlotTable(h.Result.LovePlotRows)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Subclass
-                    Return PsmFrontEndTables.SubclassTable(h.Result.Result)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemStrata
-                    Return PsmAdvancedMatchingTables.CoarsenedExactStrataTable(h.Result.CoarsenedExactResult)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemWeights
-                    Return PsmAdvancedMatchingTables.CoarsenedExactWeightsTable(h.Data.Input, h.Result.CoarsenedExactResult)
-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Warnings
-                    Return PsmComprehensiveTables.WarningsTable(h.Result)
-                Case Else
-                    Return PsmResult.EmptyTable("Unknown PSM table: " & If(requested, String.Empty))
-            End Select
+            Dim kind As Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38 = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.ResolveTableKindPrepared(requested)
+            If kind = Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Unknown Then Return PsmResult.EmptyTable("Unknown PSM table: " & If(requested, String.Empty))
+            Return Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildNamedTable(h.Result, h.FitOptions, Function() h.Data.Input, Function() h.Data.RowIds, requested, Function() DataImportSummaryTable(h))
         End Function
 
         Private Function DataImportSummaryTable(h As PsmUdfHandle) As Object(,)

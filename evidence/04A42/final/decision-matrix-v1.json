@@ -1,0 +1,189 @@
+{
+  "status": "READY_FOR_OWNER_04A42_ACCEPTANCE_REVIEW_WITH_DOCUMENTED_RESTRICTIONS",
+  "kind": "OWNER_ACCEPTANCE_REVIEW_READINESS_ONLY",
+  "effective_only_with_matching_external_receipt": true,
+  "base": "1df856c47f2342e26de1115f1621722b7c0ac23e",
+  "prior": "c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc",
+  "branch": "codex/04A-42",
+  "owner_accepted": false,
+  "merged": false,
+  "phase04A43_authorized": false,
+  "scientific_corrections": 0,
+  "native_activations": 0,
+  "implementation": {
+    "production_files": 8,
+    "Windows_files": 4,
+    "Common_files": 4,
+    "new_Common_public_methods": 10,
+    "new_Common_classes": 0,
+    "changed_exported_parents": 14,
+    "scoped_exports": 90,
+    "total_exports": 268,
+    "new_test_files": 2,
+    "new_passing_test_identities": 20
+  },
+  "software": {
+    "Debug": {
+      "configuration": "Debug",
+      "scope": "ONE_FULL_FRESH_CAMPAIGN",
+      "identities": 21177,
+      "outcomes": {
+        "Passed": 21163,
+        "Failed": 14
+      },
+      "added": 20,
+      "missing": [],
+      "nonpass_deltas": {
+        "RETAINED_IDENTICAL": 14
+      }
+    },
+    "Release": {
+      "configuration": "Release",
+      "scope": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+      "identities": 6589,
+      "outcomes": {
+        "Passed": 6589
+      },
+      "added": 20,
+      "missing": [],
+      "nonpass_deltas": {}
+    },
+    "full_Release": "NOT_RUN",
+    "Python": {
+      "parents": 956,
+      "parent_outcomes": {
+        "PASS": 832,
+        "ERROR": 11,
+        "FAIL": 113
+      },
+      "before_outcomes": {
+        "PASS": 832,
+        "ERROR": 11,
+        "FAIL": 113
+      },
+      "event_outcomes": {
+        "ERROR": 11,
+        "FAIL": 185
+      },
+      "categories": {
+        "RETAINED_IDENTICAL": 171,
+        "RETAINED_CHANGED_MESSAGE": 25
+      },
+      "changed_parents": [],
+      "unresolved_diagnostic_events": [],
+      "dropped_parents": [],
+      "duplicated_parents": [],
+      "campaigns": 1,
+      "workers_at_peak": 3,
+      "diagnostic_dispositions": {
+        "path": "evidence/04A42/python/diagnostic-dispositions-v1.json",
+        "bytes": 53169,
+        "sha256": "ea0a8e9ccea212b7e69fd8ecc2119288a57c56f9295f822751bec09f8fe536ab"
+      }
+    },
+    "Node": "INHERITED_916_PASS;NOT_RERUN",
+    "strict_profile_MkDocs": [
+      1,
+      1,
+      0
+    ],
+    "failed_first_freeze": {
+      "path": "evidence/04A42/matrix/failed-freeze-v1-disposition.json",
+      "bytes": 6278,
+      "sha256": "c115c2b0ea19437168f607865b93b7409f35e64d2d1ff0df1337d2473306129f"
+    }
+  },
+  "compatibility": {
+    "sealed_per_configuration": 29424,
+    "PRE_EDIT_FROZEN": 28966,
+    "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458,
+    "accepted39_cases": 77,
+    "accepted40_contracts": 48,
+    "GEE_elapsed_only_fields": 4,
+    "accepted41_probes": 390,
+    "new_current_main_cases": 1802,
+    "excluded_new_runtime_fields": [
+      "Session GUID text",
+      "Created UTC timestamp text"
+    ],
+    "original_queries": 0,
+    "scientific": "NOT_GOLDEN"
+  },
+  "privacy": "Both unchanged original full-candidate scanners zero;matching external receipt must prove final metadata and every ZIP member/index zero.",
+  "historical": "14 DebugFAIL;113 PythonFAIL/11ERROR;three UDF-diff guardsFAIL;39privacy1941each;W3privacyERROR;54+32+21 diagnostic histories remain unwaived. Accepted41 targeted Release failure/message/optimized sequence drift retained,not rerun by the42 family subset.",
+  "investigations": {
+    "count": 16,
+    "canonical_entries": 1169,
+    "original_obligations": 1514,
+    "restricted_controls": 802,
+    "mappings": 2967,
+    "original_controls_discharged": 0
+  },
+  "preservation": {
+    "path": "evidence/04A42/preservation/readback-v1.json",
+    "bytes": 4928,
+    "sha256": "fe4d7b5e2064d1fcdd1ec329461e49f646b62bf299172d499d815221cddce23d"
+  },
+  "limitations": "One retained FA_FACTORABILITY source-exception ordinary probe is not successful output. Representative1802 are same-engine compatibility,not exhaustive domain/native/scientific proof. All changed parents have materialized success and adverse cases.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A43_NOT_AUTHORIZED"
+  },
+  "readiness": {
+    "path": "evidence/04A42/final/readiness-postseal-v1.json",
+    "bytes": 4287,
+    "sha256": "54f215e16bc2d7854662361bb6e350bd0c3d226cb8de8ac541a86e5131b22fa0"
+  },
+  "gate_evidence": [
+    {
+      "path": "evidence/04A42/build-and-tests/Debug-identities-v2.json",
+      "bytes": 10709965,
+      "sha256": "608df20bd4688eb770b5f632f4e86f399000017296939d075b03bf70c8bc6d8b"
+    },
+    {
+      "path": "evidence/04A42/build-and-tests/Release-identities-v2.json",
+      "bytes": 3365295,
+      "sha256": "95473074171501465d023b4a3ddba15708cd2bb0d5ddd3d96ff51360b85aca84"
+    },
+    {
+      "path": "evidence/04A42/python/parent-event-reconciliation-v2.json",
+      "bytes": 814473,
+      "sha256": "45bbe0942f991756b9b53b349d1c7af16a1e04ec59b4db9f356f64d85ae1fd39"
+    },
+    {
+      "path": "evidence/04A42/python/diagnostic-dispositions-v1.json",
+      "bytes": 53169,
+      "sha256": "ea0a8e9ccea212b7e69fd8ecc2119288a57c56f9295f822751bec09f8fe536ab"
+    },
+    {
+      "path": "evidence/04A42/python/source-guard-dispositions-v1.json",
+      "bytes": 5718,
+      "sha256": "df1057a7481c1fd63e549c7598d76acc3609aca8771ed6dff1d782d7052a2bee"
+    },
+    {
+      "path": "evidence/04A42/privacy/repository-candidate-v1.json",
+      "bytes": 63870,
+      "sha256": "14df763d7be770dd039407983b0aa545feef644a91cc6b6c2b4e57c59675f00d"
+    },
+    {
+      "path": "evidence/04A42/preservation/readback-v1.json",
+      "bytes": 4928,
+      "sha256": "fe4d7b5e2064d1fcdd1ec329461e49f646b62bf299172d499d815221cddce23d"
+    },
+    {
+      "path": "evidence/04A42/register/issue-delta-v1.json",
+      "bytes": 329098,
+      "sha256": "b3f7e36e6c54d5c65f92bae4a4294e21075c41fde3f1f15679d6ecbbe557ace7"
+    },
+    {
+      "path": "evidence/04A42/scope/portable-member-lock-v1.json",
+      "bytes": 8544,
+      "sha256": "bb8ac15f805455b7cda2f5edb34dc1974ef1d0f7ff1f77caaa01fe23f6b73f74"
+    }
+  ]
+}

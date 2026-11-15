@@ -752,12 +752,7 @@ Namespace WorksheetFunctions
                 Dim h As FactorAnalysisHandle = Nothing
                 If Not TryGetFaHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
-                Dim factorNames() As String = h.Model.FactorNames("Factor ")
-                Dim contrib(,) As Double = h.Model.CommunalityContributionsByFactor()
-                Dim p As Integer = h.VariableNames.Length
-                Dim k As Integer = h.Model.NumberOfFactors
-                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
-                Dim out(,) As Object = Global.BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38.BuildFactorCommunalities(h.Model, h.VariableNames, factorNames, contrib, p, k, hdr)
+                Dim out(,) As Object = Global.BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38.BuildFactorCommunalities(h.Model, h.VariableNames, Function() GetOptionalBool(includeHeader, True))
                 Return PrepareResultTableForUdf(out)
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.MULTI.FA_COMMUNALITIES", ex)
@@ -1409,12 +1404,7 @@ Namespace WorksheetFunctions
                 If Not TryGetHierarchicalHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim cutMode As Multivariate.HierarchicalMembershipDisplayMode = ParseHierarchicalMembershipDisplayMode(mode)
-                Dim table As Object(,)
-                If cutMode = Multivariate.HierarchicalMembershipDisplayMode.ByHeight Then
-                    table = h.Model.Result.GetMembershipTableByHeight(GetOptionalDouble(value, 0.0R))
-                Else
-                    table = h.Model.Result.GetMembershipTable(GetOptionalInt(value, 3))
-                End If
+                Dim table As Object(,) = Global.BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38.BuildHierarchicalMembership(h.Model.Result, cutMode, Function() GetOptionalDouble(value, 0.0R), Function() GetOptionalInt(value, 3))
 
                 Return PrepareExistingObjectTableForUdf(table, GetOptionalBool(includeHeader, True))
             Catch ex As Exception
@@ -3182,15 +3172,7 @@ Namespace WorksheetFunctions
         Private Function GetDiscriminantPredictionResult(model As Multivariate.DiscriminantAnalysis,
                                                          source As Object) As Multivariate.DiscriminantPredictionResult
             If model Is Nothing Then Return Nothing
-            Dim token As String = NormalizeToken(source)
-            Select Case token
-                Case "", "TRAINING", "APPARENT", "RESUBSTITUTION"
-                    Return model.TrainingClassification
-                Case "VALIDATION", "CV", "CROSSVALIDATION"
-                    Return model.ValidationClassification
-                Case Else
-                    Throw New ArgumentException("source must be training or validation.")
-            End Select
+            Return Global.BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38.SelectDiscriminantPrediction(model, NormalizeToken(source))
         End Function
 
     End Module

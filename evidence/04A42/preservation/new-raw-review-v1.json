@@ -1,0 +1,115 @@
+{
+  "kind": "SANITIZED_PROTECTED_RAW_INVENTORY_FACTS;NOT_RAW_LOGS",
+  "inventory": {
+    "path": ".test-rationalization-04A42.tmp/new-raw-inventory-v1.json",
+    "bytes": 3031167,
+    "sha256": "2df7c16c2e5a62218ada4a3ad293a6a648e7c9940bed3d160213c5b56705a680"
+  },
+  "files": 11457,
+  "bytes": 3517034921,
+  "read_only": true,
+  "failed_attempts": [
+    {
+      "recipe": "compatibility-v2.py",
+      "type": "FileExistsError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/1dafad0ede5a41599cdd411e79ec8982.json",
+        "bytes": 3169,
+        "sha256": "05d85e27fb038eb8adfc1e69feb0acc849b3a601344fb66ccac8becd88973371"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "python-dispositions-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/65d0f257fc524ece89a2442c57c9fc38.json",
+        "bytes": 896,
+        "sha256": "8969b52e61e5dfface32b5eb109a62dbf89a03058d907713972cc25e1e4caa6b"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "compatibility-v2.py",
+      "type": "FileExistsError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/7c705797c31f4cb293aed3867c6d1548.json",
+        "bytes": 3159,
+        "sha256": "0a57e473fb68bdca86a9c6007d80f17e9a596442c6c23c3315145c961aa09283"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "compiled-and-fixtures-v2.py",
+      "type": "FileExistsError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/8a9a74e2e42441f791199b682c904d7d.json",
+        "bytes": 1795,
+        "sha256": "d4404e1c1189b6fa81ed9d73032afce7b7aaf896d44a966bf2eef0fcacb2efdb"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "python-campaign-v4.py",
+      "type": "FileNotFoundError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/9dac3711ca3940098338152d05d551c7.json",
+        "bytes": 1649,
+        "sha256": "eaeb3499bd4db7afacb414eb710800d5ab23ebd302ceb883503522e9cb91d559"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "python-campaign-v3.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/9e7bd043366e467abe2ba0e009a43d66.json",
+        "bytes": 975,
+        "sha256": "da050bd23364eb4fc2703817de2b2041e03db6443f2354674bc506887a72c6d3"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "preservation-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/b1c443617b84410089b1d8ef4b7e15ad.json",
+        "bytes": 850,
+        "sha256": "16fab7ef5e9661d47b6c629ab95f125483fc36c826269eb3a7ccb92b612ea63e"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "reconcile-managed-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/da4d17300c8b413891876f04ced5abfb.json",
+        "bytes": 867,
+        "sha256": "145dab76510b5e98e521d7a75757bca74bfc9126609b032347bd8717de3c6f95"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "verify-wave-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/ecec195447724158aa0659fbcc9ff84b.json",
+        "bytes": 1089,
+        "sha256": "d3b2f43e8b68f8de6f6c42c1d9215fe781ee0edba4ac1305ee454b2e0319eb1a"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "compiled-and-fixtures-v2.py",
+      "type": "FileExistsError",
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/failed-attempts/f8bc6a426c404018b266b9781a57161c.json",
+        "bytes": 1793,
+        "sha256": "8cbf6d15b55c33b6bef38542f2f654266028288bd07d47a3d9396ba8802d3d32"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    }
+  ],
+  "unwrapped_diagnostic_discovery": "Read-only interactive discovery/quoting failures remain in tool history;no fabricated raw execution receipt.",
+  "old_stores_mutated": false
+}

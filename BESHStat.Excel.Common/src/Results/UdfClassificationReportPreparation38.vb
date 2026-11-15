@@ -164,5 +164,32 @@ Namespace ExcelCommon
             If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return missingValue
             Return 100.0R * value
         End Function
+
+        Public Shared Function ComputeConfusionOutput(y() As Double, probabilities() As Double, threshold As Double,
+                                                     weights() As Double, missingValue As Object, includeHeader As Boolean) As Object
+            Dim summary = BinaryClassificationCore.ComputeBinarySummary(y, probabilities, threshold, weights)
+            Return BuildBinaryCrosstabUdfOutput(summary, missingValue, includeHeader)
+        End Function
+
+        Public Shared Function ComputeThresholdOutput(y() As Double, probabilities() As Double, thresholds() As Double,
+                                                     weights() As Double, missingValue As Object, includeHeader As Boolean) As Object
+            Dim rows = BinaryClassificationCore.BuildThresholdTable(y, probabilities, thresholds, weights)
+            Return BuildThresholdTableUdfOutput(rows, missingValue, includeHeader)
+        End Function
+
+        Public Shared Function ComputeCalibrationOutput(y() As Double, probabilities() As Double, bins As Integer,
+                                                       weights() As Double, method As String, missingValue As Object, includeHeader As Boolean) As Object
+            Dim rows = BinaryClassificationCore.BuildCalibrationBins(y, probabilities, bins, weights, method)
+            Return BuildCalibrationTableUdfOutput(rows, missingValue, includeHeader)
+        End Function
+
+        ''' <summary>Input validation/header acquisition remain at their original adapter positions.</summary>
+        Public Shared Function ComputeBrierOutput(y() As Double, probabilities() As Double, weights() As Double,
+                                                 missingValue As Object, includeHeader As Boolean) As Object
+            Dim score As Double = BinaryClassificationCore.ComputeBrierScore(y, probabilities, weights)
+            Dim eventRate As Double = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeWeightedEventRate(y, weights)
+            Dim n As Double = If(weights Is Nothing, y.Length, System.Linq.Enumerable.Sum(weights))
+            Return BuildBrierScoreUdfOutput(score, missingValue, n, eventRate, includeHeader)
+        End Function
     End Class
 End Namespace

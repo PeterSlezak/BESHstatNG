@@ -1,0 +1,98 @@
+{
+  "kind": "EXECUTED_CURRENT_MAIN_PRE_EDIT42;NOT_HISTORICAL_PRE_EDIT_FROZEN_OR_GOLDEN",
+  "base": "1df856c47f2342e26de1115f1621722b7c0ac23e",
+  "cases": 1802,
+  "raw": {
+    "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/observations.json",
+    "bytes": 6851581,
+    "sha256": "06eb582397ccba36fd2fbcf297ed5fa86e7811bcac3f950dacb8a4d4254b75b3"
+  },
+  "driver_source": {
+    "path": "evidence/04A42/fixtures/Observe42.cs",
+    "bytes": 6949,
+    "sha256": "43c81be070998bf91ca000ade94c3ee90bcbb250dca3cbf8c56482f32f4e71af"
+  },
+  "driver": {
+    "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/Observe42.exe",
+    "bytes": 23040,
+    "sha256": "2ed46592779f0f19dbaca50180eb3728669140aa37e762fc9343103ab4546e8b"
+  },
+  "assemblies": [
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/BESHStat.Core.dll",
+      "bytes": 2088448,
+      "sha256": "485fb47524c5e1c9bf5337864fa44933d14d57ae7d6cb745e9a719f73a3dd8a9"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/BESHStat.Excel.Common.dll",
+      "bytes": 1213440,
+      "sha256": "a6abf6d026854a809a7f5a61e628a49310b01bf6b54b1c639a819880558f6113"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/BESHStatNG.dll",
+      "bytes": 2625536,
+      "sha256": "f5386216722d5fa15b11e60866185827a737d75088758efcf3ad92f3a92167ea"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/BESHStatNG.Test.dll",
+      "bytes": 2073088,
+      "sha256": "f72d4ee82274df9aa810c9fb15208eeb269493cafff5a259afcd02a4e4b80135"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/ExcelDna.Integration.dll",
+      "bytes": 308224,
+      "sha256": "c92fcabda2f18eb68d0d1e91cfa4bf05ea079eb66eecb9762884ab576a84f41f"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/Microsoft.TestPlatform.AdapterUtilities.dll",
+      "bytes": 29584,
+      "sha256": "2570cbe12e3f6c177362eaad630b42db3114c2bb74099a0baa2d3abd6bcb5303"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll",
+      "bytes": 159144,
+      "sha256": "cb1d59fd79a412b1b05a27b32c342cbc85f018a9f1e1d67b43ebe87e43fec0d1"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll",
+      "bytes": 114576,
+      "sha256": "dd7eda88da0e3843202e51ba2cedc4412a566355c0193b4c781d307d3d1e5a4e"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll",
+      "bytes": 19360,
+      "sha256": "c4494b603ecb322627959b2cd782400405a58051229bd09b108861415b1845aa"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/Microsoft.VisualStudio.TestPlatform.TestFramework.dll",
+      "bytes": 74128,
+      "sha256": "9dddb3c2958a276f6b6afd9fade11cca191e2f0635f29a39718c60f8f278a4c3"
+    },
+    {
+      "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll",
+      "bytes": 34728,
+      "sha256": "8d1c36b6dced0b1315e71303ef205dbd01d157a4add72d874825e0f26c529aa5"
+    }
+  ],
+  "cultures": [
+    "Invariant",
+    "sk-SK"
+  ],
+  "profiles": [
+    "ordinary",
+    "reverse",
+    "filtered",
+    "duplicates"
+  ],
+  "seed": 173,
+  "pre_production_change": true,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A43_NOT_AUTHORIZED"
+  }
+}

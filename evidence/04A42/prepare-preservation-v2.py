@@ -1,0 +1,8 @@
+from common42 import *
+s=(HERE/'preservation-v1.py').read_text(encoding='utf-8-sig')
+needle="accepted41={r['before']['path']:r for r in load(ROOT/'evidence/04A41/matrix/source-freeze-v1.json')['source_delta']}"
+s=s.replace(needle,needle+"\naccepted41_plan=load(ROOT/'evidence/04A41/matrix/source-freeze-v1.json')['plan'];accepted41[accepted41_plan['path']]=dict(after=accepted41_plan)\nnewline41={r['sealed']['path']:r for r in load(HERE/'entry/authentication-v1.json')['merged41_newline_transitions']}")
+s=s.replace("    assert initial[r['path']]==expected,'UNAUTHORIZED_ENTRY_SOURCE_HISTORY_DIFFERENCE'","    if r['path'] in newline41:\n        transition=newline41[r['path']];assert expected==transition['sealed'];exact(transition['protected_exact']);expected=transition['current']\n    assert initial[r['path']]==expected,'UNAUTHORIZED_ENTRY_SOURCE_HISTORY_DIFFERENCE'")
+with (HERE/'preservation-v2.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+save('preservation/source-history-reconciliation-v2.json',dict(reason='First verifier omitted separately pinned accepted41 plan transition and ten already authenticated owner-merge newline renderings. Exact sealed41 originals and current owner checkout pins reconcile all differences;no new source/evidence mutation.',accepted41_plan=accepted41_plan if False else load(ROOT/'evidence/04A41/matrix/source-freeze-v1.json')['plan'],ten_newline_transitions=load(HERE/'entry/authentication-v1.json')['merged41_newline_transitions'],physical_identity='NOT_VERIFIED',failed_attempt_retained=True))
+print('Historical source-chain verifier now includes accepted41 plan and10 exact sealed/current newline transitions',flush=True)

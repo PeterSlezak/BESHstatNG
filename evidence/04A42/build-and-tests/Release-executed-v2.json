@@ -1,0 +1,91 @@
+{
+  "configuration": "Release",
+  "mode": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+  "parts": [
+    {
+      "suite": "Core",
+      "part": "affected",
+      "selection": "FullyQualifiedName~UdfMultivariate42|FullyQualifiedName~UdfPayload42|FullyQualifiedName~Multivariate|FullyQualifiedName~Psm|FullyQualifiedName~Classification|FullyQualifiedName~Roc|FullyQualifiedName~PlotData|FullyQualifiedName~Factor|FullyQualifiedName~Clustering|FullyQualifiedName~Discriminant|FullyQualifiedName~Udf",
+      "name": "a42-final2-Release-Core-affected",
+      "outcomes": {
+        "Passed": 199
+      },
+      "cases": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final2-Release-Core-affected/cases.json",
+        "bytes": 64301,
+        "sha256": "c93d3218d4d6934b04713ca88b68d418465cc9dd41370e4027a9b0071af453ee"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final2-Release-Core-affected/results/Core.trx",
+        "bytes": 302741,
+        "sha256": "c45803307ae20730e2ccd26ad706384e70ef89e40dce703821646cd1021473cf"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/a42-final2-Release-Core-affected.json",
+        "bytes": 64301,
+        "sha256": "c93d3218d4d6934b04713ca88b68d418465cc9dd41370e4027a9b0071af453ee"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Common",
+      "part": "affected",
+      "selection": "FullyQualifiedName~UdfMultivariate42|FullyQualifiedName~UdfPayload42|FullyQualifiedName~Multivariate|FullyQualifiedName~Psm|FullyQualifiedName~Classification|FullyQualifiedName~Roc|FullyQualifiedName~PlotData|FullyQualifiedName~Factor|FullyQualifiedName~Clustering|FullyQualifiedName~Discriminant|FullyQualifiedName~Udf",
+      "name": "a42-final2-Release-Common-affected",
+      "outcomes": {
+        "Passed": 3151
+      },
+      "cases": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final2-Release-Common-affected/cases.json",
+        "bytes": 1009469,
+        "sha256": "a10955e71361959767dc2effe7adfcf98f94ad78e1e6c1d9b94a6816ce812e7b"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final2-Release-Common-affected/results/Common.trx",
+        "bytes": 25941151,
+        "sha256": "82ba36adb2bdfb97fd206822682388cd2de8a6e21cb8551835654a75f8e951e9"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/a42-final2-Release-Common-affected.json",
+        "bytes": 1009469,
+        "sha256": "a10955e71361959767dc2effe7adfcf98f94ad78e1e6c1d9b94a6816ce812e7b"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Legacy",
+      "part": "affected",
+      "selection": "FullyQualifiedName~UdfMultivariate42|FullyQualifiedName~UdfPayload42|FullyQualifiedName~Multivariate|FullyQualifiedName~Psm|FullyQualifiedName~Classification|FullyQualifiedName~Roc|FullyQualifiedName~PlotData|FullyQualifiedName~Factor|FullyQualifiedName~Clustering|FullyQualifiedName~Discriminant|FullyQualifiedName~Udf",
+      "name": "a42-final2-Release-Legacy-affected",
+      "outcomes": {
+        "Passed": 3239
+      },
+      "cases": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final2-Release-Legacy-affected/cases.json",
+        "bytes": 995973,
+        "sha256": "ca16d40313392b5102146e1cab1f4c0e9c6b939b06e4e51659ad84e390ce861a"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final2-Release-Legacy-affected/results/Legacy.trx",
+        "bytes": 25676207,
+        "sha256": "4e8cb8b36e36ae44b041d0b8ae9334f904a8ef3bba2e34220266d963ec47b171"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/a42-final2-Release-Legacy-affected.json",
+        "bytes": 995973,
+        "sha256": "ca16d40313392b5102146e1cab1f4c0e9c6b939b06e4e51659ad84e390ce861a"
+      },
+      "command_exit": 0
+    }
+  ],
+  "outcomes": {
+    "Passed": 6589
+  },
+  "identities": 6589,
+  "source_unchanged": true,
+  "Debug_label": "a42-wave-b3-v1",
+  "Release_label": "a42-final2-v2",
+  "full_Release": "NOT_RUN",
+  "max_parallel_test_hosts": 1,
+  "protected_raw_diagnostics": true
+}

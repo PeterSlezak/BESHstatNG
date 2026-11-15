@@ -1,0 +1,5 @@
+from common42 import *
+s=(HERE/'python-campaign-v2.py').read_text(encoding='utf-8-sig')
+for a,b in [("target=PRIVATE/'python-tools-v2'","target=PRIVATE/'python-tools-v3'"),("(PRIVATE/'python-private-v2').mkdir()","(PRIVATE/'python-private-v3').mkdir()"),('.test-rationalization-04A42.tmp/python-private-v2','.test-rationalization-04A42.tmp/python-private-v3'),('.test-rationalization-04A42.tmp/executions/a42-final-Debug-Common-semantic','.test-rationalization-04A42.tmp/executions/a42-final2-Debug-Common-semantic'),('matrix/source-freeze-v1.json','matrix/source-freeze-v2.json'),('python/discovery-v2.json','python/discovery-v3.json'),('python-input-freeze-v2.json','python-input-freeze-v3.json'),('python-input-postcheck-v2.json','python-input-postcheck-v3.json'),("'python2-'","'python3-'"),("'python-full-v2'","'python-full-v3'")]:s=s.replace(a,b)
+with (HERE/'python-campaign-v3.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+print('Fresh disjoint Python3 helper/input paths;accepted41 interpreter/tests/scanners unchanged',flush=True)

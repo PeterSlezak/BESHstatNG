@@ -1,0 +1,93 @@
+{
+  "configuration": "Release",
+  "mode": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+  "parts": [
+    {
+      "suite": "Core",
+      "part": "affected",
+      "selection": "FullyQualifiedName~UdfMultivariate42|FullyQualifiedName~UdfPayload42|FullyQualifiedName~Multivariate|FullyQualifiedName~Psm|FullyQualifiedName~Classification|FullyQualifiedName~Roc|FullyQualifiedName~PlotData|FullyQualifiedName~Factor|FullyQualifiedName~Clustering|FullyQualifiedName~Discriminant|FullyQualifiedName~Udf",
+      "name": "a42-final-Release-Core-affected",
+      "outcomes": {
+        "Passed": 199
+      },
+      "cases": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final-Release-Core-affected/cases.json",
+        "bytes": 64298,
+        "sha256": "6bd025d500de3198136fd7938f4d7e2be357ce8eb071e863e8a471acf5e7b29b"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final-Release-Core-affected/results/Core.trx",
+        "bytes": 302342,
+        "sha256": "a4fb18738b2e891031a8281f19ad19973d939ef450e29501d33a28e3540cbb54"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/a42-final-Release-Core-affected.json",
+        "bytes": 64298,
+        "sha256": "6bd025d500de3198136fd7938f4d7e2be357ce8eb071e863e8a471acf5e7b29b"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Common",
+      "part": "affected",
+      "selection": "FullyQualifiedName~UdfMultivariate42|FullyQualifiedName~UdfPayload42|FullyQualifiedName~Multivariate|FullyQualifiedName~Psm|FullyQualifiedName~Classification|FullyQualifiedName~Roc|FullyQualifiedName~PlotData|FullyQualifiedName~Factor|FullyQualifiedName~Clustering|FullyQualifiedName~Discriminant|FullyQualifiedName~Udf",
+      "name": "a42-final-Release-Common-affected",
+      "outcomes": {
+        "Passed": 3151
+      },
+      "cases": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final-Release-Common-affected/cases.json",
+        "bytes": 1009466,
+        "sha256": "722eb56c2a5dc6d6293efa05714541c28835d6785a6cb1c18905aca239fe3db8"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final-Release-Common-affected/results/Common.trx",
+        "bytes": 25934848,
+        "sha256": "0d0da5983f87f5e45c973b16e252ae70f3f7dc7fea6f7a4ee47acf9aa54d5130"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/a42-final-Release-Common-affected.json",
+        "bytes": 1009466,
+        "sha256": "722eb56c2a5dc6d6293efa05714541c28835d6785a6cb1c18905aca239fe3db8"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Legacy",
+      "part": "affected",
+      "selection": "FullyQualifiedName~UdfMultivariate42|FullyQualifiedName~UdfPayload42|FullyQualifiedName~Multivariate|FullyQualifiedName~Psm|FullyQualifiedName~Classification|FullyQualifiedName~Roc|FullyQualifiedName~PlotData|FullyQualifiedName~Factor|FullyQualifiedName~Clustering|FullyQualifiedName~Discriminant|FullyQualifiedName~Udf",
+      "name": "a42-final-Release-Legacy-affected",
+      "outcomes": {
+        "Passed": 3237,
+        "Failed": 2
+      },
+      "cases": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final-Release-Legacy-affected/cases.json",
+        "bytes": 996365,
+        "sha256": "2706cc2c0be251480fee4d0924235dcd2ba8e028ce2eb9a9d0525abd28f8d30a"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A42.tmp/executions/a42-final-Release-Legacy-affected/results/Legacy.trx",
+        "bytes": 25672143,
+        "sha256": "b20f5888d02a2387cbcfd5ec996ce705c18832bead83f80f11aa77a6a905903d"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A42.tmp/a42-final-Release-Legacy-affected.json",
+        "bytes": 996365,
+        "sha256": "2706cc2c0be251480fee4d0924235dcd2ba8e028ce2eb9a9d0525abd28f8d30a"
+      },
+      "command_exit": 1
+    }
+  ],
+  "outcomes": {
+    "Passed": 6587,
+    "Failed": 2
+  },
+  "identities": 6589,
+  "source_unchanged": true,
+  "Debug_label": "a42-wave-b2-v1",
+  "Release_label": "a42-final-v1",
+  "full_Release": "NOT_RUN",
+  "max_parallel_test_hosts": 1,
+  "protected_raw_diagnostics": true
+}

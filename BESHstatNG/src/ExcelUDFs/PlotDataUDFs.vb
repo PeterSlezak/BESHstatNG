@@ -347,8 +347,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetSurvivalRecords(time, status, group, records) Then Return ExcelError.ExcelErrorValue
                 If records Is Nothing OrElse records.Count = 0 Then Return ExcelError.ExcelErrorNum
 
-                Dim km As New survival.Survival_KM_LR(records)
-                Dim rawCurves As Object() = km.SurvivalCurveTabularOutput(alphaValue)
+                Dim rawCurves As Object() = Global.BESHStatNG.ExcelCommon.UdfPlotDataPreparation38.ComputeKaplanMeierCurves(records, alphaValue)
                 If rawCurves Is Nothing OrElse rawCurves.Length = 0 Then Return ExcelError.ExcelErrorNA
 
                 Return BuildKaplanMeierStepTable(rawCurves)
@@ -445,8 +444,7 @@ Namespace WorksheetFunctions
                 Dim yy() As Double = yVals.ToArray()
                 Dim pp() As Double = pVals.ToArray()
 
-                Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(yy, pp, w)
-                Dim rows As List(Of regression.CalibrationBinSummary) = regression.BinaryClassificationReporting.BuildCalibrationBins(yy, pp, binCount, w, methodName)
+                Dim rows As List(Of regression.CalibrationBinSummary) = Global.BESHStatNG.ExcelCommon.UdfPlotDataPreparation38.ComputeCalibrationRows(yy, pp, binCount, w, methodName)
                 If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
 
                 Return BuildCalibrationPointsTable(rows)

@@ -1,0 +1,19 @@
+{
+  "cases": 1802,
+  "typed_statistical_shape_error_order_exact": true,
+  "baseline": {
+    "path": ".test-rationalization-04A42.tmp/fixtures-before-v1/observations.json",
+    "bytes": 6851581,
+    "sha256": "06eb582397ccba36fd2fbcf297ed5fa86e7811bcac3f950dacb8a4d4254b75b3"
+  },
+  "current": {
+    "path": ".test-rationalization-04A42.tmp/fixture-final-Debug-42/observations.json",
+    "bytes": 6851581,
+    "sha256": "ae709e12bcbab42ebcf14bd6fa227b96a84c0c0831348e6b6c0c2b44530d61e6"
+  },
+  "only_excluded_runtime_fields": [
+    "Generated session GUID strings",
+    "Created UTC timestamp strings"
+  ],
+  "scientific": "NOT_GOLDEN"
+}

@@ -123,5 +123,55 @@ Namespace ExcelCommon
             Return modelInput
         End Function
 
+
+        ''' <summary>Selects existing Core table builders; never owns fitting, handles or caches.</summary>
+        Public Shared Function BuildNamedTable(result As PsmComprehensiveResult, fitOptions As PsmComprehensiveFitOptions,
+                                              readInput As Func(Of PsmInputData), readRowIds As Func(Of Integer()),
+                                              requested As String, readImportSummary As Func(Of Object(,))) As Object(,)
+            Dim name As Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38 = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.ResolveTableKindPrepared(requested)
+            Select Case name
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RunSummary
+                    Return PsmComprehensiveTables.RunSummaryTable(result)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Options
+                    Return PsmFrontEndTables.OptionsTable(fitOptions)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ImportSummary
+                    Return readImportSummary()
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.SampleSize
+                    Return PsmFrontEndTables.SampleSizeTable(result.Result)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ScoreModel
+                    Return PsmBackendTables.ScoreModelTable(result.Result)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RowAudit
+                    Return PsmFrontEndTables.RowLevelAuditTable(readInput(), result.Result, readRowIds())
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Matches
+                    Return PsmBackendTables.MatchesTable(result.Result, readInput())
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.MatchedData
+                    Return PsmFrontEndTables.MatchedDatasetTable(readInput(), result.Result, readRowIds())
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Balance
+                    Return PsmBackendTables.BalanceTable(result.Result)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Effect
+                    Return PsmBackendTables.EffectTable(result.Result)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.DoublyRobust
+                    Return PsmAdvancedTables.DoublyRobustEffectTable(result.DoublyRobustResult)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.WeightDiagnostics
+                    Return PsmAdvancedTables.WeightDiagnosticsTable(result.WeightDiagnostics)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapSummary
+                    Return PsmAdvancedTables.OverlapSummaryTable(result.OverlapDiagnostics)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapBins
+                    Return PsmAdvancedTables.OverlapBinsTable(result.OverlapDiagnostics)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.LovePlot
+                    Return PsmAdvancedTables.LovePlotTable(result.LovePlotRows)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Subclass
+                    Return PsmFrontEndTables.SubclassTable(result.Result)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemStrata
+                    Return PsmAdvancedMatchingTables.CoarsenedExactStrataTable(result.CoarsenedExactResult)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemWeights
+                    Return PsmAdvancedMatchingTables.CoarsenedExactWeightsTable(readInput(), result.CoarsenedExactResult)
+                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Warnings
+                    Return PsmComprehensiveTables.WarningsTable(result)
+                Case Else
+                    Return PsmResult.EmptyTable("Unknown PSM table: " & If(requested, String.Empty))
+            End Select
+        End Function
+
     End Class
 End Namespace

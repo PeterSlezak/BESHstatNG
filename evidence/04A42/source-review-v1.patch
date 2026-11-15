@@ -1,0 +1,452 @@
+diff --git a/BESHStat.Excel.Common/src/Analysis/UdfPlotDataPreparation38.vb b/BESHStat.Excel.Common/src/Analysis/UdfPlotDataPreparation38.vb
+index dc9017f5..ec57811b 100644
+--- a/BESHStat.Excel.Common/src/Analysis/UdfPlotDataPreparation38.vb
++++ b/BESHStat.Excel.Common/src/Analysis/UdfPlotDataPreparation38.vb
+@@ -77,5 +77,16 @@ Namespace ExcelCommon
+             records = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)
+             Return records IsNot Nothing AndAlso records.Count > 0
+         End Function
++
++        Public Shared Function ComputeKaplanMeierCurves(records As List(Of survival.SurvivalRecord), alpha As Double) As Object()
++            Dim model As New survival.Survival_KM_LR(records)
++            Return model.SurvivalCurveTabularOutput(alpha)
++        End Function
++
++        Public Shared Function ComputeCalibrationRows(y() As Double, probabilities() As Double, bins As Integer,
++                                                     weights() As Double, method As String) As List(Of Global.BESHStatNG.regression.CalibrationBinSummary)
++            Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(y, probabilities, weights)
++            Return Global.BESHStatNG.regression.BinaryClassificationCore.BuildCalibrationBins(y, probabilities, bins, weights, method)
++        End Function
+     End Class
+ End Namespace
+diff --git a/BESHStat.Excel.Common/src/Analysis/UdfPsmDataPreparation38.vb b/BESHStat.Excel.Common/src/Analysis/UdfPsmDataPreparation38.vb
+index c187f535..eddbf73d 100644
+--- a/BESHStat.Excel.Common/src/Analysis/UdfPsmDataPreparation38.vb
++++ b/BESHStat.Excel.Common/src/Analysis/UdfPsmDataPreparation38.vb
+@@ -123,5 +123,55 @@ Namespace ExcelCommon
+             Return modelInput
+         End Function
+ 
++
++        ''' <summary>Selects existing Core table builders; never owns fitting, handles or caches.</summary>
++        Public Shared Function BuildNamedTable(result As PsmComprehensiveResult, fitOptions As PsmComprehensiveFitOptions,
++                                              readInput As Func(Of PsmInputData), readRowIds As Func(Of Integer()),
++                                              requested As String, readImportSummary As Func(Of Object(,))) As Object(,)
++            Dim name As Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38 = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.ResolveTableKindPrepared(requested)
++            Select Case name
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RunSummary
++                    Return PsmComprehensiveTables.RunSummaryTable(result)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Options
++                    Return PsmFrontEndTables.OptionsTable(fitOptions)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ImportSummary
++                    Return readImportSummary()
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.SampleSize
++                    Return PsmFrontEndTables.SampleSizeTable(result.Result)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ScoreModel
++                    Return PsmBackendTables.ScoreModelTable(result.Result)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RowAudit
++                    Return PsmFrontEndTables.RowLevelAuditTable(readInput(), result.Result, readRowIds())
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Matches
++                    Return PsmBackendTables.MatchesTable(result.Result, readInput())
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.MatchedData
++                    Return PsmFrontEndTables.MatchedDatasetTable(readInput(), result.Result, readRowIds())
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Balance
++                    Return PsmBackendTables.BalanceTable(result.Result)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Effect
++                    Return PsmBackendTables.EffectTable(result.Result)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.DoublyRobust
++                    Return PsmAdvancedTables.DoublyRobustEffectTable(result.DoublyRobustResult)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.WeightDiagnostics
++                    Return PsmAdvancedTables.WeightDiagnosticsTable(result.WeightDiagnostics)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapSummary
++                    Return PsmAdvancedTables.OverlapSummaryTable(result.OverlapDiagnostics)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapBins
++                    Return PsmAdvancedTables.OverlapBinsTable(result.OverlapDiagnostics)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.LovePlot
++                    Return PsmAdvancedTables.LovePlotTable(result.LovePlotRows)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Subclass
++                    Return PsmFrontEndTables.SubclassTable(result.Result)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemStrata
++                    Return PsmAdvancedMatchingTables.CoarsenedExactStrataTable(result.CoarsenedExactResult)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemWeights
++                    Return PsmAdvancedMatchingTables.CoarsenedExactWeightsTable(readInput(), result.CoarsenedExactResult)
++                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Warnings
++                    Return PsmComprehensiveTables.WarningsTable(result)
++                Case Else
++                    Return PsmResult.EmptyTable("Unknown PSM table: " & If(requested, String.Empty))
++            End Select
++        End Function
++
+     End Class
+ End Namespace
+diff --git a/BESHStat.Excel.Common/src/Results/UdfClassificationReportPreparation38.vb b/BESHStat.Excel.Common/src/Results/UdfClassificationReportPreparation38.vb
+index e88de30e..a4008662 100644
+--- a/BESHStat.Excel.Common/src/Results/UdfClassificationReportPreparation38.vb
++++ b/BESHStat.Excel.Common/src/Results/UdfClassificationReportPreparation38.vb
+@@ -164,5 +164,32 @@ Namespace ExcelCommon
+             If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return missingValue
+             Return 100.0R * value
+         End Function
++
++        Public Shared Function ComputeConfusionOutput(y() As Double, probabilities() As Double, threshold As Double,
++                                                     weights() As Double, missingValue As Object, includeHeader As Boolean) As Object
++            Dim summary = BinaryClassificationCore.ComputeBinarySummary(y, probabilities, threshold, weights)
++            Return BuildBinaryCrosstabUdfOutput(summary, missingValue, includeHeader)
++        End Function
++
++        Public Shared Function ComputeThresholdOutput(y() As Double, probabilities() As Double, thresholds() As Double,
++                                                     weights() As Double, missingValue As Object, includeHeader As Boolean) As Object
++            Dim rows = BinaryClassificationCore.BuildThresholdTable(y, probabilities, thresholds, weights)
++            Return BuildThresholdTableUdfOutput(rows, missingValue, includeHeader)
++        End Function
++
++        Public Shared Function ComputeCalibrationOutput(y() As Double, probabilities() As Double, bins As Integer,
++                                                       weights() As Double, method As String, missingValue As Object, includeHeader As Boolean) As Object
++            Dim rows = BinaryClassificationCore.BuildCalibrationBins(y, probabilities, bins, weights, method)
++            Return BuildCalibrationTableUdfOutput(rows, missingValue, includeHeader)
++        End Function
++
++        ''' <summary>Input validation/header acquisition remain at their original adapter positions.</summary>
++        Public Shared Function ComputeBrierOutput(y() As Double, probabilities() As Double, weights() As Double,
++                                                 missingValue As Object, includeHeader As Boolean) As Object
++            Dim score As Double = BinaryClassificationCore.ComputeBrierScore(y, probabilities, weights)
++            Dim eventRate As Double = Global.BESHStatNG.WorksheetCompatibility.UdfNumericPreparation38.ComputeWeightedEventRate(y, weights)
++            Dim n As Double = If(weights Is Nothing, y.Length, System.Linq.Enumerable.Sum(weights))
++            Return BuildBrierScoreUdfOutput(score, missingValue, n, eventRate, includeHeader)
++        End Function
+     End Class
+ End Namespace
+diff --git a/BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb b/BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb
+index 0e22858e..c72c7836 100644
+--- a/BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb
++++ b/BESHStat.Excel.Common/src/Results/UdfMultivariateReportPreparation38.vb
+@@ -367,5 +367,38 @@ Namespace ExcelCommon
+             Return out
+         End Function
+ 
++
++        ''' <summary>Preserves factor naming, contribution calculation and deferred header-read order.</summary>
++        Public Shared Function BuildFactorCommunalities(model As Multivariate.FactorAnalysis, variableNames() As String, readHeader As Func(Of Boolean)) As Object(,)
++            Dim factorNames() As String = model.FactorNames("Factor ")
++            Dim contrib(,) As Double = model.CommunalityContributionsByFactor()
++            Dim p As Integer = variableNames.Length
++            Dim k As Integer = model.NumberOfFactors
++            Dim hdr As Boolean = readHeader()
++            Return BuildFactorCommunalities(model, variableNames, factorNames, contrib, p, k, hdr)
++        End Function
++
++        Public Shared Function BuildHierarchicalMembership(result As Multivariate.HierarchicalClusterResult,
++                                                          mode As Multivariate.HierarchicalMembershipDisplayMode,
++                                                          readHeight As Func(Of Double), readCount As Func(Of Integer)) As Object(,)
++            If mode = Multivariate.HierarchicalMembershipDisplayMode.ByHeight Then
++                Return result.GetMembershipTableByHeight(readHeight())
++            End If
++            Return result.GetMembershipTable(readCount())
++        End Function
++
++        Public Shared Function SelectDiscriminantPrediction(model As Multivariate.DiscriminantAnalysis, normalizedSource As String) As Multivariate.DiscriminantPredictionResult
++            If model Is Nothing Then Return Nothing
++            Select Case normalizedSource
++                Case "", "TRAINING", "APPARENT", "RESUBSTITUTION"
++                    Return model.TrainingClassification
++                Case "VALIDATION", "CV", "CROSSVALIDATION"
++                    Return model.ValidationClassification
++                Case Else
++                    Throw New ArgumentException("source must be training or validation.")
++            End Select
++        End Function
++
++
+     End Class
+ End Namespace
+diff --git a/BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb b/BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb
+index a2c3bb24..899acdae 100644
+--- a/BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb
++++ b/BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb
+@@ -1,4 +1,4 @@
+-﻿Option Explicit On
++Option Explicit On
+ Option Strict On
+ 
+ Imports System
+@@ -106,10 +106,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
+ 
+                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
+-                Dim summary As regression.BinaryClassificationSummary =
+-                    regression.BinaryClassificationReporting.ComputeBinarySummary(observed, probs, cutoff, w)
+-
+-                Return ConvertBinaryClassificationOutputForExcel(regression.BinaryClassificationReporting.BuildBinaryCrosstabUdfOutput(summary, hdr))
++                Return ConvertBinaryClassificationOutputForExcel(Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.ComputeConfusionOutput(observed, probs, cutoff, w, BinaryClassificationReporting.MissingOutputValue, hdr))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.CLASS.CONFUSION", ex)
+             End Try
+@@ -189,10 +186,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
+ 
+                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
+-                Dim rows As List(Of regression.BinaryThresholdRow) =
+-                    regression.BinaryClassificationReporting.BuildThresholdTable(observed, probs, thresholdVector, w)
+-
+-                Return ConvertBinaryClassificationOutputForExcel(regression.BinaryClassificationReporting.BuildThresholdTableUdfOutput(rows, hdr))
++                Return ConvertBinaryClassificationOutputForExcel(Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.ComputeThresholdOutput(observed, probs, thresholdVector, w, BinaryClassificationReporting.MissingOutputValue, hdr))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.CLASS.THRESH", ex)
+             End Try
+@@ -280,10 +274,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
+ 
+                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
+-                Dim rows As List(Of regression.CalibrationBinSummary) =
+-                    regression.BinaryClassificationReporting.BuildCalibrationBins(observed, probs, binCount, w, methodName)
+-
+-                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildCalibrationTableUdfOutput(rows, hdr))
++                Return ConvertBinaryClassificationOutputForExcel(Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.ComputeCalibrationOutput(observed, probs, binCount, w, methodName, BinaryClassificationReporting.MissingOutputValue, hdr))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.CLASS.CALIB", ex)
+             End Try
+@@ -353,11 +344,7 @@ Namespace WorksheetFunctions
+                 Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(observed, probs, w)
+ 
+                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
+-                Dim brier As Double = regression.BinaryClassificationReporting.ComputeBrierScore(observed, probs, w)
+-                Dim eventRate As Double = ComputeWeightedEventRate(observed, w)
+-                Dim nObs As Double = If(w Is Nothing, observed.Length, w.Sum())
+-
+-                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildBrierScoreUdfOutput(brier, nObs, eventRate, hdr))
++                Return ConvertBinaryClassificationOutputForExcel(Global.BESHStatNG.ExcelCommon.UdfClassificationReportPreparation38.ComputeBrierOutput(observed, probs, w, BinaryClassificationReporting.MissingOutputValue, hdr))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.CLASS.BRIER", ex)
+             End Try
+diff --git a/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb b/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb
+index 8022b4a6..4a1f2683 100644
+--- a/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb
++++ b/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb
+@@ -752,12 +752,7 @@ Namespace WorksheetFunctions
+                 Dim h As FactorAnalysisHandle = Nothing
+                 If Not TryGetFaHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+ 
+-                Dim factorNames() As String = h.Model.FactorNames("Factor ")
+-                Dim contrib(,) As Double = h.Model.CommunalityContributionsByFactor()
+-                Dim p As Integer = h.VariableNames.Length
+-                Dim k As Integer = h.Model.NumberOfFactors
+-                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
+-                Dim out(,) As Object = Global.BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38.BuildFactorCommunalities(h.Model, h.VariableNames, factorNames, contrib, p, k, hdr)
++                Dim out(,) As Object = Global.BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38.BuildFactorCommunalities(h.Model, h.VariableNames, Function() GetOptionalBool(includeHeader, True))
+                 Return PrepareResultTableForUdf(out)
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.MULTI.FA_COMMUNALITIES", ex)
+@@ -1409,12 +1404,7 @@ Namespace WorksheetFunctions
+                 If Not TryGetHierarchicalHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+ 
+                 Dim cutMode As Multivariate.HierarchicalMembershipDisplayMode = ParseHierarchicalMembershipDisplayMode(mode)
+-                Dim table As Object(,)
+-                If cutMode = Multivariate.HierarchicalMembershipDisplayMode.ByHeight Then
+-                    table = h.Model.Result.GetMembershipTableByHeight(GetOptionalDouble(value, 0.0R))
+-                Else
+-                    table = h.Model.Result.GetMembershipTable(GetOptionalInt(value, 3))
+-                End If
++                Dim table As Object(,) = Global.BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38.BuildHierarchicalMembership(h.Model.Result, cutMode, Function() GetOptionalDouble(value, 0.0R), Function() GetOptionalInt(value, 3))
+ 
+                 Return PrepareExistingObjectTableForUdf(table, GetOptionalBool(includeHeader, True))
+             Catch ex As Exception
+@@ -3182,15 +3172,7 @@ Namespace WorksheetFunctions
+         Private Function GetDiscriminantPredictionResult(model As Multivariate.DiscriminantAnalysis,
+                                                          source As Object) As Multivariate.DiscriminantPredictionResult
+             If model Is Nothing Then Return Nothing
+-            Dim token As String = NormalizeToken(source)
+-            Select Case token
+-                Case "", "TRAINING", "APPARENT", "RESUBSTITUTION"
+-                    Return model.TrainingClassification
+-                Case "VALIDATION", "CV", "CROSSVALIDATION"
+-                    Return model.ValidationClassification
+-                Case Else
+-                    Throw New ArgumentException("source must be training or validation.")
+-            End Select
++            Return Global.BESHStatNG.ExcelCommon.UdfMultivariateReportPreparation38.SelectDiscriminantPrediction(model, NormalizeToken(source))
+         End Function
+ 
+     End Module
+diff --git a/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb b/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb
+index f07e316e..febd39e1 100644
+--- a/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb
++++ b/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb
+@@ -347,8 +347,7 @@ Namespace WorksheetFunctions
+                 If Not Global.BESHStatNG.UdfDataImport.TryGetSurvivalRecords(time, status, group, records) Then Return ExcelError.ExcelErrorValue
+                 If records Is Nothing OrElse records.Count = 0 Then Return ExcelError.ExcelErrorNum
+ 
+-                Dim km As New survival.Survival_KM_LR(records)
+-                Dim rawCurves As Object() = km.SurvivalCurveTabularOutput(alphaValue)
++                Dim rawCurves As Object() = Global.BESHStatNG.ExcelCommon.UdfPlotDataPreparation38.ComputeKaplanMeierCurves(records, alphaValue)
+                 If rawCurves Is Nothing OrElse rawCurves.Length = 0 Then Return ExcelError.ExcelErrorNA
+ 
+                 Return BuildKaplanMeierStepTable(rawCurves)
+@@ -445,8 +444,7 @@ Namespace WorksheetFunctions
+                 Dim yy() As Double = yVals.ToArray()
+                 Dim pp() As Double = pVals.ToArray()
+ 
+-                Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(yy, pp, w)
+-                Dim rows As List(Of regression.CalibrationBinSummary) = regression.BinaryClassificationReporting.BuildCalibrationBins(yy, pp, binCount, w, methodName)
++                Dim rows As List(Of regression.CalibrationBinSummary) = Global.BESHStatNG.ExcelCommon.UdfPlotDataPreparation38.ComputeCalibrationRows(yy, pp, binCount, w, methodName)
+                 If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+ 
+                 Return BuildCalibrationPointsTable(rows)
+diff --git a/BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb b/BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb
+index 862908d1..f726133a 100644
+--- a/BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb
++++ b/BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb
+@@ -286,7 +286,7 @@ Namespace WorksheetFunctions
+             Try
+                 Dim h As PsmUdfHandle = Nothing
+                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+-                Return PrepareExistingObjectTableForUdf(PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds), GetOptionalBool(includeHeader, True))
++                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "scores"), GetOptionalBool(includeHeader, True))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.PS.SCORES", ex)
+             End Try
+@@ -323,7 +323,7 @@ Namespace WorksheetFunctions
+             Try
+                 Dim h As PsmUdfHandle = Nothing
+                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+-                Return PrepareExistingObjectTableForUdf(PsmBackendTables.MatchesTable(h.Result.Result, h.Data.Input), GetOptionalBool(includeHeader, True))
++                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "matches"), GetOptionalBool(includeHeader, True))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.PSM.MATCHES", ex)
+             End Try
+@@ -358,7 +358,7 @@ Namespace WorksheetFunctions
+             Try
+                 Dim h As PsmUdfHandle = Nothing
+                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+-                Return PrepareExistingObjectTableForUdf(PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds), GetOptionalBool(includeHeader, True))
++                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "scores"), GetOptionalBool(includeHeader, True))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.PS.WEIGHTS", ex)
+             End Try
+@@ -393,7 +393,7 @@ Namespace WorksheetFunctions
+             Try
+                 Dim h As PsmUdfHandle = Nothing
+                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+-                Return PrepareExistingObjectTableForUdf(PsmBackendTables.BalanceTable(h.Result.Result), GetOptionalBool(includeHeader, True))
++                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "balance"), GetOptionalBool(includeHeader, True))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.PS.BALANCE", ex)
+             End Try
+@@ -427,7 +427,7 @@ Namespace WorksheetFunctions
+             Try
+                 Dim h As PsmUdfHandle = Nothing
+                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+-                Return PrepareExistingObjectTableForUdf(PsmBackendTables.EffectTable(h.Result.Result), GetOptionalBool(includeHeader, True))
++                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "effect"), GetOptionalBool(includeHeader, True))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.PS.EFFECT", ex)
+             End Try
+@@ -461,7 +461,7 @@ Namespace WorksheetFunctions
+             Try
+                 Dim h As PsmUdfHandle = Nothing
+                 If Not TryGetPsmHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+-                Return PrepareExistingObjectTableForUdf(PsmAdvancedTables.LovePlotTable(h.Result.LovePlotRows), GetOptionalBool(includeHeader, True))
++                Return PrepareExistingObjectTableForUdf(ResolveNamedTable(h, "loveplot"), GetOptionalBool(includeHeader, True))
+             Catch ex As Exception
+                 Return LoggedUdfExceptionText("BESH.PS.LOVEPLOT_DATA", ex)
+             End Try
+@@ -578,49 +578,9 @@ Namespace WorksheetFunctions
+         End Sub
+ 
+         Private Function ResolveNamedTable(h As PsmUdfHandle, requested As String) As Object(,)
+-            Dim name As Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38 = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.ResolveTableKindPrepared(requested)
+-            Select Case name
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RunSummary
+-                    Return PsmComprehensiveTables.RunSummaryTable(h.Result)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Options
+-                    Return PsmFrontEndTables.OptionsTable(h.FitOptions)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ImportSummary
+-                    Return DataImportSummaryTable(h)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.SampleSize
+-                    Return PsmFrontEndTables.SampleSizeTable(h.Result.Result)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.ScoreModel
+-                    Return PsmBackendTables.ScoreModelTable(h.Result.Result)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.RowAudit
+-                    Return PsmFrontEndTables.RowLevelAuditTable(h.Data.Input, h.Result.Result, h.Data.RowIds)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Matches
+-                    Return PsmBackendTables.MatchesTable(h.Result.Result, h.Data.Input)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.MatchedData
+-                    Return PsmFrontEndTables.MatchedDatasetTable(h.Data.Input, h.Result.Result, h.Data.RowIds)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Balance
+-                    Return PsmBackendTables.BalanceTable(h.Result.Result)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Effect
+-                    Return PsmBackendTables.EffectTable(h.Result.Result)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.DoublyRobust
+-                    Return PsmAdvancedTables.DoublyRobustEffectTable(h.Result.DoublyRobustResult)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.WeightDiagnostics
+-                    Return PsmAdvancedTables.WeightDiagnosticsTable(h.Result.WeightDiagnostics)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapSummary
+-                    Return PsmAdvancedTables.OverlapSummaryTable(h.Result.OverlapDiagnostics)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.OverlapBins
+-                    Return PsmAdvancedTables.OverlapBinsTable(h.Result.OverlapDiagnostics)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.LovePlot
+-                    Return PsmAdvancedTables.LovePlotTable(h.Result.LovePlotRows)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Subclass
+-                    Return PsmFrontEndTables.SubclassTable(h.Result.Result)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemStrata
+-                    Return PsmAdvancedMatchingTables.CoarsenedExactStrataTable(h.Result.CoarsenedExactResult)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.CemWeights
+-                    Return PsmAdvancedMatchingTables.CoarsenedExactWeightsTable(h.Data.Input, h.Result.CoarsenedExactResult)
+-                Case Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Warnings
+-                    Return PsmComprehensiveTables.WarningsTable(h.Result)
+-                Case Else
+-                    Return PsmResult.EmptyTable("Unknown PSM table: " & If(requested, String.Empty))
+-            End Select
++            Dim kind As Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38 = Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.ResolveTableKindPrepared(requested)
++            If kind = Global.BESHStatNG.ExcelCommon.PsmUdfTableKind38.Unknown Then Return PsmResult.EmptyTable("Unknown PSM table: " & If(requested, String.Empty))
++            Return Global.BESHStatNG.ExcelCommon.UdfPsmDataPreparation38.BuildNamedTable(h.Result, h.FitOptions, Function() h.Data.Input, Function() h.Data.RowIds, requested, Function() DataImportSummaryTable(h))
+         End Function
+ 
+         Private Function DataImportSummaryTable(h As PsmUdfHandle) As Object(,)
+diff --git a/planning/BESHStatNG_CrossPlatform_MasterPlan.md b/planning/BESHStatNG_CrossPlatform_MasterPlan.md
+index a5136a04..fa3344b0 100644
+--- a/planning/BESHStatNG_CrossPlatform_MasterPlan.md
++++ b/planning/BESHStatNG_CrossPlatform_MasterPlan.md
+@@ -1,7 +1,9 @@
+ # BESHStatNG — Cross-platform development master plan
+ 
+-**Revision 2.18 · 15 November 2026 · 04A.40 owner-accepted/merged; 04A.41 in progress**
+-**Current owner authority (04A.41 entry):** The owner explicitly accepted04A.40 with its documented restrictions and authorized04A.41 only. Actual clean merged main `c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc` is the direct child of `bba848305c2c46ff3fc835a1132522ebfec59514`; the accepted40 final witness, exact raw preservation boundary and sanitized successors are authenticated. **04A.41 IN_PROGRESS**, not accepted or merged; **04A.42_NOT_AUTHORIZED**. No scientific/native correction, historical waiver, staging, commit, merge or release authority follows. The original226 batch identities and deferred-defect charter remain binding. Exact Revision2.17 is retained separately.
++**Revision 2.19 · 15 November 2026 · 04A.41 owner-accepted/merged; 04A.42 in progress**
++**Current owner authority (04A.42 entry):** Owner formally accepted04A.41 with documented restrictions and authorized04A.42 only. Clean merged main `1df856c47f2342e26de1115f1621722b7c0ac23e` is authenticated as the direct child of `c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc`; accepted41 source/compiled exports/external receipt and protected40/41 raw evidence are pinned. **04A.42 IN_PROGRESS**, not accepted or merged; **04A43_NOT_AUTHORIZED**. Model-cache lifecycle/scientific/native corrections and original gate discharges remain separately restricted. Exact Revision2.18 and all226 batch identities are retained.
++
++**Historical Revision2.18 entry (retained for chronology):** The owner explicitly accepted04A.40 with its documented restrictions and authorized04A.41 only. Actual clean merged main `c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc` is the direct child of `bba848305c2c46ff3fc835a1132522ebfec59514`; the accepted40 final witness, exact raw preservation boundary and sanitized successors are authenticated. **04A.41 IN_PROGRESS**, not accepted or merged; **04A.42_NOT_AUTHORIZED**. No scientific/native correction, historical waiver, staging, commit, merge or release authority follows. The original226 batch identities and deferred-defect charter remain binding. Exact Revision2.17 is retained separately.
+ 
+ **Historical Revision2.17 entry (retained for chronology):**  Owner accepted04A.39 and its limited physical-derivative publication gate, then committed/merged39 at `f2eb060c9c422c1fec4e82989d07907dbd4b9337`. Updated main `bba848305c2c46ff3fc835a1132522ebfec59514` is its direct child, containing only the previously observed BuildDate metadata update. Actual39 source, canonical register and final witness are authenticated;1352 historical source pins remain exact and the one owner BuildDate transition is explicitly recorded. **04A.40 IN_PROGRESS**, not accepted;04A.41 is unauthorized. Repository privacy FAILs, W3 ERRORs and scientific/native gates remain unwaived. Exact Revision2.15 is retained separately.
+ 
+@@ -10,10 +12,10 @@
+ | Roadmap measure | Count |
+ |---|---:|
+ | All numbered batches | **226** |
+-| Accepted (Phases 00–04: 40; Phase 04A: 40) | **80** |
+-| Not yet accepted (including in-progress 04A.41) | **146** |
+-| Phase 04A accepted / total | **40 / 75** |
+-| Phase 04A not yet accepted | **35** |
++| Accepted (Phases 00–04: 40; Phase 04A: 41) | **81** |
++| Not yet accepted (including in-progress 04A.42) | **145** |
++| Phase 04A accepted / total | **41 / 75** |
++| Phase 04A not yet accepted | **34** |
+ 
+ **Historical Revision2.14 verification boundary (superseded by current entry above; preserved for chronology).** Acceptance and merges through 04A.37 are **owner-reported**, not a fresh independent live-Git checkout. The latest independently inspected **uploaded derivative packages** are `BESHStatNG_04A38_ACTIVE_20261112-133023.zip` (recovered from binary volumes) and `BESHStatNG_04A38_REFERENCE_20261112-133023.zip`, with the v12 sealed owner review and final post-seal addendum v2. Their contents and archived frozen compatibility comparisons were independently reviewed; Windows builds/tests, live Git and excluded private files are supported by Codex receipts rather than independently rerun or rehashed here. The v12 Codex receipts identify `codex/04A-38` and pinned HEAD/`main`/merge-base `ba1636f5356ac761509c2cfa16fc66b92430935d`, with an empty staged index, no commit and `git diff --check` exit 0. Every subsequent Codex continuation must authenticate the actual live branch, source, preservation and sealed reference before editing.
+ 
+@@ -206,8 +208,8 @@
+ | **04A.38** **✓** | Accepted controlled extraction across268 Excel-DNA UDF exports; Windows registration/cache/native session ownership retained. | 04A.01,01.09 | W2 accepted13Nov; W3 software/overall accepted14Nov; verified main `22da2214da6bb1cad4f2934d0b36276324a1432f`.704/726/303 closed,zeroOPEN; Debug/Release21080PASS/14 inheritedFAIL each;29424 exact/config. Native/scientific restrictions retained. | High |
+ | **04A.39** **ACCEPTED / MERGED** | Reconcile UDF argument/data-import policies, row provenance, nested numeric-text precision and paired positional/source-row differences; establish single defect register. | 04A.38 | Exact source-row/positional equivalence; issue-register entry and triage; no blanket scientific fix. | High |
+ | **04A.40** **ACCEPTED / MERGED** | Regression, mixed, GEE, Cox, log-rank and formula UDF request/result parity; investigate LM alpha, QIC, cluster/prediction identities and controlled scientific corrections. | 04A.39 | Independent numerical/GUI/UDF cases; candidate decisions and unchanged gate unless specifically authorized. | High |
+-| **04A.41** **IN PROGRESS** | Basic statistics, contingency, agreement, assumptions and sample-size UDF reconciliation; Shapiro, D’Agostino, nested labels, Liddell and scientific candidates. | 04A.39 | Independent p-value/CI/assumption reference; explicit policy and native decision for any behavior change. | High |
+-| **04A.42** | Multivariate/classification/PSM and plot-source UDF payloads, row mapping and arrays. | 04A.39 | PCA, clustering, PSM and plotted data output snapshots → Typed portable result contracts and row order preserved | High |
++| **04A.41** **ACCEPTED / MERGED** | Basic statistics, contingency, agreement, assumptions and sample-size UDF reconciliation; Shapiro, D’Agostino, nested labels, Liddell and scientific candidates. | 04A.39 | Independent p-value/CI/assumption reference; explicit policy and native decision for any behavior change. | High |
++| **04A.42** **IN PROGRESS** | Multivariate/classification/PSM and plot-source UDF payloads, row mapping and arrays. | 04A.39 | PCA, clustering, PSM and plotted data output snapshots → Typed portable result contracts and row order preserved | High |
+ | **04A.43** | Shared UDF model-handle semantics, cache ownership, invalidation and recalculation; Windows session cache stays host-owned. | 04A.40–04A.42 | Handle invalidation, workbook lifecycle, parallel access and no stale cache leakage → Shared model result semantics without Windows `ConcurrentDictionary` dependency | High |
+ | **04A.44** | Portable settings, defaults, Help, errors and progress from Windows infrastructure; keep OS/UI/updater actions native. | 03.01–03.06,04A.01 | Alpha/help/locale/runtime fault behavior; no-host dependencies → Neutral policy shared; files, registry, UI controls, updater remain Windows | Medium |
+ | **04A.45** | Windows UI/Ribbon/RefEdit wiring and safe harness; verify actual Excel session/HWND/PID/XLL attribution and obtain separate COM risk approval before native observation. | 04A.03–04A.44 | Host/session and loaded-build attribution, negative tests, independent COM risk approval before live execution. | High |
+@@ -493,3 +495,5 @@ Only **after all official 04A batches and formal exit/merge**, seek a fresh owne
+ **Revision2.15 change log (14November2026):** Records owner W2/W3/overall04A.38 acceptances, independently verified merged-main SHA and explicit newline reconciliation; starts04A.39 audit/fixtures/canonical issue register only. Preserves exact Revision2.14, original226 roadmap identities and04A.39–48 charter. New04A.39 evidence is an implementation/review candidate, never owner acceptance.
+ 
+ **Revision2.18 change log (15 November2026):** Records explicit owner acceptance and actual merged main for04A.40, starts only04A.41 behavior-preserving basic/assumptions/contingency/agreement/sizing UDF reconciliation. Retains exact2.17, all226 IDs, original charter and all scientific/native/privacy failure history.04A.41 has not been owner-accepted or merged.
++
++**Revision2.19 change log (15 November2026):** Records owner acceptance/verified merged main for04A.41; starts only04A.42 multivariate/classification/PSM/plot-source payload reconciliation. Retains exact2.18,226 IDs,original deferred-defect charter and all restrictions/history.04A.42 has not been accepted or merged;04A.43 is not authorized.
