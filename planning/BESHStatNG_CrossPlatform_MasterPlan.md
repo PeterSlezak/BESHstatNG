@@ -1,7 +1,9 @@
 # BESHStatNG — Cross-platform development master plan
 
-**Revision 2.20 · 15 November 2026 · 04A.42 owner-accepted/merged; 04A.43 in progress**
-**Current owner authority (04A.43 entry):** Owner explicitly accepted04A.42 with documented restrictions and authorized04A.43 only. Actual merged main `3955a6e9142256df6bc1fd53a924010c58367b51` is the direct child of `1df856c47f2342e26de1115f1621722b7c0ac23e`; accepted42 source/compiled metadata/delivery and protected raw evidence are authenticated. **04A.43 IN_PROGRESS**, not accepted or merged; **04A44_NOT_AUTHORIZED**. Portable handle metadata/pure decisions and behavior-preserving Windows predicate delegation do not activate workbook/native/session hooks,cache eviction,scientific corrections,Office handles or original-control discharge. Exact Revision2.19 and all226 original batch identities remain preserved.
+**Revision 2.21 · 15 November 2026 · 04A.43 owner-accepted/merged; 04A.44 in progress**
+**Current owner authority (04A.44 entry):** Owner accepted04A.43 with documented restrictions and authorized04A.44 only. Verified merged main `243b6dcd654767ffedb8fe3643b310c0c56cd6ac` is the direct child of `3955a6e9142256df6bc1fd53a924010c58367b51`. **04A.44 IN_PROGRESS**, not accepted/merged; **04A45_NOT_AUTHORIZED**. Portable settings/number/fault/progress decisions preserve Windows store,UI,Help/updater actions and every scientific/native/cache restriction. Exact2.20 snapshot and all226 original IDs retained.
+
+**Historical Revision2.20 entry (retained):** Owner explicitly accepted04A.42 with documented restrictions and authorized04A.43 only. Actual merged main `3955a6e9142256df6bc1fd53a924010c58367b51` is the direct child of `1df856c47f2342e26de1115f1621722b7c0ac23e`; accepted42 source/compiled metadata/delivery and protected raw evidence are authenticated. **04A.43 IN_PROGRESS**, not accepted or merged; **04A44_NOT_AUTHORIZED**. Portable handle metadata/pure decisions and behavior-preserving Windows predicate delegation do not activate workbook/native/session hooks,cache eviction,scientific corrections,Office handles or original-control discharge. Exact Revision2.19 and all226 original batch identities remain preserved.
 
 **Historical Revision2.19 entry (retained for chronology):** Owner formally accepted04A.41 with documented restrictions and authorized04A.42 only. Clean merged main `1df856c47f2342e26de1115f1621722b7c0ac23e` is authenticated as the direct child of `c6c22dbc59d6dfc61ed64f6413d8c81e7102e1dc`; accepted41 source/compiled exports/external receipt and protected40/41 raw evidence are pinned. **04A.42 IN_PROGRESS**, not accepted or merged; **04A43_NOT_AUTHORIZED**. Model-cache lifecycle/scientific/native corrections and original gate discharges remain separately restricted. Exact Revision2.18 and all226 batch identities are retained.
 
@@ -14,10 +16,10 @@
 | Roadmap measure | Count |
 |---|---:|
 | All numbered batches | **226** |
-| Accepted (Phases 00–04: 40; Phase 04A: 42) | **82** |
-| Not yet accepted (including in-progress 04A.43) | **144** |
-| Phase 04A accepted / total | **42 / 75** |
-| Phase 04A not yet accepted | **33** |
+| Accepted (Phases 00–04: 40; Phase 04A: 43) | **83** |
+| Not yet accepted (including in-progress 04A.44) | **143** |
+| Phase 04A accepted / total | **43 / 75** |
+| Phase 04A not yet accepted | **32** |
 
 **Historical Revision2.14 verification boundary (superseded by current entry above; preserved for chronology).** Acceptance and merges through 04A.37 are **owner-reported**, not a fresh independent live-Git checkout. The latest independently inspected **uploaded derivative packages** are `BESHStatNG_04A38_ACTIVE_20261112-133023.zip` (recovered from binary volumes) and `BESHStatNG_04A38_REFERENCE_20261112-133023.zip`, with the v12 sealed owner review and final post-seal addendum v2. Their contents and archived frozen compatibility comparisons were independently reviewed; Windows builds/tests, live Git and excluded private files are supported by Codex receipts rather than independently rerun or rehashed here. The v12 Codex receipts identify `codex/04A-38` and pinned HEAD/`main`/merge-base `ba1636f5356ac761509c2cfa16fc66b92430935d`, with an empty staged index, no commit and `git diff --check` exit 0. Every subsequent Codex continuation must authenticate the actual live branch, source, preservation and sealed reference before editing.
 
@@ -214,8 +216,8 @@
 | **04A.40** **ACCEPTED / MERGED** | Regression, mixed, GEE, Cox, log-rank and formula UDF request/result parity; investigate LM alpha, QIC, cluster/prediction identities and controlled scientific corrections. | 04A.39 | Independent numerical/GUI/UDF cases; candidate decisions and unchanged gate unless specifically authorized. | High |
 | **04A.41** **ACCEPTED / MERGED** | Basic statistics, contingency, agreement, assumptions and sample-size UDF reconciliation; Shapiro, D’Agostino, nested labels, Liddell and scientific candidates. | 04A.39 | Independent p-value/CI/assumption reference; explicit policy and native decision for any behavior change. | High |
 | **04A.42** **ACCEPTED / MERGED** | Multivariate/classification/PSM and plot-source UDF payloads, row mapping and arrays. | 04A.39 | PCA, clustering, PSM and plotted data output snapshots → Typed portable result contracts and row order preserved | High |
-| **04A.43** **IN PROGRESS** | Shared UDF model-handle semantics, cache ownership, invalidation and recalculation; Windows session cache stays host-owned. | 04A.40–04A.42 | Handle invalidation, workbook lifecycle, parallel access and no stale cache leakage → Shared model result semantics without Windows `ConcurrentDictionary` dependency | High |
-| **04A.44** | Portable settings, defaults, Help, errors and progress from Windows infrastructure; keep OS/UI/updater actions native. | 03.01–03.06,04A.01 | Alpha/help/locale/runtime fault behavior; no-host dependencies → Neutral policy shared; files, registry, UI controls, updater remain Windows | Medium |
+| **04A.43** **ACCEPTED / MERGED** | Shared UDF model-handle semantics, cache ownership, invalidation and recalculation; Windows session cache stays host-owned. | 04A.40–04A.42 | Handle invalidation, workbook lifecycle, parallel access and no stale cache leakage → Shared model result semantics without Windows `ConcurrentDictionary` dependency | High |
+| **04A.44** **IN PROGRESS** | Portable settings, defaults, Help, errors and progress from Windows infrastructure; keep OS/UI/updater actions native. | 03.01–03.06,04A.01 | Alpha/help/locale/runtime fault behavior; no-host dependencies → Neutral policy shared; files, registry, UI controls, updater remain Windows | Medium |
 | **04A.45** | Windows UI/Ribbon/RefEdit wiring and safe harness; verify actual Excel session/HWND/PID/XLL attribution and obtain separate COM risk approval before native observation. | 04A.03–04A.44 | Host/session and loaded-build attribution, negative tests, independent COM risk approval before live execution. | High |
 | **04A.46** | GUI wiring and validation of grouped, paired, categorical, normality, nested ANOVA, sample-size and plot options. | 04A.45 | Executed or safely isolated UI wiring; original restricted native controls remain OPEN without approval. | High |
 | **04A.47** | Regression/mixed/multivariate/SPC/PSM/Cox GUI wiring, cancellation and faults; gated LM/GEE/other native activations only with exact authorization. | 04A.46 | Event/state/error/Cancel evidence; gated correction activation only after case-specific approval. | High |
@@ -503,3 +505,5 @@ Only **after all official 04A batches and formal exit/merge**, seek a fresh owne
 **Revision2.19 change log (15 November2026):** Records owner acceptance/verified merged main for04A.41; starts only04A.42 multivariate/classification/PSM/plot-source payload reconciliation. Retains exact2.18,226 IDs,original deferred-defect charter and all restrictions/history.04A.42 has not been accepted or merged;04A.43 is not authorized.
 
 **Revision2.20 change log (15 November2026):** Authenticates owner acceptance/merge of42,starts only43 portable handle/cache lifecycle semantics with Windows storage retained. Rev2.12 detailed43 objective/dependencies/tests/manual acceptance remain binding;226 IDs,all historical scope/restrictions/evidence retained.43 has not been accepted/merged.44 and Phase11 Office handles are not authorized.
+
+**Revision2.21 change log (15 November2026):** Records accepted/merged43 and only44 portable infrastructure extraction. Current summary:04A.01–04A.43 accepted;44 in progress;45 unauthorized. All earlier summaries are historical. No native/scientific/cache behavior activation or original-control discharge;detailed2.12 and charter remain binding.

@@ -1,0 +1,19 @@
+from common44 import *
+import re,collections
+lock();paths=['BESHstatNG/src/AppInfrastructure/'+n+'.vb' for n in ['AppGlobals','ExcelDnaHostInfrastructure','LegacyPreferenceStore','WindowsDiagnostics','WindowsExecutionRun']]+['BESHstatNG/src/DM/UIprocedures.vb','BESHstatNG/src/Update/AutoUpdate.vb','BESHstatNG/src/UI/Ui12GlobalSettings.vb']+['BESHstatNG/src/Help/'+n+'.vb' for n in ['HelpContext','HelpLinks','HelpWiring']]+['BESHStat.Excel.Common/src/Infrastructure/'+n+'.vb' for n in ['Settings','HelpVersion','HelpLaunchTarget','Diagnostics','ExecutionCoordinator']]+['BESHStat.Excel.Common/src/Results/Faults.vb','BESHStat.Core/src/AppInfrastructure/AppSettings.vb']
+extract={'GetPValueDecimalPlacesDecimal','GetDefaultAlphaDecimal','GetDefaultRandomSeedText','FormatProgressElapsedSeconds','FormatProgressDouble','TryParseUiDouble','TryParseUiInteger','FormatUiDouble','Report','New','ShowError'}
+sources={p:(ROOT/p).read_text(encoding='utf-8-sig') for p in paths};vb=[p for p in git('ls-files').decode().splitlines() if p.endswith('.vb') and '/src/' in p and not p.startswith('evidence/')];texts={p:(ROOT/p).read_bytes().decode('utf-8-sig',errors='replace') for p in vb};rows=[]
+for path,text in sources.items():
+ lines=text.splitlines(keepends=True)
+ for i,line in enumerate(lines):
+  m=re.match(r'\s*(?:(?:Public|Private|Friend|Protected|Shared|ReadOnly|WriteOnly|Overrides|Overloads|Async|Default)\s+)*(Function|Sub|Property)\s+(\w+)',line,re.I)
+  if not m:continue
+  kind,name=m.groups();end=next((j for j in range(i+1,len(lines)) if re.match(r'\s*End '+kind+r'\b',lines[j],re.I)),i);body=''.join(lines[i:end+1]);portable=path.startswith(('BESHStat.Excel.Common/','BESHStat.Core/'));selected=name in extract and (path.endswith(('AppGlobals.vb','UIprocedures.vb','ExcelDnaHostInfrastructure.vb')))
+  disposition='ALREADY_PORTABLE' if portable else 'EXTRACT_PURE_POLICY' if selected else 'KEEP_WINDOWS_HOST_ACTION'
+  if path.endswith('AutoUpdate.vb'):disposition='RESTRICTED_BEHAVIOR_CHANGE' if name=='IsNewerVersion' else 'KEEP_WINDOWS_HOST_ACTION'
+  callers=[dict(path=p,lines=[k+1 for k,s in enumerate(t.splitlines()) if re.search(r'\b'+re.escape(name)+r'\b',s)]) for p,t in texts.items() if re.search(r'\b'+re.escape(name)+r'\b',t)]
+  rows.append(dict(path=path,member=name,signature=line.strip(),lines=[i+1,end+1],source=pin(path),method_sha256=sha(body.encode()),classification=disposition,callers=callers,caller_discovery='Lexical candidate references;overloads/homonyms retained for reviewer,not fabricated semantic call graph.',existing_portable='Existing PreferenceSnapshot/HelpDestination/HelpLaunchTarget/UserFaultMapper/DiagnosticRecord/ExecutionCoordinator reused;Core math and store untouched.',host_boundary='OS/Excel/control/file/logger/network acquisition and physical side effects remain Windows.' if not portable else 'Existing accepted portable owner;no duplicate policy.',fixture='CURRENT_MAIN_PRE_EDIT_04A44/'+name if selected else 'Existing integration tests/source lock;NOT_LIVE_NATIVE',restricted='Legacy updater malformed/prefix behavior and network/prompt order retained;no new approval' if path.endswith('AutoUpdate.vb') else None))
+save('scope/member-inventory-v1.json',dict(base=MAIN,files=[pin(p) for p in paths],members=rows,counts=dict(collections.Counter(r['classification'] for r in rows)),exports=268,caches_43='18 global Windows caches;workbook binding/automatic invalidation NOT_ESTABLISHED and unchanged',gates=GATES))
+reg=load(ROOT/'evidence/04A39/register/defects-v7.json')
+save(PRIVATE/'relevant-register-search-v1.json',dict(matches=[r for r in reg['issues'] if any(s.casefold() in json.dumps(r).casefold() for s in ['AppGlobals','UIprocedures','HelpLinks','AutoUpdate','04A.44'])]))
+print('Source-backed member inventory',len(rows),'members;original source hashes and candidate callers recorded',flush=True)

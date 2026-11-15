@@ -62,6 +62,11 @@ Namespace ExcelCommon
     ''' <summary>Pure, ordinal mapping. Unknown text is discarded, never scrubbed or echoed.
     ''' A cancellation request or an arbitrary OCE is not evidence of terminal cancellation.</summary>
     Public NotInheritable Class UserFaultMapper
+        ''' <summary>Legacy caption fallback only. No redaction or notification side effect.</summary>
+        Public Shared Function PresentationTitle(title As String, fallback As String) As String
+            Return If(String.IsNullOrWhiteSpace(title), fallback, title)
+        End Function
+
         Private Sub New()
         End Sub
 

@@ -29,6 +29,12 @@ Namespace ExcelCommon
     ''' Version increases on every change; concurrent/reentrant notifications may arrive out of order.
     ''' Consumers should read Snapshot or ignore older versions. Contains no input or exception data.</summary>
     Public NotInheritable Class ExecutionSnapshot
+        ''' <summary>Legacy host report projection only, independent of the coordinator's
+        ''' monotone 0..99 in-flight state. Does not dispatch, pump or report progress.</summary>
+        Public Shared Function ClampHostReportedPercent(percent As Integer) As Integer
+            Return Math.Max(0, Math.Min(100, percent))
+        End Function
+
         Public ReadOnly Property State As ExecutionState
         Public ReadOnly Property Stage As ExecutionStage
         Public ReadOnly Property Percent As Integer?

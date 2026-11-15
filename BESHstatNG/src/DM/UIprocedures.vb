@@ -185,20 +185,11 @@ Public Module UIprocedures
         If pProgressStopwatch Is Nothing Then Return String.Empty
 
         Dim elapsedMs As Double = pProgressStopwatch.Elapsed.TotalMilliseconds
-        If Double.IsNaN(elapsedMs) OrElse Double.IsInfinity(elapsedMs) OrElse elapsedMs < 0.0 Then Return String.Empty
-
-        Return (elapsedMs / 1000.0).ToString("0.00", Globalization.CultureInfo.InvariantCulture) & " s"
+        Return ExcelCommon.NumberTextPolicy.FormatProgressElapsedMilliseconds(elapsedMs)
     End Function
 
     Public Function FormatProgressDouble(value As Double) As String
-        If Not IsFinite(value) Then Return String.Empty
-
-        Dim absValue As Double = Math.Abs(value)
-        If absValue > 0.0 AndAlso (absValue < 0.0001 OrElse absValue >= 1000000.0) Then
-            Return value.ToString("0.###E+0", Globalization.CultureInfo.InvariantCulture)
-        End If
-
-        Return value.ToString("0.######", Globalization.CultureInfo.InvariantCulture)
+        Return ExcelCommon.NumberTextPolicy.FormatProgressDouble(value)
     End Function
 
     ''' <summary>
@@ -628,12 +619,9 @@ Public Module UIprocedures
             Return False
         End If
 
-        Dim styles As Globalization.NumberStyles =
-        Globalization.NumberStyles.Float Or Globalization.NumberStyles.AllowThousands
-
-        Return Double.TryParse(s, styles, GetExcelNumberCulture(), value) OrElse
-           Double.TryParse(s, styles, Globalization.CultureInfo.CurrentCulture, value) OrElse
-           Double.TryParse(s, styles, Globalization.CultureInfo.InvariantCulture, value)
+        Return ExcelCommon.NumberTextPolicy.TryDouble(s, GetExcelNumberCulture(), value) OrElse
+           ExcelCommon.NumberTextPolicy.TryDouble(s, Globalization.CultureInfo.CurrentCulture, value) OrElse
+           ExcelCommon.NumberTextPolicy.TryDouble(s, Globalization.CultureInfo.InvariantCulture, value)
     End Function
 
     Public Function ParseUiDouble(text As String, Optional fieldName As String = "numeric value") As Double
@@ -651,13 +639,7 @@ Public Module UIprocedures
             Return False
         End If
 
-        If d < Integer.MinValue OrElse d > Integer.MaxValue OrElse d <> Math.Truncate(d) Then
-            value = 0
-            Return False
-        End If
-
-        value = CInt(d)
-        Return True
+        Return ExcelCommon.NumberTextPolicy.TryIntegerValue(d, value)
     End Function
 
     Public Function ParseUiInteger(text As String,
@@ -670,7 +652,7 @@ Public Module UIprocedures
     End Function
 
     Public Function FormatUiDouble(value As Double) As String
-        Return value.ToString("G", GetExcelNumberCulture())
+        Return ExcelCommon.NumberTextPolicy.FormatGeneral(value, GetExcelNumberCulture())
     End Function
 
     ''' <summary>

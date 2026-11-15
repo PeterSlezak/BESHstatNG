@@ -1,0 +1,31 @@
+{
+  "exits": [
+    1,
+    1,
+    0
+  ],
+  "meaning": [
+    "strict audit: nonzero remains nonpass",
+    "profile: nonzero remains nonpass",
+    "MkDocs strict: actual exit"
+  ],
+  "raw": {
+    "path": ".test-rationalization-04A44.tmp/serial-checks-raw-v1.json",
+    "bytes": 1977,
+    "sha256": "ad150dae109a5bb3731901df2573a8bc6af683c30fe8085fa47642f9609f6c50"
+  },
+  "source_unchanged": true,
+  "Node": "INHERITED_916_PASS;NOT_RERUN_NO_AFFECTED_JS_OR_CONTRACT_DEPENDENCY",
+  "direct_verify_script": "NOT_RUN: fixed TestResults/Codex/Core.trx and Common.trx plus Legacy.trx can overwrite protected historical evidence. Existing unchanged isolated runner executes full Debug/complete compilation/affected Release and preserves every original identity;no assertion/filter weakening.",
+  "full_Release": "NOT_RUN",
+  "native_Excel_COM_UIA_R_WASM_manual": "NOT_RUN",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  }
+}

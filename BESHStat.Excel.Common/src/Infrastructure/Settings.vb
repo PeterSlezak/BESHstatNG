@@ -95,6 +95,19 @@ Namespace ExcelCommon
         Public ReadOnly Property SmallValueDisplay As PValueSmallValueDisplay
         Public ReadOnly Property UseUpperBound As Boolean
 
+        ''' <summary>Display an already effective value using the legacy sequential bounds.
+        ''' Reversed bounds deliberately finish at maximum; this is not normalization.</summary>
+        Public Shared Function ClampDisplayDecimal(value As Decimal, minimum As Decimal, maximum As Decimal) As Decimal
+            If value < minimum Then value = minimum
+            If value > maximum Then value = maximum
+            Return value
+        End Function
+
+        Public Shared Function SeedDisplayText(seed As Integer) As String
+            If seed = Integer.MinValue Then Return String.Empty
+            Return seed.ToString(Globalization.CultureInfo.InvariantCulture)
+        End Function
+
         Public Shared Function Defaults() As PreferenceSnapshot
             Return New PreferenceSnapshot(0.05, AnalysisDefaultsOptions.NoExplicitRandomSeed, True, New PValuePresentationSettings())
         End Function

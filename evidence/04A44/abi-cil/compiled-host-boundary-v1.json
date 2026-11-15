@@ -1,0 +1,54 @@
+{
+  "kind": "ACTUAL_ASSEMBLY_REFERENCE_READBACK;SOURCE_TARGET_PINS_AND_NORMALIZED_CIL_SEPARATELY_VERIFIED",
+  "rows": [
+    {
+      "configuration": "Debug",
+      "assembly": "BESHStat.Excel.Common",
+      "references": [
+        "BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+        "netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+      ],
+      "exact_entry_references": true,
+      "forbidden_host_references": []
+    },
+    {
+      "configuration": "Debug",
+      "assembly": "BESHStat.Core",
+      "references": [
+        "netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+      ],
+      "exact_entry_references": true,
+      "forbidden_host_references": []
+    },
+    {
+      "configuration": "Release",
+      "assembly": "BESHStat.Excel.Common",
+      "references": [
+        "BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+        "netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+      ],
+      "exact_entry_references": true,
+      "forbidden_host_references": []
+    },
+    {
+      "configuration": "Release",
+      "assembly": "BESHStat.Core",
+      "references": [
+        "netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+      ],
+      "exact_entry_references": true,
+      "forbidden_host_references": []
+    }
+  ],
+  "new_framework_or_package_reference": false,
+  "Common_Core_target": "netstandard2.0",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  }
+}

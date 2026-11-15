@@ -1,0 +1,66 @@
+{
+  "kind": "RAW_FAILURE_PRESERVED;SANITIZED_SUCCESSOR_IS_SEPARATE_REPRESENTATION",
+  "reports": [
+    {
+      "scanner": "13",
+      "status": "FAIL_RAW_RECEIPT;UNWAIVED",
+      "original_source": {
+        "path": "scripts/verify-04a13-publication.py",
+        "bytes": 9176,
+        "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+      },
+      "reported_view_detections": 18,
+      "categories": {
+        "known_private_identifier": 2,
+        "profile_or_home": 8,
+        "appdata_or_drive_path": 8
+      },
+      "raw_scan": {
+        "path": ".test-rationalization-04A44.tmp/neutral-raw-failed-scan-13-v1.json",
+        "bytes": 3539,
+        "sha256": "10a99fe93a9d901c52d1ae96920ef965bab7b74e134b4e72eb8cf27ea50139bb"
+      }
+    },
+    {
+      "scanner": "14",
+      "status": "FAIL_RAW_RECEIPT;UNWAIVED",
+      "original_source": {
+        "path": "scripts/verify-04a14-publication.py",
+        "bytes": 9320,
+        "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+      },
+      "reported_view_detections": 18,
+      "categories": {
+        "known_private_identifier": 2,
+        "profile_or_home": 8,
+        "appdata_or_drive_path": 8
+      },
+      "raw_scan": {
+        "path": ".test-rationalization-04A44.tmp/neutral-raw-failed-scan-14-v1.json",
+        "bytes": 3539,
+        "sha256": "52caa669fbde729655bdf6db6d5935f9a76b7b55f4a18ac2561598c752174928"
+      }
+    }
+  ],
+  "raw_original": {
+    "path": ".test-rationalization-04A44.tmp/neutral-replay-raw-v1.json",
+    "bytes": 2709,
+    "sha256": "7c6533238eabe35818cce4bcd3c33e2359c621d7b6168f56506bdb6b0307f702"
+  },
+  "presentation_crosswalk": {
+    "path": "evidence/04A44/privacy/new-report-presentation-crosswalk-v1.json",
+    "bytes": 866,
+    "sha256": "5d1610fde59bbef6a3ac7147716a1d321fa5ec8ad0c25fd04b499313eda70cc0"
+  },
+  "original_rule_sources_unchanged": true,
+  "no_unique_count_inferred_from_repeated_views": true,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  }
+}

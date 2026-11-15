@@ -1,0 +1,91 @@
+{
+  "configuration": "Release",
+  "mode": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+  "parts": [
+    {
+      "suite": "Core",
+      "part": "affected",
+      "selection": "FullyQualifiedName~InfrastructurePolicy44|FullyQualifiedName~Preference|FullyQualifiedName~Settings|FullyQualifiedName~Help|FullyQualifiedName~Diagnostic|FullyQualifiedName~Fault|FullyQualifiedName~Execution|FullyQualifiedName~Culture|FullyQualifiedName~Progress|FullyQualifiedName~NumberText",
+      "name": "a44-final-Release-Core-affected",
+      "outcomes": {
+        "Passed": 67
+      },
+      "cases": {
+        "path": ".test-rationalization-04A44.tmp/executions/a44-final-Release-Core-affected/cases.json",
+        "bytes": 23083,
+        "sha256": "e99dfb771d6b387b0d75e2a139524655e741681716603ab3ad6ce5059be9f092"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A44.tmp/executions/a44-final-Release-Core-affected/results/Core.trx",
+        "bytes": 102149,
+        "sha256": "0957c7f2e74609a5f322877a0d8c39626210bb772b8acce7a6794ad0e593af69"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/a44-final-Release-Core-affected.json",
+        "bytes": 23083,
+        "sha256": "e99dfb771d6b387b0d75e2a139524655e741681716603ab3ad6ce5059be9f092"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Common",
+      "part": "affected",
+      "selection": "FullyQualifiedName~InfrastructurePolicy44|FullyQualifiedName~Preference|FullyQualifiedName~Settings|FullyQualifiedName~Help|FullyQualifiedName~Diagnostic|FullyQualifiedName~Fault|FullyQualifiedName~Execution|FullyQualifiedName~Culture|FullyQualifiedName~Progress|FullyQualifiedName~NumberText",
+      "name": "a44-final-Release-Common-affected",
+      "outcomes": {
+        "Passed": 570
+      },
+      "cases": {
+        "path": ".test-rationalization-04A44.tmp/executions/a44-final-Release-Common-affected/cases.json",
+        "bytes": 183727,
+        "sha256": "4f134c8eeb334d3dcf74c605670921145bede14e6caaffcbc44eff95537b1b1d"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A44.tmp/executions/a44-final-Release-Common-affected/results/Common.trx",
+        "bytes": 924257,
+        "sha256": "1fd7a72ddeba03e9a55cc425410cbc54c7ae2d1a85570852bf6faf4eaadb9727"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/a44-final-Release-Common-affected.json",
+        "bytes": 183727,
+        "sha256": "4f134c8eeb334d3dcf74c605670921145bede14e6caaffcbc44eff95537b1b1d"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Legacy",
+      "part": "affected",
+      "selection": "FullyQualifiedName~InfrastructurePolicy44|FullyQualifiedName~Preference|FullyQualifiedName~Settings|FullyQualifiedName~Help|FullyQualifiedName~Diagnostic|FullyQualifiedName~Fault|FullyQualifiedName~Execution|FullyQualifiedName~Culture|FullyQualifiedName~Progress|FullyQualifiedName~NumberText",
+      "name": "a44-final-Release-Legacy-affected",
+      "outcomes": {
+        "Passed": 404
+      },
+      "cases": {
+        "path": ".test-rationalization-04A44.tmp/executions/a44-final-Release-Legacy-affected/cases.json",
+        "bytes": 128151,
+        "sha256": "519afc1cf7f74b2cb22909b1aaa6cfa936777f74910dd37c9aaf0bd6252a9dac"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A44.tmp/executions/a44-final-Release-Legacy-affected/results/Legacy.trx",
+        "bytes": 648956,
+        "sha256": "1c16187a4bfa8d136ba5d6ab2aa3f4a6dd230afe7d2ac24cf22ea5d6da12d43c"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/a44-final-Release-Legacy-affected.json",
+        "bytes": 128151,
+        "sha256": "519afc1cf7f74b2cb22909b1aaa6cfa936777f74910dd37c9aaf0bd6252a9dac"
+      },
+      "command_exit": 0
+    }
+  ],
+  "outcomes": {
+    "Passed": 1041
+  },
+  "identities": 1041,
+  "source_unchanged": true,
+  "Debug_label": "a44-wave-b-v3",
+  "Release_label": "a44-final-v1",
+  "full_Release": "NOT_RUN",
+  "max_parallel_test_hosts": 1,
+  "protected_raw_diagnostics": true
+}

@@ -74,7 +74,7 @@ Namespace AppInfrastructure
             End If
             If target Is Nothing Then Return
 
-            Dim boundedPercent As Integer = Math.Max(0, Math.Min(100, percent))
+            Dim boundedPercent As Integer = Global.BESHStatNG.ExcelCommon.ExecutionSnapshot.ClampHostReportedPercent(percent)
             Dim update As Action = Sub()
                                        If _progressBar IsNot Nothing Then _progressBar.Value = boundedPercent
                                        If _label IsNot Nothing AndAlso message IsNot Nothing Then _label.Text = message
@@ -99,11 +99,11 @@ Namespace AppInfrastructure
         Private ReadOnly _applicationTitle As String
 
         Public Sub New(Optional applicationTitle As String = "BESH-Stat-NG")
-            _applicationTitle = If(String.IsNullOrWhiteSpace(applicationTitle), "BESH-Stat-NG", applicationTitle)
+            _applicationTitle = Global.BESHStatNG.ExcelCommon.UserFaultMapper.PresentationTitle(applicationTitle, "BESH-Stat-NG")
         End Sub
 
         Public Sub ShowError(message As String, title As String) Implements IUserMessageService.ShowError
-            Dim caption = If(String.IsNullOrWhiteSpace(title), _applicationTitle, title)
+            Dim caption = Global.BESHStatNG.ExcelCommon.UserFaultMapper.PresentationTitle(title, _applicationTitle)
             MsgBox(message, MsgBoxStyle.Exclamation, caption)
         End Sub
     End Class

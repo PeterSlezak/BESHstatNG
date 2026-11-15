@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "scanner": "13",
+      "source_sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03",
+      "positive_controls": [
+        {
+          "mode": "literal",
+          "detected": true
+        },
+        {
+          "mode": "case",
+          "detected": true
+        },
+        {
+          "mode": "NFKC",
+          "detected": true
+        },
+        {
+          "mode": "base64",
+          "detected": true
+        },
+        {
+          "mode": "literal",
+          "detected": true
+        },
+        {
+          "mode": "case",
+          "detected": true
+        },
+        {
+          "mode": "NFKC",
+          "detected": true
+        },
+        {
+          "mode": "base64",
+          "detected": true
+        }
+      ],
+      "benign_negative_zero": true,
+      "scope": "NEUTRAL_REPLAY_ONLY;NOT_OWNER_CONTEXT_OR_REPOSITORY_CANDIDATE_SCAN"
+    },
+    {
+      "scanner": "14",
+      "source_sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25",
+      "positive_controls": [
+        {
+          "mode": "literal",
+          "detected": true
+        },
+        {
+          "mode": "case",
+          "detected": true
+        },
+        {
+          "mode": "NFKC",
+          "detected": true
+        },
+        {
+          "mode": "base64",
+          "detected": true
+        },
+        {
+          "mode": "literal",
+          "detected": true
+        },
+        {
+          "mode": "case",
+          "detected": true
+        },
+        {
+          "mode": "NFKC",
+          "detected": true
+        },
+        {
+          "mode": "base64",
+          "detected": true
+        }
+      ],
+      "benign_negative_zero": true,
+      "scope": "NEUTRAL_REPLAY_ONLY;NOT_OWNER_CONTEXT_OR_REPOSITORY_CANDIDATE_SCAN"
+    }
+  ],
+  "files_written": 0,
+  "Git_network_native_calls": 0,
+  "source": {
+    "path": "evidence/04A44/neutral_privacy_replay.py",
+    "bytes": 2242,
+    "sha256": "63b2d6caf32bf99471555290205d4e1f8b8b6f3d0238f494af391e609ce75473"
+  },
+  "kind": "VERSIONED_SANITIZED_NEUTRAL_REPLAY_RECEIPT;NOT_RAW_COMMAND_OUTPUT",
+  "raw_original": {
+    "path": "evidence/04A44/privacy/neutral-replay-v1.json",
+    "bytes": 2709,
+    "sha256": "7c6533238eabe35818cce4bcd3c33e2359c621d7b6168f56506bdb6b0307f702"
+  },
+  "protected_copy": {
+    "path": ".test-rationalization-04A44.tmp/neutral-replay-raw-v1.json",
+    "bytes": 2709,
+    "sha256": "7c6533238eabe35818cce4bcd3c33e2359c621d7b6168f56506bdb6b0307f702"
+  },
+  "execution": {
+    "exit_code": 0,
+    "seconds": 0.2110979999997653,
+    "stdout_sha256": "3ae21dd53e64c600e1da17f6651438fa3032b8d4f5993178b3c60ad93ecca2df",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "transformation": "Remove absolute command argv/cwd from new unprotected untracked44 report. Exact original retained locally before Git-facing correction;no old historical/protected record changed."
+}

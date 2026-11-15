@@ -1,0 +1,44 @@
+{
+  "build_exits": [],
+  "parts": [
+    {
+      "suite": "Common",
+      "outcomes": {
+        "Passed": 396
+      },
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/a44-wave-b-v3-Common.json",
+        "bytes": 129180,
+        "sha256": "ed1661646a1b2af482511ff4f3977b5f7a575d3f8d17cca514e916bc745a1778"
+      }
+    },
+    {
+      "suite": "Legacy",
+      "outcomes": {
+        "Passed": 219
+      },
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/a44-wave-b-v3-Legacy.json",
+        "bytes": 72070,
+        "sha256": "6825fd54d1d7cac000e8c9fa01284086603eb06551eedb85075dcde24268d366"
+      }
+    }
+  ],
+  "current44_cases": 591,
+  "exact_pre_edit_outputs_errors": true,
+  "raw": {
+    "path": ".test-rationalization-04A44.tmp/wave-b-fixtures-v3/observations.json",
+    "bytes": 116338,
+    "sha256": "6f93b2421d2da69953fa56cfe363b4b306050fbbe1815d5a566eba11d7fd3fdc"
+  },
+  "host_actions": "NOT_RUN",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  }
+}

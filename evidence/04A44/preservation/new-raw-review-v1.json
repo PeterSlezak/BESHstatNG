@@ -1,0 +1,125 @@
+{
+  "kind": "SANITIZED_INVENTORY_FACTS;NOT_RAW_LOGS",
+  "inventory": {
+    "path": ".test-rationalization-04A44.tmp/new-raw-inventory-v1.json",
+    "bytes": 2140707,
+    "sha256": "510848643c7d5ac5b86830b8cce0c6483a523d65026adb16eada1488b305af42"
+  },
+  "files": 8307,
+  "bytes": 2098254508,
+  "read_only": true,
+  "failed_attempts": [
+    {
+      "recipe": "python-dispositions-v3.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/1f7b07034383404bb21d337ff8bfd0d1.json",
+        "bytes": 1395,
+        "sha256": "c5a5f968629c199ce0bed0a2eaff0a89f59c2d1e3ee1cd8f0d8217be9c707e36"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "audit-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/230eb96dfc8f4a80825e67583832ff22.json",
+        "bytes": 821,
+        "sha256": "296adb87fa75a6a2b48e65d2b8c052c08922d3947e1d730a31decc1b51ece063"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "preservation-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/2e3f2d2d2fae443988da6199ae11ade3.json",
+        "bytes": 863,
+        "sha256": "3bf3fbfe4ba3ffb8d56de2d96cc450f2886efbfee741e54ddf0d099375bdb94b"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "wave-v2.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/3cde445ca1e04017b5e8cd9991cb373e.json",
+        "bytes": 1050,
+        "sha256": "45ab022a2e813b6bfd397ba21c7f79f113048b38ef53c13318b69e0607801aec"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "python-dispositions-v4.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/77e62021cc194c86adc03dbb7c9675fd.json",
+        "bytes": 1395,
+        "sha256": "1bd5133be7a25d249410fb69f88212e3e3ec38f3cb728ef54e08f023dca60909"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "compiled-and-fixtures-v1.py",
+      "type": "ModuleNotFoundError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/82df301c66cc44d09b797cbb2e189e0d.json",
+        "bytes": 1476,
+        "sha256": "69875795cdde00cfdd535f3efd421a83643b9741da97e8a86aaaccafd0655a00"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "python-campaign-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/ac76f054964243938569cee73bf78b4e.json",
+        "bytes": 783,
+        "sha256": "f5a1cf20cfc38e43bb70a382bf809b231a39cdd8a5d45e97a047063c4cb5aa63"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "python-dispositions-v2.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/b22be4d2ecdb46e58c193634ddffb29f.json",
+        "bytes": 1395,
+        "sha256": "d21fd1828f1318e336e8b21240fff3668f339da1c296db3f869751d64e147182"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "compiled-and-fixtures-v1.py",
+      "type": "ModuleNotFoundError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/b27d7c6112d9490183cf97e70e36611c.json",
+        "bytes": 1476,
+        "sha256": "8c04cf9be2ad5840b1490ef87ab38e342bbfbea72433deb7a13b41877b67aa13"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "python-dispositions-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/b85f9300918d4e82a666d72763aee472.json",
+        "bytes": 1009,
+        "sha256": "9d121431d4a523e5b1449f166ad67dededa5c7fdb29c213a414b8e79d50f15d4"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    },
+    {
+      "recipe": "wave-v1.py",
+      "type": "AssertionError",
+      "raw": {
+        "path": ".test-rationalization-04A44.tmp/failed-attempts/e48550e790b04a8d9e226e7dc501fe8f.json",
+        "bytes": 1050,
+        "sha256": "8f8d986a8ea250c35bd009f4868826ab7c961c49ea3f62a517a43a07b1755288"
+      },
+      "status": "RETAINED_FAILED_ATTEMPT"
+    }
+  ],
+  "old_stores_mutated": false,
+  "discovery_failures": "Read-only interactive quoting/discovery errors remain in tool history;no fabricated receipts. Own failed capture process stopped only after executable/PID attribution."
+}

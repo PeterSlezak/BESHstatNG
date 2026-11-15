@@ -1,0 +1,35 @@
+{
+  "kind": "CURRENT_MAIN_PRE_EDIT_04A44;SAME_ENGINE_COMPATIBILITY_NOT_GOLDEN",
+  "cases": 591,
+  "raw": {
+    "path": ".test-rationalization-04A44.tmp/fixtures-before-v1/observations.json",
+    "bytes": 116338,
+    "sha256": "6f93b2421d2da69953fa56cfe363b4b306050fbbe1815d5a566eba11d7fd3fdc"
+  },
+  "driver": {
+    "path": ".test-rationalization-04A44.tmp/fixtures-before-v1/Observe44.exe",
+    "bytes": 24064,
+    "sha256": "dd4bae93446e3014cc5cf1553730004341775b68e4031d061bd6f4d00be73190"
+  },
+  "source": {
+    "path": "evidence/04A44/fixtures/Observe44.cs",
+    "bytes": 6131,
+    "sha256": "3de60ff116ea0199a82f8e24532a9e21e862bf44664338b79e2e52fcfeb2689d"
+  },
+  "cultures": [
+    "Invariant",
+    "en-US",
+    "sk-SK"
+  ],
+  "host_actions": "No Excel/COM/UI/browsers/updater start;only pure private updater comparator invoked. Installed settings store untouched;missing-store save error frozen.",
+  "errors": 51,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  }
+}

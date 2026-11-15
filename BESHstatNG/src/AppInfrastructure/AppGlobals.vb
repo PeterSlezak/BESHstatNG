@@ -156,16 +156,12 @@ Namespace AppInfrastructure
 
         Public Function GetPValueDecimalPlacesDecimal(minimum As Decimal, maximum As Decimal) As Decimal
             Dim value As Decimal = CDec(PValueDecimalPlaces)
-            If value < minimum Then value = minimum
-            If value > maximum Then value = maximum
-            Return value
+            Return PreferenceSnapshot.ClampDisplayDecimal(value, minimum, maximum)
         End Function
 
         Public Function GetDefaultAlphaDecimal(minimum As Decimal, maximum As Decimal) As Decimal
             Dim value As Decimal = CDec(DefaultAlpha)
-            If value < minimum Then value = minimum
-            If value > maximum Then value = maximum
-            Return value
+            Return PreferenceSnapshot.ClampDisplayDecimal(value, minimum, maximum)
         End Function
 
         Public ReadOnly Property DefaultRandomSeed As Integer
@@ -176,8 +172,7 @@ Namespace AppInfrastructure
 
         Public Function GetDefaultRandomSeedText() As String
             Dim seed = DefaultRandomSeed
-            If seed = Integer.MinValue Then Return String.Empty
-            Return seed.ToString(Globalization.CultureInfo.InvariantCulture)
+            Return PreferenceSnapshot.SeedDisplayText(seed)
         End Function
 
         Public Sub ApplySettings(settings As BeshStatNgSettings)

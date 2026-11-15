@@ -1,0 +1,104 @@
+{
+  "status": "AUTHENTICATED_OWNER_ACCEPTED43_MERGED_MAIN",
+  "HEAD": "243b6dcd654767ffedb8fe3643b310c0c56cd6ac",
+  "main": "243b6dcd654767ffedb8fe3643b310c0c56cd6ac",
+  "merge_base": "243b6dcd654767ffedb8fe3643b310c0c56cd6ac",
+  "prior": "3955a6e9142256df6bc1fd53a924010c58367b51",
+  "branch": "codex/04A-44",
+  "entry_branch": "main",
+  "index": {
+    "path": ".git/index",
+    "bytes": 2189630,
+    "sha256": "e9cfd791c84356247978eea5ddf35fd8d82fd2819f68b697dcd9ff2137484d4e"
+  },
+  "preexisting_owner_edits": [],
+  "accepted43_receipt": {
+    "path": ".test-rationalization-04A43.tmp/publication/external-delivery-receipt-v1.json",
+    "bytes": 84646,
+    "sha256": "d622c27c62132d985ba0ef265b646185bd257434e05bf7c5514f5645c1892050"
+  },
+  "accepted43_archive": {
+    "path": ".test-rationalization-04A43.tmp/publication/BESHStatNG_04A43_OWNER_REVIEW_v1.zip",
+    "bytes": 2300113,
+    "sha256": "e850d2004c5d5f6de6647caf9ad91882fdd07263b35754ab651a62ee4e4bf77f"
+  },
+  "merged43_newline_transitions": [
+    {
+      "sealed": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8783,
+        "sha256": "d63a629bd1dfd8e13f0377185ab38187a54946f0e70de9388f98c90ab1d3635f"
+      },
+      "current": {
+        "path": "BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8575,
+        "sha256": "f70c06caf44edfba7e3873162cb159d305becdd263b9f5d359ddee045e58c96d"
+      },
+      "protected_exact": {
+        "path": ".test-rationalization-04A44.tmp/sealed43-originals/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "bytes": 8783,
+        "sha256": "d63a629bd1dfd8e13f0377185ab38187a54946f0e70de9388f98c90ab1d3635f"
+      },
+      "kind": "AUTHENTICATED_OWNER_MERGE_NEWLINE_ONLY"
+    },
+    {
+      "sealed": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 210566,
+        "sha256": "67c9f1b76bf95458f412e64aa9ce0bd1c1131b7edbb8d67f0bb0ac590988211a"
+      },
+      "current": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 207387,
+        "sha256": "d1f047b7302a244cd8de2e2fd915904a946f997ff6a4a057bd4738357fd78ed0"
+      },
+      "protected_exact": {
+        "path": ".test-rationalization-04A44.tmp/sealed43-originals/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 210566,
+        "sha256": "67c9f1b76bf95458f412e64aa9ce0bd1c1131b7edbb8d67f0bb0ac590988211a"
+      },
+      "kind": "AUTHENTICATED_OWNER_MERGE_NEWLINE_ONLY"
+    },
+    {
+      "sealed": {
+        "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "bytes": 45440,
+        "sha256": "383782f2bc6f2ddb0b02bb6c254eaaffc1c1ba65e4f492e0e64e52fb08740abe"
+      },
+      "current": {
+        "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "bytes": 44785,
+        "sha256": "778a784a9650eebc7eedffe372a3d8638871116047bd3afe3ee2cb0366e502d8"
+      },
+      "protected_exact": {
+        "path": ".test-rationalization-04A44.tmp/sealed43-originals/BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "bytes": 45440,
+        "sha256": "383782f2bc6f2ddb0b02bb6c254eaaffc1c1ba65e4f492e0e64e52fb08740abe"
+      },
+      "kind": "AUTHENTICATED_OWNER_MERGE_NEWLINE_ONLY"
+    }
+  ],
+  "plan_revision": "2.20",
+  "plan_header_stale": true,
+  "plan_ids": 226,
+  "raw40_exclusion": true,
+  "raw41_prior_inventory": {
+    "path": ".test-rationalization-04A41.tmp/new-raw-inventory-v1.json",
+    "bytes": 1772755,
+    "sha256": "d095ddc540f0cafb354cc7dacfde7982bce3f3bdacb9ea2791ce886dcc28271e"
+  },
+  "raw42_prior_inventory": {
+    "path": ".test-rationalization-04A43.tmp/new-raw-inventory-v1.json",
+    "bytes": 2119131,
+    "sha256": "6bd347b9f4c2ffa8e88988af8e16bdca54165a07f586143fff02afb680ba7026"
+  },
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  }
+}

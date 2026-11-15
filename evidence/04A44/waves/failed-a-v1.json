@@ -1,0 +1,24 @@
+{
+  "status": "RETAINED_TEST_SOURCE_COMPILE_FAILURE;NOT_PRODUCTION_REGRESSION",
+  "code": "BC30035",
+  "failed_test": {
+    "path": ".test-rationalization-04A44.tmp/failed-wave-a-test-source-v1.vb",
+    "bytes": 3724,
+    "sha256": "206b63b44081ff4cdeaabb6ee80b544df885d32d161f4c03153f47e25d09383f"
+  },
+  "build": {
+    "path": ".test-rationalization-04A44.tmp/wave-a-build-v1.json",
+    "bytes": 173922,
+    "sha256": "26d01d1b1366c6b66cafe6e574075752a39c9676b3b191668bf282c1f1f9c05c"
+  },
+  "correction": "VB standalone New expression replaced by local declaration and invocation;existing assertions unchanged;no full campaign had run.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  }
+}

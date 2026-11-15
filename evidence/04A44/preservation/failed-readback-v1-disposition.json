@@ -1,0 +1,44 @@
+{
+  "status": "REPORT_ASSERTION_ASSUMED_HISTORICAL_OWNER_PREIMAGE_STILL_CURRENT;NO_RAW_BYTE_MISMATCH",
+  "transitions": [
+    {
+      "historical_owner_merge": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 206799,
+        "sha256": "9c76bf005381a1d7aadd3addfac2f23efc7a359f2301b28c0c972b5f0631dad4"
+      },
+      "current_entry": {
+        "path": "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "bytes": 207387,
+        "sha256": "d1f047b7302a244cd8de2e2fd915904a946f997ff6a4a057bd4738357fd78ed0"
+      }
+    },
+    {
+      "historical_owner_merge": {
+        "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "bytes": 44804,
+        "sha256": "3012515d056dac7a5ba41dd1a9e291fce039b962713ccc6ea55a919d24dec38b"
+      },
+      "current_entry": {
+        "path": "BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "bytes": 44785,
+        "sha256": "778a784a9650eebc7eedffe372a3d8638871116047bd3afe3ee2cb0366e502d8"
+      }
+    }
+  ],
+  "correction": "Apply authenticated later accepted43 transitions after older41/42 newline receipts;the complete original1353 source chain remains independently validated before this redundant check. No original pin modified.",
+  "failed_recipe": {
+    "path": "evidence/04A44/preservation-v1.py",
+    "bytes": 10769,
+    "sha256": "add70043f077bd10714206f706f540da03e21568837bc09f0530d7bdfc2c77db"
+  },
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  }
+}

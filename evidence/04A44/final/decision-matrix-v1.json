@@ -1,0 +1,272 @@
+{
+  "status": "READY_FOR_OWNER_04A44_ACCEPTANCE_REVIEW_WITH_DOCUMENTED_RESTRICTIONS",
+  "kind": "OWNER_REVIEW_READINESS_ONLY",
+  "effective_only_with_matching_external_receipt": true,
+  "base": "243b6dcd654767ffedb8fe3643b310c0c56cd6ac",
+  "prior": "3955a6e9142256df6bc1fd53a924010c58367b51",
+  "branch": "codex/04A-44",
+  "owner_accepted": false,
+  "merged": false,
+  "phase04A45_authorized": false,
+  "scientific_corrections": 0,
+  "native_activations": 0,
+  "cached_model_semantics_changed": false,
+  "settings_behavior_changed": false,
+  "live_Excel": "NOT_RUN",
+  "implementation": {
+    "existing_runtime_files": 6,
+    "Windows_files": 3,
+    "Common_existing_files": 3,
+    "new_Common_file": 1,
+    "new_Common_public_methods": 9,
+    "changed_Windows_member_bodies": 11,
+    "inventory_members": 276,
+    "new_test_files": 2,
+    "new_PASS_identities": 34,
+    "test_Compile_registration": 1,
+    "total_exports": 268
+  },
+  "software": {
+    "Debug": {
+      "configuration": "Debug",
+      "scope": "ONE_FULL_FRESH_CAMPAIGN",
+      "identities": 21266,
+      "outcomes": {
+        "Passed": 21252,
+        "Failed": 14
+      },
+      "added": 34,
+      "missing": [],
+      "nonpass_deltas": {
+        "RETAINED_IDENTICAL": 14
+      }
+    },
+    "Release": {
+      "configuration": "Release",
+      "scope": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+      "identities": 1041,
+      "outcomes": {
+        "Passed": 1041
+      },
+      "added": 34,
+      "missing": [],
+      "nonpass_deltas": {}
+    },
+    "full_Release": "NOT_RUN",
+    "Python": {
+      "parents": 956,
+      "parent_outcomes": {
+        "PASS": 834,
+        "ERROR": 11,
+        "FAIL": 111
+      },
+      "before_outcomes": {
+        "PASS": 832,
+        "ERROR": 11,
+        "FAIL": 113
+      },
+      "event_outcomes": {
+        "ERROR": 11,
+        "FAIL": 183
+      },
+      "categories": {
+        "RETAINED_IDENTICAL": 173,
+        "MISSING_NONPASS_EVENT": 3,
+        "NEW_NONPASS": 1,
+        "RETAINED_CHANGED_MESSAGE": 20
+      },
+      "changed_parents": [
+        {
+          "id": "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+          "before": "FAIL",
+          "outcome": "PASS",
+          "source": {
+            "source": {
+              "path": "scripts/tests/test_04a05_completion_successor.py",
+              "bytes": 9515,
+              "sha256": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952"
+            },
+            "method": "test_no_designer_importer_targets_exports_or_signing_change",
+            "lines": [
+              [
+                132,
+                139
+              ]
+            ]
+          }
+        },
+        {
+          "id": "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+          "before": "FAIL",
+          "outcome": "PASS",
+          "source": {
+            "source": {
+              "path": "scripts/tests/test_04a05_contingency.py",
+              "bytes": 9696,
+              "sha256": "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b"
+            },
+            "method": "test_no_designer_udf_numerical_packaging_or_framework_change",
+            "lines": [
+              [
+                141,
+                147
+              ]
+            ]
+          }
+        },
+        {
+          "id": "test_04a08_authoring_successor.Authoring08SuccessorTests.test_removal_delegation_preserves_untyped_lists",
+          "before": "PASS",
+          "outcome": "FAIL",
+          "source": {
+            "source": {
+              "path": "scripts/tests/test_04a08_authoring_successor.py",
+              "bytes": 5062,
+              "sha256": "f2d6dde3dbc2e7f159d4ca28273894baad32878b92eddb0257e302b9136be2b7"
+            },
+            "method": "test_removal_delegation_preserves_untyped_lists",
+            "lines": [
+              [
+                61,
+                68
+              ]
+            ]
+          }
+        },
+        {
+          "id": "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+          "before": "FAIL",
+          "outcome": "PASS",
+          "source": {
+            "source": {
+              "path": "scripts/tests/test_04a04_alignment.py",
+              "bytes": 6834,
+              "sha256": "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff"
+            },
+            "method": "test_udf_exports_and_packaging_unchanged",
+            "lines": [
+              [
+                82,
+                90
+              ]
+            ]
+          }
+        }
+      ],
+      "unresolved_diagnostic_events": [],
+      "dropped_parents": [],
+      "duplicated_parents": [],
+      "campaigns": 1,
+      "workers_at_peak": 3,
+      "diagnostic_dispositions": {
+        "path": "evidence/04A44/python/diagnostic-dispositions-v1.json",
+        "bytes": 56908,
+        "sha256": "d4babc52f2c5bf350c9df56cc73c7c4d95a3822a17bcbf6abf53aafd66808f88"
+      }
+    },
+    "Node": "INHERITED_916_PASS;NOT_RERUN",
+    "strict_profile_MkDocs": [
+      1,
+      1,
+      0
+    ]
+  },
+  "compatibility": {
+    "sealed_per_configuration": 29424,
+    "PRE_EDIT_FROZEN": 28966,
+    "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458,
+    "accepted39": 77,
+    "accepted40": 48,
+    "accepted41": 390,
+    "accepted42": 1802,
+    "accepted43_operations": 1118,
+    "accepted43_graphs": 36,
+    "accepted43_race_rows": 864,
+    "accepted43_policy_cases": 15,
+    "current44_cases": 591,
+    "current44_excluded_runtime_fields": [],
+    "progress_source_stub_cases": 72,
+    "original_queries": 0,
+    "scientific": "NOT_GOLDEN"
+  },
+  "privacy": "Both unchanged original full-Git-candidate and every physical-member/index scan must be zero in matching external receipt. New raw-command receipt error preserved locally with sanitizedv2 successor and crosswalk.",
+  "historical": "14 DebugFAIL,original43 Python113FAIL/11ERROR,three old UDF-source guardFAIL snapshots,39privacy1941each,W3privacyERROR,54+32+21+25+21 prior diagnostics remain unwaived. Current44 results separately recorded;no old FAIL reclassified. Accepted41 targeted Release/42 first-freeze failures retained.",
+  "preservation": {
+    "path": "evidence/04A44/preservation/readback-v1.json",
+    "bytes": 6263,
+    "sha256": "bd0b0607773247d58676b9c540eb884311dd4a6eadab2f87931a532a4ce490de"
+  },
+  "limitations": "No settings XML/schema/persistence/default intent,Help allowlist/metadata/resolver/native browser action,updater protocol/version behavior,diagnostic redaction or cancellation checkpoint changed. Pure source-backed fake progress sequences are not live WinForms/Excel observation.43 global cache/workbook risks remain.",
+  "required_next_gate": "Owner acceptance review of44. Any changed native settings/help/error/progress/updater/cache behavior requires exact original issue authority and native attribution/COM risk gate.45 unauthorized.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  },
+  "readiness": {
+    "path": "evidence/04A44/final/readiness-postseal-v1.json",
+    "bytes": 7160,
+    "sha256": "df6aae8d692f474ec44300f727c71685ee96471442b39e02782057454363d7d0"
+  },
+  "gate_evidence": [
+    {
+      "path": "evidence/04A44/scope/member-ownership-v2.json",
+      "bytes": 14420792,
+      "sha256": "1a276cc37f783009b37b0cafa9b29165858bd93627b6bba0f9200ec31456fabd"
+    },
+    {
+      "path": "evidence/04A44/scope/host-boundary-v1.json",
+      "bytes": 1037,
+      "sha256": "5304e4e48dd35550226a50ceca7f1296a1ddb696f9192dbbdfc81a60ba443c97"
+    },
+    {
+      "path": "evidence/04A44/abi-cil/compiled-host-boundary-v1.json",
+      "bytes": 1676,
+      "sha256": "7ac3be161869861c278a180da24ef3d5646490ca8e7458ffad5f72178647d374"
+    },
+    {
+      "path": "evidence/04A44/build-and-tests/Debug-identities-v1.json",
+      "bytes": 10763043,
+      "sha256": "24e1396a5239cceb0739ac9adcb7fe62f7ce7cd5f4bf1a96b747726a94d619ab"
+    },
+    {
+      "path": "evidence/04A44/build-and-tests/Release-identities-v1.json",
+      "bytes": 550062,
+      "sha256": "c5a23f76aea4fdb7ec65c986bab3b968c1d9c7061229777944541776583f5c11"
+    },
+    {
+      "path": "evidence/04A44/python/parent-event-reconciliation-v2.json",
+      "bytes": 819955,
+      "sha256": "c0e187fa04f810f7bd2dbffb8e696217b758ba58ae5592ef206744d8bb594ca5"
+    },
+    {
+      "path": "evidence/04A44/python/diagnostic-dispositions-v1.json",
+      "bytes": 56908,
+      "sha256": "d4babc52f2c5bf350c9df56cc73c7c4d95a3822a17bcbf6abf53aafd66808f88"
+    },
+    {
+      "path": "evidence/04A44/python/source-guard-dispositions-v1.json",
+      "bytes": 4478,
+      "sha256": "a6c09359f2c1beb44dc0747f05db1257efdd1489a28585ed0938e9a66acc2749"
+    },
+    {
+      "path": "evidence/04A44/privacy/repository-candidate-v1.json",
+      "bytes": 69165,
+      "sha256": "d1faf63504aa724229f2d044dea302863ba9c74d2ff599071d1885634044ce88"
+    },
+    {
+      "path": "evidence/04A44/preservation/readback-v1.json",
+      "bytes": 6263,
+      "sha256": "bd0b0607773247d58676b9c540eb884311dd4a6eadab2f87931a532a4ce490de"
+    },
+    {
+      "path": "evidence/04A44/register/issue-delta-v2.json",
+      "bytes": 16191,
+      "sha256": "cac9c71c6f639fac8641d82db6a33cf3a42976c8e3106a81e5ac8227f8298e2b"
+    }
+  ]
+}

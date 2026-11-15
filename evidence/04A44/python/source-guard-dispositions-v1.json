@@ -1,0 +1,111 @@
+{
+  "guards": [
+    {
+      "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+      "historical43_status": "FAIL",
+      "current_status": "PASS",
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a05_completion_successor.py",
+          "bytes": 9515,
+          "sha256": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952"
+        },
+        "method": "test_no_designer_importer_targets_exports_or_signing_change",
+        "lines": [
+          [
+            132,
+            139
+          ]
+        ]
+      },
+      "old43_diagnostics": {
+        "message_sha256": "3960f31ee8ffa84f80827054174c2be1c9a41f625cf061257b32a4f68a6e9332",
+        "traceback_sha256": "3fca57e7bc5d0b407ba21fde21e94bacc51a521684f06ad1d4bc43957008d682"
+      },
+      "current44_failure_diagnostics": null,
+      "historical_scope": "FAIL_UNWAIVED;NO_OLD_EXPECTATION_REWRITE",
+      "current_scope": "Actual44 unchanged assertion against current full tracked diff;no UDF/Core/designer/dna changes.",
+      "waived": false,
+      "prior43": {
+        "path": "evidence/04A43/python/source-guard-dispositions-v1.json",
+        "bytes": 5220,
+        "sha256": "8fc9c83187f1aa13c5258d89bfc33f64fba44737545fd3eefe2b3980e0721294"
+      }
+    },
+    {
+      "identity": "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+      "historical43_status": "FAIL",
+      "current_status": "PASS",
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a04_alignment.py",
+          "bytes": 6834,
+          "sha256": "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff"
+        },
+        "method": "test_udf_exports_and_packaging_unchanged",
+        "lines": [
+          [
+            82,
+            90
+          ]
+        ]
+      },
+      "old43_diagnostics": {
+        "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "traceback_sha256": "261bbe08bba3836e79db18dbab48d382d0b67f7de27f4f1110a66501b2e65b58"
+      },
+      "current44_failure_diagnostics": null,
+      "historical_scope": "FAIL_UNWAIVED;NO_OLD_EXPECTATION_REWRITE",
+      "current_scope": "Actual44 unchanged assertion against current full tracked diff;no UDF/Core/designer/dna changes.",
+      "waived": false,
+      "prior43": {
+        "path": "evidence/04A43/python/source-guard-dispositions-v1.json",
+        "bytes": 5220,
+        "sha256": "8fc9c83187f1aa13c5258d89bfc33f64fba44737545fd3eefe2b3980e0721294"
+      }
+    },
+    {
+      "identity": "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+      "historical43_status": "FAIL",
+      "current_status": "PASS",
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a05_contingency.py",
+          "bytes": 9696,
+          "sha256": "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b"
+        },
+        "method": "test_no_designer_udf_numerical_packaging_or_framework_change",
+        "lines": [
+          [
+            141,
+            147
+          ]
+        ]
+      },
+      "old43_diagnostics": {
+        "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+        "traceback_sha256": "c3febe5720f4b2004487bd3877ec724ffd31ec623059612b03c5bee644c39ca5"
+      },
+      "current44_failure_diagnostics": null,
+      "historical_scope": "FAIL_UNWAIVED;NO_OLD_EXPECTATION_REWRITE",
+      "current_scope": "Actual44 unchanged assertion against current full tracked diff;no UDF/Core/designer/dna changes.",
+      "waived": false,
+      "prior43": {
+        "path": "evidence/04A43/python/source-guard-dispositions-v1.json",
+        "bytes": 5220,
+        "sha256": "8fc9c83187f1aa13c5258d89bfc33f64fba44737545fd3eefe2b3980e0721294"
+      }
+    }
+  ],
+  "status": "HISTORICAL_THREE_FAILS_RETAINED;CURRENT44_SCOPE_PASS_SEPARATE",
+  "actual_current_git_diff": [
+    "BESHStat.Excel.Common/src/Infrastructure/ExecutionCoordinator.vb",
+    "BESHStat.Excel.Common/src/Infrastructure/Settings.vb",
+    "BESHStat.Excel.Common/src/Results/Faults.vb",
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+    "BESHstatNG/src/AppInfrastructure/AppGlobals.vb",
+    "BESHstatNG/src/AppInfrastructure/ExcelDnaHostInfrastructure.vb",
+    "BESHstatNG/src/DM/UIprocedures.vb",
+    "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+  ]
+}

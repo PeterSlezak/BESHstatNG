@@ -1,0 +1,87 @@
+{
+  "configuration": "Release",
+  "exports": 268,
+  "exact_export_order_names_signatures_attributes": true,
+  "baseline42": {
+    "path": "evidence/04A43/abi-cil/Release-proof-v1.json",
+    "bytes": 20785,
+    "sha256": "4795f308f5c6b50d088bfb156493b92e1e2416777220e47476d595c5c7ec43b3"
+  },
+  "current_metadata": {
+    "path": ".test-rationalization-04A44.tmp/abi-cil/Release/current.json",
+    "bytes": 72378950,
+    "sha256": "4df187ffed7e8d36f308329ee4222eb1391bdf9c8e28b85df362e13a62b65bc7"
+  },
+  "current_exports": {
+    "path": ".test-rationalization-04A44.tmp/abi-cil/Release/exports.json",
+    "bytes": 2598188,
+    "sha256": "b0351a1d9a5689bc07c68e34382260415d4c57896cbf2db07cfd3634097f7600"
+  },
+  "assembly_hashes": [
+    {
+      "path": ".test-rationalization-04A44.tmp/compiled/Release/lib/BESHStat.Core.dll",
+      "bytes": 1924608,
+      "sha256": "db1c5dfbb48759045db21a6185d9f9d5a2ea40a8577286b16fbb3732b18a4e87"
+    },
+    {
+      "path": ".test-rationalization-04A44.tmp/compiled/Release/lib/BESHStat.Excel.Common.dll",
+      "bytes": 1097216,
+      "sha256": "caf5c5e49309b57d2e8e637f5262ab33d457d875e88ba9d28ab3b4aff4b04d8a"
+    },
+    {
+      "path": ".test-rationalization-04A44.tmp/compiled/Release/lib/BESHStatNG.dll",
+      "bytes": 2466304,
+      "sha256": "9a2f29533ea01afc4763894097a16052c0454fc8b219553e2d926d0ab7078063"
+    },
+    {
+      "path": ".test-rationalization-04A44.tmp/compiled/Release/lib/ExcelDna.Integration.dll",
+      "bytes": 308224,
+      "sha256": "c92fcabda2f18eb68d0d1e91cfa4bf05ea079eb66eecb9762884ab576a84f41f"
+    }
+  ],
+  "changed_methods": [
+    "BESHStatNG.AppInfrastructure.AppGlobals @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetDefaultAlphaDecimal(System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.AppInfrastructure.AppGlobals @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetDefaultRandomSeedText()",
+    "BESHStatNG.AppInfrastructure.AppGlobals @ BESHStatNG, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.GetPValueDecimalPlacesDecimal(System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.ExecutionSnapshot @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampHostReportedPercent(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FormatGeneral(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Globalization.CultureInfo @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FormatProgressDouble(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FormatProgressElapsedMilliseconds(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryDouble(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Globalization.CultureInfo @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryIntegerValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.PreferenceSnapshot @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampDisplayDecimal(System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.PreferenceSnapshot @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.SeedDisplayText(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UserFaultMapper @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PresentationTitle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+  ],
+  "unexpected": [],
+  "removed": [],
+  "new": [
+    "BESHStatNG.ExcelCommon.ExecutionSnapshot @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampHostReportedPercent(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null..ctor()",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FormatGeneral(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Globalization.CultureInfo @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FormatProgressDouble(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.FormatProgressElapsedMilliseconds(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryDouble(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Globalization.CultureInfo @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Double& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.NumberTextPolicy @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.TryIntegerValue(System.Double @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Int32& @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.PreferenceSnapshot @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.ClampDisplayDecimal(System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.Decimal @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.PreferenceSnapshot @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.SeedDisplayText(System.Int32 @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+    "BESHStatNG.ExcelCommon.UserFaultMapper @ BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null.PresentationTitle(System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089,System.String @ mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)"
+  ],
+  "all_other_compiled_methods_exact": true,
+  "Core_scientific_source_unchanged": true,
+  "complete_change_records": {
+    "path": ".test-rationalization-04A44.tmp/compiled-method-differences-Release.json",
+    "bytes": 60686,
+    "sha256": "d9ada841d6a8e0457faddc33dd1b3a3d6256de701659b07d424856496967e725"
+  },
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A45_NOT_AUTHORIZED"
+  }
+}
