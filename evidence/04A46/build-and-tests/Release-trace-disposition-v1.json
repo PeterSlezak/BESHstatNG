@@ -1,0 +1,67 @@
+{
+  "status": "INHERITED_RELEASE_FAIL_REPRODUCED_UNWAIVED",
+  "current": {
+    "configuration": "Release",
+    "suite": "Legacy",
+    "part": "affected",
+    "identity_sha256": "f9f5210e17cef1ce5a497e9ebfdbe0787a0d57042aad14369ebce655e80191b7",
+    "occurrence": 0,
+    "class_name": "BESHStatNG.Test.ContingencyAdapterTests",
+    "method": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+    "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+    "outcome": "Failed",
+    "classification": "RETAINED_CHANGED_TRACE",
+    "message_sha256": "e76c3eb015b7bbbe5b13c7d8256e5df57b7d96ea6d0d44ea1855c24f4cd330b8",
+    "traceback_sha256": "908b390f684b44d6791a28ed332693168f2ca0c1e4a8abb178191c6a0679971f",
+    "previous": {
+      "message_sha256": "e76c3eb015b7bbbe5b13c7d8256e5df57b7d96ea6d0d44ea1855c24f4cd330b8",
+      "traceback_sha256": "b39ee893a89dfc0e35612f5e4ee1dd2dcf583a152bd95a7d5eb407d048172ecc"
+    },
+    "raw_TRX": {
+      "path": ".test-rationalization-04A46.tmp/executions/a46-final-Release-Legacy-affected/results/Legacy.trx",
+      "bytes": 1508444,
+      "sha256": "5c4dc02b180c00091ac95452598752eab6ee40d4e3336a572ce1144e6d56d529"
+    },
+    "disposition": "REVIEW_REQUIRED"
+  },
+  "accepted41": {
+    "configuration": "Release",
+    "suite": "Legacy",
+    "part": "affected",
+    "identity_sha256": "f9f5210e17cef1ce5a497e9ebfdbe0787a0d57042aad14369ebce655e80191b7",
+    "occurrence": 0,
+    "class_name": "BESHStatNG.Test.ContingencyAdapterTests",
+    "method": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+    "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+    "outcome": "Failed",
+    "classification": "RETAINED_CHANGED_TRACE",
+    "message_sha256": "e76c3eb015b7bbbe5b13c7d8256e5df57b7d96ea6d0d44ea1855c24f4cd330b8",
+    "traceback_sha256": "908b390f684b44d6791a28ed332693168f2ca0c1e4a8abb178191c6a0679971f",
+    "previous": {
+      "message_sha256": "e76c3eb015b7bbbe5b13c7d8256e5df57b7d96ea6d0d44ea1855c24f4cd330b8",
+      "traceback_sha256": "b39ee893a89dfc0e35612f5e4ee1dd2dcf583a152bd95a7d5eb407d048172ecc"
+    },
+    "raw_TRX": {
+      "path": ".test-rationalization-04A41.tmp/executions/a41-final-Release-Legacy-affected/results/Legacy.trx",
+      "bytes": 3420934,
+      "sha256": "f3988957e58890ffd84736254e68bd7f8a0292a54dff3e1912e443040f2835cc"
+    },
+    "disposition": "REVIEW_REQUIRED"
+  },
+  "accepted41_report": {
+    "path": "evidence/04A41/build-and-tests/Release-identities-v1.json",
+    "bytes": 1171651,
+    "sha256": "5863f12f9c55cf51f76d0bde17608879c8ed24f2b0994c711c72d0388d9ba037"
+  },
+  "accepted41_trace_dossier": {
+    "path": "evidence/04A41/build-and-tests/Release-trace-disposition-v1.json",
+    "bytes": 1733,
+    "sha256": "1dcb4129cc8bdc3214791a52b5e789f67eef636a2a86a93bcbd75aef9dd4d8d0"
+  },
+  "message_exact": true,
+  "trace_exact": true,
+  "reason": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden already fails in accepted41 targeted Release and inherited Debug. New46 selector includes that unchanged downstream test;45 targeted subset did not. Production/source assertions unchanged. Actual optimized Release stack trace is retained;not rewritten to Debug trace.",
+  "new46_tests_passed": 343,
+  "full_Release": "NOT_RUN",
+  "waived": false
+}

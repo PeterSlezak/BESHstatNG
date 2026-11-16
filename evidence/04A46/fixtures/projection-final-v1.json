@@ -1,0 +1,63 @@
+{
+  "wave_a": {
+    "path": "evidence/04A46/fixtures/projections-wave-a-v1.json",
+    "bytes": 239908,
+    "sha256": "3305e4480e08eb75d7196f53556b15c996a4f00a902eb498f6f6a2c24f53c482"
+  },
+  "wave_b": {
+    "path": "evidence/04A46/fixtures/projections-wave-b-v1.json",
+    "bytes": 65901,
+    "sha256": "6ed7270f08ad66cfd3f0080bfa10448c413abb35c47bfc705b9c3d3e3edf781a"
+  },
+  "type_aliases": [
+    [
+      "As ExcelDnaResultWriter",
+      "As FakeResultWriter46"
+    ],
+    [
+      "New ExcelDnaResultWriter",
+      "New FakeResultWriter46"
+    ],
+    [
+      "As Range",
+      "As FakeRange46"
+    ],
+    [
+      "New ProcessListofResultTables",
+      "New FakeTables46"
+    ],
+    [
+      "If AreaCheck(",
+      "If FakeOutput46.AreaCheck("
+    ],
+    [
+      "= WorksheetFromRefAdress(",
+      "= FakeOutput46.WorksheetFromRefAdress("
+    ]
+  ],
+  "projections": [
+    {
+      "path": "BESHStatNG.Test/src/GuiWiring46Projections.vb",
+      "bytes": 72293,
+      "sha256": "83770408926d3c225ad1a467cd3a069f96611b5338dacc5131f0ceaf7ab365c6"
+    },
+    {
+      "path": "BESHStatNG.Test/src/GuiWiring46ExecutionProjections.vb",
+      "bytes": 42519,
+      "sha256": "04b210c8a3f85e1e0746e22d88af700dec311260ac596dab65344760f091f876"
+    },
+    {
+      "path": "BESHStatNG.Test/src/GuiWiring46Numbers.vb",
+      "bytes": 2525,
+      "sha256": "8ee4d3f90cdc429e5aed58ad85c108f39c994941fa7254e2244dcdfcf91bcc20"
+    }
+  ],
+  "kind": "CURRENT_MAIN_PRE_EDIT_04A46_SOURCE_DERIVED_FAKE_POST_TEST_SEAL",
+  "numerics": {
+    "path": "evidence/04A46/fixtures/numeric-source-v2.json",
+    "bytes": 4226,
+    "sha256": "b8c1a8c563837d1c6e0a6c0219a9bcf6be2fa89f7e7e8e05874f2f1a1386117f"
+  },
+  "production_preimages": "Frozen before any new test source;shipping unchanged;no claim native constructor/default/acquisition was materialized",
+  "native": "NOT_RUN"
+}

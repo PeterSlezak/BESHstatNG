@@ -1,0 +1,862 @@
+{
+  "kind": "CURRENT_MAIN_PRE_EDIT_04A46_SOURCE_DERIVED_FAKE",
+  "members": [
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "btCompute_Click",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "d05b5599371b2742c731b6dd8724b582e682933af827df481fc139551630d013",
+      "original_text": "    Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click\n        Try\n            Dim strErr As String = String.Empty, wait As Boolean = False\n\n            Me.CheckData(strErr, wait)\n            If strErr <> String.Empty Then\n                MsgBox(strErr, vbExclamation, AppGlobals.gsAPP_TITLE)\n                Exit Sub\n            End If\n\n            If Me.Text = \"Sample Size - Paired T-test\" Then\n                Me.RunPTtest()\n            ElseIf Me.Text = \"Sample Size - Unpaired T-test\" Then\n                Me.RunUPTtest()\n            ElseIf Me.Text = \"Sample Size - Single Proportion\" Then\n                Me.RunSingleProp()\n            ElseIf Me.Text = \"Sample Size - Independent Proportions\" Then\n                Me.RunIndependentProp()\n            ElseIf Me.Text = \"Sample Size - Log-rank Test\" Then\n                Me.RunLogRank()\n            ElseIf Me.Text = \"Sample Size - Cox Regression\" Then\n                Me.RunCox()\n            ElseIf Me.Text = \"Sample Size - Intraclass Correlation (ICC)\" Then\n                Me.RunICC()\n            ElseIf Me.Text = \"Sample Size - Agreement (Bland-Altman)\" Then\n                Me.RunBlandAltman()\n            End If\n        Catch ex As Exception\n            CoreServices.Errors.LogAndThrow(ex, False, True)\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "CheckData",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "0052082e4ecb2c493096b5a98d9a642236ae4486c7fc535d1511061c0a011cdb",
+      "original_text": "    Private Sub CheckData(ByRef sAllErrors As String, ByRef bwait As Boolean)\n        Dim sError As String = String.Empty\n        Dim bFocusSet As Boolean = False\n        Dim dummy As Double\n\n        sAllErrors = String.Empty\n        bwait = False\n\n        ' ----------------------------------------------------------------------\n        ' Numeric validation for required visible fields\n        ' ----------------------------------------------------------------------\n        If Not CheckNumeric(tbMeanDiff, dummy, sError) Then\n            AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, sError)\n            bwait = True\n        End If\n\n        If Not CheckNumeric(tbSD, dummy, sError) Then\n            AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, sError)\n            bwait = True\n        End If\n\n        If RequiresKappaValue() Then\n            If Not CheckNumeric(tbKappa, dummy, sError) Then\n                AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, sError)\n                bwait = True\n            End If\n        Else\n            TryValidateOptionalNumeric(Me.tbKappa, Me.lblKappa.Text, sAllErrors, bFocusSet, bwait)\n        End If\n\n        If RequiresCustom4Value() Then\n            If Not CheckNumeric(tbCustom4, dummy, sError) Then\n                AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, sError)\n                bwait = True\n            End If\n        Else\n            TryValidateOptionalNumeric(Me.tbCustom4, Me.lblCustom4.Text, sAllErrors, bFocusSet, bwait)\n        End If\n\n        If bwait Then Exit Sub\n\n        ' ----------------------------------------------------------------------\n        ' Domain / range validation after numeric parsing succeeds\n        ' ----------------------------------------------------------------------\n        Select Case Me.Text\n\n            Case \"Sample Size - Paired T-test\"\n                Dim diff As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)\n                Dim sd As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)\n\n                If diff = 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should not be 0.\")\n                If sd <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should be > 0.\")\n\n            Case \"Sample Size - Unpaired T-test\"\n                Dim v1 As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)\n                Dim v2 As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)\n                Dim v3 As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)\n\n                If SelectedComboValue() = \"Superiority\" Then\n                    If v1 = 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should not be 0 for superiority planning.\")\n                    If v2 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should be > 0.\")\n                    If v3 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, \"should be > 0.\")\n\n                ElseIf SelectedComboValue() = \"Noninferiority\" Then\n                    Dim ratio As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)\n                    If v2 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should be > 0.\")\n                    If v3 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, \"should be > 0.\")\n                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, \"should be > 0.\")\n\n                ElseIf SelectedComboValue() = \"Equivalence\" Then\n                    Dim ratio As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)\n                    If v2 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should be > 0.\")\n                    If v3 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, \"should be > 0.\")\n                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, \"should be > 0.\")\n                End If\n\n            Case \"Sample Size - Single Proportion\"\n                Dim p As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)\n                Dim p0 As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)\n\n                If p <= 0 OrElse p >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should satisfy 0 < p < 1.\")\n                If p0 <= 0 OrElse p0 >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should satisfy 0 < p < 1.\")\n                If p = p0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should not equal the null-hypothesis proportion.\")\n\n            Case \"Sample Size - Independent Proportions\"\n                Dim pControl As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)\n                Dim pExperimental As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)\n\n                If pControl <= 0 OrElse pControl >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should satisfy 0 < p < 1.\")\n                If pExperimental <= 0 OrElse pExperimental >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should satisfy 0 < p < 1.\")\n\n                If SelectedComboValue() = \"Superiority\" Then\n                    Dim ratio As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)\n                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, \"should be > 0.\")\n                    If pControl = pExperimental Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should not equal the experimental proportion for superiority planning.\")\n\n                ElseIf SelectedComboValue() = \"Noninferiority\" OrElse SelectedComboValue() = \"Equivalence\" Then\n                    Dim margin As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)\n                    Dim ratio As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)\n                    If margin <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, \"should be > 0.\")\n                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, \"should be > 0.\")\n                End If\n\n            Case \"Sample Size - Log-rank Test\"\n                Dim hr As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)\n                Dim pControl As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)\n                Dim pExperimental As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)\n                Dim ratio As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)\n\n                If hr <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should be > 0.\")\n                If hr = 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should not be 1.\")\n                If pControl <= 0 OrElse pControl >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should satisfy 0 < p < 1.\")\n                If pExperimental <= 0 OrElse pExperimental >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, \"should satisfy 0 < p < 1.\")\n                If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, \"should be > 0.\")\n\n            Case \"Sample Size - Cox Regression\"\n                Dim hr As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)\n                If hr <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should be > 0.\")\n                If hr = 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should not be 1.\")\n\n                If SelectedComboValue() = \"Continuous Covariate\" Then\n                    Dim covariateSd As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)\n                    If covariateSd <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should be > 0.\")\n                Else\n                    Dim ratio As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)\n                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should be > 0.\")\n                End If\n\n                If Me.tbKappa.Text.Trim() <> String.Empty Then\n                    Dim overallEventProportion As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)\n                    If overallEventProportion <= 0 OrElse overallEventProportion >= 1 Then\n                        AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, \"should satisfy 0 < p < 1 when provided.\")\n                    End If\n                End If\n\n                If Me.tbCustom4.Text.Trim() <> String.Empty Then\n                    Dim rSquared As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)\n                    If rSquared < 0 OrElse rSquared >= 1 Then\n                        AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, \"should satisfy 0 <= R-squared < 1 when provided.\")\n                    End If\n                End If\n\n            Case \"Sample Size - Intraclass Correlation (ICC)\"\n                Dim nullIcc As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)\n                Dim alternativeIcc As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)\n                Dim observationsPerSubject As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)\n\n                If nullIcc < 0 OrElse nullIcc >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should satisfy 0 <= ICC < 1.\")\n                If alternativeIcc <= 0 OrElse alternativeIcc >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should satisfy 0 < ICC < 1.\")\n                If alternativeIcc <= nullIcc Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should be greater than the null ICC.\")\n                If observationsPerSubject < 2 OrElse observationsPerSubject <> Math.Truncate(observationsPerSubject) Then\n                    AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, \"should be an integer greater than or equal to 2.\")\n                End If\n\n            Case \"Sample Size - Agreement (Bland-Altman)\"\n                Dim sdDifference As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)\n                Dim desiredHalfWidth As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)\n                Dim loaMultiplier As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)\n\n                If sdDifference <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, \"should be > 0.\")\n                If desiredHalfWidth <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, \"should be > 0.\")\n                If loaMultiplier <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, \"should be > 0.\")\n\n        End Select\n\n        bwait = (sAllErrors <> String.Empty)\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RunLogRank",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "e78fbeaa5d88614beb19e700ef10873359fdae39ca5fb1713be6d8c1b2f59bb3",
+      "original_text": "    Private Sub RunLogRank()\n        Dim hazardRatio As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Hazard ratio\")\n        Dim controlEventProportion As Double = ParseUiDouble(Me.tbSD.Text, \"Control event proportion\")\n        Dim experimentalEventProportion As Double = ParseUiDouble(Me.tbKappa.Text, \"Experimental event proportion\")\n        Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, \"Ratio of control to experimental subjects\")\n        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)\n        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)\n\n        Dim requestLogRankSampleSize As New SampleSizePlanningRequest(SampleSizePlanningMethod.LogRankSampleSize, Alpha, Beta, New Double() {hazardRatio, controlEventProportion, experimentalEventProportion, kappa})\n        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestLogRankSampleSize).Text)\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RunCox",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "2e2ba67d80dab8ea3f77d3ba043921a85ce2c6a79c387189f004047135bfebe2",
+      "original_text": "    Private Sub RunCox()\n        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)\n        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)\n        Dim rSquaredWithOtherCovariates As Double = ParseOptionalUiDouble(Me.tbCustom4.Text, 0.0)\n        Dim overallEventProportion As Double = ParseOptionalUiDouble(Me.tbKappa.Text, Double.NaN)\n\n        If SelectedComboValue() = \"Continuous Covariate\" Then\n            Dim hazardRatioPerUnit As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Hazard ratio per unit\")\n            Dim covariateSd As Double = ParseUiDouble(Me.tbSD.Text, \"Covariate standard deviation\")\n\n            Dim requestCoxEventCountContinuousCovariate As New SampleSizePlanningRequest(SampleSizePlanningMethod.CoxEventCountContinuousCovariate, Alpha, Beta, New Double() {hazardRatioPerUnit, covariateSd, rSquaredWithOtherCovariates, overallEventProportion}, overallEventProvided:=Me.tbKappa.Text.Trim() <> String.Empty, rSquaredProvided:=Me.tbCustom4.Text.Trim() <> String.Empty)\n            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestCoxEventCountContinuousCovariate).Text)\n            Exit Sub\n        End If\n\n        Dim hazardRatio As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Hazard ratio\")\n        Dim kappa As Double = ParseUiDouble(Me.tbSD.Text, \"Ratio of control to experimental subjects\")\n\n        Dim requestCoxEventCountBinaryCovariate As New SampleSizePlanningRequest(SampleSizePlanningMethod.CoxEventCountBinaryCovariate, Alpha, Beta, New Double() {hazardRatio, kappa, rSquaredWithOtherCovariates, overallEventProportion}, overallEventProvided:=Me.tbKappa.Text.Trim() <> String.Empty, rSquaredProvided:=Me.tbCustom4.Text.Trim() <> String.Empty)\n        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestCoxEventCountBinaryCovariate).Text)\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RunICC",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "6db0d8b736fb45ed866e2462917a644de88cea7e9d9843d3cdb0b307bf375ff0",
+      "original_text": "    Private Sub RunICC()\n        Dim nullIcc As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Null ICC\")\n        Dim alternativeIcc As Double = ParseUiDouble(Me.tbSD.Text, \"Alternative ICC\")\n        Dim observationsPerSubjectValue As Double = ParseUiDouble(Me.tbKappa.Text, \"Observations per subject\")\n        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)\n        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)\n\n        If observationsPerSubjectValue < 2 OrElse observationsPerSubjectValue <> Math.Truncate(observationsPerSubjectValue) Then\n            MsgBox(\"Observations per subject must be an integer greater than or equal to 2.\", vbExclamation, AppGlobals.gsAPP_TITLE)\n            Exit Sub\n        End If\n\n        Dim requestIccHypothesisTestSampleSize As New SampleSizePlanningRequest(SampleSizePlanningMethod.IccHypothesisTestSampleSize, Alpha, Beta, New Double() {nullIcc, alternativeIcc, observationsPerSubjectValue}, observationsPerSubject:=CInt(observationsPerSubjectValue))\n        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestIccHypothesisTestSampleSize).Text)\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RunBlandAltman",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "a3d803607bb9ae5ad0224bca4b3f3829521d25033e3ef368248ac5ad3ba53e85",
+      "original_text": "    Private Sub RunBlandAltman()\n        Dim sdDifference As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"SD of differences\")\n        Dim desiredHalfWidth As Double = ParseUiDouble(Me.tbSD.Text, \"Desired LoA CI half-width\")\n        Dim loaMultiplier As Double = ParseUiDouble(Me.tbKappa.Text, \"LoA multiplier\")\n        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)\n\n        Dim requestBlandAltmanLoASampleSize As New SampleSizePlanningRequest(SampleSizePlanningMethod.BlandAltmanLoASampleSize, Alpha, Double.NaN, New Double() {sdDifference, desiredHalfWidth, loaMultiplier})\n        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestBlandAltmanLoASampleSize).Text)\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RunIndependentProp",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "17f4d80bae88986813b3cea183bc016f05e45d17d66b629ea9f00e624e40f975",
+      "original_text": "    Private Sub RunIndependentProp()\n        Dim bFocusSet As Boolean\n        Dim sAllErrors As String = String.Empty\n\n        Dim controlProp As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Control Group Proportion\")\n        If controlProp <= 0 OrElse controlProp >= 1 Then\n            If Not bFocusSet Then\n                Me.tbMeanDiff.Select()\n                bFocusSet = True\n            End If\n            sAllErrors += \"Control Group Proportion should satisfy 0 < p < 1.\" & vbLf\n        End If\n\n        Dim experimentalProp As Double = ParseUiDouble(Me.tbSD.Text, \"Experimental Group Proportion\")\n        If experimentalProp <= 0 OrElse experimentalProp >= 1 Then\n            If Not bFocusSet Then\n                Me.tbSD.Select()\n                bFocusSet = True\n            End If\n            sAllErrors += \"Experimental Group Proportion should satisfy 0 < p < 1.\" & vbLf\n        End If\n\n        If Len(sAllErrors) > 0 Then\n            MsgBox(sAllErrors, vbExclamation, AppGlobals.gsAPP_TITLE)\n            Exit Sub\n        End If\n\n        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)\n        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)\n\n        If SelectedComboValue() = \"Noninferiority\" Then\n            Dim marginAbsolute As Double = ParseUiDouble(Me.tbKappa.Text, \"Noninferiority margin\")\n            Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, \"Ratio of control to experimental subjects\")\n\n            Dim requestNonInferiorityIndependentProportions As New SampleSizePlanningRequest(SampleSizePlanningMethod.NonInferiorityIndependentProportions, Alpha, Beta, New Double() {controlProp, experimentalProp, marginAbsolute, kappa})\n            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestNonInferiorityIndependentProportions).Text)\n            Exit Sub\n        End If\n\n        If SelectedComboValue() = \"Equivalence\" Then\n            Dim marginAbsolute As Double = ParseUiDouble(Me.tbKappa.Text, \"Equivalence margin\")\n            Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, \"Ratio of control to experimental subjects\")\n\n            Dim requestEquivalenceIndependentProportions As New SampleSizePlanningRequest(SampleSizePlanningMethod.EquivalenceIndependentProportions, Alpha, Beta, New Double() {controlProp, experimentalProp, marginAbsolute, kappa})\n            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestEquivalenceIndependentProportions).Text)\n            Exit Sub\n        End If\n\n        If controlProp = experimentalProp Then\n            MsgBox(\"Control and experimental proportions should not be equal for superiority planning.\", vbExclamation, AppGlobals.gsAPP_TITLE)\n            Exit Sub\n        End If\n\n        Dim kappaSuperiority As Double = ParseUiDouble(Me.tbKappa.Text, \"Ratio of control to experimental subjects\")\n        Dim requestIndependentProportions As New SampleSizePlanningRequest(SampleSizePlanningMethod.IndependentProportions, Alpha, Beta, New Double() {controlProp, experimentalProp, kappaSuperiority})\n        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestIndependentProportions).Text)\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RunSingleProp",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "735b3a7ecbef722e3574ed8c850194a4bb307716874c92f9d2a358617f73f446",
+      "original_text": "    Private Sub RunSingleProp()\n        Dim bFocusSet As Boolean, sAllErrors As String = String.Empty\n\n        'Check input values\n        Dim prop As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Proportion\")\n        If prop < 0 Or prop > 1 Then\n            If Not bFocusSet Then\n                Me.tbMeanDiff.Select()\n                bFocusSet = True\n            End If\n            sAllErrors += \"Proportion: Proportion should be 0 < Proportion < 1. \" + vbLf\n        End If\n\n        Dim H0Prop As Double = ParseUiDouble(Me.tbSD.Text, \"Null Hypothesis Proportion\")\n        If H0Prop < 0 Or H0Prop > 1 Then\n            If Not bFocusSet Then\n                Me.tbSD.Select()\n                bFocusSet = True\n            End If\n            sAllErrors += \"Null Hypothesis Proportion should be 0 < Proportion < 1. \" + vbLf\n        End If\n\n        If prop = H0Prop Then\n            If Not bFocusSet Then\n                Me.tbMeanDiff.Select()\n                bFocusSet = True\n            End If\n            sAllErrors += \"Proportion: Proportion should be not equal to H0 Proportion. \" + vbLf\n        End If\n\n        If Len(sAllErrors) > 0 Then\n            MsgBox(sAllErrors, vbExclamation, AppGlobals.gsAPP_TITLE)\n            Exit Sub 'Display any error we got in the main call\n        End If\n\n        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)\n        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)\n        Dim requestSingleProportion As New SampleSizePlanningRequest(SampleSizePlanningMethod.SingleProportion, Alpha, Beta, New Double() {prop, H0Prop})\n        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestSingleProportion).Text)\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RunPTtest",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "8b84a43e92952183ebcd87939520329e13bd09121066ec33c1f2e96adee83b38",
+      "original_text": "    Private Sub RunPTtest()\n        Dim diff As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Mean difference\")\n        Dim sd As Double = ParseUiDouble(Me.tbSD.Text, \"Standard deviation\")\n        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)\n        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)\n        Dim requestPairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.PairedTTest, Alpha, Beta, New Double() {diff, sd})\n        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestPairedTTest).Text)\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RunUPTtest",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "643e70391289a53965a644e58857e83d149a0d1bfa009da7d4d77565bfb6b2f2",
+      "original_text": "    Private Sub RunUPTtest()\n        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)\n        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)\n\n        If SelectedComboValue() = \"Noninferiority\" Then\n            Dim expectedDifference As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Expected mean difference\")\n            Dim marginAbsolute As Double = ParseUiDouble(Me.tbSD.Text, \"Noninferiority margin\")\n            Dim sd As Double = ParseUiDouble(Me.tbKappa.Text, \"Standard deviation\")\n            Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, \"Ratio of control to experimental subjects\")\n\n            Dim requestNonInferiorityUnpairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.NonInferiorityUnpairedTTest, Alpha, Beta, New Double() {expectedDifference, marginAbsolute, sd, kappa})\n            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestNonInferiorityUnpairedTTest).Text)\n            Exit Sub\n        End If\n\n        If SelectedComboValue() = \"Equivalence\" Then\n            Dim expectedDifference As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Expected mean difference\")\n            Dim marginAbsolute As Double = ParseUiDouble(Me.tbSD.Text, \"Equivalence margin\")\n            Dim sd As Double = ParseUiDouble(Me.tbKappa.Text, \"Standard deviation\")\n            Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, \"Ratio of control to experimental subjects\")\n\n            Dim requestEquivalenceUnpairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.EquivalenceUnpairedTTest, Alpha, Beta, New Double() {expectedDifference, marginAbsolute, sd, kappa})\n            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestEquivalenceUnpairedTTest).Text)\n            Exit Sub\n        End If\n\n        Dim diff As Double = ParseUiDouble(Me.tbMeanDiff.Text, \"Mean difference\")\n        Dim sdSuperiority As Double = ParseUiDouble(Me.tbSD.Text, \"Standard deviation\")\n        Dim kappaSuperiority As Double = ParseUiDouble(Me.tbKappa.Text, \"Ratio of control to experimental subjects\")\n        Dim requestUnpairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.UnpairedTTest, Alpha, Beta, New Double() {diff, sdSuperiority, kappaSuperiority})\n        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestUnpairedTTest).Text)\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "cbHypothesisType_SelectedIndexChanged",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "757ef47816b613699940024dd7c08327b15c1679c0e1b1dc12aff6899f2d0369",
+      "original_text": "    Private Sub cbHypothesisType_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbHypothesisType.SelectedIndexChanged\n        Select Case Me.Text\n            Case \"Sample Size - Unpaired T-test\"\n                ApplyUnpairedTLayout()\n            Case \"Sample Size - Independent Proportions\"\n                ApplyIndependentProportionsLayout()\n            Case \"Sample Size - Cox Regression\"\n                ApplyCoxLayout()\n        End Select\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "SelectedComboValue",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "ac1f9dbc05029589a3d15c59fb93904cb5bc4a7dab28fe69a83585eb12bb023f",
+      "original_text": "    Private Function SelectedComboValue() As String\n        If Me.cbHypothesisType.SelectedItem Is Nothing Then Return String.Empty\n        Return Me.cbHypothesisType.SelectedItem.ToString()\n    End Function",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RequiresKappaValue",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "d682305e77572be3863ad5cbf063ff570d06da4886b178a739dac1ce650767fd",
+      "original_text": "    Private Function RequiresKappaValue() As Boolean\n        Select Case Me.Text\n            Case \"Sample Size - Paired T-test\", \"Sample Size - Single Proportion\"\n                Return False\n            Case \"Sample Size - Cox Regression\"\n                Return False   ' overall event proportion is optional\n            Case Else\n                Return Me.tbKappa.Visible\n        End Select\n    End Function",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "RequiresCustom4Value",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "68da342900e5b8f0d25447b74ceadd7db603e9a2d447b35571c51a22871ef78b",
+      "original_text": "    Private Function RequiresCustom4Value() As Boolean\n        If Not Me.tbCustom4.Visible Then Return False\n        If Me.Text = \"Sample Size - Log-rank Test\" Then Return True\n        If Me.Text = \"Sample Size - Unpaired T-test\" AndAlso SelectedComboValue() <> \"Superiority\" Then Return True\n        If Me.Text = \"Sample Size - Independent Proportions\" AndAlso SelectedComboValue() <> \"Superiority\" Then Return True\n\n        Return False   ' optional for Cox and hidden elsewhere\n    End Function",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "ParseOptionalUiDouble",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "97f3838fd5a932cde608ccf6a2292ea84a208ce893bfec563b2399e13ef76c5d",
+      "original_text": "    Private Function ParseOptionalUiDouble(textValue As String, defaultValue As Double) As Double\n        If textValue Is Nothing OrElse textValue.Trim() = String.Empty Then\n            Return defaultValue\n        End If\n        Return ParseUiDouble(textValue, \"Optional value\")\n    End Function",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "SetDefaultIfBlank",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "e91055a8420d90bb60a6d01a80f95b20bf5cfe1842893cf5b61911c14758dcbd",
+      "original_text": "    Private Sub SetDefaultIfBlank(tb As System.Windows.Forms.TextBox, defaultValue As String)\n        If tb.Text Is Nothing OrElse tb.Text.Trim() = String.Empty Then\n            tb.Text = defaultValue\n        End If\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "AddUiError",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "b66987e1f67b08758770ba9dc19c157af4977c8e82da1f33e6668f40d0f65060",
+      "original_text": "    Private Sub AddUiError(ByRef sAllErrors As String, ByRef bFocusSet As Boolean, ctrl As Control, labelText As String, message As String)\n        If Not bFocusSet Then\n            ctrl.Select()\n            bFocusSet = True\n        End If\n\n        sAllErrors &= labelText & \": \" & message & vbLf\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "TryValidateOptionalNumeric",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "ebd8bab3693795d08a60d23bf0102b17f85d11cf04d9dec97ed764de41bb3eb6",
+      "original_text": "    Private Sub TryValidateOptionalNumeric(tb As System.Windows.Forms.TextBox, labelText As String,\n                                       ByRef sAllErrors As String, ByRef bFocusSet As Boolean, ByRef bwait As Boolean)\n        If tb.Visible AndAlso tb.Text.Trim() <> String.Empty Then\n            Dim tmp As Double\n            Dim sError As String = String.Empty\n            If Not CheckNumeric(tb, tmp, sError) Then\n                AddUiError(sAllErrors, bFocusSet, tb, labelText, sError)\n                bwait = True\n            End If\n        End If\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "ApplyUnpairedTLayout",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "504cbfbdc718fec095974fdb82a1cd3413f21e2d344e0b150b88ee3d1496c624",
+      "original_text": "    Private Sub ApplyUnpairedTLayout()\n        Me.lblBeta.Visible = True\n        Me.spinBtnBeta.Visible = True\n        Me.lblKappa.Visible = True\n        Me.tbKappa.Visible = True\n\n        If SelectedComboValue() = \"Noninferiority\" Then\n            Me.lblMeanDiff.Text = \"Expected Mean Difference\"\n            Me.lblSD.Text = \"Noninferiority Margin\"\n            Me.lblKappa.Text = \"Standard Deviation\"\n            Me.lblCustom4.Text = \"Ratio of control to experimental subjects\"\n            Me.lblCustom4.Visible = True\n            Me.tbCustom4.Visible = True\n\n            SetDefaultIfBlank(Me.tbMeanDiff, \"0\")\n            SetDefaultIfBlank(Me.tbSD, \"5\")\n            SetDefaultIfBlank(Me.tbKappa, \"10\")\n            SetDefaultIfBlank(Me.tbCustom4, \"1\")\n            Me.lblAlpha.Text = \"One-sided Alpha\"\n\n        ElseIf SelectedComboValue() = \"Equivalence\" Then\n            Me.lblMeanDiff.Text = \"Expected Mean Difference\"\n            Me.lblSD.Text = \"Equivalence Margin\"\n            Me.lblKappa.Text = \"Standard Deviation\"\n            Me.lblCustom4.Text = \"Ratio of control to experimental subjects\"\n            Me.lblCustom4.Visible = True\n            Me.tbCustom4.Visible = True\n\n            SetDefaultIfBlank(Me.tbMeanDiff, \"0\")\n            SetDefaultIfBlank(Me.tbSD, \"5\")\n            SetDefaultIfBlank(Me.tbKappa, \"10\")\n            SetDefaultIfBlank(Me.tbCustom4, \"1\")\n            Me.lblAlpha.Text = \"One-sided Alpha\"\n\n        Else\n            Me.lblMeanDiff.Text = \"Mean Difference\"\n            Me.lblSD.Text = \"Standard Deviation\"\n            Me.lblKappa.Text = \"Ratio of control to experimental subjects\"\n            Me.lblCustom4.Visible = False\n            Me.tbCustom4.Visible = False\n\n            SetDefaultIfBlank(Me.tbMeanDiff, \"5\")\n            SetDefaultIfBlank(Me.tbSD, \"10\")\n            SetDefaultIfBlank(Me.tbKappa, \"1\")\n            Me.lblAlpha.Text = \"Alpha\"\n        End If\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "ApplyIndependentProportionsLayout",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "36e11918144d0276b536b9f57752812f8e039cc3ddc32c13756e1567a1fa9d68",
+      "original_text": "    Private Sub ApplyIndependentProportionsLayout()\n        Me.lblBeta.Visible = True\n        Me.spinBtnBeta.Visible = True\n        Me.lblKappa.Visible = True\n        Me.tbKappa.Visible = True\n\n        Me.lblMeanDiff.Text = \"Control Group Proportion\"\n        Me.lblSD.Text = \"Experimental Group Proportion\"\n\n        If SelectedComboValue() = \"Noninferiority\" Then\n            Me.lblKappa.Text = \"Noninferiority Margin\"\n            Me.lblCustom4.Text = \"Ratio of control to experimental subjects\"\n            Me.lblCustom4.Visible = True\n            Me.tbCustom4.Visible = True\n\n            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(0.4))\n            SetDefaultIfBlank(Me.tbSD, FormatUiDouble(0.4))\n            If ParseUiDouble(Me.tbKappa.Text) >= 1 Or ParseUiDouble(Me.tbKappa.Text) <= 0 Then Me.tbKappa.Text = \"\"\n            SetDefaultIfBlank(Me.tbKappa, FormatUiDouble(0.1))\n                SetDefaultIfBlank(Me.tbCustom4, \"1\")\n            Me.lblAlpha.Text = \"One-sided Alpha\"\n\n        ElseIf SelectedComboValue() = \"Equivalence\" Then\n            Me.lblKappa.Text = \"Equivalence Margin\"\n            Me.lblCustom4.Text = \"Ratio of control to experimental subjects\"\n            Me.lblCustom4.Visible = True\n            Me.tbCustom4.Visible = True\n\n            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(0.4))\n            SetDefaultIfBlank(Me.tbSD, FormatUiDouble(0.4))\n            If ParseUiDouble(Me.tbKappa.Text) >= 1 Or ParseUiDouble(Me.tbKappa.Text) <= 0 Then Me.tbKappa.Text = \"\"\n            SetDefaultIfBlank(Me.tbKappa, FormatUiDouble(0.1))\n            SetDefaultIfBlank(Me.tbCustom4, \"1\")\n            Me.lblAlpha.Text = \"One-sided Alpha\"\n\n        Else\n            Me.lblKappa.Text = \"Ratio of control to experimental subjects\"\n            Me.lblCustom4.Visible = False\n            Me.tbCustom4.Visible = False\n\n            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(0.4))\n            SetDefaultIfBlank(Me.tbSD, FormatUiDouble(0.5))\n            SetDefaultIfBlank(Me.tbKappa, \"1\")\n            Me.lblAlpha.Text = \"Alpha\"\n        End If\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui12SampleSizeTtestSingleProp",
+      "method": "ApplyCoxLayout",
+      "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+        "bytes": 38452,
+        "sha256": "1b96fba8bc74da2cacc4371893c34cd1ce861687f4669944978ae6af83f52146"
+      },
+      "source_text_sha256": "8981a565d73ccee8345d6bece4bf25c8f8083e1e1202e7ee31a4bf1e6afe9704",
+      "original_text": "    Private Sub ApplyCoxLayout()\n        Me.lblBeta.Visible = True\n        Me.spinBtnBeta.Visible = True\n        Me.lblKappa.Visible = True\n        Me.tbKappa.Visible = True\n        Me.lblCustom4.Visible = True\n        Me.tbCustom4.Visible = True\n        Me.lblAlpha.Text = \"Alpha\"\n\n        If SelectedComboValue() = \"Continuous Covariate\" Then\n            Me.lblMeanDiff.Text = \"Hazard Ratio per Unit\"\n            Me.lblSD.Text = \"Covariate Standard Deviation\"\n            Me.lblKappa.Text = \"Overall Event Proportion (optional)\"\n            Me.lblCustom4.Text = \"R-squared with Other Covariates (optional)\"\n\n            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(1.25))\n            SetDefaultIfBlank(Me.tbSD, \"1\")\n            SetDefaultIfBlank(Me.tbKappa, FormatUiDouble(0.4))\n            SetDefaultIfBlank(Me.tbCustom4, \"0\")\n\n        Else\n            Me.lblMeanDiff.Text = \"Hazard Ratio\"\n            Me.lblSD.Text = \"Ratio of control to experimental subjects\"\n            Me.lblKappa.Text = \"Overall Event Proportion (optional)\"\n            Me.lblCustom4.Text = \"R-squared with Other Covariates (optional)\"\n\n            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(0.75))\n            SetDefaultIfBlank(Me.tbSD, \"1\")\n            SetDefaultIfBlank(Me.tbKappa, FormatUiDouble(0.4))\n            SetDefaultIfBlank(Me.tbCustom4, \"0\")\n        End If\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui82x2",
+      "method": "btCompute_Click",
+      "path": "BESHstatNG/src/UI/Ui82x2.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui82x2.vb",
+        "bytes": 6212,
+        "sha256": "0834fa690bccdf7e2081a560bbe1f39478399d6d611da5b3c92ed0964cc8563a"
+      },
+      "source_text_sha256": "65bac99053174e8c57dd03cd4d46dddb7544a8b65c59fa3764cd87f088b83cf5",
+      "original_text": "    Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click\n        Try\n            Dim options As New ExcelCommon.TwoByTwoReportOptions With {\n                .Alpha = CDbl(Me.spinBtnAlpha.Value), .Fisher = Me.ckFisher.Checked,\n                .ChiSquare = Me.ckChi2.Checked, .Association = Me.ckAssociation.Checked,\n                .Liddell = Me.ckLiddel.Checked, .OddsRatio = Me.ckOR.Checked, .RiskRatio = Me.ckRR.Checked}\n            Dim report As ExcelCommon.ContingencyReportResult\n            If Me.optWorksheetData.Checked Then\n                Dim input = WindowsContingencyInputAdapter.ParseWorksheet(Me.getDataMultipleGroups(),\n                    New ExcelCommon.SpreadsheetContingencyCountParseOptions With {.HasColumnHeaders = False, .HasRowLabels = False}, True)\n                If Not input.Success Then\n                    MsgBox(input.Validation.Issues.First(Function(i) i.Severity = ExcelCommon.SpreadsheetValidationSeverity.Error).Message, vbOKOnly, \"2x2 table analysis\")\n                    Exit Sub\n                End If\n                report = ExcelCommon.ContingencyReportPolicy.TwoByTwo(input.Data, options)\n            ElseIf Me.optScreenData.Checked Then\n                report = WindowsContingencyInputAdapter.AnalyzeDialog(CDbl(Me.spinBtnA.Value), CDbl(Me.spinBtnB.Value),\n                    CDbl(Me.spinBtnC.Value), CDbl(Me.spinBtnD.Value), options)\n            Else\n                MsgBox(\"Select a count input source.\", vbOKOnly, \"2x2 table analysis\")\n                Exit Sub\n            End If\n            For Each issue In report.Validation.Issues\n                If issue.Severity = ExcelCommon.SpreadsheetValidationSeverity.Warning Then\n                    MsgBox(issue.Message, vbOKOnly, \"Fisher's exact test\")\n                End If\n            Next\n            If Not report.Success Then\n                MsgBox(report.Validation.Issues.First(Function(i) i.Severity = ExcelCommon.SpreadsheetValidationSeverity.Error).Message, vbOKOnly, \"2x2 table analysis\")\n                Exit Sub\n            End If\n            Dim res = report.ToLegacyTables()\n\n            'Dump outputs\n            Dim WriteRes = GetResultWriter() 'pass just table from the main test output\n            Dim rr = New ProcessListofResultTables(res)\n            Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator\n            Dim totcols As Integer = rr.TotCols\n            If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then\n                If MsgBox(\"Output range not empty! Overwrite?\", vbYesNo + vbExclamation, \"Overwrite?\") = vbNo Then\n                    Exit Sub\n                End If\n            End If\n\n            rr.writeToSheet(WriteRes, True)\n        Catch ex As Exception\n            CoreServices.Errors.LogAndThrow(ex, False, True)\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui82x2",
+      "method": "GetResultWriter",
+      "path": "BESHstatNG/src/UI/Ui82x2.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui82x2.vb",
+        "bytes": 6212,
+        "sha256": "0834fa690bccdf7e2081a560bbe1f39478399d6d611da5b3c92ed0964cc8563a"
+      },
+      "source_text_sha256": "8ce0369e546b525e1a6113d60c62db8597166bfdc59b7a21e3c333f94e6a9b90",
+      "original_text": "    Private Function GetResultWriter() As ExcelDnaResultWriter\n        Dim WriteRes = New ExcelDnaResultWriter, rRange As Range\n        If Me.optWorkbook.Checked Then\n            WriteRes.wb = AppGlobals.app.Workbooks.Add()\n            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet\n        ElseIf Me.optWorksheet.Checked Then\n            WriteRes.wb = AppGlobals.app.ActiveWorkbook\n            WriteRes.wb.Worksheets.Add()\n            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet\n        Else\n            WriteRes.wb = AppGlobals.app.ActiveWorkbook\n            WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)\n            rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)\n            WriteRes.setRowPointer(rRange.Row)\n            WriteRes.setColumnPointer(rRange.Column)\n        End If\n\n        Return WriteRes\n    End Function",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui8Proportions",
+      "method": "btCompute_Click",
+      "path": "BESHstatNG/src/UI/Ui8Proportions.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui8Proportions.vb",
+        "bytes": 10484,
+        "sha256": "703e0a634dadac786dd7b05184c8ea242562c1c15b0a8620991b1f8606d2e126"
+      },
+      "source_text_sha256": "c98a3f232e9341d14981ed0d03f75816f284f59b50e51da7a3993c7d415c5c10",
+      "original_text": "    Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click\n        Try\n            Dim mode = ExcelCommon.ProportionsInputPolicy.ModeFromChoices(Me.optSingle.Checked, Me.optIndependent.Checked, Me.optPaired.Checked)\n            Dim hypothesis As ExcelCommon.IndependentProportionsHypothesis = ExcelCommon.IndependentProportionsHypothesis.Superiority\n            Select Case Me.cbHypothesisType.SelectedItem\n                Case \"Noninferiority\" : hypothesis = ExcelCommon.IndependentProportionsHypothesis.Noninferiority\n                Case \"Equivalence\" : hypothesis = ExcelCommon.IndependentProportionsHypothesis.Equivalence\n            End Select\n            If mode = ExcelCommon.ProportionsMode.Independent AndAlso Not Me.ValidateIndependentMargin() Then Exit Sub\n            Dim report = WindowsContingencyInputAdapter.AnalyzeProportions(mode, hypothesis,\n                CDbl(Me.spinBtnA.Value), CDbl(Me.spinBtnB.Value), If(mode = ExcelCommon.ProportionsMode.Independent, CDbl(Me.spinBtnC.Value), 0.0),\n                If(mode = ExcelCommon.ProportionsMode.SingleSample, 0.0, If(mode = ExcelCommon.ProportionsMode.Independent, CDbl(Me.spinBtnD.Value), CDbl(Me.spinBtnC.Value))),\n                If(mode = ExcelCommon.ProportionsMode.Paired, CDbl(Me.spinBtnD.Value), 0.0), CDbl(Me.spinBtnAlpha.Value), CDbl(Me.spinBtnMargin_IndProp.Value))\n            If Not report.Success Then\n                Dim issue = report.Validation.Issues.First(Function(i) i.Severity = ExcelCommon.SpreadsheetValidationSeverity.Error)\n                MsgBox(issue.Message, vbOKOnly, \"Data input\")\n                If issue.FieldPath = \"counts.total2\" OrElse issue.FieldPath = \"counts.responders2\" Then\n                    Me.spinBtnC.Select()\n                ElseIf issue.FieldPath = \"options.margin\" Then\n                    Me.spinBtnMargin_IndProp.Select()\n                Else\n                    Me.spinBtnA.Select()\n                End If\n                Exit Sub\n            End If\n            Dim res = report.ToLegacyTables()\n\n            'Dump outputs\n            Dim WriteRes = GetResultWriter() 'pass just table from the main test output\n            Dim rr = New ProcessListofResultTables(res)\n            Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator\n            Dim totcols As Integer = rr.TotCols\n            If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then\n                If MsgBox(\"Output range not empty! Overwrite?\", vbYesNo + vbExclamation, \"Overwrite?\") = vbNo Then\n                    Exit Sub\n                End If\n            End If\n\n            rr.writeToSheet(WriteRes, True)\n        Catch ex As Exception\n            CoreServices.Errors.LogAndThrow(ex, False, True)\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    },
+    {
+      "owner": "Ui8Proportions",
+      "method": "GetResultWriter",
+      "path": "BESHstatNG/src/UI/Ui8Proportions.vb",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui8Proportions.vb",
+        "bytes": 10484,
+        "sha256": "703e0a634dadac786dd7b05184c8ea242562c1c15b0a8620991b1f8606d2e126"
+      },
+      "source_text_sha256": "8ce0369e546b525e1a6113d60c62db8597166bfdc59b7a21e3c333f94e6a9b90",
+      "original_text": "    Private Function GetResultWriter() As ExcelDnaResultWriter\n        Dim WriteRes = New ExcelDnaResultWriter, rRange As Range\n        If Me.optWorkbook.Checked Then\n            WriteRes.wb = AppGlobals.app.Workbooks.Add()\n            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet\n        ElseIf Me.optWorksheet.Checked Then\n            WriteRes.wb = AppGlobals.app.ActiveWorkbook\n            WriteRes.wb.Worksheets.Add()\n            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet\n        Else\n            WriteRes.wb = AppGlobals.app.ActiveWorkbook\n            WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)\n            rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)\n            WriteRes.setRowPointer(rRange.Row)\n            WriteRes.setColumnPointer(rRange.Column)\n        End If\n\n        Return WriteRes\n    End Function",
+      "transforms": [
+        [
+          "MsgBox(",
+          "FakeMessages46.Record("
+        ],
+        [
+          "AppGlobals.",
+          "FakeGlobals46."
+        ],
+        [
+          "CoreServices.Errors.LogAndThrow",
+          "FakeFaults46.Record"
+        ],
+        [
+          "SampleSizePlanningPolicy.Calculate",
+          "FakePlanning46.Calculate"
+        ],
+        [
+          "System.Windows.Forms.TextBox",
+          "FakeControl46"
+        ]
+      ]
+    }
+  ],
+  "projection": {
+    "path": "BESHStatNG.Test/src/GuiWiring46ExecutionProjections.vb",
+    "bytes": 42461,
+    "sha256": "85932b1ba1e6f10631623f2da52b11abfb44eea843a5dcac84bedc957affb223"
+  },
+  "host_aliases": "Fake in-memory workbook/writer/range descriptors and message/error sinks. Real unchanged ContingencyInput/Report policies execute;sample-size request policy is captured without numerical engine invocation. No source branch/body reordered.",
+  "native": "NOT_RUN"
+}

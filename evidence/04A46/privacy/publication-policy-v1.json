@@ -1,0 +1,29 @@
+{
+  "required_scanners": [
+    "13",
+    "14"
+  ],
+  "waivers": 0,
+  "full_candidate_scope": "ORIGINAL_UNCHANGED_PATHS_FUNCTIONS",
+  "physical_scope": "EVERY_MEMBER_INCLUDING_INDEX",
+  "success_requires_external_receipt": true,
+  "original_scanner_sources": [
+    {
+      "path": "scripts/verify-04a13-publication.py",
+      "bytes": 9176,
+      "sha256": "b26596e5bf9644e81a479fad4f28d3db8d8af23611175b8e582c759007009a03"
+    },
+    {
+      "path": "scripts/verify-04a14-publication.py",
+      "bytes": 9320,
+      "sha256": "b4b4fd3567947d807c73e63022a0128ded37199248d0067f786cb472811d5a25"
+    }
+  ],
+  "guard": {
+    "path": "evidence/04A39/physical-witness-v1/dependencies/privacy_regex_guard.py",
+    "bytes": 842,
+    "sha256": "ad17f82adca850afb94fa60d3c0ca5866b446860a7724dc77a5e5b3111c9ce5f"
+  },
+  "guard_qualification": "Original sources/scan/paths unchanged;accepted regex performance proxy. Owner-local literal/case/NFKC/Base64 positives and clean negative compare decisions with original regex. Neutral replay separate from actual owner identity proof.",
+  "raw_private_tokens_published": false
+}

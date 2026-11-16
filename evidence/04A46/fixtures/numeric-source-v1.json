@@ -1,0 +1,51 @@
+{
+  "members": [
+    {
+      "name": "TryParseUiDouble",
+      "source": {
+        "path": "BESHstatNG/src/DM/UIprocedures.vb",
+        "bytes": 36809,
+        "sha256": "83f8254f1e02f34faac3c7ad3ec39e53665bd1f28ed6401a99743746b066a4e6"
+      },
+      "body_sha256": "2786b1352f55b125d410c1bdb1a2120eebf731a0bb42f7452d0c55773e4a828f",
+      "text": "    Public Function TryParseUiDouble(text As String, ByRef value As Double) As Boolean\n        Dim s As String = If(text, String.Empty).Trim()\n\n        If s = String.Empty Then\n            value = 0\n            Return False\n        End If\n\n        Return ExcelCommon.NumberTextPolicy.TryDouble(s, GetExcelNumberCulture(), value) OrElse\n           ExcelCommon.NumberTextPolicy.TryDouble(s, Globalization.CultureInfo.CurrentCulture, value) OrElse\n           ExcelCommon.NumberTextPolicy.TryDouble(s, Globalization.CultureInfo.InvariantCulture, value)\n    End Function"
+    },
+    {
+      "name": "ParseUiDouble",
+      "source": {
+        "path": "BESHstatNG/src/DM/UIprocedures.vb",
+        "bytes": 36809,
+        "sha256": "83f8254f1e02f34faac3c7ad3ec39e53665bd1f28ed6401a99743746b066a4e6"
+      },
+      "body_sha256": "cdb9f8e2d353a22376455cf49a3f83ba0f9ccc134e643754ae183b13e8f2aaa5",
+      "text": "    Public Function ParseUiDouble(text As String, Optional fieldName As String = \"numeric value\") As Double\n        Dim value As Double\n        If Not TryParseUiDouble(text, value) Then\n            Throw New FormatException($\"Cannot parse {fieldName}: \"\"{text}\"\".\")\n        End If\n        Return value\n    End Function"
+    },
+    {
+      "name": "FormatUiDouble",
+      "source": {
+        "path": "BESHstatNG/src/DM/UIprocedures.vb",
+        "bytes": 36809,
+        "sha256": "83f8254f1e02f34faac3c7ad3ec39e53665bd1f28ed6401a99743746b066a4e6"
+      },
+      "body_sha256": "94c8688c7caff03c472cb8665ab401e1f35804b8dbc73e36713ca2237c0d9119",
+      "text": "    Public Function FormatUiDouble(value As Double) As String\n        Return ExcelCommon.NumberTextPolicy.FormatGeneral(value, GetExcelNumberCulture())\n    End Function"
+    },
+    {
+      "name": "CheckNumeric",
+      "source": {
+        "path": "BESHstatNG/src/DM/UIprocedures.vb",
+        "bytes": 36809,
+        "sha256": "83f8254f1e02f34faac3c7ad3ec39e53665bd1f28ed6401a99743746b066a4e6"
+      },
+      "body_sha256": "5224417b34a3420fcfa3222f1d6fba91e64e11868b5e2445f17dbaf53f36fe1a",
+      "text": "    Public Function CheckNumeric(ByRef txtData As Object,\n                             Optional ByRef dResult As Double = Double.NaN,\n                             Optional ByRef sError As String = \"\") As Boolean\n\n        'check for valid entry\n        If txtData.text = String.Empty Then 'allow empty\n            dResult = 0\n            sError = String.Empty\n            CheckNumeric = True\n\n            'and give the text box its usual background\n            txtData.BackColor = System.Drawing.Color.White\n\n        ElseIf TryParseUiDouble(CStr(txtData.text), dResult) Then\n            sError = String.Empty\n            CheckNumeric = True\n\n            'and give the text box its usual background\n            txtData.BackColor = System.Drawing.Color.White\n\n        Else 'not numeric\n            dResult = 0\n            sError = \"Entry is not a number.\"\n            CheckNumeric = False\n\n            'give the text box a red background\n            txtData.BackColor = System.Drawing.Color.Red\n            'add the error message to the tooltip\n            'txtData.ControlTipText = txtData.ControlTipText + sErr + sError\n\n        End If\n    End Function"
+    }
+  ],
+  "projection": {
+    "path": "BESHStatNG.Test/src/GuiWiring46Numbers.vb",
+    "bytes": 2519,
+    "sha256": "a626c559f05699bb6ced70e639a84f0f116ce45137c96be8669d19b712948488"
+  },
+  "qualification": "Exact existing Windows CheckNumeric Object/late-binding semantics retained in a test-only module with Option Strict Off. Only closed fake Text/BackColor objects supplied;explicit fake host culture;unchanged NumberTextPolicy reused. No native AppGlobals acquisition or normalized parser.",
+  "native": "NOT_RUN"
+}

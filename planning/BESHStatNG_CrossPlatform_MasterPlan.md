@@ -1,5 +1,10 @@
 # BESHStatNG — Cross-platform development master plan
 
+**Revision 2.23 · 16 November 2026 · 04A.45 safe software milestone accepted/merged; 04A.46 safe GUI wiring in progress**
+**Current owner authority:** Authenticated accepted45 merged main `ebc4a3e9df41ef8588aa7f6b25363f6d044c41a7`, direct child of `350ffbc0924b09199249316a3ee2f31bc3dd98e8`. Owner authorizes04A.46 SAFE GUI-WIRING SOFTWARE WORK ONLY. Production behavior is unchanged. The45 Windows/COM packet remains NOT_APPROVED; actual HWND/PID/loaded XLL NOT_VERIFIED; live Excel/COM/UIA/RefEdit NOT_RUN. No native-control discharge or04A.47 authorization. All226 original IDs and immutable2.12/2.22 charters retained. Acceptance45 covers the safe software milestone only,not its native gate.
+
+**Historical Revision2.22 entry (retained verbatim below):**
+
 **Revision 2.22 · 16 November 2026 · 04A.44 owner-accepted/merged; 04A.45 safe harness in progress**
 **Current owner authority:** Accepted44 merged main independently authenticated at `350ffbc0924b09199249316a3ee2f31bc3dd98e8`, direct child of `243b6dcd654767ffedb8fe3643b310c0c56cd6ac`. Owner authorizes04A.45 SAFE HARNESS DEVELOPMENT only. No live Excel/COM/UIA/RefEdit observation or XLL packaging is authorized. Independent exact Windows/COM risk decision remains NOT_APPROVED; N1=NO GO; N2=NO.04A.46 is not authorized. Exact Revision2.21 and all226 original roadmap IDs are preserved.
 

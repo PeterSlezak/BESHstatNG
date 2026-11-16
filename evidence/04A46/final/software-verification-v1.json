@@ -1,0 +1,84 @@
+{
+  "Debug": {
+    "configuration": "Debug",
+    "scope": "ONE_FULL_FRESH_CAMPAIGN",
+    "identities": 21754,
+    "outcomes": {
+      "Passed": 21740,
+      "Failed": 14
+    },
+    "added": 343,
+    "missing": [],
+    "nonpass_deltas": {
+      "RETAINED_IDENTICAL": 14
+    }
+  },
+  "Release": {
+    "configuration": "Release",
+    "scope": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+    "identities": 1683,
+    "outcomes": {
+      "Passed": 1682,
+      "Failed": 1
+    },
+    "added": 343,
+    "missing": [],
+    "nonpass_deltas": {
+      "RETAINED_CHANGED_TRACE": 1
+    }
+  },
+  "full_Release": "NOT_RUN",
+  "ABI_exports_per_configuration": 268,
+  "compiled_proof": {
+    "path": "evidence/04A46/abi-cil/UI-and-attribution-v1.json",
+    "bytes": 76442,
+    "sha256": "5a91a8d334db04ad578cfc41a547d76b66031bde306d637c5bd12376ef8e15f4"
+  },
+  "CIL_production_scope": "Complete UI/Ribbon/RefEdit emitted metadata and inspected ABI owners exact45;all production source bytes exact authenticated merged main.",
+  "compatibility_per_configuration": {
+    "total": 29424,
+    "PRE_EDIT_FROZEN": 28966,
+    "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458,
+    "new_original_queries": 0
+  },
+  "retained_current_cases": {
+    "batch39": 77,
+    "batch40": 48,
+    "batch41": 390,
+    "batch42": 1802,
+    "batch43_operations": 1118,
+    "batch43_graphs": 36,
+    "batch43_races": 864,
+    "batch43_policy": 15,
+    "batch44": 591,
+    "batch44_fake_progress": 72
+  },
+  "strict_profile_MkDocs": [
+    1,
+    1,
+    0
+  ],
+  "Python": {
+    "PASS": 834,
+    "FAIL": 111,
+    "ERROR": 11,
+    "parents": 956,
+    "changed_diagnostic_events": 13,
+    "unresolved": 0
+  },
+  "Node": "INHERITED_916_PASS;NOT_RERUN",
+  "managed_Office_contracts": "FRESH_FULL_DEBUG_PASS",
+  "new_managed_identities": 343,
+  "additional_observer_cases_per_configuration": 66,
+  "live_Excel_COM_UIA_RefEdit": "NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A47_NOT_AUTHORIZED"
+  }
+}

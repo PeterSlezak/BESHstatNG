@@ -1,0 +1,34 @@
+{
+  "edits": [
+    [
+      "As ExcelDnaResultWriter",
+      "As FakeResultWriter46"
+    ],
+    [
+      "New ExcelDnaResultWriter",
+      "New FakeResultWriter46"
+    ],
+    [
+      "As Range",
+      "As FakeRange46"
+    ],
+    [
+      "New ProcessListofResultTables",
+      "New FakeTables46"
+    ],
+    [
+      "If AreaCheck(",
+      "If FakeOutput46.AreaCheck("
+    ],
+    [
+      "= WorksheetFromRefAdress(",
+      "= FakeOutput46.WorksheetFromRefAdress("
+    ]
+  ],
+  "reason": "VB parent namespace types outrank Imports aliases;explicit fake owner/type substitutions keep source branch bodies and signatures closed to host APIs. Original failed compiler attempt retained;no live COM invocation.",
+  "source": {
+    "path": "BESHStatNG.Test/src/GuiWiring46ExecutionProjections.vb",
+    "bytes": 42519,
+    "sha256": "04b210c8a3f85e1e0746e22d88af700dec311260ac596dab65344760f091f876"
+  }
+}

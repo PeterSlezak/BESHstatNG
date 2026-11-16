@@ -1,0 +1,3048 @@
+diff --git a/BESHStatNG.Test/BESHStatNG.Tests.vbproj b/BESHStatNG.Test/BESHStatNG.Tests.vbproj
+index b23d0b59..44941603 100644
+--- a/BESHStatNG.Test/BESHStatNG.Tests.vbproj
++++ b/BESHStatNG.Test/BESHStatNG.Tests.vbproj
+@@ -277,6 +277,14 @@
+     <Compile Include="src\RibbonProjection45.vb" />
+     <Compile Include="src\OptionProjection45.vb" />
+     <Compile Include="src\WindowsHarness45FormTests.vb" />
++    <Compile Include="src\GuiWiring46Fakes.vb" />
++    <Compile Include="src\GuiWiring46Numbers.vb" />
++    <Compile Include="src\GuiWiring46Projections.vb" />
++    <Compile Include="src\GuiWiring46StateTests.vb" />
++    <Compile Include="src\GuiWiring46ExecutionProjections.vb" />
++    <Compile Include="src\GuiWiring46Services.vb" />
++    <Compile Include="src\GuiWiring46ExecutionTests.vb" />
++    <Compile Include="src\GuiWiring46PolicyTests.vb" />
+     <Compile Include="src\UDFs\UdfTests.vb" />
+   </ItemGroup>
+   <ItemGroup>
+diff --git a/planning/BESHStatNG_CrossPlatform_MasterPlan.md b/planning/BESHStatNG_CrossPlatform_MasterPlan.md
+index f69ee1c0..98999cd8 100644
+--- a/planning/BESHStatNG_CrossPlatform_MasterPlan.md
++++ b/planning/BESHStatNG_CrossPlatform_MasterPlan.md
+@@ -1,5 +1,10 @@
+ # BESHStatNG — Cross-platform development master plan
+ 
++**Revision 2.23 · 16 November 2026 · 04A.45 safe software milestone accepted/merged; 04A.46 safe GUI wiring in progress**
++**Current owner authority:** Authenticated accepted45 merged main `ebc4a3e9df41ef8588aa7f6b25363f6d044c41a7`, direct child of `350ffbc0924b09199249316a3ee2f31bc3dd98e8`. Owner authorizes04A.46 SAFE GUI-WIRING SOFTWARE WORK ONLY. Production behavior is unchanged. The45 Windows/COM packet remains NOT_APPROVED; actual HWND/PID/loaded XLL NOT_VERIFIED; live Excel/COM/UIA/RefEdit NOT_RUN. No native-control discharge or04A.47 authorization. All226 original IDs and immutable2.12/2.22 charters retained. Acceptance45 covers the safe software milestone only,not its native gate.
++
++**Historical Revision2.22 entry (retained verbatim below):**
++
+ **Revision 2.22 · 16 November 2026 · 04A.44 owner-accepted/merged; 04A.45 safe harness in progress**
+ **Current owner authority:** Accepted44 merged main independently authenticated at `350ffbc0924b09199249316a3ee2f31bc3dd98e8`, direct child of `243b6dcd654767ffedb8fe3643b310c0c56cd6ac`. Owner authorizes04A.45 SAFE HARNESS DEVELOPMENT only. No live Excel/COM/UIA/RefEdit observation or XLL packaging is authorized. Independent exact Windows/COM risk decision remains NOT_APPROVED; N1=NO GO; N2=NO.04A.46 is not authorized. Exact Revision2.21 and all226 original roadmap IDs are preserved.
+ 
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring46ExecutionProjections.vb
+@@ -0,0 +1,756 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Linq
++Imports System.Collections.Generic
++Imports BESHStatNG.ExcelCommon
++Imports Control = BESHStatNG.Test.Harness46.FakeControl46
++Imports ExcelDnaResultWriter = BESHStatNG.Test.Harness46.FakeResultWriter46
++Imports Range = BESHStatNG.Test.Harness46.FakeRange46
++Imports ProcessListofResultTables = BESHStatNG.Test.Harness46.FakeTables46
++Namespace Harness46
++Partial Friend Class Ui12SampleSizeTtestSinglePropProjection46
++ Friend WithEvents btCompute As New FakeControl46()
++ Friend WithEvents cbHypothesisType As New FakeControl46()
++ Friend WithEvents lblAlpha As New FakeControl46()
++ Friend WithEvents lblBeta As New FakeControl46()
++ Friend WithEvents lblCustom4 As New FakeControl46()
++ Friend WithEvents lblKappa As New FakeControl46()
++ Friend WithEvents lblMeanDiff As New FakeControl46()
++ Friend WithEvents lblSD As New FakeControl46()
++ Friend WithEvents spinBtnAlpha As New FakeControl46()
++ Friend WithEvents spinBtnBeta As New FakeControl46()
++ Friend WithEvents tbCustom4 As New FakeControl46()
++ Friend WithEvents tbKappa As New FakeControl46()
++ Friend WithEvents tbMeanDiff As New FakeControl46()
++ Friend WithEvents tbOutput As New FakeControl46()
++ Friend WithEvents tbSD As New FakeControl46()
++    Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
++        Try
++            Dim strErr As String = String.Empty, wait As Boolean = False
++
++            Me.CheckData(strErr, wait)
++            If strErr <> String.Empty Then
++                FakeMessages46.Record(strErr, vbExclamation, FakeGlobals46.gsAPP_TITLE)
++                Exit Sub
++            End If
++
++            If Me.Text = "Sample Size - Paired T-test" Then
++                Me.RunPTtest()
++            ElseIf Me.Text = "Sample Size - Unpaired T-test" Then
++                Me.RunUPTtest()
++            ElseIf Me.Text = "Sample Size - Single Proportion" Then
++                Me.RunSingleProp()
++            ElseIf Me.Text = "Sample Size - Independent Proportions" Then
++                Me.RunIndependentProp()
++            ElseIf Me.Text = "Sample Size - Log-rank Test" Then
++                Me.RunLogRank()
++            ElseIf Me.Text = "Sample Size - Cox Regression" Then
++                Me.RunCox()
++            ElseIf Me.Text = "Sample Size - Intraclass Correlation (ICC)" Then
++                Me.RunICC()
++            ElseIf Me.Text = "Sample Size - Agreement (Bland-Altman)" Then
++                Me.RunBlandAltman()
++            End If
++        Catch ex As Exception
++            FakeFaults46.Record(ex, False, True)
++        End Try
++    End Sub
++    Private Sub CheckData(ByRef sAllErrors As String, ByRef bwait As Boolean)
++        Dim sError As String = String.Empty
++        Dim bFocusSet As Boolean = False
++        Dim dummy As Double
++
++        sAllErrors = String.Empty
++        bwait = False
++
++        ' ----------------------------------------------------------------------
++        ' Numeric validation for required visible fields
++        ' ----------------------------------------------------------------------
++        If Not CheckNumeric(tbMeanDiff, dummy, sError) Then
++            AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, sError)
++            bwait = True
++        End If
++
++        If Not CheckNumeric(tbSD, dummy, sError) Then
++            AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, sError)
++            bwait = True
++        End If
++
++        If RequiresKappaValue() Then
++            If Not CheckNumeric(tbKappa, dummy, sError) Then
++                AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, sError)
++                bwait = True
++            End If
++        Else
++            TryValidateOptionalNumeric(Me.tbKappa, Me.lblKappa.Text, sAllErrors, bFocusSet, bwait)
++        End If
++
++        If RequiresCustom4Value() Then
++            If Not CheckNumeric(tbCustom4, dummy, sError) Then
++                AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, sError)
++                bwait = True
++            End If
++        Else
++            TryValidateOptionalNumeric(Me.tbCustom4, Me.lblCustom4.Text, sAllErrors, bFocusSet, bwait)
++        End If
++
++        If bwait Then Exit Sub
++
++        ' ----------------------------------------------------------------------
++        ' Domain / range validation after numeric parsing succeeds
++        ' ----------------------------------------------------------------------
++        Select Case Me.Text
++
++            Case "Sample Size - Paired T-test"
++                Dim diff As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)
++                Dim sd As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)
++
++                If diff = 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should not be 0.")
++                If sd <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should be > 0.")
++
++            Case "Sample Size - Unpaired T-test"
++                Dim v1 As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)
++                Dim v2 As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)
++                Dim v3 As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)
++
++                If SelectedComboValue() = "Superiority" Then
++                    If v1 = 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should not be 0 for superiority planning.")
++                    If v2 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should be > 0.")
++                    If v3 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, "should be > 0.")
++
++                ElseIf SelectedComboValue() = "Noninferiority" Then
++                    Dim ratio As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)
++                    If v2 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should be > 0.")
++                    If v3 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, "should be > 0.")
++                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, "should be > 0.")
++
++                ElseIf SelectedComboValue() = "Equivalence" Then
++                    Dim ratio As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)
++                    If v2 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should be > 0.")
++                    If v3 <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, "should be > 0.")
++                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, "should be > 0.")
++                End If
++
++            Case "Sample Size - Single Proportion"
++                Dim p As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)
++                Dim p0 As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)
++
++                If p <= 0 OrElse p >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should satisfy 0 < p < 1.")
++                If p0 <= 0 OrElse p0 >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should satisfy 0 < p < 1.")
++                If p = p0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should not equal the null-hypothesis proportion.")
++
++            Case "Sample Size - Independent Proportions"
++                Dim pControl As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)
++                Dim pExperimental As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)
++
++                If pControl <= 0 OrElse pControl >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should satisfy 0 < p < 1.")
++                If pExperimental <= 0 OrElse pExperimental >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should satisfy 0 < p < 1.")
++
++                If SelectedComboValue() = "Superiority" Then
++                    Dim ratio As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)
++                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, "should be > 0.")
++                    If pControl = pExperimental Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should not equal the experimental proportion for superiority planning.")
++
++                ElseIf SelectedComboValue() = "Noninferiority" OrElse SelectedComboValue() = "Equivalence" Then
++                    Dim margin As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)
++                    Dim ratio As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)
++                    If margin <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, "should be > 0.")
++                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, "should be > 0.")
++                End If
++
++            Case "Sample Size - Log-rank Test"
++                Dim hr As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)
++                Dim pControl As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)
++                Dim pExperimental As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)
++                Dim ratio As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)
++
++                If hr <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should be > 0.")
++                If hr = 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should not be 1.")
++                If pControl <= 0 OrElse pControl >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should satisfy 0 < p < 1.")
++                If pExperimental <= 0 OrElse pExperimental >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, "should satisfy 0 < p < 1.")
++                If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, "should be > 0.")
++
++            Case "Sample Size - Cox Regression"
++                Dim hr As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)
++                If hr <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should be > 0.")
++                If hr = 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should not be 1.")
++
++                If SelectedComboValue() = "Continuous Covariate" Then
++                    Dim covariateSd As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)
++                    If covariateSd <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should be > 0.")
++                Else
++                    Dim ratio As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)
++                    If ratio <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should be > 0.")
++                End If
++
++                If Me.tbKappa.Text.Trim() <> String.Empty Then
++                    Dim overallEventProportion As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)
++                    If overallEventProportion <= 0 OrElse overallEventProportion >= 1 Then
++                        AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, "should satisfy 0 < p < 1 when provided.")
++                    End If
++                End If
++
++                If Me.tbCustom4.Text.Trim() <> String.Empty Then
++                    Dim rSquared As Double = ParseUiDouble(Me.tbCustom4.Text, Me.lblCustom4.Text)
++                    If rSquared < 0 OrElse rSquared >= 1 Then
++                        AddUiError(sAllErrors, bFocusSet, Me.tbCustom4, Me.lblCustom4.Text, "should satisfy 0 <= R-squared < 1 when provided.")
++                    End If
++                End If
++
++            Case "Sample Size - Intraclass Correlation (ICC)"
++                Dim nullIcc As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)
++                Dim alternativeIcc As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)
++                Dim observationsPerSubject As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)
++
++                If nullIcc < 0 OrElse nullIcc >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should satisfy 0 <= ICC < 1.")
++                If alternativeIcc <= 0 OrElse alternativeIcc >= 1 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should satisfy 0 < ICC < 1.")
++                If alternativeIcc <= nullIcc Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should be greater than the null ICC.")
++                If observationsPerSubject < 2 OrElse observationsPerSubject <> Math.Truncate(observationsPerSubject) Then
++                    AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, "should be an integer greater than or equal to 2.")
++                End If
++
++            Case "Sample Size - Agreement (Bland-Altman)"
++                Dim sdDifference As Double = ParseUiDouble(Me.tbMeanDiff.Text, Me.lblMeanDiff.Text)
++                Dim desiredHalfWidth As Double = ParseUiDouble(Me.tbSD.Text, Me.lblSD.Text)
++                Dim loaMultiplier As Double = ParseUiDouble(Me.tbKappa.Text, Me.lblKappa.Text)
++
++                If sdDifference <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbMeanDiff, Me.lblMeanDiff.Text, "should be > 0.")
++                If desiredHalfWidth <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbSD, Me.lblSD.Text, "should be > 0.")
++                If loaMultiplier <= 0 Then AddUiError(sAllErrors, bFocusSet, Me.tbKappa, Me.lblKappa.Text, "should be > 0.")
++
++        End Select
++
++        bwait = (sAllErrors <> String.Empty)
++    End Sub
++    Private Sub RunLogRank()
++        Dim hazardRatio As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Hazard ratio")
++        Dim controlEventProportion As Double = ParseUiDouble(Me.tbSD.Text, "Control event proportion")
++        Dim experimentalEventProportion As Double = ParseUiDouble(Me.tbKappa.Text, "Experimental event proportion")
++        Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, "Ratio of control to experimental subjects")
++        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
++        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
++
++        Dim requestLogRankSampleSize As New SampleSizePlanningRequest(SampleSizePlanningMethod.LogRankSampleSize, Alpha, Beta, New Double() {hazardRatio, controlEventProportion, experimentalEventProportion, kappa})
++        Me.tbOutput.AppendText(FakePlanning46.Calculate(requestLogRankSampleSize).Text)
++    End Sub
++    Private Sub RunCox()
++        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
++        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
++        Dim rSquaredWithOtherCovariates As Double = ParseOptionalUiDouble(Me.tbCustom4.Text, 0.0)
++        Dim overallEventProportion As Double = ParseOptionalUiDouble(Me.tbKappa.Text, Double.NaN)
++
++        If SelectedComboValue() = "Continuous Covariate" Then
++            Dim hazardRatioPerUnit As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Hazard ratio per unit")
++            Dim covariateSd As Double = ParseUiDouble(Me.tbSD.Text, "Covariate standard deviation")
++
++            Dim requestCoxEventCountContinuousCovariate As New SampleSizePlanningRequest(SampleSizePlanningMethod.CoxEventCountContinuousCovariate, Alpha, Beta, New Double() {hazardRatioPerUnit, covariateSd, rSquaredWithOtherCovariates, overallEventProportion}, overallEventProvided:=Me.tbKappa.Text.Trim() <> String.Empty, rSquaredProvided:=Me.tbCustom4.Text.Trim() <> String.Empty)
++            Me.tbOutput.AppendText(FakePlanning46.Calculate(requestCoxEventCountContinuousCovariate).Text)
++            Exit Sub
++        End If
++
++        Dim hazardRatio As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Hazard ratio")
++        Dim kappa As Double = ParseUiDouble(Me.tbSD.Text, "Ratio of control to experimental subjects")
++
++        Dim requestCoxEventCountBinaryCovariate As New SampleSizePlanningRequest(SampleSizePlanningMethod.CoxEventCountBinaryCovariate, Alpha, Beta, New Double() {hazardRatio, kappa, rSquaredWithOtherCovariates, overallEventProportion}, overallEventProvided:=Me.tbKappa.Text.Trim() <> String.Empty, rSquaredProvided:=Me.tbCustom4.Text.Trim() <> String.Empty)
++        Me.tbOutput.AppendText(FakePlanning46.Calculate(requestCoxEventCountBinaryCovariate).Text)
++    End Sub
++    Private Sub RunICC()
++        Dim nullIcc As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Null ICC")
++        Dim alternativeIcc As Double = ParseUiDouble(Me.tbSD.Text, "Alternative ICC")
++        Dim observationsPerSubjectValue As Double = ParseUiDouble(Me.tbKappa.Text, "Observations per subject")
++        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
++        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
++
++        If observationsPerSubjectValue < 2 OrElse observationsPerSubjectValue <> Math.Truncate(observationsPerSubjectValue) Then
++            FakeMessages46.Record("Observations per subject must be an integer greater than or equal to 2.", vbExclamation, FakeGlobals46.gsAPP_TITLE)
++            Exit Sub
++        End If
++
++        Dim requestIccHypothesisTestSampleSize As New SampleSizePlanningRequest(SampleSizePlanningMethod.IccHypothesisTestSampleSize, Alpha, Beta, New Double() {nullIcc, alternativeIcc, observationsPerSubjectValue}, observationsPerSubject:=CInt(observationsPerSubjectValue))
++        Me.tbOutput.AppendText(FakePlanning46.Calculate(requestIccHypothesisTestSampleSize).Text)
++    End Sub
++    Private Sub RunBlandAltman()
++        Dim sdDifference As Double = ParseUiDouble(Me.tbMeanDiff.Text, "SD of differences")
++        Dim desiredHalfWidth As Double = ParseUiDouble(Me.tbSD.Text, "Desired LoA CI half-width")
++        Dim loaMultiplier As Double = ParseUiDouble(Me.tbKappa.Text, "LoA multiplier")
++        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
++
++        Dim requestBlandAltmanLoASampleSize As New SampleSizePlanningRequest(SampleSizePlanningMethod.BlandAltmanLoASampleSize, Alpha, Double.NaN, New Double() {sdDifference, desiredHalfWidth, loaMultiplier})
++        Me.tbOutput.AppendText(FakePlanning46.Calculate(requestBlandAltmanLoASampleSize).Text)
++    End Sub
++    Private Sub RunIndependentProp()
++        Dim bFocusSet As Boolean
++        Dim sAllErrors As String = String.Empty
++
++        Dim controlProp As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Control Group Proportion")
++        If controlProp <= 0 OrElse controlProp >= 1 Then
++            If Not bFocusSet Then
++                Me.tbMeanDiff.Select()
++                bFocusSet = True
++            End If
++            sAllErrors += "Control Group Proportion should satisfy 0 < p < 1." & vbLf
++        End If
++
++        Dim experimentalProp As Double = ParseUiDouble(Me.tbSD.Text, "Experimental Group Proportion")
++        If experimentalProp <= 0 OrElse experimentalProp >= 1 Then
++            If Not bFocusSet Then
++                Me.tbSD.Select()
++                bFocusSet = True
++            End If
++            sAllErrors += "Experimental Group Proportion should satisfy 0 < p < 1." & vbLf
++        End If
++
++        If Len(sAllErrors) > 0 Then
++            FakeMessages46.Record(sAllErrors, vbExclamation, FakeGlobals46.gsAPP_TITLE)
++            Exit Sub
++        End If
++
++        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
++        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
++
++        If SelectedComboValue() = "Noninferiority" Then
++            Dim marginAbsolute As Double = ParseUiDouble(Me.tbKappa.Text, "Noninferiority margin")
++            Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, "Ratio of control to experimental subjects")
++
++            Dim requestNonInferiorityIndependentProportions As New SampleSizePlanningRequest(SampleSizePlanningMethod.NonInferiorityIndependentProportions, Alpha, Beta, New Double() {controlProp, experimentalProp, marginAbsolute, kappa})
++            Me.tbOutput.AppendText(FakePlanning46.Calculate(requestNonInferiorityIndependentProportions).Text)
++            Exit Sub
++        End If
++
++        If SelectedComboValue() = "Equivalence" Then
++            Dim marginAbsolute As Double = ParseUiDouble(Me.tbKappa.Text, "Equivalence margin")
++            Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, "Ratio of control to experimental subjects")
++
++            Dim requestEquivalenceIndependentProportions As New SampleSizePlanningRequest(SampleSizePlanningMethod.EquivalenceIndependentProportions, Alpha, Beta, New Double() {controlProp, experimentalProp, marginAbsolute, kappa})
++            Me.tbOutput.AppendText(FakePlanning46.Calculate(requestEquivalenceIndependentProportions).Text)
++            Exit Sub
++        End If
++
++        If controlProp = experimentalProp Then
++            FakeMessages46.Record("Control and experimental proportions should not be equal for superiority planning.", vbExclamation, FakeGlobals46.gsAPP_TITLE)
++            Exit Sub
++        End If
++
++        Dim kappaSuperiority As Double = ParseUiDouble(Me.tbKappa.Text, "Ratio of control to experimental subjects")
++        Dim requestIndependentProportions As New SampleSizePlanningRequest(SampleSizePlanningMethod.IndependentProportions, Alpha, Beta, New Double() {controlProp, experimentalProp, kappaSuperiority})
++        Me.tbOutput.AppendText(FakePlanning46.Calculate(requestIndependentProportions).Text)
++    End Sub
++    Private Sub RunSingleProp()
++        Dim bFocusSet As Boolean, sAllErrors As String = String.Empty
++
++        'Check input values
++        Dim prop As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Proportion")
++        If prop < 0 Or prop > 1 Then
++            If Not bFocusSet Then
++                Me.tbMeanDiff.Select()
++                bFocusSet = True
++            End If
++            sAllErrors += "Proportion: Proportion should be 0 < Proportion < 1. " + vbLf
++        End If
++
++        Dim H0Prop As Double = ParseUiDouble(Me.tbSD.Text, "Null Hypothesis Proportion")
++        If H0Prop < 0 Or H0Prop > 1 Then
++            If Not bFocusSet Then
++                Me.tbSD.Select()
++                bFocusSet = True
++            End If
++            sAllErrors += "Null Hypothesis Proportion should be 0 < Proportion < 1. " + vbLf
++        End If
++
++        If prop = H0Prop Then
++            If Not bFocusSet Then
++                Me.tbMeanDiff.Select()
++                bFocusSet = True
++            End If
++            sAllErrors += "Proportion: Proportion should be not equal to H0 Proportion. " + vbLf
++        End If
++
++        If Len(sAllErrors) > 0 Then
++            FakeMessages46.Record(sAllErrors, vbExclamation, FakeGlobals46.gsAPP_TITLE)
++            Exit Sub 'Display any error we got in the main call
++        End If
++
++        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
++        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
++        Dim requestSingleProportion As New SampleSizePlanningRequest(SampleSizePlanningMethod.SingleProportion, Alpha, Beta, New Double() {prop, H0Prop})
++        Me.tbOutput.AppendText(FakePlanning46.Calculate(requestSingleProportion).Text)
++    End Sub
++    Private Sub RunPTtest()
++        Dim diff As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Mean difference")
++        Dim sd As Double = ParseUiDouble(Me.tbSD.Text, "Standard deviation")
++        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
++        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
++        Dim requestPairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.PairedTTest, Alpha, Beta, New Double() {diff, sd})
++        Me.tbOutput.AppendText(FakePlanning46.Calculate(requestPairedTTest).Text)
++    End Sub
++    Private Sub RunUPTtest()
++        Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
++        Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
++
++        If SelectedComboValue() = "Noninferiority" Then
++            Dim expectedDifference As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Expected mean difference")
++            Dim marginAbsolute As Double = ParseUiDouble(Me.tbSD.Text, "Noninferiority margin")
++            Dim sd As Double = ParseUiDouble(Me.tbKappa.Text, "Standard deviation")
++            Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, "Ratio of control to experimental subjects")
++
++            Dim requestNonInferiorityUnpairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.NonInferiorityUnpairedTTest, Alpha, Beta, New Double() {expectedDifference, marginAbsolute, sd, kappa})
++            Me.tbOutput.AppendText(FakePlanning46.Calculate(requestNonInferiorityUnpairedTTest).Text)
++            Exit Sub
++        End If
++
++        If SelectedComboValue() = "Equivalence" Then
++            Dim expectedDifference As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Expected mean difference")
++            Dim marginAbsolute As Double = ParseUiDouble(Me.tbSD.Text, "Equivalence margin")
++            Dim sd As Double = ParseUiDouble(Me.tbKappa.Text, "Standard deviation")
++            Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, "Ratio of control to experimental subjects")
++
++            Dim requestEquivalenceUnpairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.EquivalenceUnpairedTTest, Alpha, Beta, New Double() {expectedDifference, marginAbsolute, sd, kappa})
++            Me.tbOutput.AppendText(FakePlanning46.Calculate(requestEquivalenceUnpairedTTest).Text)
++            Exit Sub
++        End If
++
++        Dim diff As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Mean difference")
++        Dim sdSuperiority As Double = ParseUiDouble(Me.tbSD.Text, "Standard deviation")
++        Dim kappaSuperiority As Double = ParseUiDouble(Me.tbKappa.Text, "Ratio of control to experimental subjects")
++        Dim requestUnpairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.UnpairedTTest, Alpha, Beta, New Double() {diff, sdSuperiority, kappaSuperiority})
++        Me.tbOutput.AppendText(FakePlanning46.Calculate(requestUnpairedTTest).Text)
++    End Sub
++    Private Sub cbHypothesisType_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbHypothesisType.SelectedIndexChanged
++        Select Case Me.Text
++            Case "Sample Size - Unpaired T-test"
++                ApplyUnpairedTLayout()
++            Case "Sample Size - Independent Proportions"
++                ApplyIndependentProportionsLayout()
++            Case "Sample Size - Cox Regression"
++                ApplyCoxLayout()
++        End Select
++    End Sub
++    Private Function SelectedComboValue() As String
++        If Me.cbHypothesisType.SelectedItem Is Nothing Then Return String.Empty
++        Return Me.cbHypothesisType.SelectedItem.ToString()
++    End Function
++    Private Function RequiresKappaValue() As Boolean
++        Select Case Me.Text
++            Case "Sample Size - Paired T-test", "Sample Size - Single Proportion"
++                Return False
++            Case "Sample Size - Cox Regression"
++                Return False   ' overall event proportion is optional
++            Case Else
++                Return Me.tbKappa.Visible
++        End Select
++    End Function
++    Private Function RequiresCustom4Value() As Boolean
++        If Not Me.tbCustom4.Visible Then Return False
++        If Me.Text = "Sample Size - Log-rank Test" Then Return True
++        If Me.Text = "Sample Size - Unpaired T-test" AndAlso SelectedComboValue() <> "Superiority" Then Return True
++        If Me.Text = "Sample Size - Independent Proportions" AndAlso SelectedComboValue() <> "Superiority" Then Return True
++
++        Return False   ' optional for Cox and hidden elsewhere
++    End Function
++    Private Function ParseOptionalUiDouble(textValue As String, defaultValue As Double) As Double
++        If textValue Is Nothing OrElse textValue.Trim() = String.Empty Then
++            Return defaultValue
++        End If
++        Return ParseUiDouble(textValue, "Optional value")
++    End Function
++    Private Sub SetDefaultIfBlank(tb As FakeControl46, defaultValue As String)
++        If tb.Text Is Nothing OrElse tb.Text.Trim() = String.Empty Then
++            tb.Text = defaultValue
++        End If
++    End Sub
++    Private Sub AddUiError(ByRef sAllErrors As String, ByRef bFocusSet As Boolean, ctrl As Control, labelText As String, message As String)
++        If Not bFocusSet Then
++            ctrl.Select()
++            bFocusSet = True
++        End If
++
++        sAllErrors &= labelText & ": " & message & vbLf
++    End Sub
++    Private Sub TryValidateOptionalNumeric(tb As FakeControl46, labelText As String,
++                                       ByRef sAllErrors As String, ByRef bFocusSet As Boolean, ByRef bwait As Boolean)
++        If tb.Visible AndAlso tb.Text.Trim() <> String.Empty Then
++            Dim tmp As Double
++            Dim sError As String = String.Empty
++            If Not CheckNumeric(tb, tmp, sError) Then
++                AddUiError(sAllErrors, bFocusSet, tb, labelText, sError)
++                bwait = True
++            End If
++        End If
++    End Sub
++    Private Sub ApplyUnpairedTLayout()
++        Me.lblBeta.Visible = True
++        Me.spinBtnBeta.Visible = True
++        Me.lblKappa.Visible = True
++        Me.tbKappa.Visible = True
++
++        If SelectedComboValue() = "Noninferiority" Then
++            Me.lblMeanDiff.Text = "Expected Mean Difference"
++            Me.lblSD.Text = "Noninferiority Margin"
++            Me.lblKappa.Text = "Standard Deviation"
++            Me.lblCustom4.Text = "Ratio of control to experimental subjects"
++            Me.lblCustom4.Visible = True
++            Me.tbCustom4.Visible = True
++
++            SetDefaultIfBlank(Me.tbMeanDiff, "0")
++            SetDefaultIfBlank(Me.tbSD, "5")
++            SetDefaultIfBlank(Me.tbKappa, "10")
++            SetDefaultIfBlank(Me.tbCustom4, "1")
++            Me.lblAlpha.Text = "One-sided Alpha"
++
++        ElseIf SelectedComboValue() = "Equivalence" Then
++            Me.lblMeanDiff.Text = "Expected Mean Difference"
++            Me.lblSD.Text = "Equivalence Margin"
++            Me.lblKappa.Text = "Standard Deviation"
++            Me.lblCustom4.Text = "Ratio of control to experimental subjects"
++            Me.lblCustom4.Visible = True
++            Me.tbCustom4.Visible = True
++
++            SetDefaultIfBlank(Me.tbMeanDiff, "0")
++            SetDefaultIfBlank(Me.tbSD, "5")
++            SetDefaultIfBlank(Me.tbKappa, "10")
++            SetDefaultIfBlank(Me.tbCustom4, "1")
++            Me.lblAlpha.Text = "One-sided Alpha"
++
++        Else
++            Me.lblMeanDiff.Text = "Mean Difference"
++            Me.lblSD.Text = "Standard Deviation"
++            Me.lblKappa.Text = "Ratio of control to experimental subjects"
++            Me.lblCustom4.Visible = False
++            Me.tbCustom4.Visible = False
++
++            SetDefaultIfBlank(Me.tbMeanDiff, "5")
++            SetDefaultIfBlank(Me.tbSD, "10")
++            SetDefaultIfBlank(Me.tbKappa, "1")
++            Me.lblAlpha.Text = "Alpha"
++        End If
++    End Sub
++    Private Sub ApplyIndependentProportionsLayout()
++        Me.lblBeta.Visible = True
++        Me.spinBtnBeta.Visible = True
++        Me.lblKappa.Visible = True
++        Me.tbKappa.Visible = True
++
++        Me.lblMeanDiff.Text = "Control Group Proportion"
++        Me.lblSD.Text = "Experimental Group Proportion"
++
++        If SelectedComboValue() = "Noninferiority" Then
++            Me.lblKappa.Text = "Noninferiority Margin"
++            Me.lblCustom4.Text = "Ratio of control to experimental subjects"
++            Me.lblCustom4.Visible = True
++            Me.tbCustom4.Visible = True
++
++            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(0.4))
++            SetDefaultIfBlank(Me.tbSD, FormatUiDouble(0.4))
++            If ParseUiDouble(Me.tbKappa.Text) >= 1 Or ParseUiDouble(Me.tbKappa.Text) <= 0 Then Me.tbKappa.Text = ""
++            SetDefaultIfBlank(Me.tbKappa, FormatUiDouble(0.1))
++                SetDefaultIfBlank(Me.tbCustom4, "1")
++            Me.lblAlpha.Text = "One-sided Alpha"
++
++        ElseIf SelectedComboValue() = "Equivalence" Then
++            Me.lblKappa.Text = "Equivalence Margin"
++            Me.lblCustom4.Text = "Ratio of control to experimental subjects"
++            Me.lblCustom4.Visible = True
++            Me.tbCustom4.Visible = True
++
++            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(0.4))
++            SetDefaultIfBlank(Me.tbSD, FormatUiDouble(0.4))
++            If ParseUiDouble(Me.tbKappa.Text) >= 1 Or ParseUiDouble(Me.tbKappa.Text) <= 0 Then Me.tbKappa.Text = ""
++            SetDefaultIfBlank(Me.tbKappa, FormatUiDouble(0.1))
++            SetDefaultIfBlank(Me.tbCustom4, "1")
++            Me.lblAlpha.Text = "One-sided Alpha"
++
++        Else
++            Me.lblKappa.Text = "Ratio of control to experimental subjects"
++            Me.lblCustom4.Visible = False
++            Me.tbCustom4.Visible = False
++
++            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(0.4))
++            SetDefaultIfBlank(Me.tbSD, FormatUiDouble(0.5))
++            SetDefaultIfBlank(Me.tbKappa, "1")
++            Me.lblAlpha.Text = "Alpha"
++        End If
++    End Sub
++    Private Sub ApplyCoxLayout()
++        Me.lblBeta.Visible = True
++        Me.spinBtnBeta.Visible = True
++        Me.lblKappa.Visible = True
++        Me.tbKappa.Visible = True
++        Me.lblCustom4.Visible = True
++        Me.tbCustom4.Visible = True
++        Me.lblAlpha.Text = "Alpha"
++
++        If SelectedComboValue() = "Continuous Covariate" Then
++            Me.lblMeanDiff.Text = "Hazard Ratio per Unit"
++            Me.lblSD.Text = "Covariate Standard Deviation"
++            Me.lblKappa.Text = "Overall Event Proportion (optional)"
++            Me.lblCustom4.Text = "R-squared with Other Covariates (optional)"
++
++            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(1.25))
++            SetDefaultIfBlank(Me.tbSD, "1")
++            SetDefaultIfBlank(Me.tbKappa, FormatUiDouble(0.4))
++            SetDefaultIfBlank(Me.tbCustom4, "0")
++
++        Else
++            Me.lblMeanDiff.Text = "Hazard Ratio"
++            Me.lblSD.Text = "Ratio of control to experimental subjects"
++            Me.lblKappa.Text = "Overall Event Proportion (optional)"
++            Me.lblCustom4.Text = "R-squared with Other Covariates (optional)"
++
++            SetDefaultIfBlank(Me.tbMeanDiff, FormatUiDouble(0.75))
++            SetDefaultIfBlank(Me.tbSD, "1")
++            SetDefaultIfBlank(Me.tbKappa, FormatUiDouble(0.4))
++            SetDefaultIfBlank(Me.tbCustom4, "0")
++        End If
++    End Sub
++End Class
++Partial Friend Class Ui82x2Projection46
++ Friend WithEvents btCompute As New FakeControl46()
++ Friend WithEvents ckAssociation As New FakeControl46()
++ Friend WithEvents ckChi2 As New FakeControl46()
++ Friend WithEvents ckFisher As New FakeControl46()
++ Friend WithEvents ckLiddel As New FakeControl46()
++ Friend WithEvents ckOR As New FakeControl46()
++ Friend WithEvents ckRR As New FakeControl46()
++ Friend WithEvents spinBtnAlpha As New FakeControl46()
++ Private Function getDataMultipleGroups() As DataObj
++  FakeOutput46.ImportCalls += 1
++  Return FakeOutput46.Imported
++ End Function
++    Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
++        Try
++            Dim options As New ExcelCommon.TwoByTwoReportOptions With {
++                .Alpha = CDbl(Me.spinBtnAlpha.Value), .Fisher = Me.ckFisher.Checked,
++                .ChiSquare = Me.ckChi2.Checked, .Association = Me.ckAssociation.Checked,
++                .Liddell = Me.ckLiddel.Checked, .OddsRatio = Me.ckOR.Checked, .RiskRatio = Me.ckRR.Checked}
++            Dim report As ExcelCommon.ContingencyReportResult
++            If Me.optWorksheetData.Checked Then
++                Dim input = WindowsContingencyInputAdapter.ParseWorksheet(Me.getDataMultipleGroups(),
++                    New ExcelCommon.SpreadsheetContingencyCountParseOptions With {.HasColumnHeaders = False, .HasRowLabels = False}, True)
++                If Not input.Success Then
++                    FakeMessages46.Record(input.Validation.Issues.First(Function(i) i.Severity = ExcelCommon.SpreadsheetValidationSeverity.Error).Message, vbOKOnly, "2x2 table analysis")
++                    Exit Sub
++                End If
++                report = ExcelCommon.ContingencyReportPolicy.TwoByTwo(input.Data, options)
++            ElseIf Me.optScreenData.Checked Then
++                report = WindowsContingencyInputAdapter.AnalyzeDialog(CDbl(Me.spinBtnA.Value), CDbl(Me.spinBtnB.Value),
++                    CDbl(Me.spinBtnC.Value), CDbl(Me.spinBtnD.Value), options)
++            Else
++                FakeMessages46.Record("Select a count input source.", vbOKOnly, "2x2 table analysis")
++                Exit Sub
++            End If
++            For Each issue In report.Validation.Issues
++                If issue.Severity = ExcelCommon.SpreadsheetValidationSeverity.Warning Then
++                    FakeMessages46.Record(issue.Message, vbOKOnly, "Fisher's exact test")
++                End If
++            Next
++            If Not report.Success Then
++                FakeMessages46.Record(report.Validation.Issues.First(Function(i) i.Severity = ExcelCommon.SpreadsheetValidationSeverity.Error).Message, vbOKOnly, "2x2 table analysis")
++                Exit Sub
++            End If
++            Dim res = report.ToLegacyTables()
++
++            'Dump outputs
++            Dim WriteRes = GetResultWriter() 'pass just table from the main test output
++            Dim rr = New FakeTables46(res)
++            Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
++            Dim totcols As Integer = rr.TotCols
++            If FakeOutput46.AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
++                If FakeMessages46.Record("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
++                    Exit Sub
++                End If
++            End If
++
++            rr.writeToSheet(WriteRes, True)
++        Catch ex As Exception
++            FakeFaults46.Record(ex, False, True)
++        End Try
++    End Sub
++    Private Function GetResultWriter() As FakeResultWriter46
++        Dim WriteRes = New FakeResultWriter46, rRange As FakeRange46
++        If Me.optWorkbook.Checked Then
++            WriteRes.wb = FakeGlobals46.app.Workbooks.Add()
++            WriteRes.ws = FakeGlobals46.app.ActiveWorkbook.ActiveSheet
++        ElseIf Me.optWorksheet.Checked Then
++            WriteRes.wb = FakeGlobals46.app.ActiveWorkbook
++            WriteRes.wb.Worksheets.Add()
++            WriteRes.ws = FakeGlobals46.app.ActiveWorkbook.ActiveSheet
++        Else
++            WriteRes.wb = FakeGlobals46.app.ActiveWorkbook
++            WriteRes.ws = FakeOutput46.WorksheetFromRefAdress(Me.RefEditOutput.Address)
++            rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
++            WriteRes.setRowPointer(rRange.Row)
++            WriteRes.setColumnPointer(rRange.Column)
++        End If
++
++        Return WriteRes
++    End Function
++End Class
++Partial Friend Class Ui8ProportionsProjection46
++ Friend WithEvents btCompute As New FakeControl46()
++ Friend WithEvents spinBtnAlpha As New FakeControl46()
++ Friend WithEvents spinBtnB As New FakeControl46()
++    Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
++        Try
++            Dim mode = ExcelCommon.ProportionsInputPolicy.ModeFromChoices(Me.optSingle.Checked, Me.optIndependent.Checked, Me.optPaired.Checked)
++            Dim hypothesis As ExcelCommon.IndependentProportionsHypothesis = ExcelCommon.IndependentProportionsHypothesis.Superiority
++            Select Case Me.cbHypothesisType.SelectedItem
++                Case "Noninferiority" : hypothesis = ExcelCommon.IndependentProportionsHypothesis.Noninferiority
++                Case "Equivalence" : hypothesis = ExcelCommon.IndependentProportionsHypothesis.Equivalence
++            End Select
++            If mode = ExcelCommon.ProportionsMode.Independent AndAlso Not Me.ValidateIndependentMargin() Then Exit Sub
++            Dim report = WindowsContingencyInputAdapter.AnalyzeProportions(mode, hypothesis,
++                CDbl(Me.spinBtnA.Value), CDbl(Me.spinBtnB.Value), If(mode = ExcelCommon.ProportionsMode.Independent, CDbl(Me.spinBtnC.Value), 0.0),
++                If(mode = ExcelCommon.ProportionsMode.SingleSample, 0.0, If(mode = ExcelCommon.ProportionsMode.Independent, CDbl(Me.spinBtnD.Value), CDbl(Me.spinBtnC.Value))),
++                If(mode = ExcelCommon.ProportionsMode.Paired, CDbl(Me.spinBtnD.Value), 0.0), CDbl(Me.spinBtnAlpha.Value), CDbl(Me.spinBtnMargin_IndProp.Value))
++            If Not report.Success Then
++                Dim issue = report.Validation.Issues.First(Function(i) i.Severity = ExcelCommon.SpreadsheetValidationSeverity.Error)
++                FakeMessages46.Record(issue.Message, vbOKOnly, "Data input")
++                If issue.FieldPath = "counts.total2" OrElse issue.FieldPath = "counts.responders2" Then
++                    Me.spinBtnC.Select()
++                ElseIf issue.FieldPath = "options.margin" Then
++                    Me.spinBtnMargin_IndProp.Select()
++                Else
++                    Me.spinBtnA.Select()
++                End If
++                Exit Sub
++            End If
++            Dim res = report.ToLegacyTables()
++
++            'Dump outputs
++            Dim WriteRes = GetResultWriter() 'pass just table from the main test output
++            Dim rr = New FakeTables46(res)
++            Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
++            Dim totcols As Integer = rr.TotCols
++            If FakeOutput46.AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
++                If FakeMessages46.Record("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
++                    Exit Sub
++                End If
++            End If
++
++            rr.writeToSheet(WriteRes, True)
++        Catch ex As Exception
++            FakeFaults46.Record(ex, False, True)
++        End Try
++    End Sub
++    Private Function GetResultWriter() As FakeResultWriter46
++        Dim WriteRes = New FakeResultWriter46, rRange As FakeRange46
++        If Me.optWorkbook.Checked Then
++            WriteRes.wb = FakeGlobals46.app.Workbooks.Add()
++            WriteRes.ws = FakeGlobals46.app.ActiveWorkbook.ActiveSheet
++        ElseIf Me.optWorksheet.Checked Then
++            WriteRes.wb = FakeGlobals46.app.ActiveWorkbook
++            WriteRes.wb.Worksheets.Add()
++            WriteRes.ws = FakeGlobals46.app.ActiveWorkbook.ActiveSheet
++        Else
++            WriteRes.wb = FakeGlobals46.app.ActiveWorkbook
++            WriteRes.ws = FakeOutput46.WorksheetFromRefAdress(Me.RefEditOutput.Address)
++            rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
++            WriteRes.setRowPointer(rRange.Row)
++            WriteRes.setColumnPointer(rRange.Column)
++        End If
++
++        Return WriteRes
++    End Function
++End Class
++End Namespace
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring46ExecutionTests.vb
+@@ -0,0 +1,225 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Collections.Generic
++Imports System.Globalization
++Imports System.Linq
++Imports System.Reflection
++Imports BESHStatNG.ExcelCommon
++Imports BESHStatNG.Test.Harness46
++Imports Microsoft.VisualStudio.TestTools.UnitTesting
++
++<TestClass, DoNotParallelize>
++Public Class GuiWiring46ExecutionTests
++ Private Shared ReadOnly Titles As String() = {"Paired T-test", "Unpaired T-test", "Unpaired T-test", "Unpaired T-test", "Single Proportion", "Independent Proportions", "Independent Proportions", "Independent Proportions", "Log-rank Test", "Cox Regression", "Cox Regression", "Intraclass Correlation (ICC)", "Agreement (Bland-Altman)"}
++ Private Shared ReadOnly Choices As String() = {"", "Superiority", "Noninferiority", "Equivalence", "", "Superiority", "Noninferiority", "Equivalence", "", "Binary Covariate", "Continuous Covariate", "", ""}
++ Private Shared ReadOnly Methods As SampleSizePlanningMethod() = {SampleSizePlanningMethod.PairedTTest, SampleSizePlanningMethod.UnpairedTTest, SampleSizePlanningMethod.NonInferiorityUnpairedTTest, SampleSizePlanningMethod.EquivalenceUnpairedTTest, SampleSizePlanningMethod.SingleProportion, SampleSizePlanningMethod.IndependentProportions, SampleSizePlanningMethod.NonInferiorityIndependentProportions, SampleSizePlanningMethod.EquivalenceIndependentProportions, SampleSizePlanningMethod.LogRankSampleSize, SampleSizePlanningMethod.CoxEventCountBinaryCovariate, SampleSizePlanningMethod.CoxEventCountContinuousCovariate, SampleSizePlanningMethod.IccHypothesisTestSampleSize, SampleSizePlanningMethod.BlandAltmanLoASampleSize}
++ Public Shared Iterator Function PlanningVectors() As IEnumerable(Of Object())
++  For i = 0 To Titles.Length - 1
++   For Each culture In New String() {"", "en-US", "sk-SK"}
++    For vectorIndex = 0 To 1
++     Yield New Object() {i, culture, vectorIndex}
++    Next
++   Next
++  Next
++ End Function
++ Private Shared Function Values(index As Integer, vectorIndex As Integer) As Double()
++  Select Case index
++   Case 0 : Return {5 + vectorIndex, 10, 0, 0}
++   Case 1 : Return {5 + vectorIndex, 10, 1, 0}
++   Case 2, 3 : Return {0 + vectorIndex, 5, 10, 1}
++   Case 4 : Return {0.3 + vectorIndex * 0.1, 0.5, 0, 0}
++   Case 5 : Return {0.3 + vectorIndex * 0.1, 0.6, 1, 0}
++   Case 6, 7 : Return {0.3 + vectorIndex * 0.1, 0.6, 0.1, 1}
++   Case 8 : Return {If(vectorIndex = 0, 0.7, 0.8), 0.4, 0.6, 1}
++   Case 9, 10 : Return {If(vectorIndex = 0, 0.7, 0.8), 1, 0.4, 0.1}
++   Case 11 : Return {0.1, If(vectorIndex = 0, 0.7, 0.8), 2, 0}
++   Case Else : Return {10 + vectorIndex, 2, 1.96, 0}
++  End Select
++ End Function
++ Private Shared Function PlanningForm(index As Integer, vectorIndex As Integer) As Ui12SampleSizeTtestSinglePropProjection46
++  Dim f As New Ui12SampleSizeTtestSinglePropProjection46 With {.Text = "Sample Size - " & Titles(index)}
++  f.cbHypothesisType.SelectedItem = Choices(index)
++  ' Explicit supplied state,not a claim that the native form constructor ran.
++  f.tbKappa.Visible = index <> 0 AndAlso index <> 4
++  f.tbCustom4.Visible = index = 2 OrElse index = 3 OrElse index = 6 OrElse index = 7 OrElse index = 8 OrElse index = 9 OrElse index = 10
++  f.tbKappa.Text = "1" ' Existing numeric ratio before selecting NI/equivalence.
++  f.cbHypothesisType.SelectedIndex = 0
++  Dim fields As FakeControl46() = {f.tbMeanDiff, f.tbSD, f.tbKappa, f.tbCustom4}, v = Values(index, vectorIndex)
++  For i = 0 To 3
++   fields(i).Text = v(i).ToString("G", SourceNumbers46.HostCulture)
++  Next
++  f.spinBtnAlpha.Value = 0.05D : f.spinBtnBeta.Value = 0.2D
++  Return f
++ End Function
++ <DataTestMethod, DynamicData(NameOf(PlanningVectors), DynamicDataSourceType.Method)>
++ Public Sub PlanningClickBuildsExactAcceptedRequestWithoutEngineOrWriter(index As Integer, culture As String, vectorIndex As Integer)
++  Dim saved = CultureInfo.CurrentCulture
++  Try
++   CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture) : SourceNumbers46.HostCulture = CultureInfo.CurrentCulture
++   FakeOutput46.Reset() : Dim f = PlanningForm(index, vectorIndex)
++   f.btCompute.FireClick()
++   Assert.AreEqual(0, FakeFaults46.Errors.Count) : Assert.AreEqual(1, FakePlanning46.Requests.Count)
++   Dim request = FakePlanning46.Requests.Single(), values = GuiWiring46ExecutionTests.Values(index, vectorIndex)
++   Assert.AreEqual(Methods(index), request.Method) : Assert.AreEqual(0.05, request.Alpha)
++   If index = 12 Then Assert.IsTrue(Double.IsNaN(request.Beta)) Else Assert.AreEqual(0.2, request.Beta)
++   Dim expected As Double()
++   If index = 9 OrElse index = 10 Then
++    expected = {values(0), values(1), values(3), values(2)}
++   Else
++    Dim count = If(index = 0 OrElse index = 4, 2, If(index = 1 OrElse index = 5 OrElse index = 11 OrElse index = 12, 3, 4))
++    expected = values.Take(count).ToArray()
++   End If
++   CollectionAssert.AreEqual(expected, request.Inputs())
++   If index = 11 Then Assert.AreEqual(2, request.ObservationsPerSubject)
++   Assert.AreEqual("synthetic planning response", f.tbOutput.Text)
++   Assert.AreEqual(0, FakeOutput46.Writes)
++  Finally
++   CultureInfo.CurrentCulture = saved : SourceNumbers46.HostCulture = CultureInfo.InvariantCulture
++  End Try
++ End Sub
++ <DataTestMethod, DynamicData(NameOf(PlanningVectors), DynamicDataSourceType.Method)>
++ Public Sub EveryPlanningBranchRejectsBadNumericOrDomainBeforeRequest(index As Integer, culture As String, vectorIndex As Integer)
++  Dim saved = CultureInfo.CurrentCulture
++  Try
++   CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture) : SourceNumbers46.HostCulture = CultureInfo.CurrentCulture
++   FakeOutput46.Reset() : Dim f = PlanningForm(index, 0)
++   If vectorIndex = 0 Then
++    f.tbMeanDiff.Text = "invalid-number"
++   Else
++    Select Case index
++     Case 2, 3 : f.tbSD.Text = "0"
++     Case 8, 9, 10 : f.tbMeanDiff.Text = "1"
++     Case 11 : f.tbKappa.Text = "1.5"
++     Case Else : f.tbMeanDiff.Text = "0"
++    End Select
++   End If
++   f.btCompute.FireClick()
++   Assert.AreEqual(0, FakePlanning46.Requests.Count) : Assert.AreEqual(0, FakeOutput46.Writes)
++   Assert.IsTrue(FakeMessages46.Messages.Count > 0)
++   If vectorIndex = 0 Then Assert.AreEqual(System.Drawing.Color.Red, f.tbMeanDiff.BackColor)
++  Finally
++   CultureInfo.CurrentCulture = saved : SourceNumbers46.HostCulture = CultureInfo.InvariantCulture
++  End Try
++ End Sub
++ <TestMethod>
++ Public Sub SampleLayoutReversalPreservesExistingTextAndExposesLegacyParseException()
++  Dim f = PlanningForm(1, 0)
++  f.cbHypothesisType.SelectedItem = "Noninferiority" : f.cbHypothesisType.SelectedIndex = 1
++  Assert.AreEqual("Noninferiority Margin", f.lblSD.Text) : Assert.AreEqual("10", f.tbSD.Text)
++  f.cbHypothesisType.SelectedItem = "Superiority" : f.cbHypothesisType.SelectedIndex = 0
++  Assert.IsFalse(f.tbCustom4.Visible) : Assert.AreEqual("5", f.tbMeanDiff.Text)
++  Dim p = PlanningForm(5, 0) : p.tbKappa.Text = ""
++  p.cbHypothesisType.SelectedItem = "Noninferiority"
++  Assert.ThrowsException(Of FormatException)(Sub() p.cbHypothesisType.SelectedIndex = 1)
++  ' Current source parses the blank ratio before SetDefaultIfBlank;do not repair it.
++ End Sub
++ <DataTestMethod>
++ <DataRow("1,25", "", 125.0)> <DataRow("1,25", "sk-SK", 1.25)> <DataRow("", "", 0.0)>
++ Public Sub SourceNumericHelperKeepsCultureAndBlankDistinction(text As String, culture As String, expected As Double)
++  Dim old = CultureInfo.CurrentCulture
++  Try
++   CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture) : SourceNumbers46.HostCulture = CultureInfo.CurrentCulture
++   Dim control As New FakeControl46 With {.Text = text}, value As Double, message = ""
++   Assert.IsTrue(SourceNumbers46.CheckNumeric(control, value, message)) : Assert.AreEqual(expected, value)
++   If text = "" Then Assert.ThrowsException(Of FormatException)(Sub() SourceNumbers46.ParseUiDouble(text))
++  Finally
++   CultureInfo.CurrentCulture = old : SourceNumbers46.HostCulture = CultureInfo.InvariantCulture
++  End Try
++ End Sub
++ Private Shared Function TableForm() As Ui82x2Projection46
++  Dim f As New Ui82x2Projection46
++  f.optScreenData.Checked = True : f.spinBtnAlpha.Value = 0.05D
++  f.spinBtnA.Value = 12 : f.spinBtnB.Value = 5 : f.spinBtnC.Value = 7 : f.spinBtnD.Value = 19
++  f.ckChi2.Checked = True : f.ckOR.Checked = True : f.RefEditOutput.Address = "synthetic-output"
++  Return f
++ End Function
++ <DataTestMethod>
++ <DataRow(0)> <DataRow(1)> <DataRow(2)>
++ Public Sub CategoricalComputeUsesOriginalDestinationPriorityAndRealTableDimensions(destination As Integer)
++  FakeOutput46.Reset() : Dim f = TableForm()
++  f.optOutputRange.Checked = destination = 0 : f.optWorksheet.Checked = destination = 1 : f.optWorkbook.Checked = destination = 2
++  f.btCompute.FireClick()
++  Assert.AreEqual(0, FakeFaults46.Errors.Count) : Assert.AreEqual(1, FakeOutput46.Writes) : Assert.IsTrue(FakeOutput46.TableCount > 0)
++  If destination = 0 Then
++   Assert.IsTrue(FakeOutput46.Events.Contains("range:synthetic-output")) : Assert.AreEqual(7, FakeOutput46.LastRow) : Assert.AreEqual(3, FakeOutput46.LastColumn)
++  Else
++   Assert.IsTrue(FakeOutput46.Events.Contains(If(destination = 1, "worksheet-add", "workbook-add")))
++  End If
++ End Sub
++ <DataTestMethod>
++ <DataRow("negative")> <DataRow("fraction")> <DataRow("no-source")> <DataRow("overwrite-no")> <DataRow("disabled")>
++ Public Sub CategoricalRejectionAndNoOverwriteNeverWrite(kind As String)
++  FakeOutput46.Reset() : Dim f = TableForm()
++  Select Case kind
++   Case "negative" : f.spinBtnA.Value = -1
++   Case "fraction" : f.spinBtnA.Value = 1.5D
++   Case "no-source" : f.optScreenData.Checked = False
++   Case "overwrite-no" : FakeOutput46.Occupied = True : FakeMessages46.Response = 7
++   Case "disabled" : f.btCompute.Enabled = False
++  End Select
++  f.btCompute.UserClick()
++  Assert.AreEqual(0, FakeOutput46.Writes)
++  If kind <> "disabled" Then Assert.IsTrue(FakeMessages46.Messages.Count > 0)
++ End Sub
++ <DataTestMethod>
++ <DataRow("valid")> <DataRow("missing")> <DataRow("nonnumeric")> <DataRow("bad-shape")>
++ Public Sub WorksheetDescriptorKeepsAcceptedRawRowIdentityAndRejectsWithoutWriter(kind As String)
++  FakeOutput46.Reset() : Dim f = TableForm(), raw As Object(,) = {{12, 5}, {7, 19}}
++  If kind = "missing" Then raw(0, 0) = Nothing
++  If kind = "nonnumeric" Then raw(0, 0) = "invalid-cell"
++  If kind = "bad-shape" Then raw = New Object(,) {{1, 2, 3}, {4, 5, 6}}
++  Dim imported As New DataObj : imported.DataImportRawMatrix(raw, If(kind = "bad-shape", New String() {"A", "B", "C"}, New String() {"A", "B"}), firstSourceRow:=20)
++  FakeOutput46.Imported = imported : f.optScreenData.Checked = False : f.optWorksheetData.Checked = True
++  f.btCompute.FireClick() : Assert.AreEqual(1, FakeOutput46.ImportCalls)
++  Assert.AreEqual(If(kind = "valid", 1, 0), FakeOutput46.Writes)
++  If kind = "valid" Then
++   Dim parsed = WindowsContingencyInputAdapter.ParseWorksheet(imported, New SpreadsheetContingencyCountParseOptions With {.HasColumnHeaders = False, .HasRowLabels = False}, True)
++   CollectionAssert.AreEqual(New Integer() {20, 20, 21, 21}, parsed.Data.Sources.Select(Function(s) s.WorksheetRow).ToArray())
++   CollectionAssert.AreEqual(New Integer() {12, 5, 7, 19}, parsed.Data.CoreCounts.Cast(Of Integer)().ToArray())
++  End If
++ End Sub
++ <DataTestMethod>
++ <DataRow(0)> <DataRow(1)> <DataRow(2)>
++ Public Sub ProportionEventDispatchRetainsPairedAndIndependentCountAxes(mode As Integer)
++  FakeOutput46.Reset() : Dim f As New Ui8ProportionsProjection46
++  f.spinBtnAlpha.Value = 0.05D : f.spinBtnA.Value = 100 : f.spinBtnB.Value = 20 : f.spinBtnC.Value = If(mode = 1, 80, 15) : f.spinBtnD.Value = If(mode = 1, 30, 40)
++  f.optSingle.Checked = mode = 0 : f.optIndependent.Checked = mode = 1 : f.optPaired.Checked = mode = 2
++  f.btCompute.FireClick() : Assert.AreEqual(0, FakeFaults46.Errors.Count) : Assert.AreEqual(1, FakeOutput46.Writes)
++  f.spinBtnB.Value = 1000 : f.btCompute.FireClick() : Assert.AreEqual(1, FakeOutput46.Writes, "Rejected second action must not add a write")
++ End Sub
++ <TestMethod>
++ Public Sub PlotRequestsKeepActualPrecedenceAndRejectAbsentChoice()
++  Dim polar As New Ui01PolarPlotProjection46
++  Assert.ThrowsException(Of TargetInvocationException)(Sub() GuiWiring46StateTests.CallMember(polar, "GetPlotOptions"))
++  polar.optRadians.Checked = True : polar.optClockwise.Checked = True : polar.optNorth.Checked = True : polar.ckConnectPoints.Checked = True
++  Dim a = CType(GuiWiring46StateTests.CallMember(polar, "GetPlotOptions"), PolarPlotOptions)
++  Assert.AreEqual(PolarAngleUnit.Radians, a.AngleUnit) : Assert.IsTrue(a.ConnectPoints)
++  polar.optRadians.Checked = False : polar.optDegrees.Checked = True : polar.optClockwise.Checked = False : polar.optCounterClockwise.Checked = True
++  Dim b = CType(GuiWiring46StateTests.CallMember(polar, "GetPlotOptions"), PolarPlotOptions)
++  Assert.AreEqual(PolarAngleUnit.Degrees, b.AngleUnit) : Assert.AreEqual(PolarRotation.Counterclockwise, b.Rotation)
++  Dim hull As New Ui01ConvexHullPlotProjection46
++  hull.tbCollinearityTolerance.Text = "0.0001" : hull.nudPaddingPercentX.Value = 5 : hull.nudPaddingPercentY.Value = 7 : hull.ckIncludeCollinearBoundaryPoints.Checked = True
++  Dim h = CType(GuiWiring46StateTests.CallMember(hull, "GetPlotOptions"), ConvexHullPlotOptions)
++  Assert.AreEqual(5.0, h.PaddingPercentX) : Assert.AreEqual(7.0, h.PaddingPercentY) : Assert.IsTrue(h.IncludeCollinearBoundaryPoints)
++  hull.tbCollinearityTolerance.Text = "invalid" : Assert.ThrowsException(Of TargetInvocationException)(Sub() GuiWiring46StateTests.CallMember(hull, "GetPlotOptions"))
++  Dim ladder As New Ui01LadderPlotProjection46
++  ladder.nudHorizontalJitter.Value = 0.15D : ladder.ckHorizontalJitter.Checked = False
++  Assert.AreEqual(0.0, CType(GuiWiring46StateTests.CallMember(ladder, "GetPlotOptions"), LadderPlotOptions).HorizontalJitterFraction)
++  ladder.ckHorizontalJitter.Checked = True
++  Assert.AreEqual(0.15, CType(GuiWiring46StateTests.CallMember(ladder, "GetPlotOptions"), LadderPlotOptions).HorizontalJitterFraction)
++ End Sub
++ <TestMethod>
++ Public Sub GroupedLeaseInvalidationBlocksOldSelectionButAllowsNewGeneration()
++  Dim lease As New RefEditEventLease(Of String), first As Action(Of String) = Nothing, second As Action(Of String) = Nothing, selection = "", detached = 0
++  lease.Rebind(Function(cb)
++                   first = cb : Return Sub() detached += 1
++               End Function, Sub(value) selection = value)
++  first("group-physical-row20") : lease.Invalidate() : first("late-row999") : Assert.AreEqual("group-physical-row20", selection)
++  lease.Rebind(Function(cb)
++                   second = cb : Return Sub() detached += 1
++               End Function, Sub(value) selection = value)
++  first("stale-nested-role") : second("nested-physical-row23") : Assert.AreEqual("nested-physical-row23", selection)
++  lease.Dispose() : second("after-cancel") : Assert.AreEqual("nested-physical-row23", selection) : Assert.AreEqual(2, detached)
++ End Sub
++End Class
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring46Fakes.vb
+@@ -0,0 +1,170 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Collections.Generic
++Imports System.Drawing
++Namespace Harness46
++ Friend Module FakeEvents46
++  Friend ReadOnly Delivered As New List(Of String)
++ End Module
++ Friend Class FakeControl46
++  Friend Enabled As Boolean = True, Visible As Boolean = True, CanFocus As Boolean = True
++  Public Text As String = "", Selections As Integer, SelectedItem As Object
++  Friend Minimum As Decimal, Maximum As Decimal = 100, DecimalPlaces As Integer, Increment As Decimal = 1
++  Public BackColor As Color
++  Friend ReadOnly Items As New List(Of Object)
++  Private checkedValue As Boolean, indexValue As Integer = -1, numericValue As Decimal
++  Private ReadOnly handlersClick As New List(Of EventHandler)
++  Friend Custom Event Click As EventHandler
++   AddHandler(value As EventHandler)
++    handlersClick.Add(value)
++   End AddHandler
++   RemoveHandler(value As EventHandler)
++    handlersClick.Remove(value)
++   End RemoveHandler
++   RaiseEvent(sender As Object, e As System.EventArgs)
++    For Each handler In handlersClick.ToArray()
++     FakeEvents46.Delivered.Add(handler.Method.DeclaringType.Name & "." & handler.Method.Name)
++     handler(sender, e)
++    Next
++   End RaiseEvent
++  End Event
++  Private ReadOnly handlersCheckedChanged As New List(Of EventHandler)
++  Friend Custom Event CheckedChanged As EventHandler
++   AddHandler(value As EventHandler)
++    handlersCheckedChanged.Add(value)
++   End AddHandler
++   RemoveHandler(value As EventHandler)
++    handlersCheckedChanged.Remove(value)
++   End RemoveHandler
++   RaiseEvent(sender As Object, e As System.EventArgs)
++    For Each handler In handlersCheckedChanged.ToArray()
++     FakeEvents46.Delivered.Add(handler.Method.DeclaringType.Name & "." & handler.Method.Name)
++     handler(sender, e)
++    Next
++   End RaiseEvent
++  End Event
++  Private ReadOnly handlersSelectedIndexChanged As New List(Of EventHandler)
++  Friend Custom Event SelectedIndexChanged As EventHandler
++   AddHandler(value As EventHandler)
++    handlersSelectedIndexChanged.Add(value)
++   End AddHandler
++   RemoveHandler(value As EventHandler)
++    handlersSelectedIndexChanged.Remove(value)
++   End RemoveHandler
++   RaiseEvent(sender As Object, e As System.EventArgs)
++    For Each handler In handlersSelectedIndexChanged.ToArray()
++     FakeEvents46.Delivered.Add(handler.Method.DeclaringType.Name & "." & handler.Method.Name)
++     handler(sender, e)
++    Next
++   End RaiseEvent
++  End Event
++  Private ReadOnly handlersValueChanged As New List(Of EventHandler)
++  Friend Custom Event ValueChanged As EventHandler
++   AddHandler(value As EventHandler)
++    handlersValueChanged.Add(value)
++   End AddHandler
++   RemoveHandler(value As EventHandler)
++    handlersValueChanged.Remove(value)
++   End RemoveHandler
++   RaiseEvent(sender As Object, e As System.EventArgs)
++    For Each handler In handlersValueChanged.ToArray()
++     FakeEvents46.Delivered.Add(handler.Method.DeclaringType.Name & "." & handler.Method.Name)
++     handler(sender, e)
++    Next
++   End RaiseEvent
++  End Event
++  Friend Property Checked As Boolean
++   Get
++    Return checkedValue
++   End Get
++   Set(value As Boolean)
++    If value = checkedValue Then Return
++    checkedValue = value : RaiseEvent CheckedChanged(Me, System.EventArgs.Empty)
++   End Set
++  End Property
++  Friend Property SelectedIndex As Integer
++   Get
++    Return indexValue
++   End Get
++   Set(value As Integer)
++    If value = indexValue Then Return
++    indexValue = value
++    If value >= 0 AndAlso value < Items.Count Then SelectedItem = Items(value)
++    RaiseEvent SelectedIndexChanged(Me, System.EventArgs.Empty)
++   End Set
++  End Property
++  Friend Property Value As Decimal
++   Get
++    Return numericValue
++   End Get
++   Set(value As Decimal)
++    If value = numericValue Then Return
++    numericValue = value : RaiseEvent ValueChanged(Me, System.EventArgs.Empty)
++   End Set
++  End Property
++  Friend Sub FireClick()
++   RaiseEvent Click(Me, System.EventArgs.Empty)
++  End Sub
++  Friend Function UserClick() As Boolean
++   If Not Enabled Then Return False
++   FireClick() : Return True
++  End Function
++  Friend Sub RaiseNamed(name As String)
++   Select Case name
++    Case "Click" : RaiseEvent Click(Me, System.EventArgs.Empty)
++    Case "CheckedChanged" : RaiseEvent CheckedChanged(Me, System.EventArgs.Empty)
++    Case "SelectedIndexChanged" : RaiseEvent SelectedIndexChanged(Me, System.EventArgs.Empty)
++    Case "ValueChanged" : RaiseEvent ValueChanged(Me, System.EventArgs.Empty)
++    Case Else : Throw New ArgumentException("Unsupported fake event")
++   End Select
++  End Sub
++  Friend Sub FireChanged()
++   RaiseEvent CheckedChanged(Me, System.EventArgs.Empty)
++   RaiseEvent SelectedIndexChanged(Me, System.EventArgs.Empty)
++   RaiseEvent ValueChanged(Me, System.EventArgs.Empty)
++  End Sub
++  Friend Sub [Select]()
++   Selections += 1
++  End Sub
++  Friend Sub AppendText(value As String)
++   Text &= value
++  End Sub
++ End Class
++ Friend Class FakeStringControl46
++  Inherits FakeControl46
++  Friend Shadows Property SelectedItem As String
++   Get
++    Return CStr(MyBase.SelectedItem)
++   End Get
++   Set(value As String)
++    MyBase.SelectedItem = value
++   End Set
++  End Property
++ End Class
++ Friend Class FakeRefEdit46
++  Inherits FakeControl46
++  Friend Address As String = "synthetic-selection"
++  Friend txtAddress As New FakeControl46()
++ End Class
++ Friend Module FakeMessages46
++  Friend ReadOnly Messages As New List(Of String)
++  Friend Response As Integer = 1
++  Friend Function Record(value As Object, Optional buttons As Object = Nothing, Optional title As Object = Nothing) As Integer
++   Messages.Add(CStr(value)) : Return Response
++  End Function
++ End Module
++ Friend Module FakeRanges46
++  Friend ReadOnly Calls As New List(Of Tuple(Of String, Boolean))
++  Friend ReadOnly Reject As New HashSet(Of String)(StringComparer.Ordinal)
++  Friend Function CheckRefEdit(address As String, Optional oneColumn As Boolean = False) As Boolean
++   Calls.Add(Tuple.Create(address, oneColumn)) : Return Reject.Contains(address)
++  End Function
++  Friend Sub RefEditReset(control As FakeRefEdit46)
++   control.Address = "" : control.txtAddress.Text = "" : control.txtAddress.Select()
++  End Sub
++  Friend Sub Reset()
++   Calls.Clear() : Reject.Clear() : FakeMessages46.Messages.Clear()
++  End Sub
++ End Module
++End Namespace
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring46Numbers.vb
+@@ -0,0 +1,66 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Globalization
++Namespace Harness46
++Friend Module SourceNumbers46
++ Friend HostCulture As CultureInfo = CultureInfo.InvariantCulture
++ Friend Function GetExcelNumberCulture() As CultureInfo
++  Return HostCulture
++ End Function
++    Public Function TryParseUiDouble(text As String, ByRef value As Double) As Boolean
++        Dim s As String = If(text, String.Empty).Trim()
++
++        If s = String.Empty Then
++            value = 0
++            Return False
++        End If
++
++        Return ExcelCommon.NumberTextPolicy.TryDouble(s, GetExcelNumberCulture(), value) OrElse
++           ExcelCommon.NumberTextPolicy.TryDouble(s, Globalization.CultureInfo.CurrentCulture, value) OrElse
++           ExcelCommon.NumberTextPolicy.TryDouble(s, Globalization.CultureInfo.InvariantCulture, value)
++    End Function
++    Public Function ParseUiDouble(text As String, Optional fieldName As String = "numeric value") As Double
++        Dim value As Double
++        If Not TryParseUiDouble(text, value) Then
++            Throw New FormatException($"Cannot parse {fieldName}: ""{text}"".")
++        End If
++        Return value
++    End Function
++    Public Function FormatUiDouble(value As Double) As String
++        Return ExcelCommon.NumberTextPolicy.FormatGeneral(value, GetExcelNumberCulture())
++    End Function
++    Public Function CheckNumeric(ByRef txtData As FakeControl46,
++                             Optional ByRef dResult As Double = Double.NaN,
++                             Optional ByRef sError As String = "") As Boolean
++
++        'check for valid entry
++        If txtData.text = String.Empty Then 'allow empty
++            dResult = 0
++            sError = String.Empty
++            CheckNumeric = True
++
++            'and give the text box its usual background
++            txtData.BackColor = System.Drawing.Color.White
++
++        ElseIf TryParseUiDouble(CStr(txtData.text), dResult) Then
++            sError = String.Empty
++            CheckNumeric = True
++
++            'and give the text box its usual background
++            txtData.BackColor = System.Drawing.Color.White
++
++        Else 'not numeric
++            dResult = 0
++            sError = "Entry is not a number."
++            CheckNumeric = False
++
++            'give the text box a red background
++            txtData.BackColor = System.Drawing.Color.Red
++            'add the error message to the tooltip
++            'txtData.ControlTipText = txtData.ControlTipText + sErr + sError
++
++        End If
++    End Function
++End Module
++End Namespace
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring46PolicyTests.vb
+@@ -0,0 +1,87 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Linq
++Imports System.Reflection
++Imports BESHStatNG.ExcelCommon
++Imports BESHStatNG.Test.Harness46
++Imports Microsoft.VisualStudio.TestTools.UnitTesting
++<TestClass, DoNotParallelize>
++Public Class GuiWiring46PolicyTests
++ <DataTestMethod>
++ <DataRow("", True)> <DataRow("invalid", True)> <DataRow("0", True)> <DataRow("-1", True)> <DataRow("0.1", False)> <DataRow("1,25", True)>
++ Public Sub UnpairedMarginRejectionUsesItsActualInvariantParser(text As String, rejected As Boolean)
++  Dim f As New UibyIDProjection46 With {.Tag = HelpTopic.UnpairedTTest}
++  f.optByID.Checked = True : f.optHypothesisNonInferiority_UTT.Checked = True : f.tbMargin_UTT.Text = text
++  FakeMessages46.Messages.Clear()
++  Assert.IsTrue(CBool(GuiWiring46StateTests.CallMember(f, "ValidateUnpairedTtestOptionInputs")))
++  Assert.IsTrue(FakeMessages46.Messages(0).Contains("By Column"), "Input orientation precedes margin parsing")
++  f.optByID.Checked = False : f.optByColumn.Checked = True
++  Assert.AreEqual(rejected, CBool(GuiWiring46StateTests.CallMember(f, "ValidateUnpairedTtestOptionInputs")))
++ End Sub
++ <DataTestMethod>
++ <DataRow(0)> <DataRow(1)> <DataRow(2)> <DataRow(3)> <DataRow(4)> <DataRow(5)> <DataRow(6)> <DataRow(7)>
++ <DataRow(8)> <DataRow(9)> <DataRow(10)> <DataRow(11)> <DataRow(12)> <DataRow(13)> <DataRow(14)> <DataRow(15)>
++ Public Sub AllPresentHomogeneityCheckboxCombinationsKeepSourceFlags(bits As Integer)
++  Dim f As New UibyIDProjection46
++  f.ckFlignerKilleen.Checked = (bits And 1) <> 0 : f.ckLevene.Checked = (bits And 2) <> 0
++  f.ckSquaredRanks.Checked = (bits And 4) <> 0 : f.ckBartlett.Checked = (bits And 8) <> 0
++  Dim expected = HomogeneityMethods.None
++  If (bits And 1) <> 0 Then expected = expected Or HomogeneityMethods.FlignerKilleen
++  If (bits And 2) <> 0 Then expected = expected Or HomogeneityMethods.LeveneMedian
++  If (bits And 4) <> 0 Then expected = expected Or HomogeneityMethods.SquaredRanks
++  If (bits And 8) <> 0 Then expected = expected Or HomogeneityMethods.Bartlett
++  Assert.AreEqual(expected, CType(GuiWiring46StateTests.CallMember(f, "GetHomogeneityMethods"), HomogeneityMethods))
++ End Sub
++ <DataTestMethod>
++ <DataRow(2)> <DataRow(3)> <DataRow(8)> <DataRow(9)>
++ Public Sub NormalityAvailabilityUsesAcceptedAdapterWithoutNativeOutput(n As Integer)
++  Dim values = Enumerable.Range(1, n).Select(Function(i) Math.Sin(i * 1.7) + i * 0.11 + (i Mod 5) * 0.2).Reverse().ToArray()
++  Dim input As New MultiGroupsUnpairedData With {.X = {values}, .varNames = {"source-label"}}
++  Dim report = WindowsAssumptionReportAdapter.Prepare(input, New AssumptionReportOptions(AssumptionReportKind.Normality))
++  Assert.AreEqual(1, report.Tables.Count)
++  Assert.AreEqual(n < 4, report.Computation.Validation.Issues.Any(Function(i) i.Code = "NORMALITY_SW_NOT_APPLICABLE"))
++  Assert.AreEqual(n < 9, report.Computation.Validation.Issues.Any(Function(i) i.Code = "NORMALITY_DA_NOT_APPLICABLE"))
++  ' Availability/shape evidence only;no numerical reference value or scientific golden.
++ End Sub
++ <DataTestMethod>
++ <DataRow(0)> <DataRow(1)> <DataRow(2)>
++ Public Sub PairedDemingBootstrapAndModelControlsReverse(model As Integer)
++  Dim f As New UiTwoInputRefeditsProjection46 With {.Tag = HelpTopic.DemingRegression}
++  f.ckDemingFitIntercept.Checked = True : f.cmbDemingVarianceModel.SelectedIndex = model
++  Assert.AreEqual(model = 0, f.spinBtnErrorRatio.Enabled)
++  Assert.AreEqual(model = 1, f.spinBtnDemingCVx.Enabled) : Assert.AreEqual(model = 2, f.RefEditDemingSDx.Enabled)
++  f.optDemingBootstrapBCa.Checked = True : Assert.IsTrue(f.spinBtnBootstrapReplicatesDeming.Enabled)
++  f.optDemingBootstrapBCa.Checked = False : Assert.IsFalse(f.spinBtnBootstrapReplicatesDeming.Enabled)
++  f.optLinCCCBootstrapPercentile.Checked = True : Assert.IsTrue(f.spinBtnBootstrapReplicatesLinCCC.Enabled)
++  f.optLinCCCBootstrapPercentile.Checked = False : Assert.IsFalse(f.spinBtnBootstrapReplicatesLinCCC.Enabled)
++  f.optKappaBootstrapBCa.Checked = True : Assert.IsTrue(f.spinBtnBootstrapReplicatesKappa.Enabled)
++  f.optKappaBootstrapBCa.Checked = False : Assert.IsFalse(f.spinBtnBootstrapReplicatesKappa.Enabled)
++ End Sub
++ Private Shared Sub SelectCombo(Of T)(form As Object, control As FakeControl46, value As T)
++  Dim item = form.GetType().GetNestedType("ComboItem`1", BindingFlags.NonPublic).MakeGenericType(GetType(T))
++  control.SelectedItem = Activator.CreateInstance(item, New Object() {"synthetic choice", value})
++ End Sub
++ <DataTestMethod>
++ <DataRow(False)> <DataRow(True)>
++ Public Sub BulletDumbbellAndSankeyBuildExactIndependentOptions(alternate As Boolean)
++  Dim bullet As New Ui01BulletChartProjection46
++  Assert.ThrowsException(Of TargetInvocationException)(Sub() GuiWiring46StateTests.CallMember(bullet, "GetPlotOptions"))
++  SelectCombo(bullet, bullet.cmbDefaultDirection, If(alternate, BulletChartDirection.LowerIsBetter, BulletChartDirection.HigherIsBetter))
++  bullet.ckOmitIncompleteRows.Checked = alternate : bullet.nudTargetMajorTickCount.Value = If(alternate, 8, 5)
++  Dim b = CType(GuiWiring46StateTests.CallMember(bullet, "GetPlotOptions"), BulletChartOptions)
++  Assert.AreEqual(alternate, b.OmitIncompleteRows) : Assert.AreEqual(If(alternate, 8, 5), b.TargetMajorTickCount)
++  Assert.AreEqual(If(alternate, BulletChartDirection.LowerIsBetter, BulletChartDirection.HigherIsBetter), b.DefaultDirection)
++  Dim dumbbell As New Ui01DumbbellPlotProjection46
++  SelectCombo(dumbbell, dumbbell.cmbSortMode, If(alternate, DumbbellPlotSortMode.DifferenceDescending, DumbbellPlotSortMode.InputOrder))
++  dumbbell.ckReverseCategoryOrder.Checked = alternate : dumbbell.ckOmitIncompleteRows.Checked = alternate : dumbbell.nudAddObsJitter.Value = 0.2D
++  Dim d = CType(GuiWiring46StateTests.CallMember(dumbbell, "GetPlotOptions"), DumbbellPlotOptions)
++  Assert.AreEqual(alternate, d.ReverseCategoryOrder) : Assert.AreEqual(alternate, d.OmitIncompleteRows) : Assert.AreEqual(0.2, d.AuxiliaryJitterFraction)
++  Dim sankey As New Ui01SankeyPlotProjection46
++  sankey.nudNodeGap.Value = 15 : sankey.cmbNodeOrder.SelectedIndex = If(alternate, 2, 1)
++  sankey.cmbVerticalAlignment.SelectedIndex = If(alternate, 1, 2) : sankey.ckConnectAcrossMissingStages.Checked = alternate
++  Dim s = CType(GuiWiring46StateTests.CallMember(sankey, "GetPlotOptions"), SankeyPlotOptions)
++  Assert.AreEqual(0.15, s.NodeGapFraction) : Assert.AreEqual(alternate, s.ConnectAcrossMissingStages)
++  Assert.AreEqual(If(alternate, SankeyNodeOrderMode.Alphabetical, SankeyNodeOrderMode.FirstAppearance), s.NodeOrder)
++ End Sub
++End Class
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring46Projections.vb
+@@ -0,0 +1,1416 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Drawing
++Imports System.Globalization
++Imports BESHStatNG.ExcelCommon
++Imports ComboBox = BESHStatNG.Test.Harness46.FakeControl46
++Namespace Harness46
++Friend Class UibyIDProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Friend Const BoxPlotLegacyPaletteIndex As Integer = 4
++ Friend WithEvents RefEdit1 As New FakeRefEdit46()
++ Friend WithEvents RefEdit2 As New FakeRefEdit46()
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents TabControl1 As New FakeControl46()
++ Friend WithEvents cbBoxHorizontalGridlines As New FakeControl46()
++ Friend WithEvents cbBoxOutline As New FakeControl46()
++ Friend WithEvents ckBartlett As New FakeControl46()
++ Friend WithEvents ckBoxConnectMeans As New FakeControl46()
++ Friend WithEvents ckCDFExtendEmpirical As New FakeControl46()
++ Friend WithEvents ckCDFPercentileLabels As New FakeControl46()
++ Friend WithEvents ckCDFPercentileLines As New FakeControl46()
++ Friend WithEvents ckCDFShowLegend As New FakeControl46()
++ Friend WithEvents ckFlignerKilleen As New FakeControl46()
++ Friend WithEvents ckLevene As New FakeControl46()
++ Friend WithEvents ckSquaredRanks As New FakeControl46()
++ Friend WithEvents cmbBoxPalette As New FakeControl46()
++ Friend WithEvents cmbCDFDistribution As New FakeControl46()
++ Friend WithEvents cmbCDFEmpiricalMethod As New FakeControl46()
++ Friend WithEvents cmbCDFLegendMode As New FakeControl46()
++ Friend WithEvents cmbCDFPlotType As New FakeControl46()
++ Friend WithEvents cmbViolinBandwidth As New FakeControl46()
++ Friend WithEvents cmdBoxIndividualObs As New FakeControl46()
++ Friend WithEvents cmdBoxMean As New FakeControl46()
++ Friend WithEvents lblAlpha_UTT As New FakeControl46()
++ Friend WithEvents lblBoxChartHeight As New FakeControl46()
++ Friend WithEvents lblBoxChartWidth As New FakeControl46()
++ Friend WithEvents lblBoxFillTransparency As New FakeControl46()
++ Friend WithEvents lblCDFDistribution As New FakeControl46()
++ Friend WithEvents lblCDFEmpiricalMethod As New FakeControl46()
++ Friend WithEvents lblCDFLegendMode As New FakeControl46()
++ Friend WithEvents lblCDFPercentiles As New FakeControl46()
++ Friend WithEvents lblCatHistSeriesOverlap As New FakeControl46()
++ Friend WithEvents lblMarginHint_UTT As New FakeControl46()
++ Friend WithEvents lblMargin_UTT As New FakeControl46()
++ Friend WithEvents lblRefedit1 As New FakeControl46()
++ Friend WithEvents lblRefedit2 As New FakeControl46()
++ Friend WithEvents lblViolinBandwidthAdjustment As New FakeControl46()
++ Friend WithEvents nudBoxChartHeight As New FakeControl46()
++ Friend WithEvents nudBoxChartWidth As New FakeControl46()
++ Friend WithEvents nudBoxFillTransparency As New FakeControl46()
++ Friend WithEvents nudCatHistSeriesOverlap As New FakeControl46()
++ Friend WithEvents nudViolinBandwidthAdjustment As New FakeControl46()
++ Friend WithEvents optByColumn As New FakeControl46()
++ Friend WithEvents optByID As New FakeControl46()
++ Friend WithEvents optCatHistBarsWithLegend As New FakeControl46()
++ Friend WithEvents optCatHistComparativeHorizontal As New FakeControl46()
++ Friend WithEvents optCatHistComparativeVertical As New FakeControl46()
++ Friend WithEvents optCatHistDifferentSampleSizes As New FakeControl46()
++ Friend WithEvents optCatHistStackedBar As New FakeControl46()
++ Friend WithEvents optHypothesisEquivalence_UTT As New FakeControl46()
++ Friend WithEvents optHypothesisNonInferiority_UTT As New FakeControl46()
++ Friend WithEvents optHypothesisSuperiority_UTT As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++ Friend WithEvents tbMargin_UTT As New FakeControl46()
++ Friend WithEvents txtCDFPercentiles As New FakeControl46()
++    Private Function checkInputs() As Boolean
++        Dim bOut As Boolean
++        'check input data------------------------------
++        Dim roles = UnivariateSelectionPolicy.InputRoles(
++            Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve,
++            Me.optByID.Checked)
++        If roles.FirstInputRequired Then
++            If CheckRefEdit(Me.RefEdit1.Address, roles.InputsMustBeSingleColumn) Then
++                Me.TabControl1.SelectedIndex = 0
++                RefEditReset(Me.RefEdit1)
++                bOut = True
++            End If
++
++            If CheckRefEdit(Me.RefEdit2.Address, roles.InputsMustBeSingleColumn) Then
++                Me.TabControl1.SelectedIndex = 0
++                RefEditReset(Me.RefEdit2)
++                bOut = True
++            End If
++        Else
++            If CheckRefEdit(Me.RefEdit2.Address) Then
++                Me.TabControl1.SelectedIndex = 0
++                RefEditReset(Me.RefEdit2)
++                bOut = True
++            End If
++        End If
++
++        If Me.optOutputRange.Checked Then
++            If CheckRefEdit(Me.RefEditOutput.Address) Then
++                Me.TabControl1.SelectedIndex = 0
++                RefEditReset(Me.RefEditOutput)
++                bOut = True
++            End If
++        End If
++        Return bOut
++    End Function
++    Private Function GetHomogeneityMethods() As HomogeneityMethods
++        Dim selected As HomogeneityMethods = HomogeneityMethods.None
++        If Me.ckFlignerKilleen.Checked Then selected = selected Or HomogeneityMethods.FlignerKilleen
++        If Me.ckLevene.Checked Then selected = selected Or HomogeneityMethods.LeveneMedian
++        If Me.ckSquaredRanks.Checked Then selected = selected Or HomogeneityMethods.SquaredRanks
++        If Me.ckBartlett.Checked Then selected = selected Or HomogeneityMethods.Bartlett
++        Return selected
++    End Function
++    Private Sub optOutputRange_Click(sender As Object, e As System.EventArgs) Handles optOutputRange.Click
++        Me.RefEditOutput.Enabled = True
++        Me.RefEditOutput.txtAddress.Select()
++    End Sub
++    Private Sub optWorksheet_Click(sender As Object, e As System.EventArgs) Handles optWorksheet.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++    Private Sub optWorkbook_Click(sender As Object, e As System.EventArgs) Handles optWorkbook.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++    Private Sub optByColumn_Click(sender As Object, e As System.EventArgs) Handles optByColumn.Click
++        If Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Then
++            If Me.Tag = HelpTopic.ROCCurve Then
++                Me.lblRefedit1.Text = "Group with characteristic present (patients)"
++                Me.lblRefedit2.Text = "Group with characteristic absent (controls)"
++            ElseIf Me.Tag = HelpTopic.UnpairedTTest Then
++                Me.ApplyUnpairedTtestInputLabels()
++            Else
++                Me.lblRefedit1.Text = "Data: Group 1"
++                Me.lblRefedit2.Text = "Data: Group 2"
++            End If
++
++            Me.RefEdit1.txtAddress.Text = String.Empty
++            Me.RefEdit1.txtAddress.Select()
++        Else
++            Me.RefEdit1.txtAddress.Text = String.Empty
++            Me.RefEdit1.Enabled = False
++            Me.lblRefedit1.Enabled = False
++            If Me.Tag = HelpTopic.ViolinPlot OrElse Me.Tag = HelpTopic.CategoricalHistogram OrElse Me.Tag = HelpTopic.CDFplot Then
++                Me.lblRefedit2.Text = "Data columns:"
++            End If
++            Me.RefEdit2.txtAddress.Select()
++        End If
++    End Sub
++    Private Sub optByID_Click(sender As Object, e As System.EventArgs) Handles optByID.Click
++        If Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Then
++            Me.RefEdit1.txtAddress.Text = String.Empty
++            Me.RefEdit1.txtAddress.Select()
++            Me.lblRefedit1.Text = "Group ID:"
++            Me.lblRefedit2.Text = "Data:"
++        Else
++            Me.RefEdit1.Enabled = True
++            Me.lblRefedit1.Enabled = True
++            If Me.Tag = HelpTopic.ViolinPlot OrElse Me.Tag = HelpTopic.CategoricalHistogram OrElse Me.Tag = HelpTopic.CDFplot Then
++                Me.lblRefedit1.Text = "Group ID:"
++                Me.lblRefedit2.Text = "Data:"
++            End If
++        End If
++        Me.RefEdit1.txtAddress.Select()
++    End Sub
++    Private Sub cmbCDFPlotType_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbCDFPlotType.SelectedIndexChanged
++        If Me.Tag = HelpTopic.CDFplot Then Me.UpdateCDFOptionState()
++    End Sub
++    Private Sub ckCDFPercentileLines_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckCDFPercentileLines.CheckedChanged
++        If Me.Tag = HelpTopic.CDFplot Then Me.UpdateCDFOptionState()
++    End Sub
++    Private Sub ckCDFShowLegend_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckCDFShowLegend.CheckedChanged
++        If Me.Tag = HelpTopic.CDFplot Then Me.UpdateCDFOptionState()
++    End Sub
++    Private Sub UpdateCDFOptionState()
++        Dim empiricalOnly As Boolean = (Me.cmbCDFPlotType.SelectedIndex = 0)
++        Dim fittedOnly As Boolean = (Me.cmbCDFPlotType.SelectedIndex = 2)
++
++        Me.cmbCDFDistribution.Enabled = Not empiricalOnly
++        Me.lblCDFDistribution.Enabled = Not empiricalOnly
++
++        Me.cmbCDFEmpiricalMethod.Enabled = Not fittedOnly
++        Me.lblCDFEmpiricalMethod.Enabled = Not fittedOnly
++        Me.ckCDFExtendEmpirical.Enabled = Not fittedOnly
++
++        Dim percentileOptionsEnabled As Boolean = Me.ckCDFPercentileLines.Checked
++        Me.lblCDFPercentiles.Enabled = percentileOptionsEnabled
++        Me.txtCDFPercentiles.Enabled = percentileOptionsEnabled
++        Me.ckCDFPercentileLabels.Enabled = percentileOptionsEnabled
++
++        Me.cmbCDFLegendMode.Enabled = Me.ckCDFShowLegend.Checked
++        Me.lblCDFLegendMode.Enabled = Me.ckCDFShowLegend.Checked
++    End Sub
++    Private Sub cmdBoxMean_CheckedChanged(sender As Object, e As System.EventArgs) Handles cmdBoxMean.CheckedChanged
++        If Me.Tag = HelpTopic.BoxAndWhiskers Then Me.UpdateBoxPlotOptionState()
++    End Sub
++    Private Sub cmbBoxPalette_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbBoxPalette.SelectedIndexChanged
++        If Me.Tag = HelpTopic.BoxAndWhiskers Then Me.UpdateBoxPlotOptionState()
++    End Sub
++    Private Sub UpdateBoxPlotOptionState()
++        Dim useLegacyAppearance As Boolean = (Me.cmbBoxPalette.SelectedIndex = BoxPlotLegacyPaletteIndex)
++        Dim customAppearanceEnabled As Boolean = Not useLegacyAppearance
++
++        'The legacy palette is a preset for the complete historical renderer, not
++        'only a grey colour palette. Disable controls that are intentionally ignored
++        'while preserving their values so they are restored when another palette is
++        'selected.
++        Me.cmdBoxMean.Enabled = customAppearanceEnabled
++        Me.cmdBoxIndividualObs.Enabled = customAppearanceEnabled
++        Me.ckBoxConnectMeans.Enabled = customAppearanceEnabled AndAlso Me.cmdBoxMean.Checked
++
++        Me.nudBoxFillTransparency.Enabled = customAppearanceEnabled
++        Me.lblBoxFillTransparency.Enabled = customAppearanceEnabled
++        Me.cbBoxHorizontalGridlines.Enabled = customAppearanceEnabled
++        Me.cbBoxOutline.Enabled = customAppearanceEnabled
++        Me.nudBoxChartWidth.Enabled = customAppearanceEnabled
++        Me.lblBoxChartWidth.Enabled = customAppearanceEnabled
++        Me.nudBoxChartHeight.Enabled = customAppearanceEnabled
++        Me.lblBoxChartHeight.Enabled = customAppearanceEnabled
++    End Sub
++    Private Sub ViolinBandwidth_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbViolinBandwidth.SelectedIndexChanged
++        If Me.Tag = HelpTopic.ViolinPlot Then Me.UpdateViolinBandwidthOptionState()
++    End Sub
++    Private Sub UpdateViolinBandwidthOptionState()
++        Dim manualBandwidth As Boolean = (Me.cmbViolinBandwidth.SelectedIndex = 2)
++
++        If manualBandwidth Then
++            Me.lblViolinBandwidthAdjustment.Text = "Manual bandwidth:"
++            Me.nudViolinBandwidthAdjustment.DecimalPlaces = 6
++            Me.nudViolinBandwidthAdjustment.Increment = 0.01D
++            Me.nudViolinBandwidthAdjustment.Minimum = 0.000001D
++            Me.nudViolinBandwidthAdjustment.Maximum = 1000000000D
++        Else
++            Me.lblViolinBandwidthAdjustment.Text = "Bandwidth Adjustment:"
++            Me.nudViolinBandwidthAdjustment.DecimalPlaces = 2
++            Me.nudViolinBandwidthAdjustment.Increment = 0.1D
++            Me.nudViolinBandwidthAdjustment.Minimum = 0.01D
++            Me.nudViolinBandwidthAdjustment.Maximum = 100D
++        End If
++    End Sub
++    Private Sub CategoricalHistogramPlotType_CheckedChanged(sender As Object, e As System.EventArgs) Handles optCatHistBarsWithLegend.CheckedChanged,
++                                                                                                             optCatHistStackedBar.CheckedChanged,
++                                                                                                             optCatHistDifferentSampleSizes.CheckedChanged,
++                                                                                                             optCatHistComparativeHorizontal.CheckedChanged,
++                                                                                                             optCatHistComparativeVertical.CheckedChanged
++        If Me.Tag = HelpTopic.CategoricalHistogram Then Me.UpdateCategoricalHistogramOptionState()
++    End Sub
++    Private Sub UpdateCategoricalHistogramOptionState()
++        Dim isComparative As Boolean = Me.optCatHistComparativeHorizontal.Checked OrElse Me.optCatHistComparativeVertical.Checked
++        Dim overlapEnabled As Boolean = Not Me.optCatHistStackedBar.Checked AndAlso Not isComparative
++        Me.lblCatHistSeriesOverlap.Enabled = overlapEnabled
++        Me.nudCatHistSeriesOverlap.Enabled = overlapEnabled
++    End Sub
++    Private Sub UnpairedTtestHypothesis_CheckedChanged(sender As Object, e As System.EventArgs) Handles optHypothesisSuperiority_UTT.CheckedChanged,
++                                                                                                        optHypothesisNonInferiority_UTT.CheckedChanged,
++                                                                                                        optHypothesisEquivalence_UTT.CheckedChanged
++        If Me.Tag = HelpTopic.UnpairedTTest Then
++            Me.UpdateUnpairedTtestOptionVisibility()
++            Me.ApplyUnpairedTtestInputLabels()
++        End If
++    End Sub
++    Private Sub ApplyUnpairedTtestInputLabels()
++        If Me.optByColumn.Checked Then
++            Me.lblRefedit1.Text = "Control / Reference group:"
++            Me.lblRefedit2.Text = "Experimental / Test group:"
++        Else
++            Me.lblRefedit1.Text = "Group ID:"
++            Me.lblRefedit2.Text = "Data:"
++        End If
++    End Sub
++    Private Sub UpdateUnpairedTtestOptionVisibility()
++        If Me.optHypothesisSuperiority_UTT.Checked Then
++            Me.lblAlpha_UTT.Text = "Two-sided alpha:"
++            Me.lblMargin_UTT.Visible = False
++            Me.tbMargin_UTT.Visible = False
++            Me.lblMarginHint_UTT.Visible = False
++        ElseIf Me.optHypothesisNonInferiority_UTT.Checked Then
++            Me.lblAlpha_UTT.Text = "One-sided alpha:"
++            Me.lblMargin_UTT.Text = "NI margin:"
++            Me.lblMargin_UTT.Visible = True
++            Me.tbMargin_UTT.Visible = True
++            Me.lblMarginHint_UTT.Visible = True
++        ElseIf Me.optHypothesisEquivalence_UTT.Checked Then
++            Me.lblAlpha_UTT.Text = "One-sided alpha:"
++            Me.lblMargin_UTT.Text = "Equivalence margin (±):"
++            Me.lblMargin_UTT.Visible = True
++            Me.tbMargin_UTT.Visible = True
++            Me.lblMarginHint_UTT.Visible = True
++        End If
++    End Sub
++    Private Function ValidateUnpairedTtestOptionInputs() As Boolean
++        If Me.Tag <> HelpTopic.UnpairedTTest Then Return False
++
++        If (Me.optHypothesisNonInferiority_UTT.Checked OrElse Me.optHypothesisEquivalence_UTT.Checked) AndAlso Me.optByID.Checked Then
++            FakeMessages46.Record("For noninferiority or equivalence, use 'By Column' input so the direction is explicit: control/reference in Input 1 and experimental/test in Input 2.", vbExclamation)
++            Me.TabControl1.SelectedIndex = 0
++            Return True
++        End If
++
++        If Me.optHypothesisNonInferiority_UTT.Checked OrElse Me.optHypothesisEquivalence_UTT.Checked Then
++            Dim marginValue As Double
++            If Not Double.TryParse(Me.tbMargin_UTT.Text, Globalization.NumberStyles.Float, Globalization.CultureInfo.InvariantCulture, marginValue) Then
++                FakeMessages46.Record("Enter a numeric positive margin using '.' as the decimal separator.", vbExclamation)
++                Return True
++            End If
++            If marginValue <= 0 Then
++                FakeMessages46.Record("Margin must be greater than zero.", vbExclamation)
++                Return True
++            End If
++        End If
++
++        Return False
++    End Function
++End Class
++Friend Class Ui0OneRefeditMulticolProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Private Function CheckKiteInputRange() As Boolean
++  Throw New InvalidOperationException("HOST_BOUNDARY_KITE_RANGE")
++ End Function
++ Friend WithEvents RefEdit1 As New FakeRefEdit46()
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents TabMultipage As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++    Private Function checkInputs() As Boolean
++        Dim bOut As Boolean
++        'check input data1------------------------------
++        If CheckRefEdit(Me.RefEdit1.Address) Then
++            Me.TabMultipage.SelectedIndex = 0
++            RefEditReset(Me.RefEdit1)
++            bOut = True
++        End If
++
++        If Not bOut AndAlso Me.Tag = HelpTopic.KiteChart Then
++            If Me.CheckKiteInputRange() Then bOut = True
++        End If
++
++        If Me.optOutputRange.Checked Then
++            If CheckRefEdit(Me.RefEditOutput.Address) Then
++                Me.TabMultipage.SelectedIndex = 0
++                RefEditReset(Me.RefEditOutput)
++                bOut = True
++            End If
++        End If
++
++        Return bOut
++    End Function
++    Private Sub optOutputRange_Click(sender As Object, e As System.EventArgs) Handles optOutputRange.Click
++        Me.RefEditOutput.Enabled = True
++        Me.RefEditOutput.txtAddress.Select()
++    End Sub
++    Private Sub optWorksheet_Click(sender As Object, e As System.EventArgs) Handles optWorksheet.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++    Private Sub optWorkbook_Click(sender As Object, e As System.EventArgs) Handles optWorkbook.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++End Class
++Friend Class UiTwoInputRefeditsProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Friend WithEvents RefEdit1 As New FakeRefEdit46()
++ Friend WithEvents RefEdit2 As New FakeRefEdit46()
++ Friend WithEvents RefEditDemingSDx As New FakeRefEdit46()
++ Friend WithEvents RefEditDemingSDy As New FakeRefEdit46()
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents TabMultipage As New FakeControl46()
++ Friend WithEvents ckDemingFitIntercept As New FakeControl46()
++ Friend WithEvents cmbDemingVarianceModel As New FakeControl46()
++ Friend WithEvents lblBootstrapReplicatesDeming As New FakeControl46()
++ Friend WithEvents lblBootstrapReplicatesKappa As New FakeControl46()
++ Friend WithEvents lblBootstrapReplicatesLinCCC As New FakeControl46()
++ Friend WithEvents lblDemingCVx As New FakeControl46()
++ Friend WithEvents lblDemingCVy As New FakeControl46()
++ Friend WithEvents lblDemingSDx As New FakeControl46()
++ Friend WithEvents lblDemingSDy As New FakeControl46()
++ Friend WithEvents lblErrorRatio As New FakeControl46()
++ Friend WithEvents optAnalyticalClosedForm As New FakeControl46()
++ Friend WithEvents optAnalyticalLinnet As New FakeControl46()
++ Friend WithEvents optDemingBootstrapBCa As New FakeControl46()
++ Friend WithEvents optDemingBootstrapPercentile As New FakeControl46()
++ Friend WithEvents optJackknife As New FakeControl46()
++ Friend WithEvents optKappaAnalytical As New FakeControl46()
++ Friend WithEvents optKappaBootstrapBCa As New FakeControl46()
++ Friend WithEvents optKappaBootstrapPercentile As New FakeControl46()
++ Friend WithEvents optKappaJackknife As New FakeControl46()
++ Friend WithEvents optLinCCCAnalytical As New FakeControl46()
++ Friend WithEvents optLinCCCBootstrapBCa As New FakeControl46()
++ Friend WithEvents optLinCCCBootstrapPercentile As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++ Friend WithEvents spinBtnBootstrapReplicatesDeming As New FakeControl46()
++ Friend WithEvents spinBtnBootstrapReplicatesKappa As New FakeControl46()
++ Friend WithEvents spinBtnBootstrapReplicatesLinCCC As New FakeControl46()
++ Friend WithEvents spinBtnDemingCVx As New FakeControl46()
++ Friend WithEvents spinBtnDemingCVy As New FakeControl46()
++ Friend WithEvents spinBtnErrorRatio As New FakeControl46()
++    Private Function checkInputs() As Boolean
++        Dim bOut As Boolean
++        'check input data------------------------------
++        If CheckRefEdit(Me.RefEdit1.Address, If(Me.Tag = HelpTopic.HotellingSTSquaredTest, False, True)) Then
++            Me.TabMultipage.SelectedIndex = 0
++            RefEditReset(Me.RefEdit1)
++            bOut = True
++        End If
++        If CheckRefEdit(Me.RefEdit2.Address, If(Me.Tag = HelpTopic.HotellingSTSquaredTest, False, True)) Then
++            Me.TabMultipage.SelectedIndex = 0
++            RefEditReset(Me.RefEdit2)
++            bOut = True
++        End If
++        If Me.optOutputRange.Checked Then
++            If CheckRefEdit(Me.RefEditOutput.Address) Then
++                Me.TabMultipage.SelectedIndex = 0
++                RefEditReset(Me.RefEditOutput)
++                bOut = True
++            End If
++        End If
++        Return bOut
++    End Function
++    Private Sub ApplyDemingControlState()
++        If Me.Tag <> HelpTopic.DemingRegression Then Exit Sub
++
++        Dim modelIndex As Integer = Me.cmbDemingVarianceModel.SelectedIndex
++        If modelIndex < 0 Then modelIndex = 0
++
++        Dim useBootstrap As Boolean = Me.optDemingBootstrapPercentile.Checked OrElse Me.optDemingBootstrapBCa.Checked
++        Me.lblBootstrapReplicatesDeming.Enabled = useBootstrap
++        Me.spinBtnBootstrapReplicatesDeming.Enabled = useBootstrap
++
++        Dim allowAnalytical As Boolean = (modelIndex = 0 AndAlso Me.ckDemingFitIntercept.Checked)
++        Me.optAnalyticalClosedForm.Enabled = allowAnalytical
++        Me.optAnalyticalLinnet.Enabled = allowAnalytical
++        If Not allowAnalytical AndAlso (Me.optAnalyticalClosedForm.Checked OrElse Me.optAnalyticalLinnet.Checked) Then
++            Me.optJackknife.Checked = True
++        End If
++
++        Me.lblErrorRatio.Enabled = (modelIndex = 0)
++        Me.spinBtnErrorRatio.Enabled = (modelIndex = 0)
++
++        Dim showCV As Boolean = (modelIndex = 1)
++        Me.lblDemingCVx.Enabled = showCV
++        Me.spinBtnDemingCVx.Enabled = showCV
++        Me.lblDemingCVy.Enabled = showCV
++        Me.spinBtnDemingCVy.Enabled = showCV
++
++        Dim showPointwise As Boolean = (modelIndex = 2)
++        Me.lblDemingSDx.Enabled = showPointwise
++        Me.RefEditDemingSDx.Enabled = showPointwise
++        Me.lblDemingSDy.Enabled = showPointwise
++        Me.RefEditDemingSDy.Enabled = showPointwise
++    End Sub
++    Private Sub DemingControlStateChanged(sender As Object, e As System.EventArgs) _
++    Handles cmbDemingVarianceModel.SelectedIndexChanged,
++            ckDemingFitIntercept.CheckedChanged,
++            optJackknife.CheckedChanged,
++            optAnalyticalLinnet.CheckedChanged,
++            optAnalyticalClosedForm.CheckedChanged,
++            optDemingBootstrapPercentile.CheckedChanged,
++            optDemingBootstrapBCa.CheckedChanged
++        Me.ApplyDemingControlState()
++    End Sub
++    Private Sub ApplyLinCCCControlState()
++        Dim useBootstrap As Boolean = Me.optLinCCCBootstrapPercentile.Checked OrElse Me.optLinCCCBootstrapBCa.Checked
++        Me.lblBootstrapReplicatesLinCCC.Enabled = useBootstrap
++        Me.spinBtnBootstrapReplicatesLinCCC.Enabled = useBootstrap
++    End Sub
++    Private Sub optLinCCCAnalytical_CheckedChanged(sender As Object, e As System.EventArgs) _
++    Handles optLinCCCAnalytical.CheckedChanged, optLinCCCBootstrapPercentile.CheckedChanged, optLinCCCBootstrapBCa.CheckedChanged
++
++        Me.ApplyLinCCCControlState()
++    End Sub
++    Private Sub ApplyKappaControlState()
++        Dim useBootstrap As Boolean = Me.optKappaBootstrapPercentile.Checked OrElse Me.optKappaBootstrapBCa.Checked
++        Me.lblBootstrapReplicatesKappa.Enabled = useBootstrap
++        Me.spinBtnBootstrapReplicatesKappa.Enabled = useBootstrap
++    End Sub
++    Private Sub optKappaAnalytical_CheckedChanged(sender As Object, e As System.EventArgs) _
++        Handles optKappaAnalytical.CheckedChanged, optKappaJackknife.CheckedChanged, optKappaBootstrapPercentile.CheckedChanged, optKappaBootstrapBCa.CheckedChanged
++
++        Me.ApplyKappaControlState()
++    End Sub
++    Private Sub optOutputRange_Click(sender As Object, e As System.EventArgs) Handles optOutputRange.Click
++        Me.RefEditOutput.Enabled = True
++        Me.RefEditOutput.txtAddress.Select()
++    End Sub
++    Private Sub optWorksheet_Click(sender As Object, e As System.EventArgs) Handles optWorksheet.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++    Private Sub optWorkbook_Click(sender As Object, e As System.EventArgs) Handles optWorkbook.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++End Class
++Partial Friend Class Ui82x2Projection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Friend WithEvents RefEdit1_WorksheetData As New FakeRefEdit46()
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents lblC1 As New FakeControl46()
++ Friend WithEvents lblC2 As New FakeControl46()
++ Friend WithEvents lblR1 As New FakeControl46()
++ Friend WithEvents lblR2 As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optScreenData As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++ Friend WithEvents optWorksheetData As New FakeControl46()
++ Friend WithEvents spinBtnA As New FakeControl46()
++ Friend WithEvents spinBtnB As New FakeControl46()
++ Friend WithEvents spinBtnC As New FakeControl46()
++ Friend WithEvents spinBtnD As New FakeControl46()
++    Private Sub optWorksheetData_Click(sender As Object, e As System.EventArgs) Handles optWorksheetData.Click
++        Me.RefEdit1_WorksheetData.Enabled = True
++        Me.lblC1.Enabled = False
++        Me.lblC2.Enabled = False
++        Me.lblR1.Enabled = False
++        Me.lblR2.Enabled = False
++        Me.spinBtnA.Enabled = False
++        Me.spinBtnB.Enabled = False
++        Me.spinBtnC.Enabled = False
++        Me.spinBtnD.Enabled = False
++        If Me.optWorksheetData.Checked Then Me.RefEdit1_WorksheetData.txtAddress.Select()
++    End Sub
++    Private Sub optScreenData_Click(sender As Object, e As System.EventArgs) Handles optScreenData.Click
++        Me.RefEdit1_WorksheetData.Enabled = False
++        Me.lblC1.Enabled = True
++        Me.lblC2.Enabled = True
++        Me.lblR1.Enabled = True
++        Me.lblR2.Enabled = True
++        Me.spinBtnA.Enabled = True
++        Me.spinBtnB.Enabled = True
++        Me.spinBtnC.Enabled = True
++        Me.spinBtnD.Enabled = True
++    End Sub
++    Private Sub optOutputRange_Click(sender As Object, e As System.EventArgs) Handles optOutputRange.Click
++        Me.RefEditOutput.Enabled = True
++        Me.RefEditOutput.txtAddress.Select()
++    End Sub
++    Private Sub optWorksheet_Click(sender As Object, e As System.EventArgs) Handles optWorksheet.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++    Private Sub optWorkbook_Click(sender As Object, e As System.EventArgs) Handles optWorkbook.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++End Class
++Partial Friend Class Ui8ProportionsProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents cbHypothesisType As New FakeStringControl46()
++ Friend WithEvents lbl1 As New FakeControl46()
++ Friend WithEvents lbl2 As New FakeControl46()
++ Friend WithEvents lbl3 As New FakeControl46()
++ Friend WithEvents lbl4 As New FakeControl46()
++ Friend WithEvents lblAlpha As New FakeControl46()
++ Friend WithEvents lblHypothesisType As New FakeControl46()
++ Friend WithEvents lblMargin As New FakeControl46()
++ Friend WithEvents lblMarginHint_IndProp As New FakeControl46()
++ Friend WithEvents optIndependent As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optPaired As New FakeControl46()
++ Friend WithEvents optSingle As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++ Friend WithEvents spinBtnA As New FakeControl46()
++ Friend WithEvents spinBtnC As New FakeControl46()
++ Friend WithEvents spinBtnD As New FakeControl46()
++ Friend WithEvents spinBtnMargin_IndProp As New FakeControl46()
++ Friend Sub New()
++  AddHandler Me.cbHypothesisType.SelectedIndexChanged, AddressOf Me.HypothesisTypeChanged
++ End Sub
++    Private Sub optSingle_CheckedChanged(sender As Object, e As System.EventArgs) Handles optSingle.CheckedChanged
++        Me.lbl1.Text = "Total number of observations in the study"
++        Me.lbl2.Text = "Number of responders"
++        Me.lbl3.Visible = False
++        Me.lbl4.Visible = False
++        Me.spinBtnC.Visible = False
++        Me.spinBtnD.Visible = False
++        Me.lblMargin.Visible = False
++        Me.spinBtnMargin_IndProp.Visible = False
++        Me.lblMarginHint_IndProp.Visible = False
++        Me.cbHypothesisType.Visible = False
++        Me.lblHypothesisType.Visible = False
++        Me.lblAlpha.Text = "alpha"
++        Me.spinBtnA.Select()
++    End Sub
++    Private Sub optIndependent_CheckedChanged(sender As Object, e As System.EventArgs) Handles optIndependent.CheckedChanged
++        Me.lbl1.Text = "Total number of observations in Sampe 1"
++        Me.lbl2.Text = "Number of responders in Sample 1"
++        Me.lbl3.Text = "Total number of observations in Sampe 2"
++        Me.lbl4.Text = "Number of responders in Sample 2"
++        Me.lbl3.Visible = True
++        Me.lbl4.Visible = True
++        Me.spinBtnC.Visible = True
++        Me.spinBtnD.Visible = True
++        Me.lblMargin.Visible = True
++        Me.spinBtnMargin_IndProp.Visible = True
++        Me.lblMarginHint_IndProp.Visible = True
++        Me.cbHypothesisType.Visible = True
++        Me.lblHypothesisType.Visible = True
++        UpdateIndependentHypothesisUi()
++        Me.spinBtnA.Select()
++    End Sub
++    Private Sub optPaired_CheckedChanged(sender As Object, e As System.EventArgs) Handles optPaired.CheckedChanged
++        Me.lbl1.Text = "Total number of observations in the study"
++        Me.lbl2.Text = "Number of responders in 1st category only"
++        Me.lbl3.Text = "Namber of responders in 2nd category only"
++        Me.lbl4.Text = "Number of responders in both categories"
++        Me.lbl3.Visible = True
++        Me.lbl4.Visible = True
++        Me.spinBtnC.Visible = True
++        Me.spinBtnD.Visible = True
++        Me.lblMargin.Visible = False
++        Me.spinBtnMargin_IndProp.Visible = False
++        Me.lblMarginHint_IndProp.Visible = False
++        Me.cbHypothesisType.Visible = False
++        Me.lblHypothesisType.Visible = False
++        Me.spinBtnA.Select()
++    End Sub
++    Private Sub HypothesisTypeChanged(sender As Object, e As System.EventArgs)
++        Me.UpdateIndependentHypothesisUi()
++    End Sub
++    Private Function ValidateIndependentMargin() As Boolean
++        If Me.spinBtnMargin_IndProp Is Nothing Then Return True
++        Dim mode As String = Me.cbHypothesisType.SelectedItem
++        If mode <> "Noninferiority" AndAlso mode <> "Equivalence" Then Return True
++
++        Dim hypothesis = If(mode = "Noninferiority", ExcelCommon.IndependentProportionsHypothesis.Noninferiority, ExcelCommon.IndependentProportionsHypothesis.Equivalence)
++        Dim report = ExcelCommon.ProportionsInputPolicy.ValidateMargin(hypothesis, CDbl(Me.spinBtnMargin_IndProp.Value))
++        If report.HasErrors Then
++            FakeMessages46.Record(report.Issues(0).Message, vbOKOnly, "Data input")
++            Me.spinBtnMargin_IndProp.Select()
++            Return False
++        End If
++
++        Return True
++    End Function
++    Private Sub UpdateIndependentHypothesisUi()
++        Dim isIndependent As Boolean = Me.optIndependent.Checked
++        Me.lblMargin.Visible = isIndependent
++        Me.spinBtnMargin_IndProp.Visible = isIndependent
++        If Not isIndependent Then Exit Sub
++
++        Select Case Me.cbHypothesisType.SelectedItem
++            Case "Noninferiority"
++                Me.lblAlpha.Text = "One-sided alpha"
++                Me.lblMargin.Text = "Noninferiority margin"
++                Me.lblMargin.Visible = True
++                Me.spinBtnMargin_IndProp.Visible = True
++
++                Me.lblMarginHint_IndProp.Text = "Enter a positive margin. The null limit is -margin on the (Experimental - Control) scale."
++                Me.lblMarginHint_IndProp.Visible = True
++
++            Case "Equivalence"
++                Me.lblAlpha.Text = "One-sided alpha"
++                Me.lblMargin.Text = "Equivalence margin"
++                Me.lblMargin.Visible = True
++                Me.spinBtnMargin_IndProp.Visible = True
++                Me.lblMarginHint_IndProp.Text = "Enter a positive symmetric margin. The equivalence region is [-margin, +margin] on the (Experimental - Control) scale."
++                Me.lblMarginHint_IndProp.Visible = True
++
++            Case Else
++                Me.lblAlpha.Text = "alpha"
++                Me.lblMargin.Visible = False
++                Me.spinBtnMargin_IndProp.Visible = False
++                Me.lblMarginHint_IndProp.Visible = False
++        End Select
++    End Sub
++    Private Sub optOutputRange_Click(sender As Object, e As System.EventArgs) Handles optOutputRange.Click
++        Me.RefEditOutput.Enabled = True
++        Me.RefEditOutput.txtAddress.Select()
++    End Sub
++    Private Sub optWorksheet_Click(sender As Object, e As System.EventArgs) Handles optWorksheet.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++    Private Sub optWorkbook_Click(sender As Object, e As System.EventArgs) Handles optWorkbook.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++End Class
++Friend Class Ui9ANOVA2nestedProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Friend WithEvents RefEdit1_Group As New FakeRefEdit46()
++ Friend WithEvents RefEdit2_nested As New FakeRefEdit46()
++ Friend WithEvents RefEdit3_Data As New FakeRefEdit46()
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents ckBlandAllowFallback As New FakeControl46()
++ Friend WithEvents ckBlandDecisionLimitsEnable As New FakeControl46()
++ Friend WithEvents ckBlandExcludeSingletonSubjects As New FakeControl46()
++ Friend WithEvents ckBlandUseTDistribution As New FakeControl46()
++ Friend WithEvents cmbBlandMode As New FakeControl46()
++ Friend WithEvents cmbBlandPlotMode As New FakeControl46()
++ Friend WithEvents cmbBlandScale As New FakeControl46()
++ Friend WithEvents lblBlandBootstrapReps As New FakeControl46()
++ Friend WithEvents lblBlandDecisionLimitsHelp As New FakeControl46()
++ Friend WithEvents lblBlandLowerAllowable As New FakeControl46()
++ Friend WithEvents lblBlandMinPairs As New FakeControl46()
++ Friend WithEvents lblBlandMinSubjects As New FakeControl46()
++ Friend WithEvents lblBlandUpperAllowable As New FakeControl46()
++ Friend WithEvents optBlandAnalytical As New FakeControl46()
++ Friend WithEvents optBlandBootstrap As New FakeControl46()
++ Friend WithEvents optBlandBootstrapBCa As New FakeControl46()
++ Friend WithEvents optBlandJackknife As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++ Friend WithEvents spinBtnBlandMinPairs As New FakeControl46()
++ Friend WithEvents spinBtnBlandMinSubjects As New FakeControl46()
++ Friend WithEvents tbBlandBootstrapReps As New FakeControl46()
++ Friend WithEvents tbBlandLowerAllowable As New FakeControl46()
++ Friend WithEvents tbBlandUpperAllowable As New FakeControl46()
++    Private Function checkInputs() As Boolean
++        Dim bOut As Boolean
++        'check input data------------------------------
++        If Me.Tag = HelpTopic.TwoWayNestedANOVA Then
++            If CheckRefEdit(Me.RefEdit1_Group.Address, True) Then
++                RefEditReset(Me.RefEdit1_Group)
++                bOut = True
++            End If
++        ElseIf (Me.Tag = HelpTopic.PassingBablokRegression OrElse Me.Tag = HelpTopic.BlandAltman) And Me.RefEdit1_Group.Address <> String.Empty Then
++            If CheckRefEdit(Me.RefEdit1_Group.Address, True) Then
++                RefEditReset(Me.RefEdit1_Group)
++                bOut = True
++            End If
++        End If
++
++        If CheckRefEdit(Me.RefEdit2_nested.Address, True) Then
++            RefEditReset(Me.RefEdit2_nested)
++            bOut = True
++        End If
++
++        Dim bOneColumn As Boolean = True
++        If Me.Tag = HelpTopic.TwoWayNestedANOVA Then
++            bOneColumn = False
++        ElseIf Me.Tag = HelpTopic.PassingBablokRegression OrElse Me.Tag = HelpTopic.BlandAltman Then
++            bOneColumn = True
++        End If
++
++        If CheckRefEdit(Me.RefEdit3_Data.Address, bOneColumn) Then
++            RefEditReset(Me.RefEdit3_Data)
++            bOut = True
++        End If
++
++        If Me.optOutputRange.Checked Then
++            If CheckRefEdit(Me.RefEditOutput.Address) Then
++                RefEditReset(Me.RefEditOutput)
++                bOut = True
++            End If
++        End If
++        Return bOut
++    End Function
++    Private Sub UpdateBlandAltmanOptionState() Handles cmbBlandMode.SelectedIndexChanged,
++                                                   cmbBlandScale.SelectedIndexChanged,
++                                                   optBlandAnalytical.CheckedChanged,
++                                                   optBlandJackknife.CheckedChanged,
++                                                   optBlandBootstrap.CheckedChanged,
++                                                   optBlandBootstrapBCa.CheckedChanged,
++                                                   ckBlandDecisionLimitsEnable.CheckedChanged
++        If Me.cmbBlandMode Is Nothing Then Exit Sub
++
++        Dim repeatedRequested As Boolean = (Me.cmbBlandMode.SelectedIndex <> 1)
++        Me.cmbBlandPlotMode.Enabled = repeatedRequested
++        Me.ckBlandExcludeSingletonSubjects.Enabled = repeatedRequested
++        Me.ckBlandAllowFallback.Enabled = repeatedRequested
++        Me.spinBtnBlandMinSubjects.Enabled = repeatedRequested
++        Me.spinBtnBlandMinPairs.Enabled = repeatedRequested
++        Me.lblBlandMinSubjects.Enabled = repeatedRequested
++        Me.lblBlandMinPairs.Enabled = repeatedRequested
++
++        Dim useBootstrap As Boolean = Me.optBlandBootstrap.Checked OrElse Me.optBlandBootstrapBCa.Checked
++        Me.tbBlandBootstrapReps.Enabled = useBootstrap
++        Me.lblBlandBootstrapReps.Enabled = useBootstrap
++        Me.ckBlandUseTDistribution.Enabled = Not useBootstrap
++
++        Me.ApplyBlandDecisionLimitState()
++    End Sub
++    Private Sub ApplyBlandDecisionLimitState()
++        Dim enabled As Boolean = Me.ckBlandDecisionLimitsEnable.Checked
++
++        Me.lblBlandLowerAllowable.Enabled = enabled
++        Me.tbBlandLowerAllowable.Enabled = enabled
++        Me.lblBlandUpperAllowable.Enabled = enabled
++        Me.tbBlandUpperAllowable.Enabled = enabled
++        Me.lblBlandDecisionLimitsHelp.Enabled = enabled
++
++        If Not enabled Then
++            Me.lblBlandDecisionLimitsHelp.Text = "Enable this to compare the fitted bias and limits of agreement with pre-specified lower and upper acceptable limits."
++            Exit Sub
++        End If
++
++        Dim scaleText As String = If(Me.cmbBlandScale Is Nothing OrElse Me.cmbBlandScale.SelectedIndex < 0, "the active analysis scale", Me.cmbBlandScale.Text)
++        Dim repeatedRequested As Boolean = False
++        If Me.cmbBlandMode IsNot Nothing Then repeatedRequested = (Me.cmbBlandMode.SelectedIndex = 2 OrElse Me.cmbBlandMode.SelectedIndex = 0)
++
++        Dim scaleHint As String
++        Select Case Me.cmbBlandScale.SelectedIndex
++            Case 1, 2, 3
++                scaleHint = "Enter the allowable lower and upper limits on the selected percent scale."
++            Case 4
++                scaleHint = "Enter the allowable lower and upper limits on the selected log-ratio scale."
++            Case Else
++                scaleHint = "Enter the allowable lower and upper limits on the raw-difference scale."
++        End Select
++
++        Dim repeatedHint As String = If(repeatedRequested,
++                                    " If the repeated-measures model is used, the assessment is based on the repeated-measures Bland–Altman bias and limits of agreement.",
++                                    String.Empty)
++
++        Me.lblBlandDecisionLimitsHelp.Text =
++            $"Decision-limit / allowable-bias reporting now follows the current Bland–Altman analysis settings. " &
++            $"Limits are interpreted on the current scale ({scaleText})." & Environment.NewLine &
++            scaleHint & repeatedHint
++    End Sub
++    Private Sub optOutputRange_Click(sender As Object, e As System.EventArgs) Handles optOutputRange.Click
++        Me.RefEditOutput.Enabled = True
++        Me.RefEditOutput.txtAddress.Select()
++    End Sub
++    Private Sub optWorksheet_Click(sender As Object, e As System.EventArgs) Handles optWorksheet.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++    Private Sub optWorkbook_Click(sender As Object, e As System.EventArgs) Handles optWorkbook.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++End Class
++Partial Friend Class Ui12SampleSizeTtestSinglePropProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++End Class
++Friend Class Ui3XYZplotProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Friend pFigure As Object
++ Friend pbPreventEvents As Boolean
++ Friend Recalculations As Integer
++ Private Sub Recalculate()
++  Recalculations += 1
++ End Sub
++ Friend WithEvents btResetView As New FakeControl46()
++ Friend WithEvents cbPointLabelPosition As New FakeControl46()
++ Friend WithEvents ckDataPointLabels As New FakeControl46()
++ Friend WithEvents ckGridlines As New FakeControl46()
++ Friend WithEvents ckXYplanePoints As New FakeControl46()
++ Friend WithEvents ckXZplanePoints As New FakeControl46()
++ Friend WithEvents ckYZplanePoints As New FakeControl46()
++ Friend WithEvents ckZdropLines As New FakeControl46()
++ Friend WithEvents spinBtnLabelFontSize As New FakeControl46()
++ Friend WithEvents spinBtnMarkerSize As New FakeControl46()
++ Friend WithEvents spinBtnRotationX As New FakeControl46()
++ Friend WithEvents spinBtnRotationZ As New FakeControl46()
++ Friend WithEvents spinBtnShiftX As New FakeControl46()
++ Friend WithEvents spinBtnShiftY As New FakeControl46()
++ Friend WithEvents spinBtnXYPlanePointSize As New FakeControl46()
++ Friend WithEvents spinBtnXZPlanePointSize As New FakeControl46()
++ Friend WithEvents spinBtnYZPlanePointSize As New FakeControl46()
++ Friend WithEvents spinBtnZoom As New FakeControl46()
++    Private Sub spinBtnRotationX_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnRotationX.ValueChanged
++        If pFigure IsNot Nothing AndAlso Not Me.pbPreventEvents Then Call Recalculate()
++    End Sub
++    Private Sub spinBtnRotationZ_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnRotationZ.ValueChanged
++        If pFigure IsNot Nothing AndAlso Not Me.pbPreventEvents Then Call Recalculate()
++    End Sub
++    Private Sub spinBtnZoom_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnZoom.ValueChanged
++        If pFigure IsNot Nothing AndAlso Not Me.pbPreventEvents Then Call Recalculate()
++    End Sub
++    Private Sub spinBtnShiftX_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnShiftX.ValueChanged
++        If pFigure IsNot Nothing AndAlso Not Me.pbPreventEvents Then Call Recalculate()
++    End Sub
++    Private Sub spinBtnShiftY_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnShiftY.ValueChanged
++        If pFigure IsNot Nothing AndAlso Not Me.pbPreventEvents Then Call Recalculate()
++    End Sub
++    Private Sub btResetView_Click(sender As Object, e As System.EventArgs) Handles btResetView.Click
++        Me.pbPreventEvents = True
++        Me.spinBtnRotationX.Value = 120
++        Me.spinBtnRotationZ.Value = 60
++        Me.spinBtnZoom.Value = 0
++        Me.spinBtnShiftY.Value = 50
++        Me.spinBtnShiftX.Value = 50
++        Me.pbPreventEvents = False
++        If pFigure IsNot Nothing Then Call Recalculate()
++    End Sub
++    Private Sub spinBtnXYPlanePointSize_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnXYPlanePointSize.ValueChanged
++        If pFigure IsNot Nothing And Me.ckXYplanePoints.Checked Then Call Recalculate()
++    End Sub
++    Private Sub spinBtnYZPlanePointSize_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnYZPlanePointSize.ValueChanged
++        If pFigure IsNot Nothing And Me.ckYZplanePoints.Checked Then Call Recalculate()
++    End Sub
++    Private Sub spinBtnXZPlanePointSize_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnXZPlanePointSize.ValueChanged
++        If pFigure IsNot Nothing And Me.ckXZplanePoints.Checked Then Call Recalculate()
++    End Sub
++    Private Sub spinBtnLabelFontSize_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnLabelFontSize.ValueChanged
++        If pFigure IsNot Nothing And Me.ckDataPointLabels.Checked Then Call Recalculate()
++    End Sub
++    Private Sub ckGridlines_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckGridlines.CheckedChanged
++        If pFigure IsNot Nothing Then Call Recalculate()
++    End Sub
++    Private Sub spinBtnMarkerSize_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnMarkerSize.ValueChanged
++        If pFigure IsNot Nothing Then Call Recalculate()
++    End Sub
++    Private Sub cbPointLabelPosition_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbPointLabelPosition.SelectedIndexChanged
++        If pFigure IsNot Nothing And Me.ckDataPointLabels.Checked Then Call Recalculate()
++    End Sub
++    Private Sub ckDataPointLabels_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckDataPointLabels.CheckedChanged
++        If pFigure IsNot Nothing Then Call Recalculate()
++    End Sub
++    Private Sub ckXYplanePoints_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckXYplanePoints.CheckedChanged
++        If pFigure IsNot Nothing Then Call Recalculate()
++    End Sub
++    Private Sub ckYZplanePoints_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckYZplanePoints.CheckedChanged
++        If pFigure IsNot Nothing Then Call Recalculate()
++    End Sub
++    Private Sub ckXZplanePoints_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckXZplanePoints.CheckedChanged
++        If pFigure IsNot Nothing Then Call Recalculate()
++    End Sub
++    Private Sub ckZdropLines_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckZdropLines.CheckedChanged
++        If pFigure IsNot Nothing Then Call Recalculate()
++    End Sub
++End Class
++Friend Class Ui01BulletChartProjection46
++ Friend WithEvents cmbDefaultDirection As New FakeControl46()
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++    Private NotInheritable Class ComboItem(Of T)
++        Public Sub New(displayText As String, value As T)
++            Me.DisplayText = displayText
++            Me.Value = value
++        End Sub
++
++        Public ReadOnly Property DisplayText As String
++        Public ReadOnly Property Value As T
++
++        Public Overrides Function ToString() As String
++            Return Me.DisplayText
++        End Function
++    End Class
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents ckOmitIncompleteRows As New FakeControl46()
++ Friend WithEvents ckShowActualValueLabels As New FakeControl46()
++ Friend WithEvents ckShowScaleLabels As New FakeControl46()
++ Friend WithEvents ckShowTargetValueLabels As New FakeControl46()
++ Friend WithEvents lblScaleNumberFormat As New FakeControl46()
++ Friend WithEvents lblValueNumberFormat As New FakeControl46()
++ Friend WithEvents nudTargetMajorTickCount As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++ Friend WithEvents txtScaleNumberFormat As New FakeControl46()
++ Friend WithEvents txtValueNumberFormat As New FakeControl46()
++    Private Sub optOutputRange_CheckedChanged(sender As Object, e As System.EventArgs) Handles optOutputRange.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorksheet_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorksheet.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorkbook_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorkbook.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub UpdateOutputRangeState()
++        Me.RefEditOutput.Enabled = Me.optOutputRange.Checked
++        If Me.optOutputRange.Checked AndAlso Me.RefEditOutput.CanFocus Then
++            Me.RefEditOutput.txtAddress.Select()
++        End If
++    End Sub
++    Private Sub ckShowScaleLabels_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckShowScaleLabels.CheckedChanged
++        Me.UpdateOptionControlStates()
++    End Sub
++    Private Sub ckShowActualValueLabels_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckShowActualValueLabels.CheckedChanged
++        Me.UpdateOptionControlStates()
++    End Sub
++    Private Sub ckShowTargetValueLabels_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckShowTargetValueLabels.CheckedChanged
++        Me.UpdateOptionControlStates()
++    End Sub
++    Private Sub UpdateOptionControlStates()
++        Me.txtScaleNumberFormat.Enabled = Me.ckShowScaleLabels.Checked
++        Me.lblScaleNumberFormat.Enabled = Me.txtScaleNumberFormat.Enabled
++
++        Dim showValueLabels As Boolean = Me.ckShowActualValueLabels.Checked OrElse
++                                         Me.ckShowTargetValueLabels.Checked
++        Me.txtValueNumberFormat.Enabled = showValueLabels
++        Me.lblValueNumberFormat.Enabled = showValueLabels
++    End Sub
++    Private Function GetPlotOptions() As BulletChartOptions
++        Return New BulletChartOptions With {
++            .OmitIncompleteRows = Me.ckOmitIncompleteRows.Checked,
++            .DefaultDirection = GetComboValue(Of BulletChartDirection)(Me.cmbDefaultDirection, "a default direction"),
++            .TargetMajorTickCount = CInt(Me.nudTargetMajorTickCount.Value)
++        }
++    End Function
++    Private Shared Function GetComboValue(Of T)(comboBox As ComboBox,
++                                                 controlDescription As String) As T
++        Dim item As ComboItem(Of T) = TryCast(comboBox.SelectedItem, ComboItem(Of T))
++        If item Is Nothing Then
++            Throw New InvalidOperationException("Select " & controlDescription & ".")
++        End If
++        Return item.Value
++    End Function
++    Private Shared Sub ValidateOptionalNumericFormat(formatText As String, displayName As String)
++        If String.IsNullOrWhiteSpace(formatText) Then Return
++
++        Try
++            Dim ignored As String = 12.5R.ToString(formatText.Trim(), CultureInfo.CurrentCulture)
++        Catch ex As FormatException
++            Throw New ArgumentException(displayName & " is not a valid .NET numeric format string.")
++        End Try
++    End Sub
++End Class
++Friend Class Ui01ConvexHullPlotProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents ckIncludeCollinearBoundaryPoints As New FakeControl46()
++ Friend WithEvents nudPaddingPercentX As New FakeControl46()
++ Friend WithEvents nudPaddingPercentY As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++ Friend WithEvents tbCollinearityTolerance As New FakeControl46()
++    Private Sub optOutputRange_CheckedChanged(sender As Object, e As System.EventArgs) Handles optOutputRange.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorksheet_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorksheet.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorkbook_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorkbook.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub UpdateOutputRangeState()
++        Me.RefEditOutput.Enabled = Me.optOutputRange.Checked
++        If Me.optOutputRange.Checked AndAlso Me.RefEditOutput.CanFocus Then
++            Me.RefEditOutput.txtAddress.Select()
++        End If
++    End Sub
++    Private Function GetPlotOptions() As ConvexHullPlotOptions
++        Return New ConvexHullPlotOptions With {
++            .IncludeCollinearBoundaryPoints = Me.ckIncludeCollinearBoundaryPoints.Checked,
++            .PaddingPercentX = CDbl(Me.nudPaddingPercentX.Value),
++            .PaddingPercentY = CDbl(Me.nudPaddingPercentY.Value),
++            .CollinearityTolerance = ParseUiDouble(Me.tbCollinearityTolerance.Text,
++                                                   "collinearity tolerance")
++        }
++    End Function
++End Class
++Friend Class Ui01DumbbellPlotProjection46
++ Friend WithEvents cmbSortMode As New FakeControl46()
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++    Private NotInheritable Class ComboItem(Of T)
++        Public Sub New(displayText As String, value As T)
++            Me.DisplayText = displayText
++            Me.Value = value
++        End Sub
++
++        Public ReadOnly Property DisplayText As String
++        Public ReadOnly Property Value As T
++
++        Public Overrides Function ToString() As String
++            Return Me.DisplayText
++        End Function
++    End Class
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents ckOmitIncompleteRows As New FakeControl46()
++ Friend WithEvents ckReverseCategoryOrder As New FakeControl46()
++ Friend WithEvents nudAddObsJitter As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++    Private Sub optOutputRange_CheckedChanged(sender As Object, e As System.EventArgs) Handles optOutputRange.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorksheet_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorksheet.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorkbook_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorkbook.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub UpdateOutputRangeState()
++        Me.RefEditOutput.Enabled = Me.optOutputRange.Checked
++        If Me.optOutputRange.Checked AndAlso Me.RefEditOutput.CanFocus Then
++            Me.RefEditOutput.txtAddress.Select()
++        End If
++    End Sub
++    Private Function GetPlotOptions() As DumbbellPlotOptions
++        Return New DumbbellPlotOptions With {
++            .SortMode = GetComboValue(Of DumbbellPlotSortMode)(Me.cmbSortMode, "how categories should be sorted"),
++            .ReverseCategoryOrder = Me.ckReverseCategoryOrder.Checked,
++            .OmitIncompleteRows = Me.ckOmitIncompleteRows.Checked,
++            .AuxiliaryJitterFraction = CDbl(Me.nudAddObsJitter.Value)
++        }
++    End Function
++    Private Shared Function GetComboValue(Of T)(comboBox As ComboBox,
++                                                 controlDescription As String) As T
++        Dim item As ComboItem(Of T) = TryCast(comboBox.SelectedItem, ComboItem(Of T))
++        If item Is Nothing Then
++            Throw New InvalidOperationException("Select " & controlDescription & ".")
++        End If
++        Return item.Value
++    End Function
++End Class
++Friend Class Ui01LadderPlotProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++    Private NotInheritable Class ComboItem(Of T)
++        Public Sub New(displayText As String, value As T)
++            Me.DisplayText = displayText
++            Me.Value = value
++        End Sub
++
++        Public ReadOnly Property DisplayText As String
++        Public ReadOnly Property Value As T
++
++        Public Overrides Function ToString() As String
++            Return Me.DisplayText
++        End Function
++    End Class
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents btnConnectorColor As New FakeControl46()
++ Friend WithEvents btnSingleColor As New FakeControl46()
++ Friend WithEvents ckAvoidEndpointLabelOverlap As New FakeControl46()
++ Friend WithEvents ckColorEndpointLabelsBySeries As New FakeControl46()
++ Friend WithEvents ckHorizontalJitter As New FakeControl46()
++ Friend WithEvents ckOmitIncompleteRows As New FakeControl46()
++ Friend WithEvents ckShowFirstEndpointLabels As New FakeControl46()
++ Friend WithEvents ckShowLines As New FakeControl46()
++ Friend WithEvents ckShowMarkers As New FakeControl46()
++ Friend WithEvents ckShowSecondEndpointLabels As New FakeControl46()
++ Friend WithEvents cmbColorMode As New FakeControl46()
++ Friend WithEvents cmbConnectorLineStyle As New FakeControl46()
++ Friend WithEvents cmbEndpointLabelContent As New FakeControl46()
++ Friend WithEvents cmdMarkerStyle As New FakeControl46()
++ Friend WithEvents lblConnectorColor As New FakeControl46()
++ Friend WithEvents lblEndpointLabelContent As New FakeControl46()
++ Friend WithEvents lblEndpointValueFormat As New FakeControl46()
++ Friend WithEvents lblLineStyle As New FakeControl46()
++ Friend WithEvents lblLineWidth As New FakeControl46()
++ Friend WithEvents lblMarkerSize As New FakeControl46()
++ Friend WithEvents lblMarkerStyle As New FakeControl46()
++ Friend WithEvents lblSingleColor As New FakeControl46()
++ Friend WithEvents lblTransparency As New FakeControl46()
++ Friend WithEvents nudConnectorTransparency As New FakeControl46()
++ Friend WithEvents nudConnectorWidth As New FakeControl46()
++ Friend WithEvents nudHorizontalJitter As New FakeControl46()
++ Friend WithEvents nudMarkerSize As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++ Friend WithEvents pnlConnectorColor As New FakeControl46()
++ Friend WithEvents pnlSingleColor As New FakeControl46()
++ Friend WithEvents txtEndpointValueFormat As New FakeControl46()
++    Private Sub optOutputRange_CheckedChanged(sender As Object, e As System.EventArgs) Handles optOutputRange.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorksheet_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorksheet.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorkbook_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorkbook.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub UpdateOutputRangeState()
++        Me.RefEditOutput.Enabled = Me.optOutputRange.Checked
++        If Me.optOutputRange.Checked AndAlso Me.RefEditOutput.CanFocus Then
++            Me.RefEditOutput.txtAddress.Select()
++        End If
++    End Sub
++    Private Sub ckHorizontalJitter_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckHorizontalJitter.CheckedChanged
++        Me.UpdateOptionControlStates()
++    End Sub
++    Private Sub ckShowLines_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckShowLines.CheckedChanged
++        Me.UpdateOptionControlStates()
++    End Sub
++    Private Sub ckShowMarkers_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckShowMarkers.CheckedChanged
++        Me.UpdateOptionControlStates()
++    End Sub
++    Private Sub cmbColorMode_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbColorMode.SelectedIndexChanged
++        Me.UpdateOptionControlStates()
++    End Sub
++    Private Sub ckShowFirstEndpointLabels_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckShowFirstEndpointLabels.CheckedChanged
++        Me.UpdateOptionControlStates()
++    End Sub
++    Private Sub ckShowSecondEndpointLabels_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckShowSecondEndpointLabels.CheckedChanged
++        Me.UpdateOptionControlStates()
++    End Sub
++    Private Sub UpdateOptionControlStates()
++        Me.nudHorizontalJitter.Enabled = Me.ckHorizontalJitter.Checked
++
++        Dim showMarkers As Boolean = Me.ckShowMarkers.Checked
++        Me.cmdMarkerStyle.Enabled = showMarkers
++        Me.nudMarkerSize.Enabled = showMarkers
++        Me.lblMarkerStyle.Enabled = showMarkers
++        Me.lblMarkerSize.Enabled = showMarkers
++
++        Dim showLines As Boolean = Me.ckShowLines.Checked
++        Me.cmbConnectorLineStyle.Enabled = showLines
++        Me.nudConnectorWidth.Enabled = showLines
++        Me.nudConnectorTransparency.Enabled = showLines
++        Me.lblLineStyle.Enabled = showLines
++        Me.lblLineWidth.Enabled = showLines
++        Me.lblTransparency.Enabled = showLines
++
++        Dim singleColorMode As Boolean = False
++        Dim selectedColorMode As ComboItem(Of LadderColorMode) = TryCast(Me.cmbColorMode.SelectedItem,
++                                                                         ComboItem(Of LadderColorMode))
++        If selectedColorMode IsNot Nothing Then
++            singleColorMode = selectedColorMode.Value = LadderColorMode.SingleColor
++        End If
++
++        Me.btnSingleColor.Enabled = singleColorMode
++        Me.pnlSingleColor.Enabled = singleColorMode
++        Me.lblSingleColor.Enabled = singleColorMode
++
++        'The current renderer colours lines and markers together for By observation/By group.
++        'The separate connector colour is therefore meaningful only in Single color mode.
++        Me.btnConnectorColor.Enabled = showLines AndAlso singleColorMode
++        Me.pnlConnectorColor.Enabled = showLines AndAlso singleColorMode
++        Me.lblConnectorColor.Enabled = showLines AndAlso singleColorMode
++
++        Dim showEndpointLabels As Boolean = Me.ckShowFirstEndpointLabels.Checked OrElse
++                                            Me.ckShowSecondEndpointLabels.Checked
++        Me.cmbEndpointLabelContent.Enabled = showEndpointLabels
++        Me.txtEndpointValueFormat.Enabled = showEndpointLabels
++        Me.lblEndpointLabelContent.Enabled = showEndpointLabels
++        Me.lblEndpointValueFormat.Enabled = showEndpointLabels
++        Me.ckAvoidEndpointLabelOverlap.Enabled = showEndpointLabels
++        Me.ckColorEndpointLabelsBySeries.Enabled = showEndpointLabels
++    End Sub
++    Private Function GetPlotOptions() As LadderPlotOptions
++        Return New LadderPlotOptions With {
++            .OmitIncompleteRows = Me.ckOmitIncompleteRows.Checked,
++            .HorizontalJitterFraction = If(Me.ckHorizontalJitter.Checked,
++                                           CDbl(Me.nudHorizontalJitter.Value),
++                                           0.0R)
++        }
++    End Function
++End Class
++Friend Class Ui01PolarPlotProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents ckConnectPoints As New FakeControl46()
++ Friend WithEvents optClockwise As New FakeControl46()
++ Friend WithEvents optCounterClockwise As New FakeControl46()
++ Friend WithEvents optDegrees As New FakeControl46()
++ Friend WithEvents optEast As New FakeControl46()
++ Friend WithEvents optNorth As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optPercentage As New FakeControl46()
++ Friend WithEvents optRadians As New FakeControl46()
++ Friend WithEvents optSouth As New FakeControl46()
++ Friend WithEvents optWest As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++ Friend WithEvents tbAngularTickInterval As New FakeControl46()
++ Friend WithEvents tbRadialTickInterval As New FakeControl46()
++    Private Sub optOutputRange_CheckedChanged(sender As Object, e As System.EventArgs) Handles optOutputRange.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorksheet_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorksheet.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorkbook_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorkbook.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub UpdateOutputRangeState()
++        Me.RefEditOutput.Enabled = Me.optOutputRange.Checked
++        If Me.optOutputRange.Checked AndAlso Me.RefEditOutput.CanFocus Then
++            Me.RefEditOutput.txtAddress.Select()
++        End If
++    End Sub
++    Private Function GetPlotOptions() As PolarPlotOptions
++        Dim options As New PolarPlotOptions()
++
++        If Me.optRadians.Checked Then
++            options.AngleUnit = PolarAngleUnit.Radians
++        ElseIf Me.optPercentage.Checked Then
++            options.AngleUnit = PolarAngleUnit.Percentage
++        ElseIf Me.optDegrees.Checked Then
++            options.AngleUnit = PolarAngleUnit.Degrees
++        Else
++            Throw New InvalidOperationException("Select an angle unit for the polar plot.")
++        End If
++
++        If Me.optClockwise.Checked Then
++            options.Rotation = PolarRotation.Clockwise
++        ElseIf Me.optCounterClockwise.Checked Then
++            options.Rotation = PolarRotation.Counterclockwise
++        Else
++            Throw New InvalidOperationException("Select a rotation direction for the polar plot.")
++        End If
++
++        If Me.optNorth.Checked Then
++            options.ZeroAngle = PolarZeroAngle.North
++        ElseIf Me.optSouth.Checked Then
++            options.ZeroAngle = PolarZeroAngle.South
++        ElseIf Me.optWest.Checked Then
++            options.ZeroAngle = PolarZeroAngle.West
++        ElseIf Me.optEast.Checked Then
++            options.ZeroAngle = PolarZeroAngle.East
++        Else
++            Throw New InvalidOperationException("Select a zero-angle position for the polar plot.")
++        End If
++
++        options.ConnectPoints = Me.ckConnectPoints.Checked
++
++        If Me.tbAngularTickInterval.Text <> String.Empty And CheckNumeric(Me.tbAngularTickInterval) Then options.AngularTickInterval = ParseUiDouble(Me.tbAngularTickInterval.Text, "Angular Tick Interval")
++        If Me.tbRadialTickInterval.Text <> String.Empty And CheckNumeric(Me.tbRadialTickInterval) Then options.RadialTickInterval = ParseUiDouble(Me.tbRadialTickInterval.Text, "Radial Tick Interval")
++
++        Return options
++    End Function
++End Class
++Friend Class Ui01SankeyPlotProjection46
++ Friend Tag As HelpTopic
++ Friend Text As String = ""
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents ckConnectAcrossMissingStages As New FakeControl46()
++ Friend WithEvents ckShowNodeLabels As New FakeControl46()
++ Friend WithEvents cmbNodeLabelMode As New FakeControl46()
++ Friend WithEvents cmbNodeOrder As New FakeControl46()
++ Friend WithEvents cmbPercentageBasis As New FakeControl46()
++ Friend WithEvents cmbRibbonColorMode As New FakeControl46()
++ Friend WithEvents cmbVerticalAlignment As New FakeControl46()
++ Friend WithEvents lblNodeLabelMode As New FakeControl46()
++ Friend WithEvents lblPercentageBasis As New FakeControl46()
++ Friend WithEvents nudNodeGap As New FakeControl46()
++ Friend WithEvents optOutputRange As New FakeControl46()
++ Friend WithEvents optWorkbook As New FakeControl46()
++ Friend WithEvents optWorksheet As New FakeControl46()
++    Private Sub optOutputRange_CheckedChanged(sender As Object, e As System.EventArgs) Handles optOutputRange.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorksheet_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorksheet.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub optWorkbook_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorkbook.CheckedChanged
++        Me.UpdateOutputRangeState()
++    End Sub
++    Private Sub UpdateOutputRangeState()
++        Me.RefEditOutput.Enabled = Me.optOutputRange.Checked
++        If Me.optOutputRange.Checked AndAlso Me.RefEditOutput.CanFocus Then
++            Me.RefEditOutput.txtAddress.Select()
++        End If
++    End Sub
++    Private Sub ckShowNodeLabels_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckShowNodeLabels.CheckedChanged
++        Me.UpdateLabelControlState()
++    End Sub
++    Private Sub cmbNodeLabelMode_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbNodeLabelMode.SelectedIndexChanged
++        Me.UpdateLabelControlState()
++    End Sub
++    Private Sub UpdateLabelControlState()
++        Dim labelsEnabled As Boolean = Me.ckShowNodeLabels.Checked
++        Me.lblNodeLabelMode.Enabled = labelsEnabled
++        Me.cmbNodeLabelMode.Enabled = labelsEnabled
++
++        Dim usesPercentage As Boolean = labelsEnabled AndAlso
++                                        (Me.cmbNodeLabelMode.SelectedIndex = 2 OrElse
++                                         Me.cmbNodeLabelMode.SelectedIndex = 3)
++        Me.lblPercentageBasis.Enabled = usesPercentage
++        Me.cmbPercentageBasis.Enabled = usesPercentage
++    End Sub
++    Private Function GetPlotOptions() As SankeyPlotOptions
++        Dim options As New SankeyPlotOptions With {
++            .NodeGapFraction = CDbl(Me.nudNodeGap.Value) / 100.0R,
++            .NodeOrder = Me.GetSelectedNodeOrder(),
++            .VerticalAlignment = Me.GetSelectedVerticalAlignment(),
++            .ConnectAcrossMissingStages = Me.ckConnectAcrossMissingStages.Checked
++        }
++        Return options
++    End Function
++    Private Function GetSelectedNodeOrder() As SankeyNodeOrderMode
++        Select Case Me.cmbNodeOrder.SelectedIndex
++            Case 1
++                Return SankeyNodeOrderMode.FirstAppearance
++            Case 2
++                Return SankeyNodeOrderMode.Alphabetical
++            Case 3
++                Return SankeyNodeOrderMode.WeightDescending
++            Case Else
++                Return SankeyNodeOrderMode.Automatic
++        End Select
++    End Function
++    Private Function GetSelectedVerticalAlignment() As SankeyVerticalAlignment
++        Select Case Me.cmbVerticalAlignment.SelectedIndex
++            Case 1
++                Return SankeyVerticalAlignment.Top
++            Case 2
++                Return SankeyVerticalAlignment.Bottom
++            Case Else
++                Return SankeyVerticalAlignment.Center
++        End Select
++    End Function
++    Private Function GetSelectedRibbonColorMode() As SankeyRibbonColorMode
++        Select Case Me.cmbRibbonColorMode.SelectedIndex
++            Case 1
++                Return SankeyRibbonColorMode.TargetNode
++            Case 2
++                Return SankeyRibbonColorMode.Neutral
++            Case Else
++                Return SankeyRibbonColorMode.SourceNode
++        End Select
++    End Function
++    Private Function GetSelectedNodeLabelMode() As SankeyNodeLabelMode
++        Select Case Me.cmbNodeLabelMode.SelectedIndex
++            Case 1
++                Return SankeyNodeLabelMode.NameAndValue
++            Case 2
++                Return SankeyNodeLabelMode.NameAndPercentage
++            Case 3
++                Return SankeyNodeLabelMode.NamePercentageAndValue
++            Case Else
++                Return SankeyNodeLabelMode.NameOnly
++        End Select
++    End Function
++    Private Function GetSelectedPercentageBasis() As SankeyPercentageBasis
++        If Me.cmbPercentageBasis.SelectedIndex = 1 Then
++            Return SankeyPercentageBasis.StageTotal
++        End If
++        Return SankeyPercentageBasis.ReferenceTotal
++    End Function
++End Class
++End Namespace
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring46Services.vb
+@@ -0,0 +1,104 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Collections.Generic
++Imports BESHStatNG.ExcelCommon
++Namespace Harness46
++ Friend Module FakePlanning46
++  Friend ReadOnly Requests As New List(Of SampleSizePlanningRequest)
++  Friend Function Calculate(request As SampleSizePlanningRequest) As SampleSizePlanningReport
++   Requests.Add(request)
++   Return New SampleSizePlanningReport(request, Nothing, "synthetic planning response")
++  End Function
++ End Module
++ Friend Module FakeFaults46
++  Friend ReadOnly Errors As New List(Of Exception)
++  Friend Sub Record(failure As Exception, Optional first As Boolean = False, Optional second As Boolean = True)
++   Errors.Add(failure)
++  End Sub
++ End Module
++ Friend Module FakeGlobals46
++  Friend Const gsAPP_TITLE As String = "synthetic application"
++  Friend app As New FakeApp46()
++ End Module
++ Friend Class FakeApp46
++  Friend ActiveWorkbook As New FakeBook46()
++  Friend Workbooks As New FakeBooks46(Me)
++ End Class
++ Friend Class FakeBooks46
++  Private ReadOnly app As FakeApp46
++  Friend Sub New(value As FakeApp46)
++   app = value
++  End Sub
++  Friend Function Add() As FakeBook46
++   FakeOutput46.Events.Add("workbook-add") : app.ActiveWorkbook = New FakeBook46() : Return app.ActiveWorkbook
++  End Function
++ End Class
++ Friend Class FakeBook46
++  Friend ActiveSheet As New FakeSheet46()
++  Friend Worksheets As New FakeSheets46(Me)
++ End Class
++ Friend Class FakeSheets46
++  Private ReadOnly book As FakeBook46
++  Friend Sub New(value As FakeBook46)
++   book = value
++  End Sub
++  Friend Function Add() As FakeSheet46
++   FakeOutput46.Events.Add("worksheet-add") : book.ActiveSheet = New FakeSheet46() : Return book.ActiveSheet
++  End Function
++ End Class
++ Friend Class FakeSheet46
++  Friend Function Range(address As String) As FakeRange46
++   FakeOutput46.Events.Add("range:" & address) : Return New FakeRange46()
++  End Function
++ End Class
++ Friend Class FakeRange46
++  Friend Row As Integer = 7, Column As Integer = 3
++ End Class
++ Friend Class FakeResultWriter46
++  Friend wb As FakeBook46, ws As FakeSheet46, RowID As Integer, ColID As Integer
++  Friend Sub setRowPointer(value As Integer)
++   RowID = value
++  End Sub
++  Friend Sub setColumnPointer(value As Integer)
++   ColID = value
++  End Sub
++ End Class
++ Friend Class FakeTables46
++  Private ReadOnly original As Global.BESHStatNG.ProcessListofResultTables
++  Friend Sub New(tables As List(Of ResultTable))
++   original = New Global.BESHStatNG.ProcessListofResultTables(tables)
++   FakeOutput46.TableCount = tables.Count
++  End Sub
++  Friend ReadOnly Property TotRows As Integer
++   Get
++    Return original.TotRows
++   End Get
++  End Property
++  Friend ReadOnly Property TotCols As Integer
++   Get
++    Return original.TotCols
++   End Get
++  End Property
++  Friend Sub writeToSheet(writer As FakeResultWriter46, stacked As Boolean)
++   FakeOutput46.Writes += 1 : FakeOutput46.Events.Add("write")
++   FakeOutput46.LastRow = writer.RowID : FakeOutput46.LastColumn = writer.ColID
++  End Sub
++ End Class
++ Friend Module FakeOutput46
++  Friend ReadOnly Events As New List(Of String)
++  Friend ImportCalls As Integer, Writes As Integer, TableCount As Integer, LastRow As Integer, LastColumn As Integer
++  Friend Occupied As Boolean
++  Friend Imported As DataObj
++  Friend Function WorksheetFromRefAdress(address As String) As FakeSheet46
++   Events.Add("sheet:" & address) : Return FakeGlobals46.app.ActiveWorkbook.ActiveSheet
++  End Function
++  Friend Function AreaCheck(row As Integer, column As Integer, rows As Integer, columns As Integer, sheet As FakeSheet46) As Boolean
++   Events.Add("area") : Return Occupied
++  End Function
++  Friend Sub Reset()
++   Events.Clear() : ImportCalls = 0 : Writes = 0 : TableCount = 0 : Occupied = False : Imported = Nothing
++   FakeGlobals46.app = New FakeApp46() : FakeFaults46.Errors.Clear() : FakeMessages46.Messages.Clear() : FakeMessages46.Response = 1 : FakePlanning46.Requests.Clear()
++  End Sub
++ End Module
++End Namespace
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring46StateTests.vb
+@@ -0,0 +1,166 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Collections.Generic
++Imports System.IO
++Imports System.Linq
++Imports System.Reflection
++Imports System.Text.RegularExpressions
++Imports System.Xml.Linq
++Imports BESHStatNG.Test.Harness46
++Imports Microsoft.VisualStudio.TestTools.UnitTesting
++
++<TestClass, DoNotParallelize>
++Public Class GuiWiring46StateTests
++ Friend Shared Function Create(owner As String) As Object
++  Return Activator.CreateInstance(GetType(UibyIDProjection46).Assembly.GetType("BESHStatNG.Test.Harness46." & owner & "Projection46", True), True)
++ End Function
++ Friend Shared Function Control(form As Object, name As String) As FakeControl46
++  Dim flags = BindingFlags.Instance Or BindingFlags.NonPublic Or BindingFlags.Public
++  Dim propertyInfo = form.GetType().GetProperty(name, flags)
++  If propertyInfo IsNot Nothing Then Return DirectCast(propertyInfo.GetValue(form), FakeControl46)
++  Return DirectCast(form.GetType().GetField(name, flags).GetValue(form), FakeControl46)
++ End Function
++ Friend Shared Function CallMember(form As Object, name As String, ParamArray args() As Object) As Object
++  Return form.GetType().GetMethod(name, BindingFlags.Instance Or BindingFlags.NonPublic Or BindingFlags.Public).Invoke(form, args)
++ End Function
++ Public Shared Iterator Function Bindings() As IEnumerable(Of Object())
++  Dim root = Environment.GetEnvironmentVariable("BESHSTAT_04A02_SOURCE_ROOT")
++  For Each entry In XDocument.Load(Path.Combine(root, "evidence/04A46/fixtures/bindings-wave-a-v1.xml")).Root.Elements()
++   Yield New Object() {CStr(entry.Attribute("owner")), CStr(entry.Attribute("method")), CStr(entry.Attribute("source")), CStr(entry.Attribute("event"))}
++  Next
++ End Function
++ <DataTestMethod, DynamicData(NameOf(Bindings), DynamicDataSourceType.Method)>
++ Public Sub EverySelectedHandlesBindingRaisesTheOriginalCopiedHandler(owner As String, method As String, source As String, eventName As String)
++  Dim form = Create(owner) : FakeEvents46.Delivered.Clear()
++  Control(form, source).RaiseNamed(eventName)
++  Dim expected = owner & "Projection46." & method
++  If FakeEvents46.Delivered.Contains(expected) Then Return
++  ' VB adapts parameterless Handles methods with a generated forwarding delegate.
++  ' The delegate actually ran;verify its emitted call to the original copied method.
++  Dim original = form.GetType().GetMethod(method, BindingFlags.NonPublic Or BindingFlags.Instance)
++  Dim forwarded As Boolean
++  For Each candidate In form.GetType().GetMethods(BindingFlags.Instance Or BindingFlags.Static Or BindingFlags.NonPublic)
++   If Not FakeEvents46.Delivered.Contains(candidate.DeclaringType.Name & "." & candidate.Name) Then Continue For
++   Dim body = candidate.GetMethodBody()
++   If body Is Nothing Then Continue For
++   Dim bytes = body.GetILAsByteArray()
++   For i = 0 To bytes.Length - 5
++    If (bytes(i) = &H28 OrElse bytes(i) = &H6F) AndAlso BitConverter.ToInt32(bytes, i + 1) = original.MetadataToken Then forwarded = True
++   Next
++  Next
++  Assert.IsTrue(forwarded, "Missing delivered source handler or compiler forwarding bridge")
++ End Sub
++ <DataTestMethod>
++ <DataRow("UibyID")> <DataRow("Ui0OneRefeditMulticol")> <DataRow("UiTwoInputRefedits")> <DataRow("Ui82x2")> <DataRow("Ui8Proportions")> <DataRow("Ui9ANOVA2nested")> <DataRow("Ui01BulletChart")> <DataRow("Ui01ConvexHullPlot")> <DataRow("Ui01DumbbellPlot")> <DataRow("Ui01LadderPlot")> <DataRow("Ui01PolarPlot")> <DataRow("Ui01SankeyPlot")>
++ Public Sub OutputChoicesDisableAndRestoreNestedReference(owner As String)
++  Dim form = Create(owner), output = DirectCast(Control(form, "RefEditOutput"), FakeRefEdit46)
++  Control(form, "optOutputRange").Checked = True : Control(form, "optOutputRange").FireClick()
++  Assert.IsTrue(output.Enabled) : Assert.IsTrue(output.txtAddress.Selections > 0)
++  Control(form, "optOutputRange").Checked = False : Control(form, "optWorksheet").Checked = True : Control(form, "optWorksheet").FireClick()
++  Assert.IsFalse(output.Enabled)
++  Control(form, "optWorkbook").Checked = True : Control(form, "optWorkbook").FireClick() : Assert.IsFalse(output.Enabled)
++  Control(form, "optOutputRange").Checked = True : Control(form, "optOutputRange").FireClick() : Assert.IsTrue(output.Enabled)
++ End Sub
++ <DataTestMethod>
++ <DataRow("NormalityTests")> <DataRow("HomogeneityOfVariance")> <DataRow("MannWhitneyTest")> <DataRow("UnpairedTTest")> <DataRow("ROCCurve")>
++ Public Sub GroupedOrientationUsesExistingInputRolePolicy(topic As String)
++  Dim form As New UibyIDProjection46 With {.Tag = CType([Enum].Parse(GetType(HelpTopic), topic), HelpTopic)}
++  form.RefEdit1.Address = "group" : form.RefEdit2.Address = "values" : form.RefEditOutput.Address = "output"
++  form.optByID.Checked = True : form.optByID.FireClick() : form.optOutputRange.Checked = True
++  FakeRanges46.Reset() : Assert.IsFalse(CBool(CallMember(form, "checkInputs")))
++  CollectionAssert.AreEqual(New String() {"group", "values", "output"}, FakeRanges46.Calls.Select(Function(c) c.Item1).ToArray())
++  Assert.IsTrue(FakeRanges46.Calls(0).Item2) : Assert.IsTrue(FakeRanges46.Calls(1).Item2)
++  form.optByID.Checked = False : form.optByColumn.Checked = True : form.optByColumn.FireClick()
++  FakeRanges46.Reset() : CallMember(form, "checkInputs")
++  Dim two = form.Tag = HelpTopic.MannWhitneyTest OrElse form.Tag = HelpTopic.UnpairedTTest OrElse form.Tag = HelpTopic.ROCCurve
++  Assert.AreEqual(If(two, 3, 2), FakeRanges46.Calls.Count)
++  form.optByID.Checked = True : form.optByID.FireClick() : Assert.IsTrue(form.RefEdit1.Enabled)
++ End Sub
++ <DataTestMethod>
++ <DataRow("UiTwoInputRefedits", "PairedSingleSampleTTests")> <DataRow("Ui9ANOVA2nested", "TwoWayNestedANOVA")>
++ Public Sub InputRoleRejectionsResetOnlyRejectedSelection(owner As String, topic As String)
++  Dim form = Create(owner)
++  form.GetType().GetField("Tag", BindingFlags.NonPublic Or BindingFlags.Instance).SetValue(form, [Enum].Parse(GetType(HelpTopic), topic))
++  Dim names = If(owner = "UiTwoInputRefedits", New String() {"RefEdit1", "RefEdit2"}, New String() {"RefEdit1_Group", "RefEdit2_nested", "RefEdit3_Data"})
++  For i = 0 To names.Length - 1
++   DirectCast(Control(form, names(i)), FakeRefEdit46).Address = "role" & i.ToString()
++  Next
++  FakeRanges46.Reset() : FakeRanges46.Reject.Add("role1")
++  Assert.IsTrue(CBool(CallMember(form, "checkInputs")))
++  Assert.AreEqual("role0", DirectCast(Control(form, names(0)), FakeRefEdit46).Address)
++  Assert.AreEqual("", DirectCast(Control(form, names(1)), FakeRefEdit46).Address)
++  If owner = "Ui9ANOVA2nested" Then Assert.IsFalse(FakeRanges46.Calls(2).Item2)
++ End Sub
++ <TestMethod>
++ Public Sub AssumptionChoicesProjectExactExistingFlags()
++  Dim form As New UibyIDProjection46
++  form.ckLevene.Checked = True : form.ckBartlett.Checked = True
++  Assert.AreEqual(ExcelCommon.HomogeneityMethods.LeveneMedian Or ExcelCommon.HomogeneityMethods.Bartlett, CType(CallMember(form, "GetHomogeneityMethods"), ExcelCommon.HomogeneityMethods))
++  form.ckLevene.Checked = False : form.ckFlignerKilleen.Checked = True : form.ckSquaredRanks.Checked = True
++  Assert.AreEqual(ExcelCommon.HomogeneityMethods.FlignerKilleen Or ExcelCommon.HomogeneityMethods.SquaredRanks Or ExcelCommon.HomogeneityMethods.Bartlett, CType(CallMember(form, "GetHomogeneityMethods"), ExcelCommon.HomogeneityMethods))
++ End Sub
++ <DataTestMethod>
++ <DataRow(0)> <DataRow(1)> <DataRow(2)>
++ Public Sub CdfModesPercentilesAndLegendReverse(mode As Integer)
++  Dim form As New UibyIDProjection46 With {.Tag = HelpTopic.CDFplot}
++  form.cmbCDFPlotType.SelectedIndex = mode
++  Assert.AreEqual(mode <> 0, form.cmbCDFDistribution.Enabled) : Assert.AreEqual(mode <> 2, form.cmbCDFEmpiricalMethod.Enabled)
++  form.ckCDFPercentileLines.Checked = True : Assert.IsTrue(form.txtCDFPercentiles.Enabled)
++  form.ckCDFPercentileLines.Checked = False : Assert.IsFalse(form.txtCDFPercentiles.Enabled)
++  form.ckCDFShowLegend.Checked = True : Assert.IsTrue(form.cmbCDFLegendMode.Enabled)
++  form.ckCDFShowLegend.Checked = False : Assert.IsFalse(form.cmbCDFLegendMode.Enabled)
++ End Sub
++ <TestMethod>
++ Public Sub BoxViolinAndCategoricalStatePreservesValuesWhenDisabled()
++  Dim form As New UibyIDProjection46 With {.Tag = HelpTopic.BoxAndWhiskers}
++  form.cmdBoxMean.Checked = True : form.cmbBoxPalette.SelectedIndex = 4
++  Assert.IsFalse(form.cmdBoxMean.Enabled) : Assert.IsTrue(form.cmdBoxMean.Checked) : Assert.IsFalse(form.ckBoxConnectMeans.Enabled)
++  form.cmbBoxPalette.SelectedIndex = 0 : Assert.IsTrue(form.ckBoxConnectMeans.Enabled)
++  form.Tag = HelpTopic.ViolinPlot : form.cmbViolinBandwidth.SelectedIndex = 2
++  Assert.AreEqual(0.000001D, form.nudViolinBandwidthAdjustment.Minimum) : Assert.AreEqual(6, form.nudViolinBandwidthAdjustment.DecimalPlaces)
++  form.cmbViolinBandwidth.SelectedIndex = 0 : Assert.AreEqual(100D, form.nudViolinBandwidthAdjustment.Maximum)
++  form.Tag = HelpTopic.CategoricalHistogram : form.optCatHistStackedBar.Checked = True : Assert.IsFalse(form.nudCatHistSeriesOverlap.Enabled)
++  form.optCatHistStackedBar.Checked = False : Assert.IsTrue(form.nudCatHistSeriesOverlap.Enabled)
++ End Sub
++ <TestMethod>
++ Public Sub CategoricalWorksheetAndScreenInputsReverse()
++  Dim form As New Ui82x2Projection46
++  form.optWorksheetData.Checked = True : form.optWorksheetData.FireClick()
++  Assert.IsTrue(form.RefEdit1_WorksheetData.Enabled) : Assert.IsFalse(form.spinBtnA.Enabled)
++  form.optScreenData.FireClick() : Assert.IsFalse(form.RefEdit1_WorksheetData.Enabled) : Assert.IsTrue(form.spinBtnD.Enabled)
++  form.optWorksheetData.FireClick() : Assert.IsFalse(form.spinBtnC.Enabled)
++ End Sub
++ <TestMethod>
++ Public Sub ProportionModeAndDynamicHypothesisHandlerPreserveLabels()
++  Dim form As New Ui8ProportionsProjection46
++  form.optIndependent.Checked = True : form.cbHypothesisType.SelectedItem = "Noninferiority" : form.cbHypothesisType.SelectedIndex = 1
++  Assert.AreEqual("One-sided alpha", form.lblAlpha.Text) : Assert.IsTrue(form.spinBtnMargin_IndProp.Visible)
++  form.cbHypothesisType.SelectedItem = "Superiority" : form.cbHypothesisType.SelectedIndex = 0 : Assert.IsFalse(form.spinBtnMargin_IndProp.Visible)
++  form.optPaired.Checked = True : Assert.IsTrue(form.lbl3.Text.Contains("2nd category"))
++  form.optSingle.Checked = True : Assert.IsFalse(form.spinBtnD.Visible)
++ End Sub
++ <TestMethod>
++ Public Sub BulletLadderSankeyIndependentOptionVectors()
++  Dim bullet As New Ui01BulletChartProjection46
++  bullet.ckShowScaleLabels.Checked = True : Assert.IsTrue(bullet.txtScaleNumberFormat.Enabled)
++  bullet.ckShowActualValueLabels.Checked = True : Assert.IsTrue(bullet.txtValueNumberFormat.Enabled)
++  bullet.ckShowActualValueLabels.Checked = False : Assert.IsFalse(bullet.txtValueNumberFormat.Enabled)
++  Dim ladder As New Ui01LadderPlotProjection46
++  ladder.ckShowLines.Checked = True : ladder.ckShowMarkers.Checked = False : Assert.IsTrue(ladder.nudConnectorWidth.Enabled) : Assert.IsFalse(ladder.nudMarkerSize.Enabled)
++  ladder.ckShowMarkers.Checked = True : ladder.ckShowLines.Checked = False : Assert.IsTrue(ladder.nudMarkerSize.Enabled) : Assert.IsFalse(ladder.nudConnectorWidth.Enabled)
++  ladder.ckShowFirstEndpointLabels.Checked = True : Assert.IsTrue(ladder.txtEndpointValueFormat.Enabled)
++  ladder.ckShowFirstEndpointLabels.Checked = False : Assert.IsFalse(ladder.txtEndpointValueFormat.Enabled)
++  Dim sankey As New Ui01SankeyPlotProjection46
++  sankey.ckShowNodeLabels.Checked = True : sankey.cmbNodeLabelMode.SelectedIndex = 2 : Assert.IsTrue(sankey.cmbPercentageBasis.Enabled)
++  sankey.cmbNodeLabelMode.SelectedIndex = 0 : Assert.IsFalse(sankey.cmbPercentageBasis.Enabled)
++ End Sub
++ <TestMethod>
++ Public Sub XyzResetAndSuppressedRecalculationUseClosedSink()
++  Dim form As New Ui3XYZplotProjection46
++  form.pFigure = New Object() : form.pbPreventEvents = True : form.spinBtnRotationX.Value = 20
++  Assert.AreEqual(0, form.Recalculations)
++  form.btResetView.FireClick()
++  Assert.AreEqual(120D, form.spinBtnRotationX.Value) : Assert.AreEqual(60D, form.spinBtnRotationZ.Value) : Assert.AreEqual(50D, form.spinBtnShiftX.Value) : Assert.AreEqual(1, form.Recalculations)
++ End Sub
++End Class

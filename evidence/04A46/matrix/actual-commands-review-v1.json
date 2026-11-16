@@ -1,0 +1,3415 @@
+{
+  "scope": "Actual commands;path-independent aliases only. Exact argv/cwd/output pinned in protected raw. Later publication and independent readback commands separately pinned in external receipt.",
+  "commands": [
+    {
+      "label": "a46-entry-Debug-host",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/entry-builds/Debug/lib/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/entry-obj/Debug/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 3.538944799976889,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-entry-Debug-host/command.json",
+        "bytes": 976,
+        "sha256": "78f3d6b0b657dc7aa1f88667fae37d72d724a4d9a1d9983538020647546d545b"
+      },
+      "stdout_sha256": "4c70660a69ed4ef05617b2b1fe13e5bc8b3020e505d8a2186c74f01f9285e3bc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-entry-Debug-metadata",
+      "command": [
+        "<repo>/.test-rationalization-04A45.tmp/wiring-inspector-v2/InspectWiring45.exe",
+        "<repo>/.test-rationalization-04A46.tmp/entry-builds/Debug/lib",
+        "<repo>/.test-rationalization-04A46.tmp/entry-builds/Debug/wiring.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.6454411000013351,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-entry-Debug-metadata/command.json",
+        "bytes": 744,
+        "sha256": "0e420a384f368a2988d2715c7f3bbc1090a6f1458449101c2de3ccf6910b56d0"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-entry-Release-host",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/entry-builds/Release/lib/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/entry-obj/Release/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 2.557227699959185,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-entry-Release-host/command.json",
+        "bytes": 982,
+        "sha256": "e13177472bd1971d05a274a8a8ad9568b49a59d9a903a71818ab1573eed66e59"
+      },
+      "stdout_sha256": "05ab27740957d2c50c40b8c878e3a6edb4f8e0c86c9ef833897df63d97356523",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-entry-Release-metadata",
+      "command": [
+        "<repo>/.test-rationalization-04A45.tmp/wiring-inspector-v2/InspectWiring45.exe",
+        "<repo>/.test-rationalization-04A46.tmp/entry-builds/Release/lib",
+        "<repo>/.test-rationalization-04A46.tmp/entry-builds/Release/wiring.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.631919800012838,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-entry-Release-metadata/command.json",
+        "bytes": 747,
+        "sha256": "208f7138b215551159ddb7c3e0c3444285d80f365a5d67e5201a17e03cf90854"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-A-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/A-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v1/inputs-Debug.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/A/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/A/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6651845000451431,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-A-current/command.json",
+        "bytes": 1073,
+        "sha256": "f9d5f37d4292f78423ceb0ed1cc53d7fd46f031584945712057d203a2ebf7303"
+      },
+      "stdout_sha256": "759b5ca0d006abf5a30e73d40ef8ee24d3b9d437a473de7c8e1450c951d64039",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-A-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/A-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v1/LateCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.37303449999308214,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-A-recorder/command.json",
+        "bytes": 1125,
+        "sha256": "299d0fcc689cb4ead8aed3720a7a9bb12da2fe47412fe7be77b4906242168fec"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-B-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/B-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v2-gee-profile/inputs-Debug.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/B/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/B/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.611134700011462,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-B-current/command.json",
+        "bytes": 1084,
+        "sha256": "fd99c287170833a952ba293112821e40aae088edce570566de72fede103963a0"
+      },
+      "stdout_sha256": "f4ce8127bd26ed607c967770322517c91265de6cd566d8a22b6c652825f45b0a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-B-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/B-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38-v2.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.3765939999721013,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-B-recorder/command.json",
+        "bytes": 1138,
+        "sha256": "27efe471df447bea196b634e20230e8f30386ede232ae55df25cb55abecf3143"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-C-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/C-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/inputs-Debug.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/C/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/C/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.7312569000059739,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-C-current/command.json",
+        "bytes": 1095,
+        "sha256": "33208246a047e326195217d6c4221baa961bc8d56ff3cab9e3d4447454afbebe"
+      },
+      "stdout_sha256": "e090c51ad9c4007dc8a884037fe63e51e1b2d03ee68cefbb09e1709069159b5c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-C-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/C-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/MmrmCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.3969709000084549,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-C-recorder/command.json",
+        "bytes": 1146,
+        "sha256": "1bc62ee8de9735807e8d8ab816feb7c9c7b2c278310ce929681df2b21e028fd0"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-D-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/D-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/inputs-Debug.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/D/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/D/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.7400939000071958,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-D-current/command.json",
+        "bytes": 1095,
+        "sha256": "23054ed2a8822e4a278eb30586769989610dcc6d109856ea0cf2a51138398e8c"
+      },
+      "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-D-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/D-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/MmrmCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.38304190000053495,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-D-recorder/command.json",
+        "bytes": 1147,
+        "sha256": "b1b3538f4791ea1d83a14e31c88735f7a9ccb4c94b1addcfe11b3cc0d26f6abd"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-E-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/E-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/inputs-Debug.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/E/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/E/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.7206946999649517,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-E-current/command.json",
+        "bytes": 1096,
+        "sha256": "4a9cd7ca31307b0e19d3251cb134a8f61e667bcea4d57086a25fe75ac123045b"
+      },
+      "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-E-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/E-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/MmrmCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4107415000326,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-E-recorder/command.json",
+        "bytes": 1144,
+        "sha256": "6a26c0216812f9e4782917e2d681a3d68c6598aae25c0325603f1316903f50f8"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-F-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/F-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/inputs-Debug.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/F/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/F/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.675754500029143,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-F-current/command.json",
+        "bytes": 1093,
+        "sha256": "f49f26ad0c007dbdba319b795dbe2a0784c8c87ca939ddbb6731d7ee12c33ddc"
+      },
+      "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-F-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/F-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/MmrmCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4114197000162676,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-F-recorder/command.json",
+        "bytes": 1145,
+        "sha256": "9412c451ff6acec65d8dc5681264bea29384146ee59e88f8a5681125457e04f5"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-G-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/G-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/inputs-Debug.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/G/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/G/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8654964999877848,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-G-current/command.json",
+        "bytes": 1105,
+        "sha256": "f0f10edbfe125af64570b458cbd2bc889bff08104f099d55b2c2641c1d72a19e"
+      },
+      "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-G-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/G-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/MmrmCapture38-v2.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4257933999761008,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-G-recorder/command.json",
+        "bytes": 1159,
+        "sha256": "a19284772ae529f808a660dea7540810dbd346b53c54ca5913617e76456b840b"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-math-edges-v1-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/math-edges-v1-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/math-edges-v1/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/math-edges-v1/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6592039999668486,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-math-edges-v1-current/command.json",
+        "bytes": 1085,
+        "sha256": "a35abe2507d12e6005beeccbd7a98b42867adc4ff5ec7d9fe0ad75413ff01f78"
+      },
+      "stdout_sha256": "352f0ae32a801aaa9fa561aec99b44cf13bf87cc86965786ec5d6ff53ac0b17f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-math-edges-v1-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/math-edges-v1-current.exe",
+        "<repo>/evidence/04A38/preedit/attempts/math-edges-v1/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4312206999748014,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-math-edges-v1-recorder/command.json",
+        "bytes": 1130,
+        "sha256": "d010bb4f1e212ffd82f7d9e679bdd45ddb4fbe4d89253ecf129358d910722cdb"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-model-inputs-v2-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/model-inputs-v2-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/model-inputs-v2/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/model-inputs-v2/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 12.592560499964748,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-model-inputs-v2-current/command.json",
+        "bytes": 1093,
+        "sha256": "ca2f00923a1499cee6c4cac017a9a6237d8dfb8adf43bfaffef475591a432172"
+      },
+      "stdout_sha256": "475288995a7028c01dc1724b5adc66d0d2873d947333c41b1be35cc803cabfc5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-model-inputs-v2-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/model-inputs-v2-current.exe",
+        "<repo>/evidence/04A38/preedit/attempts/model-inputs-v2/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.442306799988728,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-model-inputs-v2-recorder/command.json",
+        "bytes": 1133,
+        "sha256": "458766d18f2dbdcc4a5acdc57f168682d237b5440f259ca9077958cf713af9d1"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-preedit-main-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/preedit-main-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/preedit/frozen-v2/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/preedit-main/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/preedit-main/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 113.99521570000798,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-preedit-main-current/command.json",
+        "bytes": 1068,
+        "sha256": "41e134f53d8a818c40cb0d95d5fd269bec47d9f455f7b617e22f671a06d0fe92"
+      },
+      "stdout_sha256": "3f2e1d45cfed909d59e146f4379d3a6cc121a69efab67a267e594529445d4667",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-preedit-main-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/preedit-main-current.exe",
+        "<repo>/evidence/04A38/preedit/frozen-v2/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.43716949998633936,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-preedit-main-recorder/command.json",
+        "bytes": 1116,
+        "sha256": "7ab2f1e2824d145490382867c73338c0e6eee6e7e62c389f2df3fef99361ca82"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-public-options-v1-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/public-options-v1-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/public-options-v1/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/public-options-v1/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 38.54977119999239,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-public-options-v1-current/command.json",
+        "bytes": 1100,
+        "sha256": "341ec519a711eb3c836a7d7a9355693d09561a6b37f8cb0573526247192fb202"
+      },
+      "stdout_sha256": "1da4095d6e2c25cd45e1179fc8eaaeb5ec63bb4bb1189b94d01c9b95f369c6ce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-public-options-v1-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/public-options-v1-current.exe",
+        "<repo>/evidence/04A38/preedit/frozen-v2/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.420662899967283,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-public-options-v1-recorder/command.json",
+        "bytes": 1119,
+        "sha256": "6bbed1cf63c8afeea30c6b746633bd56b6b798e19d25df84f1d5c94154b8cd42"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-public-primitives-v1-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/public-primitives-v1-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf",
+        "<repo>/evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/public-primitives-v1/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Debug-v1/Debug/public-primitives-v1/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.1799636000068858,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-public-primitives-v1-current/command.json",
+        "bytes": 1113,
+        "sha256": "245c768000c60a0a3fe96b9424fa75da79c90e6c8ca1e0341b0716c0b9bc323e"
+      },
+      "stdout_sha256": "896e1e79e9f245b4bbe9f4221e40db46a9905c34782831a61125751349caea09",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-public-primitives-v1-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/public-primitives-v1-current.exe",
+        "<repo>/evidence/04A38/preedit/frozen-v2/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.429937599983532,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-public-primitives-v1-recorder/command.json",
+        "bytes": 1122,
+        "sha256": "526d09f954bdc3b4cba470b0ced79549f465519d891573591db5e66f309ca90f"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Debug-v1-Debug-safe-udf-compile",
+      "command": [
+        "<installed-tool>/vbc.exe",
+        "/nologo",
+        "/target:library",
+        "/rootnamespace:BESHStatNG",
+        "/optioncompare:text",
+        "/optioninfer+",
+        "/optionexplicit+",
+        "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+        "/optimize-",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.Tests.dll",
+        "/reference:System.Core.dll",
+        "/reference:System.dll",
+        "/reference:System.Data.dll",
+        "/reference:System.Xml.Linq.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStatNG.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Core.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/BESHStat.Excel.Common.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/udf/ExcelDna.Integration.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "<repo>/BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportContingency.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFhelpers.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+        "<repo>/BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb",
+        "<repo>/BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "<repo>/evidence/04A38/preedit/native-safety/NativeBoundary38.vb",
+        "<repo>/evidence/04A38/preedit/native-safety/DependencySlices38.vb",
+        "<repo>/evidence/04A38/preedit/native-safety/FixtureInputs38.vb"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6144866999820806,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Debug-v1-Debug-safe-udf-compile/command.json",
+        "bytes": 6756,
+        "sha256": "d62b1850ef835d5f801060543ba2b1393034fb4def197a7ac006c57c39d16ef4"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-A-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/A-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v1/inputs-Release.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/A/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/A/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6336626000120305,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-A-current/command.json",
+        "bytes": 1087,
+        "sha256": "7f644e5054d2fec185380cf6847b830401ff850e8aa7c8858c2ee3b5d4fb4063"
+      },
+      "stdout_sha256": "759b5ca0d006abf5a30e73d40ef8ee24d3b9d437a473de7c8e1450c951d64039",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-A-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/A-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v1/LateCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.35779419995378703,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-A-recorder/command.json",
+        "bytes": 1129,
+        "sha256": "792514c39fbe0d34c06be248e3d1d8d0f60f406b90b2c00981ef33f738502aba"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-B-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/B-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v2-gee-profile/inputs-Release.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/B/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/B/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6100806000176817,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-B-current/command.json",
+        "bytes": 1099,
+        "sha256": "5407ea5a2098ac9aa59980ddabe06db934d9f404399f0a73b2ebc18b2ddc7e5f"
+      },
+      "stdout_sha256": "f4ce8127bd26ed607c967770322517c91265de6cd566d8a22b6c652825f45b0a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-B-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/B-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v2-gee-profile/GeeCapture38-v2.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.3863392000203021,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-B-recorder/command.json",
+        "bytes": 1142,
+        "sha256": "1832dae66378174c582b6a47f53d7d79eee0d635f191e81430d97585b37d9b10"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-C-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/C-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/inputs-Release.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/C/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/C/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.7595802000141703,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-C-current/command.json",
+        "bytes": 1109,
+        "sha256": "10dbd0ff5651ee0e5aaab2c276ab77644341fd4ac29a89c6102b0a3adfb9ec70"
+      },
+      "stdout_sha256": "e090c51ad9c4007dc8a884037fe63e51e1b2d03ee68cefbb09e1709069159b5c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-C-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/C-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v3-mmrm-headered-profile/MmrmCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.3614377999911085,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-C-recorder/command.json",
+        "bytes": 1150,
+        "sha256": "8bcf0d78f30a8e982a082e880771190904046edb26b018d7f2a0fa4714c8387d"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-D-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/D-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/inputs-Release.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/D/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/D/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.692951200006064,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-D-current/command.json",
+        "bytes": 1108,
+        "sha256": "2fd16330d281d0bd049471f687768093a83d2309e12993c8ca6a60e54df46b66"
+      },
+      "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-D-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/D-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v4-mmrm-duplicate-guards/MmrmCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.36353969998890534,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-D-recorder/command.json",
+        "bytes": 1151,
+        "sha256": "f92e79c50c1e3292e76f774cb655db7cf2129bdfb6cd5ebb55391ae3cb211a3b"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-E-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/E-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/inputs-Release.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/E/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/E/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6988444000016898,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-E-current/command.json",
+        "bytes": 1110,
+        "sha256": "e7aa0748c205eeaf7eb98964185629fb71008a11845742862a0449f5fc8b7be3"
+      },
+      "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-E-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/E-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v5-mmrm-unmatched-profile/MmrmCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.36480069998651743,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-E-recorder/command.json",
+        "bytes": 1152,
+        "sha256": "2619c9cf17edcd5115901a22723d8d6ad931f62f94de0d878ffd4db0fcc612eb"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-F-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/F-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/inputs-Release.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/F/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/F/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.7141669999691658,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-F-current/command.json",
+        "bytes": 1108,
+        "sha256": "9e17d6e27e59a97ece61e457d74d81b53a91e9ac387b06a6e8905fb0b0e54511"
+      },
+      "stdout_sha256": "9b53b4258df6f51d37843f2170a8b7cecdb40273c0df0b87eeb32c0966786411",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-F-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/F-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v6-mmrm-intercept-group/MmrmCapture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.37453570001525804,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-F-recorder/command.json",
+        "bytes": 1150,
+        "sha256": "c1beaa4cf99f477a8c002d2ba105d8e9b6ecfe168c44ecbf74b1a1d3cc3492a1"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-G-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/G-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/inputs-Release.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/G/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/G/execution.json",
+        "current"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8918781999964267,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-G-current/command.json",
+        "bytes": 1119,
+        "sha256": "495804f18c328a1b4031305f98165fd1259d115095a0dd456f06a2b633e741d1"
+      },
+      "stdout_sha256": "aaeeff23bacc4ab88eb365f4bd28c74c4d14bcafa678b3fe2f3a1530a76e4c74",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-G-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/G-current.exe",
+        "<repo>/evidence/04A38/late-archived-entry-supplement/v7-consolidated-gee-spec-mmrm-wide/MmrmCapture38-v2.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.37140040000667796,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-G-recorder/command.json",
+        "bytes": 1164,
+        "sha256": "cf181dd42f6b38f1cc3129c911031bb9888b08a89952b45829db2efca4e5044c"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-math-edges-v1-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/math-edges-v1-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/preedit/attempts/math-edges-v1/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/math-edges-v1/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/math-edges-v1/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6186688999878243,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-math-edges-v1-current/command.json",
+        "bytes": 1097,
+        "sha256": "da45ff0d110ecb7d3a4bc4059f7b7dcfe0599f740d28db26140c504cdac33acf"
+      },
+      "stdout_sha256": "352f0ae32a801aaa9fa561aec99b44cf13bf87cc86965786ec5d6ff53ac0b17f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-math-edges-v1-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/math-edges-v1-current.exe",
+        "<repo>/evidence/04A38/preedit/attempts/math-edges-v1/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4007891000364907,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-math-edges-v1-recorder/command.json",
+        "bytes": 1134,
+        "sha256": "e68e6759403a81c39ab5f607f970b648c16f7de06cb4d49d6d1594a9536e91b2"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-model-inputs-v2-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/model-inputs-v2-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/preedit/attempts/model-inputs-v2/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/model-inputs-v2/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/model-inputs-v2/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 8.797915100003593,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-model-inputs-v2-current/command.json",
+        "bytes": 1104,
+        "sha256": "32501f8566d99897fe28bb7357fd20b781f42b12cbc42e14a487e90984dd1605"
+      },
+      "stdout_sha256": "475288995a7028c01dc1724b5adc66d0d2873d947333c41b1be35cc803cabfc5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-model-inputs-v2-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/model-inputs-v2-current.exe",
+        "<repo>/evidence/04A38/preedit/attempts/model-inputs-v2/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.39925349998520687,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-model-inputs-v2-recorder/command.json",
+        "bytes": 1139,
+        "sha256": "b3040271710e4fb697c3621d2580a066038cf8d0c673a23b6e6180c3e0aa9cbb"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-preedit-main-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/preedit-main-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/preedit/frozen-v2/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/preedit-main/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/preedit-main/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 95.51284919999307,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-preedit-main-current/command.json",
+        "bytes": 1079,
+        "sha256": "4dea3a368de43b1b1a8474dcf074bf88c2772dd8b6ea6cca10d4bda0d87cd3bb"
+      },
+      "stdout_sha256": "3f2e1d45cfed909d59e146f4379d3a6cc121a69efab67a267e594529445d4667",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-preedit-main-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/preedit-main-current.exe",
+        "<repo>/evidence/04A38/preedit/frozen-v2/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.3976762999664061,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-preedit-main-recorder/command.json",
+        "bytes": 1119,
+        "sha256": "64f9a9ed71da5903a921b7ffd648dd5b82b57d04e1a61eb0d48cd1c1a9d5900e"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-public-options-v1-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/public-options-v1-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/preedit/attempts/public-options-v1/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/public-options-v1/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/public-options-v1/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 19.668686799996067,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-public-options-v1-current/command.json",
+        "bytes": 1113,
+        "sha256": "4022dd291976b5c0a43d6a4d4cc7670fb9194ff13790801b0a7ce9917212985d"
+      },
+      "stdout_sha256": "1da4095d6e2c25cd45e1179fc8eaaeb5ec63bb4bb1189b94d01c9b95f369c6ce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-public-options-v1-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/public-options-v1-current.exe",
+        "<repo>/evidence/04A38/preedit/frozen-v2/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.39300689997617155,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-public-options-v1-recorder/command.json",
+        "bytes": 1125,
+        "sha256": "9b056a9e280b9b20e8f813a11e96cdf0675f80b87de50683948a9bf3145a353d"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-public-primitives-v1-current",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/public-primitives-v1-current.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf",
+        "<repo>/evidence/04A38/preedit/attempts/public-primitives-v1/cases.jsonl",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/public-primitives-v1/results.tsv",
+        "<repo>/.test-rationalization-04A46.tmp/compatibility-current-v1/captures/a46-Release-v1/Release/public-primitives-v1/execution.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9113047000137158,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-public-primitives-v1-current/command.json",
+        "bytes": 1125,
+        "sha256": "24f42940d8ddf8996ed1c009cd0a53d497901b54087cb6e65250db7e712e5abe"
+      },
+      "stdout_sha256": "896e1e79e9f245b4bbe9f4221e40db46a9905c34782831a61125751349caea09",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-public-primitives-v1-recorder",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/target:exe",
+        "/reference:System.Core.dll",
+        "/reference:System.Web.Extensions.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/public-primitives-v1-current.exe",
+        "<repo>/evidence/04A38/preedit/frozen-v2/Capture38.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.39500089996727183,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-public-primitives-v1-recorder/command.json",
+        "bytes": 1128,
+        "sha256": "43e4cb5263bd81b7971c9f5aee149c58d5f4f07fc1342a00e4f695446f99bebd"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-a46-Release-v1-Release-safe-udf-compile",
+      "command": [
+        "<installed-tool>/vbc.exe",
+        "/nologo",
+        "/target:library",
+        "/rootnamespace:BESHStatNG",
+        "/optioncompare:text",
+        "/optioninfer+",
+        "/optionexplicit+",
+        "/imports:System,System.Collections,System.Collections.Generic,System.Diagnostics,System.Linq,System.Globalization",
+        "/optimize+",
+        "/out:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.Tests.dll",
+        "/reference:System.Core.dll",
+        "/reference:System.dll",
+        "/reference:System.Data.dll",
+        "/reference:System.Xml.Linq.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStatNG.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Core.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/BESHStat.Excel.Common.dll",
+        "/reference:<repo>/.test-rationalization-04A46.tmp/compiled/Release/udf/ExcelDna.Integration.dll",
+        "/reference:<installed-reference>/netstandard.dll",
+        "<repo>/BESHstatNG/src/ExcelUDFs/AgreementMethodUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/AssumptionsUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/ClassificationReportUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/ContingencyTableUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/DistributionUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/ExcelArgModules.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/NonparametricUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/ParametricUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/PlotDataUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/PropensityScoreUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/GeeUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/GlmNbUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/GlmUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/LinearModelUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/LmmUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/MixedModelUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/MultinomialLogitUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/OrdinalLogitUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/RegressionFormulaUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/UdfRegressionOutput.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/Regression/ZipUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/SampleSizeUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImport.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportAgreement.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportContingency.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportFormula.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMixedModel.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportOptions.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPlot.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportPsm.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRangeReaders.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportRegressionOptions.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UDFhelpers.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UdfLinearAlgebra.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UdfOutputTables.vb",
+        "<repo>/BESHstatNG/src/ExcelUDFs/UdfScalarUtilities.vb",
+        "<repo>/BESHstatNG/src/DM/WindowsSpreadsheetTransport.vb",
+        "<repo>/BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb",
+        "<repo>/evidence/04A38/preedit/native-safety/NativeBoundary38.vb",
+        "<repo>/evidence/04A38/preedit/native-safety/DependencySlices38.vb",
+        "<repo>/evidence/04A38/preedit/native-safety/FixtureInputs38.vb"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5062147999997251,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-a46-Release-v1-Release-safe-udf-compile/command.json",
+        "bytes": 6766,
+        "sha256": "43ccb2c2e35f4c408e805c74efe4301ced84e96a250a5fa6811803a6ceff26e6"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-compiled-Debug-exports",
+      "command": [
+        "<repo>/.test-rationalization-04A38.tmp/completion-w2-cont15/packet-v2/inspection/Inspect38.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/lib",
+        "<repo>/.test-rationalization-04A46.tmp/abi-cil/Debug/exports.json",
+        "<repo>/evidence/04A38/entry-members.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.7892531999968924,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-compiled-Debug-exports/command.json",
+        "bytes": 842,
+        "sha256": "2cc69a9aeb1c595734c3b135d13263f694df1be6b183be5f31212a81a565a024"
+      },
+      "stdout_sha256": "768d70d3cf223e448fec840b0c77f411d7200e0c4edb14c31b61c0a66f40baff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-compiled-Debug-metadata",
+      "command": [
+        "<repo>/.test-rationalization-04A38.tmp/completion-w2-cont15/signatures-v1/MethodMetadata38.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/lib",
+        "<repo>/.test-rationalization-04A46.tmp/abi-cil/Debug/current.json",
+        "<repo>/evidence/04A38/completion/w2/continuation-v16/native-metadata-owners-v1.txt"
+      ],
+      "exit_code": 0,
+      "seconds": 8.986624700017273,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-compiled-Debug-metadata/command.json",
+        "bytes": 885,
+        "sha256": "d9b5d508bbfee43c91c83a0e4e6d78a71a90c48872125b99386e085d0d932b7f"
+      },
+      "stdout_sha256": "66e2b3a8bb72bde00760b72f30b28c7bb8efe9afef16c8a253450d20fcb75cd9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-compiled-Release-exports",
+      "command": [
+        "<repo>/.test-rationalization-04A38.tmp/completion-w2-cont15/packet-v2/inspection/Inspect38.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/lib",
+        "<repo>/.test-rationalization-04A46.tmp/abi-cil/Release/exports.json",
+        "<repo>/evidence/04A38/entry-members.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9667401000042446,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-compiled-Release-exports/command.json",
+        "bytes": 846,
+        "sha256": "abdab3023b181c480a8fc8def4599f0dbe3d4a651c854ed2d617cda5a709a9e6"
+      },
+      "stdout_sha256": "768d70d3cf223e448fec840b0c77f411d7200e0c4edb14c31b61c0a66f40baff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-compiled-Release-metadata",
+      "command": [
+        "<repo>/.test-rationalization-04A38.tmp/completion-w2-cont15/signatures-v1/MethodMetadata38.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/lib",
+        "<repo>/.test-rationalization-04A46.tmp/abi-cil/Release/current.json",
+        "<repo>/evidence/04A38/completion/w2/continuation-v16/native-metadata-owners-v1.txt"
+      ],
+      "exit_code": 0,
+      "seconds": 8.366068900038954,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-compiled-Release-metadata/command.json",
+        "bytes": 889,
+        "sha256": "ee7aa1b3ceae4400ee1a623c6bc597e117101e1dc5fac7bfd1d4f220b72d2eae"
+      },
+      "stdout_sha256": "1e5bde3406fb369cca79b4bc7dd352821767017756526c7353bd65ee423d1d12",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-Debug-Common-main",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Common-main/sandbox/BESHStat.Excel.Common.Tests/bin/Debug/net10.0/BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Common-main/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Common-main/results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName!~MigrationSemantic04A02Tests"
+      ],
+      "exit_code": 1,
+      "seconds": 98.96493580000242,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Debug-Common-main/command.json",
+        "bytes": 1054,
+        "sha256": "3c0d9f2c5f4c0e63ae9ebc030d8be2e8a2cd5144fa2d3460a32b805c8f567d6f"
+      },
+      "stdout_sha256": "a1fea9d593902322bd50403431870cd8560b202f1f692a5434b362a0c5aa477d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-Debug-Common-semantic",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Common-semantic/sandbox/BESHStat.Excel.Common.Tests/bin/Debug/net10.0/BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Common-semantic/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Common-semantic/results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests"
+      ],
+      "exit_code": 0,
+      "seconds": 1.983483999967575,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Debug-Common-semantic/command.json",
+        "bytes": 1065,
+        "sha256": "957921c3e9e27c53d13822a7ecb17ef080436e932ccfa8141eb8dcc8e2fa6f90"
+      },
+      "stdout_sha256": "e8a09025e732b9bcac6d8728ae360af84f0c57af96917553f6bec574a4ba7ff2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-Debug-ControlMitigation-all",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-ControlMitigation-all/sandbox/ControlMitigation/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-ControlMitigation-all/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-ControlMitigation-all/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=ControlMitigation.trx"
+      ],
+      "exit_code": 0,
+      "seconds": 8.001872900000308,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Debug-ControlMitigation-all/command.json",
+        "bytes": 1235,
+        "sha256": "76e1d14eaed9a9e3ff2713c06d0d1c56bbc8fa67bc492c56898b58e32af055bb"
+      },
+      "stdout_sha256": "b701ec38171b3e212e4ddd388e044ed5142ac336122027fa66d64dc8ceea5a19",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-Debug-Core-all",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Core-all/sandbox/BESHStat.Core.Tests/bin/Debug/net10.0/BESHStat.Core.Tests.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Core-all/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Core-all/results",
+        "/Logger:trx;LogFileName=Core.trx"
+      ],
+      "exit_code": 0,
+      "seconds": 7.224938599974848,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Debug-Core-all/command.json",
+        "bytes": 956,
+        "sha256": "c8d5905fcf226b8b70cffb9b834f2349818dfe399e2bc75a718a9ee06e7861c0"
+      },
+      "stdout_sha256": "9d7f6d82df6f22c45f768abceb815feaccd665f768d6c73d982293496404ec07",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-Debug-Legacy-all",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Legacy-all/sandbox/BESHStatNG.Test/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Legacy-all/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-Legacy-all/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx"
+      ],
+      "exit_code": 1,
+      "seconds": 146.49282049998874,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Debug-Legacy-all/command.json",
+        "bytes": 1190,
+        "sha256": "ad64512762e577f2285344efa30e9b7974ab10af0fb91c6396296fe0b2704d48"
+      },
+      "stdout_sha256": "c50269f12bb56af47e9a1cc4758299e3c3de948da21f8f9b426c01fbbd64e967",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07"
+    },
+    {
+      "label": "a46-final-Debug-OfficeAddin-all",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-OfficeAddin-all/sandbox/tests/bin/Debug/net10.0/OfficeAddin.Tests.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-OfficeAddin-all/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-OfficeAddin-all/results",
+        "/Logger:trx;LogFileName=OfficeAddin.trx"
+      ],
+      "exit_code": 0,
+      "seconds": 35.916514999989886,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Debug-OfficeAddin-all/command.json",
+        "bytes": 969,
+        "sha256": "287987eeadd6d6a4d2cb99934fee60d2fe2f629a2edbb1f294260af2b12f26a2"
+      },
+      "stdout_sha256": "9c8a5b3679d7cc6906fd64298a1f6487e27369d198bc09dcf5702919c99277a3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-Debug-OfficeExecution-all",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-OfficeExecution-all/sandbox/Execution/bin/Debug/net10.0/Execution.Tests.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-OfficeExecution-all/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Debug-OfficeExecution-all/results",
+        "/Logger:trx;LogFileName=OfficeExecution.trx"
+      ],
+      "exit_code": 0,
+      "seconds": 1.8048155999858864,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Debug-OfficeExecution-all/command.json",
+        "bytes": 987,
+        "sha256": "347175f5133b8baee1913524cea8208cf84e3a3b0a6f1daf98e1e9a85654c8c8"
+      },
+      "stdout_sha256": "f5485ad76b96b7e39478f83a27d428ed9e1cff573ccb0edda519ff8976e35451",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-fixture-final-Debug-39",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Debug-39/Observe39.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Debug-39/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.228835399961099,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-fixture-final-Debug-39/command.json",
+        "bytes": 639,
+        "sha256": "74d4d77e70e85b1744f71b81f185fad672fb51ebeac989de4b75be18f2405094"
+      },
+      "stdout_sha256": "aa7ab2ad28cb9300298b5c37a6785a919252f998523c9b7a23a5d32b4527fbad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-fixture-final-Debug-40",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Debug-40/Observe40.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Debug-40/observations.json",
+        "policy"
+      ],
+      "exit_code": 0,
+      "seconds": 1.0432219000067562,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-fixture-final-Debug-40/command.json",
+        "bytes": 654,
+        "sha256": "82cd5381cda3018cfac81e20bbb4b7302de209833d12082b7be48ca6cb5939cf"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-fixture-final-Debug-41",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Debug-41/Observe41.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Debug-41/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 3.048972100019455,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-fixture-final-Debug-41/command.json",
+        "bytes": 639,
+        "sha256": "09eeb189ec17f0e298463d1ccf5d144971fa52935d703fa33fce585c1fc57266"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-fixture-final-Debug-42",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Debug-42/Observe42.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Debug-42/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.903738000022713,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-fixture-final-Debug-42/command.json",
+        "bytes": 639,
+        "sha256": "3c243aa318507d1527b396cf7df8f04b0c277d3d1c32da0d3f83a377fd33ae50"
+      },
+      "stdout_sha256": "80cd4cc3c2f78bfa790300c748825a665fc9167ea3d11ee0cbc6dbf05a3a06c5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-fixture-final-Release-39",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Release-39/Observe39.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Release-39/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.2459836999769323,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-fixture-final-Release-39/command.json",
+        "bytes": 644,
+        "sha256": "24312e94725934c288d49313d0a217e692b30b4983fd379cf9acac7caac0967e"
+      },
+      "stdout_sha256": "aa7ab2ad28cb9300298b5c37a6785a919252f998523c9b7a23a5d32b4527fbad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-fixture-final-Release-40",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Release-40/Observe40.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Release-40/observations.json",
+        "policy"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9944833000190556,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-fixture-final-Release-40/command.json",
+        "bytes": 658,
+        "sha256": "b79406aa049fa1b38225b62dcfa57e600ae343de11fa6dd1665ba37b5b666eda"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-fixture-final-Release-41",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Release-41/Observe41.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Release-41/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.417807799996808,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-fixture-final-Release-41/command.json",
+        "bytes": 643,
+        "sha256": "13f402b9d68694d59a120e1d3ba90434e5a4405697e77d2461c6c7498b0075f2"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-fixture-final-Release-42",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Release-42/Observe42.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-Release-42/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 3.2873570999945514,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-fixture-final-Release-42/command.json",
+        "bytes": 644,
+        "sha256": "6b0c72e9f37b2034f5103a3e4e3cee3c32275542ee13141d544406e649f7978d"
+      },
+      "stdout_sha256": "80cd4cc3c2f78bfa790300c748825a665fc9167ea3d11ee0cbc6dbf05a3a06c5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-Release-Common-affected",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Release-Common-affected/sandbox/BESHStat.Excel.Common.Tests/bin/Release/net10.0/BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Release-Common-affected/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Release-Common-affected/results",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46|FullyQualifiedName~AssumptionReport06|FullyQualifiedName~PairedBlockAdapter|FullyQualifiedName~ContingencyAdapter|FullyQualifiedName~WindowsHarness45|FullyQualifiedName~MigrationRefEditBoundary|FullyQualifiedName~DocumentLifecycleAdapter|FullyQualifiedName~ExecutionAdapter|FullyQualifiedName~InfrastructurePolicy44|FullyQualifiedName~Preference|FullyQualifiedName~Settings|FullyQualifiedName~Help|FullyQualifiedName~Diagnostic|FullyQualifiedName~Fault|FullyQualifiedName~Execution|FullyQualifiedName~Culture|FullyQualifiedName~Progress|FullyQualifiedName~NumberText"
+      ],
+      "exit_code": 0,
+      "seconds": 9.16865330003202,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Release-Common-affected/command.json",
+        "bytes": 1623,
+        "sha256": "4eb93681974c2e7670db846be73301839c0ca5ae9b2fee07e4a0b804d6e88573"
+      },
+      "stdout_sha256": "fdee37ba607edf9db90c83818f97ee9a13ed948b8aab6a2efc403635fcee7b24",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-Release-Core-affected",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Release-Core-affected/sandbox/BESHStat.Core.Tests/bin/Release/net10.0/BESHStat.Core.Tests.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Release-Core-affected/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Release-Core-affected/results",
+        "/Logger:trx;LogFileName=Core.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46|FullyQualifiedName~AssumptionReport06|FullyQualifiedName~PairedBlockAdapter|FullyQualifiedName~ContingencyAdapter|FullyQualifiedName~WindowsHarness45|FullyQualifiedName~MigrationRefEditBoundary|FullyQualifiedName~DocumentLifecycleAdapter|FullyQualifiedName~ExecutionAdapter|FullyQualifiedName~InfrastructurePolicy44|FullyQualifiedName~Preference|FullyQualifiedName~Settings|FullyQualifiedName~Help|FullyQualifiedName~Diagnostic|FullyQualifiedName~Fault|FullyQualifiedName~Execution|FullyQualifiedName~Culture|FullyQualifiedName~Progress|FullyQualifiedName~NumberText"
+      ],
+      "exit_code": 0,
+      "seconds": 2.325049700040836,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Release-Core-affected/command.json",
+        "bytes": 1600,
+        "sha256": "83aa50220b180e9c4f18222723a5177de34e093b315615864875c1d7250dba25"
+      },
+      "stdout_sha256": "bad6a5e0560c678659c06d6f295424add51924e9f4b04c9ea0a668837a5a045a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-Release-Legacy-affected",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Release-Legacy-affected/sandbox/BESHStatNG.Test/bin/Release/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Release-Legacy-affected/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-final-Release-Legacy-affected/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46|FullyQualifiedName~AssumptionReport06|FullyQualifiedName~PairedBlockAdapter|FullyQualifiedName~ContingencyAdapter|FullyQualifiedName~WindowsHarness45|FullyQualifiedName~MigrationRefEditBoundary|FullyQualifiedName~DocumentLifecycleAdapter|FullyQualifiedName~ExecutionAdapter|FullyQualifiedName~InfrastructurePolicy44|FullyQualifiedName~Preference|FullyQualifiedName~Settings|FullyQualifiedName~Help|FullyQualifiedName~Diagnostic|FullyQualifiedName~Fault|FullyQualifiedName~Execution|FullyQualifiedName~Culture|FullyQualifiedName~Progress|FullyQualifiedName~NumberText"
+      ],
+      "exit_code": 1,
+      "seconds": 12.594834999996237,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-Release-Legacy-affected/command.json",
+        "bytes": 1834,
+        "sha256": "0b237f1de0854ae7e616247d160cd6fbc8ba8163871d5ae02b21f379181c981e"
+      },
+      "stdout_sha256": "89eecf94683204273ecad4615885c20e79c448f2213699c1735e34cebb7ffc53",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07"
+    },
+    {
+      "label": "a46-final-serial-v1-docs",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--config-file",
+        "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+        "--site-dir",
+        "<repo>/.test-rationalization-04A46.tmp/a46-final-serial-v1/site",
+        "--strict"
+      ],
+      "exit_code": 0,
+      "seconds": 6.7433623999822885,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-serial-v1-docs/command.json",
+        "bytes": 717,
+        "sha256": "333464e2616047a23b619366fddae4e0b70983ab47760ab1b337c9a6f04eb60f"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "cce903d292b19a1bf225002ffe1538cb8d03e5efbfead6e704a3d5211316b7cf"
+    },
+    {
+      "label": "a46-final-serial-v1-profile",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "scripts/windows-migration-audit/owner_closeout.py",
+        "--profile",
+        "inventory-complete-with-approved-deferrals"
+      ],
+      "exit_code": 1,
+      "seconds": 30.097771799948532,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-serial-v1-profile/command.json",
+        "bytes": 590,
+        "sha256": "9b735e81f499f676faab41be19bec32cc614a515c23575af8a75d6d2c972195b"
+      },
+      "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-serial-v1-strict",
+      "command": [
+        "dotnet",
+        "<repo>/scripts/windows-migration-audit/bin/Debug/net10.0/WindowsMigrationAudit.dll",
+        "--check",
+        "--strict"
+      ],
+      "exit_code": 1,
+      "seconds": 16.366657199978363,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-serial-v1-strict/command.json",
+        "bytes": 568,
+        "sha256": "51f285a75a39e46bed054267f8104cba102a06ae4bf5da6eb924d712b8b5c3d5"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747"
+    },
+    {
+      "label": "a46-final-v1-Debug-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/obj/0/"
+      ],
+      "exit_code": 0,
+      "seconds": 5.910454400000162,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Debug-build-0/command.json",
+        "bytes": 921,
+        "sha256": "051aa22179d602732da8f2489c76ab00fe90f6671a0d23a5017fbfe2b27600b1"
+      },
+      "stdout_sha256": "7ea57e0f8f56a5334a5fe11f4b1550c608cbe2ef4a79e9cfaa1a42348ebf39b9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Debug-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/obj/1/"
+      ],
+      "exit_code": 0,
+      "seconds": 3.0714387000189163,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Debug-build-1/command.json",
+        "bytes": 938,
+        "sha256": "2e417c77107b54289ad39e218b7e15e04a93c4b86b5ac3f390b7c98d4933e6de"
+      },
+      "stdout_sha256": "34342ec61727fc106278d95ea9059a36a27ceee257262b4272021520afa8a3b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Debug-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/obj/2/"
+      ],
+      "exit_code": 0,
+      "seconds": 4.087675699964166,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Debug-build-2/command.json",
+        "bytes": 933,
+        "sha256": "b181c6fa6cf2f70381aedd3188206a37c9765b09da49d6d57ca56cc6e3e6ee0c"
+      },
+      "stdout_sha256": "e097b0d1318dce305559d5397329c5036ecefa7c67b16ea4911a64ed0c3a346c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Debug-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/obj/3/"
+      ],
+      "exit_code": 0,
+      "seconds": 4.970411099959165,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Debug-build-3/command.json",
+        "bytes": 949,
+        "sha256": "f8ae87ef33fb9be3d1b1f1edec4d50a7eb33f5ed02d1140571c7b9bfb4d1033c"
+      },
+      "stdout_sha256": "780c41be4937b86bf0dcccb3c5a8b3d2eae605e4d7a63b05c13a5dcbd6de4b8b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Debug-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/obj/4/"
+      ],
+      "exit_code": 0,
+      "seconds": 7.4212204000214115,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Debug-build-4/command.json",
+        "bytes": 939,
+        "sha256": "f64df63cb5ba7f038126127e3e2189355953096b69e3e2cafd65f095dbceb182"
+      },
+      "stdout_sha256": "ea26d34a5f72046fd0c4136681e975ff6150a49cb9c1c234842e5f1e99d8fa07",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Debug-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/obj/5/"
+      ],
+      "exit_code": 0,
+      "seconds": 2.25943749997532,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Debug-build-5/command.json",
+        "bytes": 943,
+        "sha256": "20271f0b33226b44801fa6016d565799541dd883b8a8af1d8165c4dc5d9e6a5b"
+      },
+      "stdout_sha256": "12c5bcecdcf0585539faf92e0965e618c0d9403bc43bdbb1aa0f20008d0a7b8a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Debug-build-host",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/legacy/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/obj/host/",
+        "/p:PythonExe=<existing-python>"
+      ],
+      "exit_code": 0,
+      "seconds": 3.2891894999775104,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Debug-build-host/command.json",
+        "bytes": 1130,
+        "sha256": "9a2ae305bdbee24b0fb5ab005e9525c30e995dfa25a8e83d4aa92e8530a5f148"
+      },
+      "stdout_sha256": "90bf7fced8b1a44027ac1cf0b2446f4fb9a56c7711fcc7449fbcf87857d587ff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Debug-build-Legacy",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/legacy/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/obj/Legacy/",
+        "/p:PythonExe=<existing-python>"
+      ],
+      "exit_code": 0,
+      "seconds": 3.3969704000046477,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Debug-build-Legacy/command.json",
+        "bytes": 1081,
+        "sha256": "bb9c3effb4811c9af3afb16820fc8a8f111ad05b1e21f4f7bb3a13bf6c041494"
+      },
+      "stdout_sha256": "5d419990804b23fc0372a70ab18d6f43aa6cb155a84662631e577196f887f847",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Debug-build-mitigation",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/projection",
+        "/p:ReferencePath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/legacy",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/mitigation/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/obj/mitigation/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 0.695126699982211,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Debug-build-mitigation/command.json",
+        "bytes": 1240,
+        "sha256": "fa5b6f9fd4c4061ac7045ab6903c55bb6a69168b958aff6f63166c5f9ae2add3"
+      },
+      "stdout_sha256": "d18894dfee1afdc70c24e2d6977f642433200298fef4c42fb964a43c3af09e39",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Release-build-0",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/obj/0/"
+      ],
+      "exit_code": 0,
+      "seconds": 5.8279866999946535,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Release-build-0/command.json",
+        "bytes": 928,
+        "sha256": "7d4d84695b0e7817ebab3c8422cf59a348149a18b040313a614c18aeb3ffcf59"
+      },
+      "stdout_sha256": "eca65aa750030067859175630e335687e0d2d05b80cda077a0a107b16e147030",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Release-build-1",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/obj/1/"
+      ],
+      "exit_code": 0,
+      "seconds": 3.1133627999806777,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Release-build-1/command.json",
+        "bytes": 944,
+        "sha256": "7d79defd50c44b6508cc399d1b094791b682a41245a948e84f0b3cbfb0ed8fb0"
+      },
+      "stdout_sha256": "e5e7ba6e86aec71d49f82817146042f4a8fde42b6221783a78ec03f775049990",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Release-build-2",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/obj/2/"
+      ],
+      "exit_code": 0,
+      "seconds": 4.100202799949329,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Release-build-2/command.json",
+        "bytes": 939,
+        "sha256": "a905d846fe45ada57989d15fcabe7fabd5e93bc03309a8712b38ab6c3795fca8"
+      },
+      "stdout_sha256": "afded9f41d339f7c7bbaebb8f724627347f1b8eb26182f63f4eb21d2949e5080",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Release-build-3",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/obj/3/"
+      ],
+      "exit_code": 0,
+      "seconds": 5.131986599997617,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Release-build-3/command.json",
+        "bytes": 955,
+        "sha256": "ef8997492727a614d2038171715bf18defa690712f99efb31f41a29a3d25b04b"
+      },
+      "stdout_sha256": "2bd2e1c0e1db603b90b22537e1a2274822afeb078ccdf0f037febe9873df02aa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Release-build-4",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/obj/4/"
+      ],
+      "exit_code": 0,
+      "seconds": 7.228026799974032,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Release-build-4/command.json",
+        "bytes": 944,
+        "sha256": "14fce122c96e326dbf5fd587003339a15760db6c583f2e46039202104851689a"
+      },
+      "stdout_sha256": "a2633c1b193cab4d38eacb799d30d0a2433bd5851f044e5f63ce73087ed82730",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Release-build-5",
+      "command": [
+        "dotnet",
+        "msbuild",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/portable/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/obj/5/"
+      ],
+      "exit_code": 0,
+      "seconds": 2.2918323000194505,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Release-build-5/command.json",
+        "bytes": 951,
+        "sha256": "bfe3936d0ccac3e2aa22029403b1730dd531844295b59b6877eb5804313a4ba6"
+      },
+      "stdout_sha256": "2bd92544e852ee1e21ace7ae7bced7f519bb805e7260feafdcaa32a55f3a96c0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Release-build-host",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHstatNG/BESHstatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/legacy/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/obj/host/",
+        "/p:PythonExe=<existing-python>"
+      ],
+      "exit_code": 0,
+      "seconds": 3.3833132999716327,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Release-build-host/command.json",
+        "bytes": 1136,
+        "sha256": "f3f384bc319f6db7454f576d9d210533170fa1c666d37dbb39d7be11119d9f84"
+      },
+      "stdout_sha256": "252897715ade4dc6368b4ace7b407ec6c62dad1386f41ac7ecb3c7bb2f89e2aa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Release-build-Legacy",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:ProduceReferenceAssembly=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/legacy/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/obj/Legacy/",
+        "/p:PythonExe=<existing-python>"
+      ],
+      "exit_code": 0,
+      "seconds": 3.1640778000000864,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Release-build-Legacy/command.json",
+        "bytes": 1087,
+        "sha256": "ead807d60777ffb73e09f376f958c26ff25fd74c6c4b371f49f385802cf96a51"
+      },
+      "stdout_sha256": "69754591b00a7bc23002b68d3e0e44c5a0033065ca5f531dcd5879feeea28f9a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v1-Release-build-mitigation",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:ProjectionSourceDir=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/projection",
+        "/p:ReferencePath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/legacy",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/mitigation/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/obj/mitigation/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 0.715995800041128,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v1-Release-build-mitigation/command.json",
+        "bytes": 1250,
+        "sha256": "bb0adc5f1fcb140a1676fc342ebb058a5bd2546235486d472f6a66786749cf9b"
+      },
+      "stdout_sha256": "774196f224282446fb430f1de0aff49f23646613f02f4c913ce00f97310b8fe0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v2-Debug-43",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Debug-43/Observe43V3.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Debug-43/observations.json",
+        "<repo>/evidence/04A43/scope/cache-export-inventory-v1.json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.8493817999842577,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v2-Debug-43/command.json",
+        "bytes": 755,
+        "sha256": "3f12037fabbf11c1739bbce336031bbd5d279b9d70f1cbc9e20892f831fdf548"
+      },
+      "stdout_sha256": "86ba2e017856545893ce5fcb49a9978fbda5ee2c2dceea1b442aad560c6899cc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v2-Debug-43-policy",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Debug-43-policy/Policy43.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Debug-43-policy/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.3586053000180982,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v2-Debug-43-policy/command.json",
+        "bytes": 659,
+        "sha256": "91fe587d9a6fe3b8f6b512a63e1d8644f504aceb78ea7c879b8f2aa64d77a12a"
+      },
+      "stdout_sha256": "36d1ba42989832ae5ebe1381ac296fee6d4e5a1e80f4e1aa965150190a68e1f7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v2-Debug-43-races",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Debug-43-races/Race43.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Debug-43-races/observations.json",
+        "<repo>/evidence/04A43/scope/cache-export-inventory-v1.json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.491931399970781,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v2-Debug-43-races/command.json",
+        "bytes": 761,
+        "sha256": "f8f3269698bad8674a745d378443481990219ddc7607c3b1a0f7e2811897f007"
+      },
+      "stdout_sha256": "b2781692ef3bfe66809ddf9a324cdf0aa9cbf0cddb273dac00bc6bbc0893573f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v2-Debug-44",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Debug-44/Observe44.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Debug-44/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9225829999777488,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v2-Debug-44/command.json",
+        "bytes": 646,
+        "sha256": "b528a52f540c9d19ca2a1a28480cf431fa681da6729e4e986a699329712eefe8"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v2-Release-43",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Release-43/Observe43V3.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Release-43/observations.json",
+        "<repo>/evidence/04A43/scope/cache-export-inventory-v1.json"
+      ],
+      "exit_code": 0,
+      "seconds": 3.073635999986436,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v2-Release-43/command.json",
+        "bytes": 758,
+        "sha256": "a2cbfa4295b8f71e9ebf058c78dce08ce102736c7ff9bffa08a70777b5ddd580"
+      },
+      "stdout_sha256": "86ba2e017856545893ce5fcb49a9978fbda5ee2c2dceea1b442aad560c6899cc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v2-Release-43-policy",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Release-43-policy/Policy43.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Release-43-policy/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.33980529999826103,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v2-Release-43-policy/command.json",
+        "bytes": 664,
+        "sha256": "c1c6539f4d5a39132cdc9f108fa0539de728f602be3b537c29f35b1790c4086b"
+      },
+      "stdout_sha256": "36d1ba42989832ae5ebe1381ac296fee6d4e5a1e80f4e1aa965150190a68e1f7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v2-Release-43-races",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Release-43-races/Race43.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Release-43-races/observations.json",
+        "<repo>/evidence/04A43/scope/cache-export-inventory-v1.json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.6195552999852225,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v2-Release-43-races/command.json",
+        "bytes": 766,
+        "sha256": "17c4261b62a7220292d099756be2e4f8fd2c815bde2d3c2e7e80a8a9cca4afc9"
+      },
+      "stdout_sha256": "b2781692ef3bfe66809ddf9a324cdf0aa9cbf0cddb273dac00bc6bbc0893573f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-final-v2-Release-44",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Release-44/Observe44.exe",
+        "<repo>/.test-rationalization-04A46.tmp/fixture-final-v2-Release-44/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9456527999718674,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-final-v2-Release-44/command.json",
+        "bytes": 650,
+        "sha256": "4d202857c42ef042964ea00bde4b6868bc7466aa62d9d09dda505371e6a1cdcb"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-observer-compile-v1",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/out:<repo>/.test-rationalization-04A46.tmp/observer-v1/Observe46.exe",
+        "<installed-reference>/mscorlib.dll",
+        "<installed-reference>/System.dll",
+        "<installed-reference>/System.Core.dll",
+        "<installed-reference>/System.Web.Extensions.dll",
+        "<repo>/evidence/04A46/fixtures/Observe46.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.421675999998115,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-observer-compile-v1/command.json",
+        "bytes": 1184,
+        "sha256": "93bf2b12f4b01f63be2ed54cf42d70459134c414ddea7e30908175befe6a3216"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-observer-Debug-v1",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/observer-v1/Observe46.exe",
+        "<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/legacy",
+        "<repo>/.test-rationalization-04A46.tmp/observer-v1/Debug.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.0167968000168912,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-observer-Debug-v1/command.json",
+        "bytes": 732,
+        "sha256": "0c14eb751b310e4b6fe34fc91f5ffcb9a582647ddb3aea1d2e733f3b566fd365"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-observer-Release-v1",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/observer-v1/Observe46.exe",
+        "<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/legacy",
+        "<repo>/.test-rationalization-04A46.tmp/observer-v1/Release.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.0031561999931,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-observer-Release-v1/command.json",
+        "bytes": 733,
+        "sha256": "dadcd4de47121214315e92a68c8bb8d7130d115da904624e884674cc98bc4ba8"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-progress-stub-Debug-compile",
+      "command": [
+        "<installed-tool>/vbc.exe",
+        "/nologo",
+        "/target:exe",
+        "<installed-reference>/v4.8",
+        "/out:<repo>/.test-rationalization-04A46.tmp/progress-source-stub-v1/TraceDebug.exe",
+        "<installed-reference>/System.dll",
+        "<installed-reference>/System.Core.dll",
+        "<installed-reference>/System.Web.Extensions.dll",
+        "<installed-reference>/netstandard.dll",
+        "/r:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/lib/BESHStat.Core.dll",
+        "/r:<repo>/.test-rationalization-04A46.tmp/compiled/Debug/lib/BESHStat.Excel.Common.dll",
+        "<repo>/.test-rationalization-04A46.tmp/progress-source-stub-v1/SourceBackedProgress44.vb"
+      ],
+      "exit_code": 0,
+      "seconds": 0.33260150003479794,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-progress-stub-Debug-compile/command.json",
+        "bytes": 1643,
+        "sha256": "95b4b30ec948fb59b7e56d25ac756f894c9d8decd55b21aa419829bb3db91c37"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-progress-stub-Debug-execute",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/progress-source-stub-v1/TraceDebug.exe",
+        "<repo>/.test-rationalization-04A46.tmp/progress-source-stub-v1/Debug.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5781751000322402,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-progress-stub-Debug-execute/command.json",
+        "bytes": 636,
+        "sha256": "2cd5f4bde06b93711c2ce78cb1f2bcc71bec3413733299d78c145a6b16fea372"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-progress-stub-Release-compile",
+      "command": [
+        "<installed-tool>/vbc.exe",
+        "/nologo",
+        "/target:exe",
+        "<installed-reference>/v4.8",
+        "/out:<repo>/.test-rationalization-04A46.tmp/progress-source-stub-v1/TraceRelease.exe",
+        "<installed-reference>/System.dll",
+        "<installed-reference>/System.Core.dll",
+        "<installed-reference>/System.Web.Extensions.dll",
+        "<installed-reference>/netstandard.dll",
+        "/r:<repo>/.test-rationalization-04A46.tmp/compiled/Release/lib/BESHStat.Core.dll",
+        "/r:<repo>/.test-rationalization-04A46.tmp/compiled/Release/lib/BESHStat.Excel.Common.dll",
+        "<repo>/.test-rationalization-04A46.tmp/progress-source-stub-v1/SourceBackedProgress44.vb"
+      ],
+      "exit_code": 0,
+      "seconds": 0.3210683999932371,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-progress-stub-Release-compile/command.json",
+        "bytes": 1648,
+        "sha256": "8ec69af61a859e340a2c543c83195b86ce9e5b8b496de2176128fedeea601da6"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-progress-stub-Release-execute",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/progress-source-stub-v1/TraceRelease.exe",
+        "<repo>/.test-rationalization-04A46.tmp/progress-source-stub-v1/Release.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5887551999767311,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-progress-stub-Release-execute/command.json",
+        "bytes": 640,
+        "sha256": "088fd6f9d066273b7111847d11342334ebe4593a7f431b21c471ee2ab0e750b5"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-python-full-v2",
+      "command": [
+        "<existing-python>",
+        "-I",
+        "-B",
+        "-c",
+        "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "execute"
+      ],
+      "exit_code": 0,
+      "seconds": 612.3609437000123,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-python-full-v2/command.json",
+        "bytes": 865,
+        "sha256": "8c1488eb0d363a25667803253fed055c688b52c32a22270ea4b5d9337edd3938"
+      },
+      "stdout_sha256": "aedb8952de61470a71d6a0114f29f7f7f4c2f8585d1a0f65262fbdc73c1b1bc7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-python2-controls",
+      "command": [
+        "<existing-python>",
+        "-I",
+        "-B",
+        "-c",
+        "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/scanner_cache_controls_v2.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.221487500006333,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-python2-controls/command.json",
+        "bytes": 858,
+        "sha256": "b80ce5fe169734fae1241f6d1d0a89ec442381384db151907f88d6de2351ed09"
+      },
+      "stdout_sha256": "5272bacdf4e128b37f955ca4968ca9445a31c3096c7a25ec2eb201c4dda86f64",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-python2-inventory",
+      "command": [
+        "<existing-python>",
+        "-I",
+        "-B",
+        "-c",
+        "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "inventory"
+      ],
+      "exit_code": 0,
+      "seconds": 3.4530765000381507,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-python2-inventory/command.json",
+        "bytes": 868,
+        "sha256": "c12fb94e9902e7209c8a4ec7ae52c746dce5ddfb621db918d74912b4a0ac5fed"
+      },
+      "stdout_sha256": "16aa924b42ac41abe4509b55335427739cc03bd3477f84735846bb8ed3adb111",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-python2-preflight",
+      "command": [
+        "<existing-python>",
+        "-I",
+        "-B",
+        "-c",
+        "import sys,runpy;sys.path.insert(0,sys.argv[1]);sys.argv=[sys.argv[2]]+sys.argv[3:];runpy.run_path(sys.argv[0],run_name=\"__main__\")",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/scanner_retained_preflight_v2.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.35711450001690537,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-python2-preflight/command.json",
+        "bytes": 864,
+        "sha256": "a5cb33b73415dbfaadea9df951b26ae7e6c2eb73047dee949a92d6f79330aaa3"
+      },
+      "stdout_sha256": "48de76955f02508c5edbe796d18e262b9f5a7bb62e27871eb6d8d24e546e298c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-resource-boundary-compile-v1",
+      "command": [
+        "<installed-tool>/csc.exe",
+        "/nologo",
+        "/out:<repo>/.test-rationalization-04A46.tmp/resource-boundary-v1/ResourceBoundary45.exe",
+        "<installed-reference>/mscorlib.dll",
+        "<installed-reference>/System.dll",
+        "<installed-reference>/System.Core.dll",
+        "<installed-reference>/System.Web.Extensions.dll",
+        "<repo>/evidence/04A45/fixtures/ResourceBoundary45.cs"
+      ],
+      "exit_code": 0,
+      "seconds": 0.422667300037574,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-resource-boundary-compile-v1/command.json",
+        "bytes": 1211,
+        "sha256": "dcdab0ad018960153dbba675299bfbbc8c36b26d2549447645fe4e8c1b7b1e68"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-resource-boundary-Debug-v1",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/resource-boundary-v1/ResourceBoundary45.exe",
+        "<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Debug/legacy",
+        "<repo>/BESHstatNG/Resources/RibbonXML.xml",
+        "<repo>/.test-rationalization-04A46.tmp/resource-boundary-v1/Debug.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5953464999911375,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-resource-boundary-Debug-v1/command.json",
+        "bytes": 848,
+        "sha256": "782e21cb68dbbe5e7c780bc0c2435971dbd8496ed212f7712e8babf34ab864aa"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-resource-boundary-Release-v1",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/resource-boundary-v1/ResourceBoundary45.exe",
+        "<repo>/.test-rationalization-04A46.tmp/builds/a46-final-v1/Release/legacy",
+        "<repo>/BESHstatNG/Resources/RibbonXML.xml",
+        "<repo>/.test-rationalization-04A46.tmp/resource-boundary-v1/Release.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.53511980001349,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-resource-boundary-Release-v1/command.json",
+        "bytes": 850,
+        "sha256": "c6131aacb7463242c27367f466c88ba16dce63fd168a6cd761cd097081cac687"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-UI-final-Debug-v1",
+      "command": [
+        "<repo>/.test-rationalization-04A45.tmp/wiring-inspector-v2/InspectWiring45.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Debug/lib",
+        "<repo>/.test-rationalization-04A46.tmp/ui-final-v1/Debug.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.301445099990815,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-UI-final-Debug-v1/command.json",
+        "bytes": 730,
+        "sha256": "53ced1e924ed78798da83ed0887ff638ab359cac550c734c0987086fad79b5d9"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-UI-final-Release-v1",
+      "command": [
+        "<repo>/.test-rationalization-04A45.tmp/wiring-inspector-v2/InspectWiring45.exe",
+        "<repo>/.test-rationalization-04A46.tmp/compiled/Release/lib",
+        "<repo>/.test-rationalization-04A46.tmp/ui-final-v1/Release.json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.2685657999827527,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-UI-final-Release-v1/command.json",
+        "bytes": 735,
+        "sha256": "f46ab89aab137d3be9935e4b55c76c2782b21b05dd71beeedd30ad48caf5966a"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-a1-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-a1/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/a1/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 1,
+      "seconds": 2.118910400022287,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-a1-compile/command.json",
+        "bytes": 931,
+        "sha256": "1a3112c97af83d19a247ec6937ce555ed60462a26544c64cd9af01aef75f9f31"
+      },
+      "stdout_sha256": "bada322ff2e4930e1ecbddbd6ddeaec84cffa5998f933a381cdeb70f4195cc36",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-a2-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-a2/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/a2/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 2.2228963999659754,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-a2-compile/command.json",
+        "bytes": 932,
+        "sha256": "f16ff9a229e47a79f7920b251208fb429bf698fb763a494aa0404381a85e5918"
+      },
+      "stdout_sha256": "0ff50efa4b3bf62c3d1d431717deb5ec9a6201abe8347d3ef1014b5cbb9a71a5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-a2-tests",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-a2-tests/sandbox/BESHStatNG.Test/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-a2-tests/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-a2-tests/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46"
+      ],
+      "exit_code": 1,
+      "seconds": 3.7051498999935575,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-a2-tests/command.json",
+        "bytes": 1217,
+        "sha256": "bfca350f413172d61b0dd23ed070c3c0eb9c87be88afb05a8cebbf4eae6b8003"
+      },
+      "stdout_sha256": "53fab533c9db27789154c65a65070e8f4a267f87d4a483a2333d3dfaed592241",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07"
+    },
+    {
+      "label": "a46-wave-a3-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-a3/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/a3/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 2.2228879999602214,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-a3-compile/command.json",
+        "bytes": 932,
+        "sha256": "271d8cdebf7f34b23d4ec609bd236542b0dfc138ac8dd92ba8ff570214a9c0f1"
+      },
+      "stdout_sha256": "05f068777d48a65d05deb2f9722acc8c04aee3e25631a5de03364ead1bdb96e8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-a3-tests",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-a3-tests/sandbox/BESHStatNG.Test/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-a3-tests/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-a3-tests/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46"
+      ],
+      "exit_code": 1,
+      "seconds": 3.500754299981054,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-a3-tests/command.json",
+        "bytes": 1216,
+        "sha256": "8f5a624e250c53802ed6f7ed71bcc5a2fb5a09c0fb86e36abe8248e18d2fb372"
+      },
+      "stdout_sha256": "29e484fb8b90ae8903cc224c19ab11875fa6e33cd3ef9b9a2463a64c3ddb501b",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07"
+    },
+    {
+      "label": "a46-wave-a4-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-a4/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/a4/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 2.12190719996579,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-a4-compile/command.json",
+        "bytes": 930,
+        "sha256": "84159db13737870a9c04e8f343af5459d083ec1cfcc047ab5ad8cdf8cfc6b5b8"
+      },
+      "stdout_sha256": "cba666c67e7dc801afde88cf008b2e59a82388e29f6bb2de85cf70fa1332b02a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-a4-tests",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-a4-tests/sandbox/BESHStatNG.Test/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-a4-tests/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-a4-tests/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46"
+      ],
+      "exit_code": 0,
+      "seconds": 3.380263599974569,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-a4-tests/command.json",
+        "bytes": 1216,
+        "sha256": "6ab59c8b79ff320645296f2f8ee360e19760f9b009a0c038b43feaf90ddd7913"
+      },
+      "stdout_sha256": "e7a43e84397c88c82ecaff7dcc49304a300ecba8bfae6abcf0f10027d3528410",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b1-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-b1/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/b1/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 1,
+      "seconds": 1.130363899981603,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b1-compile/command.json",
+        "bytes": 931,
+        "sha256": "2876a319606f0d8cfd39182d8e00449608ade2e872f8ed9412fe3f2af94a632e"
+      },
+      "stdout_sha256": "87b9147a3dbb9032c48070ff44a274b09199e2c3c21505490748872c550b59e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b2-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-b2/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/b2/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 1,
+      "seconds": 1.233488199999556,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b2-compile/command.json",
+        "bytes": 931,
+        "sha256": "70d3f4c7b4b1cad6b2b2076d89f93f68c5fd203f28f67ff11007dc1f5bc9d22b"
+      },
+      "stdout_sha256": "943155cba3fb9d26c957438763aea6c42b9cb1251a216bcb8c8b3be88faec06c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b3-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-b3/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/b3/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 1,
+      "seconds": 1.8041850999579765,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b3-compile/command.json",
+        "bytes": 932,
+        "sha256": "a156315ac372940f6ebc69c09ef8a77415478d855473a3a82eda029cf6859c1f"
+      },
+      "stdout_sha256": "7f85f962e4ece06a81d15df88161496da0fe17c70cf45fc0a93dcd8890ee9f2d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b4-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-b4/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/b4/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 2.223403900046833,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b4-compile/command.json",
+        "bytes": 931,
+        "sha256": "9d9a41e1d0daf29b34568a1d6216ffde9a4ab3117e8db5fb8bd73fef0dddd944"
+      },
+      "stdout_sha256": "ae3e3e225ec13ae350a0b54e75442b28a0c3f8db191af6f8014b7f45503aab94",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b4-tests",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b4-tests/sandbox/BESHStatNG.Test/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b4-tests/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b4-tests/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46"
+      ],
+      "exit_code": 1,
+      "seconds": 3.670881099998951,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b4-tests/command.json",
+        "bytes": 1216,
+        "sha256": "78859962cf0b1d2baa3ce43c72b60329dcc8dfa197b0e6c1d439737609a22666"
+      },
+      "stdout_sha256": "cdcaca905d236cf7cd239006a4dc5f137b8eda4017bbb78ec802d876f7b0924a",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07"
+    },
+    {
+      "label": "a46-wave-b5-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-b5/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/b5/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 2.2395928999758326,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b5-compile/command.json",
+        "bytes": 932,
+        "sha256": "b3319d58302938a21b56573661893e928cd4784e1b8ecd3d75bef803119213ab"
+      },
+      "stdout_sha256": "b55e162b6e21d11603bdd0cfeb794b8d9044f968e8f12a03c295119a027aa48f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b5-tests",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b5-tests/sandbox/BESHStatNG.Test/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b5-tests/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b5-tests/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46"
+      ],
+      "exit_code": 0,
+      "seconds": 3.566846500034444,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b5-tests/command.json",
+        "bytes": 1216,
+        "sha256": "164dd8a6b0f5acdb9c565e5fb474644b25eabdf850353c98eb1f7a03a577b94e"
+      },
+      "stdout_sha256": "986b6fa08b3e29746849f8be80717fff310672147362a56bb6dae87776072023",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b6-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-b6/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/b6/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 2.348004800034687,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b6-compile/command.json",
+        "bytes": 931,
+        "sha256": "2c5665bb644cc0d264d08519ecd8b26d34b0c6224a36a604d1276b905679d9ed"
+      },
+      "stdout_sha256": "613e9128ebb741f09ceb1221ac516936ca24644ff73c97da5897658731d049ba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b6-tests",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b6-tests/sandbox/BESHStatNG.Test/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b6-tests/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b6-tests/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46"
+      ],
+      "exit_code": 1,
+      "seconds": 3.695632100047078,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b6-tests/command.json",
+        "bytes": 1216,
+        "sha256": "82c5e5989742d38f6fed8f67a789cfb3ea3378dbc1066aef0c5ee39be7ff9b31"
+      },
+      "stdout_sha256": "31c2843f18e1cee2a40af953853e74407b0f6fee2d2ecd2cc865ad9b6e1ebd5f",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07"
+    },
+    {
+      "label": "a46-wave-b7-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-b7/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/b7/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 2.1497824999969453,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b7-compile/command.json",
+        "bytes": 932,
+        "sha256": "a66348d5dad0ca945eeeec1fdf31bc2039ee189852c7798a901876ea81fabb55"
+      },
+      "stdout_sha256": "d9495f0602f97d4f43aa734a633958b7b7a3c21eefa185f240d544e0fb78cf67",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b7-tests",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b7-tests/sandbox/BESHStatNG.Test/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b7-tests/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b7-tests/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46"
+      ],
+      "exit_code": 0,
+      "seconds": 3.6262461000005715,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b7-tests/command.json",
+        "bytes": 1217,
+        "sha256": "b7fcfb7de068c330a5120a96baa39f5e1e04133cbfb028e4ddfd7b2dfc0a5c24"
+      },
+      "stdout_sha256": "6901e85d4acb9ea9693f770ce5be75843f09644b0330d7f50fcbde27d1f45d57",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b8-compile",
+      "command": [
+        "<installed-tool>/MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:OutputPath=<repo>/.test-rationalization-04A46.tmp/builds/a46-wave-b8/Debug/legacy/",
+        "/p:IntermediateOutputPath=<repo>/.test-rationalization-04A46.tmp/wave-obj/b8/",
+        "/m:4",
+        "/v:minimal",
+        "/nr:false"
+      ],
+      "exit_code": 0,
+      "seconds": 2.2018091999925673,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b8-compile/command.json",
+        "bytes": 932,
+        "sha256": "0e10e5a7770e493aee5ded083b8908217e61edb184c92090a7311cf4b0a4eb68"
+      },
+      "stdout_sha256": "bfb2ebb292cc107b6fa563b5571728516933f807d0617666f02e33ac32d71235",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-wave-b8-tests",
+      "command": [
+        "<installed-tool>/vstest.console.exe",
+        "<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b8-tests/sandbox/BESHStatNG.Test/bin/Debug/net48/BESHStatNG.Test.dll",
+        "/Settings:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b8-tests/serial.runsettings",
+        "/ResultsDirectory:<repo>/.test-rationalization-04A46.tmp/executions/a46-wave-b8-tests/results",
+        "/TestAdapterPath:<repo>/BESHStatNG.Test/packages/MSTest.TestAdapter.2.2.10/build/_common",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/TestCaseFilter:FullyQualifiedName~GuiWiring46"
+      ],
+      "exit_code": 0,
+      "seconds": 3.6224621000001207,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-wave-b8-tests/command.json",
+        "bytes": 1217,
+        "sha256": "2dfa109610dfed044202ecebd348c2a6f0df8522fee3d9968832bdb3948ceeb4"
+      },
+      "stdout_sha256": "6cb8a1a3839aae092fa242404627c6dd41f72e99f34c9b62ff80fdcbb27fed1e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-XYZ-observer-Debug-compile",
+      "command": [
+        "<installed-tool>/vbc.exe",
+        "/nologo",
+        "/target:exe",
+        "<installed-reference>/v4.8",
+        "/out:<repo>/.test-rationalization-04A46.tmp/xyz-observer-v1/Debug.exe",
+        "/optimize-",
+        "<installed-reference>/System.dll",
+        "<installed-reference>/System.Core.dll",
+        "<installed-reference>/System.Web.Extensions.dll",
+        "<repo>/evidence/04A46/fixtures/ObserveXyz46.vb"
+      ],
+      "exit_code": 0,
+      "seconds": 0.39724540000315756,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-XYZ-observer-Debug-compile/command.json",
+        "bytes": 1218,
+        "sha256": "6da79f635233e7a51a03b7e6a96616f67b0774a4b0002f45abc3e845667a0316"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-XYZ-observer-Debug-execute",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/xyz-observer-v1/Debug.exe",
+        "<repo>/.test-rationalization-04A46.tmp/xyz-observer-v1/Debug.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.14116940001258627,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-XYZ-observer-Debug-execute/command.json",
+        "bytes": 616,
+        "sha256": "7dc98ed85297fca16e3b813484c9c071d34e26d16d09a75e8fc8ea648d8191e0"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-XYZ-observer-Release-compile",
+      "command": [
+        "<installed-tool>/vbc.exe",
+        "/nologo",
+        "/target:exe",
+        "<installed-reference>/v4.8",
+        "/out:<repo>/.test-rationalization-04A46.tmp/xyz-observer-v1/Release.exe",
+        "/optimize+",
+        "<installed-reference>/System.dll",
+        "<installed-reference>/System.Core.dll",
+        "<installed-reference>/System.Web.Extensions.dll",
+        "<repo>/evidence/04A46/fixtures/ObserveXyz46.vb"
+      ],
+      "exit_code": 0,
+      "seconds": 0.22846519999438897,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-XYZ-observer-Release-compile/command.json",
+        "bytes": 1220,
+        "sha256": "c13e4d28080b538e7eafe8fd8e46612d7b108c88a664ddb03bcc428c44d7bebe"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46-XYZ-observer-Release-execute",
+      "command": [
+        "<repo>/.test-rationalization-04A46.tmp/xyz-observer-v1/Release.exe",
+        "<repo>/.test-rationalization-04A46.tmp/xyz-observer-v1/Release.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.13513559999410063,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46-XYZ-observer-Release-execute/command.json",
+        "bytes": 620,
+        "sha256": "484e56b97e88e28c4aa7f5bd4b275675c2a9ad7583fc6bb680f5a994f5d09da2"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46pyv1-python-discovery-common",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "discover",
+        "common"
+      ],
+      "exit_code": 0,
+      "seconds": 0.38927719998173416,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-discovery-common/command.json",
+        "bytes": 620,
+        "sha256": "ffdcc7179c74b29dd18cb3ed7fa21632d324478013c2839561bc0652453a1ca3"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46pyv1-python-discovery-help",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "discover",
+        "help"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5403769999975339,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-discovery-help/command.json",
+        "bytes": 617,
+        "sha256": "0547176c757252c21ed64c0c240e649b547dc29dd5bbfcdc1dcd9d646bf803ed"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46pyv1-python-discovery-scripts",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "discover",
+        "scripts"
+      ],
+      "exit_code": 0,
+      "seconds": 1.1702313999994658,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-discovery-scripts/command.json",
+        "bytes": 620,
+        "sha256": "c1b0ce2d95598c854143fbd608d5421a8064349feac70c796510af766b3b6efa"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46pyv1-python-discovery-tools",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "discover",
+        "tools"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5001306000049226,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-discovery-tools/command.json",
+        "bytes": 618,
+        "sha256": "391b4ebf4302ea831e04d0ba6c1516d74d4131949ea759cab139fbb2b52199fc"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "a46pyv1-python-worker-v1-1-main",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "worker",
+        "1",
+        "MAIN"
+      ],
+      "exit_code": 1,
+      "seconds": 27.051331999944523,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-worker-v1-1-main/command.json",
+        "bytes": 690,
+        "sha256": "a413e0685ac91b3642eeffc72b1f59e878c352767e937407d64cf129725ccf72"
+      },
+      "stdout_sha256": "6e57207ed9a25f15e78aafc475686e1636a0163314beb1d637bfaffbe3abd8d9",
+      "stderr_sha256": "16b905540527351cf79a72a2b84dd0f50ff97b56702091e0ec9d27b4cae7ff61"
+    },
+    {
+      "label": "a46pyv1-python-worker-v1-2-main",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "worker",
+        "2",
+        "MAIN"
+      ],
+      "exit_code": 0,
+      "seconds": 581.7248524999595,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-worker-v1-2-main/command.json",
+        "bytes": 689,
+        "sha256": "1c0b72424c2ac8873dfae176d7a91ac3a9216f5c8ac72ab20523ea4e3cdaeeee"
+      },
+      "stdout_sha256": "e8019a748e568d84265e8a8aded7bcf932f11f1f34d35af7a95c71bd8786fa8d",
+      "stderr_sha256": "c603ecd183c7f3513c01afa31f9fc9d2e05e5e086eaedb71fd3a46e422f9c58e"
+    },
+    {
+      "label": "a46pyv1-python-worker-v1-3-main",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "worker",
+        "3",
+        "MAIN"
+      ],
+      "exit_code": 0,
+      "seconds": 120.65533760003746,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-worker-v1-3-main/command.json",
+        "bytes": 690,
+        "sha256": "b67ee8b9f416d8b91a3138c3c78de040b44cc9b13af54ba2226cb9c56cd97abd"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a114c1343e02cb61996c57cc074eb9af54166d3e7cbae4cad8f28c169b5599da"
+    },
+    {
+      "label": "a46pyv1-python-worker-v1-4-main",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "worker",
+        "4",
+        "MAIN"
+      ],
+      "exit_code": 1,
+      "seconds": 4.4458328000037,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-worker-v1-4-main/command.json",
+        "bytes": 687,
+        "sha256": "19da07a5a9deec25f531b3b693482609440e968c0ffa30a8d97c2dc5d47bd9ba"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "4e84fede5bfbb0a1ccf8f2e4068e1ab01a123c4db2279c7b0ef6c5c77519190d"
+    },
+    {
+      "label": "a46pyv1-python-worker-v1-5-disposable",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "worker",
+        "5",
+        "DISPOSABLE"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9879236000124365,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-worker-v1-5-disposable/command.json",
+        "bytes": 707,
+        "sha256": "3fa44903400c005ce2ec51332d7d11298c5e8fb5be22539780ec7b4f29687d0c"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3d5b2aca5167ebde9e509694638ed2e6cbfc07be3d5ecbb6f001488f6adaca0d"
+    },
+    {
+      "label": "a46pyv1-python-worker-v1-5-main",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "worker",
+        "5",
+        "MAIN"
+      ],
+      "exit_code": 1,
+      "seconds": 35.8686228999868,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-worker-v1-5-main/command.json",
+        "bytes": 688,
+        "sha256": "0047c32f06c0b07f8be8b9ef6956c2c7ac9d8bd8cc0cf614a37b8a8091aca5c1"
+      },
+      "stdout_sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "stderr_sha256": "0e6738458dce86cbd00ef4ec8e0ae79e1f073426ecd9867933dd444bce3d1f4a"
+    },
+    {
+      "label": "a46pyv1-python-worker-v1-6-main",
+      "command": [
+        "<existing-python>",
+        "-B",
+        "<repo>/.test-rationalization-04A46.tmp/python-tools-v1/python_workers_v4.py",
+        "worker",
+        "6",
+        "MAIN"
+      ],
+      "exit_code": 1,
+      "seconds": 35.052762700011954,
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/commands/a46pyv1-python-worker-v1-6-main/command.json",
+        "bytes": 690,
+        "sha256": "2a027361fa5a26b2009da15c601cf9e3208c0d726f3af3dbdae366527507a8c6"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "893c8e9220d100601b70e80d71a4c67600211d24b260a9ea86d001d6b25906d4"
+    }
+  ],
+  "unsafe_fixed_path_wrappers": "NOT_RUN;verify-beshstatng.ps1 and -Legacy overwrite protected historical TRX. Unchanged isolated runner performed full graph/tests instead.",
+  "native": "NOT_RUN",
+  "Node": "INHERITED_916_PASS;NOT_RERUN",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A47_NOT_AUTHORIZED"
+  }
+}

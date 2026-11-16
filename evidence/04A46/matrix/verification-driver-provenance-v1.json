@@ -1,0 +1,187 @@
+{
+  "rows": [
+    {
+      "source": {
+        "path": "evidence/04A45/managed-final-v1.py",
+        "bytes": 2465,
+        "sha256": "139e74ae41af08261af69a1eadd0958ddcdf5aa815057dd0f9de9776d76ae68a"
+      },
+      "driver": {
+        "path": "evidence/04A46/managed-final-v1.py",
+        "bytes": 2542,
+        "sha256": "75c969bea3fa6d91e90fde508bb8d479a0fe7370676a4da61236943236110b15"
+      },
+      "edits": [
+        [
+          "common45",
+          "common46"
+        ],
+        [
+          "a45-",
+          "a46-"
+        ],
+        [
+          "['WindowsHarness45'",
+          "['GuiWiring46','AssumptionReport06','PairedBlockAdapter','ContingencyAdapter','WindowsHarness45'"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A45/reconcile-managed-v1.py",
+        "bytes": 3736,
+        "sha256": "92cac84617a531e31ac991ae8f6374865175d3fcc02534750d62abeeffde4c2b"
+      },
+      "driver": {
+        "path": "evidence/04A46/reconcile-managed-v1.py",
+        "bytes": 3761,
+        "sha256": "ae85786c57e048be35adec17aab65130dca245109f31c51327700365087cfe06"
+      },
+      "edits": [
+        [
+          "common45",
+          "common46"
+        ],
+        [
+          "evidence/04A44/build-and-tests/Debug-identities-v1.json",
+          "evidence/04A45/build-and-tests/Debug-identities-v1.json"
+        ],
+        [
+          "ADDED45",
+          "ADDED46"
+        ],
+        [
+          "['WindowsHarness45Tests','WindowsHarness45FormTests']",
+          "['GuiWiring46StateTests','GuiWiring46ExecutionTests','GuiWiring46PolicyTests']"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A45/compiled-and-fixtures-v1.py",
+        "bytes": 8594,
+        "sha256": "4c1f84a9a844b961821f003405b9895f76d7183a66d46409b70f302463869002"
+      },
+      "driver": {
+        "path": "evidence/04A46/compiled-and-fixtures-v1.py",
+        "bytes": 6161,
+        "sha256": "ca36af4a0265d12909242cb65bd0888508d4ff6c176b7bbf5e5c4a3ed09ac251"
+      },
+      "scope": "Same268 exports/normalized CIL and39-42 current fixtures;43/44 handled by separate accepted cumulative driver;no case omitted."
+    },
+    {
+      "source": {
+        "path": "evidence/04A45/compatibility-v1.py",
+        "bytes": 3979,
+        "sha256": "a56de85145c90c299714aee69ef74afc8bcfa2d673aae482a8fae9f4d4d3af4b"
+      },
+      "driver": {
+        "path": "evidence/04A46/compatibility-v1.py",
+        "bytes": 3979,
+        "sha256": "9178fff1b531165614f85393dc31ce6a0f255fe27146bb25755920202394d0c7"
+      },
+      "edits": [
+        [
+          "common45",
+          "common46"
+        ],
+        [
+          "stage='a45-'",
+          "stage='a46-'"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A45/cumulative-v1.py",
+        "bytes": 2652,
+        "sha256": "3dbfe22ca74075d7c0f0666255652b12471027b3c85d8de258518e6560268803"
+      },
+      "driver": {
+        "path": "evidence/04A46/cumulative-v1.py",
+        "bytes": 2652,
+        "sha256": "18e9105068f814ceac986e08018ae8d5ad8702410451c6cbce379e2e22cfd4f4"
+      },
+      "edits": [
+        [
+          "common45",
+          "common46"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A45/progress-stub-v1.py",
+        "bytes": 4914,
+        "sha256": "baa56c216b3bff5d5c57ed2e96a9d6f0e17c5694a8430d5917df15adfbdb8a5b"
+      },
+      "driver": {
+        "path": "evidence/04A46/progress-stub-v1.py",
+        "bytes": 4914,
+        "sha256": "81ba2c9ac52b2b60f39c7efb753b24b9782be45dbb53b32066a2062a4ddde81f"
+      },
+      "edits": [
+        [
+          "common45",
+          "common46"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A45/serial-checks-v1.py",
+        "bytes": 1067,
+        "sha256": "8d599571a823ada2ee70e9e1911d52a189f3962a433c5406f51d5c1bec95dc33"
+      },
+      "driver": {
+        "path": "evidence/04A46/serial-checks-v1.py",
+        "bytes": 1067,
+        "sha256": "ea34685b3db5c3abed9170d725fda33184363704dd2ba22afda93fca9bf2da25"
+      },
+      "edits": [
+        [
+          "common45",
+          "common46"
+        ],
+        [
+          "a45-final-serial-v1",
+          "a46-final-serial-v1"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A45/resource-boundary-v1.py",
+        "bytes": 1632,
+        "sha256": "9179065913899ce9e7d2d1e5d4b900703067ac6f7445507024e03f16c938d54e"
+      },
+      "driver": {
+        "path": "evidence/04A46/resource-boundary-v1.py",
+        "bytes": 1647,
+        "sha256": "e961f1516c851c51ca6931d6d045222e030d497045749414c1b252bed7cbab05"
+      },
+      "edits": [
+        [
+          "common45",
+          "common46"
+        ],
+        [
+          "builds/a45-final-v1",
+          "builds/a46-final-v1"
+        ],
+        [
+          "HERE/'fixtures/ResourceBoundary45.cs'",
+          "ROOT/'evidence/04A45/fixtures/ResourceBoundary45.cs'"
+        ],
+        [
+          "pin('evidence/04A45/fixtures/ResourceBoundary45.cs')",
+          "pin('evidence/04A45/fixtures/ResourceBoundary45.cs')"
+        ]
+      ]
+    }
+  ],
+  "original_test_sources_modified": false,
+  "full_Release": "NOT_RUN",
+  "Node": "INHERITED_916_PASS;NOT_RERUN",
+  "native": "NOT_RUN"
+}

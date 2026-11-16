@@ -1,0 +1,132 @@
+{
+  "status": "FRESH_LISTED_BYTE_READBACK_PASS",
+  "entry_tracked": 15073,
+  "allowed_changes": [
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+    "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+  ],
+  "all_other_entry_bytes_exact": true,
+  "checkpoint_copies": 468,
+  "checkpoint_live_exact": 464,
+  "checkpoint_authorized_newline": 4,
+  "historical_paths": 8984,
+  "raw40_paths": 1906,
+  "raw_populations": [
+    {
+      "batch": "41",
+      "prior_manifest": {
+        "path": ".test-rationalization-04A41.tmp/new-raw-inventory-v1.json",
+        "bytes": 1772755,
+        "sha256": "d095ddc540f0cafb354cc7dacfde7982bce3f3bdacb9ea2791ce886dcc28271e"
+      },
+      "prior_exact": 6810,
+      "current_whole_store_files": 6819,
+      "current_inventory": {
+        "path": ".test-rationalization-04A46.tmp/prior41-whole-store-readback-v1.json",
+        "bytes": 1774411,
+        "sha256": "b5b5d51db1f15d7f8f5fe2059c9c072c9122c0400d7f5a1bf50c0300a829591f"
+      }
+    },
+    {
+      "batch": "42",
+      "prior_manifest": {
+        "path": ".test-rationalization-04A42.tmp/new-raw-inventory-v1.json",
+        "bytes": 3031167,
+        "sha256": "2df7c16c2e5a62218ada4a3ad293a6a648e7c9940bed3d160213c5b56705a680"
+      },
+      "prior_exact": 11457,
+      "current_whole_store_files": 11468,
+      "current_inventory": {
+        "path": ".test-rationalization-04A46.tmp/prior42-whole-store-readback-v1.json",
+        "bytes": 3033161,
+        "sha256": "14ba66f73f6c31d5caf5008e081d727f3037111405a2c61b1c1e2587e2297072"
+      }
+    },
+    {
+      "batch": "43",
+      "prior_manifest": {
+        "path": ".test-rationalization-04A43.tmp/new-raw-inventory-v1.json",
+        "bytes": 2119131,
+        "sha256": "6bd347b9f4c2ffa8e88988af8e16bdca54165a07f586143fff02afb680ba7026"
+      },
+      "prior_exact": 8160,
+      "current_whole_store_files": 8174,
+      "current_inventory": {
+        "path": ".test-rationalization-04A46.tmp/prior43-whole-store-readback-v1.json",
+        "bytes": 2121810,
+        "sha256": "a297eb8b70bde84eb005c563fdeaf9ae87b898cc2630a0e42d3c41546d57dbb3"
+      }
+    },
+    {
+      "batch": "44",
+      "prior_manifest": {
+        "path": ".test-rationalization-04A44.tmp/new-raw-inventory-v1.json",
+        "bytes": 2140707,
+        "sha256": "510848643c7d5ac5b86830b8cce0c6483a523d65026adb16eada1488b305af42"
+      },
+      "prior_exact": 8307,
+      "current_whole_store_files": 8323,
+      "current_inventory": {
+        "path": ".test-rationalization-04A46.tmp/prior44-whole-store-readback-v1.json",
+        "bytes": 2143820,
+        "sha256": "98d3658508bfb4feaa5515ad7024b0596ef0daa4df4bcc6e7389cdf986fb8c1b"
+      }
+    }
+  ],
+  "accepted44_source_freeze": {
+    "path": "evidence/04A44/matrix/source-freeze-v1.json",
+    "bytes": 432636,
+    "sha256": "a13ed5c584688fe3dbff804cbd45d9e813de5d391f85607fe1bb3f85213cabcd"
+  },
+  "accepted44_source_lineage_exact": true,
+  "original_source_history": 1353,
+  "source_history_proof": "Accepted44 full source lineage dossier remains byte exact via tracked-entry readback;its current production endpoints and protected preimages freshly rehashed. Not a claim every historical transition was re-executed.",
+  "historical_file_identity_drifts": 788,
+  "continuous_physical_identity": "NOT_VERIFIED",
+  "W3_union": {
+    "paths": 37484,
+    "archives": 154,
+    "fresh_full_union_readback": false,
+    "inherited_qualified": true
+  },
+  "canonical_counts": {
+    "canonical_entries": 1169,
+    "original_obligations": 1514,
+    "restricted_controls": 802,
+    "report_occurrences": 286,
+    "statuses": {
+      "UNREVIEWED_ORIGINAL_OBLIGATION": 927,
+      "OWNER_AUTHORIZED_04A39_ONLY": 1,
+      "REQUIRES_OWNER_DECISION": 6,
+      "OBSERVED_RESTRICTED": 3,
+      "CHANGED_NONPASS_BLOCKING": 3,
+      "HISTORICALLY_REPORTED_RESTRICTED": 76,
+      "SUSPECTED_REQUIRES_REVIEW": 13,
+      "INHERITED_VALIDATION_NONPASS_NOT_WAIVED": 116,
+      "CURRENT_SCOPE_PASS_HISTORICAL_FAIL_UNWAIVED": 3,
+      "RETAINED_NONPASS_CHANGED_DIAGNOSTIC_UNWAIVED": 21
+    },
+    "no_discharge": true,
+    "W3_validation_gate_records": 163,
+    "W3_events": 198,
+    "original_member_signatures": 759,
+    "unknown_entries": 0
+  },
+  "mappings": 2967,
+  "original_privacy_findings_per_parent": 1941,
+  "W3_privacy_errors": "RETAINED_UNWAIVED",
+  "old_Debug_FAIL": 14,
+  "old_04A08_scope_FAIL": "RETAINED_UNWAIVED",
+  "accepted41_Release_FAIL": "RETAINED_OUTSIDE_SELECTED_SET",
+  "accepted42_failed_first_freeze": "RETAINED",
+  "accepted44_raw_publication_failure": "RETAINED",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A47_NOT_AUTHORIZED"
+  }
+}

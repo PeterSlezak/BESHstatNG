@@ -1,0 +1,708 @@
+{
+  "kind": "CURRENT_MAIN_PRE_EDIT_04A46_EXACT_SOURCE_EVENT_OBSERVER_NOT_NATIVE",
+  "members": [
+    {
+      "owner": "Ui3XYZplot",
+      "method": "spinBtnR_ValueChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub spinBtnR_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnR.ValueChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "96245a820ee5d99d4a229ae09262f59e5efd211b19d91f0d58553d56a0074f2f",
+      "control": "spinBtnR",
+      "event": "ValueChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "spinBtnG_ValueChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub spinBtnG_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnG.ValueChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "0d26aed4d59f905f5e95bcb8c84a0e0f54a9aa1d5d52de98720ae4b0f5d0e049",
+      "control": "spinBtnG",
+      "event": "ValueChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "spinBtnB_ValueChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub spinBtnB_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnB.ValueChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "e92092ef23ee5d77166ae72b8d7d1890b2e13324263dc48bcae26de0f20bffc0",
+      "control": "spinBtnB",
+      "event": "ValueChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "spinBtnLatitudeRings_ValueChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub spinBtnLatitudeRings_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnLatitudeRings.ValueChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "fdfd70c4759810f3f22f790b778fb90c56eadfffd9517dcba0634dcbc14ab785",
+      "control": "spinBtnLatitudeRings",
+      "event": "ValueChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "spinBtnLongitudeRings_ValueChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub spinBtnLongitudeRings_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnLongitudeRings.ValueChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "656f8d957317dd059bb5ee49fa1dbd6f0abfb6a4fa71df4bc6ea2a1c2b3674ad",
+      "control": "spinBtnLongitudeRings",
+      "event": "ValueChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "spinBtnPointsPerRing_ValueChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub spinBtnPointsPerRing_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnPointsPerRing.ValueChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "4fa1b0bd1b24d6b62f6b1b845206e34fae5a90e0a0d77ddaeb0891e4b0d7de76",
+      "control": "spinBtnPointsPerRing",
+      "event": "ValueChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "ckScaleAxes_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub ckScaleAxes_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckScaleAxes.CheckedChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "ab80d8ab0d34a303410c035d396b7c8eb9f450ef774a620f633d950ed7ad3cc5",
+      "control": "ckScaleAxes",
+      "event": "CheckedChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "ckXreverseAxis_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub ckXreverseAxis_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckXreverseAxis.CheckedChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "19c1b742b2ee0662aea3f5bfd17bad5d48356ca7c65db857650360b34b671fa4",
+      "control": "ckXreverseAxis",
+      "event": "CheckedChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "ckYreverseAxis_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub ckYreverseAxis_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckYreverseAxis.CheckedChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "52db69b309956975d6ecb709d6a7d6efe476b16559150b41868879ed04a53277",
+      "control": "ckYreverseAxis",
+      "event": "CheckedChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "ckZreverseAxis_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub ckZreverseAxis_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckZreverseAxis.CheckedChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "6b63e7dbbb4e8e091d046b53929202debb2d9b0adec14dd89a5851d4fa3bf6bd",
+      "control": "ckZreverseAxis",
+      "event": "CheckedChanged"
+    },
+    {
+      "owner": "Ui3XYZplot",
+      "method": "cbMarkerSymbol_SelectedIndexChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui3XYZplot.vb",
+        "bytes": 36623,
+        "sha256": "a9699a00da1cff80b91c0f3dd3ce03d0339b0c22d53a12bf7865f5e308c78e5f"
+      },
+      "original_text": "    Private Sub cbMarkerSymbol_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbMarkerSymbol.SelectedIndexChanged\n        If pFigure IsNot Nothing Then Call Recalculate()\n    End Sub",
+      "source_text_sha256": "0435ed711595528c486c1e6f87d794f7c059423fc6276ed6cad83eb29cb3dcf3",
+      "control": "cbMarkerSymbol",
+      "event": "SelectedIndexChanged"
+    }
+  ],
+  "projection": {
+    "path": "evidence/04A46/fixtures/ObserveXyz46.vb",
+    "bytes": 8990,
+    "sha256": "6526bb48694b2c8581597ee872fa0df7cd354c9439a12405c9f716a7545a44d8"
+  },
+  "results": [
+    {
+      "configuration": "Debug",
+      "rows": [
+        {
+          "method": "spinBtnR_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnR_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnR_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnR_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnG_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnG_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnG_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnG_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnB_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnB_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnB_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnB_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnLatitudeRings_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnLatitudeRings_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnLatitudeRings_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnLatitudeRings_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnLongitudeRings_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnLongitudeRings_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnLongitudeRings_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnLongitudeRings_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnPointsPerRing_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnPointsPerRing_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnPointsPerRing_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnPointsPerRing_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckScaleAxes_CheckedChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckScaleAxes_CheckedChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "ckScaleAxes_CheckedChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "ckScaleAxes_CheckedChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckXreverseAxis_CheckedChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckXreverseAxis_CheckedChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "ckXreverseAxis_CheckedChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "ckXreverseAxis_CheckedChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckYreverseAxis_CheckedChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckYreverseAxis_CheckedChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "ckYreverseAxis_CheckedChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "ckYreverseAxis_CheckedChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckZreverseAxis_CheckedChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckZreverseAxis_CheckedChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "ckZreverseAxis_CheckedChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "ckZreverseAxis_CheckedChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "cbMarkerSymbol_SelectedIndexChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "cbMarkerSymbol_SelectedIndexChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "cbMarkerSymbol_SelectedIndexChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "cbMarkerSymbol_SelectedIndexChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        }
+      ],
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/xyz-observer-v1/Debug.json",
+        "bytes": 3313,
+        "sha256": "15c73af43323826900e9e47a80b159a929ddc233cb9184ec8d5f9cf051b95475"
+      }
+    },
+    {
+      "configuration": "Release",
+      "rows": [
+        {
+          "method": "spinBtnR_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnR_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnR_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnR_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnG_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnG_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnG_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnG_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnB_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnB_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnB_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnB_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnLatitudeRings_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnLatitudeRings_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnLatitudeRings_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnLatitudeRings_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnLongitudeRings_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnLongitudeRings_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnLongitudeRings_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnLongitudeRings_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnPointsPerRing_ValueChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "spinBtnPointsPerRing_ValueChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "spinBtnPointsPerRing_ValueChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "spinBtnPointsPerRing_ValueChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckScaleAxes_CheckedChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckScaleAxes_CheckedChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "ckScaleAxes_CheckedChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "ckScaleAxes_CheckedChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckXreverseAxis_CheckedChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckXreverseAxis_CheckedChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "ckXreverseAxis_CheckedChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "ckXreverseAxis_CheckedChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckYreverseAxis_CheckedChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckYreverseAxis_CheckedChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "ckYreverseAxis_CheckedChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "ckYreverseAxis_CheckedChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckZreverseAxis_CheckedChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "ckZreverseAxis_CheckedChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "ckZreverseAxis_CheckedChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "ckZreverseAxis_CheckedChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "cbMarkerSymbol_SelectedIndexChanged",
+          "state": 0,
+          "calls": 0,
+          "expected": 0
+        },
+        {
+          "method": "cbMarkerSymbol_SelectedIndexChanged",
+          "state": 1,
+          "calls": 1,
+          "expected": 1
+        },
+        {
+          "method": "cbMarkerSymbol_SelectedIndexChanged",
+          "state": 2,
+          "calls": 2,
+          "expected": 2
+        },
+        {
+          "method": "cbMarkerSymbol_SelectedIndexChanged",
+          "state": 3,
+          "calls": 0,
+          "expected": 0
+        }
+      ],
+      "raw": {
+        "path": ".test-rationalization-04A46.tmp/xyz-observer-v1/Release.json",
+        "bytes": 3313,
+        "sha256": "15c73af43323826900e9e47a80b159a929ddc233cb9184ec8d5f9cf051b95475"
+      }
+    }
+  ],
+  "cases_per_configuration": 44,
+  "new_managed_identities": 0,
+  "frozen_test_project_changed": false,
+  "qualification": "Eleven additional pure XYZ option event bodies copied unchanged into an isolated net48 executable with fake event controls and Recalculate sink. No real figure/WinForms/Excel object. Full managed343 test generation remains unchanged.",
+  "native": "NOT_RUN"
+}
