@@ -1,0 +1,96 @@
+{
+  "parents": [
+    {
+      "id": "test_04a23_multivariate_spc.Spc23Contracts.test_comparison_payloads_have_real_six_chart_results_and_explicit_rejections",
+      "source": {
+        "path": "scripts/tests/test_04a23_multivariate_spc.py",
+        "bytes": 13644,
+        "sha256": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8"
+      },
+      "versions": [
+        {
+          "version": "accepted46",
+          "outcome": "PASS",
+          "runtime_seconds": 1.4613875999930315,
+          "events": []
+        },
+        {
+          "version": "v1",
+          "outcome": "ERROR",
+          "runtime_seconds": 0.005082899995613843,
+          "events": [
+            {
+              "outcome": "ERROR",
+              "exception_class": "FileNotFoundError",
+              "message_sha256": "898bdd6a696946d05406d59af9cd7bfdbec4fe9196a976323f3e4640b663cb2a",
+              "traceback_sha256": "be1921ebd8937ea7b373977a763e31a7d3854884a4e53e300fd5973ea84954b6"
+            }
+          ]
+        },
+        {
+          "version": "focused_v2",
+          "outcome": "PASS",
+          "runtime_seconds": 1.5483252999838442,
+          "events": []
+        }
+      ]
+    },
+    {
+      "id": "test_04a24_multivariate_payload.MultivariatePayload24.test_frozen_evidence_authority_hashes_and_unchanged_metadata",
+      "source": {
+        "path": "scripts/tests/test_04a24_multivariate_payload.py",
+        "bytes": 14011,
+        "sha256": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461"
+      },
+      "versions": [
+        {
+          "version": "accepted46",
+          "outcome": "FAIL",
+          "runtime_seconds": 0.6799039000179619,
+          "events": [
+            {
+              "outcome": "FAIL",
+              "exception_class": "AssertionError",
+              "message_sha256": "96afb371b5be78b8bfa65ad1898093e0b6c4b9de9a4ff1d29ce6b111d5fd5917",
+              "traceback_sha256": "bec43dcac9484c1795ce2817dc97753a2c5b46538c59392baff6f8d5228907ea"
+            }
+          ]
+        },
+        {
+          "version": "v1",
+          "outcome": "ERROR",
+          "runtime_seconds": 0.44165509997401386,
+          "events": [
+            {
+              "outcome": "ERROR",
+              "exception_class": "FileNotFoundError",
+              "message_sha256": "898bdd6a696946d05406d59af9cd7bfdbec4fe9196a976323f3e4640b663cb2a",
+              "traceback_sha256": "7e34c7a962aa0c255c97d3a2f00f19b0277561c20f40c55680d5ee34b0bd4829"
+            }
+          ]
+        },
+        {
+          "version": "focused_v2",
+          "outcome": "FAIL",
+          "runtime_seconds": 9.790878800034989,
+          "events": [
+            {
+              "outcome": "FAIL",
+              "exception_class": "AssertionError",
+              "message_sha256": "96afb371b5be78b8bfa65ad1898093e0b6c4b9de9a4ff1d29ce6b111d5fd5917",
+              "traceback_sha256": "bec43dcac9484c1795ce2817dc97753a2c5b46538c59392baff6f8d5228907ea"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "input": {
+    "path": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+    "bytes": 57758738,
+    "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643"
+  },
+  "old_errors_preserved": true,
+  "old24_FAIL_unwaived": true,
+  "classification": "FRESH_TWO_PARENT_RUN_PLUS_AUTHENTICATED_HISTORICAL_READBACK"
+}

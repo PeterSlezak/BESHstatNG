@@ -1,0 +1,1716 @@
+{
+  "label": "SOURCE_BACKED_FAKE_04A47_HELPER_AND_OPTION_OBSERVER_NOT_NATIVE",
+  "source": {
+    "path": "evidence/04A47/fixtures/HelpersObserver47v2.cs",
+    "bytes": 4935,
+    "sha256": "c4d07d7be089ad063a2468725a4779c524f338dc9e56893f06f7d175b224e082"
+  },
+  "cases_per_configuration": 141,
+  "results": [
+    {
+      "configuration": "Debug",
+      "rows": [
+        {
+          "method": "ParseMMRMCovarianceOptimizerMode",
+          "actual": "AverageInformationReml"
+        },
+        {
+          "method": "ParseMMRMCovarianceGradientMode",
+          "actual": "Auto"
+        },
+        {
+          "method": "ApplyMMRMCovarianceOptimizerSelections",
+          "actual": "BYREF_VALUE_CONTROL_CURRENT_DEFAULT_SELECTIONS"
+        },
+        {
+          "method": "IsMMRMCancellationRequested+IsMMRMInterruptionRequested",
+          "mask": 0,
+          "cancel": false,
+          "interrupt": false
+        },
+        {
+          "method": "IsMMRMCancellationRequested+IsMMRMInterruptionRequested",
+          "mask": 1,
+          "cancel": true,
+          "interrupt": false
+        },
+        {
+          "method": "IsMMRMCancellationRequested+IsMMRMInterruptionRequested",
+          "mask": 2,
+          "cancel": false,
+          "interrupt": true
+        },
+        {
+          "method": "IsMMRMCancellationRequested+IsMMRMInterruptionRequested",
+          "mask": 3,
+          "cancel": true,
+          "interrupt": false
+        },
+        {
+          "method": "GetSelectedFARetentionMethod+GetSelectedFARetentionValue",
+          "state": 0,
+          "actual": 3,
+          "choice": "Fixed"
+        },
+        {
+          "method": "GetSelectedFARetentionMethod+GetSelectedFARetentionValue",
+          "state": 1,
+          "actual": 1.2,
+          "choice": "Eigenvalue"
+        },
+        {
+          "method": "GetSelectedFARetentionMethod+GetSelectedFARetentionValue",
+          "state": 2,
+          "actual": 90,
+          "choice": "Variance"
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 0,
+          "rotation": "None",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 1,
+          "rotation": "Varimax",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 2,
+          "rotation": "Quartimax",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 3,
+          "rotation": "Equamax",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 4,
+          "rotation": "Promax",
+          "powerEnabled": true
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 5,
+          "rotation": "None",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 6,
+          "rotation": "None",
+          "powerEnabled": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "RunChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "RunChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "RunChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "RunChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Individuals",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Individuals",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Individuals",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Individuals",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "MovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "MovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "MovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "MovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "IndividualsMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "IndividualsMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "IndividualsMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "IndividualsMovingRange",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "XBar",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "XBar",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "XBar",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "XBar",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "SubgroupRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "SubgroupRange",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "SubgroupRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "SubgroupRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "SubgroupStandardDeviation",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "SubgroupStandardDeviation",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "SubgroupStandardDeviation",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "SubgroupStandardDeviation",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "XBarR",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "XBarR",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "XBarR",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "XBarR",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "XBarS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "XBarS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "XBarS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "XBarS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "PChart",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "PChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "PChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "PChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "NpChart",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "NpChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "NpChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "NpChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "CChart",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "CChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "CChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "CChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "UChart",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "UChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "UChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "UChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "LaneyPPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "LaneyPPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "LaneyPPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "LaneyPPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "LaneyUPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "LaneyUPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "LaneyUPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "LaneyUPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "GChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "GChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "GChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "GChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "TChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "TChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "TChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "TChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Cusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Cusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Cusum",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Cusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Ewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Ewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Ewma",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Ewma",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "MovingAverage",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "MovingAverage",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "MovingAverage",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "MovingAverage",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "HotellingT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "HotellingT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "HotellingT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "HotellingT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "GeneralizedVariance",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "GeneralizedVariance",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "GeneralizedVariance",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "GeneralizedVariance",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "PcaT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "PcaT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "PcaT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "PcaT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "PcaQ",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "PcaQ",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "PcaQ",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "PcaQ",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Mewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Mewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Mewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Mewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Mcusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Mcusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Mcusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Mcusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "ShortRunZMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "ShortRunZMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "ShortRunZMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "ShortRunZMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "BetweenWithin",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "BetweenWithin",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "BetweenWithin",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "BetweenWithin",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "ResidualChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "ResidualChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "ResidualChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "ResidualChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "ProfileChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "ProfileChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "ProfileChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "ProfileChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "RiskAdjustedChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "RiskAdjustedChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "RiskAdjustedChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "RiskAdjustedChart",
+          "actual": false,
+          "expected": false
+        }
+      ],
+      "raw": {
+        "path": ".test-rationalization-04A47.tmp/helpers-observer-v2/Debug.json",
+        "bytes": 12403,
+        "sha256": "d5a7eb56d2fec37e65da548d3f7216d77a4f093243713e29df6e01918c4b515c"
+      }
+    },
+    {
+      "configuration": "Release",
+      "rows": [
+        {
+          "method": "ParseMMRMCovarianceOptimizerMode",
+          "actual": "AverageInformationReml"
+        },
+        {
+          "method": "ParseMMRMCovarianceGradientMode",
+          "actual": "Auto"
+        },
+        {
+          "method": "ApplyMMRMCovarianceOptimizerSelections",
+          "actual": "BYREF_VALUE_CONTROL_CURRENT_DEFAULT_SELECTIONS"
+        },
+        {
+          "method": "IsMMRMCancellationRequested+IsMMRMInterruptionRequested",
+          "mask": 0,
+          "cancel": false,
+          "interrupt": false
+        },
+        {
+          "method": "IsMMRMCancellationRequested+IsMMRMInterruptionRequested",
+          "mask": 1,
+          "cancel": true,
+          "interrupt": false
+        },
+        {
+          "method": "IsMMRMCancellationRequested+IsMMRMInterruptionRequested",
+          "mask": 2,
+          "cancel": false,
+          "interrupt": true
+        },
+        {
+          "method": "IsMMRMCancellationRequested+IsMMRMInterruptionRequested",
+          "mask": 3,
+          "cancel": true,
+          "interrupt": false
+        },
+        {
+          "method": "GetSelectedFARetentionMethod+GetSelectedFARetentionValue",
+          "state": 0,
+          "actual": 3,
+          "choice": "Fixed"
+        },
+        {
+          "method": "GetSelectedFARetentionMethod+GetSelectedFARetentionValue",
+          "state": 1,
+          "actual": 1.2,
+          "choice": "Eigenvalue"
+        },
+        {
+          "method": "GetSelectedFARetentionMethod+GetSelectedFARetentionValue",
+          "state": 2,
+          "actual": 90,
+          "choice": "Variance"
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 0,
+          "rotation": "None",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 1,
+          "rotation": "Varimax",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 2,
+          "rotation": "Quartimax",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 3,
+          "rotation": "Equamax",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 4,
+          "rotation": "Promax",
+          "powerEnabled": true
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 5,
+          "rotation": "None",
+          "powerEnabled": false
+        },
+        {
+          "method": "FactorAnalysisRotationChanged",
+          "index": 6,
+          "rotation": "None",
+          "powerEnabled": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "RunChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "RunChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "RunChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "RunChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Individuals",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Individuals",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Individuals",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Individuals",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "MovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "MovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "MovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "MovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "IndividualsMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "IndividualsMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "IndividualsMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "IndividualsMovingRange",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "XBar",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "XBar",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "XBar",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "XBar",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "SubgroupRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "SubgroupRange",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "SubgroupRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "SubgroupRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "SubgroupStandardDeviation",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "SubgroupStandardDeviation",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "SubgroupStandardDeviation",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "SubgroupStandardDeviation",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "XBarR",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "XBarR",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "XBarR",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "XBarR",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "XBarS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "XBarS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "XBarS",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "XBarS",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "PChart",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "PChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "PChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "PChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "NpChart",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "NpChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "NpChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "NpChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "CChart",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "CChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "CChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "CChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "UChart",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "UChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "UChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "UChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "LaneyPPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "LaneyPPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "LaneyPPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "LaneyPPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "LaneyUPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "LaneyUPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "LaneyUPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "LaneyUPrime",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "GChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "GChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "GChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "GChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "TChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "TChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "TChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "TChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Cusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Cusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Cusum",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Cusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Ewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Ewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Ewma",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Ewma",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "MovingAverage",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "MovingAverage",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "MovingAverage",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "MovingAverage",
+          "actual": true,
+          "expected": true
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "HotellingT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "HotellingT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "HotellingT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "HotellingT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "GeneralizedVariance",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "GeneralizedVariance",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "GeneralizedVariance",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "GeneralizedVariance",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "PcaT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "PcaT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "PcaT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "PcaT2",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "PcaQ",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "PcaQ",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "PcaQ",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "PcaQ",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Mewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Mewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Mewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Mewma",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "Mcusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "Mcusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "Mcusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "Mcusum",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "ShortRunZMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "ShortRunZMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "ShortRunZMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "ShortRunZMovingRange",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "BetweenWithin",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "BetweenWithin",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "BetweenWithin",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "BetweenWithin",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "ResidualChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "ResidualChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "ResidualChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "ResidualChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "ProfileChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "ProfileChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "ProfileChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "ProfileChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsAttributeChart",
+          "chart": "RiskAdjustedChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsSubgroupChart",
+          "chart": "RiskAdjustedChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "IsTimeWeightedChart",
+          "chart": "RiskAdjustedChart",
+          "actual": false,
+          "expected": false
+        },
+        {
+          "method": "ChartCanUseSpecificationLines",
+          "chart": "RiskAdjustedChart",
+          "actual": false,
+          "expected": false
+        }
+      ],
+      "raw": {
+        "path": ".test-rationalization-04A47.tmp/helpers-observer-v2/Release.json",
+        "bytes": 12403,
+        "sha256": "d5a7eb56d2fec37e65da548d3f7216d77a4f093243713e29df6e01918c4b515c"
+      }
+    }
+  ],
+  "previously_source_only_selected_methods_executed": 11,
+  "new_managed_identities": 0,
+  "frozen_test_project_changed": false,
+  "qualification": "Reflection target is fixed closed fake projection type,not a real form. Exercises11 formerly source-only selected helpers,all current SPC chart predicates,and positive Promax option state. Same shipped helper policies,not statistical references.",
+  "native": "NOT_RUN"
+}

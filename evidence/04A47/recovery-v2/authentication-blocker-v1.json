@@ -1,0 +1,70 @@
+{
+  "status": "NOT_READY_04A47_RECOVERY_AUTHENTICATION_FAILED",
+  "date": "2026-11-16",
+  "blocker": "UNEXPECTED_OWNER_WORKTREE_IGNORE_POLICY_CHANGE",
+  "branch": "codex/04A-47",
+  "HEAD": "8a8d4ee21f41f1a53072308d4a01faa0b20fdd5a",
+  "main": "8a8d4ee21f41f1a53072308d4a01faa0b20fdd5a",
+  "merge_base": "8a8d4ee21f41f1a53072308d4a01faa0b20fdd5a",
+  "index_sha256": "6c5fd6e37b01065b580fad9e3d7b1be34307fdba2357232eb190c0dfa1ce70d3",
+  "staged_empty": true,
+  "diff_check_exit": 0,
+  "payload": {
+    "path": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+    "bytes": 57758738,
+    "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643",
+    "size_and_hash_match_original": true,
+    "regular_nonreparse": true,
+    "pre_post_read_exact": true,
+    "tracked": false,
+    "ignored": false,
+    "historical_file_writes": 0,
+    "public_archive_inclusion": false
+  },
+  "manifest": {
+    "path": "evidence/04A24/frozen-capture-hashes.json",
+    "bytes": 344343,
+    "sha256": "2d0bbea874e22b2d07c919d930e20377dcd31db14267a0df724a64ce760c241e",
+    "own_identity_and_target_entry_exact": true
+  },
+  "vb_literal_matches": true,
+  "original_04A47_source_freeze_exact": true,
+  "basic_json_status_and_record_count_consistent": true,
+  "full_payload_structure_authentication": "NOT_COMPLETED_STOPPED_AT_IGNORE_GATE",
+  "ignore_policy": {
+    "current_physical_bytes": 4898,
+    "current_physical_sha256": "95b233c640d30104d3ea71bad0fdb09ba7a7d4a8e7dcef34e8cc370a0e29346d",
+    "HEAD_blob_bytes": 4960,
+    "HEAD_blob_sha256": "6fdd2d9d0d05d73c12694ba149c8051b97a12da0e71f19f71eed1935b7adb913",
+    "historical_44b32955_blob_bytes": 3918,
+    "historical_44b32955_blob_sha256": "511dd9cb366d9f30a61607c1d20d95ec03775e8463944649c18c45c9b68c3444",
+    "HEAD_and_historical_rule_present": true,
+    "worktree_delta": "Only the target's original ignore rule has been deleted from .gitignore",
+    "git_check_ignore_exit": 1,
+    "git_ls_files_error_unmatch_exit": 1,
+    "codex_modified_ignore": false,
+    "owner_change_preserved": true
+  },
+  "sealed_v1": {
+    "archive_bytes": 6988940,
+    "archive_sha256": "0fe14fe9558fadeb4040d2ffc5f28622c920add0bf418aaf9fb7ff7423d05bc8",
+    "receipt_bytes": 141137,
+    "receipt_sha256": "b328b8d298afed783b30cbe14ec98e021252c4a799f2171d2b8f9c92b615539d",
+    "both_authenticated_unchanged": true
+  },
+  "focused_python": "NOT_RUN_AUTHENTICATION_STOP",
+  "full_python": "NOT_RUN_AUTHENTICATION_STOP",
+  "managed_rebuild": "NOT_RUN",
+  "new_review_zip_and_receipt": "NOT_PRODUCED_AUTHENTICATION_STOP",
+  "publication_privacy_scans": "NOT_RUN_NO_NEW_PUBLICATION",
+  "prior_owner_acceptance": "OWNER_REPORTED_WITH_HISTORICAL_LOSS_EXCEPTION_PRESERVED;NO_RECOVERY_SUCCESSOR_ASSERTED",
+  "next_owner_decision": "Reconcile the removed original ignore rule. No .gitignore restoration or payload write is authorized by this run.",
+  "new_codex_paths": [
+    "evidence/04A47/recovery-v2/recovery.py",
+    "evidence/04A47/recovery-v2/authentication-blocker-v1.json"
+  ],
+  "failed_attempt": "Protected versioned authentication attempt retained; historical files and tests unchanged",
+  "native": "NOT_RUN",
+  "04A48": "NOT_AUTHORIZED",
+  "gates": "P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN; 04A48_NOT_AUTHORIZED"
+}

@@ -1,0 +1,3371 @@
+{
+  "label": "CURRENT_MAIN_PRE_EDIT_04A47_SOURCE_BACKED_FAKE",
+  "members": [
+    {
+      "owner": "UiGLM",
+      "method": "GetFamilyCodeFromDisplayName",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "5c54a96321ed982d850d120a3fe25867627cda03dd00b103b112bdd05730caaf",
+      "original_text": "    Private Shared Function GetFamilyCodeFromDisplayName(familyDisplayName As String) As String\n        Select Case familyDisplayName\n            Case \"Binomial\"\n                Return \"Binomial\"\n            Case \"Poisson\"\n                Return \"Poisson\"\n            Case \"Negative Binomial\"\n                Return \"NegativeBinomial\"\n            Case \"Gaussian\"\n                Return \"Gaussian\"\n            Case \"Gamma\"\n                Return \"Gamma\"\n            Case Else\n                Return String.Empty\n        End Select\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "RefreshLinkOptionsForSelectedFamily",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "4a7d042f68ff8f26e7dc2d704a00e26f99e4e2f095a87464b4cb40088d39b57a",
+      "original_text": "    Private Sub RefreshLinkOptionsForSelectedFamily(Optional preferredLink As String = Nothing)\n        Dim selectedFamilyName As String = String.Empty\n        If Me.cbFamily.SelectedItem IsNot Nothing Then\n            selectedFamilyName = Me.cbFamily.SelectedItem.ToString()\n        End If\n\n        Dim linkToSelect As String = preferredLink\n        If String.IsNullOrWhiteSpace(linkToSelect) AndAlso Me.cbLink.SelectedItem IsNot Nothing Then\n            linkToSelect = Me.cbLink.SelectedItem.ToString()\n        End If\n\n        Dim familyCode As String = GetFamilyCodeFromDisplayName(selectedFamilyName)\n\n        Me.cbLink.BeginUpdate()\n        Try\n            Me.cbLink.Items.Clear()\n\n            If String.IsNullOrWhiteSpace(familyCode) Then\n                Me.cbLink.SelectedIndex = -1\n                UpdatePowerLinkState()\n                UpdateClassificationOptionsState()\n                Return\n            End If\n\n            Dim fam As regression.Family = regression.createFamily(familyCode)\n\n            For Each sLink As String In regression.Link.LinkList.Values\n                If fam.testLink(sLink) Then\n                    Me.cbLink.Items.Add(sLink)\n                End If\n            Next\n\n            If Not String.IsNullOrWhiteSpace(linkToSelect) Then\n                Dim existingIndex As Integer = Me.cbLink.FindStringExact(linkToSelect)\n                If existingIndex >= 0 Then\n                    Me.cbLink.SelectedIndex = existingIndex\n                End If\n            End If\n\n            If Me.cbLink.SelectedIndex = -1 AndAlso Me.cbLink.Items.Count > 0 Then\n                Me.cbLink.SelectedIndex = 0\n            End If\n\n            UpdatePowerLinkState()\n            UpdateClassificationOptionsState()\n        Finally\n            Me.cbLink.EndUpdate()\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "IsCurrentBinomialGlmFamily",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "e8028b8b98c158165821649a3505755b0cb7133c596af90424e5df1803eff899",
+      "original_text": "    Private Function IsCurrentBinomialGlmFamily() As Boolean\n        If Me.Tag <> HelpTopic.GeneralizedLinearModelsGLM Then Return False\n        If Me.cbFamily.SelectedItem Is Nothing Then Return False\n        Return String.Equals(GetFamilyCodeFromDisplayName(Me.cbFamily.SelectedItem.ToString()), \"Binomial\", StringComparison.OrdinalIgnoreCase)\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "GetClassificationThresholdUiValue",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "68ec9620be1afd5ab182366558f12e8a3409a4bfa3be50e6430e8e0f08edae09",
+      "original_text": "    Private Function GetClassificationThresholdUiValue() As Double\n        Dim txt As String = Me.tbClassificationTreshold.Text.Trim()\n        If txt = String.Empty Then\n            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5R)\n            Return 0.5R\n        End If\n        Dim threshold As Double = ParseUiDouble(txt, \"classification threshold\")\n        If threshold < 0.0R OrElse threshold > 1.0R Then Throw New FormatException(\"Classification threshold must be between 0 and 1.\")\n        Return threshold\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "UpdateClassificationOptionsState",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "7dee9bea25d0ebddb67c1dd018df1e12d5499b2abe080e917682e4e18b7829e2",
+      "original_text": "    Private Sub UpdateClassificationOptionsState(Optional bAlreadyInit As Boolean = True)\n        Dim enabledForFamily As Boolean = IsCurrentBinomialGlmFamily()\n\n        Me.grpClassification.Enabled = enabledForFamily\n        Me.cbPerformClasification.Enabled = enabledForFamily\n        Me.lblCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked\n        Me.spinBtnCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked\n\n        If Not enabledForFamily Then\n            If bAlreadyInit Then setTextBoxProperties(Me.tbClassificationTreshold, Color.White, String.Empty)\n        ElseIf String.IsNullOrWhiteSpace(Me.tbClassificationTreshold.Text) Then\n            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5R)\n        End If\n\n        If Me.cbPerformClasification.Checked And enabledForFamily Then\n            Me.grpClassification.Enabled = True\n        ElseIf Not Me.cbPerformClasification.Checked And enabledForFamily Then\n            Me.grpClassification.Enabled = False\n        End If\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "UpdatePowerLinkState",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "5619fe015d68208b7684aa1af0ea421c148680804b1e94e85bc28840f2361c0d",
+      "original_text": "    Private Sub UpdatePowerLinkState()\n        Dim usePowerLink As Boolean =\n            Me.cbLink.SelectedItem IsNot Nothing AndAlso\n            Me.cbLink.SelectedItem.ToString() = \"Power\"\n\n        Me.lblPower.Enabled = usePowerLink\n        Me.tbPower.Enabled = usePowerLink\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "cbFamily_SelectedIndexChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "37477547d8d9fd2c93a46acd6f37708e1621bef4511c3d79a6a264964393c6a8",
+      "original_text": "    Private Sub cbFamily_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbFamily.SelectedIndexChanged\n        If Me.cbFamily.SelectedItem Is Nothing Then Return\n        RefreshLinkOptionsForSelectedFamily(GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": [
+        {
+          "owner": "UiGLM",
+          "handler": "cbFamily_SelectedIndexChanged",
+          "control": "cbFamily",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "UiGLM",
+      "method": "cbLink_SelectedIndexChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "4e28c61560c975546b25715121ed679a20a237f56e9d7f554683cb9872dbf90a",
+      "original_text": "    Private Sub cbLink_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbLink.SelectedIndexChanged\n        UpdatePowerLinkState()\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": [
+        {
+          "owner": "UiGLM",
+          "handler": "cbLink_SelectedIndexChanged",
+          "control": "cbLink",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "UiGLM",
+      "method": "cbOutputCalibrationTable_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "570ee9691584ca585f58c8b6d79f640923837ac3c24cdfaf5f6339189d22e381",
+      "original_text": "    Private Sub cbOutputCalibrationTable_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbOutputCalibrationTable.CheckedChanged\n        UpdateClassificationOptionsState()\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": [
+        {
+          "owner": "UiGLM",
+          "handler": "cbOutputCalibrationTable_CheckedChanged",
+          "control": "cbOutputCalibrationTable",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "UiGLM",
+      "method": "cbPerformClasification_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "source_text_sha256": "36cc7b66a16094a0d83ed0f7a188ac5efc54bcfa5c818a14fc3970b649167b31",
+      "original_text": "    Private Sub cbPerformClasification_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbPerformClasification.CheckedChanged\n        If Me.cbPerformClasification.Checked And IsCurrentBinomialGlmFamily() Then\n            Me.grpClassification.Enabled = True\n        ElseIf Not Me.cbPerformClasification.Checked And IsCurrentBinomialGlmFamily() Then\n            Me.grpClassification.Enabled = False\n        End If\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": [
+        {
+          "owner": "UiGLM",
+          "handler": "cbPerformClasification_CheckedChanged",
+          "control": "cbPerformClasification",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "GetFamilyCodeFromDisplayName",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "0349e72bd090916c4e071a8b8ff7ea7c56b4a8c12a3b9b2468de413aa1c94e5d",
+      "original_text": "    Private Shared Function GetFamilyCodeFromDisplayName(familyDisplayName As String) As String\n        Return GeeWorkflowPolicy.FamilyCode(familyDisplayName)\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "RefreshLinkOptionsForSelectedFamily",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "6a1d96cdc3ef1d6ec21b25b5c78973bb1cda06d2dd88740625bcb4f73d4a89d9",
+      "original_text": "    Private Sub RefreshLinkOptionsForSelectedFamily(Optional preferredLink As String = Nothing)\n        Dim selectedFamilyName As String = String.Empty\n        If Me.cbFamily.SelectedItem IsNot Nothing Then\n            selectedFamilyName = Me.cbFamily.SelectedItem.ToString()\n        End If\n\n        Dim linkToSelect As String = preferredLink\n        If String.IsNullOrWhiteSpace(linkToSelect) AndAlso Me.cbLink.SelectedItem IsNot Nothing Then\n            linkToSelect = Me.cbLink.SelectedItem.ToString()\n        End If\n\n        Dim familyCode As String = GetFamilyCodeFromDisplayName(selectedFamilyName)\n\n        Me.cbLink.BeginUpdate()\n        Try\n            Me.cbLink.Items.Clear()\n\n            If String.IsNullOrWhiteSpace(familyCode) Then\n                Me.cbLink.SelectedIndex = -1\n                UpdatePowerLinkState()\n                UpdateClassificationOptionsState()\n                Return\n            End If\n\n            For Each sLink As String In GeeWorkflowPolicy.SupportedLinks(familyCode)\n                Me.cbLink.Items.Add(sLink)\n            Next\n\n            If Not String.IsNullOrWhiteSpace(linkToSelect) Then\n                Dim existingIndex As Integer = Me.cbLink.FindStringExact(linkToSelect)\n                If existingIndex >= 0 Then\n                    Me.cbLink.SelectedIndex = existingIndex\n                End If\n            End If\n\n            If Me.cbLink.SelectedIndex = -1 AndAlso Me.cbLink.Items.Count > 0 Then\n                Me.cbLink.SelectedIndex = 0\n            End If\n\n            UpdatePowerLinkState()\n            UpdateClassificationOptionsState()\n\n        Finally\n            Me.cbLink.EndUpdate()\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "IsCurrentBinomialGeeFamily",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "bfc22dc0769e0c22ab3a9ef8e2bba43edd46074fc8563943c5e05d4291920ab8",
+      "original_text": "    Private Function IsCurrentBinomialGeeFamily() As Boolean\n        If Me.Tag <> HelpTopic.GeneralizedEstimatingEquationsGEE Then Return False\n        If Me.cbFamily.SelectedItem Is Nothing Then Return False\n        Return String.Equals(GetFamilyCodeFromDisplayName(Me.cbFamily.SelectedItem.ToString()), \"Binomial\", StringComparison.OrdinalIgnoreCase)\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "GetClassificationThresholdUiValue",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "739072a013a4ca68a4dc4b61ad266bc6354e8aca2d7f197699ef897498f254da",
+      "original_text": "    Private Function GetClassificationThresholdUiValue() As Double\n        Dim txt As String = Me.tbClassificationTreshold.Text.Trim()\n        If txt = String.Empty Then\n            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5R)\n            Return 0.5R\n        End If\n\n        Dim threshold As Double = ParseUiDouble(txt, \"classification threshold\")\n        If threshold < 0.0R OrElse threshold > 1.0R Then\n            Throw New FormatException(\"Classification threshold must be between 0 and 1.\")\n        End If\n        Return threshold\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "UpdateClassificationOptionsState",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "5da26647b773f12c512759fa138028ca649552820879278f81c2b82fb26bdfc0",
+      "original_text": "    Private Sub UpdateClassificationOptionsState(Optional bAlreadyInit As Boolean = True)\n        Dim enabledForFamily As Boolean = IsCurrentBinomialGeeFamily()\n\n        Me.grpClassification.Enabled = enabledForFamily\n        Me.cbPerformClasification.Enabled = enabledForFamily\n        Me.lblCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked\n        Me.spinBtnCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked\n\n        If Not enabledForFamily Then\n            If bAlreadyInit Then setTextBoxProperties(Me.tbClassificationTreshold, Color.White, String.Empty)\n        ElseIf String.IsNullOrWhiteSpace(Me.tbClassificationTreshold.Text) Then\n            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5R)\n        End If\n\n        If Me.cbPerformClasification.Checked And enabledForFamily Then\n            Me.grpClassification.Enabled = True\n        ElseIf Not Me.cbPerformClasification.Checked And enabledForFamily Then\n            Me.grpClassification.Enabled = False\n        End If\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "UpdatePowerLinkState",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "5619fe015d68208b7684aa1af0ea421c148680804b1e94e85bc28840f2361c0d",
+      "original_text": "    Private Sub UpdatePowerLinkState()\n        Dim usePowerLink As Boolean =\n            Me.cbLink.SelectedItem IsNot Nothing AndAlso\n            Me.cbLink.SelectedItem.ToString() = \"Power\"\n\n        Me.lblPower.Enabled = usePowerLink\n        Me.tbPower.Enabled = usePowerLink\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "cbFamily_SelectedIndexChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "7aaf1fe8150832e42e5905d2970493f6e603db6770d7483900761187ff9090f4",
+      "original_text": "    Private Sub cbFamily_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbFamily.SelectedIndexChanged\n        If Me.cbFamily.SelectedItem Is Nothing Then Return\n        RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui13GEE",
+          "handler": "cbFamily_SelectedIndexChanged",
+          "control": "cbFamily",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "cbLink_SelectedIndexChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "4e28c61560c975546b25715121ed679a20a237f56e9d7f554683cb9872dbf90a",
+      "original_text": "    Private Sub cbLink_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbLink.SelectedIndexChanged\n        UpdatePowerLinkState()\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui13GEE",
+          "handler": "cbLink_SelectedIndexChanged",
+          "control": "cbLink",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "cbOutputCalibrationTable_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "570ee9691584ca585f58c8b6d79f640923837ac3c24cdfaf5f6339189d22e381",
+      "original_text": "    Private Sub cbOutputCalibrationTable_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbOutputCalibrationTable.CheckedChanged\n        UpdateClassificationOptionsState()\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui13GEE",
+          "handler": "cbOutputCalibrationTable_CheckedChanged",
+          "control": "cbOutputCalibrationTable",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "cbPerformClasification_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "source_text_sha256": "eead1fb8947e75179044d891be7bd7415c173efe5ddd4afbc11fd660e76b28b5",
+      "original_text": "    Private Sub cbPerformClasification_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbPerformClasification.CheckedChanged\n        If Me.cbPerformClasification.Checked And IsCurrentBinomialGeeFamily() Then\n            Me.grpClassification.Enabled = True\n        ElseIf Not Me.cbPerformClasification.Checked And IsCurrentBinomialGeeFamily() Then\n            Me.grpClassification.Enabled = False\n        End If\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbFamily",
+        "cbLink",
+        "cbOutputCalibrationTable",
+        "cbPerformClasification",
+        "grpClassification",
+        "lblCallibrationBinsN",
+        "lblPower",
+        "spinBtnCallibrationBinsN",
+        "tbClassificationTreshold",
+        "tbPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui13GEE",
+          "handler": "cbPerformClasification_CheckedChanged",
+          "control": "cbPerformClasification",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "UpdateMMRMContrastControlEnabledState",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "d00b065feb3c956c1210cfd9e1f5a29e791f2396a22ab1fda512cec505ffc423",
+      "original_text": "    Private Sub UpdateMMRMContrastControlEnabledState()\n        Dim meansOn As Boolean = Me.ckMMRMEstimatedMeans.Checked\n        Dim classOn As Boolean = Me.ckMMRMClassInfo.Checked\n\n        Dim groupSelection As String = If(Me.cbMMRMGroupingFactor.SelectedItem Is Nothing,\n                                      MMRM_GROUP_AUTO,\n                                      CStr(Me.cbMMRMGroupingFactor.SelectedItem))\n\n        Dim groupPossible As Boolean =\n        Not String.Equals(groupSelection, MMRM_GROUP_NONE, StringComparison.OrdinalIgnoreCase)\n\n        Dim contrastMode As String = If(Me.cbMMRMContrastMode.SelectedItem Is Nothing,\n                                    MMRM_MODE_NONE,\n                                    CStr(Me.cbMMRMContrastMode.SelectedItem))\n\n        Dim isNoneMode As Boolean =\n        String.Equals(contrastMode, MMRM_MODE_NONE, StringComparison.OrdinalIgnoreCase)\n\n        Dim isControlMode As Boolean =\n        String.Equals(contrastMode, MMRM_MODE_CONTROL, StringComparison.OrdinalIgnoreCase)\n\n        Dim isSelectedMode As Boolean =\n        String.Equals(contrastMode, MMRM_MODE_SELECTED, StringComparison.OrdinalIgnoreCase)\n\n        Dim needsControlLevel As Boolean = isControlMode OrElse isSelectedMode\n        Dim needsComparisonLevel As Boolean = isSelectedMode\n        Dim needsDirection As Boolean = (isControlMode OrElse isSelectedMode)\n\n        Me.cbMMRMGroupingFactor.Enabled = classOn OrElse meansOn\n        Me.cbMMRMBaselineVisit.Enabled = meansOn AndAlso Me.ckMMRMChangeFromBaseline.Checked\n        Me.cbMMRMContrastMode.Enabled = meansOn AndAlso groupPossible\n        Me.cbMMRMControlLevel.Enabled = meansOn AndAlso groupPossible AndAlso needsControlLevel\n        Me.cbMMRMComparisonLevel.Enabled = meansOn AndAlso groupPossible AndAlso needsComparisonLevel\n        Me.lblMMRMComparisonLevel.Enabled = Me.cbMMRMComparisonLevel.Enabled\n        Me.cbMMRMContrastDirection.Enabled = meansOn AndAlso groupPossible AndAlso needsDirection\n\n        Me.ckMMRMChangeFromBaseline.Enabled = meansOn\n        Me.ckMMRMDiffInChange.Enabled = meansOn AndAlso Me.ckMMRMChangeFromBaseline.Checked AndAlso groupPossible AndAlso Not isNoneMode\n\n        Dim referenceGridControlsOn As Boolean = meansOn AndAlso IsMMRMReferenceGridModeSelected()\n        Me.cbMMRMLSMeansMode.Enabled = meansOn\n        Me.lblMMRMLSMeansMode.Enabled = meansOn\n        Me.cbMMRMRefGridWeighting.Enabled = referenceGridControlsOn\n        Me.lblMMRMRefGridWeighting.Enabled = referenceGridControlsOn\n        Me.cbMMRMRefGridCovariates.Enabled = referenceGridControlsOn\n        Me.lblMMRMRefGridCovariates.Enabled = referenceGridControlsOn\n        Me.cbMMRMMultiplicity.Enabled = meansOn AndAlso groupPossible AndAlso Not isNoneMode\n        Me.lblMMRMMultiplicity.Enabled = meansOn AndAlso groupPossible AndAlso Not isNoneMode\n\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "IsMMRMReferenceGridModeSelected",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "4c5cde3609b200bf94c9717e80d73e31586f779a64e2c6e871de6d1942b80e73",
+      "original_text": "    Private Function IsMMRMReferenceGridModeSelected() As Boolean\n        Return Me.cbMMRMLSMeansMode IsNot Nothing AndAlso MixedModelReportPolicy.MeansMode(SelectedComboText(Me.cbMMRMLSMeansMode, MMRM_LSMEANS_OBSERVED_GRID)) = MixedModelMeansMode.ReferenceGrid\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "SelectedComboText",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "7dde52e054b02a8cd46fbd1567a6beb8366ecd7270602260db392a7508e9787d",
+      "original_text": "    Private Function SelectedComboText(cb As Windows.Forms.ComboBox, fallback As String) As String\n        If cb Is Nothing OrElse cb.SelectedItem Is Nothing Then Return fallback\n        Dim s As String = CStr(cb.SelectedItem)\n        If String.IsNullOrWhiteSpace(s) Then Return fallback\n        Return s\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "cbMMRMControlLevel_SelectedIndexChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "0509134b7057f1ff84122148b11771061c0bb1c4592f3c2ee80dc7929f728854",
+      "original_text": "    Private Sub cbMMRMControlLevel_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbMMRMControlLevel.SelectedIndexChanged\n        Try\n            UpdateMMRMContrastControlEnabledState()\n        Catch ex As Exception\n            CoreServices.Logger.Warn(\"cbMMRMControlLevel_SelectedIndexChanged failed: \" & ex.ToString())\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui18MMRM",
+          "handler": "cbMMRMControlLevel_SelectedIndexChanged",
+          "control": "cbMMRMControlLevel",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "cbMMRMContrastMode_SelectedIndexChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "1a9588a796466d7485f2aafe2ff28f05d99ab271c7830528c20ac54f8685a303",
+      "original_text": "    Private Sub cbMMRMContrastMode_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbMMRMContrastMode.SelectedIndexChanged\n        Try\n            UpdateMMRMContrastControlEnabledState()\n        Catch ex As Exception\n            CoreServices.Logger.Warn(\"cbMMRMContrastMode_SelectedIndexChanged failed: \" & ex.ToString())\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui18MMRM",
+          "handler": "cbMMRMContrastMode_SelectedIndexChanged",
+          "control": "cbMMRMContrastMode",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "MMRMReferenceGridControlChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "d7c509ce9b4e7249d1c8f0f0b24038ecfe52208d146fb75e6c407b5f050a5526",
+      "original_text": "    Private Sub MMRMReferenceGridControlChanged(sender As Object, e As System.EventArgs) Handles cbMMRMLSMeansMode.SelectedIndexChanged,\n        cbMMRMRefGridWeighting.SelectedIndexChanged,\n        cbMMRMRefGridCovariates.SelectedIndexChanged\n\n        Try\n            UpdateMMRMContrastControlEnabledState()\n        Catch ex As Exception\n            CoreServices.Logger.Warn(\"MMRMReferenceGridControlChanged failed: \" & ex.Message)\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMReferenceGridControlChanged",
+          "control": "cbMMRMLSMeansMode",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMReferenceGridControlChanged",
+          "control": "cbMMRMRefGridWeighting",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMReferenceGridControlChanged",
+          "control": "cbMMRMRefGridCovariates",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "6b09424a7d159daa6410ab60669ebddf2de4fe4871cfde4c069737a5be251355",
+      "original_text": "    Private Sub MMRMContrastControl_CheckedOrSelectedChanged(sender As Object, e As System.EventArgs) Handles ckMMRMClassInfo.CheckedChanged,\n        ckMMRMEstimatedMeans.CheckedChanged,\n        ckMMRMDiffInChange.CheckedChanged,\n        ckMMRMChangeFromBaseline.CheckedChanged,\n        cbMMRMGroupingFactor.SelectedIndexChanged,\n        cbMMRMContrastDirection.SelectedIndexChanged,\n        cbMMRMComparisonLevel.SelectedIndexChanged,\n        cbMMRMBaselineVisit.SelectedIndexChanged,\n        cbMMRMContrastMode.SelectedIndexChanged,\n        cbMMRMControlLevel.SelectedIndexChanged\n\n        Try\n            UpdateMMRMContrastControlEnabledState()\n\n            ' When the grouping factor changes, observed group levels must be refreshed.\n            ' For other controls this is harmless and keeps the UI current.\n            If sender Is Me.cbMMRMGroupingFactor OrElse sender Is Me.cbMMRMContrastMode Then\n                TryRefreshMMRMContrastControlsFromCurrentSelections()\n            End If\n\n        Catch ex As Exception\n            CoreServices.Logger.Warn(\"MMRMContrastControl_CheckedOrSelectedChanged failed: \" & ex.Message)\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "ckMMRMClassInfo",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "ckMMRMEstimatedMeans",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "ckMMRMDiffInChange",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "ckMMRMChangeFromBaseline",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "cbMMRMGroupingFactor",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "cbMMRMContrastDirection",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "cbMMRMComparisonLevel",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "cbMMRMBaselineVisit",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "cbMMRMContrastMode",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui18MMRM",
+          "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+          "control": "cbMMRMControlLevel",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "ParseMMRMCovarianceOptimizerMode",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "15e5e62e2b20176587ede3c8380953a4da243890b7ca143b0b2a9d396e6ef5bd",
+      "original_text": "    Private Function ParseMMRMCovarianceOptimizerMode(selection As String) As regression.MixedModelCovarianceOptimizerMode\n        If String.IsNullOrWhiteSpace(selection) Then Return regression.MixedModelCovarianceOptimizerMode.AverageInformationReml\n        Return regression.MixedModelFrontEndHelpers.ParseCovarianceOptimizerMode(selection, regression.MixedModelCovarianceOptimizerMode.ProjectedBfgs)\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "ParseMMRMCovarianceGradientMode",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "ed4a36d58dc6d60fd89ede6072d9aee6e55c6045fbc2ad72f58b47efe0ba1148",
+      "original_text": "    Private Function ParseMMRMCovarianceGradientMode(selection As String) As regression.MixedModelCovarianceGradientMode\n        Return regression.MixedModelFrontEndHelpers.ParseCovarianceGradientMode(selection, regression.MixedModelCovarianceGradientMode.Auto)\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "ApplyMMRMCovarianceOptimizerSelections",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "source_text_sha256": "2e84899ab6c8ffa8ab0a9d536a2fc4f0bdaa97e310c9c32f2d474d5a97966907",
+      "original_text": "    Private Sub ApplyMMRMCovarianceOptimizerSelections(ByRef ctl As regression.MixedModelControl)\n        MixedModelWorkflowPolicy.ApplyOptimizer(MixedModelWorkflowKind.MMRM, ctl,\n            SelectedComboText(Me.cbMMRMCovOptimizerMode, MMRM_OPT_AI),\n            SelectedComboText(Me.cbMMRMCovGradientMode, MMRM_GRAD_AUTO))\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbMMRMBaselineVisit",
+        "cbMMRMComparisonLevel",
+        "cbMMRMContrastDirection",
+        "cbMMRMContrastMode",
+        "cbMMRMControlLevel",
+        "cbMMRMGroupingFactor",
+        "cbMMRMLSMeansMode",
+        "cbMMRMMultiplicity",
+        "cbMMRMRefGridCovariates",
+        "cbMMRMRefGridWeighting",
+        "ckMMRMChangeFromBaseline",
+        "ckMMRMClassInfo",
+        "ckMMRMDiffInChange",
+        "ckMMRMEstimatedMeans",
+        "lblMMRMComparisonLevel",
+        "lblMMRMLSMeansMode",
+        "lblMMRMMultiplicity",
+        "lblMMRMRefGridCovariates",
+        "lblMMRMRefGridWeighting"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui19LMM",
+      "method": "UpdateLMMCovarianceDependentControls",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui19LMM.vb",
+        "bytes": 61446,
+        "sha256": "63796a5811f9758734ad7d1251559f130146540267bbca07c77d9b6ae36a0be3"
+      },
+      "source_text_sha256": "42b613defeb2aebc5b4c580b21aa672f31c1c43d449c1b5f5d857adda72b1228",
+      "original_text": "    Private Sub UpdateLMMCovarianceDependentControls()\n        Try\n            Dim needsVisit As Boolean = Me.cbCovarStruct.SelectedItem IsNot Nothing AndAlso regression.MixedModelFrontEndHelpers.ResidualStructureRequiresVisit(CStr(Me.cbCovarStruct.SelectedItem))\n\n            'Keep the general random-effect authoring controls enabled. Buttons that can expand\n            'to multiple random-effect columns promote the G-side covariance to VC/Diag before adding the term.\n            Me.btnRandom2Interactions.Enabled = True\n            Me.btnRandomCustomInteraction.Enabled = True\n            Me.btAddRandomEffectCategoricalFactor.Enabled = True\n            Me.btnRandomPoly.Enabled = True\n            Me.spinBtnRandomPoly.Enabled = True\n        Catch\n        End Try\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "btAddRandomEffectCategoricalFactor",
+        "btnRandom2Interactions",
+        "btnRandomCustomInteraction",
+        "btnRandomPoly",
+        "cbCovarStruct",
+        "cbRandomCovarStruct",
+        "spinBtnRandomPoly"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui19LMM",
+      "method": "cbCovarStruct_SelectedIndexChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui19LMM.vb",
+        "bytes": 61446,
+        "sha256": "63796a5811f9758734ad7d1251559f130146540267bbca07c77d9b6ae36a0be3"
+      },
+      "source_text_sha256": "960f6502498c3b9a7d77a65453864c6b473c1df40ec31c32aed035ae50c38b58",
+      "original_text": "    Private Sub cbCovarStruct_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbCovarStruct.SelectedIndexChanged\n        UpdateLMMCovarianceDependentControls()\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "btAddRandomEffectCategoricalFactor",
+        "btnRandom2Interactions",
+        "btnRandomCustomInteraction",
+        "btnRandomPoly",
+        "cbCovarStruct",
+        "cbRandomCovarStruct",
+        "spinBtnRandomPoly"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui19LMM",
+          "handler": "cbCovarStruct_SelectedIndexChanged",
+          "control": "cbCovarStruct",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui19LMM",
+      "method": "cbRandomCovarStruct_SelectedIndexChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui19LMM.vb",
+        "bytes": 61446,
+        "sha256": "63796a5811f9758734ad7d1251559f130146540267bbca07c77d9b6ae36a0be3"
+      },
+      "source_text_sha256": "6452c5f951daf10c0ba19c97f88d69316b81f43e602a3cb06ec1800644f167d7",
+      "original_text": "    Private Sub cbRandomCovarStruct_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbRandomCovarStruct.SelectedIndexChanged\n        UpdateLMMCovarianceDependentControls()\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "btAddRandomEffectCategoricalFactor",
+        "btnRandom2Interactions",
+        "btnRandomCustomInteraction",
+        "btnRandomPoly",
+        "cbCovarStruct",
+        "cbRandomCovarStruct",
+        "spinBtnRandomPoly"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui19LMM",
+          "handler": "cbRandomCovarStruct_SelectedIndexChanged",
+          "control": "cbRandomCovarStruct",
+          "event": "SelectedIndexChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui19LMM",
+      "method": "SelectedComboText",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui19LMM.vb",
+        "bytes": 61446,
+        "sha256": "63796a5811f9758734ad7d1251559f130146540267bbca07c77d9b6ae36a0be3"
+      },
+      "source_text_sha256": "7dde52e054b02a8cd46fbd1567a6beb8366ecd7270602260db392a7508e9787d",
+      "original_text": "    Private Function SelectedComboText(cb As Windows.Forms.ComboBox, fallback As String) As String\n        If cb Is Nothing OrElse cb.SelectedItem Is Nothing Then Return fallback\n        Dim s As String = CStr(cb.SelectedItem)\n        If String.IsNullOrWhiteSpace(s) Then Return fallback\n        Return s\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "btAddRandomEffectCategoricalFactor",
+        "btnRandom2Interactions",
+        "btnRandomCustomInteraction",
+        "btnRandomPoly",
+        "cbCovarStruct",
+        "cbRandomCovarStruct",
+        "spinBtnRandomPoly"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui19LMM",
+      "method": "ApplyLMMCovarianceOptimizerSelections",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui19LMM.vb",
+        "bytes": 61446,
+        "sha256": "63796a5811f9758734ad7d1251559f130146540267bbca07c77d9b6ae36a0be3"
+      },
+      "source_text_sha256": "1679adcb5862f7b6090024aa4dcb300396ca5490f5912366c73c5ee413a0bc96",
+      "original_text": "    Private Sub ApplyLMMCovarianceOptimizerSelections(ByRef ctl As regression.MixedModelControl)\n        MixedModelWorkflowPolicy.ApplyOptimizer(MixedModelWorkflowKind.LMM, ctl,\n            SelectedComboText(Me.cbLMMCovOptimizerMode, LMM_OPT_AI),\n            SelectedComboText(Me.cbLMMCovGradientMode, LMM_GRAD_AUTO))\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "btAddRandomEffectCategoricalFactor",
+        "btnRandom2Interactions",
+        "btnRandomCustomInteraction",
+        "btnRandomPoly",
+        "cbCovarStruct",
+        "cbRandomCovarStruct",
+        "spinBtnRandomPoly"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "HierarchicalDistanceChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "a12abf595afa1bcaa776811fc7055f9c3303e62ebbc509c6552614058d806946",
+      "original_text": "    Private Sub HierarchicalDistanceChanged(sender As Object, e As System.EventArgs)\n        Dim useMinkowski As Boolean = (Me.GetSelectedHierarchicalDistanceMetric() = Multivariate.HierarchicalDistanceMetric.Minkowski)\n        If Me.lblHierarchicalMinkowskiPower IsNot Nothing Then Me.lblHierarchicalMinkowskiPower.Enabled = useMinkowski\n        If Me.tbHierarchicalMinkowskiPower IsNot Nothing Then Me.tbHierarchicalMinkowskiPower.Enabled = useMinkowski\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui11PCA",
+          "handler": "HierarchicalDistanceChanged",
+          "control": "cbHierarchicalDistance",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        }
+      ]
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "HierarchicalMembershipModeChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "e871ef208e39244b6f3b530f29168112d3226e6c9ad22fe4fa2134c60613194f",
+      "original_text": "    Private Sub HierarchicalMembershipModeChanged(sender As Object, e As System.EventArgs)\n        Dim byClusters As Boolean = (Me.optHierarchicalCutByClusters IsNot Nothing AndAlso Me.optHierarchicalCutByClusters.Checked)\n        If Me.nudHierarchicalClusters IsNot Nothing Then Me.nudHierarchicalClusters.Enabled = byClusters\n        If Me.tbHierarchicalCutHeight IsNot Nothing Then Me.tbHierarchicalCutHeight.Enabled = Not byClusters\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui11PCA",
+          "handler": "HierarchicalMembershipModeChanged",
+          "control": "optHierarchicalCutByClusters",
+          "event": "CheckedChanged",
+          "kind": "AddHandler"
+        },
+        {
+          "owner": "Ui11PCA",
+          "handler": "HierarchicalMembershipModeChanged",
+          "control": "optHierarchicalCutByHeight",
+          "event": "CheckedChanged",
+          "kind": "AddHandler"
+        }
+      ]
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "GetSelectedHierarchicalDistanceMetric",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "411616f88fca7d47c88be97406e26416bb36d50246f675a48c802bf6b802f5f4",
+      "original_text": "    Private Function GetSelectedHierarchicalDistanceMetric() As Multivariate.HierarchicalDistanceMetric\n        Return MultivariateLegacyChoices.GetSelectedHierarchicalDistanceMetric(Me.cbHierarchicalDistance.SelectedIndex)\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "FactorAnalysisExtractionChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "c75ce64f7f0e406440af22b79a6e7d92638bb099e7b3e42a70bb92568f7b0a70",
+      "original_text": "    Private Sub FactorAnalysisExtractionChanged(sender As Object, e As System.EventArgs)\n        Dim method = Me.GetSelectedFAExtractionMethod()\n        Dim needsCommunalityStart As Boolean = (method <> Multivariate.FactorAnalysisExtractionMethod.PrincipalComponents)\n\n        If Me.cbFACommunalityInit IsNot Nothing Then Me.cbFACommunalityInit.Enabled = needsCommunalityStart\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui11PCA",
+          "handler": "FactorAnalysisExtractionChanged",
+          "control": "cbFAExtraction",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        }
+      ]
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "FactorAnalysisRotationChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "b9327a0c60385cbdcd46a82ce8f4fc4b6a7145475bcc87d74d11789c23e7e836",
+      "original_text": "    Private Sub FactorAnalysisRotationChanged(sender As Object, e As System.EventArgs)\n        Dim rotation = Me.GetSelectedFARotationMethod()\n        Dim hasRotation As Boolean = (rotation <> Multivariate.FactorAnalysisRotationMethod.None)\n        Dim isPromax As Boolean = (rotation = Multivariate.FactorAnalysisRotationMethod.Promax)\n\n        If Me.ckFAKaiserNormalization IsNot Nothing Then Me.ckFAKaiserNormalization.Enabled = hasRotation\n        If Me.lblFAPromaxPower IsNot Nothing Then Me.lblFAPromaxPower.Enabled = isPromax\n        If Me.nudFAPromaxPower IsNot Nothing Then Me.nudFAPromaxPower.Enabled = isPromax\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui11PCA",
+          "handler": "FactorAnalysisRotationChanged",
+          "control": "cbFARotation",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        }
+      ]
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "FactorAnalysisRetentionChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "caa053ed42121a72a0483354d59b48c2a1f5dea9aff5128353d6ddbdd440f04c",
+      "original_text": "    Private Sub FactorAnalysisRetentionChanged(sender As Object, e As System.EventArgs)\n        If Me.nudFAFactors IsNot Nothing Then Me.nudFAFactors.Enabled = Me.optFAExtractFixed.Checked\n        If Me.nudFAEigen IsNot Nothing Then Me.nudFAEigen.Enabled = Me.optFAExtractEigen.Checked\n        If Me.nudFAVariance IsNot Nothing Then Me.nudFAVariance.Enabled = Me.optFAExtractVariance.Checked\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui11PCA",
+          "handler": "FactorAnalysisRetentionChanged",
+          "control": "optFAExtractFixed",
+          "event": "CheckedChanged",
+          "kind": "AddHandler"
+        },
+        {
+          "owner": "Ui11PCA",
+          "handler": "FactorAnalysisRetentionChanged",
+          "control": "optFAExtractEigen",
+          "event": "CheckedChanged",
+          "kind": "AddHandler"
+        },
+        {
+          "owner": "Ui11PCA",
+          "handler": "FactorAnalysisRetentionChanged",
+          "control": "optFAExtractVariance",
+          "event": "CheckedChanged",
+          "kind": "AddHandler"
+        }
+      ]
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "GetSelectedFAExtractionMethod",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "8cf8177eabc6307e1d520643ac2a426442b61dae36ebd15cb7cd783835022b93",
+      "original_text": "    Private Function GetSelectedFAExtractionMethod() As Multivariate.FactorAnalysisExtractionMethod\n        Return MultivariateLegacyChoices.GetSelectedFAExtractionMethod(Me.cbFAExtraction.SelectedIndex)\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "GetSelectedFARotationMethod",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "158581428cc640f3039e3f36307ee67f66d9cc62514c0054846b7816f4806304",
+      "original_text": "    Private Function GetSelectedFARotationMethod() As Multivariate.FactorAnalysisRotationMethod\n        Return MultivariateLegacyChoices.GetSelectedFARotationMethod(Me.cbFARotation.SelectedIndex)\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "GetSelectedFARetentionMethod",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "d9b070a66adf73322b71d00509d94306266aa315c1cfcfe58b2a4a32f1fecabf",
+      "original_text": "    Private Function GetSelectedFARetentionMethod() As Multivariate.FactorAnalysisRetentionMethod\n        Return MultivariateLegacyChoices.GetSelectedFARetentionMethod(Me.optFAExtractEigen.Checked, Me.optFAExtractVariance.Checked)\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "GetSelectedFARetentionValue",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "e93eee02ac5fcd9742ea6f8969a06d282370ce38b990b84669a1e916858432e7",
+      "original_text": "    Private Function GetSelectedFARetentionValue() As Double\n        Return MultivariateWorkflowPolicy.FactorRetentionValue(Me.optFAExtractEigen.Checked, Me.optFAExtractVariance.Checked,\n            CDbl(Me.nudFAEigen.Value), CDbl(Me.nudFAVariance.Value), CDbl(Me.nudFAFactors.Value))\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "DiscriminantPriorModeChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "072b656049eaa91c2d9579c3f6be84160fa96f8e1d296f3b0d86132f2ec22b34",
+      "original_text": "    Private Sub DiscriminantPriorModeChanged(sender As Object, e As System.EventArgs)\n        Me.UpdateDiscriminantOptionStates()\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui11PCA",
+          "handler": "DiscriminantPriorModeChanged",
+          "control": "cbDAPriors",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        }
+      ]
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "DiscriminantValidationChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "36c931f686132ee2c5310b7eed8b39b3bf98438c252a48581142f309d6e55eb2",
+      "original_text": "    Private Sub DiscriminantValidationChanged(sender As Object, e As System.EventArgs)\n        Me.UpdateDiscriminantOptionStates()\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui11PCA",
+          "handler": "DiscriminantValidationChanged",
+          "control": "cbDAValidation",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        }
+      ]
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "GetSelectedDiscriminantPriorMode",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "1ccfa4954ba6c479fb6fe96a4b372cf3261bc196ea322265ef7a7871152e116f",
+      "original_text": "    Private Function GetSelectedDiscriminantPriorMode() As Multivariate.DiscriminantPriorMode\n        Return MultivariateLegacyChoices.GetSelectedDiscriminantPriorMode(If(Me.cbDAPriors Is Nothing OrElse Me.cbDAPriors.SelectedItem Is Nothing, String.Empty, CStr(Me.cbDAPriors.SelectedItem)))\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "GetSelectedDiscriminantValidationMode",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "d181e0572e739cf64fda934e5baafd1cd2d21dbd89aad1ada6da9342c40b2d29",
+      "original_text": "    Private Function GetSelectedDiscriminantValidationMode() As Multivariate.DiscriminantValidationMode\n        Return MultivariateLegacyChoices.GetSelectedDiscriminantValidationMode(If(Me.cbDAValidation Is Nothing OrElse Me.cbDAValidation.SelectedItem Is Nothing, String.Empty, CStr(Me.cbDAValidation.SelectedItem)))\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "GetSelectedDiscriminantRandomSeed",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "de3b20fd0f8c019d5ae3db7e1dc315c7217db8715e0f46cab4c115b6ea7a8265",
+      "original_text": "    Private Function GetSelectedDiscriminantRandomSeed() As Integer\n        Dim txt As String = Me.tbDASeed.Text\n        If txt.Trim() = String.Empty Then Return Integer.MinValue\n        Return ParseUiInteger(txt, \"Random seed\")\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "GetSelectedDiscriminantRegularization",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "77ed095644206107e5ee0ba493cc1bce3d4d346f5f5d3e65b14220f870a1a009",
+      "original_text": "    Private Function GetSelectedDiscriminantRegularization() As Double\n        Dim txt As String = Me.tbDARegularization.Text\n        If txt.Trim() = String.Empty Then Return 0.00000001\n        Return ParseUiDouble(txt, \"Covariance regularization\")\n    End Function",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui11PCA",
+      "method": "UpdateDiscriminantOptionStates",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+        "bytes": 60407,
+        "sha256": "04b00623ce7801a0101e5257cf1d304a216a6a60bf086cd9d938fd63c621c8ec"
+      },
+      "source_text_sha256": "e00cebfce6bf938c8715adc7cf753516bf31520fd2b664c0e30e1f8b87e42796",
+      "original_text": "    Private Sub UpdateDiscriminantOptionStates()\n        If Me.Tag <> HelpTopic.DiscriminantAnalysis Then Exit Sub\n\n        Dim priorMode As Multivariate.DiscriminantPriorMode = Me.GetSelectedDiscriminantPriorMode()\n        Dim validationMode As Multivariate.DiscriminantValidationMode = Me.GetSelectedDiscriminantValidationMode()\n\n        Dim enableUserPriors As Boolean = (priorMode = Multivariate.DiscriminantPriorMode.UserSpecified)\n        Me.tbDAUserPriors.Enabled = enableUserPriors\n        Me.lblDAUserPriors.Enabled = enableUserPriors\n\n        Dim enableFolds As Boolean = False\n        Dim enableHoldout As Boolean = False\n        Dim enableResamplingOptions As Boolean = False\n\n        Select Case validationMode\n            Case Multivariate.DiscriminantValidationMode.KFold\n                enableFolds = True\n                enableResamplingOptions = True\n\n            Case Multivariate.DiscriminantValidationMode.Holdout\n                enableHoldout = True\n                enableResamplingOptions = True\n\n            Case Else\n                ' None / Leave-one-out: keep all subordinate validation controls disabled.\n        End Select\n\n        Me.nudDAFolds.Enabled = enableFolds\n        Me.lblDAFolds.Enabled = enableFolds\n\n        Me.tbDAHoldoutFraction.Enabled = enableHoldout\n        Me.lblDAHoldoutFraction.Enabled = enableHoldout\n\n        Me.ckDAStratified.Enabled = enableResamplingOptions\n        Me.tbDASeed.Enabled = enableResamplingOptions\n        Me.lblDASeed.Enabled = enableResamplingOptions\n    End Sub",
+      "transforms": [
+        [
+          "Windows.Forms.ComboBox",
+          "FakeControl47"
+        ],
+        [
+          "CoreServices.Logger.",
+          "FakeLogger47."
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ]
+      ],
+      "fields": [
+        "cbDAPriors",
+        "cbDAValidation",
+        "cbFACommunalityInit",
+        "cbFAExtraction",
+        "cbFARotation",
+        "cbHierarchicalDistance",
+        "ckDAStratified",
+        "ckFAKaiserNormalization",
+        "lblDAFolds",
+        "lblDAHoldoutFraction",
+        "lblDASeed",
+        "lblDAUserPriors",
+        "lblFAPromaxPower",
+        "lblHierarchicalMinkowskiPower",
+        "nudDAFolds",
+        "nudFAEigen",
+        "nudFAFactors",
+        "nudFAPromaxPower",
+        "nudFAVariance",
+        "nudHierarchicalClusters",
+        "optFAExtractEigen",
+        "optFAExtractFixed",
+        "optFAExtractVariance",
+        "optHierarchicalCutByClusters",
+        "optHierarchicalCutByHeight",
+        "tbDAHoldoutFraction",
+        "tbDARegularization",
+        "tbDASeed",
+        "tbDAUserPriors",
+        "tbHierarchicalCutHeight",
+        "tbHierarchicalMinkowskiPower"
+      ],
+      "bindings": []
+    }
+  ],
+  "projection": {
+    "path": "BESHStatNG.Test/src/GuiWiring47ProjectionA.vb",
+    "bytes": 35491,
+    "sha256": "6d756ae1649f9d4962b99c10fe4a160a746ac62086986674ef106adb85b34187"
+  },
+  "bindings": [
+    {
+      "owner": "UiGLM",
+      "handler": "cbFamily_SelectedIndexChanged",
+      "control": "cbFamily",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "UiGLM",
+      "handler": "cbLink_SelectedIndexChanged",
+      "control": "cbLink",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "UiGLM",
+      "handler": "cbOutputCalibrationTable_CheckedChanged",
+      "control": "cbOutputCalibrationTable",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "UiGLM",
+      "handler": "cbPerformClasification_CheckedChanged",
+      "control": "cbPerformClasification",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui13GEE",
+      "handler": "cbFamily_SelectedIndexChanged",
+      "control": "cbFamily",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui13GEE",
+      "handler": "cbLink_SelectedIndexChanged",
+      "control": "cbLink",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui13GEE",
+      "handler": "cbOutputCalibrationTable_CheckedChanged",
+      "control": "cbOutputCalibrationTable",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui13GEE",
+      "handler": "cbPerformClasification_CheckedChanged",
+      "control": "cbPerformClasification",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "cbMMRMControlLevel_SelectedIndexChanged",
+      "control": "cbMMRMControlLevel",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "cbMMRMContrastMode_SelectedIndexChanged",
+      "control": "cbMMRMContrastMode",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMReferenceGridControlChanged",
+      "control": "cbMMRMLSMeansMode",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMReferenceGridControlChanged",
+      "control": "cbMMRMRefGridWeighting",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMReferenceGridControlChanged",
+      "control": "cbMMRMRefGridCovariates",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "ckMMRMClassInfo",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "ckMMRMEstimatedMeans",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "ckMMRMDiffInChange",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "ckMMRMChangeFromBaseline",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "cbMMRMGroupingFactor",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "cbMMRMContrastDirection",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "cbMMRMComparisonLevel",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "cbMMRMBaselineVisit",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "cbMMRMContrastMode",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "MMRMContrastControl_CheckedOrSelectedChanged",
+      "control": "cbMMRMControlLevel",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui19LMM",
+      "handler": "cbCovarStruct_SelectedIndexChanged",
+      "control": "cbCovarStruct",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui19LMM",
+      "handler": "cbRandomCovarStruct_SelectedIndexChanged",
+      "control": "cbRandomCovarStruct",
+      "event": "SelectedIndexChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "HierarchicalDistanceChanged",
+      "control": "cbHierarchicalDistance",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "HierarchicalMembershipModeChanged",
+      "control": "optHierarchicalCutByClusters",
+      "event": "CheckedChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "HierarchicalMembershipModeChanged",
+      "control": "optHierarchicalCutByHeight",
+      "event": "CheckedChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "FactorAnalysisExtractionChanged",
+      "control": "cbFAExtraction",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "FactorAnalysisRotationChanged",
+      "control": "cbFARotation",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "FactorAnalysisRetentionChanged",
+      "control": "optFAExtractFixed",
+      "event": "CheckedChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "FactorAnalysisRetentionChanged",
+      "control": "optFAExtractEigen",
+      "event": "CheckedChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "FactorAnalysisRetentionChanged",
+      "control": "optFAExtractVariance",
+      "event": "CheckedChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "DiscriminantPriorModeChanged",
+      "control": "cbDAPriors",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui11PCA",
+      "handler": "DiscriminantValidationChanged",
+      "control": "cbDAValidation",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    }
+  ],
+  "host_substitutions": [
+    [
+      "Windows.Forms.ComboBox",
+      "FakeControl47"
+    ],
+    [
+      "CoreServices.Logger.",
+      "FakeLogger47."
+    ],
+    [
+      "ParseUiDouble(",
+      "SourceNumbers46.ParseUiDouble("
+    ],
+    [
+      "FormatUiDouble(",
+      "SourceNumbers46.FormatUiDouble("
+    ],
+    [
+      "ParseUiInteger(",
+      "FakeText47.ParseUiInteger("
+    ]
+  ],
+  "native": "NOT_RUN",
+  "limitations": "Constructors are fake field allocation plus exact selected dynamic AddHandler lines. No original form initialization. Supplied state vectors only;no WinForms grouping/focus/COM."
+}

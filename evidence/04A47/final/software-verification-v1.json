@@ -1,0 +1,146 @@
+{
+  "status": "NOT_READY_04A47_SAFE_SOFTWARE",
+  "blocker": "MISSING_HISTORICAL_SPC23_COMPARISON_PAYLOAD",
+  "Debug": {
+    "configuration": "Debug",
+    "scope": "ONE_FULL_FRESH_CAMPAIGN",
+    "identities": 21895,
+    "outcomes": {
+      "Passed": 21881,
+      "Failed": 14
+    },
+    "added": 141,
+    "missing": [],
+    "nonpass_deltas": {
+      "RETAINED_IDENTICAL": 14
+    }
+  },
+  "Release": {
+    "configuration": "Release",
+    "scope": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+    "identities": 15895,
+    "outcomes": {
+      "Passed": 15885,
+      "Failed": 10
+    },
+    "added": 141,
+    "missing": [],
+    "nonpass_deltas": {
+      "RETAINED_IDENTICAL": 1,
+      "RETAINED_CHANGED_TRACE": 9
+    }
+  },
+  "full_Release": "NOT_RUN",
+  "ABI_exports_per_configuration": 268,
+  "compatibility_per_configuration": {
+    "total": 29424,
+    "PRE_EDIT_FROZEN": 28966,
+    "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458,
+    "new_original_queries": 0
+  },
+  "retained_current_cases": {
+    "batch39": 77,
+    "batch40": 48,
+    "batch41": 390,
+    "batch42": 1802,
+    "batch43_operations": 1118,
+    "batch43_graphs": 36,
+    "batch43_races": 864,
+    "batch43_policy": 15,
+    "batch44": 591,
+    "batch44_fake_progress": 72
+  },
+  "new_managed_identities": 141,
+  "additional_observer_cases_per_configuration": 6,
+  "Python": {
+    "parents": 956,
+    "parent_outcomes": {
+      "PASS": 833,
+      "ERROR": 13,
+      "FAIL": 110
+    },
+    "before_outcomes": {
+      "PASS": 834,
+      "ERROR": 11,
+      "FAIL": 111
+    },
+    "event_outcomes": {
+      "ERROR": 13,
+      "FAIL": 182
+    },
+    "categories": {
+      "RETAINED_IDENTICAL": 180,
+      "RETAINED_CHANGED_MESSAGE": 13,
+      "NEW_NONPASS": 2,
+      "MISSING_NONPASS_EVENT": 1
+    },
+    "changed_parents": [
+      {
+        "id": "test_04a23_multivariate_spc.Spc23Contracts.test_comparison_payloads_have_real_six_chart_results_and_explicit_rejections",
+        "before": "PASS",
+        "outcome": "ERROR",
+        "source": {
+          "source": {
+            "path": "scripts/tests/test_04a23_multivariate_spc.py",
+            "bytes": 13644,
+            "sha256": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8"
+          },
+          "method": "test_comparison_payloads_have_real_six_chart_results_and_explicit_rejections",
+          "lines": [
+            [
+              149,
+              161
+            ]
+          ]
+        }
+      },
+      {
+        "id": "test_04a24_multivariate_payload.MultivariatePayload24.test_frozen_evidence_authority_hashes_and_unchanged_metadata",
+        "before": "FAIL",
+        "outcome": "ERROR",
+        "source": {
+          "source": {
+            "path": "scripts/tests/test_04a24_multivariate_payload.py",
+            "bytes": 14011,
+            "sha256": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461"
+          },
+          "method": "test_frozen_evidence_authority_hashes_and_unchanged_metadata",
+          "lines": [
+            [
+              184,
+              187
+            ]
+          ]
+        }
+      }
+    ],
+    "unresolved_diagnostic_events": [],
+    "dropped_parents": [],
+    "duplicated_parents": [],
+    "campaigns": 1,
+    "workers_at_peak": 3,
+    "diagnostic_dispositions": {
+      "path": "evidence/04A47/python/dispositions-v1.json",
+      "bytes": 37383,
+      "sha256": "0f6b93fe19bd09deac6a9c867f60336ae44a53ec429d061100b8a25b0acb2c9a"
+    }
+  },
+  "Node": "INHERITED_916_PASS;NOT_RERUN",
+  "managed_Office_contracts": "FRESH_FULL_DEBUG_PASS",
+  "strict_profile_MkDocs": [
+    1,
+    1,
+    0
+  ],
+  "live_Excel_COM_UIA_RefEdit": "NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A48_NOT_AUTHORIZED"
+  }
+}

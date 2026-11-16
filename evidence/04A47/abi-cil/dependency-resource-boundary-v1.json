@@ -1,0 +1,102 @@
+{
+  "rows": [
+    {
+      "configuration": "Debug",
+      "rows": [
+        {
+          "name": "BESHStat.Core",
+          "references": [
+            "netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+          ],
+          "target": [
+            ".NETStandard,Version=v2.0"
+          ]
+        },
+        {
+          "name": "BESHStat.Excel.Common",
+          "references": [
+            "BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+          ],
+          "target": [
+            ".NETStandard,Version=v2.0"
+          ]
+        },
+        {
+          "name": "BESHStatNG",
+          "references": [
+            "BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe",
+            "Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+            "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+            "System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+            "System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "target": [
+            ".NETFramework,Version=v4.8"
+          ]
+        }
+      ],
+      "compiled_Ribbon_exact_source": true,
+      "no_attributes_constructed": true,
+      "no_resource_objects_constructed": true
+    },
+    {
+      "configuration": "Release",
+      "rows": [
+        {
+          "name": "BESHStat.Core",
+          "references": [
+            "netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+          ],
+          "target": [
+            ".NETStandard,Version=v2.0"
+          ]
+        },
+        {
+          "name": "BESHStat.Excel.Common",
+          "references": [
+            "BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
+          ],
+          "target": [
+            ".NETStandard,Version=v2.0"
+          ]
+        },
+        {
+          "name": "BESHStatNG",
+          "references": [
+            "BESHStat.Core, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "BESHStat.Excel.Common, Version=1.2.6.0, Culture=neutral, PublicKeyToken=null",
+            "ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe",
+            "Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+            "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+            "System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a",
+            "System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          ],
+          "target": [
+            ".NETFramework,Version=v4.8"
+          ]
+        }
+      ],
+      "compiled_Ribbon_exact_source": true,
+      "no_attributes_constructed": true,
+      "no_resource_objects_constructed": true
+    }
+  ],
+  "source": {
+    "path": "evidence/04A45/fixtures/ResourceBoundary45.cs",
+    "bytes": 1858,
+    "sha256": "5334d997091211caf87c30005151206aa1c308192b5f02131fc19b54a4f7f7c2"
+  },
+  "native": "NOT_RUN"
+}

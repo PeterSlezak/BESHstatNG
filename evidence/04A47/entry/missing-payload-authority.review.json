@@ -1,0 +1,29 @@
+{
+  "authority": {
+    "path": "evidence/04A24/frozen-capture-hashes.json",
+    "bytes": 344343,
+    "sha256": "2d0bbea874e22b2d07c919d930e20377dcd31db14267a0df724a64ce760c241e"
+  },
+  "original_record": {
+    "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643",
+    "bytes": 57758738,
+    "tracked": false
+  },
+  "target": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+  "actual_presence": false,
+  "first_current_error": "FileNotFoundError",
+  "old_FAIL_unwaived": true,
+  "original_test_sources": [
+    {
+      "path": "scripts/tests/test_04a23_multivariate_spc.py",
+      "bytes": 13644,
+      "sha256": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8"
+    },
+    {
+      "path": "scripts/tests/test_04a24_multivariate_payload.py",
+      "bytes": 14011,
+      "sha256": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461"
+    }
+  ],
+  "required_next_action": "Owner-retained byte-exact copy;authenticate hash/size and original ignore policy before any exclusive read-only recovery. Preserve first campaign;retry only affected unchanged parents."
+}

@@ -1,0 +1,4733 @@
+{
+  "label": "CURRENT_MAIN_PRE_EDIT_04A47_SOURCE_BACKED_FAKE",
+  "members": [
+    {
+      "owner": "UiGLM",
+      "method": "BeginRegressionComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "original_text": "    Private Sub BeginRegressionComputation()\n        pRegressionCancelRequested = False\n        pRegressionInterruptRequested = False\n        pRegressionCloseAfterCancel = False\n        pRegressionCalculationRunning = True\n        CoreServices.Regression.SetCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)\n\n        Try\n            Me.btCalculate.Enabled = False\n            Me.btInterrupt.Enabled = True\n            Me.lblProgress.Text = \"Preparing calculation...\"\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "9b34bdab2c17bfdbc0bd297372edd58eaeb6f5d79458262134fe45f80addff31",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "EndRegressionComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "original_text": "    Private Sub EndRegressionComputation()\n        pRegressionCalculationRunning = False\n        CoreServices.Regression.ClearCallbacks()\n\n        Try\n            If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then\n                Me.lblProgress.Text = \"Calculation interrupted; latest accepted estimates returned.\"\n            End If\n            Me.btCalculate.Enabled = True\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n\n        If pRegressionCloseAfterCancel Then\n            pRegressionCloseAfterCancel = False\n            Try\n                Me.Close()\n            Catch\n            End Try\n        End If\n    End Sub",
+      "source_text_sha256": "3e0088a8e2c8c8515b403a47adde5d2190369796870bf096e5b48bfe02c65e21",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "IsRegressionCancellationRequested",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "original_text": "    Private Function IsRegressionCancellationRequested() As Boolean\n        Return pRegressionCancelRequested\n    End Function",
+      "source_text_sha256": "cc44153042a8db17c280cae9b7d67b46a9f0f024907f09bdef96ccb080497a87",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "IsRegressionInterruptionRequested",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "original_text": "    Private Function IsRegressionInterruptionRequested() As Boolean\n        Return pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested\n    End Function",
+      "source_text_sha256": "da55677d7ca3f496022d6989a761abf9389272ae75839207913f32cb1a3ca9f6",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "FinishRegressionComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "original_text": "    Private Sub FinishRegressionComputation(message As String)\n        Try\n            Me.ProgressBar1.Style = Windows.Forms.ProgressBarStyle.Continuous\n            Me.lblProgress.Text = message\n            Me.btCalculate.Enabled = True\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "ab87f7670d6f11a05a7050c6f9b7e9aa68bf7556f32d2b3cf550b19428e9ad89",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "UiGLM",
+      "method": "btInterrupt_Click",
+      "source": {
+        "path": "BESHstatNG/src/UI/UiGLM.vb",
+        "bytes": 81688,
+        "sha256": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+      },
+      "original_text": "    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click\n        If Not pRegressionCalculationRunning Then Exit Sub\n\n        pRegressionInterruptRequested = True\n\n        Try\n            Me.lblProgress.Text = \"Interrupting; latest accepted estimates will be returned...\"\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "b60442d42e4cadb824460d16b53da8af704982656e363b39521f47f0494e2ee6",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": [
+        {
+          "owner": "UiGLM",
+          "handler": "btInterrupt_Click",
+          "control": "btInterrupt",
+          "event": "Click",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "BeginRegressionComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "original_text": "    Private Sub BeginRegressionComputation()\n        pRegressionCancelRequested = False\n        pRegressionInterruptRequested = False\n        pRegressionCloseAfterCancel = False\n        pRegressionCalculationRunning = True\n        CoreServices.Regression.SetCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)\n\n        Try\n            Me.btCalculate.Enabled = False\n            Me.btInterrupt.Enabled = True\n            Me.lblProgress.Text = \"Preparing calculation...\"\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "9b34bdab2c17bfdbc0bd297372edd58eaeb6f5d79458262134fe45f80addff31",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "EndRegressionComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "original_text": "    Private Sub EndRegressionComputation()\n        pRegressionCalculationRunning = False\n        CoreServices.Regression.ClearCallbacks()\n\n        Try\n            If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then\n                Me.lblProgress.Text = \"Calculation interrupted; latest accepted estimates returned.\"\n            End If\n            Me.btCalculate.Enabled = True\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n\n        If pRegressionCloseAfterCancel Then\n            pRegressionCloseAfterCancel = False\n            Try\n                Me.Close()\n            Catch\n            End Try\n        End If\n    End Sub",
+      "source_text_sha256": "3e0088a8e2c8c8515b403a47adde5d2190369796870bf096e5b48bfe02c65e21",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "IsRegressionCancellationRequested",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "original_text": "    Private Function IsRegressionCancellationRequested() As Boolean\n        Return pRegressionCancelRequested\n    End Function",
+      "source_text_sha256": "cc44153042a8db17c280cae9b7d67b46a9f0f024907f09bdef96ccb080497a87",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "IsRegressionInterruptionRequested",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "original_text": "    Private Function IsRegressionInterruptionRequested() As Boolean\n        Return pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested\n    End Function",
+      "source_text_sha256": "da55677d7ca3f496022d6989a761abf9389272ae75839207913f32cb1a3ca9f6",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "FinishRegressionComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "original_text": "    Private Sub FinishRegressionComputation(message As String)\n        Try\n            Me.ProgressBar1.Style = Windows.Forms.ProgressBarStyle.Continuous\n            Me.lblProgress.Text = message\n            Me.btCalculate.Enabled = True\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "ab87f7670d6f11a05a7050c6f9b7e9aa68bf7556f32d2b3cf550b19428e9ad89",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui13GEE",
+      "method": "btInterrupt_Click",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+        "bytes": 42463,
+        "sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b"
+      },
+      "original_text": "    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click\n        If Not pRegressionCalculationRunning Then Exit Sub\n\n        pRegressionInterruptRequested = True\n\n        Try\n            Me.lblProgress.Text = \"Interrupting; latest accepted estimates will be returned...\"\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "b60442d42e4cadb824460d16b53da8af704982656e363b39521f47f0494e2ee6",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui13GEE",
+          "handler": "btInterrupt_Click",
+          "control": "btInterrupt",
+          "event": "Click",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui4Cox",
+      "method": "BeginRegressionComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "bytes": 33058,
+        "sha256": "160812faea283f9abb610505293e36d48de699be3f72217ab739626dda51ffda"
+      },
+      "original_text": "    Private Sub BeginRegressionComputation()\n        pRegressionCancelRequested = False\n        pRegressionInterruptRequested = False\n        pRegressionCloseAfterCancel = False\n        pRegressionCalculationRunning = True\n        CoreServices.Regression.SetCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)\n\n        Try\n            Me.btCalculate.Enabled = False\n            Me.btInterrupt.Enabled = True\n            Me.lblProgress.Text = \"Preparing calculation...\"\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "9b34bdab2c17bfdbc0bd297372edd58eaeb6f5d79458262134fe45f80addff31",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui4Cox",
+      "method": "EndRegressionComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "bytes": 33058,
+        "sha256": "160812faea283f9abb610505293e36d48de699be3f72217ab739626dda51ffda"
+      },
+      "original_text": "    Private Sub EndRegressionComputation()\n        pRegressionCalculationRunning = False\n        CoreServices.Regression.ClearCallbacks()\n\n        Try\n            If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then\n                Me.lblProgress.Text = \"Calculation interrupted; latest accepted estimates returned.\"\n            End If\n            Me.btCalculate.Enabled = True\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n\n        If pRegressionCloseAfterCancel Then\n            pRegressionCloseAfterCancel = False\n            Try\n                Me.Close()\n            Catch\n            End Try\n        End If\n    End Sub",
+      "source_text_sha256": "3e0088a8e2c8c8515b403a47adde5d2190369796870bf096e5b48bfe02c65e21",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui4Cox",
+      "method": "IsRegressionCancellationRequested",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "bytes": 33058,
+        "sha256": "160812faea283f9abb610505293e36d48de699be3f72217ab739626dda51ffda"
+      },
+      "original_text": "    Private Function IsRegressionCancellationRequested() As Boolean\n        Return pRegressionCancelRequested\n    End Function",
+      "source_text_sha256": "cc44153042a8db17c280cae9b7d67b46a9f0f024907f09bdef96ccb080497a87",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui4Cox",
+      "method": "IsRegressionInterruptionRequested",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "bytes": 33058,
+        "sha256": "160812faea283f9abb610505293e36d48de699be3f72217ab739626dda51ffda"
+      },
+      "original_text": "    Private Function IsRegressionInterruptionRequested() As Boolean\n        Return pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested\n    End Function",
+      "source_text_sha256": "da55677d7ca3f496022d6989a761abf9389272ae75839207913f32cb1a3ca9f6",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui4Cox",
+      "method": "FinishRegressionComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "bytes": 33058,
+        "sha256": "160812faea283f9abb610505293e36d48de699be3f72217ab739626dda51ffda"
+      },
+      "original_text": "    Private Sub FinishRegressionComputation(message As String)\n        Try\n            Me.ProgressBar1.Style = Windows.Forms.ProgressBarStyle.Continuous\n            Me.lblProgress.Text = message\n            Me.btCalculate.Enabled = True\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "ab87f7670d6f11a05a7050c6f9b7e9aa68bf7556f32d2b3cf550b19428e9ad89",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui4Cox",
+      "method": "btInterrupt_Click",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "bytes": 33058,
+        "sha256": "160812faea283f9abb610505293e36d48de699be3f72217ab739626dda51ffda"
+      },
+      "original_text": "    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click\n        If Not pRegressionCalculationRunning Then Exit Sub\n\n        pRegressionInterruptRequested = True\n\n        Try\n            Me.lblProgress.Text = \"Interrupting; latest accepted estimates will be returned...\"\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "b60442d42e4cadb824460d16b53da8af704982656e363b39521f47f0494e2ee6",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btCalculate",
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui4Cox",
+          "handler": "btInterrupt_Click",
+          "control": "btInterrupt",
+          "event": "Click",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "btInterrupt_Click",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "original_text": "    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click\n        If Not pMmrmCalculationRunning Then Exit Sub\n\n        pMmrmInterruptRequested = True\n\n        Try\n            Me.lblProgress.Text = \"Interrupting MMRM; latest accepted estimates will be returned...\"\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "580e8481c2b2707e6531f01755670b1329cc6348ec95e75455fd8ee5d2642612",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui18MMRM",
+          "handler": "btInterrupt_Click",
+          "control": "btInterrupt",
+          "event": "Click",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "IsMMRMCancellationRequested",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "original_text": "    Private Function IsMMRMCancellationRequested() As Boolean\n        Return pMmrmCancelRequested\n    End Function",
+      "source_text_sha256": "84263a7f557e039c5f647177257b5eb255813f7fd74109ef387023c8eddb8b49",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui18MMRM",
+      "method": "IsMMRMInterruptionRequested",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+        "bytes": 97414,
+        "sha256": "0e6c3884d9f8a219e13c174a5c83c2a4c7cd775e137bcaa333880bf2f948656a"
+      },
+      "original_text": "    Private Function IsMMRMInterruptionRequested() As Boolean\n        Return pMmrmInterruptRequested AndAlso Not pMmrmCancelRequested\n    End Function",
+      "source_text_sha256": "78a439bad217eabe67ec3e918e35428990799736e0db2664181842610b6baf61",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui19LMM",
+      "method": "btInterrupt_Click",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui19LMM.vb",
+        "bytes": 61446,
+        "sha256": "63796a5811f9758734ad7d1251559f130146540267bbca07c77d9b6ae36a0be3"
+      },
+      "original_text": "    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click\n        If Not pLmmCalculationRunning Then Exit Sub\n\n        plmmInterruptRequested = True\n\n        Try\n            Me.lblProgress.Text = \"Interrupting LMM; latest accepted estimates will be returned...\"\n            Me.btInterrupt.Enabled = False\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "8b25baea65bf4c49d8405753afe029c9ad1ff40aef07719939b84e83faaef480",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "btInterrupt",
+        "lblProgress"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui19LMM",
+          "handler": "btInterrupt_Click",
+          "control": "btInterrupt",
+          "event": "Click",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "BuildFitOptions",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Function BuildFitOptions() As PsmComprehensiveFitOptions\n        Dim standard As New PsmOptions With {\n            .ScoreMethod = ParseEnum(Of PsmScoreMethod)(cbScoreMethod.Text),\n            .Estimand = ParseEnum(Of PsmEstimand)(cbEstimand.Text),\n            .DistanceMetric = ParseEnum(Of PsmDistanceMetric)(cbDistanceMetric.Text),\n            .MatchingRatio = Math.Max(1, ParseUiInteger(tbMatchingRatio.Text, \"matching ratio\")),\n            .WithReplacement = chkWithReplacement.Checked,\n            .CaliperScale = ParseEnum(Of PsmCaliperScale)(cbCaliperScale.Text),\n            .Caliper = ParseOptionalDouble(tbCaliper.Text, Double.NaN),\n            .MatchingOrder = ParseEnum(Of PsmMatchingOrder)(cbMatchingOrder.Text),\n            .CommonSupport = ParseEnum(Of PsmCommonSupportMode)(cbCommonSupport.Text),\n            .IncludeIntercept = ckIntercept.Checked,\n            .StandardizeCovariates = chkStandardizeCovariates.Checked,\n            .LogisticMaxIterations = Math.Max(1, ParseUiInteger(tbMaxIterations.Text, \"maximum iterations\")),\n            .LogisticTolerance = ParseUiDouble(tbTolerance.Text, \"tolerance\"),\n            .LogisticRidgePenalty = Math.Max(0.0, ParseUiDouble(tbRidgePenalty.Text, \"ridge penalty\")),\n            .BalanceSmdThreshold = ParseUiDouble(tbLoveThreshold.Text, \"Love-plot/SMD threshold\"),\n            .SubclassificationStrata = Math.Max(2, ParseUiInteger(tbStrata.Text, \"subclassification strata\")),\n            .TrimPropensityLower = ParseUiDouble(tbTrimLower.Text, \"lower propensity trim\"),\n            .TrimPropensityUpper = ParseUiDouble(tbTrimUpper.Text, \"upper propensity trim\")\n        }\n\n        Dim fitOptions As New PsmComprehensiveFitOptions With {\n            .StandardOptions = standard,\n            .RunMethod = ParseEnum(Of PsmBackendRunMethod)(cbRunMethod.Text),\n            .IncludeDoublyRobustEstimate = chkDoublyRobust.Checked,\n            .IncludeOverlapDiagnostics = chkOverlapDiagnostics.Checked,\n            .IncludeWeightDiagnostics = chkWeightDiagnostics.Checked,\n            .IncludeLovePlotRows = chkLovePlot.Checked,\n            .OverlapBinCount = Math.Max(2, ParseUiInteger(tbOverlapBins.Text, \"overlap bins\")),\n            .LovePlotThreshold = ParseUiDouble(tbLoveThreshold.Text, \"Love-plot threshold\"),\n            .ExtremeWeightCutoff = ParseUiDouble(tbExtremeWeight.Text, \"extreme weight cutoff\")\n        }\n\n        If fitOptions.RunMethod = PsmBackendRunMethod.CoarsenedExactMatching Then\n            Dim bins As Integer = Math.Max(2, ParseUiInteger(tbCemBins.Text, \"CEM quantile bins\"))\n            fitOptions.CoarseningSpec = PsmRequestSelection.CreateCemSpec(bins, standard)\n        End If\n\n        Return New PsmRequestSelection(fitOptions).CreateEffectiveOptions()\n    End Function",
+      "source_text_sha256": "109c1a531c55bd1bfb26d35ef495a8cbf0aa93f98fe7afcea32f581e329b781e",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "ParseEnum",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Shared Function ParseEnum(Of TEnum As Structure)(text As String) As TEnum\n        Return CType([Enum].Parse(GetType(TEnum), text), TEnum)\n    End Function",
+      "source_text_sha256": "8c812fea9684869205816c2c24d4a45b5c7d072ddbb0feeb9f59d70a241fa569",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "ParseOptionalDouble",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Shared Function ParseOptionalDouble(text As String, defaultValue As Double) As Double\n        If String.IsNullOrWhiteSpace(text) Then Return defaultValue\n        Return ParseUiDouble(text, \"optional numeric value\")\n    End Function",
+      "source_text_sha256": "57e4251f4f2c64f7f85f7ef4035334243984917f992343a9da371582c3b0b81c",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "PopulateEnumCombo",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Sub PopulateEnumCombo(combo As ComboBox, enumType As Type, defaultName As String)\n        combo.DropDownStyle = ComboBoxStyle.DropDownList\n        combo.Items.Clear()\n        For Each name As String In [Enum].GetNames(enumType)\n            combo.Items.Add(name)\n        Next\n        Dim idx As Integer = combo.FindStringExact(defaultName)\n        If idx >= 0 Then\n            combo.SelectedIndex = idx\n        ElseIf combo.Items.Count > 0 Then\n            combo.SelectedIndex = 0\n        End If\n    End Sub",
+      "source_text_sha256": "038dfc62313bdb2f1070dd8c191687edceb59fa7fc48cc53c8a1ef22e07e171d",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "InitializeDefaultUiValues",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Sub InitializeDefaultUiValues()\n        Me.tbTolerance.Text = FormatUiDouble(PsmSelectionDefaults.LogisticTolerance)\n        Me.tbRidgePenalty.Text = FormatUiDouble(PsmSelectionDefaults.LogisticRidgePenalty)\n        Me.tbTrimLower.Text = FormatUiDouble(PsmSelectionDefaults.LowerTrim)\n        Me.tbTrimUpper.Text = FormatUiDouble(PsmSelectionDefaults.UpperTrim)\n        Me.tbLoveThreshold.Text = FormatUiDouble(PsmSelectionDefaults.SmdThreshold)\n        Me.tbMaxIterations.Text = PsmSelectionDefaults.MaximumIterations.ToString()\n        Me.tbMatchingRatio.Text = PsmSelectionDefaults.MatchingRatio.ToString()\n        Me.tbStrata.Text = PsmSelectionDefaults.Strata.ToString()\n        Me.tbCemBins.Text = PsmSelectionDefaults.CemBins.ToString()\n        Me.tbOverlapBins.Text = PsmSelectionDefaults.OverlapBins.ToString()\n        Me.tbExtremeWeight.Text = FormatUiDouble(PsmSelectionDefaults.ExtremeWeightCutoff)\n        Me.tbCaliper.Text = String.Empty\n\n        PopulateEnumCombo(Me.cbScoreMethod, GetType(PsmScoreMethod), PsmScoreMethod.LogisticRegression.ToString())\n        PopulateEnumCombo(Me.cbRunMethod, GetType(PsmBackendRunMethod), PsmBackendRunMethod.StandardNearestNeighbor.ToString())\n        PopulateEnumCombo(Me.cbEstimand, GetType(PsmEstimand), PsmEstimand.ATT.ToString())\n        PopulateEnumCombo(Me.cbDistanceMetric, GetType(PsmDistanceMetric), PsmDistanceMetric.PropensityScore.ToString())\n        PopulateEnumCombo(Me.cbCaliperScale, GetType(PsmCaliperScale), PsmCaliperScale.None.ToString())\n        PopulateEnumCombo(Me.cbMatchingOrder, GetType(PsmMatchingOrder), PsmMatchingOrder.PropensityDescending.ToString())\n        PopulateEnumCombo(Me.cbCommonSupport, GetType(PsmCommonSupportMode), PsmCommonSupportMode.None.ToString())\n\n        Me.chkWithReplacement.Checked = False\n        Me.chkStandardizeCovariates.Checked = True\n        Me.chkDoublyRobust.Checked = True\n        Me.chkOverlapDiagnostics.Checked = True\n        Me.chkWeightDiagnostics.Checked = True\n        Me.chkLovePlot.Checked = True\n        Me.chkWriteDiagnostics.Checked = True\n        Me.chkWriteMatches.Checked = True\n    End Sub",
+      "source_text_sha256": "be45413df2b40f16520ee1a1c60b95ad429820addd4451bc56b691e28cc71574",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "SetOptionControlsForCurrentSelections",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Sub SetOptionControlsForCurrentSelections()\n        Dim scoreMethod As PsmScoreMethod = PsmScoreMethod.LogisticRegression\n        Dim runMethod As PsmBackendRunMethod = PsmBackendRunMethod.StandardNearestNeighbor\n        Dim estimand As PsmEstimand = PsmEstimand.ATT\n        Dim caliperScale As PsmCaliperScale = PsmCaliperScale.None\n        Dim distanceMetric As PsmDistanceMetric = PsmDistanceMetric.PropensityScore\n\n        Try\n            If Me.cbScoreMethod.SelectedItem IsNot Nothing Then scoreMethod = ParseEnum(Of PsmScoreMethod)(Me.cbScoreMethod.Text)\n            If Me.cbRunMethod.SelectedItem IsNot Nothing Then runMethod = ParseEnum(Of PsmBackendRunMethod)(Me.cbRunMethod.Text)\n            If Me.cbEstimand.SelectedItem IsNot Nothing Then estimand = ParseEnum(Of PsmEstimand)(Me.cbEstimand.Text)\n            If Me.cbCaliperScale.SelectedItem IsNot Nothing Then caliperScale = ParseEnum(Of PsmCaliperScale)(Me.cbCaliperScale.Text)\n            If Me.cbDistanceMetric.SelectedItem IsNot Nothing Then distanceMetric = ParseEnum(Of PsmDistanceMetric)(Me.cbDistanceMetric.Text)\n        Catch\n        End Try\n\n        RefreshEstimandChoicesForRunMethod(runMethod)\n        Try\n            estimand = ParseEnum(Of PsmEstimand)(Me.cbEstimand.Text)\n        Catch\n            estimand = PsmEstimand.ATT\n        End Try\n\n        Dim intent As New PsmControlIntent(runMethod, estimand, scoreMethod)\n        Dim supplied As Boolean = intent.Supplied\n        Me.lbScore.Enabled = supplied\n        Me.btAddScore.Enabled = supplied\n        Me.btRemoveScore.Enabled = supplied\n        Me.lblScore.Enabled = supplied\n        'Keep the score-method, trimming, and common-support controls enabled even when\n        'the user supplies propensity scores. Only logistic-regression iteration controls\n        'are disabled, otherwise the user cannot switch back from Supplied mode.\n        Me.grpIterOptions.Enabled = True\n        Me.tbMaxIterations.Enabled = Not supplied\n        Me.lblMaxIterations.Enabled = Not supplied\n        Me.tbTolerance.Enabled = Not supplied\n        Me.lblTolerance.Enabled = Not supplied\n        Me.tbRidgePenalty.Enabled = Not supplied\n        Me.lblRidgePenalty.Enabled = Not supplied\n\n        Dim matching As Boolean = intent.Matching\n        Dim nearestNeighbor As Boolean = intent.NearestNeighbor\n        Dim optimalPair As Boolean = intent.OptimalPair\n\n        If optimalPair Then\n            Me.tbMatchingRatio.Text = \"1\"\n            Me.chkWithReplacement.Checked = False\n        End If\n\n        If PsmControlIntent.NeedsCaliperDefault(distanceMetric, caliperScale) Then\n            Dim idx As Integer = Me.cbCaliperScale.FindStringExact(PsmCaliperScale.StandardizedLogitPropensityScore.ToString())\n            If idx >= 0 Then\n                Me.cbCaliperScale.SelectedIndex = idx\n                caliperScale = PsmCaliperScale.StandardizedLogitPropensityScore\n            End If\n            If String.IsNullOrWhiteSpace(Me.tbCaliper.Text) Then Me.tbCaliper.Text = FormatUiDouble(PsmSelectionDefaults.MahalanobisCaliper)\n        End If\n\n        Me.tbMatchingRatio.Enabled = nearestNeighbor\n        Me.lblMatchingRatio.Enabled = Me.tbMatchingRatio.Enabled\n        Me.chkWithReplacement.Enabled = nearestNeighbor\n        Me.cbDistanceMetric.Enabled = matching\n        Me.lblDistanceMetric.Enabled = matching\n        Me.cbMatchingOrder.Enabled = nearestNeighbor\n        Me.lblMatchingOrder.Enabled = Me.cbMatchingOrder.Enabled\n        Me.cbCaliperScale.Enabled = matching\n        Me.lblCaliperScale.Enabled = matching\n        Me.tbCaliper.Enabled = matching AndAlso caliperScale <> PsmCaliperScale.None\n        Me.lblCaliper.Enabled = Me.tbCaliper.Enabled\n        Me.tbStrata.Enabled = intent.Subclassification\n        Me.lblStrata.Enabled = Me.tbStrata.Enabled\n        Me.tbCemBins.Enabled = intent.Cem\n        Me.lblCemBins.Enabled = Me.tbCemBins.Enabled\n        Me.chkDoublyRobust.Enabled = intent.DoublyRobust\n        If Not Me.chkDoublyRobust.Enabled Then Me.chkDoublyRobust.Checked = False\n    End Sub",
+      "source_text_sha256": "bd5263b3ac83d53bc1a8ad268e75d38d6540abf664d0d4136143ae9dd17f5cee",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "RefreshEstimandChoicesForRunMethod",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Sub RefreshEstimandChoicesForRunMethod(runMethod As PsmBackendRunMethod)\n        Dim current As String = If(Me.cbEstimand.SelectedItem Is Nothing, PsmEstimand.ATT.ToString(), Me.cbEstimand.Text)\n        Dim allowed As PsmEstimand() = PsmControlIntent.Estimands(runMethod)\n        Dim allowedNames As String() = allowed.Select(Function(e) e.ToString()).ToArray()\n        If Me.cbEstimand.Items.Count = allowedNames.Length Then\n            Dim same As Boolean = True\n            For i As Integer = 0 To allowedNames.Length - 1\n                If Not String.Equals(CStr(Me.cbEstimand.Items(i)), allowedNames(i), StringComparison.Ordinal) Then\n                    same = False\n                    Exit For\n                End If\n            Next\n            If same Then Return\n        End If\n\n        Me.cbEstimand.Items.Clear()\n        For Each name As String In allowedNames\n            Me.cbEstimand.Items.Add(name)\n        Next\n\n        Dim idx As Integer = Me.cbEstimand.FindStringExact(current)\n        If idx < 0 Then idx = Me.cbEstimand.FindStringExact(PsmEstimand.ATT.ToString())\n        If idx < 0 AndAlso Me.cbEstimand.Items.Count > 0 Then idx = 0\n        If idx >= 0 Then Me.cbEstimand.SelectedIndex = idx\n    End Sub",
+      "source_text_sha256": "f163ea62eaae2d5ec0eb4ee6cf93f6b09bb28e1d483b3e0c641035d003dbf137",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "OptionComboChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Sub OptionComboChanged(sender As Object, e As System.EventArgs)\n        SetOptionControlsForCurrentSelections()\n    End Sub",
+      "source_text_sha256": "a9c969dca808f85b299c2c2eb8940128256da361f4c7d9d318afcd8dfca19c08",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui20PropensityScoreMatching",
+          "handler": "OptionComboChanged",
+          "control": "cbScoreMethod",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        },
+        {
+          "owner": "Ui20PropensityScoreMatching",
+          "handler": "OptionComboChanged",
+          "control": "cbRunMethod",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        },
+        {
+          "owner": "Ui20PropensityScoreMatching",
+          "handler": "OptionComboChanged",
+          "control": "cbEstimand",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        },
+        {
+          "owner": "Ui20PropensityScoreMatching",
+          "handler": "OptionComboChanged",
+          "control": "cbDistanceMetric",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        },
+        {
+          "owner": "Ui20PropensityScoreMatching",
+          "handler": "OptionComboChanged",
+          "control": "cbCaliperScale",
+          "event": "SelectedIndexChanged",
+          "kind": "AddHandler"
+        }
+      ]
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "BeginPsmComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Sub BeginPsmComputation()\n        Me.btCalculate.Enabled = False\n        Me.ProgressBar1.Style = ProgressBarStyle.Marquee\n        Me.lblProgress.Text = \"Preparing propensity score matching...\"\n        Windows.Forms.Application.DoEvents()\n    End Sub",
+      "source_text_sha256": "8680c3a8c2d98baaa997622a4db002fb95f82771a02bfec97a5cb18fab4497bb",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "FinishPsmComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Sub FinishPsmComputation(message As String)\n        Me.ProgressBar1.Style = ProgressBarStyle.Continuous\n        Me.ProgressBar1.Value = 0\n        Me.lblProgress.Text = message\n        Windows.Forms.Application.DoEvents()\n    End Sub",
+      "source_text_sha256": "bf6b9ce802422d7baf86e92f304b814c29cc999a992b072be946f2a9cca37c41",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "method": "EndPsmComputation",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+        "bytes": 41865,
+        "sha256": "dfed7900da54c2251de8ae21e4dc2d689506fd70fbafedb0f68cbe98fe1985a0"
+      },
+      "original_text": "    Private Sub EndPsmComputation()\n        Try\n            Me.ProgressBar1.Style = ProgressBarStyle.Continuous\n            Me.btCalculate.Enabled = True\n            Windows.Forms.Application.DoEvents()\n        Catch\n        End Try\n    End Sub",
+      "source_text_sha256": "349ee5bb36ce71c94ea371ce215b275dbc119c5deed9c18382c3cb966c2e8490",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "ProgressBar1",
+        "btAddScore",
+        "btCalculate",
+        "btRemoveScore",
+        "cbCaliperScale",
+        "cbCommonSupport",
+        "cbDistanceMetric",
+        "cbEstimand",
+        "cbMatchingOrder",
+        "cbRunMethod",
+        "cbScoreMethod",
+        "chkDoublyRobust",
+        "chkLovePlot",
+        "chkOverlapDiagnostics",
+        "chkStandardizeCovariates",
+        "chkWeightDiagnostics",
+        "chkWithReplacement",
+        "chkWriteDiagnostics",
+        "chkWriteMatches",
+        "ckIntercept",
+        "grpIterOptions",
+        "lbScore",
+        "lblCaliper",
+        "lblCaliperScale",
+        "lblCemBins",
+        "lblDistanceMetric",
+        "lblMatchingOrder",
+        "lblMatchingRatio",
+        "lblMaxIterations",
+        "lblProgress",
+        "lblRidgePenalty",
+        "lblScore",
+        "lblStrata",
+        "lblTolerance",
+        "tbCaliper",
+        "tbCemBins",
+        "tbExtremeWeight",
+        "tbLoveThreshold",
+        "tbMatchingRatio",
+        "tbMaxIterations",
+        "tbOverlapBins",
+        "tbRidgePenalty",
+        "tbStrata",
+        "tbTolerance",
+        "tbTrimLower",
+        "tbTrimUpper"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui21ControlCharts",
+      "method": "rbPhase_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+        "bytes": 114829,
+        "sha256": "99518c05451577b90aa7e94cae2250e26bf88aa8490717702dec42bc7fe4719b"
+      },
+      "original_text": "    Private Sub rbPhase_CheckedChanged(sender As Object, e As System.EventArgs) Handles rbSinglePhaseI.CheckedChanged, rbPhaseIThenPhaseII.CheckedChanged\n        UpdateQuickPhaseControls()\n    End Sub",
+      "source_text_sha256": "74de974cc0457da5a80ce2909fc864fa3d0e312f5c126d511ffe05885bc385d2",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "lblLastPhaseIPoint",
+        "rbPhaseIThenPhaseII",
+        "rbSinglePhaseI",
+        "spinLastPhaseIPoint"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui21ControlCharts",
+          "handler": "rbPhase_CheckedChanged",
+          "control": "rbSinglePhaseI",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui21ControlCharts",
+          "handler": "rbPhase_CheckedChanged",
+          "control": "rbPhaseIThenPhaseII",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui21ControlCharts",
+      "method": "UpdateQuickPhaseControls",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+        "bytes": 114829,
+        "sha256": "99518c05451577b90aa7e94cae2250e26bf88aa8490717702dec42bc7fe4719b"
+      },
+      "original_text": "    Private Sub UpdateQuickPhaseControls()\n        spinLastPhaseIPoint.Enabled = rbPhaseIThenPhaseII.Checked\n        lblLastPhaseIPoint.Enabled = rbPhaseIThenPhaseII.Checked\n    End Sub",
+      "source_text_sha256": "7a7f196f158de78e042e174db15ab27e7f727005ece6824403be46aa6e438dd4",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "lblLastPhaseIPoint",
+        "rbPhaseIThenPhaseII",
+        "rbSinglePhaseI",
+        "spinLastPhaseIPoint"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui21ControlCharts",
+      "method": "SetRoleEnabled",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+        "bytes": 114829,
+        "sha256": "99518c05451577b90aa7e94cae2250e26bf88aa8490717702dec42bc7fe4719b"
+      },
+      "original_text": "    Private Shared Sub SetRoleEnabled(list As ListBox,\n                                      label As Label,\n                                      addButton As Button,\n                                      removeButton As Button,\n                                      enabled As Boolean)\n        If Not enabled Then\n            ' Disabled assignments are ignored by request construction. Remove\n            ' them immediately so the form cannot display stale roles from the\n            ' previously selected chart or data layout.\n            list.Items.Clear()\n        End If\n\n        list.Enabled = enabled\n        label.Enabled = enabled\n        addButton.Enabled = enabled\n        removeButton.Enabled = enabled\n    End Sub",
+      "source_text_sha256": "ea48cce17598ea54f3491f75de0d62598cf98618ba3c4bcb29b3c1c84dffdad9",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "lblLastPhaseIPoint",
+        "rbPhaseIThenPhaseII",
+        "rbSinglePhaseI",
+        "spinLastPhaseIPoint"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui21ControlCharts",
+      "method": "IsAttributeChart",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+        "bytes": 114829,
+        "sha256": "99518c05451577b90aa7e94cae2250e26bf88aa8490717702dec42bc7fe4719b"
+      },
+      "original_text": "    Private Shared Function IsAttributeChart(chartType As SpcChartType) As Boolean\n        Return SpcRequestPreparation.IsAttributeChart(chartType)\n    End Function",
+      "source_text_sha256": "6666729f8dd3020f54e1cc51b479dff631d9a009b610b291125a095dce682ab4",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "lblLastPhaseIPoint",
+        "rbPhaseIThenPhaseII",
+        "rbSinglePhaseI",
+        "spinLastPhaseIPoint"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui21ControlCharts",
+      "method": "IsSubgroupChart",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+        "bytes": 114829,
+        "sha256": "99518c05451577b90aa7e94cae2250e26bf88aa8490717702dec42bc7fe4719b"
+      },
+      "original_text": "    Private Shared Function IsSubgroupChart(chartType As SpcChartType) As Boolean\n        Return SpcRequestPreparation.IsSubgroupChart(chartType)\n    End Function",
+      "source_text_sha256": "da5cd79b49ba44ab0b032c619960c34bca672d74d8d7ab4eb9e8d4062459e920",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "lblLastPhaseIPoint",
+        "rbPhaseIThenPhaseII",
+        "rbSinglePhaseI",
+        "spinLastPhaseIPoint"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui21ControlCharts",
+      "method": "IsTimeWeightedChart",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+        "bytes": 114829,
+        "sha256": "99518c05451577b90aa7e94cae2250e26bf88aa8490717702dec42bc7fe4719b"
+      },
+      "original_text": "    Private Shared Function IsTimeWeightedChart(chartType As SpcChartType) As Boolean\n        Return SpcRequestPreparation.IsTimeWeightedChart(chartType)\n    End Function",
+      "source_text_sha256": "c1c78310199f1719ddd299b720f1a3e6093668530a2bce38e3cfb795f783da01",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "lblLastPhaseIPoint",
+        "rbPhaseIThenPhaseII",
+        "rbSinglePhaseI",
+        "spinLastPhaseIPoint"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui21ControlCharts",
+      "method": "ChartCanUseSpecificationLines",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+        "bytes": 114829,
+        "sha256": "99518c05451577b90aa7e94cae2250e26bf88aa8490717702dec42bc7fe4719b"
+      },
+      "original_text": "    Private Shared Function ChartCanUseSpecificationLines(chartType As SpcChartType) As Boolean\n        Return SpcRequestPreparation.ChartCanUseSpecificationLines(chartType)\n    End Function",
+      "source_text_sha256": "53f88941a90054c8789f15244d6af8ddb4a6691ed743675c2befe9e52fa8843d",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "lblLastPhaseIPoint",
+        "rbPhaseIThenPhaseII",
+        "rbSinglePhaseI",
+        "spinLastPhaseIPoint"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui22MultivariateControlCharts",
+      "method": "rbPca_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+        "bytes": 95085,
+        "sha256": "6dc7279dc0ac30a095eccb2c3c74776372c421664f0639ac6af345bd5de063a3"
+      },
+      "original_text": "    Private Sub rbPca_CheckedChanged(sender As Object, e As System.EventArgs) Handles rbPcaVarianceSelection.CheckedChanged, rbPcaFixedComponents.CheckedChanged\n        UpdatePcaSelectionControls()\n    End Sub",
+      "source_text_sha256": "5d5acc017b20ccfcaada665a6141a686f54bd38c43b943306fcf5346360dcaf2",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "cbDiagnosticsScope",
+        "chkWriteDiagnostics",
+        "lblDiagnosticsScope",
+        "rbPcaFixedComponents",
+        "rbPcaVarianceSelection",
+        "spinPcaComponentCount",
+        "spinPcaCumulativeVariance"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui22MultivariateControlCharts",
+          "handler": "rbPca_CheckedChanged",
+          "control": "rbPcaVarianceSelection",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui22MultivariateControlCharts",
+          "handler": "rbPca_CheckedChanged",
+          "control": "rbPcaFixedComponents",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui22MultivariateControlCharts",
+      "method": "UpdatePcaSelectionControls",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+        "bytes": 95085,
+        "sha256": "6dc7279dc0ac30a095eccb2c3c74776372c421664f0639ac6af345bd5de063a3"
+      },
+      "original_text": "    Private Sub UpdatePcaSelectionControls()\n        spinPcaCumulativeVariance.Enabled = rbPcaVarianceSelection.Checked\n        spinPcaComponentCount.Enabled = rbPcaFixedComponents.Checked\n    End Sub",
+      "source_text_sha256": "171a2e73dc7ee61ff42fdfc8da809d30f8f1f4d7c1ccb84b777422c8568c7eff",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "cbDiagnosticsScope",
+        "chkWriteDiagnostics",
+        "lblDiagnosticsScope",
+        "rbPcaFixedComponents",
+        "rbPcaVarianceSelection",
+        "spinPcaComponentCount",
+        "spinPcaCumulativeVariance"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui22MultivariateControlCharts",
+      "method": "chkWriteDiagnostics_CheckedChanged",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+        "bytes": 95085,
+        "sha256": "6dc7279dc0ac30a095eccb2c3c74776372c421664f0639ac6af345bd5de063a3"
+      },
+      "original_text": "    Private Sub chkWriteDiagnostics_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkWriteDiagnostics.CheckedChanged\n        UpdateDiagnosticsControls()\n    End Sub",
+      "source_text_sha256": "de42f9b21f039a9d3410c4d2876ab405dd599355d33fc43c474e1fcff068442a",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "cbDiagnosticsScope",
+        "chkWriteDiagnostics",
+        "lblDiagnosticsScope",
+        "rbPcaFixedComponents",
+        "rbPcaVarianceSelection",
+        "spinPcaComponentCount",
+        "spinPcaCumulativeVariance"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui22MultivariateControlCharts",
+          "handler": "chkWriteDiagnostics_CheckedChanged",
+          "control": "chkWriteDiagnostics",
+          "event": "CheckedChanged",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui22MultivariateControlCharts",
+      "method": "UpdateDiagnosticsControls",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+        "bytes": 95085,
+        "sha256": "6dc7279dc0ac30a095eccb2c3c74776372c421664f0639ac6af345bd5de063a3"
+      },
+      "original_text": "    Private Sub UpdateDiagnosticsControls()\n        cbDiagnosticsScope.Enabled = chkWriteDiagnostics.Checked\n        lblDiagnosticsScope.Enabled = chkWriteDiagnostics.Checked\n    End Sub",
+      "source_text_sha256": "47311c90b0c2d3558c69cd040dd8a56915be8163c65404f6e8205afa4e2714d4",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "cbDiagnosticsScope",
+        "chkWriteDiagnostics",
+        "lblDiagnosticsScope",
+        "rbPcaFixedComponents",
+        "rbPcaVarianceSelection",
+        "spinPcaComponentCount",
+        "spinPcaCumulativeVariance"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui22MultivariateControlCharts",
+      "method": "SetRoleEnabled",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+        "bytes": 95085,
+        "sha256": "6dc7279dc0ac30a095eccb2c3c74776372c421664f0639ac6af345bd5de063a3"
+      },
+      "original_text": "    Private Shared Sub SetRoleEnabled(list As ListBox, label As Label,\n                                      addButton As Button, removeButton As Button,\n                                      enabled As Boolean)\n        If Not enabled Then list.Items.Clear()\n        list.Enabled = enabled\n        label.Enabled = enabled\n        addButton.Enabled = enabled\n        removeButton.Enabled = enabled\n    End Sub",
+      "source_text_sha256": "5765cad34d616610cf8a7d597781ae9b24d3ae8e1e75efb65b35499417427449",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "cbDiagnosticsScope",
+        "chkWriteDiagnostics",
+        "lblDiagnosticsScope",
+        "rbPcaFixedComponents",
+        "rbPcaVarianceSelection",
+        "spinPcaComponentCount",
+        "spinPcaCumulativeVariance"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "method": "checkInputs",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "bytes": 11998,
+        "sha256": "2aebc10614612fd4281a53d6889981a8d4c5361d75317c6472ceb7b92dd83fc1"
+      },
+      "original_text": "    Private Function checkInputs() As Boolean\n        Dim bOut As Boolean\n        'check input data------------------------------\n        If CheckRefEdit(Me.RefEdit1_SurvivalTime.Address, True) Then\n            Me.TabMultipage.SelectedIndex = 0\n            RefEditReset(Me.RefEdit1_SurvivalTime)\n            bOut = True\n        End If\n\n        If CheckRefEdit(Me.RefEdit2_Censor.Address, True) Then\n            Me.TabMultipage.SelectedIndex = 0\n            RefEditReset(Me.RefEdit2_Censor)\n            bOut = True\n        End If\n\n        'It's optional for KM plot\n        If (Me.Tag = HelpTopic.KaplanMeierPlot And Me.RefEdit3_GroupID.Address <> String.Empty) Or\n            Me.Tag = HelpTopic.LogrankTest Then\n            If CheckRefEdit(Me.RefEdit3_GroupID.Address, True) Then\n                Me.TabMultipage.SelectedIndex = 0\n                RefEditReset(Me.RefEdit3_GroupID)\n                bOut = True\n            End If\n        End If\n\n        'It's optional for Logrank and not applicable for KM\n        If Me.Tag = HelpTopic.LogrankTest And Me.RefEdit4_StrataID.Address <> String.Empty Then\n            If CheckRefEdit(Me.RefEdit4_StrataID.Address, True) Then\n                Me.TabMultipage.SelectedIndex = 0\n                RefEditReset(Me.RefEdit4_StrataID)\n                bOut = True\n            End If\n        End If\n\n        If Me.optOutputRange.Checked Then\n            If CheckRefEdit(Me.RefEditOutput.Address) Then\n                Me.TabMultipage.SelectedIndex = 0\n                RefEditReset(Me.RefEditOutput)\n                bOut = True\n            End If\n        End If\n\n        Return bOut\n    End Function",
+      "source_text_sha256": "ec482fe16e1d98f39b96cf7b21102ecd68387bbbe7c161c4263572fee429d5d5",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "Me",
+        "RefEdit1_SurvivalTime",
+        "RefEdit2_Censor",
+        "RefEdit3_GroupID",
+        "RefEdit4_StrataID",
+        "RefEditOutput",
+        "TabMultipage",
+        "optOutputRange",
+        "optWorkbook",
+        "optWorksheet"
+      ],
+      "bindings": []
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "method": "optOutputRange_Click",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "bytes": 11998,
+        "sha256": "2aebc10614612fd4281a53d6889981a8d4c5361d75317c6472ceb7b92dd83fc1"
+      },
+      "original_text": "    Private Sub optOutputRange_Click(sender As Object, e As System.EventArgs) Handles optOutputRange.Click\n        Me.RefEditOutput.Enabled = True\n        Me.RefEditOutput.txtAddress.Select()\n    End Sub",
+      "source_text_sha256": "a354cc207253b26c7d26b8252deef3e4ea11f1f46a33293673e98f8b9d317e8f",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "Me",
+        "RefEdit1_SurvivalTime",
+        "RefEdit2_Censor",
+        "RefEdit3_GroupID",
+        "RefEdit4_StrataID",
+        "RefEditOutput",
+        "TabMultipage",
+        "optOutputRange",
+        "optWorkbook",
+        "optWorksheet"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui4KMandLogRank",
+          "handler": "optOutputRange_Click",
+          "control": "optOutputRange",
+          "event": "Click",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui4KMandLogRank",
+          "handler": "optOutputRange_Click",
+          "control": "Me",
+          "event": "RefEditOutput",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "method": "optWorksheet_Click",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "bytes": 11998,
+        "sha256": "2aebc10614612fd4281a53d6889981a8d4c5361d75317c6472ceb7b92dd83fc1"
+      },
+      "original_text": "    Private Sub optWorksheet_Click(sender As Object, e As System.EventArgs) Handles optWorksheet.Click\n        Me.RefEditOutput.Enabled = False\n    End Sub",
+      "source_text_sha256": "39762187847a0d5e48d5ada3683850386eeec70e864f130a8df35d9a141a3f6f",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "Me",
+        "RefEdit1_SurvivalTime",
+        "RefEdit2_Censor",
+        "RefEdit3_GroupID",
+        "RefEdit4_StrataID",
+        "RefEditOutput",
+        "TabMultipage",
+        "optOutputRange",
+        "optWorkbook",
+        "optWorksheet"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui4KMandLogRank",
+          "handler": "optWorksheet_Click",
+          "control": "optWorksheet",
+          "event": "Click",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui4KMandLogRank",
+          "handler": "optWorksheet_Click",
+          "control": "Me",
+          "event": "RefEditOutput",
+          "kind": "Handles"
+        }
+      ]
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "method": "optWorkbook_Click",
+      "source": {
+        "path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "bytes": 11998,
+        "sha256": "2aebc10614612fd4281a53d6889981a8d4c5361d75317c6472ceb7b92dd83fc1"
+      },
+      "original_text": "    Private Sub optWorkbook_Click(sender As Object, e As System.EventArgs) Handles optWorkbook.Click\n        Me.RefEditOutput.Enabled = False\n    End Sub",
+      "source_text_sha256": "c98eb6d6ce689f00acda9ff1574508f592a499eede4efd2473305ab73eb0ddf9",
+      "transforms": [
+        [
+          "Windows.Forms.Application.DoEvents()",
+          "Me.Pump.DoEvents()"
+        ],
+        [
+          "CoreServices.Regression.",
+          "Me.Bridge."
+        ],
+        [
+          "Windows.Forms.ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "ProgressBarStyle.",
+          "FakeProgressStyle47."
+        ],
+        [
+          "As ComboBox",
+          "As FakeControl47"
+        ],
+        [
+          "As ListBox",
+          "As FakeControl47"
+        ],
+        [
+          "As Label",
+          "As FakeControl47"
+        ],
+        [
+          "As Button",
+          "As FakeControl47"
+        ],
+        [
+          "ComboBoxStyle.DropDownList",
+          "0"
+        ],
+        [
+          "ParseUiDouble(",
+          "SourceNumbers46.ParseUiDouble("
+        ],
+        [
+          "ParseUiInteger(",
+          "FakeText47.ParseUiInteger("
+        ],
+        [
+          "FormatUiDouble(",
+          "SourceNumbers46.FormatUiDouble("
+        ],
+        [
+          "CheckRefEdit(",
+          "FakeRanges46.CheckRefEdit("
+        ],
+        [
+          "RefEditReset(",
+          "FakeRanges46.RefEditReset("
+        ],
+        [
+          "FakeFakeProgressStyle47.",
+          "FakeProgressStyle47."
+        ]
+      ],
+      "fields": [
+        "Me",
+        "RefEdit1_SurvivalTime",
+        "RefEdit2_Censor",
+        "RefEdit3_GroupID",
+        "RefEdit4_StrataID",
+        "RefEditOutput",
+        "TabMultipage",
+        "optOutputRange",
+        "optWorkbook",
+        "optWorksheet"
+      ],
+      "bindings": [
+        {
+          "owner": "Ui4KMandLogRank",
+          "handler": "optWorkbook_Click",
+          "control": "optWorkbook",
+          "event": "Click",
+          "kind": "Handles"
+        },
+        {
+          "owner": "Ui4KMandLogRank",
+          "handler": "optWorkbook_Click",
+          "control": "Me",
+          "event": "RefEditOutput",
+          "kind": "Handles"
+        }
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "owner": "UiGLM",
+      "handler": "btInterrupt_Click",
+      "control": "btInterrupt",
+      "event": "Click",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui13GEE",
+      "handler": "btInterrupt_Click",
+      "control": "btInterrupt",
+      "event": "Click",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui4Cox",
+      "handler": "btInterrupt_Click",
+      "control": "btInterrupt",
+      "event": "Click",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui18MMRM",
+      "handler": "btInterrupt_Click",
+      "control": "btInterrupt",
+      "event": "Click",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui19LMM",
+      "handler": "btInterrupt_Click",
+      "control": "btInterrupt",
+      "event": "Click",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "handler": "OptionComboChanged",
+      "control": "cbScoreMethod",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "handler": "OptionComboChanged",
+      "control": "cbRunMethod",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "handler": "OptionComboChanged",
+      "control": "cbEstimand",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "handler": "OptionComboChanged",
+      "control": "cbDistanceMetric",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui20PropensityScoreMatching",
+      "handler": "OptionComboChanged",
+      "control": "cbCaliperScale",
+      "event": "SelectedIndexChanged",
+      "kind": "AddHandler"
+    },
+    {
+      "owner": "Ui21ControlCharts",
+      "handler": "rbPhase_CheckedChanged",
+      "control": "rbSinglePhaseI",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui21ControlCharts",
+      "handler": "rbPhase_CheckedChanged",
+      "control": "rbPhaseIThenPhaseII",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui22MultivariateControlCharts",
+      "handler": "rbPca_CheckedChanged",
+      "control": "rbPcaVarianceSelection",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui22MultivariateControlCharts",
+      "handler": "rbPca_CheckedChanged",
+      "control": "rbPcaFixedComponents",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui22MultivariateControlCharts",
+      "handler": "chkWriteDiagnostics_CheckedChanged",
+      "control": "chkWriteDiagnostics",
+      "event": "CheckedChanged",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "handler": "optOutputRange_Click",
+      "control": "optOutputRange",
+      "event": "Click",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "handler": "optOutputRange_Click",
+      "control": "Me",
+      "event": "RefEditOutput",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "handler": "optWorksheet_Click",
+      "control": "optWorksheet",
+      "event": "Click",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "handler": "optWorksheet_Click",
+      "control": "Me",
+      "event": "RefEditOutput",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "handler": "optWorkbook_Click",
+      "control": "optWorkbook",
+      "event": "Click",
+      "kind": "Handles"
+    },
+    {
+      "owner": "Ui4KMandLogRank",
+      "handler": "optWorkbook_Click",
+      "control": "Me",
+      "event": "RefEditOutput",
+      "kind": "Handles"
+    }
+  ],
+  "projection": {
+    "path": "BESHStatNG.Test/src/GuiWiring47ProjectionB.vb",
+    "bytes": 34006,
+    "sha256": "2d263df04a8c7db686063af09c3b3022491715c768ea02db9f23241996641556"
+  },
+  "native": "NOT_RUN",
+  "boundaries": "DoEvents replaced by closed counter/throw sink;regression callback store per fake instance;Close only counter. No shipping fit/import/writer/renderer touched."
+}

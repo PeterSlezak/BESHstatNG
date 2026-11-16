@@ -1,0 +1,130 @@
+{
+  "label": "CURRENT_MAIN_PRE_EDIT_04A47_SOURCE_BACKED_OBSERVER_NOT_NATIVE",
+  "source": {
+    "path": "evidence/04A47/fixtures/GeeObserver47.vb",
+    "bytes": 2182,
+    "sha256": "05dc033e78912752bd86a28cdfd28b904a34d680f8e26c4e8aecb526a08d8910"
+  },
+  "shipping_adapter": {
+    "path": "BESHstatNG/src/DM/WindowsGeeWorkflowAdapter.vb",
+    "bytes": 3926,
+    "sha256": "a3f5507982990cddf01104522b76968c71e12b7d1b411a30f08c8a911d3c761a"
+  },
+  "case_count_per_configuration": 6,
+  "results": [
+    {
+      "configuration": "Debug",
+      "rows": [
+        {
+          "culture": "",
+          "binaryResponses": false,
+          "shippingException": "System.ArgumentException",
+          "legacyTables": 0,
+          "commonTables": 0,
+          "message_sha256": "65c19ce864d79ace6920881c8c8e922f0b0ab5942904bdcf902b73a2eb053078"
+        },
+        {
+          "culture": "",
+          "binaryResponses": true,
+          "shippingException": null,
+          "legacyTables": 3,
+          "commonTables": 0
+        },
+        {
+          "culture": "en-US",
+          "binaryResponses": false,
+          "shippingException": "System.ArgumentException",
+          "legacyTables": 0,
+          "commonTables": 0,
+          "message_sha256": "65c19ce864d79ace6920881c8c8e922f0b0ab5942904bdcf902b73a2eb053078"
+        },
+        {
+          "culture": "en-US",
+          "binaryResponses": true,
+          "shippingException": null,
+          "legacyTables": 3,
+          "commonTables": 0
+        },
+        {
+          "culture": "sk-SK",
+          "binaryResponses": false,
+          "shippingException": "System.ArgumentException",
+          "legacyTables": 0,
+          "commonTables": 0,
+          "message_sha256": "65c19ce864d79ace6920881c8c8e922f0b0ab5942904bdcf902b73a2eb053078"
+        },
+        {
+          "culture": "sk-SK",
+          "binaryResponses": true,
+          "shippingException": null,
+          "legacyTables": 3,
+          "commonTables": 0
+        }
+      ],
+      "raw": {
+        "path": ".test-rationalization-04A47.tmp/gee-observer-v2/Debug.json",
+        "bytes": 873,
+        "sha256": "9d35dc57d0f4fa3cfc81109b14260da7f5d448a63ef9303a933610cd4e44e32a"
+      }
+    },
+    {
+      "configuration": "Release",
+      "rows": [
+        {
+          "culture": "",
+          "binaryResponses": false,
+          "shippingException": "System.ArgumentException",
+          "legacyTables": 0,
+          "commonTables": 0,
+          "message_sha256": "65c19ce864d79ace6920881c8c8e922f0b0ab5942904bdcf902b73a2eb053078"
+        },
+        {
+          "culture": "",
+          "binaryResponses": true,
+          "shippingException": null,
+          "legacyTables": 3,
+          "commonTables": 0
+        },
+        {
+          "culture": "en-US",
+          "binaryResponses": false,
+          "shippingException": "System.ArgumentException",
+          "legacyTables": 0,
+          "commonTables": 0,
+          "message_sha256": "65c19ce864d79ace6920881c8c8e922f0b0ab5942904bdcf902b73a2eb053078"
+        },
+        {
+          "culture": "en-US",
+          "binaryResponses": true,
+          "shippingException": null,
+          "legacyTables": 3,
+          "commonTables": 0
+        },
+        {
+          "culture": "sk-SK",
+          "binaryResponses": false,
+          "shippingException": "System.ArgumentException",
+          "legacyTables": 0,
+          "commonTables": 0,
+          "message_sha256": "65c19ce864d79ace6920881c8c8e922f0b0ab5942904bdcf902b73a2eb053078"
+        },
+        {
+          "culture": "sk-SK",
+          "binaryResponses": true,
+          "shippingException": null,
+          "legacyTables": 3,
+          "commonTables": 0
+        }
+      ],
+      "raw": {
+        "path": ".test-rationalization-04A47.tmp/gee-observer-v2/Release.json",
+        "bytes": 873,
+        "sha256": "9d35dc57d0f4fa3cfc81109b14260da7f5d448a63ef9303a933610cd4e44e32a"
+      }
+    }
+  ],
+  "new_managed_identities": 0,
+  "frozen_test_project_changed": false,
+  "qualification": "Explicitly preserves both nonbinary ArgumentException and binary-response post-fit selected/fitted-family mismatch. Reuses unchanged accepted fixture and real Core fit;software compatibility only,not a scientific reference or native observation.",
+  "native": "NOT_RUN"
+}

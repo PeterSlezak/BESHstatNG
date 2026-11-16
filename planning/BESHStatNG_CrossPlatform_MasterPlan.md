@@ -1,5 +1,10 @@
 # BESHStatNG — Cross-platform development master plan
 
+**Revision 2.24 · 16 November 2026 · 04A.46 safe software milestone accepted/merged; 04A.47 safe long-running GUI wiring in progress**
+**Current owner authority:** Authenticated accepted46 merged main `8a8d4ee21f41f1a53072308d4a01faa0b20fdd5a`, direct child of `ebc4a3e9df41ef8588aa7f6b25363f6d044c41a7`. Owner authorizes04A.47 SAFE SOFTWARE ONLY. All shipping handlers/designers/Core/Common remain unchanged; no deferred scientific/native activation. Live Excel/COM/UIA/RefEdit NOT_RUN; actual HWND/PID/loaded XLL NOT_VERIFIED; Windows/COM risk NOT_APPROVED; MayRunNative=False. AutoOpen/AutoUpdate conflict remains unresolved before any future launch. No original-control discharge or04A.48 authorization. All226 IDs and immutable2.12/2.23 chronology retained.
+
+**Historical Revision2.23 entry (retained verbatim below):**
+
 **Revision 2.23 · 16 November 2026 · 04A.45 safe software milestone accepted/merged; 04A.46 safe GUI wiring in progress**
 **Current owner authority:** Authenticated accepted45 merged main `ebc4a3e9df41ef8588aa7f6b25363f6d044c41a7`, direct child of `350ffbc0924b09199249316a3ee2f31bc3dd98e8`. Owner authorizes04A.46 SAFE GUI-WIRING SOFTWARE WORK ONLY. Production behavior is unchanged. The45 Windows/COM packet remains NOT_APPROVED; actual HWND/PID/loaded XLL NOT_VERIFIED; live Excel/COM/UIA/RefEdit NOT_RUN. No native-control discharge or04A.47 authorization. All226 original IDs and immutable2.12/2.22 charters retained. Acceptance45 covers the safe software milestone only,not its native gate.
 
@@ -517,3 +522,8 @@ Only **after all official 04A batches and formal exit/merge**, seek a fresh owne
 **Revision2.20 change log (15 November2026):** Authenticates owner acceptance/merge of42,starts only43 portable handle/cache lifecycle semantics with Windows storage retained. Rev2.12 detailed43 objective/dependencies/tests/manual acceptance remain binding;226 IDs,all historical scope/restrictions/evidence retained.43 has not been accepted/merged.44 and Phase11 Office handles are not authorized.
 
 **Revision2.21 change log (15 November2026):** Records accepted/merged43 and only44 portable infrastructure extraction. Current summary:04A.01–04A.43 accepted;44 in progress;45 unauthorized. All earlier summaries are historical. No native/scientific/cache behavior activation or original-control discharge;detailed2.12 and charter remain binding.
+
+
+## 16 November 2026 - append-only 04A.47 recovery authority
+
+Owner reports prior SAFE SOFTWARE acceptance with historical-evidence-loss exception, followed by recovery of the original SPC23 payload. Read-only authentication now matches its original SHA/size and both frozen authorities. The unchanged focused parents reproduce PASS / inherited FAIL. Full fresh Python and final publication remain pending at this note. The owner expressly approves the removed ignore rule: the payload is untracked/nonignored and must enter full original candidate privacy scope, but is excluded from the public ZIP. See evidence/04A47/recovery-v2/owner-authority-successor-v1.md. Exact Revision2.24 bytes are preserved separately; no original roadmap row/ID is changed. No merge, native authorization, scientific promotion, original-control discharge or04A.48 work follows. P=NO; N1=NO GO; N2=NO; C2=UNMET; C3=UNAPPROVED; NOT_GOLDEN; 04A48_NOT_AUTHORIZED.

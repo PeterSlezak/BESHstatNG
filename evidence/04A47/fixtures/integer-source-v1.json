@@ -1,0 +1,22 @@
+{
+  "source": {
+    "path": "BESHstatNG/src/DM/UIprocedures.vb",
+    "bytes": 36809,
+    "sha256": "83f8254f1e02f34faac3c7ad3ec39e53665bd1f28ed6401a99743746b066a4e6"
+  },
+  "originals": [
+    "    Public Function TryParseUiInteger(text As String, ByRef value As Integer) As Boolean\n        Dim d As Double\n        If Not TryParseUiDouble(text, d) Then\n            value = 0\n            Return False\n        End If\n\n        Return ExcelCommon.NumberTextPolicy.TryIntegerValue(d, value)\n    End Function",
+    "    Public Function ParseUiInteger(text As String,\n                               Optional fieldName As String = \"integer value\") As Integer\n        Dim value As Integer\n        If Not TryParseUiInteger(text, value) Then\n            Throw New FormatException($\"Cannot parse {fieldName}: \"\"{text}\"\".\")\n        End If\n        Return value\n    End Function"
+  ],
+  "transforms": [
+    [
+      "TryParseUiDouble(",
+      "SourceNumbers46.TryParseUiDouble("
+    ]
+  ],
+  "projection": {
+    "path": "BESHStatNG.Test/src/GuiWiring47Fakes.vb",
+    "bytes": 1785,
+    "sha256": "ac64302d1c11d37ed3b22eb1b497cfbef34ba7d5a9104f1d5af08d789db9ed65"
+  }
+}

@@ -1,0 +1,1975 @@
+diff --git a/BESHStatNG.Test/BESHStatNG.Tests.vbproj b/BESHStatNG.Test/BESHStatNG.Tests.vbproj
+index 44941603..09a3d433 100644
+--- a/BESHStatNG.Test/BESHStatNG.Tests.vbproj
++++ b/BESHStatNG.Test/BESHStatNG.Tests.vbproj
+@@ -277,6 +277,12 @@
+     <Compile Include="src\RibbonProjection45.vb" />
+     <Compile Include="src\OptionProjection45.vb" />
+     <Compile Include="src\WindowsHarness45FormTests.vb" />
++    <Compile Include="src\GuiWiring47ProjectionB.vb" />
++    <Compile Include="src\GuiWiring47LongrunTests.vb" />
++    <Compile Include="src\GuiWiring47ContractTests.vb" />
++    <Compile Include="src\GuiWiring47Fakes.vb" />
++    <Compile Include="src\GuiWiring47ProjectionA.vb" />
++    <Compile Include="src\GuiWiring47StateTests.vb" />
+     <Compile Include="src\GuiWiring46Fakes.vb" />
+     <Compile Include="src\GuiWiring46Numbers.vb" />
+     <Compile Include="src\GuiWiring46Projections.vb" />
+diff --git a/planning/BESHStatNG_CrossPlatform_MasterPlan.md b/planning/BESHStatNG_CrossPlatform_MasterPlan.md
+index 98999cd8..7f409295 100644
+--- a/planning/BESHStatNG_CrossPlatform_MasterPlan.md
++++ b/planning/BESHStatNG_CrossPlatform_MasterPlan.md
+@@ -1,5 +1,10 @@
+ # BESHStatNG — Cross-platform development master plan
+ 
++**Revision 2.24 · 16 November 2026 · 04A.46 safe software milestone accepted/merged; 04A.47 safe long-running GUI wiring in progress**
++**Current owner authority:** Authenticated accepted46 merged main `8a8d4ee21f41f1a53072308d4a01faa0b20fdd5a`, direct child of `ebc4a3e9df41ef8588aa7f6b25363f6d044c41a7`. Owner authorizes04A.47 SAFE SOFTWARE ONLY. All shipping handlers/designers/Core/Common remain unchanged; no deferred scientific/native activation. Live Excel/COM/UIA/RefEdit NOT_RUN; actual HWND/PID/loaded XLL NOT_VERIFIED; Windows/COM risk NOT_APPROVED; MayRunNative=False. AutoOpen/AutoUpdate conflict remains unresolved before any future launch. No original-control discharge or04A.48 authorization. All226 IDs and immutable2.12/2.23 chronology retained.
++
++**Historical Revision2.23 entry (retained verbatim below):**
++
+ **Revision 2.23 · 16 November 2026 · 04A.45 safe software milestone accepted/merged; 04A.46 safe GUI wiring in progress**
+ **Current owner authority:** Authenticated accepted45 merged main `ebc4a3e9df41ef8588aa7f6b25363f6d044c41a7`, direct child of `350ffbc0924b09199249316a3ee2f31bc3dd98e8`. Owner authorizes04A.46 SAFE GUI-WIRING SOFTWARE WORK ONLY. Production behavior is unchanged. The45 Windows/COM packet remains NOT_APPROVED; actual HWND/PID/loaded XLL NOT_VERIFIED; live Excel/COM/UIA/RefEdit NOT_RUN. No native-control discharge or04A.47 authorization. All226 original IDs and immutable2.12/2.22 charters retained. Acceptance45 covers the safe software milestone only,not its native gate.
+ 
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring47ContractTests.vb
+@@ -0,0 +1,151 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Collections.Generic
++Imports System.Globalization
++Imports System.Linq
++Imports BESHStatNG.AppInfrastructure
++Imports BESHStatNG.ExcelCommon
++Imports BESHStatNG.CausalInference
++Imports Microsoft.VisualStudio.TestTools.UnitTesting
++<TestClass, DoNotParallelize>
++Public Class GuiWiring47ContractTests
++ <DataTestMethod> <DataRow("")> <DataRow("en-US")> <DataRow("sk-SK")>
++ Public Sub SuppliedGeeStartsRetainExistingQicInitializationFailure(culture As String)
++  Dim saved = CultureInfo.CurrentCulture
++  Try
++   CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
++   Dim key = "Gaussian|Identity|Independence|Robust|start", raw = Gee12Fixture.Raw(key), intent = Gee12PolicyTests.Request(key, raw)
++   Dim fit = intent.CreateCoreModel()
++   Assert.ThrowsException(Of NullReferenceException)(Sub() fit.Fit(True))
++  Finally
++   CultureInfo.CurrentCulture = saved
++  End Try
++ End Sub
++ <DataTestMethod> <DataRow("")> <DataRow("bad")> <DataRow("17")> <DataRow("2.5")>
++ Public Sub MultivariateSeedAndRegularizationUseExactExistingTextBoundaries(text As String)
++  Dim f As New Harness47.Ui11PCAProjection47
++  f.tbDASeed.Text = text
++  If text = "bad" OrElse text = "2.5" Then
++   Assert.IsInstanceOfType(Assert.ThrowsException(Of Reflection.TargetInvocationException)(Sub() GuiWiring47StateTests.Invoke(f, "GetSelectedDiscriminantRandomSeed")).InnerException, GetType(FormatException))
++  Else
++   Assert.AreEqual(If(text = "", Integer.MinValue, 17), CInt(GuiWiring47StateTests.Invoke(f, "GetSelectedDiscriminantRandomSeed")))
++  End If
++  f.tbDARegularization.Text = "" : Assert.AreEqual(0.00000001, CDbl(GuiWiring47StateTests.Invoke(f, "GetSelectedDiscriminantRegularization")))
++ End Sub
++ <DataTestMethod> <DataRow(False, "")> <DataRow(True, "")> <DataRow(False, "en-US")> <DataRow(True, "en-US")> <DataRow(False, "sk-SK")> <DataRow(True, "sk-SK")>
++ Public Sub LmCurrentAlphaHeadersAndSourceRowsStayRestrictedAtFakeWriteBoundary(covariance As Boolean, culture As String)
++  Dim saved = CultureInfo.CurrentCulture
++  Try
++   CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture)
++   Dim f = Regression09Fixture.Load("glm_gaussian_full.csv"), r = Regression10PolicyTests.Request(f, True, False, False)
++   Dim options = r.Options : options.Covariance = covariance
++   Dim request As New RegressionRequest(r.Kind, r.ResponseKey, r.Primary, options)
++   Dim fit = Regression11DefectTests.FitLinear(LinearBinomialRegressionPolicy.Project(request, alphaMode:=LinearFitAlphaMode.NativeLegacyDefault))
++   Assert.AreEqual(0.05, fit.Alpha) : Assert.AreEqual(0.1, request.Options.Alpha)
++   Dim names = DirectCast(f.Names.Clone(), String()), headers = WindowsRegressionRequestAdapter.DeferredCovarianceDataHeaders(request, names)
++   CollectionAssert.AreEqual(f.Names, names) : CollectionAssert.AreEqual(f.Ids, request.Primary.RowIds)
++   Assert.AreEqual(f.Names(0), headers(0), "The dormant writer substitution does not apply to the LM request kind.")
++   Dim glmRequest As New RegressionRequest(RegressionAnalysisKind.GeneralizedLinearModel, r.ResponseKey, r.Primary, options)
++   Dim glmHeaders = WindowsRegressionRequestAdapter.DeferredCovarianceDataHeaders(glmRequest, names)
++   Assert.AreEqual(If(covariance, "Intercept", f.Names(0)), glmHeaders(0))
++   Using run = New WindowsExecutionDispatcher().TryBegin()
++    run.Execution.Start()
++    Dim writes As Integer
++    Assert.ThrowsException(Of InvalidOperationException)(Sub() run.Write(Function()
++                                                                         writes += 1 : Throw New InvalidOperationException("synthetic report writer failure")
++                                                                        End Function))
++    run.Execution.TryFail(New InvalidOperationException("synthetic report writer failure"))
++    Assert.AreEqual(1, writes) : Assert.AreEqual(ExecutionState.Failed, run.Execution.Snapshot.State)
++   End Using
++  Finally
++   CultureInfo.CurrentCulture = saved
++  End Try
++ End Sub
++ <DataTestMethod> <DataRow(0.0, False)> <DataRow(1.0, False)> <DataRow(0.0, True)> <DataRow(1.0, True)>
++ Public Sub ActiveConstantBinomialSafeguardCannotManufactureFittedRowsOrSuccess(response As Double, cancelFirst As Boolean)
++  Dim called = 0, writes = 0
++  Using run = New WindowsExecutionDispatcher().TryBegin()
++   run.Execution.Start()
++   If cancelFirst Then run.Execution.RequestCancellation()
++   Try
++    Dim model = run.InvokeStage(ExecutionStage.Analysis, Function()
++                                                        called += 1
++                                                        Return Regression11DefectTests.ConstantModel(response, False, True, True)
++                                                       End Function)
++    Assert.IsFalse(model.Converged) : Assert.IsNull(model.PredictedResponses) : Assert.IsNull(model.AllResiduals)
++    Dim data(23, 1) As Double
++    For i = 0 To 23 : data(i, 0) = response : data(i, 1) = i - 11.5 : Next
++    Dim raw As New glmData With {.RowIds = Enumerable.Range(0, 24).Select(Function(i) 101 + 2 * i).ToArray()}
++    Dim request = WindowsRegressionRequestAdapter.Capture(RegressionAnalysisKind.GeneralizedLinearModel, "y", raw, data, {"y", "x"}, Regression09PolicyTests.Effects(), New RegressionOptions With {.Family = RegressionFamily.Binomial, .Link = RegressionLink.Logit, .Residuals = True})
++    Dim report = WindowsRegressionRequestAdapter.Report(LinearBinomialRegressionPolicy.Project(request), model.wrapResults(Nothing, Nothing), model.PredictedResponses, model.AllResiduals, model.Converged)
++    Assert.AreEqual(RegressionConvergence.NotConverged, report.Convergence) : Assert.IsNull(report.Rows.Fitted)
++    CollectionAssert.AreEqual(raw.RowIds, report.Rows.RowIds) : Assert.AreEqual(1, report.LegacyTables().Count)
++    run.Execution.TryFail(New InvalidOperationException("fit unavailable"))
++   Catch ex As OperationCanceledException
++    Assert.IsTrue(cancelFirst)
++   End Try
++   Assert.AreEqual(If(cancelFirst, 0, 1), called) : Assert.AreEqual(0, writes)
++   Assert.AreEqual(If(cancelFirst, ExecutionState.Cancelled, ExecutionState.Failed), run.Execution.Snapshot.State)
++  End Using
++ End Sub
++ <DataTestMethod> <DataRow("Gaussian|Identity|Independence|Robust|time", False)> <DataRow("Gaussian|Identity|Independence|Robust|time", True)> <DataRow("Binomial|Logit|Independence|Robust|time", False)> <DataRow("Binomial|Logit|Independence|Robust|time", True)>
++ Public Sub GeeCurrentRequestAxesAndPostFitSelectedFamilyMismatchRemainSoftwareOnly(key As String, cancelBeforeWrite As Boolean)
++  Dim raw = Gee12Fixture.Raw("Binomial|Logit|Independence|Robust|time"), intent = Gee12PolicyTests.Request(key, raw)
++  CollectionAssert.AreEqual(raw.RowIds, intent.MeanRequest.Primary.RowIds)
++  CollectionAssert.AreEqual(raw.ClusterIdData, intent.Cluster.Values)
++  Dim fit = intent.CreateCoreModel()
++  fit.Fit(False)
++  Dim report = WindowsGeeWorkflowAdapter.Report(intent, fit.wrapResults(), fit.PredictedResponses, fit.AllResiduals, fit.ObservedResponses, fit.ObservationWeights)
++  Dim postFit As New RegressionOptions With {.Family = RegressionFamily.Binomial, .Classification = True, .ThresholdTable = True}
++  If key.StartsWith("Gaussian", StringComparison.Ordinal) Then
++   Assert.AreEqual(0, GeeReportPolicy.Classification(report, postFit).LegacyTables().Count)
++   Assert.IsTrue(WindowsGeeWorkflowAdapter.DeferredPostFitFamilyReport(report, postFit, Double.NaN).LegacyTables().Count > 0)
++  Else
++   Assert.IsTrue(GeeReportPolicy.Classification(report, postFit).LegacyTables().Count > 0)
++  End If
++  Dim dispatcher As New WindowsExecutionDispatcher
++  Using run = dispatcher.TryBegin()
++   run.Execution.Start()
++   If cancelBeforeWrite Then run.Execution.RequestCancellation()
++   Dim written As Integer
++   Try
++    run.Write(Function()
++               written += 1 : Return OutputWriteState.RejectedBeforeWrite
++              End Function)
++   Catch ex As OperationCanceledException
++    Assert.IsTrue(cancelBeforeWrite)
++   End Try
++   Assert.AreEqual(If(cancelBeforeWrite, 0, 1), written)
++  End Using
++ End Sub
++ <DataTestMethod> <DataRow(1)> <DataRow(2)> <DataRow(3)>
++ Public Sub PsmSnapshotQueriesAreDetachedButLeaseIsolationDoesNotClaimWorkbookIsolation(ratio As Integer)
++  Dim options As New PsmComprehensiveFitOptions With {.StandardOptions = New PsmOptions With {.MatchingRatio = ratio}}
++  Dim selection As New PsmRequestSelection(options)
++  options.StandardOptions.MatchingRatio = 99
++  Dim one = selection.CreateEffectiveOptions(), two = selection.CreateEffectiveOptions()
++  Assert.AreEqual(ratio, one.StandardOptions.MatchingRatio) : Assert.AreEqual(ratio, two.StandardOptions.MatchingRatio)
++  one.StandardOptions.MatchingRatio = 88 : Assert.AreEqual(ratio, two.StandardOptions.MatchingRatio)
++  Dim lease As New RefEditEventLease(Of String), oldCallback As Action(Of String) = Nothing, fresh As Action(Of String) = Nothing, result = ""
++  lease.Rebind(Function(cb)
++                oldCallback = cb : Return Sub()
++                                         End Sub
++               End Function, Sub(v) result = v)
++  oldCallback("source row 101") : lease.Invalidate() : oldCallback("stale row 999")
++  Assert.AreEqual("source row 101", result)
++  lease.Rebind(Function(cb)
++                fresh = cb : Return Sub()
++                                   End Sub
++               End Function, Sub(v) result = v)
++  fresh("source row 202") : oldCallback("stale row 999") : Assert.AreEqual("source row 202", result)
++  lease.Dispose() : fresh("after close") : Assert.AreEqual("source row 202", result)
++ End Sub
++ <DataTestMethod> <DataRow("GeneralizedLinearModelsGLM")> <DataRow("GeneralizedEstimatingEquationsGEE")> <DataRow("MixedModelsForRepeatedMeasuresMMRM")> <DataRow("LinearMixedModelsLMM")> <DataRow("PrincipalComponentAnalysis")> <DataRow("FactorAnalysis")> <DataRow("DiscriminantAnalysis")> <DataRow("ControlCharts")> <DataRow("MultivariateControlCharts")> <DataRow("PropensityScoreMatching")> <DataRow("CoxRegression")> <DataRow("LogrankTest")>
++ Public Sub HelpIntentResolvesMetadataOnlyAndUnknownDestinationFailsClosed(key As String)
++  Dim target = HelpDestination.ForMethodKey(key)
++  Assert.IsFalse(target.IsFallback)
++  Assert.AreEqual(target.Url, HelpLaunchTarget.SafeOpenUrl(target.Url))
++  Assert.AreEqual(GeneratedMethodMetadata.HomeUrl, HelpLaunchTarget.SafeOpenUrl("unapproved destination"))
++ End Sub
++End Class
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring47Fakes.vb
+@@ -0,0 +1,91 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Collections.Generic
++Imports System.Drawing
++Imports System.Globalization
++Imports BESHStatNG.Test.Harness46
++Namespace Harness47
++ Friend Class FakeControl47
++  Inherits FakeControl46
++  Friend Style As Integer, DropDownStyle As Integer
++  Private selected As Integer = -1
++  Friend Shadows Property SelectedIndex As Integer
++   Get
++    Return selected
++   End Get
++   Set(value As Integer)
++    Dim changed = value <> selected
++    selected = value
++    SelectedItem = If(value >= 0 AndAlso value < Items.Count, Items(Math.Max(0, value)), Nothing)
++    Text = If(SelectedItem Is Nothing, "", CStr(SelectedItem))
++    If changed Then RaiseNamed("SelectedIndexChanged")
++   End Set
++  End Property
++  Friend Sub BeginUpdate()
++  End Sub
++  Friend Sub EndUpdate()
++  End Sub
++  Friend Function FindStringExact(value As String) As Integer
++   For i = 0 To Items.Count - 1
++    If String.Equals(CStr(Items(i)), value, StringComparison.CurrentCulture) Then Return i
++   Next
++   Return -1
++  End Function
++ End Class
++ Friend Module FakeText47
++  Friend Sub setTextBoxProperties(control As FakeControl47, color As Color, text As String)
++   control.BackColor = color : control.Text = text
++  End Sub
++    Public Function TryParseUiInteger(text As String, ByRef value As Integer) As Boolean
++        Dim d As Double
++        If Not SourceNumbers46.TryParseUiDouble(text, d) Then
++            value = 0
++            Return False
++        End If
++
++        Return ExcelCommon.NumberTextPolicy.TryIntegerValue(d, value)
++    End Function
++    Public Function ParseUiInteger(text As String,
++                               Optional fieldName As String = "integer value") As Integer
++        Dim value As Integer
++        If Not TryParseUiInteger(text, value) Then
++            Throw New FormatException($"Cannot parse {fieldName}: ""{text}"".")
++        End If
++        Return value
++    End Function
++ End Module
++ Friend Module FakeLogger47
++  Friend ReadOnly Warnings As New List(Of String)
++  Friend Sub Warn(message As String)
++   Warnings.Add(message)
++  End Sub
++ End Module
++ Friend Module FakeAcquisition47
++  Friend Calls As Integer
++  Friend Sub RefreshMMRM()
++   Calls += 1
++   Throw New InvalidOperationException("HOST_PENDING_MMRM_REFRESH")
++  End Sub
++ End Module
++ Friend Enum FakeProgressStyle47
++  Continuous
++  Marquee
++ End Enum
++ Friend Class FakePump47
++  Friend Calls As Integer, Fail As Boolean
++  Friend Sub DoEvents()
++   Calls += 1
++   If Fail Then Throw New InvalidOperationException("FAKE_PUMP_FAILURE")
++  End Sub
++ End Class
++ Friend Class FakeRegressionBridge47
++  Friend Cancel As Func(Of Boolean), Interrupt As Func(Of Boolean), Sets As Integer, Clears As Integer
++  Friend Sub SetCallbacks(cancellation As Func(Of Boolean), interruption As Func(Of Boolean))
++   Sets += 1 : Cancel = cancellation : Interrupt = interruption
++  End Sub
++  Friend Sub ClearCallbacks()
++   Clears += 1 : Cancel = Nothing : Interrupt = Nothing
++  End Sub
++ End Class
++End Namespace
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring47LongrunTests.vb
+@@ -0,0 +1,158 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Collections.Generic
++Imports System.Globalization
++Imports System.IO
++Imports System.Linq
++Imports System.Reflection
++Imports System.Xml.Linq
++Imports BESHStatNG.AppInfrastructure
++Imports BESHStatNG.ExcelCommon
++Imports BESHStatNG.CausalInference
++Imports BESHStatNG.StatisticalProcessControl
++Imports BESHStatNG.Test.Harness46
++Imports BESHStatNG.Test.Harness47
++Imports Microsoft.VisualStudio.TestTools.UnitTesting
++<TestClass, DoNotParallelize>
++Public Class GuiWiring47LongrunTests
++ <DataTestMethod> <DataRow(False)> <DataRow(True)>
++ Public Sub PsmLifecycleRecordsCurrentSynchronousProgressAndPumpFaultBoundary(pumpFailure As Boolean)
++  Dim f As New Ui20PropensityScoreMatchingProjection47
++  GuiWiring47StateTests.Invoke(f, "BeginPsmComputation") : Assert.IsFalse(f.btCalculate.Enabled)
++  f.Pump.Fail = pumpFailure
++  If pumpFailure Then
++   Assert.IsInstanceOfType(Assert.ThrowsException(Of TargetInvocationException)(Sub() GuiWiring47StateTests.Invoke(f, "FinishPsmComputation", "failed")).InnerException, GetType(InvalidOperationException))
++  Else
++   GuiWiring47StateTests.Invoke(f, "FinishPsmComputation", "failed")
++  End If
++  Assert.AreEqual("failed", f.lblProgress.Text)
++  GuiWiring47StateTests.Invoke(f, "EndPsmComputation") : Assert.IsTrue(f.btCalculate.Enabled)
++ End Sub
++ <DataTestMethod> <DataRow("Ui21ControlCharts")> <DataRow("Ui22MultivariateControlCharts")>
++ Public Sub DisabledSpcRolesActuallyClearStaleAssignmentsAndCanBeEnabledAgain(owner As String)
++  Dim f = GuiWiring47StateTests.Create(owner), list As New FakeControl47, label As New FakeControl47, add As New FakeControl47, remove As New FakeControl47
++  list.Items.Add("row101")
++  GuiWiring47StateTests.Invoke(f, "SetRoleEnabled", list, label, add, remove, False)
++  Assert.AreEqual(0, list.Items.Count) : Assert.IsFalse(list.Enabled) : Assert.IsFalse(add.UserClick())
++  GuiWiring47StateTests.Invoke(f, "SetRoleEnabled", list, label, add, remove, True)
++  Assert.IsTrue(list.Enabled) : Assert.IsTrue(remove.Enabled)
++ End Sub
++ Public Shared Iterator Function Bindings() As IEnumerable(Of Object())
++  For Each e In XDocument.Load(Path.Combine(Environment.GetEnvironmentVariable("BESHSTAT_04A02_SOURCE_ROOT"), "evidence/04A47/fixtures/bindings-b-v2.xml")).Root.Elements()
++   Yield New Object() {CStr(e.Attribute("owner")), CStr(e.Attribute("handler")), CStr(e.Attribute("control")), CStr(e.Attribute("event"))}
++  Next
++ End Function
++ <DataTestMethod, DynamicData(NameOf(Bindings), DynamicDataSourceType.Method)>
++ Public Sub LongrunSourceBindingsActuallyDeliver(owner As String, handler As String, source As String, eventName As String)
++  Dim tests As New GuiWiring47StateTests()
++  tests.SourceHandlesAndDynamicSubscriptionsActuallyDeliver(owner, handler, source, eventName)
++ End Sub
++ <DataTestMethod> <DataRow("UiGLM", False)> <DataRow("UiGLM", True)> <DataRow("Ui13GEE", False)> <DataRow("Ui13GEE", True)> <DataRow("Ui4Cox", False)> <DataRow("Ui4Cox", True)>
++ Public Sub ShippingLifecycleEventsRetainDisableInterruptAndCallbackOwnership(owner As String, pumpFailure As Boolean)
++  Dim f = GuiWiring47StateTests.Create(owner), other = GuiWiring47StateTests.Create(owner)
++  Dim flags = BindingFlags.Instance Or BindingFlags.NonPublic
++  Dim pump = DirectCast(f.GetType().GetField("Pump", flags).GetValue(f), FakePump47), bridge = DirectCast(f.GetType().GetField("Bridge", flags).GetValue(f), FakeRegressionBridge47)
++  pump.Fail = pumpFailure
++  GuiWiring47StateTests.Invoke(f, "BeginRegressionComputation") : GuiWiring47StateTests.Invoke(other, "BeginRegressionComputation")
++  Assert.IsFalse(GuiWiring47StateTests.Control(f, "btCalculate").Enabled)
++  Assert.IsFalse(bridge.Cancel()) : Assert.IsFalse(bridge.Interrupt())
++  GuiWiring47StateTests.Control(f, "btInterrupt").FireClick()
++  Assert.IsTrue(bridge.Interrupt()) : Assert.IsFalse(GuiWiring47StateTests.Control(f, "btInterrupt").Enabled)
++  Assert.IsFalse(GuiWiring47StateTests.Control(f, "btInterrupt").UserClick())
++  Assert.IsFalse(CBool(GuiWiring47StateTests.Invoke(other, "IsRegressionInterruptionRequested")))
++  f.GetType().GetField("pRegressionCancelRequested", flags).SetValue(f, True)
++  Assert.IsTrue(bridge.Cancel()) : Assert.IsFalse(bridge.Interrupt())
++  GuiWiring47StateTests.Invoke(f, "FinishRegressionComputation", "synthetic failure")
++  Assert.AreEqual("synthetic failure", GuiWiring47StateTests.Control(f, "lblProgress").Text)
++  GuiWiring47StateTests.Invoke(f, "EndRegressionComputation") : GuiWiring47StateTests.Invoke(other, "EndRegressionComputation")
++  Assert.IsNull(bridge.Cancel) : Assert.AreEqual(1, bridge.Sets) : Assert.AreEqual(1, bridge.Clears)
++  Assert.IsTrue(GuiWiring47StateTests.Control(f, "btCalculate").Enabled)
++ End Sub
++ <DataTestMethod> <DataRow("Ui18MMRM", "pMmrmCalculationRunning", "pMmrmInterruptRequested")> <DataRow("Ui19LMM", "pLmmCalculationRunning", "plmmInterruptRequested")>
++ Public Sub MixedInterruptOnlyChangesFlagsAtCurrentSupportedBoundary(owner As String, running As String, interrupted As String)
++  Dim f = GuiWiring47StateTests.Create(owner), flags = BindingFlags.Instance Or BindingFlags.NonPublic
++  GuiWiring47StateTests.Control(f, "btInterrupt").FireClick()
++  Assert.IsFalse(CBool(f.GetType().GetField(interrupted, flags).GetValue(f)))
++  f.GetType().GetField(running, flags).SetValue(f, True)
++  GuiWiring47StateTests.Control(f, "btInterrupt").FireClick()
++  Assert.IsTrue(CBool(f.GetType().GetField(interrupted, flags).GetValue(f)))
++  Assert.IsFalse(GuiWiring47StateTests.Control(f, "btInterrupt").Enabled)
++ End Sub
++ <DataTestMethod> <DataRow(False)> <DataRow(True)>
++ Public Sub SpcPhasePcaAndDiagnosticsTogglesReverse(withPhaseII As Boolean)
++  Dim f As New Ui21ControlChartsProjection47
++  f.rbPhaseIThenPhaseII.Checked = withPhaseII : f.rbSinglePhaseI.RaiseNamed("CheckedChanged")
++  Assert.AreEqual(withPhaseII, f.spinLastPhaseIPoint.Enabled)
++  f.rbPhaseIThenPhaseII.Checked = Not withPhaseII : Assert.AreEqual(Not withPhaseII, f.lblLastPhaseIPoint.Enabled)
++  Dim m As New Ui22MultivariateControlChartsProjection47
++  m.rbPcaFixedComponents.Checked = True : Assert.IsTrue(m.spinPcaComponentCount.Enabled)
++  m.rbPcaVarianceSelection.Checked = True : Assert.IsTrue(m.spinPcaCumulativeVariance.Enabled)
++  m.rbPcaFixedComponents.Checked = False : Assert.IsFalse(m.spinPcaComponentCount.Enabled)
++  For Each state In {True, False, True}
++   m.chkWriteDiagnostics.Checked = state : Assert.AreEqual(state, m.cbDiagnosticsScope.Enabled)
++  Next
++ End Sub
++ <DataTestMethod> <DataRow(0)> <DataRow(1)> <DataRow(2)>
++ Public Sub SpcStackedLogicalPointsKeepPhysicalRowsAndRejectInvalidPhaseEdges(caseId As Integer)
++  Dim map = SpcInputPointPolicy.FromRows(SpcDataLayout.StackedObservations, {101, 105, 118, 131}, {"A", "B", "A", "B"})
++  Assert.AreEqual(2, map.PointCount) : CollectionAssert.AreEqual({0, 2}, map.Points(0).InputRowIndices.ToArray())
++  Dim valid = SpcPhaseStagePolicy.Quick(map.PointCount, False, 1, SpcParameterSource.EstimateFromPhaseI).ToArray()
++  Assert.AreEqual(2, valid.Length) : Assert.AreEqual(2, valid(1).FirstPoint)
++  Dim invalid = If(caseId = 0, 0, If(caseId = 1, 2, 4))
++  Assert.ThrowsException(Of ArgumentException)(Sub() SpcPhaseStagePolicy.Quick(map.PointCount, False, invalid, SpcParameterSource.EstimateFromPhaseI).ToArray())
++  Assert.ThrowsException(Of ArgumentException)(Sub() SpcPhaseStagePolicy.Collapse(map, {"first", "second", "wrong", "second"}, Nothing))
++  Assert.ThrowsException(Of ArgumentException)(Sub() SpcPhaseStagePolicy.Collapse(map, {"", "second", "", "second"}, Nothing))
++ End Sub
++ <DataTestMethod> <DataRow("StandardNearestNeighbor", "LogisticRegression")> <DataRow("StandardNearestNeighbor", "Supplied")> <DataRow("CoarsenedExactMatching", "Supplied")>
++ Public Sub PsmSourceDefaultsOptionsAndBackToBackRequestsStayIndependent(method As String, score As String)
++  Dim f As New Ui20PropensityScoreMatchingProjection47
++  GuiWiring47StateTests.Invoke(f, "InitializeDefaultUiValues")
++  f.cbScoreMethod.SelectedItem = score : f.cbScoreMethod.Text = score : f.cbRunMethod.SelectedItem = method : f.cbRunMethod.Text = method
++  f.cbRunMethod.RaiseNamed("SelectedIndexChanged")
++  Assert.AreEqual(score = "Supplied", f.lbScore.Enabled) : Assert.AreEqual(score <> "Supplied", f.tbTolerance.Enabled)
++  Dim first = DirectCast(GuiWiring47StateTests.Invoke(f, "BuildFitOptions"), PsmComprehensiveFitOptions)
++  Assert.AreEqual(CType([Enum].Parse(GetType(PsmBackendRunMethod), method), PsmBackendRunMethod), first.RunMethod)
++  f.tbMatchingRatio.Text = "3" : f.tbLoveThreshold.Text = "0.2"
++  Dim second = DirectCast(GuiWiring47StateTests.Invoke(f, "BuildFitOptions"), PsmComprehensiveFitOptions)
++  Assert.AreEqual(0.1, first.LovePlotThreshold) : Assert.AreEqual(0.2, second.LovePlotThreshold)
++  Assert.AreNotSame(first.StandardOptions, second.StandardOptions)
++  f.tbTolerance.Text = "invalid"
++  Assert.IsInstanceOfType(Assert.ThrowsException(Of TargetInvocationException)(Sub() GuiWiring47StateTests.Invoke(f, "BuildFitOptions")).InnerException, GetType(FormatException))
++ End Sub
++ <DataTestMethod> <DataRow(False)> <DataRow(True)>
++ Public Sub KmCensorTimeGroupStrataRolesAndOutputCancelRemainShipping(requiredGroup As Boolean)
++  Dim f As New Ui4KMandLogRankProjection47 With {.Tag = If(requiredGroup, HelpTopic.LogrankTest, HelpTopic.KaplanMeierPlot)}
++  f.RefEdit1_SurvivalTime.Address = "time" : f.RefEdit2_Censor.Address = "censor" : f.RefEdit3_GroupID.Address = If(requiredGroup, "group", "") : f.RefEdit4_StrataID.Address = If(requiredGroup, "stratum", "")
++  FakeRanges46.Reset() : Assert.IsFalse(CBool(GuiWiring47StateTests.Invoke(f, "checkInputs")))
++  CollectionAssert.AreEqual(If(requiredGroup, {"time", "censor", "group", "stratum"}, {"time", "censor"}), FakeRanges46.Calls.Select(Function(c) c.Item1).ToArray())
++  FakeRanges46.Reject.Add("censor") : Assert.IsTrue(CBool(GuiWiring47StateTests.Invoke(f, "checkInputs")))
++  Assert.AreEqual("time", f.RefEdit1_SurvivalTime.Address) : Assert.AreEqual("", f.RefEdit2_Censor.Address)
++  f.optWorksheet.FireClick() : Assert.IsFalse(f.RefEditOutput.Enabled)
++  f.optOutputRange.FireClick() : Assert.IsTrue(f.RefEditOutput.Enabled) : Assert.IsTrue(f.RefEditOutput.txtAddress.Selections > 0)
++ End Sub
++ <DataTestMethod> <DataRow(0)> <DataRow(1)> <DataRow(2)> <DataRow(3)> <DataRow(4)>
++ Public Sub ActualExecutionCoordinatorKeepsFaultCancelAndCompletedWritePriority(value As Integer)
++  Dim state = CType(value, OutputWriteState), dispatcher As New WindowsExecutionDispatcher
++  Using run = dispatcher.TryBegin()
++   run.Execution.Start() : Assert.IsNull(dispatcher.TryBegin())
++   AddHandler run.Execution.Changed, Sub(snapshot) Throw New InvalidOperationException("observer failure")
++   Dim called As Integer
++   Try
++    run.Write(Function()
++               called += 1 : run.Execution.RequestCancellation() : Return state
++              End Function)
++   Catch ex As OperationCanceledException
++    Assert.AreEqual(OutputWriteState.CancelledByUser, state)
++   End Try
++   Assert.AreEqual(1, called)
++   Dim expected = If(state = OutputWriteState.Completed, ExecutionState.Completed, If(state = OutputWriteState.CancelledByUser, ExecutionState.Cancelled, ExecutionState.Failed))
++   Assert.AreEqual(expected, run.Execution.Snapshot.State)
++   Assert.IsFalse(run.Execution.TryFail(New InvalidOperationException("late fault")))
++   run.Execution.Report(1) : Assert.AreEqual(expected, run.Execution.Snapshot.State)
++  End Using
++  Using nextRun = dispatcher.TryBegin()
++   Assert.IsNotNull(nextRun)
++  End Using
++ End Sub
++End Class
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring47ProjectionA.vb
+@@ -0,0 +1,653 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Drawing
++Imports System.Linq
++Imports System.Collections.Generic
++Imports BESHStatNG.regression
++Imports BESHStatNG.ExcelCommon
++Imports BESHStatNG.Test.Harness46
++Namespace Harness47
++Friend Partial Class UiGLMProjection47
++ Friend Tag As HelpTopic
++
++ Friend WithEvents cbFamily As New FakeControl47()
++ Friend WithEvents cbLink As New FakeControl47()
++ Friend WithEvents cbOutputCalibrationTable As New FakeControl47()
++ Friend WithEvents cbPerformClasification As New FakeControl47()
++ Friend WithEvents grpClassification As New FakeControl47()
++ Friend WithEvents lblCallibrationBinsN As New FakeControl47()
++ Friend WithEvents lblPower As New FakeControl47()
++ Friend WithEvents spinBtnCallibrationBinsN As New FakeControl47()
++ Friend WithEvents tbClassificationTreshold As New FakeControl47()
++ Friend WithEvents tbPower As New FakeControl47()
++    Private Shared Function GetFamilyCodeFromDisplayName(familyDisplayName As String) As String
++        Select Case familyDisplayName
++            Case "Binomial"
++                Return "Binomial"
++            Case "Poisson"
++                Return "Poisson"
++            Case "Negative Binomial"
++                Return "NegativeBinomial"
++            Case "Gaussian"
++                Return "Gaussian"
++            Case "Gamma"
++                Return "Gamma"
++            Case Else
++                Return String.Empty
++        End Select
++    End Function
++    Private Sub RefreshLinkOptionsForSelectedFamily(Optional preferredLink As String = Nothing)
++        Dim selectedFamilyName As String = String.Empty
++        If Me.cbFamily.SelectedItem IsNot Nothing Then
++            selectedFamilyName = Me.cbFamily.SelectedItem.ToString()
++        End If
++
++        Dim linkToSelect As String = preferredLink
++        If String.IsNullOrWhiteSpace(linkToSelect) AndAlso Me.cbLink.SelectedItem IsNot Nothing Then
++            linkToSelect = Me.cbLink.SelectedItem.ToString()
++        End If
++
++        Dim familyCode As String = GetFamilyCodeFromDisplayName(selectedFamilyName)
++
++        Me.cbLink.BeginUpdate()
++        Try
++            Me.cbLink.Items.Clear()
++
++            If String.IsNullOrWhiteSpace(familyCode) Then
++                Me.cbLink.SelectedIndex = -1
++                UpdatePowerLinkState()
++                UpdateClassificationOptionsState()
++                Return
++            End If
++
++            Dim fam As regression.Family = regression.createFamily(familyCode)
++
++            For Each sLink As String In regression.Link.LinkList.Values
++                If fam.testLink(sLink) Then
++                    Me.cbLink.Items.Add(sLink)
++                End If
++            Next
++
++            If Not String.IsNullOrWhiteSpace(linkToSelect) Then
++                Dim existingIndex As Integer = Me.cbLink.FindStringExact(linkToSelect)
++                If existingIndex >= 0 Then
++                    Me.cbLink.SelectedIndex = existingIndex
++                End If
++            End If
++
++            If Me.cbLink.SelectedIndex = -1 AndAlso Me.cbLink.Items.Count > 0 Then
++                Me.cbLink.SelectedIndex = 0
++            End If
++
++            UpdatePowerLinkState()
++            UpdateClassificationOptionsState()
++        Finally
++            Me.cbLink.EndUpdate()
++        End Try
++    End Sub
++    Private Function IsCurrentBinomialGlmFamily() As Boolean
++        If Me.Tag <> HelpTopic.GeneralizedLinearModelsGLM Then Return False
++        If Me.cbFamily.SelectedItem Is Nothing Then Return False
++        Return String.Equals(GetFamilyCodeFromDisplayName(Me.cbFamily.SelectedItem.ToString()), "Binomial", StringComparison.OrdinalIgnoreCase)
++    End Function
++    Private Function GetClassificationThresholdUiValue() As Double
++        Dim txt As String = Me.tbClassificationTreshold.Text.Trim()
++        If txt = String.Empty Then
++            Me.tbClassificationTreshold.Text = SourceNumbers46.FormatUiDouble(0.5R)
++            Return 0.5R
++        End If
++        Dim threshold As Double = SourceNumbers46.ParseUiDouble(txt, "classification threshold")
++        If threshold < 0.0R OrElse threshold > 1.0R Then Throw New FormatException("Classification threshold must be between 0 and 1.")
++        Return threshold
++    End Function
++    Private Sub UpdateClassificationOptionsState(Optional bAlreadyInit As Boolean = True)
++        Dim enabledForFamily As Boolean = IsCurrentBinomialGlmFamily()
++
++        Me.grpClassification.Enabled = enabledForFamily
++        Me.cbPerformClasification.Enabled = enabledForFamily
++        Me.lblCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked
++        Me.spinBtnCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked
++
++        If Not enabledForFamily Then
++            If bAlreadyInit Then setTextBoxProperties(Me.tbClassificationTreshold, Color.White, String.Empty)
++        ElseIf String.IsNullOrWhiteSpace(Me.tbClassificationTreshold.Text) Then
++            Me.tbClassificationTreshold.Text = SourceNumbers46.FormatUiDouble(0.5R)
++        End If
++
++        If Me.cbPerformClasification.Checked And enabledForFamily Then
++            Me.grpClassification.Enabled = True
++        ElseIf Not Me.cbPerformClasification.Checked And enabledForFamily Then
++            Me.grpClassification.Enabled = False
++        End If
++    End Sub
++    Private Sub UpdatePowerLinkState()
++        Dim usePowerLink As Boolean =
++            Me.cbLink.SelectedItem IsNot Nothing AndAlso
++            Me.cbLink.SelectedItem.ToString() = "Power"
++
++        Me.lblPower.Enabled = usePowerLink
++        Me.tbPower.Enabled = usePowerLink
++    End Sub
++    Private Sub cbFamily_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbFamily.SelectedIndexChanged
++        If Me.cbFamily.SelectedItem Is Nothing Then Return
++        RefreshLinkOptionsForSelectedFamily(GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
++    End Sub
++    Private Sub cbLink_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbLink.SelectedIndexChanged
++        UpdatePowerLinkState()
++    End Sub
++    Private Sub cbOutputCalibrationTable_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbOutputCalibrationTable.CheckedChanged
++        UpdateClassificationOptionsState()
++    End Sub
++    Private Sub cbPerformClasification_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbPerformClasification.CheckedChanged
++        If Me.cbPerformClasification.Checked And IsCurrentBinomialGlmFamily() Then
++            Me.grpClassification.Enabled = True
++        ElseIf Not Me.cbPerformClasification.Checked And IsCurrentBinomialGlmFamily() Then
++            Me.grpClassification.Enabled = False
++        End If
++    End Sub
++End Class
++Friend Partial Class Ui13GEEProjection47
++ Friend Tag As HelpTopic
++
++ Friend WithEvents cbFamily As New FakeControl47()
++ Friend WithEvents cbLink As New FakeControl47()
++ Friend WithEvents cbOutputCalibrationTable As New FakeControl47()
++ Friend WithEvents cbPerformClasification As New FakeControl47()
++ Friend WithEvents grpClassification As New FakeControl47()
++ Friend WithEvents lblCallibrationBinsN As New FakeControl47()
++ Friend WithEvents lblPower As New FakeControl47()
++ Friend WithEvents spinBtnCallibrationBinsN As New FakeControl47()
++ Friend WithEvents tbClassificationTreshold As New FakeControl47()
++ Friend WithEvents tbPower As New FakeControl47()
++    Private Shared Function GetFamilyCodeFromDisplayName(familyDisplayName As String) As String
++        Return GeeWorkflowPolicy.FamilyCode(familyDisplayName)
++    End Function
++    Private Sub RefreshLinkOptionsForSelectedFamily(Optional preferredLink As String = Nothing)
++        Dim selectedFamilyName As String = String.Empty
++        If Me.cbFamily.SelectedItem IsNot Nothing Then
++            selectedFamilyName = Me.cbFamily.SelectedItem.ToString()
++        End If
++
++        Dim linkToSelect As String = preferredLink
++        If String.IsNullOrWhiteSpace(linkToSelect) AndAlso Me.cbLink.SelectedItem IsNot Nothing Then
++            linkToSelect = Me.cbLink.SelectedItem.ToString()
++        End If
++
++        Dim familyCode As String = GetFamilyCodeFromDisplayName(selectedFamilyName)
++
++        Me.cbLink.BeginUpdate()
++        Try
++            Me.cbLink.Items.Clear()
++
++            If String.IsNullOrWhiteSpace(familyCode) Then
++                Me.cbLink.SelectedIndex = -1
++                UpdatePowerLinkState()
++                UpdateClassificationOptionsState()
++                Return
++            End If
++
++            For Each sLink As String In GeeWorkflowPolicy.SupportedLinks(familyCode)
++                Me.cbLink.Items.Add(sLink)
++            Next
++
++            If Not String.IsNullOrWhiteSpace(linkToSelect) Then
++                Dim existingIndex As Integer = Me.cbLink.FindStringExact(linkToSelect)
++                If existingIndex >= 0 Then
++                    Me.cbLink.SelectedIndex = existingIndex
++                End If
++            End If
++
++            If Me.cbLink.SelectedIndex = -1 AndAlso Me.cbLink.Items.Count > 0 Then
++                Me.cbLink.SelectedIndex = 0
++            End If
++
++            UpdatePowerLinkState()
++            UpdateClassificationOptionsState()
++
++        Finally
++            Me.cbLink.EndUpdate()
++        End Try
++    End Sub
++    Private Function IsCurrentBinomialGeeFamily() As Boolean
++        If Me.Tag <> HelpTopic.GeneralizedEstimatingEquationsGEE Then Return False
++        If Me.cbFamily.SelectedItem Is Nothing Then Return False
++        Return String.Equals(GetFamilyCodeFromDisplayName(Me.cbFamily.SelectedItem.ToString()), "Binomial", StringComparison.OrdinalIgnoreCase)
++    End Function
++    Private Function GetClassificationThresholdUiValue() As Double
++        Dim txt As String = Me.tbClassificationTreshold.Text.Trim()
++        If txt = String.Empty Then
++            Me.tbClassificationTreshold.Text = SourceNumbers46.FormatUiDouble(0.5R)
++            Return 0.5R
++        End If
++
++        Dim threshold As Double = SourceNumbers46.ParseUiDouble(txt, "classification threshold")
++        If threshold < 0.0R OrElse threshold > 1.0R Then
++            Throw New FormatException("Classification threshold must be between 0 and 1.")
++        End If
++        Return threshold
++    End Function
++    Private Sub UpdateClassificationOptionsState(Optional bAlreadyInit As Boolean = True)
++        Dim enabledForFamily As Boolean = IsCurrentBinomialGeeFamily()
++
++        Me.grpClassification.Enabled = enabledForFamily
++        Me.cbPerformClasification.Enabled = enabledForFamily
++        Me.lblCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked
++        Me.spinBtnCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked
++
++        If Not enabledForFamily Then
++            If bAlreadyInit Then setTextBoxProperties(Me.tbClassificationTreshold, Color.White, String.Empty)
++        ElseIf String.IsNullOrWhiteSpace(Me.tbClassificationTreshold.Text) Then
++            Me.tbClassificationTreshold.Text = SourceNumbers46.FormatUiDouble(0.5R)
++        End If
++
++        If Me.cbPerformClasification.Checked And enabledForFamily Then
++            Me.grpClassification.Enabled = True
++        ElseIf Not Me.cbPerformClasification.Checked And enabledForFamily Then
++            Me.grpClassification.Enabled = False
++        End If
++    End Sub
++    Private Sub UpdatePowerLinkState()
++        Dim usePowerLink As Boolean =
++            Me.cbLink.SelectedItem IsNot Nothing AndAlso
++            Me.cbLink.SelectedItem.ToString() = "Power"
++
++        Me.lblPower.Enabled = usePowerLink
++        Me.tbPower.Enabled = usePowerLink
++    End Sub
++    Private Sub cbFamily_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbFamily.SelectedIndexChanged
++        If Me.cbFamily.SelectedItem Is Nothing Then Return
++        RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
++    End Sub
++    Private Sub cbLink_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbLink.SelectedIndexChanged
++        UpdatePowerLinkState()
++    End Sub
++    Private Sub cbOutputCalibrationTable_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbOutputCalibrationTable.CheckedChanged
++        UpdateClassificationOptionsState()
++    End Sub
++    Private Sub cbPerformClasification_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbPerformClasification.CheckedChanged
++        If Me.cbPerformClasification.Checked And IsCurrentBinomialGeeFamily() Then
++            Me.grpClassification.Enabled = True
++        ElseIf Not Me.cbPerformClasification.Checked And IsCurrentBinomialGeeFamily() Then
++            Me.grpClassification.Enabled = False
++        End If
++    End Sub
++End Class
++Friend Partial Class Ui18MMRMProjection47
++ Friend WithEvents cbMMRMCovOptimizerMode As New FakeControl47()
++ Friend WithEvents cbMMRMCovGradientMode As New FakeControl47()
++ Friend Tag As HelpTopic
++    Private Const MMRM_PROGRESS_REFRESH_INTERVAL_MS As Double = 100.0
++    Private Const MMRM_GROUP_AUTO As String = "(Auto)"
++    Private Const MMRM_GROUP_NONE As String = "(None)"
++    Private Const MMRM_BASELINE_SMALLEST As String = "(Smallest)"
++    Private Const MMRM_CONTROL_FIRST As String = "(First)"
++    Private Const MMRM_MODE_NONE As String = "None"
++    Private Const MMRM_MODE_PAIRWISE As String = "Pairwise among group levels"
++    Private Const MMRM_MODE_CONTROL As String = "Each group vs control"
++    Private Const MMRM_MODE_SELECTED As String = "Selected comparison only"
++    Private Const MMRM_DIR_HIGHER_MINUS_LOWER As String = "Higher level - lower level"
++    Private Const MMRM_DIR_TREATMENT_MINUS_CONTROL As String = "Treatment - control"
++    Private Const MMRM_DIR_CONTROL_MINUS_TREATMENT As String = "Control - treatment"
++    Private Const MMRM_LSMEANS_OBSERVED_GRID As String = "Observed design grid"
++    Private Const MMRM_LSMEANS_REFERENCE_GRID As String = "Reference grid"
++    Private Const MMRM_RG_WEIGHT_EQUAL As String = "Equal class-cell weights"
++    Private Const MMRM_RG_WEIGHT_OBSERVED As String = "Observed class-cell weights"
++    Private Const MMRM_RG_COVARIATE_MEANS As String = "Continuous covariates at observed means"
++    Private Const MMRM_RG_COVARIATE_ZERO As String = "Continuous covariates at 0"
++    Private Const MMRM_MULT_NONE As String = "None"
++    Private Const MMRM_MULT_BONFERRONI As String = "Bonferroni"
++    Private Const MMRM_MULT_HOLM As String = "Holm"
++    Private Const MMRM_MULT_SIDAK As String = "Sidak"
++    Private Const MMRM_OPT_AI As String = "AI/Fisher scoring (default)"
++    Private Const MMRM_OPT_BFGS_AUTO As String = "Projected BFGS (auto gradient)"
++    Private Const MMRM_OPT_BFGS_ANALYTIC As String = "Projected BFGS (analytic gradient)"
++    Private Const MMRM_OPT_BFGS_NUMERICAL As String = "Projected BFGS (finite-difference gradient)"
++    Private Const MMRM_GRAD_AUTO As String = "Auto (analytic where available)"
++    Private Const MMRM_GRAD_ANALYTIC As String = "Analytic score"
++    Private Const MMRM_GRAD_VALIDATE As String = "Analytic score + finite-difference validation"
++    Private Const MMRM_GRAD_NUMERICAL As String = "Numerical finite difference"
++ Friend WithEvents cbMMRMBaselineVisit As New FakeControl47()
++ Friend WithEvents cbMMRMComparisonLevel As New FakeControl47()
++ Friend WithEvents cbMMRMContrastDirection As New FakeControl47()
++ Friend WithEvents cbMMRMContrastMode As New FakeControl47()
++ Friend WithEvents cbMMRMControlLevel As New FakeControl47()
++ Friend WithEvents cbMMRMGroupingFactor As New FakeControl47()
++ Friend WithEvents cbMMRMLSMeansMode As New FakeControl47()
++ Friend WithEvents cbMMRMMultiplicity As New FakeControl47()
++ Friend WithEvents cbMMRMRefGridCovariates As New FakeControl47()
++ Friend WithEvents cbMMRMRefGridWeighting As New FakeControl47()
++ Friend WithEvents ckMMRMChangeFromBaseline As New FakeControl47()
++ Friend WithEvents ckMMRMClassInfo As New FakeControl47()
++ Friend WithEvents ckMMRMDiffInChange As New FakeControl47()
++ Friend WithEvents ckMMRMEstimatedMeans As New FakeControl47()
++ Friend WithEvents lblMMRMComparisonLevel As New FakeControl47()
++ Friend WithEvents lblMMRMLSMeansMode As New FakeControl47()
++ Friend WithEvents lblMMRMMultiplicity As New FakeControl47()
++ Friend WithEvents lblMMRMRefGridCovariates As New FakeControl47()
++ Friend WithEvents lblMMRMRefGridWeighting As New FakeControl47()
++    Private Sub UpdateMMRMContrastControlEnabledState()
++        Dim meansOn As Boolean = Me.ckMMRMEstimatedMeans.Checked
++        Dim classOn As Boolean = Me.ckMMRMClassInfo.Checked
++
++        Dim groupSelection As String = If(Me.cbMMRMGroupingFactor.SelectedItem Is Nothing,
++                                      MMRM_GROUP_AUTO,
++                                      CStr(Me.cbMMRMGroupingFactor.SelectedItem))
++
++        Dim groupPossible As Boolean =
++        Not String.Equals(groupSelection, MMRM_GROUP_NONE, StringComparison.OrdinalIgnoreCase)
++
++        Dim contrastMode As String = If(Me.cbMMRMContrastMode.SelectedItem Is Nothing,
++                                    MMRM_MODE_NONE,
++                                    CStr(Me.cbMMRMContrastMode.SelectedItem))
++
++        Dim isNoneMode As Boolean =
++        String.Equals(contrastMode, MMRM_MODE_NONE, StringComparison.OrdinalIgnoreCase)
++
++        Dim isControlMode As Boolean =
++        String.Equals(contrastMode, MMRM_MODE_CONTROL, StringComparison.OrdinalIgnoreCase)
++
++        Dim isSelectedMode As Boolean =
++        String.Equals(contrastMode, MMRM_MODE_SELECTED, StringComparison.OrdinalIgnoreCase)
++
++        Dim needsControlLevel As Boolean = isControlMode OrElse isSelectedMode
++        Dim needsComparisonLevel As Boolean = isSelectedMode
++        Dim needsDirection As Boolean = (isControlMode OrElse isSelectedMode)
++
++        Me.cbMMRMGroupingFactor.Enabled = classOn OrElse meansOn
++        Me.cbMMRMBaselineVisit.Enabled = meansOn AndAlso Me.ckMMRMChangeFromBaseline.Checked
++        Me.cbMMRMContrastMode.Enabled = meansOn AndAlso groupPossible
++        Me.cbMMRMControlLevel.Enabled = meansOn AndAlso groupPossible AndAlso needsControlLevel
++        Me.cbMMRMComparisonLevel.Enabled = meansOn AndAlso groupPossible AndAlso needsComparisonLevel
++        Me.lblMMRMComparisonLevel.Enabled = Me.cbMMRMComparisonLevel.Enabled
++        Me.cbMMRMContrastDirection.Enabled = meansOn AndAlso groupPossible AndAlso needsDirection
++
++        Me.ckMMRMChangeFromBaseline.Enabled = meansOn
++        Me.ckMMRMDiffInChange.Enabled = meansOn AndAlso Me.ckMMRMChangeFromBaseline.Checked AndAlso groupPossible AndAlso Not isNoneMode
++
++        Dim referenceGridControlsOn As Boolean = meansOn AndAlso IsMMRMReferenceGridModeSelected()
++        Me.cbMMRMLSMeansMode.Enabled = meansOn
++        Me.lblMMRMLSMeansMode.Enabled = meansOn
++        Me.cbMMRMRefGridWeighting.Enabled = referenceGridControlsOn
++        Me.lblMMRMRefGridWeighting.Enabled = referenceGridControlsOn
++        Me.cbMMRMRefGridCovariates.Enabled = referenceGridControlsOn
++        Me.lblMMRMRefGridCovariates.Enabled = referenceGridControlsOn
++        Me.cbMMRMMultiplicity.Enabled = meansOn AndAlso groupPossible AndAlso Not isNoneMode
++        Me.lblMMRMMultiplicity.Enabled = meansOn AndAlso groupPossible AndAlso Not isNoneMode
++
++    End Sub
++    Private Function IsMMRMReferenceGridModeSelected() As Boolean
++        Return Me.cbMMRMLSMeansMode IsNot Nothing AndAlso MixedModelReportPolicy.MeansMode(SelectedComboText(Me.cbMMRMLSMeansMode, MMRM_LSMEANS_OBSERVED_GRID)) = MixedModelMeansMode.ReferenceGrid
++    End Function
++    Private Function SelectedComboText(cb As FakeControl47, fallback As String) As String
++        If cb Is Nothing OrElse cb.SelectedItem Is Nothing Then Return fallback
++        Dim s As String = CStr(cb.SelectedItem)
++        If String.IsNullOrWhiteSpace(s) Then Return fallback
++        Return s
++    End Function
++    Private Sub cbMMRMControlLevel_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbMMRMControlLevel.SelectedIndexChanged
++        Try
++            UpdateMMRMContrastControlEnabledState()
++        Catch ex As Exception
++            FakeLogger47.Warn("cbMMRMControlLevel_SelectedIndexChanged failed: " & ex.ToString())
++        End Try
++    End Sub
++    Private Sub cbMMRMContrastMode_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbMMRMContrastMode.SelectedIndexChanged
++        Try
++            UpdateMMRMContrastControlEnabledState()
++        Catch ex As Exception
++            FakeLogger47.Warn("cbMMRMContrastMode_SelectedIndexChanged failed: " & ex.ToString())
++        End Try
++    End Sub
++    Private Sub MMRMReferenceGridControlChanged(sender As Object, e As System.EventArgs) Handles cbMMRMLSMeansMode.SelectedIndexChanged,
++        cbMMRMRefGridWeighting.SelectedIndexChanged,
++        cbMMRMRefGridCovariates.SelectedIndexChanged
++
++        Try
++            UpdateMMRMContrastControlEnabledState()
++        Catch ex As Exception
++            FakeLogger47.Warn("MMRMReferenceGridControlChanged failed: " & ex.Message)
++        End Try
++    End Sub
++    Private Sub MMRMContrastControl_CheckedOrSelectedChanged(sender As Object, e As System.EventArgs) Handles ckMMRMClassInfo.CheckedChanged,
++        ckMMRMEstimatedMeans.CheckedChanged,
++        ckMMRMDiffInChange.CheckedChanged,
++        ckMMRMChangeFromBaseline.CheckedChanged,
++        cbMMRMGroupingFactor.SelectedIndexChanged,
++        cbMMRMContrastDirection.SelectedIndexChanged,
++        cbMMRMComparisonLevel.SelectedIndexChanged,
++        cbMMRMBaselineVisit.SelectedIndexChanged,
++        cbMMRMContrastMode.SelectedIndexChanged,
++        cbMMRMControlLevel.SelectedIndexChanged
++
++        Try
++            UpdateMMRMContrastControlEnabledState()
++
++            ' When the grouping factor changes, observed group levels must be refreshed.
++            ' For other controls this is harmless and keeps the UI current.
++            If sender Is Me.cbMMRMGroupingFactor OrElse sender Is Me.cbMMRMContrastMode Then
++                FakeAcquisition47.RefreshMMRM()
++            End If
++
++        Catch ex As Exception
++            FakeLogger47.Warn("MMRMContrastControl_CheckedOrSelectedChanged failed: " & ex.Message)
++        End Try
++    End Sub
++    Private Function ParseMMRMCovarianceOptimizerMode(selection As String) As regression.MixedModelCovarianceOptimizerMode
++        If String.IsNullOrWhiteSpace(selection) Then Return regression.MixedModelCovarianceOptimizerMode.AverageInformationReml
++        Return regression.MixedModelFrontEndHelpers.ParseCovarianceOptimizerMode(selection, regression.MixedModelCovarianceOptimizerMode.ProjectedBfgs)
++    End Function
++    Private Function ParseMMRMCovarianceGradientMode(selection As String) As regression.MixedModelCovarianceGradientMode
++        Return regression.MixedModelFrontEndHelpers.ParseCovarianceGradientMode(selection, regression.MixedModelCovarianceGradientMode.Auto)
++    End Function
++    Private Sub ApplyMMRMCovarianceOptimizerSelections(ByRef ctl As regression.MixedModelControl)
++        MixedModelWorkflowPolicy.ApplyOptimizer(MixedModelWorkflowKind.MMRM, ctl,
++            SelectedComboText(Me.cbMMRMCovOptimizerMode, MMRM_OPT_AI),
++            SelectedComboText(Me.cbMMRMCovGradientMode, MMRM_GRAD_AUTO))
++    End Sub
++End Class
++Friend Partial Class Ui19LMMProjection47
++ Friend WithEvents cbLMMCovOptimizerMode As New FakeControl47()
++ Friend WithEvents cbLMMCovGradientMode As New FakeControl47()
++ Friend Tag As HelpTopic
++    Private Const LMM_PROGRESS_REFRESH_INTERVAL_MS As Double = 100.0
++    Private Const LMM_OPT_AI As String = "AI/Fisher scoring (default)"
++    Private Const LMM_OPT_BFGS_AUTO As String = "Projected BFGS (auto gradient)"
++    Private Const LMM_OPT_BFGS_ANALYTIC As String = "Projected BFGS (analytic gradient)"
++    Private Const LMM_OPT_BFGS_NUMERICAL As String = "Projected BFGS (finite-difference gradient)"
++    Private Const LMM_GRAD_AUTO As String = "Auto (analytic where available)"
++    Private Const LMM_GRAD_ANALYTIC As String = "Analytic score"
++    Private Const LMM_GRAD_VALIDATE As String = "Analytic score + finite-difference validation"
++    Private Const LMM_GRAD_NUMERICAL As String = "Numerical finite difference"
++ Friend WithEvents btAddRandomEffectCategoricalFactor As New FakeControl47()
++ Friend WithEvents btnRandom2Interactions As New FakeControl47()
++ Friend WithEvents btnRandomCustomInteraction As New FakeControl47()
++ Friend WithEvents btnRandomPoly As New FakeControl47()
++ Friend WithEvents cbCovarStruct As New FakeControl47()
++ Friend WithEvents cbRandomCovarStruct As New FakeControl47()
++ Friend WithEvents spinBtnRandomPoly As New FakeControl47()
++    Private Sub UpdateLMMCovarianceDependentControls()
++        Try
++            Dim needsVisit As Boolean = Me.cbCovarStruct.SelectedItem IsNot Nothing AndAlso regression.MixedModelFrontEndHelpers.ResidualStructureRequiresVisit(CStr(Me.cbCovarStruct.SelectedItem))
++
++            'Keep the general random-effect authoring controls enabled. Buttons that can expand
++            'to multiple random-effect columns promote the G-side covariance to VC/Diag before adding the term.
++            Me.btnRandom2Interactions.Enabled = True
++            Me.btnRandomCustomInteraction.Enabled = True
++            Me.btAddRandomEffectCategoricalFactor.Enabled = True
++            Me.btnRandomPoly.Enabled = True
++            Me.spinBtnRandomPoly.Enabled = True
++        Catch
++        End Try
++    End Sub
++    Private Sub cbCovarStruct_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbCovarStruct.SelectedIndexChanged
++        UpdateLMMCovarianceDependentControls()
++    End Sub
++    Private Sub cbRandomCovarStruct_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbRandomCovarStruct.SelectedIndexChanged
++        UpdateLMMCovarianceDependentControls()
++    End Sub
++    Private Function SelectedComboText(cb As FakeControl47, fallback As String) As String
++        If cb Is Nothing OrElse cb.SelectedItem Is Nothing Then Return fallback
++        Dim s As String = CStr(cb.SelectedItem)
++        If String.IsNullOrWhiteSpace(s) Then Return fallback
++        Return s
++    End Function
++    Private Sub ApplyLMMCovarianceOptimizerSelections(ByRef ctl As regression.MixedModelControl)
++        MixedModelWorkflowPolicy.ApplyOptimizer(MixedModelWorkflowKind.LMM, ctl,
++            SelectedComboText(Me.cbLMMCovOptimizerMode, LMM_OPT_AI),
++            SelectedComboText(Me.cbLMMCovGradientMode, LMM_GRAD_AUTO))
++    End Sub
++End Class
++Friend Partial Class Ui11PCAProjection47
++ Friend Tag As HelpTopic
++
++ Friend WithEvents cbDAPriors As New FakeControl47()
++ Friend WithEvents cbDAValidation As New FakeControl47()
++ Friend WithEvents cbFACommunalityInit As New FakeControl47()
++ Friend WithEvents cbFAExtraction As New FakeControl47()
++ Friend WithEvents cbFARotation As New FakeControl47()
++ Friend WithEvents cbHierarchicalDistance As New FakeControl47()
++ Friend WithEvents ckDAStratified As New FakeControl47()
++ Friend WithEvents ckFAKaiserNormalization As New FakeControl47()
++ Friend WithEvents lblDAFolds As New FakeControl47()
++ Friend WithEvents lblDAHoldoutFraction As New FakeControl47()
++ Friend WithEvents lblDASeed As New FakeControl47()
++ Friend WithEvents lblDAUserPriors As New FakeControl47()
++ Friend WithEvents lblFAPromaxPower As New FakeControl47()
++ Friend WithEvents lblHierarchicalMinkowskiPower As New FakeControl47()
++ Friend WithEvents nudDAFolds As New FakeControl47()
++ Friend WithEvents nudFAEigen As New FakeControl47()
++ Friend WithEvents nudFAFactors As New FakeControl47()
++ Friend WithEvents nudFAPromaxPower As New FakeControl47()
++ Friend WithEvents nudFAVariance As New FakeControl47()
++ Friend WithEvents nudHierarchicalClusters As New FakeControl47()
++ Friend WithEvents optFAExtractEigen As New FakeControl47()
++ Friend WithEvents optFAExtractFixed As New FakeControl47()
++ Friend WithEvents optFAExtractVariance As New FakeControl47()
++ Friend WithEvents optHierarchicalCutByClusters As New FakeControl47()
++ Friend WithEvents optHierarchicalCutByHeight As New FakeControl47()
++ Friend WithEvents tbDAHoldoutFraction As New FakeControl47()
++ Friend WithEvents tbDARegularization As New FakeControl47()
++ Friend WithEvents tbDASeed As New FakeControl47()
++ Friend WithEvents tbDAUserPriors As New FakeControl47()
++ Friend WithEvents tbHierarchicalCutHeight As New FakeControl47()
++ Friend WithEvents tbHierarchicalMinkowskiPower As New FakeControl47()
++ Friend Sub New()
++AddHandler Me.cbHierarchicalDistance.SelectedIndexChanged, AddressOf Me.HierarchicalDistanceChanged
++AddHandler Me.optHierarchicalCutByClusters.CheckedChanged, AddressOf Me.HierarchicalMembershipModeChanged
++AddHandler Me.optHierarchicalCutByHeight.CheckedChanged, AddressOf Me.HierarchicalMembershipModeChanged
++AddHandler Me.cbFAExtraction.SelectedIndexChanged, AddressOf Me.FactorAnalysisExtractionChanged
++AddHandler Me.cbFARotation.SelectedIndexChanged, AddressOf Me.FactorAnalysisRotationChanged
++AddHandler Me.optFAExtractFixed.CheckedChanged, AddressOf Me.FactorAnalysisRetentionChanged
++AddHandler Me.optFAExtractEigen.CheckedChanged, AddressOf Me.FactorAnalysisRetentionChanged
++AddHandler Me.optFAExtractVariance.CheckedChanged, AddressOf Me.FactorAnalysisRetentionChanged
++AddHandler Me.cbDAPriors.SelectedIndexChanged, AddressOf Me.DiscriminantPriorModeChanged
++AddHandler Me.cbDAValidation.SelectedIndexChanged, AddressOf Me.DiscriminantValidationChanged
++ End Sub
++    Private Sub HierarchicalDistanceChanged(sender As Object, e As System.EventArgs)
++        Dim useMinkowski As Boolean = (Me.GetSelectedHierarchicalDistanceMetric() = Multivariate.HierarchicalDistanceMetric.Minkowski)
++        If Me.lblHierarchicalMinkowskiPower IsNot Nothing Then Me.lblHierarchicalMinkowskiPower.Enabled = useMinkowski
++        If Me.tbHierarchicalMinkowskiPower IsNot Nothing Then Me.tbHierarchicalMinkowskiPower.Enabled = useMinkowski
++    End Sub
++    Private Sub HierarchicalMembershipModeChanged(sender As Object, e As System.EventArgs)
++        Dim byClusters As Boolean = (Me.optHierarchicalCutByClusters IsNot Nothing AndAlso Me.optHierarchicalCutByClusters.Checked)
++        If Me.nudHierarchicalClusters IsNot Nothing Then Me.nudHierarchicalClusters.Enabled = byClusters
++        If Me.tbHierarchicalCutHeight IsNot Nothing Then Me.tbHierarchicalCutHeight.Enabled = Not byClusters
++    End Sub
++    Private Function GetSelectedHierarchicalDistanceMetric() As Multivariate.HierarchicalDistanceMetric
++        Return MultivariateLegacyChoices.GetSelectedHierarchicalDistanceMetric(Me.cbHierarchicalDistance.SelectedIndex)
++    End Function
++    Private Sub FactorAnalysisExtractionChanged(sender As Object, e As System.EventArgs)
++        Dim method = Me.GetSelectedFAExtractionMethod()
++        Dim needsCommunalityStart As Boolean = (method <> Multivariate.FactorAnalysisExtractionMethod.PrincipalComponents)
++
++        If Me.cbFACommunalityInit IsNot Nothing Then Me.cbFACommunalityInit.Enabled = needsCommunalityStart
++    End Sub
++    Private Sub FactorAnalysisRotationChanged(sender As Object, e As System.EventArgs)
++        Dim rotation = Me.GetSelectedFARotationMethod()
++        Dim hasRotation As Boolean = (rotation <> Multivariate.FactorAnalysisRotationMethod.None)
++        Dim isPromax As Boolean = (rotation = Multivariate.FactorAnalysisRotationMethod.Promax)
++
++        If Me.ckFAKaiserNormalization IsNot Nothing Then Me.ckFAKaiserNormalization.Enabled = hasRotation
++        If Me.lblFAPromaxPower IsNot Nothing Then Me.lblFAPromaxPower.Enabled = isPromax
++        If Me.nudFAPromaxPower IsNot Nothing Then Me.nudFAPromaxPower.Enabled = isPromax
++    End Sub
++    Private Sub FactorAnalysisRetentionChanged(sender As Object, e As System.EventArgs)
++        If Me.nudFAFactors IsNot Nothing Then Me.nudFAFactors.Enabled = Me.optFAExtractFixed.Checked
++        If Me.nudFAEigen IsNot Nothing Then Me.nudFAEigen.Enabled = Me.optFAExtractEigen.Checked
++        If Me.nudFAVariance IsNot Nothing Then Me.nudFAVariance.Enabled = Me.optFAExtractVariance.Checked
++    End Sub
++    Private Function GetSelectedFAExtractionMethod() As Multivariate.FactorAnalysisExtractionMethod
++        Return MultivariateLegacyChoices.GetSelectedFAExtractionMethod(Me.cbFAExtraction.SelectedIndex)
++    End Function
++    Private Function GetSelectedFARotationMethod() As Multivariate.FactorAnalysisRotationMethod
++        Return MultivariateLegacyChoices.GetSelectedFARotationMethod(Me.cbFARotation.SelectedIndex)
++    End Function
++    Private Function GetSelectedFARetentionMethod() As Multivariate.FactorAnalysisRetentionMethod
++        Return MultivariateLegacyChoices.GetSelectedFARetentionMethod(Me.optFAExtractEigen.Checked, Me.optFAExtractVariance.Checked)
++    End Function
++    Private Function GetSelectedFARetentionValue() As Double
++        Return MultivariateWorkflowPolicy.FactorRetentionValue(Me.optFAExtractEigen.Checked, Me.optFAExtractVariance.Checked,
++            CDbl(Me.nudFAEigen.Value), CDbl(Me.nudFAVariance.Value), CDbl(Me.nudFAFactors.Value))
++    End Function
++    Private Sub DiscriminantPriorModeChanged(sender As Object, e As System.EventArgs)
++        Me.UpdateDiscriminantOptionStates()
++    End Sub
++    Private Sub DiscriminantValidationChanged(sender As Object, e As System.EventArgs)
++        Me.UpdateDiscriminantOptionStates()
++    End Sub
++    Private Function GetSelectedDiscriminantPriorMode() As Multivariate.DiscriminantPriorMode
++        Return MultivariateLegacyChoices.GetSelectedDiscriminantPriorMode(If(Me.cbDAPriors Is Nothing OrElse Me.cbDAPriors.SelectedItem Is Nothing, String.Empty, CStr(Me.cbDAPriors.SelectedItem)))
++    End Function
++    Private Function GetSelectedDiscriminantValidationMode() As Multivariate.DiscriminantValidationMode
++        Return MultivariateLegacyChoices.GetSelectedDiscriminantValidationMode(If(Me.cbDAValidation Is Nothing OrElse Me.cbDAValidation.SelectedItem Is Nothing, String.Empty, CStr(Me.cbDAValidation.SelectedItem)))
++    End Function
++    Private Function GetSelectedDiscriminantRandomSeed() As Integer
++        Dim txt As String = Me.tbDASeed.Text
++        If txt.Trim() = String.Empty Then Return Integer.MinValue
++        Return FakeText47.ParseUiInteger(txt, "Random seed")
++    End Function
++    Private Function GetSelectedDiscriminantRegularization() As Double
++        Dim txt As String = Me.tbDARegularization.Text
++        If txt.Trim() = String.Empty Then Return 0.00000001
++        Return SourceNumbers46.ParseUiDouble(txt, "Covariance regularization")
++    End Function
++    Private Sub UpdateDiscriminantOptionStates()
++        If Me.Tag <> HelpTopic.DiscriminantAnalysis Then Exit Sub
++
++        Dim priorMode As Multivariate.DiscriminantPriorMode = Me.GetSelectedDiscriminantPriorMode()
++        Dim validationMode As Multivariate.DiscriminantValidationMode = Me.GetSelectedDiscriminantValidationMode()
++
++        Dim enableUserPriors As Boolean = (priorMode = Multivariate.DiscriminantPriorMode.UserSpecified)
++        Me.tbDAUserPriors.Enabled = enableUserPriors
++        Me.lblDAUserPriors.Enabled = enableUserPriors
++
++        Dim enableFolds As Boolean = False
++        Dim enableHoldout As Boolean = False
++        Dim enableResamplingOptions As Boolean = False
++
++        Select Case validationMode
++            Case Multivariate.DiscriminantValidationMode.KFold
++                enableFolds = True
++                enableResamplingOptions = True
++
++            Case Multivariate.DiscriminantValidationMode.Holdout
++                enableHoldout = True
++                enableResamplingOptions = True
++
++            Case Else
++                ' None / Leave-one-out: keep all subordinate validation controls disabled.
++        End Select
++
++        Me.nudDAFolds.Enabled = enableFolds
++        Me.lblDAFolds.Enabled = enableFolds
++
++        Me.tbDAHoldoutFraction.Enabled = enableHoldout
++        Me.lblDAHoldoutFraction.Enabled = enableHoldout
++
++        Me.ckDAStratified.Enabled = enableResamplingOptions
++        Me.tbDASeed.Enabled = enableResamplingOptions
++        Me.lblDASeed.Enabled = enableResamplingOptions
++    End Sub
++End Class
++End Namespace
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring47ProjectionB.vb
+@@ -0,0 +1,748 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Linq
++Imports System.Collections.Generic
++Imports BESHStatNG.ExcelCommon
++Imports BESHStatNG.CausalInference
++Imports BESHStatNG.StatisticalProcessControl
++Imports BESHStatNG.Test.Harness46
++Namespace Harness47
++Friend Partial Class UiGLMProjection47
++ Friend ReadOnly Pump As New FakePump47()
++ Friend ReadOnly Bridge As New FakeRegressionBridge47()
++ Friend Closes As Integer
++ Friend Sub Close()
++ Closes += 1
++ End Sub
++ Friend pRegressionCalculationRunning As Boolean
++ Friend pRegressionCancelRequested As Boolean
++ Friend pRegressionCloseAfterCancel As Boolean
++ Friend pRegressionInterruptRequested As Boolean
++ Friend WithEvents ProgressBar1 As New FakeControl47()
++ Friend WithEvents btCalculate As New FakeControl47()
++ Friend WithEvents btInterrupt As New FakeControl47()
++ Friend WithEvents lblProgress As New FakeControl47()
++    Private Sub BeginRegressionComputation()
++        pRegressionCancelRequested = False
++        pRegressionInterruptRequested = False
++        pRegressionCloseAfterCancel = False
++        pRegressionCalculationRunning = True
++        Me.Bridge.SetCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
++
++        Try
++            Me.btCalculate.Enabled = False
++            Me.btInterrupt.Enabled = True
++            Me.lblProgress.Text = "Preparing calculation..."
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++    Private Sub EndRegressionComputation()
++        pRegressionCalculationRunning = False
++        Me.Bridge.ClearCallbacks()
++
++        Try
++            If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then
++                Me.lblProgress.Text = "Calculation interrupted; latest accepted estimates returned."
++            End If
++            Me.btCalculate.Enabled = True
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++
++        If pRegressionCloseAfterCancel Then
++            pRegressionCloseAfterCancel = False
++            Try
++                Me.Close()
++            Catch
++            End Try
++        End If
++    End Sub
++    Private Function IsRegressionCancellationRequested() As Boolean
++        Return pRegressionCancelRequested
++    End Function
++    Private Function IsRegressionInterruptionRequested() As Boolean
++        Return pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested
++    End Function
++    Private Sub FinishRegressionComputation(message As String)
++        Try
++            Me.ProgressBar1.Style = FakeProgressStyle47.Continuous
++            Me.lblProgress.Text = message
++            Me.btCalculate.Enabled = True
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click
++        If Not pRegressionCalculationRunning Then Exit Sub
++
++        pRegressionInterruptRequested = True
++
++        Try
++            Me.lblProgress.Text = "Interrupting; latest accepted estimates will be returned..."
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++End Class
++Friend Partial Class Ui13GEEProjection47
++ Friend ReadOnly Pump As New FakePump47()
++ Friend ReadOnly Bridge As New FakeRegressionBridge47()
++ Friend Closes As Integer
++ Friend Sub Close()
++ Closes += 1
++ End Sub
++ Friend pRegressionCalculationRunning As Boolean
++ Friend pRegressionCancelRequested As Boolean
++ Friend pRegressionCloseAfterCancel As Boolean
++ Friend pRegressionInterruptRequested As Boolean
++ Friend WithEvents ProgressBar1 As New FakeControl47()
++ Friend WithEvents btCalculate As New FakeControl47()
++ Friend WithEvents btInterrupt As New FakeControl47()
++ Friend WithEvents lblProgress As New FakeControl47()
++    Private Sub BeginRegressionComputation()
++        pRegressionCancelRequested = False
++        pRegressionInterruptRequested = False
++        pRegressionCloseAfterCancel = False
++        pRegressionCalculationRunning = True
++        Me.Bridge.SetCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
++
++        Try
++            Me.btCalculate.Enabled = False
++            Me.btInterrupt.Enabled = True
++            Me.lblProgress.Text = "Preparing calculation..."
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++    Private Sub EndRegressionComputation()
++        pRegressionCalculationRunning = False
++        Me.Bridge.ClearCallbacks()
++
++        Try
++            If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then
++                Me.lblProgress.Text = "Calculation interrupted; latest accepted estimates returned."
++            End If
++            Me.btCalculate.Enabled = True
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++
++        If pRegressionCloseAfterCancel Then
++            pRegressionCloseAfterCancel = False
++            Try
++                Me.Close()
++            Catch
++            End Try
++        End If
++    End Sub
++    Private Function IsRegressionCancellationRequested() As Boolean
++        Return pRegressionCancelRequested
++    End Function
++    Private Function IsRegressionInterruptionRequested() As Boolean
++        Return pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested
++    End Function
++    Private Sub FinishRegressionComputation(message As String)
++        Try
++            Me.ProgressBar1.Style = FakeProgressStyle47.Continuous
++            Me.lblProgress.Text = message
++            Me.btCalculate.Enabled = True
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click
++        If Not pRegressionCalculationRunning Then Exit Sub
++
++        pRegressionInterruptRequested = True
++
++        Try
++            Me.lblProgress.Text = "Interrupting; latest accepted estimates will be returned..."
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++End Class
++Friend Partial Class Ui4CoxProjection47
++ Friend Tag As HelpTopic
++ Friend ReadOnly Pump As New FakePump47()
++ Friend ReadOnly Bridge As New FakeRegressionBridge47()
++ Friend Closes As Integer
++ Friend Sub Close()
++ Closes += 1
++ End Sub
++ Friend pRegressionCalculationRunning As Boolean
++ Friend pRegressionCancelRequested As Boolean
++ Friend pRegressionCloseAfterCancel As Boolean
++ Friend pRegressionInterruptRequested As Boolean
++ Friend WithEvents ProgressBar1 As New FakeControl47()
++ Friend WithEvents btCalculate As New FakeControl47()
++ Friend WithEvents btInterrupt As New FakeControl47()
++ Friend WithEvents lblProgress As New FakeControl47()
++    Private Sub BeginRegressionComputation()
++        pRegressionCancelRequested = False
++        pRegressionInterruptRequested = False
++        pRegressionCloseAfterCancel = False
++        pRegressionCalculationRunning = True
++        Me.Bridge.SetCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
++
++        Try
++            Me.btCalculate.Enabled = False
++            Me.btInterrupt.Enabled = True
++            Me.lblProgress.Text = "Preparing calculation..."
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++    Private Sub EndRegressionComputation()
++        pRegressionCalculationRunning = False
++        Me.Bridge.ClearCallbacks()
++
++        Try
++            If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then
++                Me.lblProgress.Text = "Calculation interrupted; latest accepted estimates returned."
++            End If
++            Me.btCalculate.Enabled = True
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++
++        If pRegressionCloseAfterCancel Then
++            pRegressionCloseAfterCancel = False
++            Try
++                Me.Close()
++            Catch
++            End Try
++        End If
++    End Sub
++    Private Function IsRegressionCancellationRequested() As Boolean
++        Return pRegressionCancelRequested
++    End Function
++    Private Function IsRegressionInterruptionRequested() As Boolean
++        Return pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested
++    End Function
++    Private Sub FinishRegressionComputation(message As String)
++        Try
++            Me.ProgressBar1.Style = FakeProgressStyle47.Continuous
++            Me.lblProgress.Text = message
++            Me.btCalculate.Enabled = True
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click
++        If Not pRegressionCalculationRunning Then Exit Sub
++
++        pRegressionInterruptRequested = True
++
++        Try
++            Me.lblProgress.Text = "Interrupting; latest accepted estimates will be returned..."
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++End Class
++Friend Partial Class Ui18MMRMProjection47
++ Friend ReadOnly Pump As New FakePump47()
++ Friend ReadOnly Bridge As New FakeRegressionBridge47()
++ Friend Closes As Integer
++ Friend Sub Close()
++ Closes += 1
++ End Sub
++ Friend pMmrmCalculationRunning As Boolean
++ Friend pMmrmCancelRequested As Boolean
++ Friend pMmrmInterruptRequested As Boolean
++ Friend WithEvents btInterrupt As New FakeControl47()
++ Friend WithEvents lblProgress As New FakeControl47()
++    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click
++        If Not pMmrmCalculationRunning Then Exit Sub
++
++        pMmrmInterruptRequested = True
++
++        Try
++            Me.lblProgress.Text = "Interrupting MMRM; latest accepted estimates will be returned..."
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++    Private Function IsMMRMCancellationRequested() As Boolean
++        Return pMmrmCancelRequested
++    End Function
++    Private Function IsMMRMInterruptionRequested() As Boolean
++        Return pMmrmInterruptRequested AndAlso Not pMmrmCancelRequested
++    End Function
++End Class
++Friend Partial Class Ui19LMMProjection47
++ Friend ReadOnly Pump As New FakePump47()
++ Friend ReadOnly Bridge As New FakeRegressionBridge47()
++ Friend Closes As Integer
++ Friend Sub Close()
++ Closes += 1
++ End Sub
++ Friend pLmmCalculationRunning As Boolean
++ Friend plmmInterruptRequested As Boolean
++ Friend WithEvents btInterrupt As New FakeControl47()
++ Friend WithEvents lblProgress As New FakeControl47()
++    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click
++        If Not pLmmCalculationRunning Then Exit Sub
++
++        plmmInterruptRequested = True
++
++        Try
++            Me.lblProgress.Text = "Interrupting LMM; latest accepted estimates will be returned..."
++            Me.btInterrupt.Enabled = False
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++End Class
++Friend Partial Class Ui20PropensityScoreMatchingProjection47
++ Friend Tag As HelpTopic
++ Friend ReadOnly Pump As New FakePump47()
++ Friend ReadOnly Bridge As New FakeRegressionBridge47()
++ Friend Closes As Integer
++ Friend Sub Close()
++ Closes += 1
++ End Sub
++ Friend WithEvents ProgressBar1 As New FakeControl47()
++ Friend WithEvents btAddScore As New FakeControl47()
++ Friend WithEvents btCalculate As New FakeControl47()
++ Friend WithEvents btRemoveScore As New FakeControl47()
++ Friend WithEvents cbCaliperScale As New FakeControl47()
++ Friend WithEvents cbCommonSupport As New FakeControl47()
++ Friend WithEvents cbDistanceMetric As New FakeControl47()
++ Friend WithEvents cbEstimand As New FakeControl47()
++ Friend WithEvents cbMatchingOrder As New FakeControl47()
++ Friend WithEvents cbRunMethod As New FakeControl47()
++ Friend WithEvents cbScoreMethod As New FakeControl47()
++ Friend WithEvents chkDoublyRobust As New FakeControl47()
++ Friend WithEvents chkLovePlot As New FakeControl47()
++ Friend WithEvents chkOverlapDiagnostics As New FakeControl47()
++ Friend WithEvents chkStandardizeCovariates As New FakeControl47()
++ Friend WithEvents chkWeightDiagnostics As New FakeControl47()
++ Friend WithEvents chkWithReplacement As New FakeControl47()
++ Friend WithEvents chkWriteDiagnostics As New FakeControl47()
++ Friend WithEvents chkWriteMatches As New FakeControl47()
++ Friend WithEvents ckIntercept As New FakeControl47()
++ Friend WithEvents grpIterOptions As New FakeControl47()
++ Friend WithEvents lbScore As New FakeControl47()
++ Friend WithEvents lblCaliper As New FakeControl47()
++ Friend WithEvents lblCaliperScale As New FakeControl47()
++ Friend WithEvents lblCemBins As New FakeControl47()
++ Friend WithEvents lblDistanceMetric As New FakeControl47()
++ Friend WithEvents lblMatchingOrder As New FakeControl47()
++ Friend WithEvents lblMatchingRatio As New FakeControl47()
++ Friend WithEvents lblMaxIterations As New FakeControl47()
++ Friend WithEvents lblProgress As New FakeControl47()
++ Friend WithEvents lblRidgePenalty As New FakeControl47()
++ Friend WithEvents lblScore As New FakeControl47()
++ Friend WithEvents lblStrata As New FakeControl47()
++ Friend WithEvents lblTolerance As New FakeControl47()
++ Friend WithEvents tbCaliper As New FakeControl47()
++ Friend WithEvents tbCemBins As New FakeControl47()
++ Friend WithEvents tbExtremeWeight As New FakeControl47()
++ Friend WithEvents tbLoveThreshold As New FakeControl47()
++ Friend WithEvents tbMatchingRatio As New FakeControl47()
++ Friend WithEvents tbMaxIterations As New FakeControl47()
++ Friend WithEvents tbOverlapBins As New FakeControl47()
++ Friend WithEvents tbRidgePenalty As New FakeControl47()
++ Friend WithEvents tbStrata As New FakeControl47()
++ Friend WithEvents tbTolerance As New FakeControl47()
++ Friend WithEvents tbTrimLower As New FakeControl47()
++ Friend WithEvents tbTrimUpper As New FakeControl47()
++ Friend Sub New()
++AddHandler cbScoreMethod.SelectedIndexChanged, AddressOf OptionComboChanged
++AddHandler cbRunMethod.SelectedIndexChanged, AddressOf OptionComboChanged
++AddHandler cbEstimand.SelectedIndexChanged, AddressOf OptionComboChanged
++AddHandler cbDistanceMetric.SelectedIndexChanged, AddressOf OptionComboChanged
++AddHandler cbCaliperScale.SelectedIndexChanged, AddressOf OptionComboChanged
++ End Sub
++    Private Function BuildFitOptions() As PsmComprehensiveFitOptions
++        Dim standard As New PsmOptions With {
++            .ScoreMethod = ParseEnum(Of PsmScoreMethod)(cbScoreMethod.Text),
++            .Estimand = ParseEnum(Of PsmEstimand)(cbEstimand.Text),
++            .DistanceMetric = ParseEnum(Of PsmDistanceMetric)(cbDistanceMetric.Text),
++            .MatchingRatio = Math.Max(1, FakeText47.ParseUiInteger(tbMatchingRatio.Text, "matching ratio")),
++            .WithReplacement = chkWithReplacement.Checked,
++            .CaliperScale = ParseEnum(Of PsmCaliperScale)(cbCaliperScale.Text),
++            .Caliper = ParseOptionalDouble(tbCaliper.Text, Double.NaN),
++            .MatchingOrder = ParseEnum(Of PsmMatchingOrder)(cbMatchingOrder.Text),
++            .CommonSupport = ParseEnum(Of PsmCommonSupportMode)(cbCommonSupport.Text),
++            .IncludeIntercept = ckIntercept.Checked,
++            .StandardizeCovariates = chkStandardizeCovariates.Checked,
++            .LogisticMaxIterations = Math.Max(1, FakeText47.ParseUiInteger(tbMaxIterations.Text, "maximum iterations")),
++            .LogisticTolerance = SourceNumbers46.ParseUiDouble(tbTolerance.Text, "tolerance"),
++            .LogisticRidgePenalty = Math.Max(0.0, SourceNumbers46.ParseUiDouble(tbRidgePenalty.Text, "ridge penalty")),
++            .BalanceSmdThreshold = SourceNumbers46.ParseUiDouble(tbLoveThreshold.Text, "Love-plot/SMD threshold"),
++            .SubclassificationStrata = Math.Max(2, FakeText47.ParseUiInteger(tbStrata.Text, "subclassification strata")),
++            .TrimPropensityLower = SourceNumbers46.ParseUiDouble(tbTrimLower.Text, "lower propensity trim"),
++            .TrimPropensityUpper = SourceNumbers46.ParseUiDouble(tbTrimUpper.Text, "upper propensity trim")
++        }
++
++        Dim fitOptions As New PsmComprehensiveFitOptions With {
++            .StandardOptions = standard,
++            .RunMethod = ParseEnum(Of PsmBackendRunMethod)(cbRunMethod.Text),
++            .IncludeDoublyRobustEstimate = chkDoublyRobust.Checked,
++            .IncludeOverlapDiagnostics = chkOverlapDiagnostics.Checked,
++            .IncludeWeightDiagnostics = chkWeightDiagnostics.Checked,
++            .IncludeLovePlotRows = chkLovePlot.Checked,
++            .OverlapBinCount = Math.Max(2, FakeText47.ParseUiInteger(tbOverlapBins.Text, "overlap bins")),
++            .LovePlotThreshold = SourceNumbers46.ParseUiDouble(tbLoveThreshold.Text, "Love-plot threshold"),
++            .ExtremeWeightCutoff = SourceNumbers46.ParseUiDouble(tbExtremeWeight.Text, "extreme weight cutoff")
++        }
++
++        If fitOptions.RunMethod = PsmBackendRunMethod.CoarsenedExactMatching Then
++            Dim bins As Integer = Math.Max(2, FakeText47.ParseUiInteger(tbCemBins.Text, "CEM quantile bins"))
++            fitOptions.CoarseningSpec = PsmRequestSelection.CreateCemSpec(bins, standard)
++        End If
++
++        Return New PsmRequestSelection(fitOptions).CreateEffectiveOptions()
++    End Function
++    Private Shared Function ParseEnum(Of TEnum As Structure)(text As String) As TEnum
++        Return CType([Enum].Parse(GetType(TEnum), text), TEnum)
++    End Function
++    Private Shared Function ParseOptionalDouble(text As String, defaultValue As Double) As Double
++        If String.IsNullOrWhiteSpace(text) Then Return defaultValue
++        Return SourceNumbers46.ParseUiDouble(text, "optional numeric value")
++    End Function
++    Private Sub PopulateEnumCombo(combo As FakeControl47, enumType As Type, defaultName As String)
++        combo.DropDownStyle = 0
++        combo.Items.Clear()
++        For Each name As String In [Enum].GetNames(enumType)
++            combo.Items.Add(name)
++        Next
++        Dim idx As Integer = combo.FindStringExact(defaultName)
++        If idx >= 0 Then
++            combo.SelectedIndex = idx
++        ElseIf combo.Items.Count > 0 Then
++            combo.SelectedIndex = 0
++        End If
++    End Sub
++    Private Sub InitializeDefaultUiValues()
++        Me.tbTolerance.Text = SourceNumbers46.FormatUiDouble(PsmSelectionDefaults.LogisticTolerance)
++        Me.tbRidgePenalty.Text = SourceNumbers46.FormatUiDouble(PsmSelectionDefaults.LogisticRidgePenalty)
++        Me.tbTrimLower.Text = SourceNumbers46.FormatUiDouble(PsmSelectionDefaults.LowerTrim)
++        Me.tbTrimUpper.Text = SourceNumbers46.FormatUiDouble(PsmSelectionDefaults.UpperTrim)
++        Me.tbLoveThreshold.Text = SourceNumbers46.FormatUiDouble(PsmSelectionDefaults.SmdThreshold)
++        Me.tbMaxIterations.Text = PsmSelectionDefaults.MaximumIterations.ToString()
++        Me.tbMatchingRatio.Text = PsmSelectionDefaults.MatchingRatio.ToString()
++        Me.tbStrata.Text = PsmSelectionDefaults.Strata.ToString()
++        Me.tbCemBins.Text = PsmSelectionDefaults.CemBins.ToString()
++        Me.tbOverlapBins.Text = PsmSelectionDefaults.OverlapBins.ToString()
++        Me.tbExtremeWeight.Text = SourceNumbers46.FormatUiDouble(PsmSelectionDefaults.ExtremeWeightCutoff)
++        Me.tbCaliper.Text = String.Empty
++
++        PopulateEnumCombo(Me.cbScoreMethod, GetType(PsmScoreMethod), PsmScoreMethod.LogisticRegression.ToString())
++        PopulateEnumCombo(Me.cbRunMethod, GetType(PsmBackendRunMethod), PsmBackendRunMethod.StandardNearestNeighbor.ToString())
++        PopulateEnumCombo(Me.cbEstimand, GetType(PsmEstimand), PsmEstimand.ATT.ToString())
++        PopulateEnumCombo(Me.cbDistanceMetric, GetType(PsmDistanceMetric), PsmDistanceMetric.PropensityScore.ToString())
++        PopulateEnumCombo(Me.cbCaliperScale, GetType(PsmCaliperScale), PsmCaliperScale.None.ToString())
++        PopulateEnumCombo(Me.cbMatchingOrder, GetType(PsmMatchingOrder), PsmMatchingOrder.PropensityDescending.ToString())
++        PopulateEnumCombo(Me.cbCommonSupport, GetType(PsmCommonSupportMode), PsmCommonSupportMode.None.ToString())
++
++        Me.chkWithReplacement.Checked = False
++        Me.chkStandardizeCovariates.Checked = True
++        Me.chkDoublyRobust.Checked = True
++        Me.chkOverlapDiagnostics.Checked = True
++        Me.chkWeightDiagnostics.Checked = True
++        Me.chkLovePlot.Checked = True
++        Me.chkWriteDiagnostics.Checked = True
++        Me.chkWriteMatches.Checked = True
++    End Sub
++    Private Sub SetOptionControlsForCurrentSelections()
++        Dim scoreMethod As PsmScoreMethod = PsmScoreMethod.LogisticRegression
++        Dim runMethod As PsmBackendRunMethod = PsmBackendRunMethod.StandardNearestNeighbor
++        Dim estimand As PsmEstimand = PsmEstimand.ATT
++        Dim caliperScale As PsmCaliperScale = PsmCaliperScale.None
++        Dim distanceMetric As PsmDistanceMetric = PsmDistanceMetric.PropensityScore
++
++        Try
++            If Me.cbScoreMethod.SelectedItem IsNot Nothing Then scoreMethod = ParseEnum(Of PsmScoreMethod)(Me.cbScoreMethod.Text)
++            If Me.cbRunMethod.SelectedItem IsNot Nothing Then runMethod = ParseEnum(Of PsmBackendRunMethod)(Me.cbRunMethod.Text)
++            If Me.cbEstimand.SelectedItem IsNot Nothing Then estimand = ParseEnum(Of PsmEstimand)(Me.cbEstimand.Text)
++            If Me.cbCaliperScale.SelectedItem IsNot Nothing Then caliperScale = ParseEnum(Of PsmCaliperScale)(Me.cbCaliperScale.Text)
++            If Me.cbDistanceMetric.SelectedItem IsNot Nothing Then distanceMetric = ParseEnum(Of PsmDistanceMetric)(Me.cbDistanceMetric.Text)
++        Catch
++        End Try
++
++        RefreshEstimandChoicesForRunMethod(runMethod)
++        Try
++            estimand = ParseEnum(Of PsmEstimand)(Me.cbEstimand.Text)
++        Catch
++            estimand = PsmEstimand.ATT
++        End Try
++
++        Dim intent As New PsmControlIntent(runMethod, estimand, scoreMethod)
++        Dim supplied As Boolean = intent.Supplied
++        Me.lbScore.Enabled = supplied
++        Me.btAddScore.Enabled = supplied
++        Me.btRemoveScore.Enabled = supplied
++        Me.lblScore.Enabled = supplied
++        'Keep the score-method, trimming, and common-support controls enabled even when
++        'the user supplies propensity scores. Only logistic-regression iteration controls
++        'are disabled, otherwise the user cannot switch back from Supplied mode.
++        Me.grpIterOptions.Enabled = True
++        Me.tbMaxIterations.Enabled = Not supplied
++        Me.lblMaxIterations.Enabled = Not supplied
++        Me.tbTolerance.Enabled = Not supplied
++        Me.lblTolerance.Enabled = Not supplied
++        Me.tbRidgePenalty.Enabled = Not supplied
++        Me.lblRidgePenalty.Enabled = Not supplied
++
++        Dim matching As Boolean = intent.Matching
++        Dim nearestNeighbor As Boolean = intent.NearestNeighbor
++        Dim optimalPair As Boolean = intent.OptimalPair
++
++        If optimalPair Then
++            Me.tbMatchingRatio.Text = "1"
++            Me.chkWithReplacement.Checked = False
++        End If
++
++        If PsmControlIntent.NeedsCaliperDefault(distanceMetric, caliperScale) Then
++            Dim idx As Integer = Me.cbCaliperScale.FindStringExact(PsmCaliperScale.StandardizedLogitPropensityScore.ToString())
++            If idx >= 0 Then
++                Me.cbCaliperScale.SelectedIndex = idx
++                caliperScale = PsmCaliperScale.StandardizedLogitPropensityScore
++            End If
++            If String.IsNullOrWhiteSpace(Me.tbCaliper.Text) Then Me.tbCaliper.Text = SourceNumbers46.FormatUiDouble(PsmSelectionDefaults.MahalanobisCaliper)
++        End If
++
++        Me.tbMatchingRatio.Enabled = nearestNeighbor
++        Me.lblMatchingRatio.Enabled = Me.tbMatchingRatio.Enabled
++        Me.chkWithReplacement.Enabled = nearestNeighbor
++        Me.cbDistanceMetric.Enabled = matching
++        Me.lblDistanceMetric.Enabled = matching
++        Me.cbMatchingOrder.Enabled = nearestNeighbor
++        Me.lblMatchingOrder.Enabled = Me.cbMatchingOrder.Enabled
++        Me.cbCaliperScale.Enabled = matching
++        Me.lblCaliperScale.Enabled = matching
++        Me.tbCaliper.Enabled = matching AndAlso caliperScale <> PsmCaliperScale.None
++        Me.lblCaliper.Enabled = Me.tbCaliper.Enabled
++        Me.tbStrata.Enabled = intent.Subclassification
++        Me.lblStrata.Enabled = Me.tbStrata.Enabled
++        Me.tbCemBins.Enabled = intent.Cem
++        Me.lblCemBins.Enabled = Me.tbCemBins.Enabled
++        Me.chkDoublyRobust.Enabled = intent.DoublyRobust
++        If Not Me.chkDoublyRobust.Enabled Then Me.chkDoublyRobust.Checked = False
++    End Sub
++    Private Sub RefreshEstimandChoicesForRunMethod(runMethod As PsmBackendRunMethod)
++        Dim current As String = If(Me.cbEstimand.SelectedItem Is Nothing, PsmEstimand.ATT.ToString(), Me.cbEstimand.Text)
++        Dim allowed As PsmEstimand() = PsmControlIntent.Estimands(runMethod)
++        Dim allowedNames As String() = allowed.Select(Function(e) e.ToString()).ToArray()
++        If Me.cbEstimand.Items.Count = allowedNames.Length Then
++            Dim same As Boolean = True
++            For i As Integer = 0 To allowedNames.Length - 1
++                If Not String.Equals(CStr(Me.cbEstimand.Items(i)), allowedNames(i), StringComparison.Ordinal) Then
++                    same = False
++                    Exit For
++                End If
++            Next
++            If same Then Return
++        End If
++
++        Me.cbEstimand.Items.Clear()
++        For Each name As String In allowedNames
++            Me.cbEstimand.Items.Add(name)
++        Next
++
++        Dim idx As Integer = Me.cbEstimand.FindStringExact(current)
++        If idx < 0 Then idx = Me.cbEstimand.FindStringExact(PsmEstimand.ATT.ToString())
++        If idx < 0 AndAlso Me.cbEstimand.Items.Count > 0 Then idx = 0
++        If idx >= 0 Then Me.cbEstimand.SelectedIndex = idx
++    End Sub
++    Private Sub OptionComboChanged(sender As Object, e As System.EventArgs)
++        SetOptionControlsForCurrentSelections()
++    End Sub
++    Private Sub BeginPsmComputation()
++        Me.btCalculate.Enabled = False
++        Me.ProgressBar1.Style = FakeProgressStyle47.Marquee
++        Me.lblProgress.Text = "Preparing propensity score matching..."
++        Me.Pump.DoEvents()
++    End Sub
++    Private Sub FinishPsmComputation(message As String)
++        Me.ProgressBar1.Style = FakeProgressStyle47.Continuous
++        Me.ProgressBar1.Value = 0
++        Me.lblProgress.Text = message
++        Me.Pump.DoEvents()
++    End Sub
++    Private Sub EndPsmComputation()
++        Try
++            Me.ProgressBar1.Style = FakeProgressStyle47.Continuous
++            Me.btCalculate.Enabled = True
++            Me.Pump.DoEvents()
++        Catch
++        End Try
++    End Sub
++End Class
++Friend Partial Class Ui21ControlChartsProjection47
++ Friend Tag As HelpTopic
++ Friend ReadOnly Pump As New FakePump47()
++ Friend ReadOnly Bridge As New FakeRegressionBridge47()
++ Friend Closes As Integer
++ Friend Sub Close()
++ Closes += 1
++ End Sub
++ Friend WithEvents lblLastPhaseIPoint As New FakeControl47()
++ Friend WithEvents rbPhaseIThenPhaseII As New FakeControl47()
++ Friend WithEvents rbSinglePhaseI As New FakeControl47()
++ Friend WithEvents spinLastPhaseIPoint As New FakeControl47()
++    Private Sub rbPhase_CheckedChanged(sender As Object, e As System.EventArgs) Handles rbSinglePhaseI.CheckedChanged, rbPhaseIThenPhaseII.CheckedChanged
++        UpdateQuickPhaseControls()
++    End Sub
++    Private Sub UpdateQuickPhaseControls()
++        spinLastPhaseIPoint.Enabled = rbPhaseIThenPhaseII.Checked
++        lblLastPhaseIPoint.Enabled = rbPhaseIThenPhaseII.Checked
++    End Sub
++    Private Shared Sub SetRoleEnabled(list As FakeControl47,
++                                      label As FakeControl47,
++                                      addButton As FakeControl47,
++                                      removeButton As FakeControl47,
++                                      enabled As Boolean)
++        If Not enabled Then
++            ' Disabled assignments are ignored by request construction. Remove
++            ' them immediately so the form cannot display stale roles from the
++            ' previously selected chart or data layout.
++            list.Items.Clear()
++        End If
++
++        list.Enabled = enabled
++        label.Enabled = enabled
++        addButton.Enabled = enabled
++        removeButton.Enabled = enabled
++    End Sub
++    Private Shared Function IsAttributeChart(chartType As SpcChartType) As Boolean
++        Return SpcRequestPreparation.IsAttributeChart(chartType)
++    End Function
++    Private Shared Function IsSubgroupChart(chartType As SpcChartType) As Boolean
++        Return SpcRequestPreparation.IsSubgroupChart(chartType)
++    End Function
++    Private Shared Function IsTimeWeightedChart(chartType As SpcChartType) As Boolean
++        Return SpcRequestPreparation.IsTimeWeightedChart(chartType)
++    End Function
++    Private Shared Function ChartCanUseSpecificationLines(chartType As SpcChartType) As Boolean
++        Return SpcRequestPreparation.ChartCanUseSpecificationLines(chartType)
++    End Function
++End Class
++Friend Partial Class Ui22MultivariateControlChartsProjection47
++ Friend Tag As HelpTopic
++ Friend ReadOnly Pump As New FakePump47()
++ Friend ReadOnly Bridge As New FakeRegressionBridge47()
++ Friend Closes As Integer
++ Friend Sub Close()
++ Closes += 1
++ End Sub
++ Friend WithEvents cbDiagnosticsScope As New FakeControl47()
++ Friend WithEvents chkWriteDiagnostics As New FakeControl47()
++ Friend WithEvents lblDiagnosticsScope As New FakeControl47()
++ Friend WithEvents rbPcaFixedComponents As New FakeControl47()
++ Friend WithEvents rbPcaVarianceSelection As New FakeControl47()
++ Friend WithEvents spinPcaComponentCount As New FakeControl47()
++ Friend WithEvents spinPcaCumulativeVariance As New FakeControl47()
++    Private Sub rbPca_CheckedChanged(sender As Object, e As System.EventArgs) Handles rbPcaVarianceSelection.CheckedChanged, rbPcaFixedComponents.CheckedChanged
++        UpdatePcaSelectionControls()
++    End Sub
++    Private Sub UpdatePcaSelectionControls()
++        spinPcaCumulativeVariance.Enabled = rbPcaVarianceSelection.Checked
++        spinPcaComponentCount.Enabled = rbPcaFixedComponents.Checked
++    End Sub
++    Private Sub chkWriteDiagnostics_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkWriteDiagnostics.CheckedChanged
++        UpdateDiagnosticsControls()
++    End Sub
++    Private Sub UpdateDiagnosticsControls()
++        cbDiagnosticsScope.Enabled = chkWriteDiagnostics.Checked
++        lblDiagnosticsScope.Enabled = chkWriteDiagnostics.Checked
++    End Sub
++    Private Shared Sub SetRoleEnabled(list As FakeControl47, label As FakeControl47,
++                                      addButton As FakeControl47, removeButton As FakeControl47,
++                                      enabled As Boolean)
++        If Not enabled Then list.Items.Clear()
++        list.Enabled = enabled
++        label.Enabled = enabled
++        addButton.Enabled = enabled
++        removeButton.Enabled = enabled
++    End Sub
++End Class
++Friend Partial Class Ui4KMandLogRankProjection47
++ Friend Tag As HelpTopic
++ Friend ReadOnly Pump As New FakePump47()
++ Friend ReadOnly Bridge As New FakeRegressionBridge47()
++ Friend Closes As Integer
++ Friend Sub Close()
++ Closes += 1
++ End Sub
++ Friend WithEvents RefEdit1_SurvivalTime As New FakeRefEdit46()
++ Friend WithEvents RefEdit2_Censor As New FakeRefEdit46()
++ Friend WithEvents RefEdit3_GroupID As New FakeRefEdit46()
++ Friend WithEvents RefEdit4_StrataID As New FakeRefEdit46()
++ Friend WithEvents RefEditOutput As New FakeRefEdit46()
++ Friend WithEvents TabMultipage As New FakeControl47()
++ Friend WithEvents optOutputRange As New FakeControl47()
++ Friend WithEvents optWorkbook As New FakeControl47()
++ Friend WithEvents optWorksheet As New FakeControl47()
++    Private Function checkInputs() As Boolean
++        Dim bOut As Boolean
++        'check input data------------------------------
++        If FakeRanges46.CheckRefEdit(Me.RefEdit1_SurvivalTime.Address, True) Then
++            Me.TabMultipage.SelectedIndex = 0
++            FakeRanges46.RefEditReset(Me.RefEdit1_SurvivalTime)
++            bOut = True
++        End If
++
++        If FakeRanges46.CheckRefEdit(Me.RefEdit2_Censor.Address, True) Then
++            Me.TabMultipage.SelectedIndex = 0
++            FakeRanges46.RefEditReset(Me.RefEdit2_Censor)
++            bOut = True
++        End If
++
++        'It's optional for KM plot
++        If (Me.Tag = HelpTopic.KaplanMeierPlot And Me.RefEdit3_GroupID.Address <> String.Empty) Or
++            Me.Tag = HelpTopic.LogrankTest Then
++            If FakeRanges46.CheckRefEdit(Me.RefEdit3_GroupID.Address, True) Then
++                Me.TabMultipage.SelectedIndex = 0
++                FakeRanges46.RefEditReset(Me.RefEdit3_GroupID)
++                bOut = True
++            End If
++        End If
++
++        'It's optional for Logrank and not applicable for KM
++        If Me.Tag = HelpTopic.LogrankTest And Me.RefEdit4_StrataID.Address <> String.Empty Then
++            If FakeRanges46.CheckRefEdit(Me.RefEdit4_StrataID.Address, True) Then
++                Me.TabMultipage.SelectedIndex = 0
++                FakeRanges46.RefEditReset(Me.RefEdit4_StrataID)
++                bOut = True
++            End If
++        End If
++
++        If Me.optOutputRange.Checked Then
++            If FakeRanges46.CheckRefEdit(Me.RefEditOutput.Address) Then
++                Me.TabMultipage.SelectedIndex = 0
++                FakeRanges46.RefEditReset(Me.RefEditOutput)
++                bOut = True
++            End If
++        End If
++
++        Return bOut
++    End Function
++    Private Sub optOutputRange_Click(sender As Object, e As System.EventArgs) Handles optOutputRange.Click
++        Me.RefEditOutput.Enabled = True
++        Me.RefEditOutput.txtAddress.Select()
++    End Sub
++    Private Sub optWorksheet_Click(sender As Object, e As System.EventArgs) Handles optWorksheet.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++    Private Sub optWorkbook_Click(sender As Object, e As System.EventArgs) Handles optWorkbook.Click
++        Me.RefEditOutput.Enabled = False
++    End Sub
++End Class
++End Namespace
+--- /dev/null
++++ b/BESHStatNG.Test/src/GuiWiring47StateTests.vb
+@@ -0,0 +1,124 @@
++Option Strict On
++Option Explicit On
++Imports System
++Imports System.Collections.Generic
++Imports System.Globalization
++Imports System.IO
++Imports System.Reflection
++Imports System.Xml.Linq
++Imports BESHStatNG.Test.Harness46
++Imports BESHStatNG.Test.Harness47
++Imports Microsoft.VisualStudio.TestTools.UnitTesting
++<TestClass, DoNotParallelize>
++Public Class GuiWiring47StateTests
++ Friend Shared Function Create(owner As String) As Object
++  Return Activator.CreateInstance(GetType(UiGLMProjection47).Assembly.GetType("BESHStatNG.Test.Harness47." & owner & "Projection47", True), True)
++ End Function
++ Friend Shared Function Control(form As Object, name As String) As FakeControl47
++  Dim flags = BindingFlags.Instance Or BindingFlags.NonPublic Or BindingFlags.Public
++  Dim p = form.GetType().GetProperty(name, flags)
++  Return DirectCast(If(p Is Nothing, form.GetType().GetField(name, flags).GetValue(form), p.GetValue(form)), FakeControl47)
++ End Function
++ Friend Shared Function Invoke(form As Object, name As String, ParamArray values() As Object) As Object
++  Return form.GetType().GetMethod(name, BindingFlags.Instance Or BindingFlags.Static Or BindingFlags.NonPublic Or BindingFlags.Public).Invoke(form, values)
++ End Function
++ Public Shared Iterator Function Bindings() As IEnumerable(Of Object())
++  For Each e In XDocument.Load(Path.Combine(Environment.GetEnvironmentVariable("BESHSTAT_04A02_SOURCE_ROOT"), "evidence/04A47/fixtures/bindings-a-v1.xml")).Root.Elements()
++   Yield New Object() {CStr(e.Attribute("owner")), CStr(e.Attribute("handler")), CStr(e.Attribute("control")), CStr(e.Attribute("event"))}
++  Next
++ End Function
++ <DataTestMethod, DynamicData(NameOf(Bindings), DynamicDataSourceType.Method)>
++ Public Sub SourceHandlesAndDynamicSubscriptionsActuallyDeliver(owner As String, handler As String, source As String, eventName As String)
++  Dim form = Create(owner) : FakeEvents46.Delivered.Clear()
++  Control(form, source).RaiseNamed(eventName)
++  CollectionAssert.Contains(FakeEvents46.Delivered, owner & "Projection47." & handler)
++ End Sub
++ <DataTestMethod>
++ <DataRow("UiGLM", "Gaussian")> <DataRow("UiGLM", "Binomial")> <DataRow("UiGLM", "Poisson")> <DataRow("UiGLM", "Gamma")> <DataRow("UiGLM", "unknown")>
++ <DataRow("Ui13GEE", "Gaussian")> <DataRow("Ui13GEE", "Binomial")> <DataRow("Ui13GEE", "Poisson")> <DataRow("Ui13GEE", "Gamma")> <DataRow("Ui13GEE", "unknown")>
++ Public Sub FamilyLinkAndClassificationEventsPreserveReversibleState(owner As String, family As String)
++  Dim form = Create(owner), tag = form.GetType().GetField("Tag", BindingFlags.Instance Or BindingFlags.NonPublic)
++  tag.SetValue(form, If(owner = "UiGLM", HelpTopic.GeneralizedLinearModelsGLM, HelpTopic.GeneralizedEstimatingEquationsGEE))
++  Control(form, "cbFamily").SelectedItem = family : Control(form, "cbLink").SelectedIndex = -1
++  Control(form, "cbFamily").RaiseNamed("SelectedIndexChanged")
++  Assert.AreEqual(family = "Binomial", Control(form, "cbPerformClasification").Enabled)
++  If family = "unknown" Then
++   Assert.AreEqual(0, Control(form, "cbLink").Items.Count)
++  Else
++   Assert.IsTrue(Control(form, "cbLink").Items.Count > 0)
++  End If
++  For Each state In {True, False, True}
++   Control(form, "cbOutputCalibrationTable").Checked = state
++   Assert.AreEqual(state AndAlso family = "Binomial", Control(form, "spinBtnCallibrationBinsN").Enabled)
++   Control(form, "cbPerformClasification").Checked = state
++   Assert.AreEqual(state AndAlso family = "Binomial", Control(form, "grpClassification").Enabled)
++  Next
++  Control(form, "cbLink").SelectedItem = "Power" : Control(form, "cbLink").RaiseNamed("SelectedIndexChanged")
++  Assert.IsTrue(Control(form, "tbPower").Enabled)
++  Control(form, "cbLink").SelectedItem = "Log" : Control(form, "cbLink").RaiseNamed("SelectedIndexChanged")
++  Assert.IsFalse(Control(form, "tbPower").Enabled)
++ End Sub
++ <DataTestMethod> <DataRow("UiGLM", "")> <DataRow("UiGLM", "en-US")> <DataRow("UiGLM", "sk-SK")> <DataRow("Ui13GEE", "")> <DataRow("Ui13GEE", "en-US")> <DataRow("Ui13GEE", "sk-SK")>
++ Public Sub ThresholdDefaultDomainAndLegacyNanRemainAsShipped(owner As String, culture As String)
++  Dim saved = CultureInfo.CurrentCulture, form = Create(owner)
++  Try
++   CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(culture) : SourceNumbers46.HostCulture = CultureInfo.CurrentCulture
++   Assert.AreEqual(0.5, CDbl(Invoke(form, "GetClassificationThresholdUiValue")))
++   For Each v In {0.0, 1.0, 0.25}
++    Control(form, "tbClassificationTreshold").Text = v.ToString(CultureInfo.CurrentCulture)
++    Assert.AreEqual(v, CDbl(Invoke(form, "GetClassificationThresholdUiValue")))
++   Next
++   Control(form, "tbClassificationTreshold").Text = "NaN"
++   Assert.IsTrue(Double.IsNaN(CDbl(Invoke(form, "GetClassificationThresholdUiValue"))))
++   For Each invalid In {"bad", "-1", "2"}
++    Control(form, "tbClassificationTreshold").Text = invalid
++    Dim ex = Assert.ThrowsException(Of TargetInvocationException)(Sub() Invoke(form, "GetClassificationThresholdUiValue"))
++    Assert.IsInstanceOfType(ex.InnerException, GetType(FormatException))
++   Next
++  Finally
++   CultureInfo.CurrentCulture = saved : SourceNumbers46.HostCulture = CultureInfo.InvariantCulture
++  End Try
++ End Sub
++ <DataTestMethod> <DataRow(False)> <DataRow(True)>
++ Public Sub MixedReferenceGridContrastAndBaselineStatesReverse(means As Boolean)
++  Dim f As New Ui18MMRMProjection47
++  f.cbMMRMGroupingFactor.SelectedItem = "treatment" : f.cbMMRMLSMeansMode.SelectedItem = "Reference grid"
++  f.ckMMRMEstimatedMeans.Checked = means : f.ckMMRMChangeFromBaseline.Checked = True
++  f.cbMMRMContrastMode.SelectedItem = "Selected comparison only" : f.cbMMRMContrastMode.RaiseNamed("SelectedIndexChanged")
++  Assert.AreEqual(means, f.cbMMRMComparisonLevel.Enabled) : Assert.AreEqual(means, f.cbMMRMBaselineVisit.Enabled)
++  Assert.AreEqual(means, f.cbMMRMRefGridWeighting.Enabled) : Assert.AreEqual(means, f.cbMMRMMultiplicity.Enabled)
++  f.cbMMRMGroupingFactor.SelectedItem = "(None)" : f.cbMMRMGroupingFactor.RaiseNamed("SelectedIndexChanged")
++  Assert.IsFalse(f.cbMMRMComparisonLevel.Enabled) : Assert.IsFalse(f.cbMMRMMultiplicity.Enabled)
++  f.cbMMRMGroupingFactor.SelectedItem = "treatment" : f.cbMMRMContrastMode.SelectedItem = "None" : f.cbMMRMContrastMode.RaiseNamed("SelectedIndexChanged")
++  Assert.IsFalse(f.cbMMRMControlLevel.Enabled) : Assert.IsFalse(f.ckMMRMDiffInChange.Enabled)
++  f.ckMMRMEstimatedMeans.Checked = Not means : Assert.AreEqual(Not means, f.cbMMRMLSMeansMode.Enabled)
++ End Sub
++ <DataTestMethod> <DataRow("CS")> <DataRow("AR(1)")> <DataRow("unknown")>
++ Public Sub LmmCovarianceAuthoringControlsPreserveShippingAvailability(covariance As String)
++  Dim f As New Ui19LMMProjection47
++  f.btnRandom2Interactions.Enabled = False : f.cbCovarStruct.SelectedItem = covariance
++  f.cbCovarStruct.RaiseNamed("SelectedIndexChanged")
++  Assert.IsTrue(f.btnRandom2Interactions.Enabled) : Assert.IsTrue(f.spinBtnRandomPoly.Enabled)
++  Dim control As New regression.MixedModelControl
++  Invoke(f, "ApplyLMMCovarianceOptimizerSelections", control)
++  Assert.IsNotNull(control)
++ End Sub
++ <DataTestMethod> <DataRow(0)> <DataRow(1)> <DataRow(2)> <DataRow(3)>
++ Public Sub MultivariateOptionBindingsAndReversalsUseActualChoicePolicies(index As Integer)
++  Dim f As New Ui11PCAProjection47 With {.Tag = HelpTopic.DiscriminantAnalysis}
++  f.cbFARotation.SelectedIndex = index
++  Dim rotation = CType(Invoke(f, "GetSelectedFARotationMethod"), Multivariate.FactorAnalysisRotationMethod)
++  Assert.AreEqual(rotation <> Multivariate.FactorAnalysisRotationMethod.None, f.ckFAKaiserNormalization.Enabled)
++  Assert.AreEqual(rotation = Multivariate.FactorAnalysisRotationMethod.Promax, f.nudFAPromaxPower.Enabled)
++  f.optFAExtractEigen.Checked = True : Assert.IsTrue(f.nudFAEigen.Enabled)
++  f.optFAExtractEigen.Checked = False : Assert.IsFalse(f.nudFAEigen.Enabled)
++  f.optHierarchicalCutByClusters.Checked = True : Assert.IsTrue(f.nudHierarchicalClusters.Enabled) : Assert.IsFalse(f.tbHierarchicalCutHeight.Enabled)
++  f.optHierarchicalCutByClusters.Checked = False : Assert.IsFalse(f.nudHierarchicalClusters.Enabled) : Assert.IsTrue(f.tbHierarchicalCutHeight.Enabled)
++  f.cbDAPriors.SelectedItem = "User specified" : f.cbDAPriors.RaiseNamed("SelectedIndexChanged")
++  Dim prior = CType(Invoke(f, "GetSelectedDiscriminantPriorMode"), Multivariate.DiscriminantPriorMode)
++  Assert.AreEqual(prior = Multivariate.DiscriminantPriorMode.UserSpecified, f.tbDAUserPriors.Enabled)
++  f.cbDAValidation.SelectedItem = "K-fold" : f.cbDAValidation.RaiseNamed("SelectedIndexChanged")
++  Dim mode = CType(Invoke(f, "GetSelectedDiscriminantValidationMode"), Multivariate.DiscriminantValidationMode)
++  Assert.AreEqual(mode = Multivariate.DiscriminantValidationMode.KFold, f.nudDAFolds.Enabled)
++ End Sub
++End Class

@@ -1,0 +1,55 @@
+{
+  "classification": "FRESH_FOCUSED_NOT_FULL",
+  "raw": {
+    "path": ".test-rationalization-04A47-recovery-v2.tmp/focused-v1/raw-result.json",
+    "bytes": 2739,
+    "sha256": "36f4ccc2141115a04af814cb17a1c82d88c40bd7c6ef5f122bfd468db87f62fe"
+  },
+  "parents": [
+    {
+      "id": "test_04a23_multivariate_spc.Spc23Contracts.test_comparison_payloads_have_real_six_chart_results_and_explicit_rejections",
+      "source": {
+        "path": "scripts/tests/test_04a23_multivariate_spc.py",
+        "bytes": 13644,
+        "sha256": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8"
+      },
+      "accepted46": "PASS",
+      "v1": "ERROR",
+      "v2": "PASS",
+      "runtime_seconds": 1.5483252999838442,
+      "events": []
+    },
+    {
+      "id": "test_04a24_multivariate_payload.MultivariatePayload24.test_frozen_evidence_authority_hashes_and_unchanged_metadata",
+      "source": {
+        "path": "scripts/tests/test_04a24_multivariate_payload.py",
+        "bytes": 14011,
+        "sha256": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461"
+      },
+      "accepted46": "FAIL",
+      "v1": "ERROR",
+      "v2": "FAIL",
+      "runtime_seconds": 9.790878800034989,
+      "events": [
+        {
+          "outcome": "FAIL",
+          "exception_class": "AssertionError",
+          "message_sha256": "96afb371b5be78b8bfa65ad1898093e0b6c4b9de9a4ff1d29ce6b111d5fd5917",
+          "traceback_sha256": "bec43dcac9484c1795ce2817dc97753a2c5b46538c59392baff6f8d5228907ea"
+        }
+      ]
+    }
+  ],
+  "accepted46_message_exact": true,
+  "old_errors_retained": true,
+  "input": {
+    "path": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+    "bytes": 57758738,
+    "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643"
+  },
+  "interpreter": {
+    "version": "3.14.7",
+    "bytes": 91648,
+    "sha256": "6bf492976e3a0cbb10695171d7f11897c4935ba93bc078b3bc3be52861d78ecc"
+  }
+}

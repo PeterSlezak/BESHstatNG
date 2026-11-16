@@ -1,0 +1,168 @@
+{
+  "rows": [
+    {
+      "source": {
+        "path": "evidence/04A46/managed-final-v1.py",
+        "bytes": 2542,
+        "sha256": "75c969bea3fa6d91e90fde508bb8d479a0fe7370676a4da61236943236110b15"
+      },
+      "driver": {
+        "path": "evidence/04A47/managed-final-v1.py",
+        "bytes": 2760,
+        "sha256": "03044fcaf25869c3645d2fa3cd095d35a304624823c938dc553e70026e3628e1"
+      },
+      "edits": [
+        [
+          "common46",
+          "common47"
+        ],
+        [
+          "a46-",
+          "a47-"
+        ],
+        [
+          "['GuiWiring46'",
+          "['GuiWiring47','GuiWiring46','Regression09','Regression10','Regression11','Gee12','Mixed14','Mixed15','Mixed16','Multivariate17','Multivariate18','Multivariate19','Multivariate20','Spc21','Spc22','Spc23','Spc24','Psm25','Survival13'"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A46/reconcile-managed-v1.py",
+        "bytes": 3761,
+        "sha256": "ae85786c57e048be35adec17aab65130dca245109f31c51327700365087cfe06"
+      },
+      "driver": {
+        "path": "evidence/04A47/reconcile-managed-v1.py",
+        "bytes": 3761,
+        "sha256": "58728236db93f923baf64a47b32539e277dc2a5b807a5a407f673600c55f6aaa"
+      },
+      "edits": [
+        [
+          "common46",
+          "common47"
+        ],
+        [
+          "evidence/04A45/build-and-tests/Debug-identities-v1.json",
+          "evidence/04A46/build-and-tests/Debug-identities-v1.json"
+        ],
+        [
+          "ADDED46",
+          "ADDED47"
+        ],
+        [
+          "['GuiWiring46StateTests','GuiWiring46ExecutionTests','GuiWiring46PolicyTests']",
+          "['GuiWiring47StateTests','GuiWiring47LongrunTests','GuiWiring47ContractTests']"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A46/compiled-and-fixtures-v1.py",
+        "bytes": 6161,
+        "sha256": "ca36af4a0265d12909242cb65bd0888508d4ff6c176b7bbf5e5c4a3ed09ac251"
+      },
+      "driver": {
+        "path": "evidence/04A47/compiled-and-fixtures-v1.py",
+        "bytes": 6161,
+        "sha256": "907e5ff5d92afc531a94250b4166468724b1b1de3ee0dbce6289bc726ee73f40"
+      },
+      "scope": "Same disjoint accepted46 verification recipe;new versioned47 output roots;original assertions/test sources unchanged."
+    },
+    {
+      "source": {
+        "path": "evidence/04A46/compatibility-v1.py",
+        "bytes": 3979,
+        "sha256": "9178fff1b531165614f85393dc31ce6a0f255fe27146bb25755920202394d0c7"
+      },
+      "driver": {
+        "path": "evidence/04A47/compatibility-v1.py",
+        "bytes": 3979,
+        "sha256": "b9afc37bdf1facd6ca3e7fee779a05a0c21df556f35490bf58c8748b41ed04ec"
+      },
+      "scope": "Same disjoint accepted46 verification recipe;new versioned47 output roots;original assertions/test sources unchanged."
+    },
+    {
+      "source": {
+        "path": "evidence/04A46/cumulative-v1.py",
+        "bytes": 2652,
+        "sha256": "18e9105068f814ceac986e08018ae8d5ad8702410451c6cbce379e2e22cfd4f4"
+      },
+      "driver": {
+        "path": "evidence/04A47/cumulative-v1.py",
+        "bytes": 2652,
+        "sha256": "cbe10e67badca7cd7e33a55aeeb2b709a0c25908c705813b0a5dfbd0d25977e4"
+      },
+      "scope": "Same disjoint accepted46 verification recipe;new versioned47 output roots;original assertions/test sources unchanged."
+    },
+    {
+      "source": {
+        "path": "evidence/04A46/progress-stub-v1.py",
+        "bytes": 4914,
+        "sha256": "81ba2c9ac52b2b60f39c7efb753b24b9782be45dbb53b32066a2062a4ddde81f"
+      },
+      "driver": {
+        "path": "evidence/04A47/progress-stub-v1.py",
+        "bytes": 4914,
+        "sha256": "ff5ab4e4442d55d287805343e0738abd0abdf1c5cce4dbf84ad1e5f2dec86677"
+      },
+      "scope": "Same disjoint accepted46 verification recipe;new versioned47 output roots;original assertions/test sources unchanged."
+    },
+    {
+      "source": {
+        "path": "evidence/04A46/serial-checks-v1.py",
+        "bytes": 1067,
+        "sha256": "ea34685b3db5c3abed9170d725fda33184363704dd2ba22afda93fca9bf2da25"
+      },
+      "driver": {
+        "path": "evidence/04A47/serial-checks-v1.py",
+        "bytes": 1067,
+        "sha256": "236fb9240470a6f14110ea84ead04ab89ed3a75ef85f03da1df5ca262fdaa002"
+      },
+      "scope": "Same disjoint accepted46 verification recipe;new versioned47 output roots;original assertions/test sources unchanged."
+    },
+    {
+      "source": {
+        "path": "evidence/04A46/resource-boundary-v1.py",
+        "bytes": 1647,
+        "sha256": "e961f1516c851c51ca6931d6d045222e030d497045749414c1b252bed7cbab05"
+      },
+      "driver": {
+        "path": "evidence/04A47/resource-boundary-v1.py",
+        "bytes": 1647,
+        "sha256": "1bfbfb582253074791c56435024206796dcb4bd10d30f204bd5bfd4d7b128bc6"
+      },
+      "scope": "Same disjoint accepted46 verification recipe;new versioned47 output roots;original assertions/test sources unchanged."
+    },
+    {
+      "source": {
+        "path": "evidence/04A46/abi-ui-v1.py",
+        "bytes": 1873,
+        "sha256": "1e76d1515cf499147c14df3776964778d26b1308b8f869597e0cbbe9bdf86ea8"
+      },
+      "driver": {
+        "path": "evidence/04A47/abi-ui-v1.py",
+        "bytes": 1873,
+        "sha256": "b3e9d884f6a12c644a2218060ab99d83e3b7627f7f8dee680826c3e3a4d3cc84"
+      },
+      "scope": "Same disjoint accepted46 verification recipe;new versioned47 output roots;original assertions/test sources unchanged."
+    },
+    {
+      "source": {
+        "path": "evidence/04A46/release-disposition-v1.py",
+        "bytes": 1313,
+        "sha256": "54deed849dec9ed7befb7b759d37ab8de783a894e6ee3856accb37a51005bb49"
+      },
+      "driver": {
+        "path": "evidence/04A47/release-disposition-v1.py",
+        "bytes": 1313,
+        "sha256": "30862f948a0838d3f87cc64a1edb5cbc20a28c1aa951d7e6224634a69854cbf2"
+      },
+      "scope": "Same disjoint accepted46 verification recipe;new versioned47 output roots;original assertions/test sources unchanged."
+    }
+  ],
+  "old_test_sources_modified": false,
+  "full_Release": "NOT_RUN",
+  "Node": "INHERITED_916_PASS;NOT_RERUN",
+  "native": "NOT_RUN"
+}

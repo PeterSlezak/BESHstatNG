@@ -1,0 +1,113 @@
+{
+  "files": [
+    {
+      "before": {
+        "path": ".test-rationalization-04A47.tmp/python-tools-v1/common.py",
+        "bytes": 2154,
+        "sha256": "438965c948454bc07a7887a7fbae847aae7bd4ec57b5b586a9fa243a47333af3"
+      },
+      "after": {
+        "path": ".test-rationalization-04A47-recovery-v2.tmp/python-tools-v1/common.py",
+        "bytes": 2184,
+        "sha256": "00957b939c38e1d6ff5b5988221d944b8543f753eb37bd99498babb14ad47abe"
+      },
+      "path_only_edits": [
+        {
+          "before": ".test-rationalization-04A47.tmp/python-private-v1",
+          "after": ".test-rationalization-04A47-recovery-v2.tmp/python-private-v1",
+          "count": 1
+        },
+        {
+          "before": "m.Runner(ROOT/'.test-rationalization-04A47.tmp')",
+          "after": "m.Runner(ROOT/'.test-rationalization-04A47-recovery-v2.tmp')",
+          "count": 1
+        },
+        {
+          "before": "a47pyv1-",
+          "after": "a47recoveryv2-",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A47.tmp/python-tools-v1/python_workers_v4.py",
+        "bytes": 17916,
+        "sha256": "004d81d552d8a673bbb0d22a780fd81486260bfd1b61754371fbc39a4323fd58"
+      },
+      "after": {
+        "path": ".test-rationalization-04A47-recovery-v2.tmp/python-tools-v1/python_workers_v4.py",
+        "bytes": 17928,
+        "sha256": "5fd8111f361f4ce570c4f03ddd463f1efd7598e690f33625006ac575b658ed04"
+      },
+      "path_only_edits": [
+        {
+          "before": ".test-rationalization-04A47.tmp/python-private-v1",
+          "after": ".test-rationalization-04A47-recovery-v2.tmp/python-private-v1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A47.tmp/python-tools-v1/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "after": {
+        "path": ".test-rationalization-04A47-recovery-v2.tmp/python-tools-v1/retained_scan_cache_v17_v1.py",
+        "bytes": 5075,
+        "sha256": "805bb553b515ec1bb9b32dc6d9346307c4ede8dd3a090c73814b4119758e29d6"
+      },
+      "path_only_edits": []
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A47.tmp/python-tools-v1/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "after": {
+        "path": ".test-rationalization-04A47-recovery-v2.tmp/python-tools-v1/scanner_retained_preflight_v2.py",
+        "bytes": 1465,
+        "sha256": "dcced3a3a54315c1a8682d41d8dd9cb495da9ea48f9397155594e6334639d5ab"
+      },
+      "path_only_edits": []
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A47.tmp/python-tools-v1/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "after": {
+        "path": ".test-rationalization-04A47-recovery-v2.tmp/python-tools-v1/scanner_cache_controls_v2.py",
+        "bytes": 2193,
+        "sha256": "a4534fed71772acb0bbe2f02c6ea02625f9e9f06a3567eccdde85f66109f4691"
+      },
+      "path_only_edits": []
+    },
+    {
+      "before": {
+        "path": ".test-rationalization-04A47.tmp/python-tools-v1/implementation-plan-v2.json",
+        "bytes": 5144,
+        "sha256": "e5246574f715ea7a0f059ad33ec40e82ff487902ace80d73c88ba8a295991e74"
+      },
+      "after": {
+        "path": ".test-rationalization-04A47-recovery-v2.tmp/python-tools-v1/implementation-plan-v2.json",
+        "bytes": 5144,
+        "sha256": "e5246574f715ea7a0f059ad33ec40e82ff487902ace80d73c88ba8a295991e74"
+      },
+      "path_only_edits": []
+    }
+  ],
+  "test_source_edits": 0,
+  "assertion_edits": 0,
+  "max_workers": 3,
+  "semantic_observer_input": "UNCHANGED_SEALED_04A47",
+  "interpreter": {
+    "version": "3.14.7",
+    "bytes": 91648,
+    "sha256": "6bf492976e3a0cbb10695171d7f11897c4935ba93bc078b3bc3be52861d78ecc"
+  }
+}

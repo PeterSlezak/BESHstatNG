@@ -1,0 +1,7 @@
+from pathlib import Path
+root=Path(__file__).resolve().parents[2];here=Path(__file__).parent
+s=(root/'evidence/04A46/common46.py').read_text().replace('04A.46','04A.47').replace('04A46','04A47').replace('04A-46','04A-47').replace("MAIN='ebc4a3e9df41ef8588aa7f6b25363f6d044c41a7'","MAIN='8a8d4ee21f41f1a53072308d4a01faa0b20fdd5a'").replace("PRIOR='350ffbc0924b09199249316a3ee2f31bc3dd98e8'","PRIOR='ebc4a3e9df41ef8588aa7f6b25363f6d044c41a7'").replace('04A47_NOT_AUTHORIZED','04A48_NOT_AUTHORIZED').replace("'a46-'","'a47-'")
+with (here/'common47.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)
+with (here/'run47.py').open('x',encoding='utf-8',newline='\n') as f:f.write((root/'evidence/04A46/run46.py').read_text().replace('04A46','04A47'))
+s=(root/'evidence/04A46/authenticate-v1.py').read_text().replace('common46','common47').replace('codex/04A-46','codex/04A-47').replace('04A45','04A46').replace('accepted45','accepted46').replace('sealed45','sealed46').replace('merged45','merged46').replace('ACCEPTED45','ACCEPTED46').replace('CURRENT_MAIN_PRE_EDIT_04A46','CURRENT_MAIN_PRE_EDIT_04A47').replace('entry_runner46','entry_runner47').replace("living_revision='2.22'","living_revision='2.23'").replace('46df6a9ed9d498555a3588de7625f0a1f70bc5fc5186bfe1329547b8eca893ed','cbac245447da540bfbd905ac123d40710b12a02af7a99351ce122de549d93ec1').replace('04A46.tmp/publication/','04A46.tmp/publication-v1/')
+with (here/'authenticate-v1.py').open('x',encoding='utf-8',newline='\n') as f:f.write(s)

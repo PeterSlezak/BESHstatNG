@@ -1,0 +1,163 @@
+{
+  "classification": "NO_PRODUCT_OR_ORIGINAL_TEST_EDITS;NEW_RECOVERY_EVIDENCE_ONLY",
+  "source_freeze": {
+    "path": "evidence/04A47/matrix/source-freeze-v1.json",
+    "bytes": 178320,
+    "sha256": "dc4a8be8aaf35bf2e3a382f9306ca7fd0e03e9437d6e7f26eca80156dd9af572"
+  },
+  "source_pins_exact": true,
+  "original_six_sources": [
+    {
+      "path": "BESHStatNG.Test/src/GuiWiring47ContractTests.vb",
+      "bytes": 10366,
+      "sha256": "80059a658bf65453ba03bb45904a30ab887a05f5bb37a319e0247c2e8b074b3c"
+    },
+    {
+      "path": "BESHStatNG.Test/src/GuiWiring47Fakes.vb",
+      "bytes": 2966,
+      "sha256": "96212423cf236859e7cf5d42750b536b25ba58e7632c8b8d4b263fb15912f8df"
+    },
+    {
+      "path": "BESHStatNG.Test/src/GuiWiring47LongrunTests.vb",
+      "bytes": 11494,
+      "sha256": "6958edf6774a5a12435a75026dcbef0a4d56b9b286c44ab1968135b1d6733358"
+    },
+    {
+      "path": "BESHStatNG.Test/src/GuiWiring47ProjectionA.vb",
+      "bytes": 35795,
+      "sha256": "d84243279516b293d2938ba411bfbe4ef169c7cba8bb71ac4b446efc74f96b62"
+    },
+    {
+      "path": "BESHStatNG.Test/src/GuiWiring47ProjectionB.vb",
+      "bytes": 33961,
+      "sha256": "98b59333e02848285cbc94f11899b3e88763a10a4e9a80331ccc1239dbfb765c"
+    },
+    {
+      "path": "BESHStatNG.Test/src/GuiWiring47StateTests.vb",
+      "bytes": 8721,
+      "sha256": "b92d03eeb77aad9086d8897bfadda4e8facee27ffe076b95f8c039e909e90b2c"
+    }
+  ],
+  "project": {
+    "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+    "bytes": 36233,
+    "sha256": "0f2123736a7c715b559317bb917412490c1ee527d14fb2c9c2e9f47a0203a056"
+  },
+  "plan_snapshot": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan2.24.md",
+    "bytes": 92758,
+    "sha256": "aecb2e399c3dc324a11da7bd99f5e3042633edfc4eb089c18d23818716dd531c"
+  },
+  "plan_successor": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "bytes": 93705,
+    "sha256": "6123003efec617265f2ca60f06ea89387b3b0661273ed93554ce185a213f86a8"
+  },
+  "plan_original_bytes_prefix_exact": true,
+  "original_roadmap_ids": 226,
+  "ignore": {
+    "path": ".gitignore",
+    "bytes": 4898,
+    "sha256": "95b233c640d30104d3ea71bad0fdb09ba7a7d4a8e7dcef34e8cc370a0e29346d"
+  },
+  "owner_ignore_approval": {
+    "owner_statement": ".gitignore was modified on purpose and is approved. Please continue.",
+    "date": "2026-11-16",
+    "current": {
+      "path": ".gitignore",
+      "bytes": 4898,
+      "sha256": "95b233c640d30104d3ea71bad0fdb09ba7a7d4a8e7dcef34e8cc370a0e29346d"
+    },
+    "historical_rule_present": true,
+    "full_original_candidate_scans_must_include_payload": true,
+    "public_zip_must_exclude_payload": true
+  },
+  "interpreter": {
+    "version": "3.14.7",
+    "bytes": 91648,
+    "sha256": "6bf492976e3a0cbb10695171d7f11897c4935ba93bc078b3bc3be52861d78ecc"
+  },
+  "discovery": {
+    "path": "evidence/04A47/recovery-v2/discovery-v1.json",
+    "bytes": 7153,
+    "sha256": "e5e42522cc5bcd9d799152254b4088cfbc1a7d57c8b4eda8bafc21d78e611077"
+  },
+  "runner_path_only_provenance": {
+    "path": "evidence/04A47/recovery-v2/runner-path-transitions-v1.json",
+    "bytes": 4053,
+    "sha256": "874687cbde09b01090abead0829ed22ec970346d46a54a692ec8a92a8555e09d"
+  },
+  "commands": [
+    {
+      "alias": "AUTHENTICATE_EXISTING_BYTES",
+      "script": "recovery.py auth",
+      "exit_code": 0
+    },
+    {
+      "alias": "FOCUSED_TWO_UNCHANGED_PARENTS",
+      "script": "recovery.py focused",
+      "driver_exit": 0,
+      "unittest_exit": 1,
+      "outcomes": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    {
+      "alias": "ISOLATED_DISCOVERY_AND_RETAINED_CONTROLS",
+      "script": "campaign.py prepare",
+      "exit_code": 0
+    },
+    {
+      "alias": "ONE_FRESH_956_PARENT_CAMPAIGN",
+      "script": "campaign.py execute",
+      "driver_exit": 0,
+      "worker_unittest_exits": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        1
+      ],
+      "postcheck": {
+        "path": ".test-rationalization-04A47-recovery-v2.tmp/python-input-postcheck-v2.json",
+        "bytes": 1424,
+        "sha256": "92d893d87291fd9bacdd76fc494869b431fc5ac5eae3c9b8840c9973c497ffba"
+      },
+      "parent_outcomes": {
+        "PASS": 833,
+        "ERROR": 11,
+        "FAIL": 112
+      }
+    }
+  ],
+  "safe_reproduction": "Use the authenticated existing Python3.14.7 interpreter with -I -B from repository root. Prepare NEW versioned output paths first; listed commands are completed-run aliases, not permission to overwrite exclusive output directories.",
+  "managed_builds": "NOT_RERUN",
+  "Node": "NOT_RERUN",
+  "failed_attempts_retained": {
+    "preapproval_ignore_stop": {
+      "path": "evidence/04A47/recovery-v2/authentication-blocker-v1.json",
+      "bytes": 3292,
+      "sha256": "91e4f878468ea3357f5b319d2c8e0958edc08cdf066a81c4916bc5103238f009"
+    },
+    "isolated_driver_bootstrap": "Initial helper import required explicit module path under -I;driver only corrected before full execution;no test source or assertion changed",
+    "first_diagnostic_review": {
+      "path": "evidence/04A47/recovery-v2/python-reconciliation-v1.json",
+      "bytes": 648741,
+      "sha256": "56a6044ba743c3222600fffca30134301084da11c58df78c25b0a5ec91950063"
+    },
+    "full_campaigns": 1
+  },
+  "native": "NOT_RUN",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A48_NOT_AUTHORIZED"
+  }
+}
