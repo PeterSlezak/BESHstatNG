@@ -1,0 +1,885 @@
+{
+  "status": "ALL15_CHANGED_DIAGNOSTICS_EXACTLY_ACCOUNTED_NO_PARENT_TRANSITIONS",
+  "rows": [
+    {
+      "stable_event_id": "2698353e8a7efbaef1dd6bbcd2b342247dcc9a3873102e087c916b38b83e2f79",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "a7383bccbb3ea8bfc8aa84036f44d1e3c186fed1e8fc9b40914ef3c2ec3e2108",
+        "traceback_sha256": "ffee7e202c93838dc575dbe2deb99638739287398074659c92cf670e7d72d23f"
+      },
+      "current": {
+        "message_sha256": "9cad59f8733289dae3d06c900d4e4adcc6df2337a4d5f8f8c137251b34aba380",
+        "traceback_sha256": "f6e100fd5e65e5a2bb1dcb5e67f3718a122d74b5a0e2773a590c0bac8aa27aa4"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "ACTUAL_BRANCH_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "codex/04A-13",
+          "codex/04A-44"
+        ],
+        "current_arguments": [
+          "codex/04A-13",
+          "codex/04A-45"
+        ],
+        "unchanged_expected_argument": "codex/04A-13",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a13_survival_workflow.py",
+          "bytes": 10622,
+          "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+        },
+        "method": "test_local_main_ancestry_empty_index_and_dedicated_branch",
+        "lines": [
+          [
+            25,
+            30
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "a13a5c5d0034e25af745c7e99ea75adc13a479fef3568146122583e3a7b72805",
+      "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_successor_pins_and_members_reconcile_to_actual_forms",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "793950100aa621e94a412365d2cca826bf1f2c76e1f89b7962709d426bd63361",
+        "traceback_sha256": "f4be26ffa13b581ddf084733374b75353c39b42913a2e608a42601dcccd1a3c6"
+      },
+      "current": {
+        "message_sha256": "32da584e4e7760dec50f583f332084c45ed5a9713a06448a649e2a349495f282",
+        "traceback_sha256": "83c69d20d2004eac4d6a53fd5db394033461c458694b4e4117a846b764758a3b"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED",
+      "proof": {
+        "transitions": [
+          {
+            "before": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "sha256": "2de10d631cf424530ffed05331821f411575b2f5e81dec0789bf7e8438b192c5"
+            },
+            "after": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "bytes": 35455,
+              "sha256": "c10161ce79702e1b4221cffc6f6b7e6d5df0348f1b0e5861d3b8683ded8635be"
+            }
+          }
+        ],
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a13_survival_workflow.py",
+          "bytes": 10622,
+          "sha256": "674013087bc6744c98e36b7fbf1b30898ac04e35c05d97bcd7d3642a03e98d60"
+        },
+        "method": "test_successor_pins_and_members_reconcile_to_actual_forms",
+        "lines": [
+          [
+            38,
+            47
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "c5686c255b33624341a1ca1f4fd57c26ab5c8bdb0f7a4470136d5612a17f12c6",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "41a8eaee708ad82ec51128e43f1a4f7a59593c35d42d341ff004bf3b955d63b0",
+        "traceback_sha256": "41bb461e04034b1dd709401b373e2ce3dcb836939d1fe62e66714dc2e5f9fd58"
+      },
+      "current": {
+        "message_sha256": "922533eabe22af2dc0e4996bb7ad59341da124aaedede4fd829965a37cb2a9c4",
+        "traceback_sha256": "f03db924ab27b49fbe027a9198754240eabc7c47ba31157b4637caff3551b3ba"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "ACTUAL_BRANCH_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "codex/04A-14",
+          "codex/04A-44"
+        ],
+        "current_arguments": [
+          "codex/04A-14",
+          "codex/04A-45"
+        ],
+        "unchanged_expected_argument": "codex/04A-14",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a14_mixed_workflow.py",
+          "bytes": 14339,
+          "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+        },
+        "method": "test_branch_base_ancestry_and_empty_index",
+        "lines": [
+          [
+            21,
+            26
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "9baf9971f280f2ab461f92c7e8a02f5b7b2904188bdea93bce269d6acecea714",
+      "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_original_members_and_successor_pins_are_reconcilable",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "2e8a207ef4989d38e5ac4ce06319ddd0eafaa583d20d03436e9bd5911656382f",
+        "traceback_sha256": "1060c17b8c29c3d70471315b86da3dc505d4a10c0b54e666b1bd570e2205059e"
+      },
+      "current": {
+        "message_sha256": "265ca9ea91d8293565e59dba51cc1b301f62668dfc2258181fbcbaa98057708c",
+        "traceback_sha256": "2e1ea3ec3820e881ff147b77a031df1c14b7f9c3315ba7332a28920d408b3181"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_SOURCE_SHA_ARGUMENT_TRANSITION;ORIGINAL_SOURCE_PIN_FAIL_UNWAIVED",
+      "proof": {
+        "transitions": [
+          {
+            "before": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "sha256": "2de10d631cf424530ffed05331821f411575b2f5e81dec0789bf7e8438b192c5"
+            },
+            "after": {
+              "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+              "bytes": 35455,
+              "sha256": "c10161ce79702e1b4221cffc6f6b7e6d5df0348f1b0e5861d3b8683ded8635be"
+            }
+          }
+        ],
+        "source_test_unchanged": true
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a14_mixed_workflow.py",
+          "bytes": 14339,
+          "sha256": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+        },
+        "method": "test_original_members_and_successor_pins_are_reconcilable",
+        "lines": [
+          [
+            38,
+            50
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "a77e296b4e93d38026a4ce5d44c885a61f3c72eb55a3c85a047485ae0eab317b",
+      "identity": "test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "d80fbb055293ca80e3a75c32f22b7577009f8d967dd9fe269027a46b7858560f",
+        "traceback_sha256": "59dc87fa20b1b6c05d788649adde1c93c83a30f901fd1d00f7fa06dcdee94d52"
+      },
+      "current": {
+        "message_sha256": "0842284adb6f9ff6c712346eb02e16d135026ce8a6d71cb59ccb73aca2ff61ee",
+        "traceback_sha256": "8c87bdaadedd0fc6ebfc230231c9d2b26ac6f0e6c7b048d993c000fbc293149c"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "ACTUAL_BRANCH_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "codex/04A-15",
+          "codex/04A-44"
+        ],
+        "current_arguments": [
+          "codex/04A-15",
+          "codex/04A-45"
+        ],
+        "unchanged_expected_argument": "codex/04A-15",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a15_fitting.py",
+          "bytes": 5180,
+          "sha256": "393ff03ddff0d05d15ab61835825c0b8dabd4013710bdb80e5ba99504c78385d"
+        },
+        "method": "test_branch_ancestry_empty_index_and_exact_existing_scope",
+        "lines": [
+          [
+            15,
+            21
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "da62212d3c47187396b82e95c4d6c961bd55bf6c0d64f0334b1e979e0fbbdd86",
+      "identity": "test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "bb8543dda78aac03c395f01924afa37bd56cb96f81c03850b361f6f6ed719568",
+        "traceback_sha256": "093962e89f760e7b14547b50e012c6c36368cb1a3f059d93056dd3b3a78e6d73"
+      },
+      "current": {
+        "message_sha256": "461f6f91428216734f4e0d16bc5019855cc1624fec46ff2b9bdeda3f790c0f95",
+        "traceback_sha256": "2b6829590c65f69e55dfbf1ffba998c9359d0fa06d75a23d85e224c992c9cd96"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "ACTUAL_BRANCH_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "codex/04A-16",
+          "codex/04A-44"
+        ],
+        "current_arguments": [
+          "codex/04A-16",
+          "codex/04A-45"
+        ],
+        "unchanged_expected_argument": "codex/04A-16",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a16_post_estimation.py",
+          "bytes": 8710,
+          "sha256": "4c1384ee83aa78f6893221e6fcaf926880e400ea2c82b597e65e7923035a5984"
+        },
+        "method": "test_branch_base_index_and_exact_scope",
+        "lines": [
+          [
+            15,
+            21
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "a6f5f82f853aecce400e1888593185049792a97089fbffa2f24dfb175150afd5",
+      "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "746403fee70e7e2e3d8143ee47577e024b2e88cef6187deb046a4909d63d767d",
+        "traceback_sha256": "88cfaaa9b50275c3fdaa65e9168dce5055365e8cbdc9ee00ce837c27d3b63d8c"
+      },
+      "current": {
+        "message_sha256": "d558ffac23cb23f3e40d78b1d0486f08a40f663d3238bbc6c352acf833e4c968",
+        "traceback_sha256": "cecb648159b74cec2296d1e17f3701ebd0df51d209377edde50cf01b51ab243d"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "ACTUAL_BRANCH_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "codex/04A-17",
+          "codex/04A-44"
+        ],
+        "current_arguments": [
+          "codex/04A-17",
+          "codex/04A-45"
+        ],
+        "unchanged_expected_argument": "codex/04A-17",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a17_multivariate.py",
+          "bytes": 8080,
+          "sha256": "06afd4bd4829b90688f0924c13a4a1d5ea5fc22d85120fde21308895f2dd1db0"
+        },
+        "method": "test_live_base_branch_index_and_protected_sources",
+        "lines": [
+          [
+            19,
+            23
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "7f9d0948665245c0513f98b6513468e089822f14b4ef3c76c61455a01c145126",
+      "identity": "test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "8d9471de96531093e0aca3daa0d576b21e1d3d10768c3ab55f1e12849591ac82",
+        "traceback_sha256": "5a7ebeb9f72bdd7c81e2ab8cce97435d98a23316efcc443449d4ca18fa78f85f"
+      },
+      "current": {
+        "message_sha256": "48d31588bc78208716146063e1c02e7bbf6c9839fd931f2d5eb72d9d1c41558d",
+        "traceback_sha256": "cdb870ba43e5093b2edd7e5c4a5c7b3a1ce18584a339ae0b3ccd8d95a192b2d8"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "ACTUAL_BRANCH_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "codex/04A-44",
+          "codex/04A-18"
+        ],
+        "current_arguments": [
+          "codex/04A-45",
+          "codex/04A-18"
+        ],
+        "unchanged_expected_argument": "codex/04A-18",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a18_projection.py",
+          "bytes": 7203,
+          "sha256": "53e1b4e323b682dedcb64df3fc1e90a04faeb3a146314f4bb1330c00c594716e"
+        },
+        "method": "test_live_branch_index_and_protected_entry_bytes",
+        "lines": [
+          [
+            19,
+            27
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "2326920affcddf7ded9d17f78617996cd9968f8ddfbcc7682d2e992b88a625ff",
+      "identity": "test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "dd84d5319358f6f99bba78aecaab4e2de80cf60ee9425e81787276797259295d",
+        "traceback_sha256": "76e14a4b52e178b865f120c6b9c9e8da9826f01f26a5efbc94105550f8cefa3f"
+      },
+      "current": {
+        "message_sha256": "d5618d712a8b1f3418c2c7e524745f8080811b7247b459a915ca29703d8395df",
+        "traceback_sha256": "1e8ead3b6f968cf848457292f325e7dfd4781b92f3b3dd0dbd68f7808c265e8e"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "ACTUAL_MERGED_MAIN_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "5429a46ac706a43c9f57136eef68158decedf89d",
+          "243b6dcd654767ffedb8fe3643b310c0c56cd6ac"
+        ],
+        "current_arguments": [
+          "5429a46ac706a43c9f57136eef68158decedf89d",
+          "350ffbc0924b09199249316a3ee2f31bc3dd98e8"
+        ],
+        "unchanged_expected_argument": "5429a46ac706a43c9f57136eef68158decedf89d",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a19_clustering.py",
+          "bytes": 10215,
+          "sha256": "565f5a4071b7a3d319614f5d4000d66c696c2832433ff39062d46885dccf703e"
+        },
+        "method": "test_live_base_branch_and_empty_index",
+        "lines": [
+          [
+            18,
+            24
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "50016fd4f0d56f06db6fe9a0f3163380697e2c3b15b20c80120a2b309fd778c5",
+      "identity": "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "62064137ef22e3be4ce887955776336d9ec14708c8b66a5811f0ad5840fbcfd3",
+        "traceback_sha256": "56467e760525aff34012e156ea225a8eb5828210f562d4a0fffa197b047e2f92"
+      },
+      "current": {
+        "message_sha256": "911f17a90fef9730f5cf583c57b34c3bc2f17b26d88afda7ae24b7bcc425edf5",
+        "traceback_sha256": "c686e379e22d0326fcb4c429e2e337dd80bea235b249165b42622bece618a753"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "ACTUAL_MERGED_MAIN_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "ae7490bbce241dd8a444fd4d23ba413fb89a36ca",
+          "243b6dcd654767ffedb8fe3643b310c0c56cd6ac"
+        ],
+        "current_arguments": [
+          "ae7490bbce241dd8a444fd4d23ba413fb89a36ca",
+          "350ffbc0924b09199249316a3ee2f31bc3dd98e8"
+        ],
+        "unchanged_expected_argument": "ae7490bbce241dd8a444fd4d23ba413fb89a36ca",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a20_factor_discriminant.py",
+          "bytes": 12829,
+          "sha256": "1fc46c38c6695727ebf008e5a30999bd01f15737c14c5a5b56d04069f590e4bb"
+        },
+        "method": "test_live_main_branch_index_and_accepted_source",
+        "lines": [
+          [
+            20,
+            27
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "226d4ba867675dbe44e4d4ba8d06444eccd689bcba1736e3b5f5a9d9a3d7f6a5",
+      "identity": "test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "4cce7818ef9a23c34c102dd5574b9aca79d80dc3bce262250ecc94cfc5026bb2",
+        "traceback_sha256": "91efbf15bf5edec18e6a5c4b88fd2428609f83f244cfecb92bc9dbf2687335a6"
+      },
+      "current": {
+        "message_sha256": "9b970c7ee5bb2a75a6a27ceb742355132a0f229a9c643d6cbedd7d48e0b513ae",
+        "traceback_sha256": "5bd5fbda7548acc894b95c3516dcd591c20d2fd466f5b8d7d33ddd16d376e1ec"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "ACTUAL_MERGED_MAIN_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e",
+          "243b6dcd654767ffedb8fe3643b310c0c56cd6ac"
+        ],
+        "current_arguments": [
+          "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e",
+          "350ffbc0924b09199249316a3ee2f31bc3dd98e8"
+        ],
+        "unchanged_expected_argument": "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a21_spc.py",
+          "bytes": 13212,
+          "sha256": "46858710327c0e3e34d142afa61a3456a1d805d3ebc7d5481ac4c84680d38693"
+        },
+        "method": "test_live_merged_main_ancestry_branch_and_empty_index",
+        "lines": [
+          [
+            23,
+            29
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "dc5f06341902db6582e14db81d9aa04c6f8edcd2396cb10a87b692029c71223b",
+      "identity": "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "adb34d8acb96af6f6443f8932b2bf66d82385f7cd3e1e3111c5e359f89bb5cba",
+        "traceback_sha256": "038a6cc176443ebedc221979498fd956c26d02577952c5dda0bafe7eaaa1420e"
+      },
+      "current": {
+        "message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+        "traceback_sha256": "db23ed29f45101d1cc83c989a66e6761c99f4902e752f8e3ea80eee545a0933b"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_ALLOWLIST_CURRENT_DIFF_ARGUMENT_CHANGE_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_paths": [
+          "BESHStat.Excel.Common/src/Infrastructure/ExecutionCoordinator.vb",
+          "BESHStat.Excel.Common/src/Infrastructure/Settings.vb",
+          "BESHStat.Excel.Common/src/Results/Faults.vb",
+          "BESHstatNG/src/AppInfrastructure/AppGlobals.vb",
+          "BESHstatNG/src/AppInfrastructure/ExcelDnaHostInfrastructure.vb",
+          "BESHstatNG/src/DM/UIprocedures.vb",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "current_paths": [
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "expected_allowlist_unchanged": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a22_spc.py",
+          "bytes": 9384,
+          "sha256": "7654f6e2b47b6a19bbb994a1d23470036d54fe0b7090969906289b7247c3e3bb"
+        },
+        "method": "test_publication_membership_hashes_empty_index_and_privacy",
+        "lines": [
+          [
+            138,
+            141
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "bd7426fee898f689aa36cdc064dc23b9e502723670eac5a2ff056a98ae121c65",
+      "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_actual_merged_base_and_protected_owner_plan",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "f4b2b45ae5727e4df32ca695a4829f0bdfadbcfe3ac5222bdec9bf7d6998e29b",
+        "traceback_sha256": "ab33f83f72319a00def886dfe68d7368608b5018511efcf9683511cab0387b0d"
+      },
+      "current": {
+        "message_sha256": "94604bac789fdd9aec01427b35b8fa01190930c345ebb970cba54f9c6e9fa5be",
+        "traceback_sha256": "b3b50d1aa95528a1fa14db24e0d22f24c78a0b4e49f3bf7339cc6219cf0474ae"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_PLAN_REVISION_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "9c0d2559d5c543b19978ffbe4fada77a580d9daf5528a36978bedb9262fab185",
+          "9ad817ec9a977dcb95b0261774cb157ac6d05950e3dc21e5ecfb05619cdc510e"
+        ],
+        "current_arguments": [
+          "9c0d2559d5c543b19978ffbe4fada77a580d9daf5528a36978bedb9262fab185",
+          "1f109368061ff1f980652734cf4a69818fc917321e3d403b4d228b1fefefd5e3"
+        ],
+        "unchanged_expected_argument": "9c0d2559d5c543b19978ffbe4fada77a580d9daf5528a36978bedb9262fab185",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a23_multivariate_spc.py",
+          "bytes": 13644,
+          "sha256": "ef04954a158dd6c274eb40cdd20b54fa731b467ba5d91367a690993beb86bbb8"
+        },
+        "method": "test_actual_merged_base_and_protected_owner_plan",
+        "lines": [
+          [
+            24,
+            30
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "17cf3e6b16a36c6d76eb48a0c4f1935a7fee3219cb0b66f92e7afa61688d8f09",
+      "identity": "test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "adb34d8acb96af6f6443f8932b2bf66d82385f7cd3e1e3111c5e359f89bb5cba",
+        "traceback_sha256": "985e128bb2662fd704faeebb87127673658ff3bb1c3e871b790728afad4ca34f"
+      },
+      "current": {
+        "message_sha256": "c5d3b5444e6f98e50064bf89aa1a6f04e6b9c018014f3d91cc3c6284d6930163",
+        "traceback_sha256": "ef18d2038dc5d290ef32d1f81bb9447a157755fa7d12e37bbbcc9a16c88ddcd0"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "HISTORICAL_ALLOWLIST_CURRENT_DIFF_ARGUMENT_CHANGE_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_paths": [
+          "BESHStat.Excel.Common/src/Infrastructure/ExecutionCoordinator.vb",
+          "BESHStat.Excel.Common/src/Infrastructure/Settings.vb",
+          "BESHStat.Excel.Common/src/Results/Faults.vb",
+          "BESHstatNG/src/AppInfrastructure/AppGlobals.vb",
+          "BESHstatNG/src/AppInfrastructure/ExcelDnaHostInfrastructure.vb",
+          "BESHstatNG/src/DM/UIprocedures.vb",
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "current_paths": [
+          "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+        ],
+        "expected_allowlist_unchanged": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "scripts/tests/test_04a24_multivariate_payload.py",
+          "bytes": 14011,
+          "sha256": "c1abd8affc76f30574a967d191ca147f70d9c7f12033f175d5acf481b8079461"
+        },
+        "method": "test_publication_exact_membership_hashes_and_empty_index",
+        "lines": [
+          [
+            194,
+            196
+          ]
+        ]
+      }
+    },
+    {
+      "stable_event_id": "e40ffb86a64357e60615a998c65ee1d633913a853818f71e3bfd3629c48c89cb",
+      "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+      "outcome": "FAIL",
+      "subtest_identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "occurrence": 0,
+      "before": {
+        "message_sha256": "1f0906d95573c5147308cc8d3c54095309d375cf3b98396a7bfbf56ac9b1079c",
+        "traceback_sha256": "7c2f100674dd0b5940942ccbac3d0ade5e24daf816479bad06e6eac80914feb5"
+      },
+      "current": {
+        "message_sha256": "900b332588ec4ee47e49d48191de815b8b1d89705951cd7a282ed1ba7b7a61ec",
+        "traceback_sha256": "4c145b38b576d13e6fc4c3a4becb31b99796b052837261c53b6a89f4f905698f"
+      },
+      "classification": "RETAINED_CHANGED_MESSAGE",
+      "disposition": "AUTHORIZED_PLAN_REVISION_CONTEXT_FAIL_RETAINED_UNWAIVED",
+      "proof": {
+        "before_arguments": [
+          "98d76584e8ffc3afebb069126965dec9e55e70d70e54ba70140c6d10d721753e",
+          "9ad817ec9a977dcb95b0261774cb157ac6d05950e3dc21e5ecfb05619cdc510e"
+        ],
+        "current_arguments": [
+          "98d76584e8ffc3afebb069126965dec9e55e70d70e54ba70140c6d10d721753e",
+          "1f109368061ff1f980652734cf4a69818fc917321e3d403b4d228b1fefefd5e3"
+        ],
+        "unchanged_expected_argument": "98d76584e8ffc3afebb069126965dec9e55e70d70e54ba70140c6d10d721753e",
+        "exact_source_context_authenticated": true,
+        "source_test_unchanged": true,
+        "assertions_modified": false
+      },
+      "source": {
+        "source": {
+          "path": "BESHStat.Excel.Common.Tests/src/test_capture_contract04a02.py",
+          "bytes": 18295,
+          "sha256": "a6bf1aff4c967d16e80e31294037d7ab9e56d8ed10946f4d40c59e210af82ec7"
+        },
+        "method": "test_packet_covers_all_original_cases_and_six_gates",
+        "lines": [
+          [
+            107,
+            119
+          ]
+        ]
+      }
+    }
+  ],
+  "unresolved": 0,
+  "historical_failures_unwaived": true,
+  "historical04A08_scope_status": "FAIL_UNWAIVED",
+  "current04A08_scope_outcome": "FAIL",
+  "three_historical_UDF_guards": {
+    "guards": [
+      {
+        "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_no_designer_importer_targets_exports_or_signing_change",
+        "historical43_status": "FAIL",
+        "current_status": "PASS",
+        "source": {
+          "source": {
+            "path": "scripts/tests/test_04a05_completion_successor.py",
+            "bytes": 9515,
+            "sha256": "01635967f065fa4c66fec03dd9e1c58b4e326c22d944cde8fb8820c14fb21952"
+          },
+          "method": "test_no_designer_importer_targets_exports_or_signing_change",
+          "lines": [
+            [
+              132,
+              139
+            ]
+          ]
+        },
+        "old43_diagnostics": {
+          "message_sha256": "3960f31ee8ffa84f80827054174c2be1c9a41f625cf061257b32a4f68a6e9332",
+          "traceback_sha256": "3fca57e7bc5d0b407ba21fde21e94bacc51a521684f06ad1d4bc43957008d682"
+        },
+        "current44_failure_diagnostics": null,
+        "historical_scope": "FAIL_UNWAIVED;NO_OLD_EXPECTATION_REWRITE",
+        "current_scope": "Actual44 unchanged assertion against current full tracked diff;no UDF/Core/designer/dna changes.",
+        "waived": false,
+        "prior43": {
+          "path": "evidence/04A43/python/source-guard-dispositions-v1.json",
+          "bytes": 5220,
+          "sha256": "8fc9c83187f1aa13c5258d89bfc33f64fba44737545fd3eefe2b3980e0721294"
+        }
+      },
+      {
+        "identity": "test_04a04_alignment.PairedBlockSourceGates.test_udf_exports_and_packaging_unchanged",
+        "historical43_status": "FAIL",
+        "current_status": "PASS",
+        "source": {
+          "source": {
+            "path": "scripts/tests/test_04a04_alignment.py",
+            "bytes": 6834,
+            "sha256": "9083184d80b9e6e63e856f0452dc77da5db6c9f4a0d0e560a30574701a05e8ff"
+          },
+          "method": "test_udf_exports_and_packaging_unchanged",
+          "lines": [
+            [
+              82,
+              90
+            ]
+          ]
+        },
+        "old43_diagnostics": {
+          "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+          "traceback_sha256": "261bbe08bba3836e79db18dbab48d382d0b67f7de27f4f1110a66501b2e65b58"
+        },
+        "current44_failure_diagnostics": null,
+        "historical_scope": "FAIL_UNWAIVED;NO_OLD_EXPECTATION_REWRITE",
+        "current_scope": "Actual44 unchanged assertion against current full tracked diff;no UDF/Core/designer/dna changes.",
+        "waived": false,
+        "prior43": {
+          "path": "evidence/04A43/python/source-guard-dispositions-v1.json",
+          "bytes": 5220,
+          "sha256": "8fc9c83187f1aa13c5258d89bfc33f64fba44737545fd3eefe2b3980e0721294"
+        }
+      },
+      {
+        "identity": "test_04a05_contingency.ContingencySourceGates.test_no_designer_udf_numerical_packaging_or_framework_change",
+        "historical43_status": "FAIL",
+        "current_status": "PASS",
+        "source": {
+          "source": {
+            "path": "scripts/tests/test_04a05_contingency.py",
+            "bytes": 9696,
+            "sha256": "9efb0b85a7bc9ec21427985d6750a9978589f48933f17abefcdb7a354b5bad4b"
+          },
+          "method": "test_no_designer_udf_numerical_packaging_or_framework_change",
+          "lines": [
+            [
+              141,
+              147
+            ]
+          ]
+        },
+        "old43_diagnostics": {
+          "message_sha256": "92e2305db90d14d2332410b86d68e493e223c846553885d97e1fda49d37337ee",
+          "traceback_sha256": "c3febe5720f4b2004487bd3877ec724ffd31ec623059612b03c5bee644c39ca5"
+        },
+        "current44_failure_diagnostics": null,
+        "historical_scope": "FAIL_UNWAIVED;NO_OLD_EXPECTATION_REWRITE",
+        "current_scope": "Actual44 unchanged assertion against current full tracked diff;no UDF/Core/designer/dna changes.",
+        "waived": false,
+        "prior43": {
+          "path": "evidence/04A43/python/source-guard-dispositions-v1.json",
+          "bytes": 5220,
+          "sha256": "8fc9c83187f1aa13c5258d89bfc33f64fba44737545fd3eefe2b3980e0721294"
+        }
+      }
+    ],
+    "status": "HISTORICAL_THREE_FAILS_RETAINED;CURRENT44_SCOPE_PASS_SEPARATE",
+    "actual_current_git_diff": [
+      "BESHStat.Excel.Common/src/Infrastructure/ExecutionCoordinator.vb",
+      "BESHStat.Excel.Common/src/Infrastructure/Settings.vb",
+      "BESHStat.Excel.Common/src/Results/Faults.vb",
+      "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+      "BESHstatNG/src/AppInfrastructure/AppGlobals.vb",
+      "BESHstatNG/src/AppInfrastructure/ExcelDnaHostInfrastructure.vb",
+      "BESHstatNG/src/DM/UIprocedures.vb",
+      "planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+    ]
+  },
+  "accepted44_new_scope_failure": {
+    "identity": "test_04a08_authoring_successor.Authoring08SuccessorTests.test_removal_delegation_preserves_untyped_lists",
+    "canonical_id": null,
+    "current_status": "FAIL",
+    "historical43_status": "PASS",
+    "waived": false,
+    "source": {
+      "path": "scripts/tests/test_04a08_authoring_successor.py",
+      "bytes": 5062,
+      "sha256": "f2d6dde3dbc2e7f159d4ca28273894baad32878b92eddb0257e302b9136be2b7"
+    },
+    "expected_04A08_allowed_methods": [
+      "Remove_Item"
+    ],
+    "introduced44_methods": [
+      "FormatProgressElapsedSeconds",
+      "FormatProgressDouble",
+      "TryParseUiDouble",
+      "TryParseUiInteger",
+      "FormatUiDouble"
+    ],
+    "Remove_Item_changed": false,
+    "behavioral_regression": false,
+    "disposition": "EXPLICIT_AUTHORIZED44_EXTRACTION_VIOLATES_HISTORICAL08_SINGLE_METHOD_SCOPE;FAIL_RETAINED",
+    "next_gate": "Owner review of44 restricted software result;no assertion rewrite,waiver or native-control discharge. Any historical assertion/evidence-policy revision requires separate exact authority."
+  },
+  "changed_parents": [],
+  "parents": 956,
+  "parent_outcomes": {
+    "PASS": 834,
+    "ERROR": 11,
+    "FAIL": 111
+  },
+  "historical_1941_privacy_findings_each": "RETAINED_UNWAIVED;NOT_NEW_CURRENT_CANDIDATE_FINDINGS",
+  "W3_privacy_errors": "RETAINED_UNWAIVED",
+  "prior_diagnostic_histories": [
+    {
+      "path": "evidence/04A39/correction-v1/diagnostics/changed-54-crosswalk-v2.json",
+      "bytes": 137837,
+      "sha256": "52110a5707992ab72b2a3272114e3b35a7ac31eeaf06e0309c754a72cb24f8a3"
+    },
+    {
+      "path": "evidence/04A40/python/diagnostic-dispositions-v3.json",
+      "bytes": 84221,
+      "sha256": "e61e9cd856997eae0a47002bcb3c7e911f17de594cf9a3107a17d4fe605736ba"
+    },
+    {
+      "path": "evidence/04A41/python/diagnostic-dispositions-v1.json",
+      "bytes": 47922,
+      "sha256": "18aca23fc475c0e469f07e8e9e370961049708360d4effefc15fe91bb2f9eb28"
+    },
+    {
+      "path": "evidence/04A42/python/diagnostic-dispositions-v1.json",
+      "bytes": 53169,
+      "sha256": "ea0a8e9ccea212b7e69fd8ecc2119288a57c56f9295f822751bec09f8fe536ab"
+    },
+    {
+      "path": "evidence/04A43/python/diagnostic-dispositions-v1.json",
+      "bytes": 43799,
+      "sha256": "e4b19874de98765080f9e2a219fddbdccd9a46e62f94bb4dfc1d4cafcc79203e"
+    },
+    {
+      "path": "evidence/04A44/python/diagnostic-dispositions-v1.json",
+      "bytes": 56908,
+      "sha256": "d4babc52f2c5bf350c9df56cc73c7c4d95a3822a17bcbf6abf53aafd66808f88"
+    }
+  ],
+  "actual_peak_workers": 3,
+  "permitted_ceiling": 6,
+  "discovery_report_max_workers_is_ceiling": true,
+  "original_tests_assertions_and_scanners_unchanged": true,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A46_NOT_AUTHORIZED"
+  }
+}

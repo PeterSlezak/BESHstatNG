@@ -1,0 +1,39 @@
+{
+  "before": {
+    "rows": 864,
+    "identities": "9e5c9bf2fc049b891d7aae839534826a18f1f317c0b7422926cc538e2fb23dec",
+    "observed_outcomes": {
+      "('GET_DROP', False, True, -1, -1)": 272,
+      "('GET_CLEAR', True, False, 2, -1)": 6,
+      "('GET_CLEAR', False, False, 2, -1)": 282,
+      "('CLEAR_CLEAR', False, False, 0, 2)": 190,
+      "('CLEAR_CLEAR', False, False, 2, 2)": 65,
+      "('GET_DROP', True, True, -1, -1)": 16,
+      "('CLEAR_CLEAR', False, False, 2, 0)": 33
+    },
+    "same_fixed_schedule_claimed": false
+  },
+  "after": {
+    "rows": 864,
+    "identities": "9e5c9bf2fc049b891d7aae839534826a18f1f317c0b7422926cc538e2fb23dec",
+    "observed_outcomes": {
+      "('GET_DROP', False, True, -1, -1)": 271,
+      "('GET_CLEAR', True, False, 2, -1)": 5,
+      "('GET_CLEAR', False, False, 2, -1)": 283,
+      "('CLEAR_CLEAR', False, False, 0, 2)": 173,
+      "('CLEAR_CLEAR', False, False, 2, 0)": 25,
+      "('GET_DROP', True, True, -1, -1)": 17,
+      "('CLEAR_CLEAR', False, False, 2, 2)": 90
+    },
+    "same_fixed_schedule_claimed": false
+  },
+  "current": {
+    "path": ".test-rationalization-04A45.tmp/fixture-final-v2-Release-43-races/observations.json",
+    "bytes": 211581,
+    "sha256": "3f3368c3e57fdc0c24c034737bf2ae8a7b7055ace09bf0ac1d803b6655ab1134"
+  },
+  "identities_exact": true,
+  "allowed_outcome_invariants_pass": true,
+  "fixed_schedule_equality_claimed": false,
+  "live_Excel": "NOT_RUN"
+}

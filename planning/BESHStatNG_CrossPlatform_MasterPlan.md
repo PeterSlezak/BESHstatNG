@@ -1,5 +1,10 @@
 # BESHStatNG — Cross-platform development master plan
 
+**Revision 2.22 · 16 November 2026 · 04A.44 owner-accepted/merged; 04A.45 safe harness in progress**
+**Current owner authority:** Accepted44 merged main independently authenticated at `350ffbc0924b09199249316a3ee2f31bc3dd98e8`, direct child of `243b6dcd654767ffedb8fe3643b310c0c56cd6ac`. Owner authorizes04A.45 SAFE HARNESS DEVELOPMENT only. No live Excel/COM/UIA/RefEdit observation or XLL packaging is authorized. Independent exact Windows/COM risk decision remains NOT_APPROVED; N1=NO GO; N2=NO.04A.46 is not authorized. Exact Revision2.21 and all226 original roadmap IDs are preserved.
+
+**Historical Revision2.21 entry (retained verbatim below):**
+
 **Revision 2.21 · 15 November 2026 · 04A.43 owner-accepted/merged; 04A.44 in progress**
 **Current owner authority (04A.44 entry):** Owner accepted04A.43 with documented restrictions and authorized04A.44 only. Verified merged main `243b6dcd654767ffedb8fe3643b310c0c56cd6ac` is the direct child of `3955a6e9142256df6bc1fd53a924010c58367b51`. **04A.44 IN_PROGRESS**, not accepted/merged; **04A45_NOT_AUTHORIZED**. Portable settings/number/fault/progress decisions preserve Windows store,UI,Help/updater actions and every scientific/native/cache restriction. Exact2.20 snapshot and all226 original IDs retained.
 

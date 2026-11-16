@@ -1,0 +1,88 @@
+{
+  "configuration": "Release",
+  "mode": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+  "parts": [
+    {
+      "suite": "Core",
+      "part": "affected",
+      "selection": "FullyQualifiedName~WindowsHarness45|FullyQualifiedName~MigrationRefEditBoundary|FullyQualifiedName~DocumentLifecycleAdapter|FullyQualifiedName~ExecutionAdapter|FullyQualifiedName~InfrastructurePolicy44|FullyQualifiedName~Preference|FullyQualifiedName~Settings|FullyQualifiedName~Help|FullyQualifiedName~Diagnostic|FullyQualifiedName~Fault|FullyQualifiedName~Execution|FullyQualifiedName~Culture|FullyQualifiedName~Progress|FullyQualifiedName~NumberText",
+      "name": "a45-final-Release-Core-affected",
+      "outcomes": {
+        "Passed": 67
+      },
+      "cases": {
+        "path": ".test-rationalization-04A45.tmp/executions/a45-final-Release-Core-affected/cases.json",
+        "bytes": 23243,
+        "sha256": "e618e9e07f7eff646095ffc5b61a3890bc0b9b59c2762c0f509e5e8c6a198b9d"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A45.tmp/executions/a45-final-Release-Core-affected/results/Core.trx",
+        "bytes": 102149,
+        "sha256": "2b7dd2ca207777b1d7f9d2a376b385ecc7f20949561bd404512fefea4f0c708e"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A45.tmp/a45-final-Release-Core-affected.json",
+        "bytes": 23243,
+        "sha256": "e618e9e07f7eff646095ffc5b61a3890bc0b9b59c2762c0f509e5e8c6a198b9d"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Common",
+      "part": "affected",
+      "selection": "FullyQualifiedName~WindowsHarness45|FullyQualifiedName~MigrationRefEditBoundary|FullyQualifiedName~DocumentLifecycleAdapter|FullyQualifiedName~ExecutionAdapter|FullyQualifiedName~InfrastructurePolicy44|FullyQualifiedName~Preference|FullyQualifiedName~Settings|FullyQualifiedName~Help|FullyQualifiedName~Diagnostic|FullyQualifiedName~Fault|FullyQualifiedName~Execution|FullyQualifiedName~Culture|FullyQualifiedName~Progress|FullyQualifiedName~NumberText",
+      "name": "a45-final-Release-Common-affected",
+      "outcomes": {
+        "Passed": 570
+      },
+      "cases": {
+        "path": ".test-rationalization-04A45.tmp/executions/a45-final-Release-Common-affected/cases.json",
+        "bytes": 183887,
+        "sha256": "fd3b553df449be4a69ff71a419a8f0f780b4126a3bdad8b8b3d8de3033b15ab6"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A45.tmp/executions/a45-final-Release-Common-affected/results/Common.trx",
+        "bytes": 924257,
+        "sha256": "17f33dd04f750e26d60a1af0471201dcc1fe5bc3b46213494e6f2d48d0054339"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A45.tmp/a45-final-Release-Common-affected.json",
+        "bytes": 183887,
+        "sha256": "fd3b553df449be4a69ff71a419a8f0f780b4126a3bdad8b8b3d8de3033b15ab6"
+      },
+      "command_exit": 0
+    },
+    {
+      "suite": "Legacy",
+      "part": "affected",
+      "selection": "FullyQualifiedName~WindowsHarness45|FullyQualifiedName~MigrationRefEditBoundary|FullyQualifiedName~DocumentLifecycleAdapter|FullyQualifiedName~ExecutionAdapter|FullyQualifiedName~InfrastructurePolicy44|FullyQualifiedName~Preference|FullyQualifiedName~Settings|FullyQualifiedName~Help|FullyQualifiedName~Diagnostic|FullyQualifiedName~Fault|FullyQualifiedName~Execution|FullyQualifiedName~Culture|FullyQualifiedName~Progress|FullyQualifiedName~NumberText",
+      "name": "a45-final-Release-Legacy-affected",
+      "outcomes": {
+        "Passed": 593
+      },
+      "cases": {
+        "path": ".test-rationalization-04A45.tmp/executions/a45-final-Release-Legacy-affected/cases.json",
+        "bytes": 186818,
+        "sha256": "086373b94d0445e992e76ef0712c8d7610c4c9e2bee0fa3588b77dd7047b144d"
+      },
+      "TRX": {
+        "path": ".test-rationalization-04A45.tmp/executions/a45-final-Release-Legacy-affected/results/Legacy.trx",
+        "bytes": 920969,
+        "sha256": "37548a600efacbe12ed6b347feeab09154a3f29700fed69136a1999d1d4797a1"
+      },
+      "raw": {
+        "path": ".test-rationalization-04A45.tmp/a45-final-Release-Legacy-affected.json",
+        "bytes": 186818,
+        "sha256": "086373b94d0445e992e76ef0712c8d7610c4c9e2bee0fa3588b77dd7047b144d"
+      },
+      "command_exit": 0
+    }
+  ],
+  "outcomes": {
+    "Passed": 1230
+  },
+  "identities": 1230,
+  "source_unchanged": true,
+  "full_Release": "NOT_RUN",
+  "max_parallel_test_hosts": 1
+}

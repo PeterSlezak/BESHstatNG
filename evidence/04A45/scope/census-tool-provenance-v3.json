@@ -1,0 +1,33 @@
+{
+  "original": {
+    "path": "scripts/windows-migration-audit/Program.cs",
+    "bytes": 59795,
+    "sha256": "7c2d53c6fcf84d9112046359bd05528af60fd4c98e7df4d24569147694c9b20a"
+  },
+  "driver": {
+    "path": ".test-rationalization-04A45.tmp/syntax-tool-v3/Program.cs",
+    "bytes": 60361,
+    "sha256": "9d3dfd2b08dd68cd32f6825a12ad062fcf3c3f07b5453bb8216d9e85d6963749"
+  },
+  "project": {
+    "path": ".test-rationalization-04A45.tmp/syntax-tool-v3/WindowsMigrationAudit.csproj",
+    "bytes": 594,
+    "sha256": "386fac91c2beb2ea0fcc390a72795c55a5688309241d82a7569df9f97a8724fe"
+  },
+  "substitutions": [
+    [
+      "scripts/windows-migration-audit/review-decisions.json",
+      ".test-rationalization-04A45.tmp/nonexistent-review-decisions.json"
+    ],
+    [
+      "scripts/windows-migration-audit/wiring-review-decisions.json",
+      ".test-rationalization-04A45.tmp/nonexistent-wiring-review-decisions.json"
+    ],
+    [
+      "scripts/windows-migration-audit/control-review-decisions.json",
+      ".test-rationalization-04A45.tmp/nonexistent-control-review-decisions.json"
+    ]
+  ],
+  "reason": "Fresh Roslyn syntax census only;stale historical semantic/wiring/control review decisions are not applied or rewritten. No source parser logic changed;no package dependencies or downloads.",
+  "native": "NOT_RUN"
+}

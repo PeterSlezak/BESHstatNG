@@ -1,0 +1,4000 @@
+{
+  "source": {
+    "path": "BESHstatNG/Resources/RibbonXML.xml",
+    "bytes": 11945,
+    "sha256": "162370cb5d317f58dac392e8b62bedd4a6817e138c3763fcf5a39e80d32021e3"
+  },
+  "controls": [
+    {
+      "order": 3,
+      "tag": "tab",
+      "id": "tab1",
+      "ancestors": [],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "tab1",
+        "label": "BESH Stat NG"
+      }
+    },
+    {
+      "order": 4,
+      "tag": "group",
+      "id": "group1",
+      "ancestors": [
+        "tab1"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "group1",
+        "label": "BESH Stat menu"
+      }
+    },
+    {
+      "order": 5,
+      "tag": "menu",
+      "id": "MainMenu",
+      "ancestors": [
+        "tab1",
+        "group1"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "MainMenu",
+        "label": "Analyse",
+        "size": "large",
+        "imageMso": "PivotTableFormulasMenu"
+      }
+    },
+    {
+      "order": 6,
+      "tag": "menu",
+      "id": "subMenu_Assumptions",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Assumptions",
+        "label": "Assumptions"
+      }
+    },
+    {
+      "order": 7,
+      "tag": "button",
+      "id": "btm1_1Normaility",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Assumptions"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm1_1Normaility",
+        "label": "Normality Tests",
+        "onAction": "OnbtmNormalityTestsPressed",
+        "imageMso": "ShapeCurve"
+      }
+    },
+    {
+      "order": 8,
+      "tag": "button",
+      "id": "btm1_2Outliers",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Assumptions"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm1_2Outliers",
+        "label": "Univariate Outliers",
+        "onAction": "OnbtmOutliersPressed",
+        "imageMso": "TableFind"
+      }
+    },
+    {
+      "order": 9,
+      "tag": "button",
+      "id": "btm1_3HomogeneityVar",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Assumptions"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm1_3HomogeneityVar",
+        "label": "Homogeneity of Variance",
+        "onAction": "OnbtmHomogeneityVarPressed",
+        "imageMso": "ChartUpDownBars"
+      }
+    },
+    {
+      "order": 10,
+      "tag": "button",
+      "id": "btm1_4Symmetry",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Assumptions"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm1_4Symmetry",
+        "label": "Symmetry",
+        "onAction": "OnbtmSymmetryPressed",
+        "imageMso": "ShapeIsoscelesTriangle"
+      }
+    },
+    {
+      "order": 11,
+      "tag": "button",
+      "id": "btm1_5Desc",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Assumptions"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm1_5Desc",
+        "label": "Descriptive Statistics",
+        "onAction": "OnbtmDescriptivePressed",
+        "imageMso": "FormulaEvaluate"
+      }
+    },
+    {
+      "order": 12,
+      "tag": "menu",
+      "id": "subMenu_Graphics",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Graphics",
+        "label": "Graphics"
+      }
+    },
+    {
+      "order": 13,
+      "tag": "button",
+      "id": "btm2_1Histogram",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_1Histogram",
+        "label": "Histogram",
+        "onAction": "OnbtmHistogramPressed",
+        "imageMso": "ChartPlacement"
+      }
+    },
+    {
+      "order": 14,
+      "tag": "button",
+      "id": "btm2_2Box",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_2Box",
+        "label": "Box and Whiskers",
+        "onAction": "OnbtmBoxWhiskersPressed",
+        "imageMso": "MergeCells"
+      }
+    },
+    {
+      "order": 15,
+      "tag": "button",
+      "id": "btm2_3ROC",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_3ROC",
+        "label": "ROC Curve",
+        "onAction": "OnbtmROCPressed",
+        "imageMso": "ChartTypeAreaInsertGallery"
+      }
+    },
+    {
+      "order": 16,
+      "tag": "button",
+      "id": "btm2_4KM",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_4KM",
+        "label": "Kaplan-Meier Plot",
+        "onAction": "OnbtmKMPressed",
+        "imageMso": "ConnectorRightAngle"
+      }
+    },
+    {
+      "order": 17,
+      "tag": "button",
+      "id": "btm2_5Normal",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_5Normal",
+        "label": "Normal Plot",
+        "onAction": "OnbtmNormalPressed",
+        "imageMso": "BorderDiagonalUp"
+      }
+    },
+    {
+      "order": 18,
+      "tag": "button",
+      "id": "btm2_6XYZ",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_6XYZ",
+        "label": "XYZ 3D Scatterplot",
+        "onAction": "OnbtmXYZPressed",
+        "imageMso": "_3DSurfaceWireFrameClassic"
+      }
+    },
+    {
+      "order": 19,
+      "tag": "button",
+      "id": "btm2_7ScatPlotMat",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_7ScatPlotMat",
+        "label": "Scatter Plot Matrix",
+        "onAction": "OnbtmScatterPlotMatPressed",
+        "imageMso": "ViewNormalViewExcel"
+      }
+    },
+    {
+      "order": 20,
+      "tag": "button",
+      "id": "btm2_8Polar",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_8Polar",
+        "label": "Polar Plot",
+        "onAction": "OnbtmPolarPressed",
+        "imageMso": "_3DTiltLeftClassic"
+      }
+    },
+    {
+      "order": 21,
+      "tag": "button",
+      "id": "btm2_9CHP",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_9CHP",
+        "label": "Convex Hull Plot",
+        "onAction": "OnbtmCHPPressed",
+        "imageMso": "DrawFilledPolygon"
+      }
+    },
+    {
+      "order": 22,
+      "tag": "button",
+      "id": "btm2_10kite",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_10kite",
+        "label": "Kite Chart",
+        "onAction": "OnbtmKitePressed",
+        "imageMso": "CreateWebServiceConnection"
+      }
+    },
+    {
+      "order": 23,
+      "tag": "button",
+      "id": "btm2_11CatHistogram",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_11CatHistogram",
+        "label": "Histogram - Categorical",
+        "onAction": "OnbtmCatHistogramPressed",
+        "imageMso": "ChartPlotArea"
+      }
+    },
+    {
+      "order": 24,
+      "tag": "button",
+      "id": "btm2_12Violin",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_12Violin",
+        "label": "Violin Plot",
+        "onAction": "OnbtmViolinPressed",
+        "imageMso": "SmartArtEditIn2D"
+      }
+    },
+    {
+      "order": 25,
+      "tag": "button",
+      "id": "btm2_13Sankey",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_13Sankey",
+        "label": "Sankey Plot",
+        "onAction": "OnbtmSankeyPressed",
+        "imageMso": "DiagramCycleInsertClassic"
+      }
+    },
+    {
+      "order": 26,
+      "tag": "button",
+      "id": "btm2_14Dumbbell",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_14Dumbbell",
+        "label": "Dumbbell Plot",
+        "onAction": "OnbtmDumbbellPressed",
+        "imageMso": "Bullets"
+      }
+    },
+    {
+      "order": 27,
+      "tag": "button",
+      "id": "btm2_15Ladder",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_15Ladder",
+        "label": "Ladder Plot",
+        "onAction": "OnbtmLadderPressed",
+        "imageMso": "_3DExtrusionParallelClassic"
+      }
+    },
+    {
+      "order": 28,
+      "tag": "button",
+      "id": "btm2_16Bullet",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_16Bullet",
+        "label": "Bullet Chart",
+        "onAction": "OnbtmBulletPressed",
+        "imageMso": "_50PercentComplete"
+      }
+    },
+    {
+      "order": 29,
+      "tag": "button",
+      "id": "btm2_17CDF",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Graphics"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm2_17CDF",
+        "label": "Cumulative Distribution Function Plot",
+        "onAction": "OnbtmCDFPressed",
+        "imageMso": "AutoFilterClassic"
+      }
+    },
+    {
+      "order": 30,
+      "tag": "menu",
+      "id": "subMenu_Parametric",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Parametric",
+        "label": "Parametric"
+      }
+    },
+    {
+      "order": 31,
+      "tag": "button",
+      "id": "btm3_1PairedT",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Parametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm3_1PairedT",
+        "label": "Paired T tests",
+        "onAction": "OnbtmPairedTPressed",
+        "imageMso": "PrintColumns"
+      }
+    },
+    {
+      "order": 32,
+      "tag": "button",
+      "id": "btm3_2UnpairedT",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Parametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm3_2UnpairedT",
+        "label": "Unpaired (two sample) T tests",
+        "onAction": "OnbtmUnpairedTPressed",
+        "imageMso": "JustifyMediumVertical"
+      }
+    },
+    {
+      "order": 33,
+      "tag": "button",
+      "id": "btm3_3OneWayANOVA",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Parametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm3_3OneWayANOVA",
+        "label": "One-Way ANOVA",
+        "onAction": "Onbtm1WayANOVAPressed",
+        "imageMso": "Chart3DColumnChart"
+      }
+    },
+    {
+      "order": 34,
+      "tag": "button",
+      "id": "btm3_4OneWayRMANOVA",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Parametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm3_4OneWayRMANOVA",
+        "label": "One-Way Repeated-Measures ANOVA",
+        "onAction": "Onbtm1RMANOVAPressed",
+        "imageMso": "AlignJustify"
+      }
+    },
+    {
+      "order": 35,
+      "tag": "button",
+      "id": "btm3_5TwoWayNested",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Parametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm3_5TwoWayNested",
+        "label": "Two-Way Nested ANOVA",
+        "onAction": "Onbtm2WayNestedPressed",
+        "imageMso": "DatabaseRelationships"
+      }
+    },
+    {
+      "order": 36,
+      "tag": "menu",
+      "id": "subMenu_Nonparametric",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Nonparametric",
+        "label": "Nonparametric"
+      }
+    },
+    {
+      "order": 37,
+      "tag": "button",
+      "id": "btm4_1MannWhiteny",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Nonparametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm4_1MannWhiteny",
+        "label": "Mann-Whitney Test",
+        "onAction": "OnbtmMannWhitneyPressed",
+        "imageMso": "JustifyMediumVertical"
+      }
+    },
+    {
+      "order": 38,
+      "tag": "button",
+      "id": "btm4_2Wilcoxon",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Nonparametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm4_2Wilcoxon",
+        "label": "Wilcoxon Signed Rank Test",
+        "onAction": "OnbtmWilcoxonPressed",
+        "imageMso": "PrintColumns"
+      }
+    },
+    {
+      "order": 39,
+      "tag": "button",
+      "id": "btm4_3KruskallWalis",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Nonparametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm4_3KruskallWalis",
+        "label": "Kruskal-Wallis Test",
+        "onAction": "OnbtmKruskalWallisPressed",
+        "imageMso": "Chart3DColumnChart"
+      }
+    },
+    {
+      "order": 40,
+      "tag": "button",
+      "id": "btm4_4Friedman",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Nonparametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm4_4Friedman",
+        "label": "Friedman Test",
+        "onAction": "OnbtmFriedmanPressed",
+        "imageMso": "AlignJustify"
+      }
+    },
+    {
+      "order": 41,
+      "tag": "button",
+      "id": "btm4_5CochranQ",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Nonparametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm4_5CochranQ",
+        "label": "Cochran's Q Test",
+        "onAction": "OnbtmCochranPressed",
+        "imageMso": "SlidesPerPage9Slides"
+      }
+    },
+    {
+      "order": 42,
+      "tag": "button",
+      "id": "btm4_6Skilling",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Nonparametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm4_6Skilling",
+        "label": "Skillings-Mack Test",
+        "onAction": "OnbtmSkillingsMackPressed",
+        "imageMso": "LineStylesDialog"
+      }
+    },
+    {
+      "order": 43,
+      "tag": "button",
+      "id": "btm4_7Spearman",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Nonparametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm4_7Spearman",
+        "label": "Spearman Rank Correlation",
+        "onAction": "OnbtmSpearmanPressed",
+        "imageMso": "GroupDesignGridlines"
+      }
+    },
+    {
+      "order": 44,
+      "tag": "button",
+      "id": "btm4_8Kendall",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Nonparametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm4_8Kendall",
+        "label": "Kendall's Rank Correlation",
+        "onAction": "OnbtmKendallPressed",
+        "imageMso": "GroupDesignGridlines"
+      }
+    },
+    {
+      "order": 45,
+      "tag": "button",
+      "id": "btm4_9TheilSen",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Nonparametric"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm4_9TheilSen",
+        "label": "Theil-Sen Simple Regression",
+        "onAction": "OnbtmTheilSenPressed",
+        "imageMso": "BorderDiagonalUp"
+      }
+    },
+    {
+      "order": 46,
+      "tag": "menu",
+      "id": "subMenu_Contingency",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Contingency",
+        "label": "Contingency Table Analysis"
+      }
+    },
+    {
+      "order": 47,
+      "tag": "button",
+      "id": "btm5_12x2",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Contingency"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm5_12x2",
+        "label": "2x2 Table",
+        "onAction": "Onbtm2x2Pressed",
+        "imageMso": "BorderInside"
+      }
+    },
+    {
+      "order": 48,
+      "tag": "button",
+      "id": "btm5_2RxC",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Contingency"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm5_2RxC",
+        "label": "RxC Table",
+        "onAction": "OnbtmRxCPressed",
+        "imageMso": "GridSettings"
+      }
+    },
+    {
+      "order": 49,
+      "tag": "button",
+      "id": "btm5_3Mantel",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Contingency"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm5_3Mantel",
+        "label": "Mantel-Haenszel Test",
+        "onAction": "OnbtmMantelPressed",
+        "imageMso": "ShapesDuplicate"
+      }
+    },
+    {
+      "order": 50,
+      "tag": "button",
+      "id": "btm5_4Proportions",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Contingency"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm5_4Proportions",
+        "label": "Proportions",
+        "onAction": "OnbtmProportionsPressed",
+        "imageMso": "ObjectSendToBackOutlook"
+      }
+    },
+    {
+      "order": 51,
+      "tag": "button",
+      "id": "btm5_5CA",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Contingency"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm5_5CA",
+        "label": "Correspondence Analysis",
+        "onAction": "OnbtmCAPressed",
+        "imageMso": "TableInsertExcel"
+      }
+    },
+    {
+      "order": 52,
+      "tag": "menu",
+      "id": "subMenu_Survival",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Survival",
+        "label": "Survival Analysis"
+      }
+    },
+    {
+      "order": 53,
+      "tag": "button",
+      "id": "btm6_1KM",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Survival"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm6_1KM",
+        "label": "Kaplan-Meier Plot",
+        "onAction": "OnbtmKMPressed",
+        "imageMso": "ConnectorRightAngle"
+      }
+    },
+    {
+      "order": 54,
+      "tag": "button",
+      "id": "btm6_2Logrank",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Survival"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm6_2Logrank",
+        "label": "Logrank Test",
+        "onAction": "OnbtmLogrankPressed",
+        "imageMso": "ChartTypeLineInsertGallery"
+      }
+    },
+    {
+      "order": 55,
+      "tag": "button",
+      "id": "btm6_3Cox",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Survival"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm6_3Cox",
+        "label": "Cox Regression",
+        "onAction": "OnbtmCoxPressed",
+        "imageMso": "ChartTypeXYScatterInsertGallery"
+      }
+    },
+    {
+      "order": 56,
+      "tag": "menu",
+      "id": "subMenu_Regression",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Regression",
+        "label": "Regression"
+      }
+    },
+    {
+      "order": 57,
+      "tag": "button",
+      "id": "btm7_1LM",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_1LM",
+        "label": "Multiple Linear Regression (LM)",
+        "onAction": "OnbtmLMPressed",
+        "imageMso": "ChartTrendline"
+      }
+    },
+    {
+      "order": 58,
+      "tag": "button",
+      "id": "btm7_2GLM",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_2GLM",
+        "label": "Generalized Linear Models (GLM)",
+        "onAction": "OnbtmGLMPressed",
+        "imageMso": "EquationScriptGallery"
+      }
+    },
+    {
+      "order": 59,
+      "tag": "button",
+      "id": "btm7_3GLM_NB2",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_3GLM_NB2",
+        "label": "Negative Binomial Regression (NB2)",
+        "onAction": "OnbtmGLMNB2Pressed",
+        "imageMso": "Superscript"
+      }
+    },
+    {
+      "order": 60,
+      "tag": "button",
+      "id": "btm7_4_GEE",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_4_GEE",
+        "label": "Generalized Estimating Equations (GEE)",
+        "onAction": "OnbtmGEEPressed",
+        "imageMso": "SlidesPerPage3Slides"
+      }
+    },
+    {
+      "order": 61,
+      "tag": "button",
+      "id": "btm7_9MMRM",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_9MMRM",
+        "label": "Mixed Models for Repeated Measures (MMRM)",
+        "onAction": "OnbtmMMRMPressed",
+        "imageMso": "AccessListContacts"
+      }
+    },
+    {
+      "order": 62,
+      "tag": "button",
+      "id": "btm7_10LMM",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_10LMM",
+        "label": "Linear Mixed Model (LMM)",
+        "onAction": "OnbtmLMMPressed",
+        "imageMso": "ChartLines"
+      }
+    },
+    {
+      "order": 63,
+      "tag": "button",
+      "id": "btm7_5Cox",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_5Cox",
+        "label": "Cox Regression",
+        "onAction": "OnbtmCoxPressed",
+        "imageMso": "ChartTypeXYScatterInsertGallery"
+      }
+    },
+    {
+      "order": 64,
+      "tag": "button",
+      "id": "btm7_6ZIP",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_6ZIP",
+        "label": "Zero-Inflated Poisson Regression",
+        "onAction": "OnbtmZeroPressed",
+        "imageMso": "Z"
+      }
+    },
+    {
+      "order": 65,
+      "tag": "button",
+      "id": "btm7_7MultiLogit",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_7MultiLogit",
+        "label": "Multinomial Logistic Regression",
+        "onAction": "OnbtmMultiLogitPressed",
+        "imageMso": "Bullets"
+      }
+    },
+    {
+      "order": 66,
+      "tag": "button",
+      "id": "btm7_8OrdLogit",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Regression"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm7_8OrdLogit",
+        "label": "Ordinal Logistic Regression",
+        "onAction": "OnbtmOrdLogitPressed",
+        "imageMso": "Numbering"
+      }
+    },
+    {
+      "order": 67,
+      "tag": "menu",
+      "id": "subMenu_Multivariate",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Multivariate",
+        "label": "Multivariate Analysis"
+      }
+    },
+    {
+      "order": 68,
+      "tag": "button",
+      "id": "btn8_1Hotteling",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Multivariate"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn8_1Hotteling",
+        "label": "Hotelling's T-Squared Test",
+        "onAction": "OnbtmHottelingPressed",
+        "imageMso": "T"
+      }
+    },
+    {
+      "order": 69,
+      "tag": "button",
+      "id": "btn8_2PCA",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Multivariate"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn8_2PCA",
+        "label": "Principal Component Analysis",
+        "onAction": "OnbtmPCAPressed",
+        "imageMso": "ChartTypeOtherInsertGallery"
+      }
+    },
+    {
+      "order": 70,
+      "tag": "button",
+      "id": "btm8_3CA",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Multivariate"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm8_3CA",
+        "label": "Correspondence Analysis",
+        "onAction": "OnbtmCAPressed",
+        "imageMso": "TableInsertExcel"
+      }
+    },
+    {
+      "order": 71,
+      "tag": "button",
+      "id": "btm8_4MCA",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Multivariate"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm8_4MCA",
+        "label": "Multiple Correspondence Analysis",
+        "onAction": "OnbtmMCAPressed",
+        "imageMso": "PivotTableOptions"
+      }
+    },
+    {
+      "order": 72,
+      "tag": "button",
+      "id": "btm8_5KMC",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Multivariate"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm8_5KMC",
+        "label": "K-Means Clustering",
+        "onAction": "OnbtmKMCPressed",
+        "imageMso": "DesignAccentsGallery"
+      }
+    },
+    {
+      "order": 73,
+      "tag": "button",
+      "id": "btm8_6HC",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Multivariate"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm8_6HC",
+        "label": "Hierarchical Clustering",
+        "onAction": "OnbtmHCPressed",
+        "imageMso": "ViewPredecessorsSuccessorsShow"
+      }
+    },
+    {
+      "order": 74,
+      "tag": "button",
+      "id": "btm8_7FA",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Multivariate"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm8_7FA",
+        "label": "Factor Analysis",
+        "onAction": "OnbtmFAPressed",
+        "imageMso": "CreateSubsite"
+      }
+    },
+    {
+      "order": 75,
+      "tag": "button",
+      "id": "btm8_8Discr",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Multivariate"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm8_8Discr",
+        "label": "Discriminant Analysis",
+        "onAction": "OnbtmDiscrPressed",
+        "imageMso": "AutomaticResize"
+      }
+    },
+    {
+      "order": 76,
+      "tag": "menu",
+      "id": "subMenu_SampleSize",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_SampleSize",
+        "label": "Sample Size"
+      }
+    },
+    {
+      "order": 77,
+      "tag": "button",
+      "id": "btn9_1PairedT",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SampleSize"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn9_1PairedT",
+        "label": "Paired T-test",
+        "onAction": "OnbtmSampleSizePairedTPressed",
+        "imageMso": "PrintColumns"
+      }
+    },
+    {
+      "order": 78,
+      "tag": "button",
+      "id": "btn9_2UnPairedT",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SampleSize"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn9_2UnPairedT",
+        "label": "Unpaired T-test",
+        "onAction": "OnbtmSampleSizeUnPairedTPressed",
+        "imageMso": "JustifyMediumVertical"
+      }
+    },
+    {
+      "order": 79,
+      "tag": "button",
+      "id": "btn9_3SingleProp",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SampleSize"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn9_3SingleProp",
+        "label": "Single Proportion",
+        "onAction": "OnbtmSinglePropPressed",
+        "imageMso": "ObjectsArrangeMenu"
+      }
+    },
+    {
+      "order": 80,
+      "tag": "button",
+      "id": "btn9_4IndProp",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SampleSize"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn9_4IndProp",
+        "label": "Independent Proportions",
+        "onAction": "OnbtmIndPropPressed",
+        "imageMso": "ObjectsGroupMenuOutlook"
+      }
+    },
+    {
+      "order": 81,
+      "tag": "button",
+      "id": "btn9_5logrank",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SampleSize"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn9_5logrank",
+        "label": "Log-rank Test",
+        "onAction": "OnbtmSSlogrankPressed",
+        "imageMso": "ChartTypeLineInsertGallery"
+      }
+    },
+    {
+      "order": 82,
+      "tag": "button",
+      "id": "btn9_6cox",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SampleSize"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn9_6cox",
+        "label": "Cox Regression",
+        "onAction": "OnbtmSScoxPressed",
+        "imageMso": "ChartTypeXYScatterInsertGallery"
+      }
+    },
+    {
+      "order": 83,
+      "tag": "button",
+      "id": "btn9_7icc",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SampleSize"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn9_7icc",
+        "label": "Intraclass Correlation (ICC)",
+        "onAction": "OnbtmSSiccPressed",
+        "imageMso": "CombineShapesGallery"
+      }
+    },
+    {
+      "order": 84,
+      "tag": "button",
+      "id": "btn9_8ba",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SampleSize"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn9_8ba",
+        "label": "Agreement (Bland-Altman)",
+        "onAction": "OnbtmSSblandaltmanPressed",
+        "imageMso": "ChartLines"
+      }
+    },
+    {
+      "order": 85,
+      "tag": "menu",
+      "id": "subMenu_Agreement",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Agreement",
+        "label": "Agreement"
+      }
+    },
+    {
+      "order": 86,
+      "tag": "button",
+      "id": "btn10_1PassingBablok",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Agreement"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn10_1PassingBablok",
+        "label": "Passing-Bablok Regression",
+        "onAction": "OnbtmPassingBablok",
+        "imageMso": "AutoSummaryViewByHighlight"
+      }
+    },
+    {
+      "order": 87,
+      "tag": "button",
+      "id": "btn10_2Deming",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Agreement"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn10_2Deming",
+        "label": "Deming Regression",
+        "onAction": "OnbtmDeming",
+        "imageMso": "DiagramResizeClassic"
+      }
+    },
+    {
+      "order": 88,
+      "tag": "button",
+      "id": "btn10_3Bland",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Agreement"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn10_3Bland",
+        "label": "Bland–Altman Analysis",
+        "onAction": "OnbtmBlandAltman",
+        "imageMso": "ChartLines"
+      }
+    },
+    {
+      "order": 89,
+      "tag": "button",
+      "id": "btn10_4LCCC",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Agreement"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn10_4LCCC",
+        "label": "Lin's Concordance Correlation Coefficient",
+        "onAction": "OnbtmLCCC",
+        "imageMso": "BlackAndWhiteDontShow"
+      }
+    },
+    {
+      "order": 90,
+      "tag": "button",
+      "id": "btn10_5Cohen",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Agreement"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn10_5Cohen",
+        "label": "Cohen's / Weighted Kappa",
+        "onAction": "OnbtmCohenKappa",
+        "imageMso": "FormControlCheckBox"
+      }
+    },
+    {
+      "order": 91,
+      "tag": "button",
+      "id": "btn10_6icc",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Agreement"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn10_6icc",
+        "label": "Intraclass Correlation Coefficients",
+        "onAction": "OnbtmIcc",
+        "imageMso": "CombineShapesGallery"
+      }
+    },
+    {
+      "order": 92,
+      "tag": "menu",
+      "id": "subMenu_Causal",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_Causal",
+        "label": "Causal Inference"
+      }
+    },
+    {
+      "order": 93,
+      "tag": "button",
+      "id": "btmCausal_PSM",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_Causal"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btmCausal_PSM",
+        "label": "Propensity Score Matching",
+        "onAction": "OnbtmPSMPressed",
+        "imageMso": "ChartTrendline"
+      }
+    },
+    {
+      "order": 94,
+      "tag": "menu",
+      "id": "subMenu_SPC",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "subMenu_SPC",
+        "label": "Statistical Process Control"
+      }
+    },
+    {
+      "order": 95,
+      "tag": "button",
+      "id": "btm12_1ControlCharts",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SPC"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm12_1ControlCharts",
+        "label": "Control Charts",
+        "onAction": "OnbtmControlChartsPressed",
+        "imageMso": "ContentControlRepeating"
+      }
+    },
+    {
+      "order": 96,
+      "tag": "button",
+      "id": "btm12_2MultControlCharts",
+      "ancestors": [
+        "tab1",
+        "group1",
+        "MainMenu",
+        "subMenu_SPC"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btm12_2MultControlCharts",
+        "label": "Multivariate Control Charts",
+        "onAction": "OnbtmMultControlChartsPressed",
+        "imageMso": "ControlAdvancedProperties"
+      }
+    },
+    {
+      "order": 97,
+      "tag": "separator",
+      "id": "sep1",
+      "ancestors": [
+        "tab1",
+        "group1"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "sep1"
+      }
+    },
+    {
+      "order": 98,
+      "tag": "button",
+      "id": "btn00_1About",
+      "ancestors": [
+        "tab1",
+        "group1"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn00_1About",
+        "label": "About",
+        "onAction": "OnbtmAboutPressed",
+        "imageMso": "Info"
+      }
+    },
+    {
+      "order": 99,
+      "tag": "button",
+      "id": "btn00_2Help",
+      "ancestors": [
+        "tab1",
+        "group1"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn00_2Help",
+        "label": "Help",
+        "onAction": "OnbtmHelpPressed",
+        "imageMso": "Help"
+      }
+    },
+    {
+      "order": 100,
+      "tag": "button",
+      "id": "btn00_3Settings",
+      "ancestors": [
+        "tab1",
+        "group1"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn00_3Settings",
+        "label": "Settings",
+        "onAction": "OnbtmSettingsPressed",
+        "imageMso": "PivotTableFieldSettings"
+      }
+    },
+    {
+      "order": 101,
+      "tag": "button",
+      "id": "btn00_4logShow",
+      "ancestors": [
+        "tab1",
+        "group1"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn00_4logShow",
+        "label": "Show Log",
+        "onAction": "OnbtmShowLogPressed",
+        "imageMso": "ScriptDebugger"
+      }
+    },
+    {
+      "order": 102,
+      "tag": "button",
+      "id": "btn00_5ExportChart",
+      "ancestors": [
+        "tab1",
+        "group1"
+      ],
+      "enabled": "default true",
+      "visible": "default true",
+      "attributes": {
+        "id": "btn00_5ExportChart",
+        "label": "Export Chart",
+        "onAction": "OnbtmShowExportChart",
+        "imageMso": "ExportFile"
+      }
+    }
+  ],
+  "callbacks": [
+    {
+      "control": "customUI",
+      "order": 0,
+      "attribute": "loadImage",
+      "callback": "LoadImage",
+      "owner": "ExcelDna.Integration.CustomUI.ExcelRibbon",
+      "signature": "Object LoadImage(String)",
+      "source": {
+        "path": "packages/ExcelDna.Integration.1.9.0/lib/net462/ExcelDna.Integration.dll",
+        "bytes": 308224,
+        "sha256": "c92fcabda2f18eb68d0d1e91cfa4bf05ea079eb66eecb9762884ab576a84f41f"
+      },
+      "member_id": null,
+      "body_sha256": null,
+      "destinations": [],
+      "immediate_host_actions": [],
+      "classification": "WINDOWS_HOST_ONLY_NATIVE_PENDING",
+      "reason": "Inherited image/resource/native callback inspected as compiled metadata only",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm1_1Normaility",
+      "order": 7,
+      "attribute": "onAction",
+      "callback": "OnbtmNormalityTestsPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmNormalityTestsPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|e440d98a1ef5185b@5184:170",
+      "body_sha256": "bcc17977e57a96be62239bd5ee3df043f3afc83c5d42b5289882ed6ccefc02ba",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm1_2Outliers",
+      "order": 8,
+      "attribute": "onAction",
+      "callback": "OnbtmOutliersPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmOutliersPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|2c64534e7233b871@5360:167",
+      "body_sha256": "23b6797ac7f111d4ff2d5ed47c08b18762120feb091eb785db838a749b3cb34d",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm1_3HomogeneityVar",
+      "order": 9,
+      "attribute": "onAction",
+      "callback": "OnbtmHomogeneityVarPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmHomogeneityVarPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|6bc1eba7ba7ae492@5533:191",
+      "body_sha256": "f3f3ac049e65015bb2cbd50573f6fac17e7903e690defe74831263d67d699587",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm1_4Symmetry",
+      "order": 10,
+      "attribute": "onAction",
+      "callback": "OnbtmSymmetryPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSymmetryPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|ec7fa089e3ad0156@5730:157",
+      "body_sha256": "63abfdf64c439cce78e16398150969106e2e463315d3a325f528947171076d14",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm1_5Desc",
+      "order": 11,
+      "attribute": "onAction",
+      "callback": "OnbtmDescriptivePressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmDescriptivePressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|26d1ec7d12f318e5@5893:186",
+      "body_sha256": "b143f5a896f92dea24180261dd5a4315224bf35c3e3fb0c988861e11baa7dbc3",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_1Histogram",
+      "order": 13,
+      "attribute": "onAction",
+      "callback": "OnbtmHistogramPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmHistogramPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|30dc7107121bb9e9@6260:160",
+      "body_sha256": "b3002307f9a9277e39d16560cb152f0c3056523cdf51705895876e8e3181a326",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_2Box",
+      "order": 14,
+      "attribute": "onAction",
+      "callback": "OnbtmBoxWhiskersPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmBoxWhiskersPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|3e2751953a981e28@6426:174",
+      "body_sha256": "bf4c97b617c3c25d27142e053c36a130ec6c93edc1e44c14261f92e1dbd3870e",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_3ROC",
+      "order": 15,
+      "attribute": "onAction",
+      "callback": "OnbtmROCPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmROCPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|6d2dfb118d2773e3@6606:153",
+      "body_sha256": "1555aea24b4943e58526136b3ea58642ec70f37d23948216a4a66582f84f74b9",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_4KM",
+      "order": 16,
+      "attribute": "onAction",
+      "callback": "OnbtmKMPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmKMPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|7686b84448c2c5f7@6765:176",
+      "body_sha256": "3038705a41260fce83f415b614614e7b8e3fed9c44cf9cd23c8553158aa4eb9d",
+      "destinations": [
+        "Ui4KMandLogRank"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_5Normal",
+      "order": 17,
+      "attribute": "onAction",
+      "callback": "OnbtmNormalPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmNormalPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|8c106829c7da6c33@6947:160",
+      "body_sha256": "b49f1409dadb1841fc44fc4282670509ec0f3b1f62d44e451df5d41e29e49e40",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_6XYZ",
+      "order": 18,
+      "attribute": "onAction",
+      "callback": "OnbtmXYZPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmXYZPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|7603623ddcfecb4c@7113:152",
+      "body_sha256": "a00e1166a4096f52f2aa494317bf3c965a865f812804b42917008f971ec9b489",
+      "destinations": [
+        "Ui3XYZplot"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_7ScatPlotMat",
+      "order": 19,
+      "attribute": "onAction",
+      "callback": "OnbtmScatterPlotMatPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmScatterPlotMatPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|c8588d4daafebb4c@7271:431",
+      "body_sha256": "4748dca943706c3f959c1fb80eb123ec65bdc7ab0ab215cc79347429c146cd45",
+      "destinations": [
+        "Ui11PCA"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_8Polar",
+      "order": 20,
+      "attribute": "onAction",
+      "callback": "OnbtmPolarPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmPolarPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|3978a85e68e60052@7708:150",
+      "body_sha256": "438bb1895c0dc67fd4561d7dd520dd158aea58f4cee1b5fe6f134c1c38e4c5e0",
+      "destinations": [
+        "Ui01PolarPlot"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_9CHP",
+      "order": 21,
+      "attribute": "onAction",
+      "callback": "OnbtmCHPPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmCHPPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|5eb3df074f31b529@7864:154",
+      "body_sha256": "801d25abbe5f9171a822c3e8f68f5586e5cb1e03ce89d8d3113e7c112249783a",
+      "destinations": [
+        "Ui01ConvexHullPlot"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_10kite",
+      "order": 22,
+      "attribute": "onAction",
+      "callback": "OnbtmKitePressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmKitePressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|9f2dd127616bd828@8024:171",
+      "body_sha256": "a44d548b06ff1aad679d35227a6c9f233f9eaea90fa31ea1a5ed485d0583bcc3",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_11CatHistogram",
+      "order": 23,
+      "attribute": "onAction",
+      "callback": "OnbtmCatHistogramPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmCatHistogramPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|b08e7c0f7340cb08@8201:188",
+      "body_sha256": "203d7b3fd9bab46e51c46d3d491729ab479138d2c18bf020a032d6f6fe0ca126",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_12Violin",
+      "order": 24,
+      "attribute": "onAction",
+      "callback": "OnbtmViolinPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmViolinPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|77346e768a7414b2@8395:160",
+      "body_sha256": "e34e537a15736db549c93b44e5e2aefc0e54603bb54002f25f8819164f89f8ba",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_13Sankey",
+      "order": 25,
+      "attribute": "onAction",
+      "callback": "OnbtmSankeyPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSankeyPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|990ef9d48809ee8d@8561:153",
+      "body_sha256": "24b7e90a1dc76c246f73028d11ce5208cbd2afe046caea0db4bf1a6c8b5ea11d",
+      "destinations": [
+        "Ui01SankeyPlot"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_14Dumbbell",
+      "order": 26,
+      "attribute": "onAction",
+      "callback": "OnbtmDumbbellPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmDumbbellPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|f545048f9086ec8f@8720:159",
+      "body_sha256": "72ecba9fb38310adb9739de088ed47edbed12fe663aa9e89a101d53bfacc0346",
+      "destinations": [
+        "Ui01DumbbellPlot"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_15Ladder",
+      "order": 27,
+      "attribute": "onAction",
+      "callback": "OnbtmLadderPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmLadderPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|c8e8c02d4766505b@8885:153",
+      "body_sha256": "92a462562a1f8441fc482e557909239dc637bf47dda544afa5e3c8ad97d0dc1c",
+      "destinations": [
+        "Ui01LadderPlot"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_16Bullet",
+      "order": 28,
+      "attribute": "onAction",
+      "callback": "OnbtmBulletPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmBulletPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|a0d455b285ee8d8b@9044:155",
+      "body_sha256": "25c6b55382ba78eafc1d85902737f1cefdea7b8f22c9ec8b429efdd3c2eb6271",
+      "destinations": [
+        "Ui01BulletChart"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm2_17CDF",
+      "order": 29,
+      "attribute": "onAction",
+      "callback": "OnbtmCDFPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmCDFPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|becb1b37caff188b@9205:180",
+      "body_sha256": "a7450e981dfc38c29472345f0e35b73633d1e387a9b86e9f26e9c198c7272511",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm3_1PairedT",
+      "order": 31,
+      "attribute": "onAction",
+      "callback": "OnbtmPairedTPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmPairedTPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|89e1fca8fc374ad7@9568:189",
+      "body_sha256": "37092fae9fd442b83bda4c1ecea45be3789684577d3484da987fc170c5a0459a",
+      "destinations": [
+        "UiTwoInputRefedits"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm3_2UnpairedT",
+      "order": 32,
+      "attribute": "onAction",
+      "callback": "OnbtmUnpairedTPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmUnpairedTPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|68ee1b77d9168e36@9763:170",
+      "body_sha256": "1877b31746ba9672e9c8d1c7f0fd650455cc92e9e7fb3c322e90f17616494a16",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm3_3OneWayANOVA",
+      "order": 33,
+      "attribute": "onAction",
+      "callback": "Onbtm1WayANOVAPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub Onbtm1WayANOVAPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|7bb853267292b8ea@9939:166",
+      "body_sha256": "d480b5ed249af5ade20c563e241d15e5234003549161865a1dc00da7d03ec03c",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm3_4OneWayRMANOVA",
+      "order": 34,
+      "attribute": "onAction",
+      "callback": "Onbtm1RMANOVAPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub Onbtm1RMANOVAPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|9c872c854d0681e1@10110:214",
+      "body_sha256": "1a23c0e5bfd323d89f52bad2095cbb336f7b373a5de1363ed28330348450a07a",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm3_5TwoWayNested",
+      "order": 35,
+      "attribute": "onAction",
+      "callback": "Onbtm2WayNestedPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub Onbtm2WayNestedPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|6c10a8fcf61d8b5e@10329:189",
+      "body_sha256": "0a6badd9ee7f473f2d740e7a38bf85a5e5941d5706125ca34b03f56976987db4",
+      "destinations": [
+        "Ui9ANOVA2nested"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm4_1MannWhiteny",
+      "order": 37,
+      "attribute": "onAction",
+      "callback": "OnbtmMannWhitneyPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmMannWhitneyPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|95d9000b8bf1439a@10705:176",
+      "body_sha256": "1b70a0c640028c5e3ea5f63df12543314cd7ede4c164cd1dcb1cd41c85b6af7d",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm4_2Wilcoxon",
+      "order": 38,
+      "attribute": "onAction",
+      "callback": "OnbtmWilcoxonPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmWilcoxonPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|63bec441039f713c@10887:200",
+      "body_sha256": "e6ca4720bfcdad28193a8bc190fadb58726d23ddef2d7f53bd573c47cf95fa7b",
+      "destinations": [
+        "UiTwoInputRefedits"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm4_3KruskallWalis",
+      "order": 39,
+      "attribute": "onAction",
+      "callback": "OnbtmKruskalWallisPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmKruskalWallisPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|a731f840c135a925@11093:182",
+      "body_sha256": "5a60b93bb9c9116283b2bbc3ffaad7f31dd248c7f0d9b856569b5e84f939303b",
+      "destinations": [
+        "UibyID"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm4_4Friedman",
+      "order": 40,
+      "attribute": "onAction",
+      "callback": "OnbtmFriedmanPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmFriedmanPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|9af152dfbcf6d29d@11281:181",
+      "body_sha256": "2f49a37faac800668bd13bfd898cc189448bae15085dde485574819f35233a4a",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm4_5CochranQ",
+      "order": 41,
+      "attribute": "onAction",
+      "callback": "OnbtmCochranPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmCochranPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|298e2079acd92935@11468:184",
+      "body_sha256": "eda8e10962944104b68cf24ebffa64dfa0eb832b7f8067c345673d51fa5711f4",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm4_6Skilling",
+      "order": 42,
+      "attribute": "onAction",
+      "callback": "OnbtmSkillingsMackPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSkillingsMackPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|15ca869785d23817@11658:197",
+      "body_sha256": "558411b017535b673b7cc33fa96d883fd85d8edbddda66eb139eaa0c221d60c1",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm4_7Spearman",
+      "order": 43,
+      "attribute": "onAction",
+      "callback": "OnbtmSpearmanPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSpearmanPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|34045943aeaf8ba3@11861:201",
+      "body_sha256": "b2f67266333f03be6e87ef216ddca5b71b4fb0be01d476e17c08cb31783be12a",
+      "destinations": [
+        "UiTwoInputRefedits"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm4_8Kendall",
+      "order": 44,
+      "attribute": "onAction",
+      "callback": "OnbtmKendallPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmKendallPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|34cb45c67af58836@12068:201",
+      "body_sha256": "4d0f161064b42d1b46f0f1f22c24772bf5300de2182cd69cd1991a1f1216c413",
+      "destinations": [
+        "UiTwoInputRefedits"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm4_9TheilSen",
+      "order": 45,
+      "attribute": "onAction",
+      "callback": "OnbtmTheilSenPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmTheilSenPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|4e1dda30e3df13eb@12275:204",
+      "body_sha256": "9211081c383fa048e3f1bddc8286ea1000bfad0e54fa8884e239d328675457e6",
+      "destinations": [
+        "UiTwoInputRefedits"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm5_12x2",
+      "order": 47,
+      "attribute": "onAction",
+      "callback": "Onbtm2x2Pressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub Onbtm2x2Pressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|3d15af14fbab38c8@12670:141",
+      "body_sha256": "5c1ff3551e615b7c6d77897f5343243f7fa4928db86de94c2744ddd79f320951",
+      "destinations": [
+        "Ui82x2"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm5_2RxC",
+      "order": 48,
+      "attribute": "onAction",
+      "callback": "OnbtmRxCPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmRxCPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|0cb202af136bd4dd@12816:168",
+      "body_sha256": "8784be9b27f521e0060894288e79296fbc5c35e7908c537e0babfdeb9e2571e4",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm5_3Mantel",
+      "order": 49,
+      "attribute": "onAction",
+      "callback": "OnbtmMantelPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmMantelPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|a9620472b0d6553e@12990:192",
+      "body_sha256": "ed4d94ad69fcefe38a16b689ee651195658cd4e52bd52880e1906bcec35686b0",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm5_4Proportions",
+      "order": 50,
+      "attribute": "onAction",
+      "callback": "OnbtmProportionsPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmProportionsPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|d575cde688aa87a6@13188:159",
+      "body_sha256": "e231c7d80321b695389d5baf390c146f4b855aa3a24aea2030e8fac8a76efccd",
+      "destinations": [
+        "Ui8Proportions"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm5_5CA",
+      "order": 51,
+      "attribute": "onAction",
+      "callback": "OnbtmCAPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmCAPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|64317b5790cd75e7@18461:195",
+      "body_sha256": "3f23683f8ae7480fd4608dc0a4da3b814fe2c4fecfcf288a9b55542cf8ba43d0",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm6_1KM",
+      "order": 53,
+      "attribute": "onAction",
+      "callback": "OnbtmKMPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmKMPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|7686b84448c2c5f7@6765:176",
+      "body_sha256": "3038705a41260fce83f415b614614e7b8e3fed9c44cf9cd23c8553158aa4eb9d",
+      "destinations": [
+        "Ui4KMandLogRank"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm6_2Logrank",
+      "order": 54,
+      "attribute": "onAction",
+      "callback": "OnbtmLogrankPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmLogrankPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|55d109bb50f160eb@13529:172",
+      "body_sha256": "e8f99a520ebcc9d4e0877c9fc1b8f251d9156a3ce4709b848e4068e7dd2ddc52",
+      "destinations": [
+        "Ui4KMandLogRank"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm6_3Cox",
+      "order": 55,
+      "attribute": "onAction",
+      "callback": "OnbtmCoxPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmCoxPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|7bada46f93c56a41@13707:402",
+      "body_sha256": "e5995dda8fbc119517f0c8f460dbcce9867845cc9d25ce17a3078d5423cafaec",
+      "destinations": [
+        "Ui4Cox"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Populate",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_1LM",
+      "order": 57,
+      "attribute": "onAction",
+      "callback": "OnbtmLMPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmLMPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|635e1b5106836a4f@14292:119",
+      "body_sha256": "9aad2fc3c302b05c0ff8eb629197f07083db2bc561c4927c76b3d6c54c6f81f0",
+      "destinations": [
+        "UiGLM"
+      ],
+      "immediate_host_actions": [],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_2GLM",
+      "order": 58,
+      "attribute": "onAction",
+      "callback": "OnbtmGLMPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmGLMPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|414cd01fdc73e5cd@14417:114",
+      "body_sha256": "a1e7c06a353fb92eb6b49872008fdf699f6f88619d6c85ec77b05d620d6d8073",
+      "destinations": [
+        "UiGLM"
+      ],
+      "immediate_host_actions": [],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_3GLM_NB2",
+      "order": 59,
+      "attribute": "onAction",
+      "callback": "OnbtmGLMNB2Pressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmGLMNB2Pressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|f190d2724f86d743@15011:126",
+      "body_sha256": "29f77942950150d28ab7e6eeaca6374cd9e97d267f6a0ef02135cd8dc5eaac0f",
+      "destinations": [
+        "UiGLM"
+      ],
+      "immediate_host_actions": [],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_4_GEE",
+      "order": 60,
+      "attribute": "onAction",
+      "callback": "OnbtmGEEPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmGEEPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|cfc0c502b832c882@14537:468",
+      "body_sha256": "cf98b59a35f2dfc6b5318f9cc527656147cce90a1e2cd434dbf71210bc288983",
+      "destinations": [
+        "Ui13GEE"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Populate",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_9MMRM",
+      "order": 61,
+      "attribute": "onAction",
+      "callback": "OnbtmMMRMPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmMMRMPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|8f045f9da4525b6b@16696:480",
+      "body_sha256": "d556d359f47d471d181b29a55d993457edab5147c56bdce6b3a764e01d648165",
+      "destinations": [
+        "Ui18MMRM"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Populate",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_10LMM",
+      "order": 62,
+      "attribute": "onAction",
+      "callback": "OnbtmLMMPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmLMMPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|f23957d18308d429@17182:447",
+      "body_sha256": "540f7cfeb877ff2a2d0d261e741551270f900f28914ec5c7a7f0197384eddc5b",
+      "destinations": [
+        "Ui19LMM"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Populate",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_5Cox",
+      "order": 63,
+      "attribute": "onAction",
+      "callback": "OnbtmCoxPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmCoxPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|7bada46f93c56a41@13707:402",
+      "body_sha256": "e5995dda8fbc119517f0c8f460dbcce9867845cc9d25ce17a3078d5423cafaec",
+      "destinations": [
+        "Ui4Cox"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Populate",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_6ZIP",
+      "order": 64,
+      "attribute": "onAction",
+      "callback": "OnbtmZeroPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmZeroPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|8a87e5b1a2657a0e@15143:122",
+      "body_sha256": "21f081d237397425b4fd8b5f5f34d8539f789c024ad857b71c7828c869e17822",
+      "destinations": [
+        "UiGLM"
+      ],
+      "immediate_host_actions": [],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_7MultiLogit",
+      "order": 65,
+      "attribute": "onAction",
+      "callback": "OnbtmMultiLogitPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmMultiLogitPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|6ab244131aa191e2@15271:127",
+      "body_sha256": "9300c9ee59041cf2c31ac55d9873644076da47e5e169824608da8babcfffb96c",
+      "destinations": [
+        "UiGLM"
+      ],
+      "immediate_host_actions": [],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm7_8OrdLogit",
+      "order": 66,
+      "attribute": "onAction",
+      "callback": "OnbtmOrdLogitPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmOrdLogitPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|458bf52a3b2ea498@15404:121",
+      "body_sha256": "095bad12cdecc441cd304c4477e2365ff4049912d7e5d9d658d6297802e1d4fe",
+      "destinations": [
+        "UiGLM"
+      ],
+      "immediate_host_actions": [],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn8_1Hotteling",
+      "order": 68,
+      "attribute": "onAction",
+      "callback": "OnbtmHottelingPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmHottelingPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|ea0ed77d88d6ee5d@17814:202",
+      "body_sha256": "6af7e471be389fc7def11781b499175000dbf29b9633668b542335aff6b1bbd0",
+      "destinations": [
+        "UiTwoInputRefedits"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn8_2PCA",
+      "order": 69,
+      "attribute": "onAction",
+      "callback": "OnbtmPCAPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmPCAPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|a4bc86b84f451fbb@18022:433",
+      "body_sha256": "f1c090ab9ba2101c5c5e88e22e8f0b7cc6f53cd14d3628d378585b3d6c4a4ce0",
+      "destinations": [
+        "Ui11PCA"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm8_3CA",
+      "order": 70,
+      "attribute": "onAction",
+      "callback": "OnbtmCAPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmCAPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|64317b5790cd75e7@18461:195",
+      "body_sha256": "3f23683f8ae7480fd4608dc0a4da3b814fe2c4fecfcf288a9b55542cf8ba43d0",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm8_4MCA",
+      "order": 71,
+      "attribute": "onAction",
+      "callback": "OnbtmMCAPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmMCAPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|430c61baa35e4472@18662:441",
+      "body_sha256": "e23606987d68753e6f0d8d5ede90fca809c213e9ed991b69ba5d30c392473574",
+      "destinations": [
+        "Ui11PCA"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm8_5KMC",
+      "order": 72,
+      "attribute": "onAction",
+      "callback": "OnbtmKMCPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmKMCPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|01b85763a170689f@19109:413",
+      "body_sha256": "b98e31ce2382264cf5ef17bac223fbc4cb05bc2fabe783b428aa4599fe381cb2",
+      "destinations": [
+        "Ui11PCA"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm8_6HC",
+      "order": 73,
+      "attribute": "onAction",
+      "callback": "OnbtmHCPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmHCPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|30f81ce385316d04@19528:423",
+      "body_sha256": "5f73dabc75596593bc23a456de097679a9c84939ed8e1926724f26b3c9ddfeaa",
+      "destinations": [
+        "Ui11PCA"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm8_7FA",
+      "order": 74,
+      "attribute": "onAction",
+      "callback": "OnbtmFAPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmFAPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|4fa8854f7ec629f0@19957:407",
+      "body_sha256": "626413de446e428cfc00753f3206d7ad72043aa9293e3d60dc851c52714ab352",
+      "destinations": [
+        "Ui11PCA"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm8_8Discr",
+      "order": 75,
+      "attribute": "onAction",
+      "callback": "OnbtmDiscrPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmDiscrPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|c9243ba1187b5a5e@20370:422",
+      "body_sha256": "c16e8ebdb6f1f3a3e4dae752a46dbae2af93114b3f4c73c28c45d68c97abee27",
+      "destinations": [
+        "Ui11PCA"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn9_1PairedT",
+      "order": 77,
+      "attribute": "onAction",
+      "callback": "OnbtmSampleSizePairedTPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSampleSizePairedTPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|174b9279e95b246e@20976:211",
+      "body_sha256": "c6703c0849550dce5b71a738b9cc2400471a5a300d1d85f2c03587502de13484",
+      "destinations": [
+        "Ui12SampleSizeTtestSingleProp"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn9_2UnPairedT",
+      "order": 78,
+      "attribute": "onAction",
+      "callback": "OnbtmSampleSizeUnPairedTPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSampleSizeUnPairedTPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|467fc85593604613@21192:217",
+      "body_sha256": "1b390dabb38b8040be084826de21bf35d460ba150d0af1bc66935c9233719c2f",
+      "destinations": [
+        "Ui12SampleSizeTtestSingleProp"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn9_3SingleProp",
+      "order": 79,
+      "attribute": "onAction",
+      "callback": "OnbtmSinglePropPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSinglePropPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|2510588ad5935626@21414:213",
+      "body_sha256": "3c00f47d4510e3f857214752f637b0a7bd4ecf4a9e99c787320e7cdd219e6d10",
+      "destinations": [
+        "Ui12SampleSizeTtestSingleProp"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn9_4IndProp",
+      "order": 80,
+      "attribute": "onAction",
+      "callback": "OnbtmIndPropPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmIndPropPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|0af160b4b5b627de@21632:222",
+      "body_sha256": "6397d16470854e1296a77e30afa55e117d3c39abdf259f7af2851ca295dba00a",
+      "destinations": [
+        "Ui12SampleSizeTtestSingleProp"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn9_5logrank",
+      "order": 81,
+      "attribute": "onAction",
+      "callback": "OnbtmSSlogrankPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSSlogrankPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|6159f465f2d2f639@21860:201",
+      "body_sha256": "d6575271c3250d5b2a48a000fe42df61f580fd56d51779fa8efa7bd8f313633a",
+      "destinations": [
+        "Ui12SampleSizeTtestSingleProp"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn9_6cox",
+      "order": 82,
+      "attribute": "onAction",
+      "callback": "OnbtmSScoxPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSScoxPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|c618d93bb4450fbe@22067:194",
+      "body_sha256": "14531f6b915c7f3b4bc2ff14075bc29b5c04486e4a2d7283b2c8d614d58f8c7e",
+      "destinations": [
+        "Ui12SampleSizeTtestSingleProp"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn9_7icc",
+      "order": 83,
+      "attribute": "onAction",
+      "callback": "OnbtmSSiccPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSSiccPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|ff11231666f0debd@22267:208",
+      "body_sha256": "92b0c57fe74005297d3ee1f38aa2058dd8e31eaa79f2e84077f5bf5919ab4a1b",
+      "destinations": [
+        "Ui12SampleSizeTtestSingleProp"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn9_8ba",
+      "order": 84,
+      "attribute": "onAction",
+      "callback": "OnbtmSSblandaltmanPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSSblandaltmanPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|1ae251d0aed616cf@22481:220",
+      "body_sha256": "bccfe667b4054ec04d7ed831e9f2159daeba6d00adcb05e2d268114f7bf525cb",
+      "destinations": [
+        "Ui12SampleSizeTtestSingleProp"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn10_1PassingBablok",
+      "order": 86,
+      "attribute": "onAction",
+      "callback": "OnbtmPassingBablok",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmPassingBablok(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|5b8176537faae94d@22883:196",
+      "body_sha256": "6b5a38e14ced2f9992e9cf6c5760b3a77f3461069b0a6e1ba8846f7e0e32f8f0",
+      "destinations": [
+        "Ui9ANOVA2nested"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn10_2Deming",
+      "order": 87,
+      "attribute": "onAction",
+      "callback": "OnbtmDeming",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmDeming(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|066f219f386f3854@23085:177",
+      "body_sha256": "7cd49f6b8cff31b07cdb00952699ebdc9f2b208c82f2d195705f05eedcb6b261",
+      "destinations": [
+        "UiTwoInputRefedits"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn10_3Bland",
+      "order": 88,
+      "attribute": "onAction",
+      "callback": "OnbtmBlandAltman",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmBlandAltman(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|412a99cb9f3b7d0d@23486:178",
+      "body_sha256": "c25416404ac278ac09e20b29e727930c26eac4702180c146681f7bf826a8d595",
+      "destinations": [
+        "Ui9ANOVA2nested"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn10_4LCCC",
+      "order": 89,
+      "attribute": "onAction",
+      "callback": "OnbtmLCCC",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmLCCC(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|c18166a7dcc652e5@23670:190",
+      "body_sha256": "a5b354fcc78312784fb3c46219595d1006eaaae7e0426339c415bb5b637fd9d0",
+      "destinations": [
+        "UiTwoInputRefedits"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn10_5Cohen",
+      "order": 90,
+      "attribute": "onAction",
+      "callback": "OnbtmCohenKappa",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmCohenKappa(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|e05cb5c331d3e7e9@23866:183",
+      "body_sha256": "cbf07af3566208c061edb52309cedee8a9215f9ddfc88e8108d7675e2fe4edb8",
+      "destinations": [
+        "UiTwoInputRefedits"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn10_6icc",
+      "order": 91,
+      "attribute": "onAction",
+      "callback": "OnbtmIcc",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmIcc(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|ccb3855d66567813@23268:212",
+      "body_sha256": "fc3b987141e4fd8d43f7cdd9a767ed91d25169758436d9761f8b6bfbffc05acc",
+      "destinations": [
+        "Ui0OneRefeditMulticol"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btmCausal_PSM",
+      "order": 93,
+      "attribute": "onAction",
+      "callback": "OnbtmPSMPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmPSMPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|02a3f86e8d84f20a@24239:471",
+      "body_sha256": "f03d150ccdf25c9c4cc2b7d02f3ccfff8faca0628dc2537385cdcd84fe5cbe37",
+      "destinations": [
+        "Ui20PropensityScoreMatching"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Populate",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm12_1ControlCharts",
+      "order": 95,
+      "attribute": "onAction",
+      "callback": "OnbtmControlChartsPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmControlChartsPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|5347c22305aa123a@24911:422",
+      "body_sha256": "2c48d46859491082051e0152f30cd49f9593f4b430ff2bafcd219721b4dc96ab",
+      "destinations": [
+        "Ui21ControlCharts"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btm12_2MultControlCharts",
+      "order": 96,
+      "attribute": "onAction",
+      "callback": "OnbtmMultControlChartsPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmMultControlChartsPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|08e4030bba9de139@25339:463",
+      "body_sha256": "867ed3c4b4889aaf2b40ce44d2992d2614d87ed7238b690fbce4ff9dc6988aa5",
+      "destinations": [
+        "Ui22MultivariateControlCharts"
+      ],
+      "immediate_host_actions": [
+        "Workbooks.Add",
+        "ActiveSheet",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn00_1About",
+      "order": 98,
+      "attribute": "onAction",
+      "callback": "OnbtmAboutPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmAboutPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|21f4665aff2bd15a@25989:132",
+      "body_sha256": "437ae8f29f560a4ec88837922b034305a0f61d3b141881c57328de433b8fac62",
+      "destinations": [
+        "Ui11AboutAddin"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn00_2Help",
+      "order": 99,
+      "attribute": "onAction",
+      "callback": "OnbtmHelpPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmHelpPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|12fa041bcc9a2ff3@26127:117",
+      "body_sha256": "7385306e739d19a3997bb65d0fbc8a1b4dfa23fd9a92da3d2e9bb5021a93148a",
+      "destinations": [],
+      "immediate_host_actions": [
+        "OpenUrl"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn00_3Settings",
+      "order": 100,
+      "attribute": "onAction",
+      "callback": "OnbtmSettingsPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmSettingsPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|7b0488ba3984fbbd@26387:163",
+      "body_sha256": "2a84be2cce65399ebd31754e164910caebe4385643e916277e29ff1957ae9796",
+      "destinations": [
+        "Ui12GlobalSettings"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn00_4logShow",
+      "order": 101,
+      "attribute": "onAction",
+      "callback": "OnbtmShowLogPressed",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmShowLogPressed(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|d2e1b4a45a826f49@26250:131",
+      "body_sha256": "ab385371db895d985f29ac0ac9eb0ea8ab354daa5ae64400e1df3a4e45c35595",
+      "destinations": [
+        "Ui10ShowLog"
+      ],
+      "immediate_host_actions": [
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    },
+    {
+      "control": "btn00_5ExportChart",
+      "order": 102,
+      "attribute": "onAction",
+      "callback": "OnbtmShowExportChart",
+      "owner": "BESHStatNG.Ribbon",
+      "signature": "Public Sub OnbtmShowExportChart(control As IRibbonControl)",
+      "source": {
+        "path": "BESHstatNG/BESHStatAddIn.vb",
+        "bytes": 27975,
+        "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+      },
+      "member_id": "BESHstatNG/BESHStatAddIn.vb|BESHStatNG.Ribbon|SubBlock|e9e25c1aeb6a7554@26633:1325",
+      "body_sha256": "945b05790eab78c62ce3be034e5bceb72e701cf541fbe2547b5bfec49deaf8ca",
+      "destinations": [
+        "Ui99ExportChart"
+      ],
+      "immediate_host_actions": [
+        "QueueAsMacro",
+        "WindowHandle",
+        "Show"
+      ],
+      "classification": "FAKE_HOST_EXECUTED",
+      "reason": "Original class slice compiled against closed fake types;XML ID dispatch executed;actual native form and COM effects pending",
+      "evidence": "BESHStatNG.Test/src/WindowsHarness45Tests.vb",
+      "next_gate": "Exact owner Windows/COM approval;N1/N2 same-session loaded-code proof"
+    }
+  ],
+  "action_occurrences": 84,
+  "distinct_actions": 81,
+  "getEnabled": 0,
+  "getVisible": 0,
+  "dynamic_menu_callbacks": 0,
+  "unsupported_availability": "No availability callbacks are deployed;no feature availability correction authorized. Native runtime availability unproved.",
+  "registration": "Excel-DNA IExcelAddIn/ComVisible Ribbon;GetCustomUI returns My.Resources.RibbonXML;resource entry and compiled metadata independently checked",
+  "source_order_preserved": true,
+  "native": "NOT_RUN"
+}

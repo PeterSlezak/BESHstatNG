@@ -1,0 +1,97 @@
+{
+  "kind": "CURRENT_MAIN_PRE_EDIT_04A45_SOURCE_DERIVED_FAKE",
+  "source": {
+    "path": "BESHstatNG/BESHStatAddIn.vb",
+    "bytes": 27975,
+    "sha256": "64a83f76f272bc3259a45631994dc33862682d7b37774a59eb81c07c681c2593"
+  },
+  "projection": {
+    "path": "BESHStatNG.Test/src/RibbonProjection45.vb",
+    "bytes": 29316,
+    "sha256": "c68aaccfef0f75acdf2c6428b0ba7f8fc971fa390c4570a63a07e0974ca97d02"
+  },
+  "exact_class_slice_sha256": "3fa20b973ac148766e457f3e85bb161a8d1ba7bfaabc475538863a412694c88e",
+  "substitutions": [
+    [
+      "Public Class Ribbon",
+      "Friend Class RibbonProjection45"
+    ],
+    [
+      "Inherits ExcelRibbon",
+      "Inherits FakeRibbonBase45"
+    ],
+    [
+      "My.Resources.RibbonXML",
+      "FakeTrace45.RibbonXml"
+    ],
+    [
+      "AppGlobals.",
+      "FakeGlobals45."
+    ],
+    [
+      "HelpLinks.",
+      "FakeHelp45."
+    ],
+    [
+      "ExcelDna.Integration.ExcelAsyncUtil.",
+      "FakeAsync45."
+    ],
+    [
+      "ExcelDnaUtil.",
+      "FakeDna45."
+    ],
+    [
+      "MessageBox.Show",
+      "FakeMessage45.Show"
+    ],
+    [
+      "MessageBoxButtons.OK",
+      "0"
+    ],
+    [
+      "MessageBoxIcon.Information",
+      "0"
+    ],
+    [
+      "ExcelWindowWrapper",
+      "FakeWindow45"
+    ],
+    [
+      " As Worksheet",
+      " As FakeSheet45"
+    ]
+  ],
+  "fake_forms": [
+    "Ui01BulletChart",
+    "Ui01ConvexHullPlot",
+    "Ui01DumbbellPlot",
+    "Ui01LadderPlot",
+    "Ui01PolarPlot",
+    "Ui01SankeyPlot",
+    "Ui0OneRefeditMulticol",
+    "Ui10ShowLog",
+    "Ui11AboutAddin",
+    "Ui11PCA",
+    "Ui12GlobalSettings",
+    "Ui12SampleSizeTtestSingleProp",
+    "Ui13GEE",
+    "Ui18MMRM",
+    "Ui19LMM",
+    "Ui20PropensityScoreMatching",
+    "Ui21ControlCharts",
+    "Ui22MultivariateControlCharts",
+    "Ui3XYZplot",
+    "Ui4Cox",
+    "Ui4KMandLogRank",
+    "Ui82x2",
+    "Ui8Proportions",
+    "Ui99ExportChart",
+    "Ui9ANOVA2nested",
+    "UiGLM",
+    "UiTwoInputRefedits",
+    "UibyID"
+  ],
+  "registration": "Real ExcelRibbon metadata checked separately;source projection has only closed fake dependencies",
+  "native": "NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

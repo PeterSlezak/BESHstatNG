@@ -1,0 +1,61 @@
+{
+  "kind": "CURRENT_MAIN_PRE_EDIT_04A45_SOURCE_DERIVED_FAKE",
+  "source": {
+    "path": "BESHstatNG/src/UI/UibyID.vb",
+    "bytes": 101646,
+    "sha256": "8e1abf770c4092f01959a71a741efaeb411d11c781328651a786489124d5a161"
+  },
+  "projection": {
+    "path": "BESHStatNG.Test/src/OptionProjection45.vb",
+    "bytes": 3883,
+    "sha256": "4f9a0776c4a6f9a70956d1ae7f92c4440905aae757ea6fdf9c1a1b6491c1e8c1"
+  },
+  "members": [
+    {
+      "owner": "BESHStatNG.UibyID",
+      "method": "optOutputRange_Click",
+      "start_line": 1718,
+      "source_text_sha256": "a354cc207253b26c7d26b8252deef3e4ea11f1f46a33293673e98f8b9d317e8f",
+      "binding": "optOutputRange.Click"
+    },
+    {
+      "owner": "BESHStatNG.UibyID",
+      "method": "optWorksheet_Click",
+      "start_line": 1723,
+      "source_text_sha256": "39762187847a0d5e48d5ada3683850386eeec70e864f130a8df35d9a141a3f6f",
+      "binding": "optWorksheet.Click"
+    },
+    {
+      "owner": "BESHStatNG.UibyID",
+      "method": "optWorkbook_Click",
+      "start_line": 1727,
+      "source_text_sha256": "c98eb6d6ce689f00acda9ff1574508f592a499eede4efd2473305ab73eb0ddf9",
+      "binding": "optWorkbook.Click"
+    },
+    {
+      "owner": "BESHStatNG.UibyID",
+      "method": "optByColumn_Click",
+      "start_line": 1731,
+      "source_text_sha256": "d9222aa8f68dfa1e4872aad734fa2ea13a0eb2fdbea07fdf5151a89e6a857cdd",
+      "binding": "optByColumn.Click"
+    },
+    {
+      "owner": "BESHStatNG.UibyID",
+      "method": "optByID_Click",
+      "start_line": 1756,
+      "source_text_sha256": "db34cace4aacf0cb48024d3040eaefbe0e3f881065b9faac1a0a2766c65027a2",
+      "binding": "optByID.Click"
+    },
+    {
+      "owner": "BESHStatNG.UibyID",
+      "method": "ApplyUnpairedTtestInputLabels",
+      "start_line": 1884,
+      "source_text_sha256": "67287a96ce54b9e9978be2d04508ea683fa5b648357c34a25bb19ab7136c3e52",
+      "binding": "helper-reached-from-optByColumn_Click"
+    }
+  ],
+  "substitutions": [],
+  "binding": "Original Handles clauses compile unchanged against fake WithEvents events;tests raise those events,not direct handler calls",
+  "unproved": "Actual WinForms radio exclusivity,focus,selection,workbook capture and request projection remain native pending;family sweep46/47",
+  "native": "NOT_RUN"
+}

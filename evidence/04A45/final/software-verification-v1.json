@@ -1,0 +1,74 @@
+{
+  "Debug": {
+    "configuration": "Debug",
+    "scope": "ONE_FULL_FRESH_CAMPAIGN",
+    "identities": 21411,
+    "outcomes": {
+      "Passed": 21397,
+      "Failed": 14
+    },
+    "added": 145,
+    "missing": [],
+    "nonpass_deltas": {
+      "RETAINED_IDENTICAL": 14
+    }
+  },
+  "Release": {
+    "configuration": "Release",
+    "scope": "TARGETED_AFFECTED_CONTRACTS;FULL_RELEASE_NOT_RUN",
+    "identities": 1230,
+    "outcomes": {
+      "Passed": 1230
+    },
+    "added": 145,
+    "missing": [],
+    "nonpass_deltas": {}
+  },
+  "full_Release": "NOT_RUN",
+  "compiled_proof": {
+    "path": "evidence/04A45/abi-cil/compiled-ui-and-build-attribution-v1.json",
+    "bytes": 76655,
+    "sha256": "f7825ada8566eb74b2f1a573ab175b9025c78609dd90f429db2e50cca4147de7"
+  },
+  "ABI_exports_per_configuration": 268,
+  "CIL_production_scope": "All Core/Common/selected Windows ABI owners plus complete emitted UI/Ribbon/RefEdit metadata/IL inventory exact accepted44;all production source bytes exact main.",
+  "compatibility_per_configuration": {
+    "total": 29424,
+    "PRE_EDIT_FROZEN": 28966,
+    "LATE_ARCHIVED_ENTRY_SUPPLEMENT": 458,
+    "new_original_queries": 0
+  },
+  "retained_current_cases": {
+    "batch39": 77,
+    "batch40": 48,
+    "batch41": 390,
+    "batch42": 1802,
+    "batch43_operations": 1118,
+    "batch43_graphs": 36,
+    "batch43_races": 864,
+    "batch43_policy": 15,
+    "batch44": 591,
+    "batch44_fake_progress": 72
+  },
+  "strict_profile_MkDocs": [
+    1,
+    1,
+    0
+  ],
+  "Node": "INHERITED_916_PASS;NOT_RERUN",
+  "managed_Office_contracts": "FRESH_FULL_DEBUG_PASS",
+  "live_Excel_COM_UIA_RefEdit": "NOT_RUN",
+  "native_HWND_PID_XLL": "NOT_VERIFIED",
+  "scientific": "NOT_GOLDEN",
+  "new_harness_identities": 145,
+  "prior_failed_attempts": "Retained in waves and protected raw attempts;not promoted to PASS",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "scientific": "NOT_GOLDEN",
+    "next": "04A46_NOT_AUTHORIZED"
+  }
+}

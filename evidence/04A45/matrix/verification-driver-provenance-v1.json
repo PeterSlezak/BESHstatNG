@@ -1,0 +1,159 @@
+{
+  "rows": [
+    {
+      "source": {
+        "path": "evidence/04A44/reconcile-managed-v1.py",
+        "bytes": 3751,
+        "sha256": "186ee06052284b4ffe1cb18760f2062218b82b64e539aff87813dbb5fcecdbe1"
+      },
+      "driver": {
+        "path": "evidence/04A45/reconcile-managed-v1.py",
+        "bytes": 3736,
+        "sha256": "92cac84617a531e31ac991ae8f6374865175d3fcc02534750d62abeeffde4c2b"
+      },
+      "substitutions": [
+        [
+          "common44",
+          "common45"
+        ],
+        [
+          "evidence/04A43/build-and-tests/Debug-identities-v1.json",
+          "evidence/04A44/build-and-tests/Debug-identities-v1.json"
+        ],
+        [
+          "ADDED44",
+          "ADDED45"
+        ],
+        [
+          "['InfrastructurePolicy44Tests','InfrastructurePolicy44AdapterTests']",
+          "['WindowsHarness45Tests','WindowsHarness45FormTests']"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A44/compiled-and-fixtures-v1.py",
+        "bytes": 8539,
+        "sha256": "bcd3e7f31929515ed900c8552ca11e728bec2051f8c50b11f1f91fa61c9cd382"
+      },
+      "driver": {
+        "path": "evidence/04A45/compiled-and-fixtures-v1.py",
+        "bytes": 8594,
+        "sha256": "4c1f84a9a844b961821f003405b9895f76d7183a66d46409b70f302463869002"
+      },
+      "substitutions": [
+        [
+          "common44",
+          "common45"
+        ],
+        [
+          "label='a44-wave-b-v3' if config=='Debug' else 'a44-final-v1'",
+          "label='a45-final-v1'"
+        ],
+        [
+          "evidence/04A43/abi-cil/",
+          "evidence/04A44/abi-cil/"
+        ],
+        [
+          "PRIVATE/'fixtures-before-v1/",
+          "ROOT/'.test-rationalization-04A44.tmp/fixtures-before-v1/"
+        ],
+        [
+          "assert not unexpected,'UNEXPECTED_COMPILED_METHOD_CHANGE'",
+          "assert not changes,'UNEXPECTED_PRODUCTION_COMPILED_METHOD_CHANGE'"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A44/compatibility-v1.py",
+        "bytes": 3979,
+        "sha256": "4673b01a40646fb716ce3406d7881201eb99d748c50707e527c91f761c4de7cb"
+      },
+      "driver": {
+        "path": "evidence/04A45/compatibility-v1.py",
+        "bytes": 3979,
+        "sha256": "a56de85145c90c299714aee69ef74afc8bcfa2d673aae482a8fae9f4d4d3af4b"
+      },
+      "substitutions": [
+        [
+          "common44",
+          "common45"
+        ],
+        [
+          "stage='a44-'",
+          "stage='a45-'"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A44/cumulative43-44-v2.py",
+        "bytes": 2565,
+        "sha256": "98f6765c9d2c5f68cfe1195c0570f3607f56d72f843b97b645718c57865d3984"
+      },
+      "driver": {
+        "path": "evidence/04A45/cumulative-v1.py",
+        "bytes": 2652,
+        "sha256": "3dbfe22ca74075d7c0f0666255652b12471027b3c85d8de258518e6560268803"
+      },
+      "substitutions": [
+        [
+          "common44",
+          "common45"
+        ],
+        [
+          "PRIVATE/'fixtures-before-v1/",
+          "ROOT/'.test-rationalization-04A44.tmp/fixtures-before-v1/"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A44/progress-stub-v1.py",
+        "bytes": 4966,
+        "sha256": "9ec2d1fb578b5e8d21c664e8037aad58b810dcf8edd0634eaaa45fa565eec53a"
+      },
+      "driver": {
+        "path": "evidence/04A45/progress-stub-v1.py",
+        "bytes": 4914,
+        "sha256": "baa56c216b3bff5d5c57ed2e96a9d6f0e17c5694a8430d5917df15adfbdb8a5b"
+      },
+      "substitutions": [
+        [
+          "common44",
+          "common45"
+        ],
+        [
+          "next(r for r in load(HERE/'entry/source-preimages-v1.json')['files'] if r['path']==path)",
+          "pin(PRIVATE/'source-preimages'/path)"
+        ]
+      ]
+    },
+    {
+      "source": {
+        "path": "evidence/04A44/serial-checks-v1.py",
+        "bytes": 1067,
+        "sha256": "8dff1cd3078ef9d7107787f65bcbe3145ee6bfd2d989720fffe3278754eb9a7b"
+      },
+      "driver": {
+        "path": "evidence/04A45/serial-checks-v1.py",
+        "bytes": 1067,
+        "sha256": "8d599571a823ada2ee70e9e1911d52a189f3962a433c5406f51d5c1bec95dc33"
+      },
+      "substitutions": [
+        [
+          "common44",
+          "common45"
+        ],
+        [
+          "a44-final-serial-v1",
+          "a45-final-serial-v1"
+        ]
+      ]
+    }
+  ],
+  "original_test_sources_modified": false,
+  "original_queries": 0,
+  "scope": "Versioned current-build paths and accepted44 baseline;all original assertions retained"
+}

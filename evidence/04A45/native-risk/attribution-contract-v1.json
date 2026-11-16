@@ -1,0 +1,16 @@
+{
+  "schema": "04A45_OFFLINE_ATTRIBUTION_DESIGN_V1",
+  "approval": "NOT_APPROVED",
+  "live_native": "NOT_RUN",
+  "actual_HWND_PID_XLL_attribution": "NOT_VERIFIED",
+  "live_adapter": "ABSENT_DISABLED_BY_CONSTRUCTION",
+  "reviewed_build": ["commit", "tree SHA-256", "configuration", "bitness", "managed assembly SHA-256", "MVID", "XLL SHA-256", "packed dependency manifest SHA-256", "version", "build UTC"],
+  "selected_session": ["image identity", "PID", "process start UTC", "bitness", "session", "desktop", "HWND", "window owner PID", "window thread", "unique instance", "independently verified workbook identity"],
+  "loaded_code": ["XLL physical absolute identity and SHA after load", "actual managed module SHA and MVID", "configuration", "bitness", "version", "unique loaded version", "independent module proof", "callback registration proof"],
+  "observation": ["same PID and start time", "same HWND/session/workbook", "same XLL hash/MVID", "control", "original obligation", "observation UTC"],
+  "fake_result": "OFFLINE_CONSISTENT_NOT_VERIFIED",
+  "negative_result": "NOT_VERIFIED",
+  "native_may_run": false,
+  "limitations": "Evidence DTO booleans and synthetic paths test internal consistency only. They do not authenticate external facts or approvals. Native adapter absent;real identity acquisition and independent authority verification remain separately gated.",
+  "decision_packet": "evidence/04A45/native-risk/owner-decision-v1.md"
+}
